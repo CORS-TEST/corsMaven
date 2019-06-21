@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="FileService">
+
+	  <insert id="insertFile">
+	  /* [FileService.insertFile][file 목록 저장][2017.09.13][박민재] */
+	  INSERT INTO 	MM_SYS_FILE
+	  (
+		      FILE_ID
+		     ,BRANCH_CD
+		     ,FILE_PATH_ID
+		     ,PHY_FILE_NM
+		     ,LGCL_FILE_NM
+		     ,FILE_DESC
+		     ,REF_CNT
+		     ,FILE_EXTN
+		     ,FILE_SIZE
+		     ,EX_FILE_NM
+		     ,EX_FILE_KEY
+		     ,CRTR_ID
+		     ,CRT_DT
+	    )
+	    VALUES
+	    (
+		      #{FILE_ID}
+		     ,#{BRANCH_CD}
+		     ,#{FILE_PATH_ID}
+		     ,#{PHY_FILE_NM}
+		     ,#{LGCL_FILE_NM}
+		     ,#{FILE_DESC}	/*설명  */
+		     ,1
+		     ,#{FILE_EXTN} /*파일 확장자 */
+		     ,#{FILE_SIZE} /*파일 크기 */
+		     ,''           /*외부파일명 */
+		     ,''           /*외부파일키 */
+		     ,#{CRTR_ID}
+		     ,SYSDATE
+	     )
+  	</insert>
+
+	<insert id="insertFileRef">
+	/* [FileService.insertFileRef][fileRef 목록 저장][2017.09.13][박민재] */
+	    INSERT INTO		MM_SYS_FILE_REF
+	    (
+	         FILE_ID
+	        ,BRANCH_CD
+	        ,REF_TBL_NM
+	        ,REF_KEY_1
+	        ,REF_KEY_2
+	        ,REF_KEY_3
+	        ,REF_KEY_4
+	        ,REF_KEY_5
+	        ,CRTR_ID
+	        ,CRT_DT
+	    )
+	    VALUES
+	    (
+	         #{FILE_ID}
+	        ,#{BRANCH_CD}
+	        ,#{REF_TBL_NM}
+	        ,#{REF_KEY_1}
+	        ,#{REF_KEY_2}
+	        ,#{REF_KEY_3}
+	        ,#{REF_KEY_4}
+	        ,#{REF_KEY_5}
+	        ,#{CRTR_ID}
+	        ,SYSDATE
+	    )
+	</insert>
+	
+	<update id="updateFileRefCnt"  parameterType="hashmap">
+	/* [FileService.updateFileRefCnt][파일 참조 카운터 업데이트][2017.11.27][한의봉] */
+		UPDATE	MM_SYS_FILE
+		SET		REF_CNT = NVL(REF_CNT,0)+1
+		WHERE	BRANCH_CD	=	#{BRANCH_CD}
+		AND		FILE_ID		=	#{FILE_ID}
+	</update>
+	
+	<select id="searchFileList" parameterType="hashmap" resultType="hashmap">
+	/* [FileService.searchFileList][fileRef 목록 조회][2017.09.13][박민재] */
+		<include refid="commonService.read-before"/>
+	   SELECT  
+	   		   '' CHECKED
+	   		   ,T2.FILE_ID
+	           ,T2.FILE_PATH_ID
+	           ,T2.PHY_FILE_NM PHY_FILE_NM
+	           ,T2.LGCL_FILE_NM
+	           ,T2.FILE_EXTN
+	           ,T2.FILE_SIZE
+	           ,T2.REF_CNT
+	           ,T2.CRTR_ID
+	           ,GET_USERNM(T2.BRANCH_CD,T2.CRTR_ID,'CM34KR') AS CRTR_NM
+	           ,T2.CRT_DT
+	           ,T1.REF_TBL_NM
+	           ,T1.REF_KEY_1
+	           ,T1.REF_KEY_2
+	           ,T1.REF_KEY_3
+	           ,T1.REF_KEY_4
+	           ,T1.REF_KEY_5
+	           ,T2.FILE_PATH_ID FILE_GUBUN
+	           ,ROW_NUMBER() OVER(ORDER BY T2.FILE_ID DESC) AS RNUM
+	    FROM    MM_SYS_FILE_REF T1
+	            ,MM_SYS_FILE T2
+	    WHERE   T1.FILE_ID      = T2.FILE_ID
+	    AND     T2.BRANCH_CD    = #{BRANCH_CD}
+	    AND     T1.REF_TBL_NM   IN (${REF_TBL_NM})
+	    AND     T1.REF_KEY_1    = #{REF_KEY_1} 
+	    <if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+	    	AND     T1.REF_KEY_2    = #{REF_KEY_2} 
+	    </if> 
+	    <if test="REF_KEY_3 != null and REF_KEY_3 != ''">
+	    	AND     T1.REF_KEY_3    = #{REF_KEY_3} 
+	    </if> 
+	    <if test="REF_KEY_4 != null and REF_KEY_4 != ''">
+	    	AND     T1.REF_KEY_4    = #{REF_KEY_4} 
+	    </if>
+	    <if test="REF_KEY_5 != null and REF_KEY_5 != ''">
+	    	AND     T1.REF_KEY_5    = #{REF_KEY_5} 
+	    </if>
+	    <include refid="commonService.read-after"/>
+  	</select>
+  	
+  	
+	<delete id="deleteFile">
+	/* [FileService.deleteFile][file 삭제][2017.09.13][박민재] */
+		MERGE  INTO MM_SYS_FILE SF
+		 		 USING DUAL
+				    ON (
+				    	SF.FILE_ID = #{FILE_ID}
+				    )
+			WHEN MATCHED THEN
+			UPDATE SET SF.REF_CNT = SF.REF_CNT-1
+		    DELETE WHERE (SF.REF_CNT = 1 OR SF.REF_CNT = 0)
+	</delete>
+
+	 <delete id="deleteFilesRef">
+	 	/* [FileService.deleteFilesRef][fileref 삭제][2017.09.13][박민재] */
+	    DELETE MM_SYS_FILE_REF
+	    WHERE  FILE_ID = #{FILE_ID}
+	    AND	   REF_TBL_NM IN (${REF_TBL_NM})
+	    AND    REF_KEY_1  = #{REF_KEY_1}
+	    <if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+	    	AND    REF_KEY_2  = #{REF_KEY_2}
+	    </if>
+	    <if test="REF_KEY_3 != null and REF_KEY_3 != ''">
+	    	AND    REF_KEY_3  = #{REF_KEY_3}
+	    </if>
+	    <if test="REF_KEY_4 != null and REF_KEY_4 != ''">
+	    	AND    REF_KEY_4  = #{REF_KEY_4}
+	    </if>
+	    <if test="REF_KEY_5 != null and REF_KEY_5 != ''">
+	    	AND    REF_KEY_5  = #{REF_KEY_5}
+	    </if>
+	</delete>
+
+  	<update id="updateRefTable">
+  		/* [FileService.updateRefTable][테이블 파일카운트 업데이트][2017.09.13][박민재] */
+  	    UPDATE ${REF_TBL_NM}
+	    SET
+	   	<choose>
+	   		<when test="REF_KEY_COL != null and REF_KEY_COL != ''">
+	   			${REF_KEY_COL}
+	   		</when>
+	   		<otherwise>
+	   			ATTCH_FILE_CNT
+	   		</otherwise>
+	   	</choose>    
+	     = (
+	    						 SELECT COUNT(*)
+						         FROM    MM_SYS_FILE_REF
+						         WHERE   REF_KEY_1 = #{REF_KEY_1}
+						         <if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+						         	AND     REF_KEY_2  = #{REF_KEY_2}
+						         </if>
+						         <if test="REF_KEY_3 != null and REF_KEY_3 != ''">
+						         	AND     REF_KEY_3  = #{REF_KEY_3}
+						         </if>
+						         <if test="REF_KEY_4 != null and REF_KEY_4 != ''">
+						         	AND     REF_KEY_4  = #{REF_KEY_4}
+						         </if>
+						         <if test="REF_KEY_5 != null and REF_KEY_5 != ''">
+						         	AND     REF_KEY_5  = #{REF_KEY_5}
+						         </if>
+						         <if test="REF_TBL_NM != null and REF_TBL_NM != ''">
+						         	AND     REF_TBL_NM = #{REF_TBL_NM}
+						         </if>
+	           					)
+	    WHERE  ${PK1_NAME} = #{REF_KEY1}
+	    <if test="REF_KEY2 != null and REF_KEY2 != ''">
+	    	AND    ${PK2_NAME} = #{REF_KEY2}
+	    </if>
+	    <if test="REF_KEY3 != null and REF_KEY3 != ''">
+	    	AND	${PK3_NAME} = #{REF_KEY3}	    	
+	    </if>
+	    <if test="REF_KEY4 != null and REF_KEY4 != ''">
+	    	AND    ${PK4_NAME} = #{REF_KEY4}
+	    </if>
+	    <if test="REF_KEY5 != null and REF_KEY5 != ''">
+	    	AND    ${PK5_NAME} = #{REF_KEY5}
+	    </if>
+  	</update>
+  	<select id="getExtCd"  parameterType="String" resultType="java.lang.String">
+	/* [FileService.getRoleCheckServiceCnt][접속이력저장][2017.9.14][박민재] */
+		SELECT
+			APPND_SET_CHR_1
+		FROM MM_SYS_CD
+		WHERE CD_ID = #{FILE_EXT_CHK_CD}
+	</select>
+	
+	<select id="copyFileOrgInfo" parameterType="hashmap" resultType="hashmap">
+	/* [FileService.copyFileOrgInfo][복사파일할정보][2019.03.11][안성민] */
+			SELECT SF.PHY_FILE_NM
+				   , SF.BRANCH_CD
+			       , SF.LGCL_FILE_NM
+			       , SF.FILE_EXTN
+			       , SF.FILE_SIZE
+			       , SF.FILE_PATH_ID
+			  FROM MM_SYS_FILE SF
+			       , MM_SYS_FILE_REF FR
+			 WHERE SF.FILE_ID = FR.FILE_ID
+			   AND FR.BRANCH_CD = #{BRANCH_CD}
+			   AND FR.REF_KEY_1 = #{REF_KEY_1}
+			  <if test="REF_KEY_2 != null and REF_KEY_2 != 'undefined' and REF_KEY_2 != ''">
+			  	AND FR.REF_KEY_2 = #{REF_KEY_2}
+			  </if>			  
+			  <if test="REF_KEY_3 != null and REF_KEY_3 != 'undefined' and REF_KEY_3 != ''">
+			  	AND FR.REF_KEY_3 = #{REF_KEY_3}
+			  </if>
+			  <if test="REF_KEY_4 != null and REF_KEY_4 != 'undefined' and REF_KEY_4 != ''">
+			  	AND FR.REF_KEY_4 = #{REF_KEY_4}
+			  </if>
+			  <if test="REF_KEY_5 != null and REF_KEY_5 != 'undefined' and REF_KEY_5 != ''">
+			  	AND FR.REF_KEY_5 = #{REF_KEY_5}
+			  </if>
+			  	AND SF.FILE_PATH_ID = #{FILE_PATH_ID}
+	</select>
+</mapper>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BMainService">
+
+	<select id="readNoticePop" resultType="Hmap" parameterType="Hmap">
+	/*[BMainService.readNoticePop][공지사항 조회][2017.09.21][송태봉] */
+			SELECT 
+					DOC_NO
+				   ,'NOTICE' || TO_CHAR(SYSDATE,'YYYYMMDD') || DOC_NO AS TODAY
+			FROM MM_CM_BBS CB
+			WHERE ALT_POPUP_WIN = 'Y'
+			
+			 AND INT_OPEN_SITE <![CDATA[<>]]> #{DENY}
+			 AND TO_CHAR(SYSDATE,'YYYYMMDD') <![CDATA[>=]]> TO_CHAR(BGN_DT,'YYYYMMDD')
+       	     AND TO_CHAR(SYSDATE,'YYYYMMDD') <![CDATA[<=]]> TO_CHAR(END_DT,'YYYYMMDD')
+			  
+		  <choose>
+		  	<when test='DENY == "S"'>
+		  		AND BRANCH_CD = #{BRANCH_CD}
+		  	</when>
+		  	
+		  	<otherwise>
+		  		AND EXISTS (SELECT '1'
+		  					FROM MM_PTNR_PORG
+		  					WHERE BRANCH_CD = CB.BRANCH_CD
+		  					  AND PTNR_ID = #{PTNR_ID})
+		  	</otherwise>
+		  </choose>
+	</select>
+
+	<select id="readTeamUser" resultType="Hmap" parameterType="Hmap">
+	/*[BMainService.readTeamUser][구매팀 조회][2017.11.30][한의봉] */
+			SELECT 
+					USER_ID AS CD_ID
+				   ,USER_NM AS CD_NM_LO
+			FROM MM_MT_USER 
+			WHERE ALT_USE = 'Y'
+			AND INT_USER_TYPE = 'B'
+			AND BRANCH_CD = #{BRANCH_CD} 
+		<choose>
+			<when test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND DEPT_CD = #{DEPT_CD}
+			</when>
+			<otherwise>
+				AND DEPT_CD IN ('420300','1000100900','1000106200' )
+			</otherwise>
+		</choose>
+	</select>
+
+  	<select id="readRfqCnt" parameterType="hashmap" resultType="hashmap" >
+	/* [BMainService.readRfqCnt][내부사용자메인 구매진행현황 카운트 ][2017.11.30][한의봉] */
+		SELECT
+			 ( SELECT 
+			 		COUNT(1) 
+			 	FROM MM_RFQ 
+			 	WHERE BRANCH_CD = #{BRANCH_CD} 
+			 	AND (REQ_DT IS NULL OR REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE)
+			 	AND  CD_RFQ_STTS <![CDATA[<>]]> 'ET10DEL' 
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_ALL
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10WRI' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_WRI
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10AREQ' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				)AS CNT_AREQ
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10REQ' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE		
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_REQ
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10ANI' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE		
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_ANI
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10APP' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE			
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_APP
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10CLO' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE		
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_CLO
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10RREQ' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE			
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_RREQ
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ
+				WHERE CD_RFQ_STTS = 'ET10CLOX' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE		
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_CLOX
+			,( SELECT 
+					COUNT(1) 
+				FROM MM_RFQ 
+				WHERE CD_RFQ_STTS = 'ET10CXL' 
+				AND BRANCH_CD = #{BRANCH_CD} 
+				AND REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_CXL
+			,( SELECT NVL(SUM(CASE  WHEN MR.CD_RFQ_STTS = 'ET10AREQ' AND TRUNC(SYSDATE - MR.NTC_APP_REQ_DT)  <![CDATA[>]]>  MSC.APPND_SET_NUM_1 THEN 1
+									WHEN MR.CD_RFQ_STTS = 'ET10ANI'	AND TRUNC(SYSDATE - TO_DATE(MR.RFQ_CLOSE_DAY))  <![CDATA[>]]>  MSC.APPND_SET_NUM_1 THEN 1
+									WHEN MR.CD_RFQ_STTS = 'ET10APP' AND TRUNC(SYSDATE - MR.CMPLT_APP_REQ_DT)  <![CDATA[>]]>  MSC.APPND_SET_NUM_1 THEN 1
+									ELSE 0
+			              END ),0)
+				FROM MM_RFQ MR
+					 ,MM_SYS_CD MSC 
+				WHERE MR.CD_RFQ_STTS = MSC.CD_ID 
+				AND  BRANCH_CD = #{BRANCH_CD} 
+				AND (REQ_DT IS NULL OR REQ_DT BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE)
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	MR.CRTR_ID 	= #{USER_ID}
+			</if>
+			<if test="DEPT_CD != null and DEPT_CD != 'undefined' and DEPT_CD != ''">
+				AND MR.CRTR_ID IN ( SELECT USER_ID FROM MM_MT_USER WHERE BRANCH_CD = #{BRANCH_CD} AND DEPT_CD = #{DEPT_CD}) 
+			</if>
+				) AS CNT_DLY
+		FROM DUAL
+	</select>
+
+</mapper>

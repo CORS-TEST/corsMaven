@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TypeDefinition version="1.2">
+  <Modules>
+    <Module url="CompBase.json"/>
+    <Module url="ComComp.json"/>
+    <Module url="Grid.json"/>
+    <Module url="CommonLib.json"/>
+    <Module url="DeviceAPI.json"/>
+    <Module url="SignNew.json"/>
+    <Module url="Sign.json"/>
+    <Module url="UbiReport4.json"/>
+  </Modules>
+  <Components>
+    <Component type="JavaScript" id="Div" classname="nexacro.Div"/>
+    <Component type="JavaScript" id="Button" classname="nexacro.Button"/>
+    <Component type="JavaScript" id="PopupDiv" classname="nexacro.PopupDiv"/>
+    <Component type="JavaScript" id="Combo" classname="nexacro.Combo"/>
+    <Component type="JavaScript" id="CheckBox" classname="nexacro.CheckBox"/>
+    <Component type="JavaScript" id="ListBox" classname="nexacro.ListBox"/>
+    <Component type="JavaScript" id="Edit" classname="nexacro.Edit"/>
+    <Component type="JavaScript" id="MaskEdit" classname="nexacro.MaskEdit"/>
+    <Component type="JavaScript" id="TextArea" classname="nexacro.TextArea"/>
+    <Component type="JavaScript" id="Menu" classname="nexacro.Menu"/>
+    <Component type="JavaScript" id="Tab" classname="nexacro.Tab"/>
+    <Component type="JavaScript" id="ImageViewer" classname="nexacro.ImageViewer"/>
+    <Component type="JavaScript" id="Radio" classname="nexacro.Radio"/>
+    <Component type="JavaScript" id="Calendar" classname="nexacro.Calendar"/>
+    <Component type="JavaScript" id="Static" classname="nexacro.Static"/>
+    <Component type="JavaScript" id="Grid" classname="nexacro.Grid"/>
+    <Component type="JavaScript" id="Spin" classname="nexacro.Spin"/>
+    <Component type="JavaScript" id="PopupMenu" classname="nexacro.PopupMenu"/>
+    <Component type="JavaScript" id="GroupBox" classname="nexacro.GroupBox"/>
+    <Component type="JavaScript" id="ProgressBar" classname="nexacro.ProgressBar"/>
+    <Component type="JavaScript" id="Plugin" classname="nexacro.Plugin"/>
+    <Component type="JavaScript" id="Dataset" classname="nexacro.NormalDataset"/>
+    <Component type="JavaScript" id="WebBrowser" classname="nexacro.WebBrowser"/>
+    <Component type="JavaScript" id="FileUpload" classname="nexacro.FileUpload"/>
+    <Component type="JavaScript" id="UbiReport4" classname="nexacro.UbiViewer"/>
+  </Components>
+  <Protocols/>
+  <Services>
+    <Service version="0" url="http://localhost:8080/controller/n/" type="JSP" cachelevel="none" communicationversion="0" prefixid="svcurl"/>
+    <Service version="0" url="./img/" type="file" cachelevel="session" communicationversion="0" prefixid="img"/>
+    <Service version="0" url="./nexacro14lib/component/CommonLib/" type="file" cachelevel="session" communicationversion="0" prefixid="lib"/>
+    <Service version="0" url="./frame/" type="form" communicationversion="0" prefixid="frame"/>
+    <Service version="0" url="./form/EPRO/COM/Admin" type="form" communicationversion="0" prefixid="CADMIN"/>
+    <Service version="0" url="./form/EPRO/COM/Comp/" type="form" communicationversion="0" prefixid="CCOMP"/>
+    <Service version="0" url="./form/EPRO/COM/Pop/" type="form" communicationversion="0" prefixid="CPOP"/>
+    <Service version="0" url="./form/EPRO/SYS/Buyer/" type="form" communicationversion="0" prefixid="BSYS"/>
+    <Service version="0" url="./form/EPRO/MST/Buyer/" type="form" communicationversion="0" prefixid="BMST"/>
+    <Service version="0" url="./form/EPRO/MTRL/Buyer/" type="form" communicationversion="0" prefixid="BMTRL"/>
+    <Service version="0" url="./form/EPRO/CMM/Buyer/" type="form" communicationversion="0" prefixid="BCMM"/>
+    <Service version="0" url="./form/EPRO/CMM/Supplier/" type="form" communicationversion="0" prefixid="SCMM"/>
+    <Service version="0" url="./form/EPRO/PTNR/Buyer/" type="form" communicationversion="0" prefixid="BPTNR"/>
+    <Service version="0" url="./form/EPRO/PTNR/Supplier/" type="form" communicationversion="0" prefixid="SPTNR"/>
+    <Service version="0" url="./form/EPRO/PUR/Buyer/" type="form" communicationversion="0" prefixid="BPUR"/>
+    <Service version="0" url="./form/EPRO/RFQ/Buyer/" type="form" communicationversion="0" prefixid="BRFQ"/>
+    <Service version="0" url="./form/EPRO/RFQ/Supplier/" type="form" communicationversion="0" prefixid="SRFQ"/>
+    <Service version="0" url="./form/EPRO/TNDR/Buyer/" type="form" communicationversion="0" prefixid="BTNDR"/>
+    <Service version="0" url="./form/EPRO/TNDR/Supplier/" type="form" communicationversion="0" prefixid="STNDR"/>
+    <Service version="0" url="./form/EPRO/CNTR/Buyer/" type="form" communicationversion="0" prefixid="BCNTR"/>
+    <Service version="0" url="./form/EPRO/CNTR/Supplier/" type="form" communicationversion="0" prefixid="SCNTR"/>
+    <Service version="0" url="./form/EPRO/POR/Buyer/" type="form" communicationversion="0" prefixid="BPOR"/>
+    <Service version="0" url="./form/EPRO/POR/Supplier/" type="form" communicationversion="0" prefixid="SPOR"/>
+    <Service version="0" url="./form/EPRO/DLV/Buyer/" type="form" communicationversion="0" prefixid="BDLV"/>
+    <Service version="0" url="./form/EPRO/DLV/Supplier/" type="form" communicationversion="0" prefixid="SDLV"/>
+    <Service version="0" url="./form/EPRO/INV/Buyer/" type="form" communicationversion="0" prefixid="BINV"/>
+    <Service version="0" url="./form/EPRO/INV/Supplier/" type="form" communicationversion="0" prefixid="SINV"/>
+    <Service version="0" url="./form/EPRO/EVL/Buyer/" type="form" communicationversion="0" prefixid="BEVL"/>
+    <Service version="0" url="./form/EPRO/REL/Buyer/" type="form" communicationversion="0" prefixid="BREL"/>
+    <Service version="0" url="./form/EPRO/APRV/Buyer/" type="form" communicationversion="0" prefixid="BAPRV"/>
+    <Service version="0" url="./form/EPRO/RPT/Buyer/" type="form" communicationversion="0" prefixid="BRPT"/>
+    <Service prefixid="url" type="JSP" url="http://localhost:8080/" communicationversion="0"/>
+    <Service prefixid="SAMPLE" type="form" url="./form/EPRO/SAMPLE/" communicationversion="0"/>
+  </Services>
+  <Update/>
+</TypeDefinition>

@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="1840" id="BPtnrDetail" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="협력사 상세" top="0" width="1220">
+    <Layouts>
+      <Layout screenid="Screen0" stepcount="" stepindex="">
+        <PopupDiv height="196" id="PopupDiv00" left="1286" text="PopupDiv00" top="49" width="458">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsEvlTmplList" bottom="0" id="Grid00" left="0%" oncellclick="fnEvalGrdOnclick" right="0%" taborder="0" top="0" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="349"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="평가서명"/>
+                      <Cell col="1"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left;" text="bind:TTL"/>
+                      <Cell col="1" displaytype="button" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_01113&quot;)" text="bind:BTN"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Static id="Static01" taborder="1" text="15" visible="false" top="0" right="0" bottom="0" width="15" style="background:coral;align:center middle;"/>
+        <Div id="div_1" taborder="2" left="0" top="0" right="15" height="68" cssclass="div_WF_SearchBg" objNm="DIV-입찰 진행 상세 ">
+          <Layouts>
+            <Layout>
+              <Button id="btnItemDel" taborder="3" text="- 삭제" onclick="divViewCompBody00_btnInvWrt_onclick" cssclass="btn_WF_Ssign" top="32" right="1" width="87" height="24"/>
+              <Button id="btnPrHsty" taborder="4" text="+ 추가" cssclass="btn_WF_Ssign" top="32" right="90" width="87" height="24" onclick="div_1_btnPrHsty_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div00" taborder="3" left="5" top="101" right="15" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grdSampleItem" taborder="0" binddataset="dsSampleItem" autoenter="select" useinputpanel="false" cellsizingtype="col" cellclickbound="cell" onkeydown="Div31_grd_PurItem_onkeydown" oncellclick="Tab00_tabpage1_Div21_grd_PurItem_oncellclick" oncelldblclick="Tab00_tabpage1_Div21_grd_PurItem_oncelldblclick" onexpandup="Div31_grd_PurItem_onexpandup" ontextchanged="Tab00_tabpage1_Div21_grd_PurItem_ontextchanged" left="0" top="0" right="0" bottom="36" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y" f_copyitemcolumn="MTRL_CD" f_editcol="MTRL_CD" f_version="20161226">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="272"/>
+                      <Column size="62"/>
+                      <Column size="76"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="109"/>
+                      <Column size="125"/>
+                      <Column size="139"/>
+                      <Column size="137"/>
+                      <Column size="77"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="31" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox" expr="0"/>
+                      <Cell col="1" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;품목명" combodisplaynulltext="TTL_MTRL_NM"/>
+                      <Cell col="2" displaytype="normal" text="단위" combodisplaynulltext="TTL_UNIT"/>
+                      <Cell col="3" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;수량"/>
+                      <Cell col="4" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;예상단가" combodisplaynulltext="TTL_UNT_PRICE"/>
+                      <Cell col="5" text="금액" combodisplaynulltext="TTL_AMT"/>
+                      <Cell col="6" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;입고부서"/>
+                      <Cell col="7" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;입고요청일자" expandshow="hide" expandsize="20" combodisplaynulltext="TTL_DLV_REQ_DAY"/>
+                      <Cell col="8" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계정명"/>
+                      <Cell col="9" text="비고"/>
+                      <Cell col="10" text="첨부파일" expandshow="hide" expandsize="24" combodisplaynulltext="TTL_ATTCH_FILE"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED" editdisplay="display" expandshow="hide"/>
+                      <Cell col="1" edittype="none" style="align:left;background:#ebebebff;background2:#ebebebff;" cssclass="cell_link" text="bind:MTRL_NM" editdisplay="edit" expandshow="hide" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="2" displaytype="normal" edittype="none" style="background:#ebebebff;background2:#ebebebff;" text="bind:CD_UNIT_NM" combodisplay="edit"/>
+                      <Cell col="3" displaytype="number" edittype="masknumber" style="align:right;" text="bind:QTY" mask="#,###.##" editautoselect="true" editdisplay="edit"/>
+                      <Cell col="4" displaytype="number" edittype="masknumber" style="align:right;" text="bind:REQ_PRICE" mask="#,##0.00" editautoselect="true" editdisplay="edit"/>
+                      <Cell col="5" displaytype="number" edittype="none" style="align:right;background:#ebebebff;background2:#ebebebff;" text="bind:REQ_AMT" mask="#,##0" editautoselect="true"/>
+                      <Cell col="6" edittype="text" text="bind:IN_STR_NM" editautoselect="true" expandshow="show" expandsize="24" expandimage="URL('img::grd_WF_Expand.png')"/>
+                      <Cell col="7" displaytype="date" edittype="date" text="bind:DLV_REQ_DAY" mask="yyyy.MM.dd" editautoselect="true" expandsize="13" calendardisplay="edit" calendardisplaynulltype="none"/>
+                      <Cell col="8" edittype="text" style="align:left;" text="bind:GR_ACNT_NM" editautoselect="true" editdisplay="edit" expandshow="show" expandsize="24" expandimage="URL('img::grd_WF_Expand.png')"/>
+                      <Cell col="9" edittype="text" style="align:left;" text="bind:RMARK" editautoselect="true"/>
+                      <Cell col="10" displaytype="button" edittype="none" style="background:#ebebebff;background2:#ebebebff;" text="bind:ATTCH_FILE_CNT"/>
+                    </Band>
+                  </Format>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="300"/>
+                      <Column size="62"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="109"/>
+                      <Column size="110"/>
+                      <Column size="156"/>
+                      <Column size="137"/>
+                      <Column size="77"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="31" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;품목명" combodisplaynulltext="TTL_MTRL_NM"/>
+                      <Cell col="1" displaytype="normal" text="단위" combodisplaynulltext="TTL_UNIT"/>
+                      <Cell col="2" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;수량"/>
+                      <Cell col="3" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;예상단가" combodisplaynulltext="TTL_UNT_PRICE"/>
+                      <Cell col="4" text="금액" combodisplaynulltext="TTL_AMT"/>
+                      <Cell col="5" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;입고부서"/>
+                      <Cell col="6" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;입고요청일자" expandshow="hide" expandsize="20" combodisplaynulltext="TTL_DLV_REQ_DAY"/>
+                      <Cell col="7" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계정명"/>
+                      <Cell col="8" text="비고"/>
+                      <Cell col="9" text="첨부파일" expandshow="hide" expandsize="24" combodisplaynulltext="TTL_ATTCH_FILE"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell edittype="none" style="align:left;" cssclass="cell_link" text="bind:MTRL_NM" editdisplay="edit" expandshow="hide" expandsize="24" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="1" displaytype="normal" edittype="none" text="bind:CD_UNIT_NM" combodisplay="edit"/>
+                      <Cell col="2" displaytype="number" edittype="none" style="align:right;" text="bind:QTY" mask="#,##0.00" editdisplay="edit"/>
+                      <Cell col="3" displaytype="number" edittype="none" style="align:right;" text="bind:REQ_PRICE" mask="#,##0.00" editdisplay="edit"/>
+                      <Cell col="4" displaytype="number" edittype="none" style="align:right;" text="bind:REQ_AMT" mask="#,##0" editautoselect="true"/>
+                      <Cell col="5" edittype="none" cssclass="cell_link" text="bind:IN_STR_NM" expandshow="hide" expandsize="24"/>
+                      <Cell col="6" displaytype="date" edittype="none" text="bind:DLV_REQ_DAY" mask="yyyy.MM.dd" editautoselect="true" expandsize="13" calendardisplay="edit" calendardisplaynulltype="none"/>
+                      <Cell col="7" edittype="none" style="align:left;" text="bind:GR_ACNT_NM" editdisplay="edit" expandshow="hide" expandsize="24"/>
+                      <Cell col="8" edittype="none" text="bind:RMARK"/>
+                      <Cell col="9" displaytype="button" edittype="none" style="background:#ebebebff;background2:#ebebebff;" text="bind:ATTCH_FILE_CNT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsSample"/>
+      <Dataset id="dsSampleItem">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="PR_NO" type="STRING" size="256"/>
+          <Column id="ITM_NO" type="STRING" size="256"/>
+          <Column id="CD_PR_ITEM_STTS" type="STRING" size="256"/>
+          <Column id="CD_FCTRY" type="STRING" size="256"/>
+          <Column id="MTRL_GRP_ID" type="STRING" size="256"/>
+          <Column id="MTRL_GRP_NM" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="QTY" type="STRING" size="256"/>
+          <Column id="CD_UNIT" type="STRING" size="256"/>
+          <Column id="REQ_PRICE" type="STRING" size="256"/>
+          <Column id="REQ_AMT" type="STRING" size="256"/>
+          <Column id="DLV_REQ_DAY" type="STRING" size="256"/>
+          <Column id="INSP_CHRGR_ID" type="STRING" size="256"/>
+          <Column id="ATTCH_FILE_CNT" type="STRING" size="256"/>
+          <Column id="RMARK" type="STRING" size="256"/>
+          <Column id="PCHRGR_ID" type="STRING" size="256"/>
+          <Column id="RCV_DT" type="STRING" size="256"/>
+          <Column id="REQ_DPMT_CD" type="STRING" size="256"/>
+          <Column id="REQ_DPMT_NM" type="STRING" size="256"/>
+          <Column id="CD_DOC_CTGR" type="STRING" size="256"/>
+          <Column id="REQR_ID" type="STRING" size="256"/>
+          <Column id="REQR_NM" type="STRING" size="256"/>
+          <Column id="CNCL_RSN" type="STRING" size="256"/>
+          <Column id="TKEY" type="STRING" size="256"/>
+          <Column id="MTRL_REQ_NO" type="STRING" size="256"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+          <Column id="OUT_STR_CD" type="STRING" size="256"/>
+          <Column id="DUMY1" type="STRING" size="256"/>
+          <Column id="ALT_EMGCY" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdPR13">
+        <ColumnInfo>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="btnRemote_0" compid="PGM000000037_divRemote.btnRemote_0" datasetid="dsObjBindVi" id="btnRemote_0Vi" propid="visible"/>
+      <BindItem columnid="btnRemote_0" compid="PGM000000037_divRemote.btnRemote_0" datasetid="dsObjBindEn" id="btnRemote_0En" propid="enable"/>
+      <BindItem columnid="btnRemote_1" compid="PGM000000037_divRemote.btnRemote_1" datasetid="dsObjBindVi" id="btnRemote_1Vi" propid="visible"/>
+      <BindItem columnid="btnRemote_1" compid="PGM000000037_divRemote.btnRemote_1" datasetid="dsObjBindEn" id="btnRemote_1En" propid="enable"/>
+      <BindItem columnid="PopupDiv00" compid="PopupDiv00" datasetid="dsObjBindVi" id="PopupDiv00Vi" propid="visible"/>
+      <BindItem columnid="PopupDiv00" compid="PopupDiv00" datasetid="dsObjBindEn" id="PopupDiv00En" propid="enable"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrDetail.xfdl
+ * @생성자       	: 한의봉
+ * @생성일자     	: 2017. 9. 05
+ * @설명			: 협력사상세
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 16.
+*/  
+ 
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					{code:"PR13",sSelectType:"A"} 	// 물품요청품목상태
+				];
+
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnRemote
+  * @desc     	: 잠재업체지정, 등록거부 리모콘 버튼 생성
+  */
+this.fnRemote = function()
+{
+		var sArg = [ 
+					{btnName:"구매요청", clickEventFunc:"fnReqPr"}
+			];	
+	gfnRemote(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+ 
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @return   : 
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+ 
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.Div00.grdSampleItem , '', this);
+}
+
+  
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+	
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "BMtrlPrSrchMultiPopup" : //품목검색팝업에서 데이터 내림
+				for(var i=0; i<this.dsReturn.rowcount; i++){
+					
+					var nRow = this.dsSampleItem.addRow();
+					
+					this.dsSampleItem.setColumn(nRow,"ITM_NO"		   ,(i+1)*10);
+					this.dsSampleItem.setColumn(nRow,"CD_PR_ITEM_STTS" ,"PR13WRI");
+					this.dsSampleItem.setColumn(nRow,"MTRL_GRP_ID"     ,this.dsReturn.getColumn(i,"MTRL_GRP_ID"));
+					this.dsSampleItem.setColumn(nRow,"MTRL_GRP_NM"     ,this.dsReturn.getColumn(i,"MTRL_GRP_NM"));
+					this.dsSampleItem.setColumn(nRow,"MTRL_CD"         ,this.dsReturn.getColumn(i,"MTRL_CD"));
+					this.dsSampleItem.setColumn(nRow,"MTRL_NM"         ,this.dsReturn.getColumn(i,"MTRL_NM"));
+					this.dsSampleItem.setColumn(nRow,"QTY"             ,this.dsReturn.getColumn(i,"QTY"));
+					this.dsSampleItem.setColumn(nRow,"CD_UNIT"         ,this.dsReturn.getColumn(i,"CD_UNIT"));
+					this.dsSampleItem.setColumn(nRow,"REQ_PRICE"       ,this.dsReturn.getColumn(i,"REQ_PRICE"));
+					this.dsSampleItem.setColumn(nRow,"REQ_AMT"         ,this.dsReturn.getColumn(i,"REQ_AMT"));
+					this.dsSampleItem.setColumn(nRow,"DLV_REQ_DAY"     ,this.dsReturn.getColumn(i,"DLV_REQ_DAY"));
+					this.dsSampleItem.setColumn(nRow,"CD_DOC_CTGR"     ,this.dsReturn.getColumn(i,"CD_DOC_CTGR"));
+					this.dsSampleItem.setColumn(nRow,"ATTCH_FILE_CNT"  ,"0");
+					this.dsSampleItem.setColumn(nRow,"INSP_CHRGR_ID"   ,application.gdsUserInfo.getColumn(0,"USER_ID"));
+					this.dsSampleItem.setColumn(nRow,"REQR_ID"         ,application.gdsUserInfo.getColumn(0,"USER_ID"));
+					this.dsSampleItem.setColumn(nRow,"REQR_NM"         ,application.gdsUserInfo.getColumn(0,"USER_NM"));
+					this.dsSampleItem.setColumn(nRow,"REQ_DPMT_CD"     ,application.gdsUserInfo.getColumn(0,"DEPT_CD"));
+					this.dsSampleItem.setColumn(nRow,"REQ_DPMT_NM"     ,application.gdsUserInfo.getColumn(0,"DEPT_NM"));
+				}
+			break;
+	
+		default:
+			break;	
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "readPtnr";
+	var sController = "epro.ptnr.service.BPtnrService.readPtnr";
+	var sInDatasets = "dsPtnr=dsPtnr";
+	var sOutDatasets = "dsPtnr=dsPtnr dsPtnrPlant=dsPtnrPlant dsPtnrMaker=dsPtnrMaker dsUser=dsUser dsEval=dsEval dsCard=dsCard dsLrgGrp=dsLrgGrp dsMdlGrp=dsMdlGrp dsSelectGrp=dsSelectGrp dslvl1=dslvl1 dslvl2=dslvl2 dsEvlTmplList=dsEvlTmplList";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명  : fnPreSave
+  * @input    : 
+  * @return   : 
+  * @desc     : 저장전 유효성체크
+  */
+this.fnPreSave = function()
+{
+	var arr = [];
+	if(gfnIsNull(this.dsPtnr.getColumn(0, "RPTST_SRC_GRP_ID"))){
+		var msg = gfnMultiLabel("EPRO_LABEL_01090");
+		var type = gfnMultiLabel("EPRO_LABEL_01010");
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+ 	
+ 	return gfnValidate(this, false, arr);
+}
+
+/** 
+	@함수명	fnSave
+	@desc   	저장 프로세스
+*/
+this.fnSave = function(bValid)
+{
+
+	var sSvcID = "savePtnr";
+	var sController = "epro.ptnr.service.BPtnrService.savePtnr";
+	var sInDatasets = "dsPtnr=dsPtnr:A dsSelectGrp=dsSelectGrp:A";
+	var sOutDatasets = "dsPtnr=dsPtnr";
+	var sCallbackFunc = "fnTrCallBack";
+				
+	 gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+
+
+
+
+
+this.div_1_btnPrHsty_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+					agv_id: ""
+				};
+	gfnSearchComMtrl(this, "BMtrlPrSrchMultiPopup", "fnPopCallBack", sArg,"PR");
+}
+]]></Script>
+  </Form>
+</FDL>

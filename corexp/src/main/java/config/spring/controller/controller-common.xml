@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+	<context:annotation-config />
+	<context:component-scan base-package="core.controller,epro" resource-pattern="**/*Controller.class">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+	<!-- ====================================================
+    Interceptors 
+    logs all controller
+    ==================================================== -->
+    <bean id="controllerLogger" class="core.web.intercepter.ControllerLogger" />
+    <bean id="serviceLogger" class="core.web.intercepter.ServiceLogger" />
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"></bean>
+    <bean id="commonUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="2" />
+        <property name="interceptors">
+            <list>
+                <ref bean="controllerLogger"/>
+            </list>
+        </property>
+        <property name="mappings">
+             <props>
+             	<prop key="/h/*">htmlController</prop>
+             	<prop key="/ha/*">htmlAjaxController</prop>
+                <prop key="/n/*">commonController</prop>
+                <prop key="/updown/*">fileController</prop>
+             </props>
+        </property>
+    </bean>
+    <!-- ====================================================
+     CommonController
+    ==================================================== -->
+    <bean id="commonController" class="core.web.controller.CommonController">
+    	<property name="methodNameResolver" ref="controllerMethodNameResolver"/>
+    </bean>
+    <bean id="htmlController" class="core.web.controller.HtmlController">
+    	<property name="methodNameResolver" ref="controllerMethodNameResolver"/>
+    </bean>
+    <bean id="htmlAjaxController" class="core.web.controller.HtmlAjaxController">
+    	<property name="methodNameResolver" ref="controllerMethodNameResolver"/>
+    </bean>
+    <bean id="fileController" class="core.web.controller.FileController" >
+        <property name="methodNameResolver" ref="internalPathMethodResolver" />
+    </bean>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+    <!-- ====================================================
+     Method name resolver
+    ==================================================== -->
+    <bean id="controllerMethodNameResolver"	class="core.web.nameresolver.ControllerMethodNameResolver" />
+    <bean id="internalPathMethodResolver"   class="org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver"/>
+    
+    
+
+</beans>

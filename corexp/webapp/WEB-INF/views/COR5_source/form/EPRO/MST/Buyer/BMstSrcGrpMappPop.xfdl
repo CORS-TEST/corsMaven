@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="63" id="BMtrlSrcGrpMappPop" left="0" oninit="BMtrlSrcGrpMappPopOninit" onload="BMtrlSrcGrpMappPopOnload" titletext="소싱그룹매핑팝업" top="0" width="513">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="10" right="20" taborder="4" top="15"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staSrcLrgClsId" lbcd="TTL_TOT_AMT" left="10" taborder="5" text="소싱그룹" tooltiptext="대분류" top="15" width="130"/>
+        <Div height="24" id="divSrcGrp" left="148" taborder="6" top="20" url="CCOMP::CompSrcType.xfdl" width="267"/>
+        <Button height="24" id="btnRtn" left="419" objNm="적용" onclick="fnRtnData" taborder="0" text="적용" top="20" width="65"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      
+      
+      <BindItem columnid="divSrcGrp" compid="divSrcGrp" datasetid="dsObjBindVi" id="divSrcGrpVi" propid="visible"/>
+      <BindItem columnid="divSrcGrp" compid="divSrcGrp" datasetid="dsObjBindEn" id="divSrcGrpEn" propid="enable"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsReturn">
+        <ColumnInfo>
+          <Column id="LRG_SRC_ID" size="256" type="STRING"/>
+          <Column id="MDL_SRC_ID" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM2" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMstSrcGrpMappPop.xfdl
+ * @생성자       	: 정준화
+ * @생성일자     	: 2017. 9. 04.
+ * @설명			: 소싱그룹매핑 팝업
+ * @최종수정자		: 정준화
+ * @최종수정일자	: 2017. 9. 04.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00192");
+
+/**
+  * @함수명	: CSamplePopOnload
+  * @desc     	: 폼 onload이벤트
+  */
+this.BMtrlSrcGrpMappPopOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	this.divSrcGrp.fnSetBind(this.dsReturn,"LRG_SRC_ID","MDL_SRC_ID");
+}
+ 
+/**
+  * @함수명	: fnRtnData
+  * @desc   : 
+  */
+this.fnRtnData = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	if(gfnIsNull(this.dsReturn.getColumn(0,"LRG_SRC_ID"))){
+		gfnAlert("EPRO_LABEL_01231");
+		return;
+		
+	} else if(gfnIsNull(this.dsReturn.getColumn(0,"MDL_SRC_ID"))){
+		gfnAlert("EPRO_LABEL_01245");
+		return;
+	}
+	
+	var nRow = this.divSrcGrp.dsLvl2.findRow("SRC_GRP_ID",this.dsReturn.getColumn(0,"MDL_SRC_ID"))
+	var srcNm = this.divSrcGrp.dsLvl2.getColumn(nRow,"SRC_GRP_NM2");
+	this.dsReturn.setColumn(0,"SRC_GRP_NM2",srcNm);
+	
+	this.parent.close(this.dsReturn.saveXML());	
+}
+]]></Script>
+  </Form>
+</FDL>

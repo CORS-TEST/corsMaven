@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="23" id="CompSrcType" left="0" onload="fnOnload" ontimer="comCalendar_ontimer" titletext="소싱그룹분류" top="0" width="185">
+    <Layouts>
+      <Layout>
+        <Static bottom="40" id="Static00" left="0%" right="0%" taborder="0" top="0"/>
+        <Combo codecolumn="SRC_GRP_ID" datacolumn="SRC_GRP_NM" height="23" id="cboLvl1" index="-1" innerdataset="@dsLvl1" left="0" objNm="대분류" onitemchanged="fnOnLvl1Change" right="59.46%" taborder="1" top="0"/>
+        <Combo codecolumn="SRC_GRP_ID" datacolumn="SRC_GRP_NM" enable="false" height="23" id="cboLvl2" innerdataset="@dsLvl2" left="41.62%" objNm="중분류" right="1.62%" taborder="2" top="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SRC_GRP_ID" size="40" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsLvl1"/>
+      <Dataset id="dsLvl2">
+        <ColumnInfo>
+          <Column id="SRC_GRP_ID" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="SRC_GRP_NM"/>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompSrcType.xfdl
+   @desc       소싱그룹 컴포넌트
+   @author     송태봉
+   @makedate   2017.09.13
+   @history    
+*/
+
+/**
+	@function	fnOnLoad()
+	@desc   	폼 로드 이벤트
+*/
+this.fnOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.dsCond.addRow();
+	this.dsLvl2.setColumn(0,"SRC_GRP_NM",gfnMultiLabel("EPRO_LABEL_00786"));
+	
+	this.fnSrcLvl1();
+}
+
+
+/**
+	@function	fnSetBind()
+	@param		objDs {Dataset}
+				sFromDtCol {String}
+				sToDtCol {String}
+	@desc   	데이터셋 입력된 LVL1 LVL2 바인딩
+*/ 
+this.fnSetBind = function(objDs:Dataset, lvl1, lvl2)
+{
+	this.removeChild("Bind01");
+	this.removeChild("Bind02");
+	
+	var objBindItem = new BindItem("Bind01", "cboLvl1", "value", objDs.name, lvl1);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	objBindItem = new BindItem("Bind02", "cboLvl2", "value", objDs.name, lvl2);
+	this.addChild("Bind02", objBindItem);
+	objBindItem.bind();
+}
+
+/**
+  * @함수명	: fnPreSrcLvl1
+  * @desc   : LVL1 조회 전 처리
+  */
+this.fnPreSrcLvl1 = function(){
+	return true;
+}
+
+/**
+  * @함수명	: fnSrcLvl1
+  * @desc   : LVL1 조회
+  */
+this.fnSrcLvl1 = function(){
+	
+	if(!this.fnPreSrcLvl1()) return false;
+
+	var sSvcID = "searchComSrcLvl1";
+	var sController = "epro.com.service.BComService.searchComSrcLvl1";
+	var sInDatasets = "dsCond=dsCond";
+	var sOutDatasets = "dsLvl1=dsLvl1";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+
+/**
+  * @함수명	: fnPreSrcLvl2
+  * @desc     	: LVL2 조회 전 처리
+  */
+this.fnPreSrcLvl2 = function(){
+	return true;
+}
+
+/**
+  * @함수명	: fnSrcLvl2
+  * @desc     	: LVL2 조회
+  */
+this.fnSrcLvl2 = function(){
+	
+	if(!this.fnPreSrcLvl2()) return false;
+
+	var sSvcID = "searchComSrcLvl2";
+	var sController = "epro.com.service.BComService.searchComSrcLvl2";
+	var sInDatasets = "dsCond=dsCond";
+	var sOutDatasets = "dsLvl2=dsLvl2";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	트랜잭션 콜백 함수
+*/
+this.fnTrCallBack = function (strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "searchComSrcLvl1" :
+			this.dsLvl1.insertRow(0);
+			this.dsLvl1.setColumn(0,"SRC_GRP_ID","");
+			this.dsLvl1.setColumn(0,"SRC_GRP_NM",gfnMultiLabel("EPRO_LABEL_00786"));
+			
+			this.cboLvl1.set_index(0);
+			this.cboLvl2.set_index(0);
+			break;
+		
+		case "searchComSrcLvl2" :
+			this.dsLvl2.insertRow(0);
+			this.dsLvl2.setColumn(0,"SRC_GRP_ID","");
+			this.dsLvl2.setColumn(0,"SRC_GRP_NM",gfnMultiLabel("EPRO_LABEL_00786"));
+			
+			this.cboLvl2.set_index(0);
+			break;
+			
+		default:
+			break;	
+	}
+}
+
+/**
+	@function	fnOnLvl1Change()
+	@desc   	LVL1 컴포넌트 체인지 이벤트
+*/
+this.fnOnLvl1Change = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(e.postvalue==""){
+		this.dsLvl2.clearData();
+		this.dsLvl2.addRow();
+		this.dsLvl2.setColumn(0,"SRC_GRP_ID","");
+		this.dsLvl2.setColumn(0,"SRC_GRP_NM",gfnMultiLabel("EPRO_LABEL_00786"));
+		this.cboLvl2.set_index(0);
+		this.cboLvl2.set_enable(false);
+		
+	}else{
+		this.dsCond.setColumn(0,"SRC_GRP_ID",e.postvalue);
+		this.cboLvl2.set_enable(true);
+		this.fnSrcLvl2();
+	}	
+}]]></Script>
+  </Form>
+</FDL>

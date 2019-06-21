@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="23" id="CompMtrlType" left="0" onload="fnOnload" ontimer="comCalendar_ontimer" titletext="품목대중소분류" top="0" width="306">
+    <Layouts>
+      <Layout>
+        <Static bottom="40" id="Static00" left="0%" right="0%" taborder="0" top="0"/>
+        <Combo codecolumn="MTRL_GRP_ID" datacolumn="MTRL_GRP_NM" height="23" id="cboMtrlType1" index="-1" innerdataset="@dsMtrlType1" left="0" objNm="대분류" onitemchanged="fnType1OnItemChanged" right="75.5%" taborder="1" top="0"/>
+        <Combo codecolumn="MTRL_GRP_ID" datacolumn="MTRL_GRP_NM" height="23" id="cboMtrlType2" innerdataset="@dsMtrlType2" left="25%" objNm="중분류" onitemchanged="fnType2OnItemChanged" right="40.5%" taborder="2" top="0"/>
+        <Combo codecolumn="MTRL_GRP_ID" datacolumn="MTRL_GRP_NM" height="23" id="cboMtrlType3" index="-1" innerdataset="@dsMtrlType3" left="60%" objNm="소분류" onitemchanged="fnType3OnItemChanged" right="0%" taborder="3" top="0"/>
+        <Edit id="edtMtrlValue" taborder="4" visible="false" left="399" top="0" width="158" height="21"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsMtrlType1">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="IS_ROLE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMtrlType2"/>
+      <Dataset id="dsMtrlType3"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompMtrlType.xfdl
+   @desc       품목분류 컴포넌트
+   @author     김민성
+   @makedate   2019-04-30
+   @history    파라다이스 로직 복원
+*/
+
+/**
+	@var  this.fvMtrlGrpId
+	@desc 전역변수
+*/
+this.fvMtrlGrpId = "";	
+
+/**
+	@var  this.fvRoleId
+	@desc 권한을 통한 컨트롤이 필요할 경우 등록하여 사용한다.
+*/
+this.fvRoleId = "B_INSTALL,B_PUR_M,B_PUR,B_SYSTEM,B_WEBMASTER"
+
+
+/**
+	@function	fnOnLoad()
+	@desc   	폼 로드 이벤트
+*/
+this.fnOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fnSearch();
+}
+
+
+/**
+	@function	fnSetBind()
+	@desc   	데이터셋 입력된 날짜를 바인딩(데이터셋명, 대분류,중분류,소분류,레시피여부,문서유형)
+*/ 
+this.fnSetBind = function(objDs:Dataset, mtrlType1, mtrlType2, mtrlType3,type)
+{
+	this.removeChild("Bind01");
+	this.removeChild("Bind02");
+	this.removeChild("Bind03");
+	
+	if(type != "" && type != null){
+		this.fvMtrlGrpId = type;
+	}
+		
+	var objBindItem = new BindItem("Bind01", "cboMtrlType1", "value", objDs.name, mtrlType1);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	var objBindItem = new BindItem("Bind02", "cboMtrlType2", "value", objDs.name, mtrlType2);
+	this.addChild("Bind02", objBindItem);
+	objBindItem.bind();
+	
+	var objBindItem = new BindItem("Bind03", "cboMtrlType3", "value", objDs.name, mtrlType3);
+	this.addChild("Bind03", objBindItem);
+	objBindItem.bind();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function(){
+
+	this.dsMtrlType1.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	
+	if(!gfnIsRole(this.fvRoleId)){
+		this.dsMtrlType1.setColumn(0,"IS_ROLE","Y");	
+	}
+
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 품목분류 조회 프로세스
+  */
+this.fnSearch = function(){
+
+	if(!this.fnPreSearch()) return false;
+	
+	var sSvcID = "searchComMtrlCls";
+	var sController = "epro.com.service.BComService.searchComMtrlCls";
+	var sInDatasets = "dsCond=dsMtrlType1";
+	var sOutDatasets = "dsMtrlType1=dsMtrlType1 dsMtrlType2=dsMtrlType2 dsMtrlType3=dsMtrlType3";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	트랜잭션 콜백 함수
+*/
+this.fnTrCallBack = function (strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "searchComMtrlCls" :
+		
+			this.cboMtrlType2.set_readonly(true);
+			this.cboMtrlType3.set_readonly(true);
+			this.cboMtrlType1.set_value("");
+			this.cboMtrlType2.set_value("");
+			this.cboMtrlType3.set_value("");
+			
+			if(this.fvMtrlGrpId != ""){				
+				this.cboMtrlType1.set_value(this.fvMtrlGrpId);
+				this.dsMtrlType2.filter("UP_MTRL_GRP_ID == "+this.fvMtrlGrpId+" || MTRL_GRP_ID == ''");		
+				this.cboMtrlType2.set_value("");
+				this.cboMtrlType1.set_readonly(true);
+				this.cboMtrlType2.set_readonly(false);
+				
+			}
+			break;
+			
+		default:
+			break;	
+	}
+}
+
+this.fnType1OnItemChanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(obj.value == ""){
+		this.dsMtrlType2.filter("");
+		this.dsMtrlType3.filter("");
+		this.cboMtrlType2.set_value("");
+		this.cboMtrlType3.set_value("");
+		this.cboMtrlType2.set_readonly(true);
+		this.cboMtrlType3.set_readonly(true);
+		this.edtMtrlValue.set_value("");
+	}else{
+		this.dsMtrlType2.filter("UP_MTRL_GRP_ID =="+obj.value+" || MTRL_GRP_ID == ''");
+		this.cboMtrlType2.set_readonly(false);
+		this.cboMtrlType2.set_value("");
+		this.cboMtrlType3.set_value("");
+		this.cboMtrlType3.set_readonly(true);
+		this.edtMtrlValue.set_value(obj.value);
+	}
+}
+
+this.fnType2OnItemChanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(obj.value == ""){
+		this.dsMtrlType3.filter("");
+		this.cboMtrlType3.set_value("");
+		this.cboMtrlType3.set_readonly(true);
+	}else{
+		this.dsMtrlType3.filter("UP_MTRL_GRP_ID =="+obj.value+" || MTRL_GRP_ID == ''");
+		this.cboMtrlType3.set_value("");
+		this.cboMtrlType3.set_readonly(false);
+		this.edtMtrlValue.set_value(obj.value);
+	}
+}
+
+this.fnType3OnItemChanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.edtMtrlValue.set_value(obj.value);
+}
+]]></Script>
+  </Form>
+</FDL>

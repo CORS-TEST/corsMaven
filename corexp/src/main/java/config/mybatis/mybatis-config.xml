@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD SQL Map Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true" /> <!-- 캐시 사용 설정. default: true -->
+		<setting name="lazyLoadingEnabled" value="false" /> <!-- lazy loading 설정. default: true -->
+		<setting name="multipleResultSetsEnabled" value="false" /> <!-- 하나의 statement에서 다수 ResultSet 허락여부. default: true -->
+ 		<setting name="defaultExecutorType" value="SIMPLE" /> <!--기본 executor지정. default: SIMPLE, 이 설정으로 batch 처리가 가능하다. -->
+		<setting name="defaultStatementTimeout" value="25000" />
+		<setting name="jdbcTypeForNull" value="VARCHAR"/> <!-- null 값에 대한 JDBC 타입을 지정 -->
+		<setting name="callSettersOnNulls" value="true"/> <!-- Map사용할 때 리턴값이 null이어도 컬럼 누락되지 않도록. default: false  -->
+	</settings>
+	<typeAliases>
+		<typeAlias alias="HMap" type="java.util.HashMap" />
+	</typeAliases>
+
+	<typeHandlers>
+		<typeHandler handler="org.apache.ibatis.type.ClobTypeHandler" jdbcType="CLOB" javaType="java.lang.String"/>
+	</typeHandlers>
+	<plugins>
+		<!-- sql 로그 개행 interceptor -->
+		<plugin interceptor="core.web.intercepter.StatementInterceptor"/>
+	    <plugin interceptor="core.web.intercepter.ResultSetMetaDataInterceptor"/>
+	</plugins>
+</configuration>

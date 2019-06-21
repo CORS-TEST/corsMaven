@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="23" id="CompSrcType" left="0" onload="fnOnload" ontimer="comCalendar_ontimer" titletext="소싱그룹 1레벨" top="0" width="185">
+    <Layouts>
+      <Layout>
+        <Static bottom="40" id="Static00" left="0%" right="0%" taborder="0" top="0"/>
+        <Combo bottom="0" codecolumn="SRC_GRP_ID" datacolumn="SRC_GRP_NM" id="cboLvl1" index="-1" innerdataset="@dsLvl1" left="0" objNm="대분류" right="0" taborder="1" top="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SRC_GRP_ID" size="40" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsLvl1"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompSrcTypeOneLvl.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 11. 10.
+ * @설명			: 소싱그룹 1레벨
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 11. 10.
+*/
+
+/**
+  * @함수명	: fnOnload
+  * @desc     	: 폼 로드 이벤트
+  */
+this.fnOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.dsCond.addRow();
+	this.fnSrcLvl1();
+}
+
+/**
+  * @함수명	: fnSetBind
+  * @input    	: objDs:Dataset(데이터셋 오브젝트)
+					, lvl1:소싱그룹1레빌과 바인딩할 컬럼(데이터셋 오브젝트)
+					, type: [A: --전체--], [S: --선택--], 없으면 추가 안함.
+  * @desc     	: 데이터셋 입력된 LVL1 바인딩
+  */
+this.fnSetBind = function(objDs:Dataset, lvl1, type)
+{
+	this.removeChild("Bind01");
+	
+	var objBindItem = new BindItem("Bind01", "cboLvl1", "value", objDs.name, lvl1);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	this.cboLvl1.type = type;
+}
+
+/**
+  * @함수명	: fnSrcLvl1
+  * @desc     	: 소싱그룹 LVL1 조회
+  */  
+this.fnSrcLvl1 = function()
+{
+	var sSvcID = "searchComSrcLvl1";
+	var sController = "epro.com.service.BComService.searchComSrcLvl1";
+	var sInDatasets = "dsCond=dsCond";
+	var sOutDatasets = "dsLvl1=dsLvl1";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: 트랜잭션 콜백 함수
+  */  
+this.fnTrCallBack = function (strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "searchComSrcLvl1" :
+			
+			if(this.cboLvl1.type == "A"){
+				this.dsLvl1.insertRow(0);
+				this.dsLvl1.setColumn(0, "SRC_GRP_ID", "");
+				this.dsLvl1.setColumn(0, "SRC_GRP_NM", gfnMultiLabel("EPRO_LABEL_00786"));
+			}
+			else if(this.cboLvl1.type == "S"){
+				this.dsLvl1.insertRow(0);
+				this.dsLvl1.setColumn(0, "SRC_GRP_ID", "");
+				this.dsLvl1.setColumn(0, "SRC_GRP_NM", gfnMultiLabel("EPRO_LABEL_00785"));
+			}
+		
+			this.dsLvl1.set_rowposition(0);
+		break;		
+			
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

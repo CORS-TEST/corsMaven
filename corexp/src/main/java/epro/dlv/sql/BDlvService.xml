@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BDlvService">
+
+	<select id="searchDlvList" parameterType="hashmap" resultType="hashmap">
+	/* [BDlvService.searchDlvList][검수 처리 대기 리스트 조회]][2019.05.02][이준호] */
+  			SELECT
+  					MPD.BRANCH_CD
+  					, MPD.DLV_NO
+                 	, MPD.DLV_NO AS COREXP_KIDS
+                 	, MPD.CD_DLV_STTS
+                 	, MPD.PO_NO
+                 	, MPD.PO_NO AS PO_COREXP_KIDS
+                 	, MP.TTL
+                 	, MPD.INSP_CHRGR_ID
+                 		<!-- FN_GETUSERNM(MPD.INSP_CHRGR_ID, #{BRANCH_CD}) AS INSP_CHRGR_NM-->
+                 	, MPD.DLV_PLAN_DAY
+                 	, MP.PTNR_ID
+                 	, MPTNR.PTNR_NM 
+                 	, MPD.DLV_AMT
+                 	, MP.PO_DAY
+                 	, MPA.CD_DLV_AREA
+			  FROM	MM_PO_DLV MPD			  			
+			  		, MM_PO 		MP
+			  		, MM_PO_ADD 	MPA
+			  		, MM_PTNR		MPTNR
+			 WHERE	MPD.BRANCH_CD		= MP.BRANCH_CD
+			   AND	MPD.PO_NO			= MP.PO_NO
+			   AND	MP.BRANCH_CD		= MPA.BRANCH_CD
+               AND	MP.PO_NO			= MPA.PO_NO
+			   AND	MP.PTNR_ID			= MPTNR.PTNR_ID
+               AND	MPD.BRANCH_CD		= #{BRANCH_CD}
+  	</select>
+	
+	<!-- 검수서 상세의 기본정보를 조회한다. -->
+ 	<select id="readDlvDetail" parameterType="hashmap" resultType="hashmap">
+	--BDlv.dlvRead
+		SELECT
+				MPD.BRANCH_CD
+				, MPD.CD_DOC_CTGR
+				, MPD.DLV_NO
+				, MPD.DLV_NO AS COREXP_KIDS
+				, MPD.PO_NO
+				, MPD.CD_INSP_OPNN
+				, MP.CD_PO_CTGR
+				, MP.PTNR_ID
+                , GET_PTNRNM(MP.PTNR_ID) AS PTNR_NM
+				, MPD.DLV_AMT
+				, MPD.CD_CRNC
+				, NVL(MPD.VAT, 0) AS VAT
+				, MPD.CD_DLV_STTS
+				, MPD.DLV_PLAN_DAY
+				, NVL(MPD.INSP_DAY, TO_CHAR(SYSDATE, 'YYYYMMDD')) AS INSP_DAY
+				, MPD.INT_DLV_TYPE				
+				, NVL(MPA.ALT_GR_APP, 'N') AS ALT_GR_APP
+				, NVL(ALT_PRE_MM_GR, 'N') AS ALT_PRE_MM_GR				
+				, NVL(ALT_PARTIAL_DLV, 'N') AS ALT_PARTIAL_DLV
+				, '' AS USER_ID
+				, '' AS INSP_RTN_RMARK
+				, MPD.APP_DOC_ID
+				, MPD.TTL
+				, MPD.INSP_CHRGR_ID
+				, GET_USERNM(MPD.INSP_CHRGR_ID, #{BRANCH_CD}, 'CM34KR') AS INSP_CHRGR_NM
+				, MPD.LAST_CHGR_ID
+				, ( SELECT  CASE WHEN COUNT(*) > 0 THEN 'Y'
+								 ELSE 'N'
+							END
+					  FROM	MM_PO_DLV_ITEM		MPDI
+			  		  		, MM_MTRL_PURC		MMP
+			  		  		, MM_PO_DLV_SUGAR 	MPDS
+			  		 WHERE  MPDI.BRANCH_CD		= MMP.BRANCH_CD
+			  		   AND  MPDI.MTRL_CD		= MMP.MTRL_CD
+			  		   AND  MMP.ALT_SC 			= 'Y'
+			  		   AND  MPDI.BRANCH_CD 		= #{BRANCH_CD}
+			  		   AND  MPDI.DLV_NO 		= #{DLV_NO}
+				) AS IS_EXISTS_SUGAR
+        FROM	MM_PO_DLV 		MPD
+                , MM_PO 		MP
+                , MM_PO_ADD		MPA
+       WHERE	MPD.BRANCH_CD	= MP.BRANCH_CD
+         AND	MPD.PO_NO		= MP.PO_NO         
+         AND	MP.BRANCH_CD	= MPA.BRANCH_CD
+         AND	MP.PO_NO		= MPA.PO_NO         
+         AND	MPD.BRANCH_CD	= #{BRANCH_CD}
+         AND	MPD.DLV_NO		= #{DLV_NO}
+	</select>
+	
+	<!-- 검수서 상세의 품목정보를 조회한다. -->
+ 	<select id="readDlvDetailItem" parameterType="hashmap" resultType="hashmap">
+ 	--BDlv.dlvReadItm
+ 	<![CDATA[
+		SELECT
+             	'' AS CHECKED
+             	, MPDI.DLV_ITEM_ID
+             	, MPDI.PO_ITEM_ID
+             	, MPDI.BRANCH_CD
+             	, MPDI.DLV_NO
+             	, MPDI.ITM_NO
+             	, MPDI.STR_CD
+             	--, MMS.SL_NM
+             	, MPDI.MTRL_CD
+             	, MPDI.MTRL_NM
+             	, TO_NUMBER(MPI.QTY) AS QTY										--요청수량
+             	, TO_NUMBER(NVL(TDQ.TOT_DLV_QTY, 0)) AS TOT_DLV_QTY 			--납품완료수량
+             	, TO_NUMBER(MPDI.DLV_PLAN_QTY) AS DLV_PLAN_QTY					--검수요청수량
+             	, TO_NUMBER(NVL(MPDI.DLV_QTY, MPDI.DLV_PLAN_QTY)) AS DLV_QTY	--검수요청해서 검수 할 수량
+             	, MPDI.CD_UNIT
+             	, TO_NUMBER(MPDI.UNT_PRICE) AS UNT_PRICE
+             	, TO_NUMBER(MPDI.DLV_PLAN_AMT) AS DLV_PLAN_AMT
+             	, CASE WHEN MPDI.ALT_DLV_CMPLT = 'Y' OR MPDI.ALT_DLV_CMPLT = '1' THEN 1
+             		   WHEN MP.CD_PO_CTGR = 'PO13RPO' THEN 1
+             		   WHEN MPDI.DLV_QTY = 0 AND MPDI.ALT_DLV_CMPLT = 'N' OR MPDI.ALT_DLV_CMPLT = '0' THEN 0
+             		   WHEN MPI.QTY <= NVL(TDQ.TOT_DLV_QTY, 0) +  MPDI.DLV_PLAN_QTY THEN 1
+                  	   ELSE 0
+                  END  ALT_DLV_CMPLT										--CHECKBOX 이기 때문에 1, 0 으로 넘김
+             	, NVL(MPIA.DLV_OVR_RT, '100') AS DLV_OVR_RT    				--납품허용율
+                , MPI.QTY * NVL(MPIA.DLV_OVR_RT, '100') / 100 AS MAX_QTY	--최대납품가능수량
+                , NVL(MPDI.ALT_DLV_CMPLT, 'N') AS ALT_DLV					--N이면 납품할 미납품이 존재. Y이면 납품할 미납품이 없음.
+                , NVL(MMP.ALT_DDATE_MGT, 'N') AS ALT_DDATE_MGT
+                , '' AS USER_ID
+                , '' AS USER_NM
+                , MPI.PR_ITEM_ID
+                , MP.PTNR_ID
+                , GET_PTNRNM(MP.PTNR_ID) AS PTNR_NM                
+                , MPD.INSP_CHRGR_ID
+                , GET_USERNM(MPD.INSP_CHRGR_ID, #{BRANCH_CD}, 'CM34KR') AS INSP_CHRGR_NM
+                , MP.PO_NO
+                , MMP.ALT_SC
+                , MMP.ALT_CATALOG
+                , TO_NUMBER(NVL(MPDI.SUGAR, 0)) AS SUGAR
+                , MPDI.RMARK
+                , (SELECT COUNT(*) FROM MM_PO_DLV_item_exp WHERE DLV_ITEM_ID = MPDI.DLV_ITEM_ID) EXP_CNT
+                , MM.IMG_FILE_PATH_ID
+                , DECODE(MMP.ALT_DDATE_MGT,'Y','img::status_warning.png','' ) AS IMG_TYPE
+                , TO_NUMBER(MPDI.AMT) AS AMT
+                , TO_NUMBER(NVL(MPDI.VAT, 0)) AS VAT
+                , MM.INT_NTAX
+          FROM	MM_PO_DLV_ITEM		MPDI
+          		--, MM_MT_SL			MMS
+          		, MM_PO_ITEM		MPI
+          		, (
+          		    SELECT  
+        					SUM(ITM.DLV_QTY) AS TOT_DLV_QTY
+                            , ITM.BRANCH_CD
+                            , ITM.PO_ITEM_ID
+                      FROM  MM_PO_DLV_ITEM		ITM 
+                            , MM_PO_DLV 		HEAD
+                     WHERE  ITM.BRANCH_CD   	= HEAD.BRANCH_CD
+                       AND  ITM.DLV_NO      	= HEAD.DLV_NO
+                       AND  ITM.BRANCH_CD   	= #{BRANCH_CD}
+              		   AND	ITM.PO_ITEM_ID  	IN (	SELECT  PO_ITEM_ID
+                         								  FROM	MM_PO_DLV_ITEM
+                          								 WHERE	BRANCH_CD	= #{BRANCH_CD}
+           												   AND	DLV_NO		= #{DLV_NO}     
+                         						)
+             		   AND  HEAD.CD_DLV_STTS    = 'DL10CLO'
+                  GROUP BY  ITM.BRANCH_CD, ITM.PO_ITEM_ID
+          		) TDQ          		
+          		, MM_PO_ITEM_ADD	MPIA
+          		, MM_MTRL_PURC 		MMP
+          		, MM_PO_DLV 		MPD
+                , MM_PO 			MP
+                , MM_MTRL           MM
+       --  WHERE	MPDI.BRANCH_CD   	= MMS.BRANCH_CD
+          -- AND  MPDI.STR_CD      	= MMS.STR_CD
+           where  MPDI.BRANCH_CD		= MPI.BRANCH_CD
+           AND	MPDI.PO_ITEM_ID		= MPI.PO_ITEM_ID
+           AND	MPI.BRANCH_CD		= TDQ.BRANCH_CD(+)
+           AND	MPI.PO_ITEM_ID		= TDQ.PO_ITEM_ID(+)
+           AND	MPI.PO_ITEM_ID		= MPIA.PO_ITEM_ID
+           AND  MPDI.BRANCH_CD  	= MMP.BRANCH_CD
+		   AND  MPDI.MTRL_CD    	= MMP.MTRL_CD
+		   AND  MPDI.BRANCH_CD  	= MPD.BRANCH_CD
+		   AND  MPDI.DLV_NO    		= MPD.DLV_NO
+		   AND  MPD.BRANCH_CD  		= MP.BRANCH_CD
+		   AND  MPD.PO_NO    		= MP.PO_NO   
+		   AND  MMP.MTRL_CD         = MM.MTRL_CD
+           AND	MPDI.BRANCH_CD 		= #{BRANCH_CD}
+           AND	MPDI.DLV_NO 		= #{DLV_NO}      
+      ORDER BY	TO_NUMBER(MPDI.ITM_NO) ASC     
+	]]>
+	</select>
+	
+	<!-- 지급일정 조회 -->
+	<select id="readReadyPoPay" parameterType="hashmap" resultType="hashmap">
+	--BDlv.dlvReadPoPay
+		SELECT
+				BRANCH_CD
+				,PO_NO
+				,ODR
+				,PYMT_PLN_DAY
+				,PYMT_PLN_AMT
+				,PYMT_RT
+				,INSP_REQ_DT
+				,ALT_PRCS_YN
+				,RMARK
+          FROM	MM_PO_PAY
+		 WHERE	BRANCH_CD	= #{BRANCH_CD}
+           AND  PO_NO       = #{PO_NO}
+      ORDER BY	ODR
+	</select>
+	
+	<resultMap id="RM_readCmmNotice" type="HMap">
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>   
+	<select id="readCmmNotice" resultType="HMap" resultMap="RM_readCmmNotice">
+		/* [BCmmService.readCmmNotice][공지사항 조회][2017.09.06][배열] */	
+			SELECT	BRANCH_CD
+					, BBS_CTGR
+					, DOC_NO
+					, UPR_DOC_NO
+					, DOC_NM
+					, LVL
+					, READ_CNT
+					, CASE	WHEN INT_OPEN_SITE ='A' 
+							 THEN ''
+							 ELSE'CM91'||INT_OPEN_SITE
+				  	  		 END 	AS INT_OPEN_SITE
+					, ALT_POPUP_WIN
+					, ALT_TOP_DISP
+					, BGN_DT
+					, END_DT
+					, CONTENT
+					, WRTR_ID
+					, GET_USERNM(WRTR_ID, BRANCH_CD,#{LANG_CD}) AS WRTR_NM
+					, '' PWD
+					, PWD OLD_PWD
+					, 'N' AS RELOAD
+					, ATTCH_FILE_CNT
+					, CRTR_ID
+					, TO_CHAR(CRT_DT,'yyyymmdd') AS CRT_DT
+					, LAST_CHGR_ID
+					, GET_USERNM(LAST_CHGR_ID, BRANCH_CD,#{LANG_CD}) AS LAST_CHGR_NM
+					, TO_CHAR(LAST_CHG_DT,'yyyymmdd') AS LAST_CHG_DT
+					, GET_USERNM(WRTR_ID, BRANCH_CD, #{LANG_CD}) || ' / ' || TO_CHAR(CRT_DT, 'yyyy-mm-dd') AS WRTR_INFO
+					, GET_USERNM(LAST_CHGR_ID, BRANCH_CD, #{LANG_CD})  || ' / ' || TO_CHAR(LAST_CHG_DT, 'yyyy-mm-dd')LAST_WRTR_INFO
+			FROM 	MM_CM_BBS
+			WHERE 	BRANCH_CD = #{BRANCH_CD}
+			AND 	DOC_NO = #{DOC_NO}
+	</select>
+	
+	<update id="updateReadCnt" parameterType="hashmap" >
+		/* [BCmmService.updateReadCnt][조회수 업데이트 ][2017.09.06][배열] */	
+		UPDATE	MM_CM_BBS
+		   SET	READ_CNT	=	NVL(READ_CNT,0)+1
+		 WHERE	BRANCH_CD 	= 	#{BRANCH_CD}
+		   AND	DOC_NO		=	#{DOC_NO}
+	</update>
+	
+	<insert id="insertBbs" parameterType="hashmap">
+		/* [BCmmService.insertBbs][공지사항 저장][2017.09.06][배열] */
+		INSERT INTO MM_CM_BBS(
+								BRANCH_CD
+								, BBS_CTGR
+								, DOC_NO
+								, DOC_NM
+								, INT_OPEN_SITE
+								, ALT_POPUP_WIN
+								, ALT_TOP_DISP
+								, BGN_DT
+								, END_DT
+								, CONTENT
+								, WRTR_ID
+								, WRTR_NM
+								, PWD
+								, CRTR_ID
+								, CRT_DT
+								, LAST_CHGR_ID
+								, LAST_CHG_DT
+		) VALUES (
+								#{BRANCH_CD}
+								, 'NOTICE'
+								, #{DOC_NO}
+								, #{DOC_NM}
+								, SUBSTR(NVL(NVL(#{INT_OPEN_SITE},''),'CM91A'),5,5)
+								, #{ALT_POPUP_WIN}
+								, #{ALT_TOP_DISP}
+								, TO_DATE( #{BGN_DT}, 'YYYYMMDDHH24MISS')
+								, TO_DATE( #{END_DT}, 'YYYYMMDDHH24MISS')
+								, #{CONTENT}
+								, #{USER_ID}
+								, #{USER_NM}
+								, #{PWD}
+								, #{USER_ID}
+								, SYSDATE
+								, #{USER_ID}
+								, SYSDATE
+		)
+	</insert>	
+	
+	<update id="updateBbs" parameterType="hashmap" >
+		/* [BCmmService.updateBbs][공지사항 업데이트 ][2017.09.06][배열] */	
+		UPDATE MM_CM_BBS
+		SET DOC_NM			= #{DOC_NM}
+			, INT_OPEN_SITE	= SUBSTR(NVL(NVL(#{INT_OPEN_SITE},''),'CM91A'),5,5)
+			, ALT_POPUP_WIN	= #{ALT_POPUP_WIN}
+			, ALT_TOP_DISP	= #{ALT_TOP_DISP}
+			, BGN_DT		= #{BGN_DT}
+			, END_DT		= #{END_DT}
+			, CONTENT		= #{CONTENT}
+			, LAST_CHGR_ID	= #{LAST_CHGR_ID}
+			, LAST_CHG_DT	= SYSDATE
+		WHERE BRANCH_CD		= #{BRANCH_CD}
+		AND   DOC_NO		= #{DOC_NO}
+	</update>
+	
+	<delete id="deleteBbs" parameterType="hashmap" >
+		/* [BCmmService.deleteBbs][공지사항 삭제 ][2017.09.20][김민성] */	
+		DELETE FROM MM_CM_BBS
+		WHERE  BRANCH_CD	= #{BRANCH_CD}
+		AND    DOC_NO		= #{DOC_NO}
+	</delete>
+</mapper>

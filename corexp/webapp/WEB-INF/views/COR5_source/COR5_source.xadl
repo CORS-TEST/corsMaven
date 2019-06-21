@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ADL version="1.2">
+  <TypeDefinition url="default_typedef.xml"/>
+  <GlobalVariables url="globalvars.xml"/>
+  <Application id="COR5_source" codepage="utf-8" language="Korean" loginformurl="" loginformstyle="" windowopeneffect="" windowcloseeffect="" version="" tracemode="none" themeid="theme01.xtheme" usecontextmenu="none" onload="application_onload" loadingimage="img::waitimage01.gif" onerror="application_onerror">
+    <Layout>
+      <MainFrame id="Mainframe" title="maintitle" defaultfont="" resizable="true" showtitlebar="true" showstatusbar="false" left="0" top="0" width="1280" height="1024" showtitleicon="true" showcascadestatustext="false" showcascadetitletext="false">
+        <VFrameSet id="VFrameSet" separatesize="0,0,0,*" showtitleicon="false">
+          <Frames>
+            <ChildFrame id="TopFrame" showtitleicon="false" showtitlebar="false" dragmovetype="none"/>
+            <HFrameSet id="HFrameSet" showtitleicon="false" showtitlebar="false">
+              <Frames>
+                <ChildFrame id="LeftFrame" dragmovetype="none" showtitlebar="false" showtitleicon="false"/>
+                <VFrameSet id="VFrameSet0" showtitlebar="false" showtitleicon="false">
+                  <Frames>
+                    <ChildFrame id="TabFrame" dragmovetype="none" showtitlebar="false" showtitleicon="false"/>
+                    <FrameSet id="WorkFrameSet" showtitleicon="false" showstatusbar="false" showtitlebar="false">
+                      <Frames/>
+                    </FrameSet>
+                    <ChildFrame id="MainForm" showtitlebar="false" showtitleicon="false" dragmovetype="none"/>
+                  </Frames>
+                </VFrameSet>
+              </Frames>
+            </HFrameSet>
+            <ChildFrame id="BottomFrame" showtitleicon="false" showtitlebar="false" dragmovetype="none"/>
+            <ChildFrame id="loginFrame" showstatusbar="false" showtitlebar="false" showtitleicon="false" dragmovetype="none"/>
+          </Frames>
+        </VFrameSet>
+      </MainFrame>
+    </Layout>
+    <ScreenInfo/>
+  </Application>
+  <Script type="xscript5.0"><![CDATA[this.gv_multyLangage = false;	//다국어적용여부
+
+//런타임 실행시 프로그램 이름(런타임시 alert, confirm 의 타이틀도 적용됨)
+this.GV_TITLE_TEXT = "CoreXp OPEN PURCHASING E-System";			
+
+this.fv_fixMenu = false;		//메뉴 고정 여부
+this.gv_mainFormUrl = "";		//메인화면 폼 url
+this.gv_secretKey;				//CryptoJS 시크릿키
+
+this.gv_mainframe  		= "";
+this.gv_vFrameSet  		= "";
+this.gv_topFrame   		= "";
+this.gv_hFrameSet  		= "";
+this.gv_bottomFrame   	= "";
+this.gv_loginFrame   	= "";
+this.gv_leftFrame  		= "";
+this.gv_vFrameSet0		= "";
+this.gv_tabFrame  		= "";
+this.gv_workFrameSet  	= "";
+this.gv_mainForm  		= "";
+
+/**
+  * @함수명	: application_onload
+  * @desc     	: application onload 이벤트.
+  */
+this.application_onload = function(obj:Application, e:nexacro.LoadEventInfo)
+{
+	var DomainPath = application.xadl;
+	
+	this.gv_certClassid     = "{A099920B-630C-426B-91EC-737685CEEE17}";
+	this.gv_certCodebase	= application.services["url"].url + "CrossCert/AxCrossCert.cab#Version=2,6,9,0";
+	
+	this.gv_ubiClassid      = "{9BE79626-84B2-489D-BBFC-8492339AF9C2}";
+	this.gv_ubiCodebase	    = application.services["url"].url + "ubi4/UbiViewerX4.cab#version=4,0,1807,501";
+	
+	//서비스 경로 세팅
+	if(system.navigatorname == "nexacro"){
+		var strSvcUrl = application.services["svcurl"].url;
+		application.gvDomain = strSvcUrl.substr(0, strSvcUrl.indexOf("/controller"));	
+	}else{		
+		if(DomainPath.indexOf('http:') >= 0 || DomainPath.indexOf('https:') >= 0){
+			var strSvcUrl = DomainPath.substr(0, DomainPath.indexOf("/COR5")) + "/controller/n/";
+			application.services["svcurl"].url = strSvcUrl;
+			application.gvDomain = DomainPath.substr(0, DomainPath.indexOf("/COR5"));
+		}
+	}
+	if(DomainPath.indexOf('QuickView:') < 0){
+		this.gv_multyLangage = false;	//다국어적용여부
+
+		//런타임 실행시 프로그램 이름(런타임시 alert, confirm 의 타이틀도 적용됨)
+		this.GV_TITLE_TEXT = "CoreXp OPEN PURCHASING E-System";	
+
+		this.fv_fixMenu = false;		//메뉴 고정 여부
+		this.gv_mainFormUrl = "";		//메인화면 폼 url
+		this.gv_secretKey;				//CryptoJS 시크릿키
+
+		this.gv_mainframe  		= application.Mainframe;                   										//Mainframe
+		this.gv_vFrameSet  		= application.Mainframe.VFrameSet;                   							//VFrameSet
+		this.gv_topFrame   		= application.Mainframe.VFrameSet.TopFrame;          							//TopFrame
+		this.gv_hFrameSet  		= application.Mainframe.VFrameSet.HFrameSet;                   					//HFrameSet
+		this.gv_bottomFrame   	= application.Mainframe.VFrameSet.BottomFrame;          						//BottomFrame
+		this.gv_loginFrame   	= application.Mainframe.VFrameSet.loginFrame;          							//LoginFrame
+		this.gv_leftFrame  		= application.Mainframe.VFrameSet.HFrameSet.LeftFrame;         					//LeftFrame		
+		this.gv_vFrameSet0		= application.Mainframe.VFrameSet.HFrameSet.VFrameSet0;             			//VFrameSet0
+		this.gv_tabFrame  		= application.Mainframe.VFrameSet.HFrameSet.VFrameSet0.TabFrame;				//TabFrame
+		this.gv_workFrameSet  	= application.Mainframe.VFrameSet.HFrameSet.VFrameSet0.WorkFrameSet;   			//WorkFrameSet
+		this.gv_mainForm  		= application.Mainframe.VFrameSet.HFrameSet.VFrameSet0.MainForm;				//MainForm
+		
+		this.gv_mainframe.set_titletext(this.GV_TITLE_TEXT);
+		this.gv_secretKey = "COREXP7890123456";
+		
+		if(application.gv_FName == "LOGIN_JSP"){
+			this.gv_loginFrame.set_formurl("frame::loginFrame_SUP.xfdl");
+		} else{
+			this.gv_loginFrame.set_formurl("frame::loginFrame.xfdl");
+		}
+	}
+}
+
+nexacro.Component.prototype.on_keydown_default_action = function()
+{
+	if(system.navigatorname != "nexacro"){
+		var e = window.event; 		
+		//Edit는 백스페이스 허용
+		if(this == "[object Edit]" || this == "[object TextArea]" 
+				|| this.id == "controledit" || this.id == "controlmaskedit" || this.id == "controltextarea"){
+			if(e.keyCode == 116) e.preventDefault(); 
+			
+		} else{
+			if(e.keyCode == 116 || e.keyCode == 8) e.preventDefault();
+		}
+	}
+}
+
+this.application_onerror = function(obj:Application, e:nexacro.ErrorEventInfo)
+{
+
+}
+]]></Script>
+</ADL>

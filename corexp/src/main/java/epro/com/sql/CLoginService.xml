@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cLoginService">
+		
+	<select id="loginChk" resultType="HMap" >
+	/*[cLoginService.loginChk][로그인할 수 있는지 체크][2017.09.19][한민희] */
+		SELECT
+				BRANCH_CD
+			 	, USER_ID
+             	, PWD_CHG_DAY
+             	, INT_USER_TYPE
+             	, PWD
+             	, #{LANG_CD} AS LANG_CD						--화면에서 사용자가 선택한 언어
+             	, #{USER_PW_ORG} AS USER_PW_ORG				--화면에서 사용자가 입력한 비밀번호
+             	, #{USER_PW_ENCODE}	AS USER_PW_ENCODE		--화면에서 사용자가 입력한 비밀번호
+             	, AD_ID
+             	, CASE WHEN PWD  = #{USER_PW_ORG} AND NULLIF(#{USER_PW_ORG},'') IS NOT NULL THEN 'Y'
+             	  	   ELSE 'N'
+             	  END LOGIN_CHK
+		FROM	MM_MT_USER
+		WHERE	ALT_USE = 'Y'
+		AND		USER_ID IN ('B_' || REPLACE(#{USER_ID}, 'B_', ''), 'S_' || REPLACE(#{USER_ID}, 'S_', ''))
+		
+		<if test="BRANCH_CD != null and BRANCH_CD  != 'undefined' and BRANCH_CD != ''">
+       		AND   BRANCH_CD  = #{BRANCH_CD}
+       	</if>
+  	</select>
+  	
+  	<select id="loginSsoChk" resultType="HMap" >
+	/*[cLoginService.loginSsoChk][로그인할 수 있는지 체크][2017.09.19][한민희] */
+		SELECT
+				BRANCH_CD
+			 	, USER_ID
+             	, PWD_CHG_DAY
+             	, INT_USER_TYPE
+             	, PWD
+             	, #{LANG_CD} AS LANG_CD						--화면에서 사용자가 선택한 언어
+             	, #{USER_PW_ORG} AS USER_PW_ORG				--화면에서 사용자가 입력한 비밀번호
+             	, #{USER_PW_ENCODE}	AS USER_PW_ENCODE		--화면에서 사용자가 입력한 비밀번호
+             	, AD_ID
+             	, 'Y' AS LOGIN_CHK
+		FROM	MM_MT_USER
+		WHERE	ALT_USE = 'Y'
+		AND		AD_ID = #{AD_ID}
+		
+		<if test="BRANCH_CD != null and BRANCH_CD  != 'undefined' and BRANCH_CD != ''">
+       		AND   BRANCH_CD  = #{BRANCH_CD}
+       	</if>
+  	</select>
+  	
+  	<select id="userInfo" resultType="HMap" >
+  	/*[cLoginService.userInfo][사용자 정보 조회][2017.09.19][한민희] */
+		SELECT
+				MU.BRANCH_CD                                                     
+            	, MU.USER_ID
+            	, MU.INT_USER_TYPE
+            	, CASE WHEN NVL(NULLIF(MU.LANG_CD,''),#{LANG_CD}) ='CM34EN' THEN NVL(NULLIF(MU.USER_NM_GB,''),MU.USER_NM)
+            		   ELSE MU.USER_NM
+            	  END AS USER_NM
+            	, MU.USER_NM_GB
+            	, MU.PTNR_ID
+            	, MU.DEPT_CD
+            	, MU.DEPT_NM
+            --	, MU.PWD
+            	, MU.FAX
+            	, MU.MJR_JOB
+            	, MU.TEL
+            	, MU.HP
+            	, MU.ALT_SMS_RCV
+            	, MU.ALT_MAIL_RCV
+            	, MU.PWD_EXPR_DAY
+            	, MU.PWD_CHG_DAY
+            	, MU.LAST_LOGIN_DT
+            	, MU.ALT_USE
+            	, MU.EMP_NO
+            	, MU.EMAIL
+            	, MU.CRTR_ID
+            	, MU.CRT_DT
+            	, MU.LAST_CHGR_ID
+            	, MU.LAST_CHG_DT
+            --	, MU.ALT_TEAM_LDR
+            	, MU.PSTN
+				, MU.ABS_USER_ID
+				, MU.ABS_ST_DAY
+				, MU.ABS_ED_DAY
+            	, '' AS SESSION_ID
+            	, '' AS ACCESS_IP
+            	, '' AS IS_ROLE_AUTH
+            	, NVL(NULLIF(MU.LANG_CD,''),#{LANG_CD}) AS LANG_CD
+            	, AD_ID
+            	, (SELECT
+						APPND_SET_NUM_1 AS VERSION 
+					FROM MM_SYS_CD 
+					WHERE CD_ID = 'CM99VERSION') AS VERSION
+        FROM	MM_MT_USER MU
+        WHERE	MU.ALT_USE = 'Y'
+		AND		MU.USER_ID = #{USER_ID}
+		<if test="BRANCH_CD != null and BRANCH_CD  != 'undefined' and BRANCH_CD != ''">
+       		AND   MU.BRANCH_CD  = #{BRANCH_CD}
+       	</if>
+  	</select>
+  	
+  	<select id="menu" resultType="HMap" >
+  	/*[cLoginService.menu][사용자가 사용가능한 메뉴 조회][2018.02.08][김동호] */
+				SELECT   AL.PGM_ID
+                        , AL.UP_PGM_ID
+                        , AL.CD_SYS_TYPE
+                        , AL.INT_SITE_DIST
+                        , AL.PGM_NM
+                        , AL.LINK_URL
+                        , AL.PGM_EXPLN                                                                
+                        , AL.ARY_ORDR
+                        , AL.ALT_MENU  
+                        , AL.MENU_NM    
+						, AL.ROLE_ID
+						, LEVEL-1 MENU_LEVEL
+						, LEVEL-2 TOP_MENU_LEVEL
+						, '0' AS CHECKED
+                FROM    (
+                        SELECT   MSP.PGM_ID
+                                , MAX(MSP.UP_PGM_ID) UP_PGM_ID
+                                , MAX(MSP.CD_SYS_TYPE) CD_SYS_TYPE
+                                , MAX(MSP.INT_SITE_DIST) INT_SITE_DIST
+                                , MAX(MSP.PGM_NM) PGM_NM
+                                , MAX(MSP.LINK_URL) LINK_URL
+                                , MAX(MSP.PGM_EXPLN) PGM_EXPLN                                                                
+                                , MAX(MSP.ARY_ORDR) ARY_ORDR
+                                , MAX(MSP.ALT_MENU) ALT_MENU  
+                                , MAX(MSPR.RSRC_NM)  MENU_NM    
+                                , MAX(MSPRE.ROLE_ID) ROLE_ID     
+                        FROM    MM_SYS_PGM MSP
+                                , MM_SYS_PGM_RSRC MSPR
+                                , MM_SYS_PGM_ROLE MSPRE
+                        WHERE   MSP.PGM_ID(+) = MSPR.PGM_ID
+                        AND     MSP.PGM_ID = MSPRE.PGM_ID(+)
+                        AND     MSP.INT_SITE_DIST    IN  ( #{INT_USER_TYPE}, DECODE(SUBSTR(#{USER_ID},0,1),'B','C',SUBSTR(#{USER_ID},0,1)))
+                        AND     MSPR.CD_RSRC_LANG= #{LANG_CD}
+                        AND     EXISTS(
+                                        SELECT 'EXISTS'
+                                        FROM MM_SYS_USER_ROLE SUR
+                                        WHERE SUR.ROLE_ID = MSPRE.ROLE_ID
+                                        AND      SUR.USER_ID = #{USER_ID}
+                                       )
+                        AND     MSP.ALT_USE  = 'Y'
+                        GROUP BY MSP.PGM_ID) AL
+                START WITH AL.UP_PGM_ID IS NULL
+                CONNECT BY PRIOR AL.PGM_ID = AL.UP_PGM_ID
+                ORDER SIBLINGS BY TO_NUMBER(AL.ARY_ORDR)
+	</select>
+	
+	<select id="readAuth" resultType="HMap" >
+	/*[cLoginService.readAuth][권한 조회][2017.09.19][한민희] */
+		SELECT
+            SR.ROLE_ID 
+        FROM MM_SYS_ROLE SR , MM_SYS_USER_ROLE SUR
+        WHERE SR.ROLE_ID = SUR.ROLE_ID
+		AND SUR.USER_ID = #{USER_ID}
+		<if test="BRANCH_CD != null and BRANCH_CD  != 'undefined' and BRANCH_CD != ''">
+       		AND   SUR.BRANCH_CD  = #{BRANCH_CD}
+       	</if>		
+  	</select>
+
+  	<select id="searchComAllCodes" resultType="HMap" >
+  	/*[cLoginService.searchComAllCodes][코드 조회][2017.09.19][한민희] */
+			SELECT	  		
+				'' BRANCH_CD
+				,CD_ID                                                           
+				,UP_CD_ID                                                        
+				,CD_NM_LO                                                        
+				,CD_GRP                                                          
+				,CD                                                              
+				,CD_CLS                                                          
+				,CD_DESC                                                         
+				,ALT_USE                                                         
+				,ALT_ERP_CD                                                      
+				,ERP_CD                                                          
+				,ARY_ORDR
+				,CD_GRP || CD_CLS AS CD_GD_ID            
+				,APPND_SET_NUM_1
+				,APPND_SET_CHR_1
+			    ,APPND_SET_CHR_2                                             
+			FROM MM_SYS_CD	
+			WHERE ALT_USE = 'Y'
+			<if test='INT_USER_TYPE == "S"'>
+				AND INT_TYPE = 'A'
+			</if>
+			<![CDATA[AND CD <> '00' ]]> 
+			UNION ALL
+			SELECT
+			    BRANCH_CD
+			    ,CD_ID                                                           
+			    ,UP_CD_ID                                                        
+			    ,CD_NM_LO                                                        
+			    ,CD_GRP                                                          
+			    ,CD                                                              
+			    ,CD_CLS                                                          
+			    ,CD_DESC                                                         
+			    ,ALT_USE                                                         
+			    ,'' ALT_ERP_CD                                                      
+			    ,'' ERP_CD                                                          
+			    ,ARY_ORDR
+			    ,CD_GRP || CD_CLS AS CD_GD_ID 
+			    ,APPND_SET_NUM_1
+			    ,APPND_SET_CHR_1	--IV21 세금계산서 타입 데이터
+			    ,APPND_SET_CHR_2	--IV21 세금계산서 구분 데이터
+			FROM MM_MT_SYS_CD
+			WHERE ALT_USE = 'Y'
+			<![CDATA[AND CD <> '00' ]]> 
+			ORDER BY CD_GRP, CD_CLS, ARY_ORDR, CD
+		</select>
+		  	
+  	<select id="readVersion" resultType="HMap" >
+	/*[cLoginService.readVersion][리소스 버전 조회][2018.01.11][한의봉] */
+		SELECT
+			APPND_SET_NUM_1 AS VERSION 
+		FROM MM_SYS_CD 
+		WHERE CD_ID = 'CM99VERSION'
+  	</select>
+</mapper>

@@ -1,0 +1,507 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BPrSavePop" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="물품요청 결재요청팝업" left="0" width="1000" top="0" height="731" cssclass="frm_POP_Search" oninit="pop_appPop_oninit" scrollbars="autoboth" onload="fnFormOnload">
+    <Layouts>
+      <Layout>
+        <Static id="sta_title" taborder="3" text="결재정보" cssclass="sta_POP_PopTitle" left="0" top="3" right="915" height="30"/>
+        <Div id="Div00" taborder="4" left="0%" top="0" right="0%" bottom="0">
+          <Layouts>
+            <Layout>
+              <Div id="divViewCompTitle00" taborder="0" left="0" top="0" right="0" height="24" objNm="DIV-평가서 타이틀">
+                <Layouts>
+                  <Layout width="993" height="139">
+                    <Static id="staViewCompTitle00" taborder="0" text="기본정보" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" top="0" width="255" height="24" objNm="기본정보"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divViewCompCond01" taborder="1" left="8" top="33" right="7" height="162" cssclass="div_WF_SearchBg">
+                <Layouts>
+                  <Layout>
+                    <Static id="staItemSort" taborder="0" text="결제명" cssclass="sta_WF_SearchLabel" left="67" top="10" width="70" height="24" style="align:right middle;"/>
+                    <Static id="staItemSort00" taborder="1" text="결제의견" cssclass="sta_WF_SearchLabel" left="67" top="79" width="70" height="24" style="align:right middle;"/>
+                    <Edit id="edt_ttl" taborder="2" lengthunit="utf8" autoselect="true" cssclass="edt_default" left="149" top="10" width="450" height="24" objNm="결재명"/>
+                    <TextArea id="txt_aprvOpnn" taborder="3" scrollbars="autovert" wordwrap="char" cssclass="txt_default" left="150" top="40" right="18" height="110" objNm="결재의견"/>
+                    <Combo id="cbo_cdAprvStts" taborder="4" readonly="true" innerdataset="ds_cdAP10" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default_r" top="10" right="18" width="130" height="24" objNm="결재상태"/>
+                    <Static id="staItemSort01" taborder="5" text="결제상태" cssclass="sta_WF_SearchLabel" left="755" top="10" width="70" height="24" style="align:right middle;"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Div id="divViewCompTitle01" taborder="2" left="0" top="206" right="0" height="24" objNm="DIV-평가서 타이틀">
+                <Layouts>
+                  <Layout width="993" height="139">
+                    <Static id="staViewCompTitle00" taborder="0" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" top="0" width="255" height="24" objNm="기본정보" text="결제정보"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Button id="Button00" taborder="3" text="결재요청" cssclass="btn_WF_SearchBtn" top="5" right="6" width="70" height="24" style="background:#888888ff;color:white;font:bold 10 malgun gothic;" objNm="물품요청" onclick="Div00_Button00_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div01" taborder="5" text="Div01" left="0%" top="242" right="0%" bottom="0">
+          <Layouts>
+            <Layout>
+              <Tab id="Tab01" taborder="0" left="0" top="0" right="0" bottom="10" tabindex="0" scrollbars="autoboth" cssclass="tab_default" objNm="TAB">
+                <Tabpages>
+                  <Tabpage id="tabp01" text="결재자정보" style="background:white;" scrollbars="none" objNm="기본정보">
+                    <Layouts>
+                      <Layout>
+                        <Grid id="grd_pAppLine" taborder="199" binddataset="dsPAppLine" useinputpanel="false" autofittype="col" onkeydown="fn_appline_onkeydown_event" ondropdown="Div03_Tab01_tabp01_grd_list01_ondropdown" ontextchanged="fn_ontextchanged_event" left="0" top="36" right="0" bottom="0" objNm="결재라인그리드" onexpandup="divViewCompBody00_grdList_onexpandup">
+                          <Formats>
+                            <Format id="MMODE">
+                              <Columns>
+                                <Column size="40"/>
+                                <Column size="70"/>
+                                <Column size="129"/>
+                                <Column size="266"/>
+                                <Column size="80"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="32" band="head"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell displaytype="checkbox" edittype="checkbox"/>
+                                <Cell col="1" text="결재순번"/>
+                                <Cell col="2" text="결재자ID"/>
+                                <Cell col="3" text="결재자명"/>
+                                <Cell col="4" text="결재유형"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="expr:currow == 0 ? &quot;none&quot; : &quot;checkbox&quot;" edittype="expr:currow == 0 ? &quot;none&quot; : &quot;checkbox&quot;" text="bind:CHECKED"/>
+                                <Cell col="1" text="bind:SEQ"/>
+                                <Cell col="2" text="bind:APRVR_ID"/>
+                                <Cell col="3" edittype="expr:currow == 0 ? none : &quot;text&quot;" text="bind:APRVR_NM" editdisplay="edit" expandshow="expr:currow == 0 ? &quot;hide&quot; : &quot;show&quot;" expandsize="21" expandimage="URL('img::grd_WF_Expand.png')"/>
+                                <Cell col="4" displaytype="combo" edittype="expr:currow == 0 ? none : &quot;combo&quot;" text="bind:CD_APP_TYPE_NM" combodataset="ds_cdAP14" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodisplay="edit"/>
+                              </Band>
+                            </Format>
+                            <Format id="VMODE">
+                              <Columns>
+                                <Column size="40"/>
+                                <Column size="70"/>
+                                <Column size="129"/>
+                                <Column size="266"/>
+                                <Column size="80"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="31" band="head"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell displaytype="checkbox"/>
+                                <Cell col="1" text="결재순번"/>
+                                <Cell col="2" text="결재자ID"/>
+                                <Cell col="3" text="결재자명"/>
+                                <Cell col="4" text="결재유형"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="checkbox"/>
+                                <Cell col="1" text="bind:SEQ"/>
+                                <Cell col="2" text="bind:APRVR_ID"/>
+                                <Cell col="3" text="bind:APRVR_NM"/>
+                                <Cell col="4" text="bind:CD_APP_TYPE_NM"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <Button id="btn_add" taborder="200" text=" 추가" onclick="Tab01_tabp01_btn_add_onclick" cssclass="btn_WF_Add" top="10" right="62" width="60" height="24" objNm="결재라인추가 버튼" lbcd=""/>
+                        <Button id="btn_del" taborder="201" text=" 삭제" onclick="Tab01_tabp01_btn_del_onclick" cssclass="btn_WF_Delete" top="10" right="0" width="60" height="24" objNm="결재라인삭제 버튼" lbcd=""/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp02" text="회람처" scrollbars="none" objNm="텍스트">
+                    <Layouts>
+                      <Layout>
+                        <Grid id="grd_pAppRef" taborder="21" binddataset="ds_pAppRef" autoenter="select" useinputpanel="false" autofittype="col" cellclickbound="cell" onkeydown="fn_refline_onkeydown_event" oncelldblclick="grd_list_oncelldblclick" onexpandup="Tab01_tabp02_grd_list01_onexpandup" ontextchanged="fn_ontextchanged_event" left="0" top="36" right="0" bottom="0" objNm="회람처그리드">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="39"/>
+                                <Column size="167"/>
+                                <Column size="376"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="32" band="head"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell displaytype="checkbox" edittype="checkbox"/>
+                                <Cell col="1" text="회람자ID"/>
+                                <Cell col="2" text="회람자명"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                                <Cell col="1" text="bind:TRNR_ID"/>
+                                <Cell col="2" edittype="text" text="bind:TRNR_NM" editdisplay="edit" expandshow="show" expandsize="24" expandimage="URL('img::grd_WF_Expand.png')"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <Button id="btn_addRef" taborder="22" text=" 추가" onclick="Tab01_tabp02_btn_addRef_onclick" cssclass="btn_WF_Add" top="10" right="62" width="60" height="24" objNm="회람처추가 버튼" lbcd=""/>
+                        <Button id="btn_delRef" taborder="23" text=" 삭제" onclick="Tab01_tabp02_btn_delRef_onclick" cssclass="btn_WF_Delete" top="10" right="0" width="60" height="24" objNm="회람처삭제 버튼" lbcd=""/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_pChkBdgt"/>
+      <Dataset id="ds_pApp" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column type="STRING" id="BRANCH_CD" size="20"/>
+          <Column type="STRING" id="APP_DOC_ID" size="20"/>
+          <Column type="STRING" id="REF_KEY_1" size="40"/>
+          <Column type="STRING" id="CD_APRV_DOC_CTGR" size="40"/>
+          <Column type="STRING" id="CD_APRV_MTHD" size="40"/>
+          <Column type="STRING" id="TTL" size="600"/>
+          <Column type="STRING" id="REQR_ID" size="50"/>
+          <Column type="STRING" id="APRV_OPNN" size="4000"/>
+          <Column type="STRING" id="APP_DOC" size="4000"/>
+          <Column type="STRING" id="CD_APRV_STTS" size="40"/>
+          <Column id="ALT_INVNTRY_MGMT" type="STRING" size="1"/>
+          <Column id="APRV_CNT" type="INT" size="10"/>
+          <Column id="PR_NO" type="STRING" size="40"/>
+          <Column id="GI_REQ_NO" type="STRING" size="40"/>
+          <Column id="CRTR_ID" type="STRING" size="40"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_pAppLine" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onrowsetchanged="ds_pAppLine_onrowsetchanged">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="2"/>
+          <Column id="APRVR_NM" type="STRING" size="256"/>
+          <Column type="string" id="APRVR_ID" size="50"/>
+          <Column type="int" id="SEQ" size="22"/>
+          <Column type="string" id="CRTR_ID" size="50"/>
+          <Column type="string" id="APRV_DT" size="7"/>
+          <Column type="string" id="CD_APRV_LN_STTS_NM" size="40"/>
+          <Column type="string" id="CD_APRV_LN_STTS" size="40"/>
+          <Column type="string" id="REQ_DT" size="7"/>
+          <Column type="string" id="CD_APP_TYPE_NM" size="40"/>
+          <Column type="string" id="CD_APP_TYPE" size="40"/>
+          <Column type="string" id="LAST_CHG_DT" size="7"/>
+          <Column type="string" id="OPNN" size="1500"/>
+          <Column type="string" id="LAST_CHGR_ID" size="50"/>
+          <Column type="string" id="APP_DOC_ID" size="20"/>
+          <Column type="string" id="CRT_DT" size="7"/>
+          <Column type="string" id="BRANCH_CD" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_pAppRef" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="TRNR_ID" type="STRING" size="256"/>
+          <Column id="TRNR_NM" type="STRING" size="256"/>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mChkBdgt"/>
+      <Dataset id="ds_mApp" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column type="STRING" id="BRANCH_CD" size="20"/>
+          <Column type="STRING" id="APP_DOC_ID" size="20"/>
+          <Column type="STRING" id="REF_KEY_1" size="40"/>
+          <Column type="STRING" id="CD_APRV_DOC_CTGR" size="40"/>
+          <Column type="STRING" id="CD_APRV_MTHD" size="40"/>
+          <Column type="STRING" id="TTL" size="600"/>
+          <Column type="STRING" id="REQR_ID" size="50"/>
+          <Column type="STRING" id="APRV_OPNN" size="4000"/>
+          <Column type="STRING" id="APP_DOC" size="4000"/>
+          <Column type="STRING" id="CD_APRV_STTS" size="40"/>
+          <Column id="ALT_INVNTRY_MGMT" type="STRING" size="1"/>
+          <Column id="APRV_CNT" type="INT" size="10"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mAppLine" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onrowsetchanged="ds_mAppLine_onrowsetchanged">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="2"/>
+          <Column id="APRVR_NM" type="STRING" size="256"/>
+          <Column type="string" id="APRVR_ID" size="50"/>
+          <Column type="int" id="SEQ" size="22"/>
+          <Column type="string" id="CRTR_ID" size="50"/>
+          <Column type="string" id="APRV_DT" size="7"/>
+          <Column type="string" id="CD_APRV_LN_STTS_NM" size="40"/>
+          <Column type="string" id="CD_APRV_LN_STTS" size="40"/>
+          <Column type="string" id="REQ_DT" size="7"/>
+          <Column type="string" id="CD_APP_TYPE_NM" size="40"/>
+          <Column type="string" id="CD_APP_TYPE" size="40"/>
+          <Column type="string" id="LAST_CHG_DT" size="7"/>
+          <Column type="string" id="OPNN" size="1500"/>
+          <Column type="string" id="LAST_CHGR_ID" size="50"/>
+          <Column type="string" id="APP_DOC_ID" size="20"/>
+          <Column type="string" id="CRT_DT" size="7"/>
+          <Column type="string" id="BRANCH_CD" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mAppRef" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="TRNR_ID" type="STRING" size="256"/>
+          <Column id="TRNR_NM" type="STRING" size="256"/>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_return" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="IS_SUCCESS" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_popCallback" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="dsPr" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column type="STRING" id="BRANCH_CD" size="20"/>
+          <Column type="STRING" id="APP_DOC_ID" size="20"/>
+          <Column type="STRING" id="REF_KEY_1" size="40"/>
+          <Column type="STRING" id="CD_APRV_DOC_CTGR" size="40"/>
+          <Column type="STRING" id="CD_APRV_MTHD" size="40"/>
+          <Column type="STRING" id="TTL" size="600"/>
+          <Column type="STRING" id="REQR_ID" size="50"/>
+          <Column type="STRING" id="APRV_OPNN" size="4000"/>
+          <Column type="STRING" id="APP_DOC" size="4000"/>
+          <Column type="STRING" id="CD_APRV_STTS" size="40"/>
+          <Column id="ALT_INVNTRY_MGMT" type="STRING" size="1"/>
+          <Column id="APRV_CNT" type="INT" size="10"/>
+          <Column id="PR_NO" type="STRING" size="40"/>
+          <Column id="GI_REQ_NO" type="STRING" size="40"/>
+          <Column id="CRTR_ID" type="STRING" size="40"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="40"/>
+          <Column id="CD_PR_STTS" type="STRING" size="256"/>
+          <Column id="CD_PR_CTGR" type="STRING" size="256"/>
+          <Column id="REQR_NM" type="STRING" size="256"/>
+          <Column id="CD_BDGT_TYPE" type="STRING" size="256"/>
+          <Column id="RMARK" type="STRING" size="256"/>
+          <Column id="PR_REQ_DAY" type="STRING" size="256"/>
+          <Column id="REQ_DT" type="STRING" size="256"/>
+          <Column id="APRV_CMPLT_DT" type="STRING" size="256"/>
+          <Column id="PR_AMT" type="STRING" size="256"/>
+          <Column id="ATTCH_FILE_CNT" type="STRING" size="256"/>
+          <Column id="TKEY" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="LAST_CHG_DT" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="PR_ITEM_ID" type="STRING" size="256"/>
+          <Column id="ITM_NO" type="STRING" size="256"/>
+          <Column id="CD_PR_ITEM_STTS" type="STRING" size="256"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+          <Column id="OUT_STR_CD" type="STRING" size="256"/>
+          <Column id="MTRL_GRP_ID" type="STRING" size="256"/>
+          <Column id="MTRL_GRP_NM" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="MTRL_REQ_NO" type="STRING" size="256"/>
+          <Column id="QTY" type="STRING" size="256"/>
+          <Column id="CD_UNIT" type="STRING" size="256"/>
+          <Column id="REQ_PRICE" type="STRING" size="256"/>
+          <Column id="REQ_AMT" type="STRING" size="256"/>
+          <Column id="DLV_REQ_DAY" type="STRING" size="256"/>
+          <Column id="INSP_CHRGR_ID" type="STRING" size="256"/>
+          <Column id="REQ_DPMT_CD" type="STRING" size="256"/>
+          <Column id="REQ_DPMT_NM" type="STRING" size="256"/>
+          <Column id="CD_DOC_CTGR" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPAppLine" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onrowsetchanged="ds_pAppLine_onrowsetchanged">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="2"/>
+          <Column id="APRVR_NM" type="STRING" size="256"/>
+          <Column type="string" id="APRVR_ID" size="50"/>
+          <Column type="int" id="SEQ" size="22"/>
+          <Column type="string" id="CRTR_ID" size="50"/>
+          <Column type="string" id="APRV_DT" size="7"/>
+          <Column type="string" id="CD_APRV_LN_STTS_NM" size="40"/>
+          <Column type="string" id="CD_APRV_LN_STTS" size="40"/>
+          <Column type="string" id="REQ_DT" size="7"/>
+          <Column type="string" id="CD_APP_TYPE_NM" size="40"/>
+          <Column type="string" id="CD_APP_TYPE" size="40"/>
+          <Column type="string" id="LAST_CHG_DT" size="7"/>
+          <Column type="string" id="OPNN" size="1500"/>
+          <Column type="string" id="LAST_CHGR_ID" size="50"/>
+          <Column type="string" id="APP_DOC_ID" size="20"/>
+          <Column type="string" id="CRT_DT" size="7"/>
+          <Column type="string" id="BRANCH_CD" size="20"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item4" compid="Div00.divViewCompCond01.edt_ttl" propid="value" datasetid="dsPr" columnid="TTL"/>
+      <BindItem id="item6" compid="Div00.divViewCompCond01.txt_aprvOpnn" propid="value" datasetid="dsPr" columnid="APRV_OPNN"/>
+      <BindItem id="item5" compid="Div00.divViewCompCond01.cbo_cdAprvStts" propid="value" datasetid="dsPr" columnid="CD_APRV_STTS"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       BPrItemPop.xfdl
+   @desc       물품요청 저장 pop
+   @author     박소진
+   @makedate   2019.05.02
+   @history    
+*/  
+
+// include "lib::lib_all.xjs"
+// 
+// this.formId = "";
+// var length;
+// var idNum;
+
+//권한을 통한 컨트롤이 필요할 경우 등록하여 사용한다.
+/*this.fv_roleId = "B_INSTALL,B_PUR_M,B_PUR,B_SYSTEM,B_WEBMASTER"*/
+
+
+
+
+/**
+	@function	pop_MatGroupSearch_onload()
+	@desc   	폼 onload 이벤트
+*/
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+
+	var ownerFrame = this.getOwnerFrame();//폼을 연 부모객체를 반환해줌. 화면에서 넘겨준 값을 가져오기 위해 씀
+  	
+  	this.dsPr.addRow();
+  	this.dsPAppLine.addRow();
+  	var mtrlNm= ownerFrame.mtrl_nm;
+	
+  	//부모창으로 부터 전달받은 값을 NULL 이 아니면 검색조건 DataSet에 담는다.
+	if(!gfnIsNull(mtrlNm)){
+		
+		this.dsPr.setColumn(0, "TTL", "[물품요청] "  + mtrlNm);
+		this.dsPr.setColumn(0, "CD_APRV_STTS", ownerFrame.cd_stts_nm);
+		this.dsPr.setColumn(0, "APRV_OPNN", "결재를 요청합니다.");
+		
+		this.dsPr.setColumn(0, "MTRL_CD", ownerFrame.mtrl_cd);
+		this.dsPr.setColumn(0, "CD_PUR_UNIT", ownerFrame.cd_unit);
+		this.dsPr.setColumn(0, "QTY", ownerFrame.qty);
+		this.dsPr.setColumn(0, "PR_AMT", ownerFrame.req);
+		this.dsPr.setColumn(0, "DLV_REQ_DAY", ownerFrame.day);
+		this.dsPr.setColumn(0, "GR_ACNT_NM", ownerFrame.acnt_nm);
+		this.dsPr.setColumn(0, "RMARK", ownerFrame.rmark);
+		this.dsPr.setColumn(0, "ATTCH_FILE_CNT", ownerFrame.files);
+		this.dsPr.setColumn(0, "IN_STR_NM", ownerFrame.str);
+		this.dsPr.setColumn(0, "REQR_ID", application.gdsUserInfo.getColumn(0,"USER_ID"));
+		this.dsPr.setColumn(0, "REQR_NM", application.gdsUserInfo.getColumn(0,"USER_NM"));
+		
+
+		this.dsPAppLine.setColumn(0, "SEQ", "1");
+		this.dsPAppLine.setColumn(0, "CD_APP_TYPE" ,"AP14REQ");	//결재유형:승인	
+		this.dsPAppLine.setColumn(0, "APRVR_ID", application.gdsUserInfo.getColumn(0,"USER_ID"));
+		this.dsPAppLine.setColumn(0, "APRVR_NM", application.gdsUserInfo.getColumn(0,"USER_NM"));
+		
+		//this.fnSearch();
+		}
+		
+	//	alert(this.dsPr());
+  	
+  	}
+  	alert(this.dsPr.loadXML());
+  //	trace(this.dsPr);
+//추가 버튼
+this.Tab01_tabp01_btn_add_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.dsPAppLine.addRow();
+// 	for(var j=2; j<this.dsReturn.rowcount; j++){
+// 					this.dsPAppLine.setColumn(0, "SEQ", j);
+// 					}
+	
+}
+
+
+
+//사용자 검색
+this.divViewCompBody00_grdList_onexpandup = function(obj:Grid, e:nexacro.GridMouseEventInfo)
+{
+	//입고부서
+	if("APRVR_NM" == gfnGrdBindColNm(obj, e.cell)){
+		
+		var sArg = { 
+					agv_nm : ""
+			   };
+			   
+		gfnModalPop(this, "searchUser", "CPOP::BUserSrchPopup.xfdl", sArg, "fnPopCallBack", 800, 600);
+		
+	}
+}
+
+//팝업콜백
+this.fnPopCallBack = function(sPopupId, rtn){ //닫기버튼 눌렀을때 팝업에서 넘겨온 값
+
+	
+if(gfnIsNull(rtn)) return;
+	alert(rtn);
+	
+	this.dsReturn.clear(); //팝업에서 넘겨온 값을 ㅇ여기서 쓰기 우ㅣ해 임시데이터셋 만들어준다.
+	this.dsReturn.loadXML(rtn);//팝업 닫힐때 xml정보 넘겨줌. 값이 있으면 dsReturn라는 임시데이터셋에 값세팅.
+
+	switch(sPopupId){
+		case "searchUser":
+ 			if(!gfnIsNull(this.dsReturn.getColumn(0,"USER_NM"))){
+ 			
+				this.dsPAppLine.set_enableevent(false);
+					for(var i=0; i<this.dsReturn.rowcount; i++){
+
+					this.dsPAppLine.setColumn(this.dsPAppLine.rowposition, "APRVR_NM", this.dsReturn.getColumn(i, "USER_NM"));
+					this.dsPAppLine.setColumn(this.dsPAppLine.rowposition, "APRVR_ID", this.dsReturn.getColumn(i, "USER_ID"));
+					
+ 					}
+				
+				this.dsPAppLine.set_enableevent(true);
+ 			}
+			break;
+ 			
+		default:
+		break;	
+	}
+	
+}
+
+
+//삭제버튼
+this.Tab01_tabp01_btn_del_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+
+	this.dsPAppLine.set_enableevent(false);
+	this.dsPAppLine.filter("CHECKED==1")
+	this.dsPAppLine.deleteAll();
+	this.dsPAppLine.filter("")//초기화
+	this.dsPAppLine.set_enableevent(true);//이벤트 다시 켜줌
+
+}
+
+
+//결재요청버튼
+this.Div00_Button00_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.fnSave();
+}
+
+
+
+/**
+	@function	fn_commSave()
+	@desc   	(공통버튼)저장
+*/
+this.fnSave = function(type)
+{
+	//if (!this.fn_preSave(type)) return false;
+	
+	var sSvcID = "savePr";
+	var sController = "epro.pur.service.BPrService.savePr";
+	var sInDatasets = "dsPr=dsPr dsPAppLine=dsPAppLine dsPrItem=dsPrItem";
+	var sOutDatasets = "dsPr=dsPr";
+	var sCallbackFunc = "fnTrCallBack";
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+
+}
+]]></Script>
+  </Form>
+</FDL>

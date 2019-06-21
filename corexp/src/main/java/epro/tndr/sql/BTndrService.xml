@@ -1,0 +1,3282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BTndrService">
+	<select id="tndrWrtSrch" parameterType="hashmap" resultType="hashmap" >
+	--BTndrService.tndrWrtSrch start
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="CNTR_NO DESC"/>
+		</include>
+			SELECT
+				T.CD_DOC_CTGR
+				,T.TNDR_NO
+				,T.TNDR_NO AS COREXP_KIDS
+				,T.TTL
+				,T.TNDR_ODR
+				,TC.TNDR_ATD_CLOSE_DAY
+				,TC.TNDR_ATD_CLOSE_TIME
+				,T.GOALAMT
+				,TA.CHRGR_NM
+			FROM	MM_TNDR T 			
+				,	MM_TNDR_ADD TA
+				,	MM_TNDR_COND TC 
+				,	MM_TNDR_ITEM TI
+				,	MM_PR_ITEM PI
+			WHERE T.BRANCH_CD  = TI.BRANCH_CD(+)
+           AND T.TNDR_NO = TI.TNDR_NO(+)
+           AND T.BRANCH_CD  = TI.BRANCH_CD(+)
+           AND T.BRANCH_CD  = TA.BRANCH_CD
+           AND T.TNDR_NO = TA.TNDR_NO
+           AND T.BRANCH_CD  = TA.BRANCH_CD
+           AND T.TNDR_NO = TC.TNDR_NO
+           AND T.BRANCH_CD = TC.BRANCH_CD
+           AND T.TNDR_ODR = TC.TNDR_ODR
+           AND TI.BRANCH_CD = PI.BRANCH_CD(+)
+           AND TI.PR_ITEM_ID = PI.PR_ITEM_ID(+)
+		   AND T.CD_TNDR_STTS = 'ET20WRI'
+			<if test="ALT_SYSTEM != null and ALT_SYSTEM.equalsIgnoreCase('N')">
+				AND TA.CHRGR_ID IN (SELECT USER_ID FROM MT_USER WHERE DEPT_CD = #{DEPT_CD})
+			</if>
+			<if test="TNDR_NO != null and TNDR_NO != 'undefined' and TNDR_NO != ''">
+				AND T.TNDR_NO IN
+				<foreach item="TNDR_NO" collection="TndrnoArr" open="(" close=")" separator=",">
+				 	#{TNDR_NO}
+				</foreach>
+			</if>
+			<if test="TNDR_ATD_CLOSE_DAY_STR != null and TNDR_ATD_CLOSE_DAY_STR != 'undefined' and TNDR_ATD_CLOSE_DAY_STR != ''">
+				AND TC.TNDR_ATD_CLOSE_DAY  <![CDATA[>=]]> #{TNDR_ATD_CLOSE_DAY_STR}
+			</if>
+			<if test="TNDR_ATD_CLOSE_DAY_END != null and TNDR_ATD_CLOSE_DAY_END != 'undefined' and TNDR_ATD_CLOSE_DAY_END != ''">
+				AND TC.TNDR_ATD_CLOSE_DAY  <![CDATA[<=]]> #{TNDR_ATD_CLOSE_DAY_END}
+			</if>
+			<if test="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+				AND T.CD_DOC_CTGR = #{CD_DOC_CTGR}
+			</if>
+			<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+					AND T.TTL LIKE '%'||#{TTL}||'%'
+			</if>
+			<if test="IM_ODR_NO != null and IM_ODR_NO != 'undefined' and IM_ODR_NO != ''">
+				AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI ,MM_PR_ITEM PI, MM_PR_ITEM_ADD PIA
+	                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+	                    AND TI.TNDR_NO = T.TNDR_NO
+	                    AND TI.BRANCH_CD = PI.BRANCH_CD
+	                    AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+	                    AND PI.BRANCH_CD = PIA.BRANCH_CD
+	                    AND PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+	                    AND PIA.IM_ODR_NO = #{IM_ODR_NO}
+	                    )
+			</if>
+			<if test="CHRGR_ID != null and CHRGR_ID != 'undefined' and CHRGR_ID != ''">
+				AND TA.CHRGR_ID = #{CHRGR_ID}
+			</if>
+			<if test="CHRGR_NM != null and CHRGR_NM != 'undefined' and CHRGR_NM != ''">
+					AND TA.CHRGR_NM LIKE '%'||#{CHRGR_NM}||'%'
+			</if>
+			<if test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''">
+				AND TA.REQR_ID = #{REQR_ID}
+			</if>
+			<if test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+					AND PI.REQR_NM LIKE  '%'||#{REQR_NM}||'%'
+			</if>
+		GROUP BY T.CD_DOC_CTGR
+				,T.TNDR_NO
+				,T.CD_TNDR_STTS
+				,T.TTL
+				,T.TNDR_ODR
+				,TC.TNDR_ATD_CLOSE_DAY
+				,TC.TNDR_ATD_CLOSE_TIME
+				,T.GOALAMT
+				,TA.CHRGR_NM
+		 ORDER BY ''
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	
+  	<select id="tndrRead" parameterType="hashmap" resultType="hashmap" >
+			SELECT
+				T.BRANCH_CD
+				,T.TNDR_NO
+				,T.TNDR_NO AS COREXP_KIDS
+				,T.CD_TNDR_STTS
+				,T.CD_DOC_CTGR
+				,T.WRTR_ID
+				,T.ATTCH_FILE_CNT
+				,T.TTL
+				,T.WRTR_NM
+				,T.RMARK
+				,T.REQ_DT
+				,T.GOALAMT
+				,T.AWRD_AMT
+				,T.APP_DOC_ID
+				,T.ROUND_CNT
+				,T.CRTR_ID
+				,T.CRT_DT
+				,T.LAST_CHGR_ID
+				,T.LAST_CHG_DT
+				,T.TKEY
+				,T.CD_TNDR_MTHD
+				,T.TNDR_ODR
+				,T.PRGRS_ROUND
+				,TA.ALT_OPEN_EXPLN
+				,TA.ALT_OPEN
+				,TA.OPEN_EXPLN_DAY
+				,TA.OPEN_EXPLN_TIME
+				,TA.OPEN_EXPLN_AREA
+				,TA.OPEN_EXPLN_ATTN_CNDTN
+				,TA.OPEN_EXPLN_DR_TIME
+				,TA.CHRGR_ID
+				,TA.CHRGR_NM
+				,TA.EMAIL
+				,TA.TEL
+				,TA.CNCL_RSN
+				,TA.FAX
+				,TC.CD_PYMT_CNDTN
+				,TC.CD_BID_UNIT
+				,TC.TNDR_ATD_CLOSE_DAY
+				,TC.TNDR_ATD_CLOSE_TIME
+				,TC.TNDR_LOW_AMT
+				,TC.ALT_RFQ_CHG
+				,TC.ALT_PRE_BID
+				,TC.ALT_LOW_FAIL_APLY
+				,TC.ALT_PUR_AMT_APLY
+				,TC.ALT_PUR_AMT_OPEN
+				,TC.ALT_EVAL_STD_OPEN
+				,TC.ALT_CERT
+				,TC.ALT_CNFDNC_OBY_AGRMT
+				,TC.ALT_LPRC_PTNR_OPEN
+				,TC.ALT_LPRC_AMT_OPEN
+				,TC.LPRC_OPEN_PTNR_CNT
+				,TC.ALT_TMP_BID
+				,TC.ALT_LST_RFQ
+				,TC.ALT_ATD_PTNR_OPEN
+				,TC.CD_BID_CRNC
+				,TC.ALT_TOT_BID
+				, CASE WHEN (SELECT TO_DATE(MIN(PRGRS_DAY)||MIN(BGN_TIME),'YYYY-MM-DD HH24:MI:SS') FROM MM_TNDR_ROUND WHERE BRANCH_CD = T.BRANCH_CD AND TNDR_NO = T.TNDR_NO) > (SYSDATE + 1/24)
+                    THEN DECODE(T.CD_TNDR_STTS,'ET20ANN','Y','N')
+                    ELSE 'N'
+                  END ALT_CHG_TIME
+			FROM MM_TNDR T , MM_TNDR_ADD TA , MM_TNDR_COND TC
+			WHERE T.BRANCH_CD = TA.BRANCH_CD
+			AND T.TNDR_NO = TA.TNDR_NO
+			AND T.TNDR_ODR = TA.TNDR_ODR
+			AND T.BRANCH_CD = TC.BRANCH_CD
+			AND T.TNDR_NO = TC.TNDR_NO
+			AND T.TNDR_ODR = TC.TNDR_ODR
+			AND T.TNDR_NO = #{TNDR_NO}
+			AND T.TNDR_ODR = #{TNDR_ODR}
+			AND T.BRANCH_CD = #{BRANCH_CD}
+  	</select>
+  	
+  	<select id="tndrReadItm" parameterType="hashmap" resultType="hashmap" >
+	--Btndr.tndrReadItm
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="TO_NUMBER(TI.ITM_NO) ASC"/>
+		</include>
+		 	 SELECT
+				'0' CHECKED
+				,TI.TNDR_ITEM_ID
+				,TI.BRANCH_CD
+				,TI.TNDR_NO
+				,TI.TNDR_ODR
+				,TI.PR_ITEM_ID
+				,TI.RFQ_REQ_ITEM_ID
+				,TI.ITM_NO
+				,TI.CD_FCTRY
+				,TI.STR_CD
+				,(SELECT SL_NM FROM MM_MT_SL WHERE STR_CD = TI.STR_CD AND BRANCH_CD = TI.BRANCH_CD) SL_NM 
+				,TI.MTRL_GRP_ID
+				,(SELECT MTRL_GRP_NM2 FROM MM_MTRL_GRP WHERE MTRL_GRP_ID = TI.MTRL_GRP_ID) AS MTRL_GRP_NM2
+				,TI.SRC_GRP_ID
+				,TI.SRC_GRP_NM
+				,TI.MTRL_CD
+				,TI.MTRL_NM
+				,TI.QTY
+				,TI.CD_UNIT
+				,TI.GOALUNT_PRICE
+				,TI.GOALAMT
+				,TI.AWRD_PRICE
+				,TI.AWRD_AMT
+				,TI.DLV_REQ_DAY
+				,TI.ATTCH_FILE_CNT
+				,TI.RMARK
+				,TI.CRTR_ID
+				,GET_USERNM(TI.CRTR_ID,TI.BRANCH_CD, NULL) CRTR_NM
+				,TI.CRT_DT
+				,TI.LAST_CHGR_ID
+				,TI.LAST_CHG_DT
+				,TIA.PTNR_ID
+				,TIA.DLV_PLC_NM
+				,TIA.ZIP_NO
+				,TIA.ADDR
+				,TIA.DTL_ADDR
+				,TIA.FWD_REMARK
+				,'' NEW_RFQ_REQ_ITEM_ID
+				,(SELECT PR_NO FROM MM_PR_ITEM WHERE PR_ITEM_ID = TI.PR_ITEM_ID AND BRANCH_CD =TI.BRANCH_CD) PR_NO
+				,(SELECT RFQ_REQ_NO FROM MM_RFQ_ITEM WHERE RFQ_REQ_ITEM_ID = TI.RFQ_REQ_ITEM_ID  AND BRANCH_CD =TI.BRANCH_CD ) RFQ_REQ_NO
+				,(SELECT IM_ODR_NO FROM MM_PR_ITEM_ADD WHERE  PR_ITEM_ID = TI.PR_ITEM_ID) IM_ODR_NO
+				,PI.REQR_ID
+				,PI.REQR_NM
+			FROM MM_TNDR_ITEM TI , MM_TNDR_ITEM_ADD TIA, MM_PR_ITEM PI
+			WHERE  PI.PR_ITEM_ID = TI.PR_ITEM_ID
+			AND TI.TNDR_ITEM_ID = TIA.TNDR_ITEM_ID
+			AND TI.TNDR_NO = #{TNDR_NO}
+			AND TI.TNDR_ODR = #{TNDR_ODR}
+			AND TI.BRANCH_CD = #{BRANCH_CD}
+			ORDER BY ''
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<select id="tndrReadRound" parameterType="hashmap" resultType="hashmap" >
+		 	 SELECT
+			  	BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR
+				,ROUND_SEQ
+				,PRGRS_DAY
+				,BGN_TIME
+				,END_TIME
+				,CD_ROUND_NEXT
+			FROM MM_TNDR_ROUND
+			WHERE TNDR_NO = #{TNDR_NO}
+			AND TNDR_ODR = #{TNDR_ODR}
+			AND BRANCH_CD = #{BRANCH_CD}
+  	</select>
+  	
+  	<select id="tndrReadPtnr" parameterType="hashmap" resultType="hashmap" >
+			SELECT
+				'0' CHECKED
+				,MP.BIZ_NO
+				,MP.PTNR_NM
+				,MP.HEAD_OFFCBIZ_NO
+				,MP.CORP_REG_NO
+				,MP.BIZ_CNDTN
+				,MP.BIZ_TYPE
+				,MP.BIZ_BGN_DAY
+				,MP.RPRSTV_NM
+				,MP.RPRSTV_HP
+				,MP.RPRSTV_EMAIL
+				,MP.ZIP_NO
+				,MP.ADDR
+				,MP.DTL_ADDR
+				,MP.RPTST_TEL
+				,MP.TEL
+				,MP.FAX
+				,MP.ALT_USE
+				,MPP.CD_PO_CRNC
+				,MPP.CD_PYMT_CNDTN
+				,MPP.SRCH_KEY
+				,TP.TNDR_PTNR_ID
+				,TP.BRANCH_CD
+				,TP.TNDR_NO
+				,TP.TNDR_ODR
+				,TP.PTNR_ID
+				,TP.CD_PTNR_BID_STTS
+				,TP.CD_BID_RSLT -- 응찰결과
+				,TP.RCVR_ID		-- 접수자
+				,TP.RCVR_NM		-- 접수자명	
+				,TP.RCV_DT		-- 접수일자
+				,TP.BIDR_ID				
+				,TP.BID_DT
+				,TP.BID_AMT
+				,TP.SIGN_DATA
+				,TP.RMARK
+				,TP.ALT_PRGRS_TARG
+				,TP.ALT_PRGRS_CMPL
+				,TP.TKEY
+				,TP.CRTR_ID
+				,TP.CRT_DT
+				,TP.LAST_CHGR_ID
+				,TP.LAST_CHG_DT
+				,RP.RFQ_AMT				
+				,RP.SBMTR_ID		-- 견적 제출자ID
+				,RP.SBMTR_NM		-- 견적 제출자명
+				,MPP.EVAL_POINT
+			FROM MM_PTNR MP , MM_TNDR_PTNR TP, MM_RFQ_PTNR RP, MM_PTNR_PORG MPP
+			WHERE MP.PTNR_ID = TP.PTNR_ID
+			AND	TP.BRANCH_CD = RP.BRANCH_CD(+)		
+			AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+			AND TP.BRANCH_CD = MPP.BRANCH_CD
+			AND TP.PTNR_ID = MPP.PTNR_ID
+			AND TP.TNDR_NO = #{TNDR_NO}
+			AND TP.TNDR_ODR = #{TNDR_ODR}
+			AND TP.BRANCH_CD = #{BRANCH_CD}
+  	</select>
+  	
+  	<insert id="tndrInsert" parameterType="hashmap">
+  		<!-- 입찰 INSERT -->
+  		<![CDATA[
+  		INSERT INTO MM_TNDR(
+			BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,CD_TNDR_STTS
+			,CD_DOC_CTGR
+			,CD_TNDR_MTHD
+			,WRTR_ID
+			,WRTR_NM
+			,TTL
+			,RMARK
+			,GOALAMT
+			,AWRD_AMT
+			,REQ_DT
+			,APP_DOC_ID
+			,ROUND_CNT
+			,PRGRS_ROUND
+			,ATTCH_FILE_CNT
+			,TKEY
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+  		) VALUES (
+			#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,'ET20WRI'
+			,#{CD_DOC_CTGR}
+			,#{CD_TNDR_MTHD}
+			,#{WRTR_ID}
+			,#{WRTR_NM}
+			,#{TTL}
+			,#{RMARK}
+			,#{GOALAMT}
+			,#{AWRD_AMT}
+			,#{REQ_DT}
+			,#{APP_DOC_ID}
+			,#{ROUND_CNT}
+			,'1'
+			,#{ATTCH_FILE_CNT}
+			,#{TKEY}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+
+  		)
+  		]]>
+ 	</insert>
+ 	
+ 	<insert id="tndrAddInsert" parameterType="hashmap">
+  		<!-- 입찰 추가정보 INSERT -->
+  		<![CDATA[
+  		INSERT INTO MM_TNDR_ADD(
+			BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,ALT_OPEN
+			,ALT_OPEN_EXPLN
+			,OPEN_EXPLN_DAY
+			,OPEN_EXPLN_TIME
+			,OPEN_EXPLN_AREA
+			,OPEN_EXPLN_ATTN_CNDTN
+			,OPEN_EXPLN_DR_TIME
+			,CHRGR_ID
+			,CHRGR_NM
+			,EMAIL
+			,TEL
+			,FAX
+			,CNCL_RSN
+  		) VALUES (
+			#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{ALT_OPEN}
+			,#{ALT_OPEN_EXPLN}
+			,#{OPEN_EXPLN_DAY}
+			,#{OPEN_EXPLN_TIME}
+			,#{OPEN_EXPLN_AREA}
+			,#{OPEN_EXPLN_ATTN_CNDTN}
+			,#{OPEN_EXPLN_DR_TIME}
+			,#{CHRGR_ID}
+			,#{CHRGR_NM}
+			,#{EMAIL}
+			,#{TEL}
+			,#{FAX}
+			,#{CNCL_RSN}
+  		)
+  		]]>
+ 	</insert>
+ 	
+ 	<insert id="tndrCondInsert" parameterType="hashmap">
+  		<!-- 입찰 조건정보 INSERT -->
+  		<![CDATA[
+  		INSERT INTO MM_TNDR_COND(
+			BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,CD_PYMT_CNDTN
+			,CD_BID_CRNC
+			,CD_BID_UNIT
+			,TNDR_ATD_CLOSE_DAY
+			,TNDR_ATD_CLOSE_TIME
+			,LPRC_OPEN_PTNR_CNT
+			,TNDR_LOW_AMT
+			,ALT_RFQ_CHG
+			,ALT_PRE_BID
+			,ALT_LOW_FAIL_APLY
+			,ALT_PUR_AMT_APLY
+			,ALT_PUR_AMT_OPEN
+			,ALT_EVAL_STD_OPEN
+			,ALT_CERT
+			,ALT_CNFDNC_OBY_AGRMT
+			,ALT_LPRC_PTNR_OPEN
+			,ALT_LPRC_AMT_OPEN
+			,ALT_TMP_BID
+			,ALT_LST_RFQ
+			,ALT_ATD_PTNR_OPEN
+			,ALT_TOT_BID
+  		) VALUES (
+			#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{CD_PYMT_CNDTN}
+			,#{CD_BID_CRNC}
+			,#{CD_BID_UNIT}
+			,#{TNDR_ATD_CLOSE_DAY}
+			,#{TNDR_ATD_CLOSE_TIME}
+			,#{LPRC_OPEN_PTNR_CNT}
+			,#{TNDR_LOW_AMT}
+			,#{ALT_RFQ_CHG}
+			,#{ALT_PRE_BID}
+			,#{ALT_LOW_FAIL_APLY}
+			,#{ALT_PUR_AMT_APLY}
+			,#{ALT_PUR_AMT_OPEN}
+			,#{ALT_EVAL_STD_OPEN}
+			,#{ALT_CERT}
+			,#{ALT_CNFDNC_OBY_AGRMT}
+			,#{ALT_LPRC_PTNR_OPEN}
+			,#{ALT_LPRC_AMT_OPEN}
+			,#{ALT_TMP_BID}
+			,#{ALT_LST_RFQ}
+			,#{ALT_ATD_PTNR_OPEN}
+			,#{ALT_TOT_BID}
+  		)
+  		]]>
+ 	</insert>
+ 	
+ 	<insert id="tndrItemInsert" parameterType="hashmap">
+  		<!-- 입찰 아이템 INSERT -->
+  		INSERT INTO MM_TNDR_ITEM(
+			TNDR_ITEM_ID
+			,BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,PR_ITEM_ID
+			,RFQ_REQ_ITEM_ID
+			,ITM_NO
+			,CD_FCTRY
+			,STR_CD
+			,MTRL_GRP_ID
+			,MTRL_GRP_NM
+			,SRC_GRP_ID
+			,SRC_GRP_NM
+			,MTRL_CD
+			,MTRL_NM
+			,QTY
+			,CD_UNIT
+			,GOALUNT_PRICE
+			,GOALAMT
+			,AWRD_PRICE
+			,AWRD_AMT
+			,DLV_REQ_DAY
+			,ATTCH_FILE_CNT
+			,RMARK
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+  		) VALUES (
+			#{TNDR_ITEM_ID}
+			,#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{PR_ITEM_ID}
+			,#{RFQ_REQ_ITEM_ID}
+			,#{ITM_NO}
+			,#{CD_FCTRY}
+			,#{STR_CD}
+			,#{MTRL_GRP_ID}
+			,#{MTRL_GRP_NM}
+			,#{SRC_GRP_ID}
+			,#{SRC_GRP_NM}
+			,#{MTRL_CD}
+			,#{MTRL_NM}
+			,#{QTY}
+			,#{CD_UNIT}
+			,#{GOALUNT_PRICE}
+			,#{GOALAMT}
+			,#{AWRD_PRICE}
+			,#{AWRD_AMT}
+			,#{DLV_REQ_DAY}
+			,#{ATTCH_FILE_CNT}
+			,#{RMARK}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+  		)
+	</insert>
+	
+	<insert id="tndrItemAddInsert" parameterType="hashmap">
+  		<!-- 입찰 아이템 추가정보 INSERT -->
+  		INSERT INTO MM_TNDR_ITEM_ADD (
+			TNDR_ITEM_ID
+			,PTNR_ID
+			,DLV_PLC_NM
+			,ZIP_NO
+			,ADDR
+			,DTL_ADDR
+			,FWD_REMARK
+  		) VALUES (
+			#{TNDR_ITEM_ID}
+			,#{PTNR_ID}
+			,#{DLV_PLC_NM}
+			,#{ZIP_NO}
+			,#{ADDR}
+			,#{DTL_ADDR}
+			,#{FWD_REMARK}
+  		)
+	</insert>
+	
+	<insert id="tndrPtnrBidRoundItemInsert" parameterType="hashmap">
+  		<!-- 입찰 [T]입찰.협력사.응찰.이력  INSERT -->
+  		INSERT INTO MM_TNDR_PTNR_BID_ROUND_ITEM (
+			BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,ROUND_SEQ
+			,TNDR_PTNR_ID
+			,PTNR_BID_ITEM_ID
+			,BID_UNIT_PRICE
+			,BID_AMT
+			,BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,ROUND_SEQ
+			,TNDR_PTNR_ID
+			,BIDR_ID
+			,BIDR_NM
+			,BID_DT
+			,BID_AMT
+			,SIGN_DATA
+  		) VALUES (
+			#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{ROUND_SEQ}
+			,#{TNDR_PTNR_ID}
+			,#{PTNR_BID_ITEM_ID}
+			,#{BID_UNIT_PRICE}
+			,#{BID_AMT}
+			,#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{ROUND_SEQ}
+			,#{TNDR_PTNR_ID}
+			,#{BIDR_ID}
+			,#{BIDR_NM}
+			,#{BID_DT}
+			,#{BID_AMT}
+			,#{SIGN_DATA}
+  		)
+	</insert>
+	
+	<insert id="tndrRoundInsert" parameterType="hashmap">
+  		<!-- 입찰 [T]입찰.ROUND  INSERT -->
+  		INSERT INTO MM_TNDR_ROUND (
+			BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,ROUND_SEQ
+			,PRGRS_DAY
+			,BGN_TIME
+			,END_TIME
+			,CD_ROUND_NEXT
+  		) VALUES (
+			#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{ROUND_SEQ}
+			,#{PRGRS_DAY}
+			,#{BGN_TIME}
+			,#{END_TIME}
+			,#{CD_ROUND_NEXT}
+  		)
+	</insert>
+	
+	<insert id="tndrPtnrBidItemInsert" parameterType="hashmap">
+  		<!-- 입찰 [T]입찰.협력사.응찰.품목  INSERT -->
+  		INSERT INTO MM_TNDR_PTNR_BID_ITEM (
+			PTNR_BID_ITEM_ID
+			,TNDR_PTNR_ID
+			,TNDR_ITEM_ID
+			,BID_ODR
+			,BID_UNIT_PRICE
+			,BID_AMT
+			,AWRD_QTY
+			,AWRD_AMT
+			,RMARK
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+  		) VALUES (
+			#{PTNR_BID_ITEM_ID}
+			,#{TNDR_PTNR_ID}
+			,#{TNDR_ITEM_ID}
+			,#{BID_ODR}
+			,#{BID_UNIT_PRICE}
+			,#{BID_AMT}
+			,#{AWRD_QTY}
+			,#{AWRD_AMT}
+			,#{RMARK}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+  		)
+	</insert>
+	
+	<insert id="tndrPtnrInsert" parameterType="hashmap">
+  		<!-- 입찰 [T]입찰.협력사  INSERT -->
+  		INSERT INTO MM_TNDR_PTNR (
+			TNDR_PTNR_ID
+			,BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,PTNR_ID
+			,CD_PTNR_BID_STTS
+			,CD_BID_RSLT
+			,RCVR_ID
+			,RCVR_NM
+			,RCV_DT
+			,BIDR_ID
+			,BIDR_NM
+			,BID_DT
+			,BID_AMT
+			,SIGN_DATA
+			,RMARK
+			,ALT_PRGRS_TARG
+			,ALT_PRGRS_CMPL
+			,TKEY
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+  		) VALUES (
+			#{TNDR_PTNR_ID}
+			,#{BRANCH_CD}
+			,#{TNDR_NO}
+			,#{TNDR_ODR}
+			,#{PTNR_ID}
+			,'ET24REQ'
+			,#{CD_BID_RSLT}
+			,#{RCVR_ID}
+			,#{RCVR_NM}
+			,#{RCV_DT}
+			,#{BIDR_ID}
+			,#{BIDR_NM}
+			,#{BID_DT}
+			,#{BID_AMT}
+			,#{SIGN_DATA}
+			,#{RMARK}
+			,#{ALT_PRGRS_TARG}
+			,#{ALT_PRGRS_CMPL}
+			,#{TKEY}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+  		)
+	</insert>
+	
+	<update id="tndrUpd" parameterType="hashmap">
+		<!--  입찰  업데이트 -->
+		UPDATE MM_TNDR SET
+			CD_TNDR_STTS = #{CD_TNDR_STTS}
+			,CD_DOC_CTGR = #{CD_DOC_CTGR}
+			,CD_TNDR_MTHD = #{CD_TNDR_MTHD}
+			,WRTR_ID = #{WRTR_ID}
+			,WRTR_NM = #{WRTR_NM}
+			,TTL = #{TTL}
+			,RMARK = #{RMARK}
+			,GOALAMT = #{GOALAMT}
+			,AWRD_AMT = #{AWRD_AMT}
+			,APP_DOC_ID = #{APP_DOC_ID}
+			,ROUND_CNT = #{ROUND_CNT}
+			,ATTCH_FILE_CNT = #{ATTCH_FILE_CNT}
+			,TKEY = #{TKEY}
+			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+		AND  TNDR_ODR = #{TNDR_ODR}
+	</update>
+	
+	<update id="tndrAddUpd" parameterType="hashmap">
+		<!--  입찰 추가정보 업데이트 -->
+		UPDATE MM_TNDR_ADD SET
+			ALT_OPEN = #{ALT_OPEN}
+			,ALT_OPEN_EXPLN = #{ALT_OPEN_EXPLN}
+			,OPEN_EXPLN_DAY = #{OPEN_EXPLN_DAY}
+			,OPEN_EXPLN_TIME = #{OPEN_EXPLN_TIME}
+			,OPEN_EXPLN_AREA = #{OPEN_EXPLN_AREA}
+			,OPEN_EXPLN_ATTN_CNDTN = #{OPEN_EXPLN_ATTN_CNDTN}
+			,OPEN_EXPLN_DR_TIME = #{OPEN_EXPLN_DR_TIME}
+			,CHRGR_ID = #{CHRGR_ID}
+			,CHRGR_NM = #{CHRGR_NM}
+			,EMAIL = #{EMAIL}
+			,TEL = #{TEL}
+			,FAX = #{FAX}
+			,CNCL_RSN = #{CNCL_RSN}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+		AND  TNDR_ODR = #{TNDR_ODR}
+	</update>
+	
+	<update id="tndrCondUpd" parameterType="hashmap">
+		<!--  입찰 조건정보 업데이트 -->
+		UPDATE MM_TNDR_COND SET
+			CD_PYMT_CNDTN = #{CD_PYMT_CNDTN}
+			,CD_BID_CRNC = #{CD_BID_CRNC}
+			,CD_BID_UNIT = #{CD_BID_UNIT}
+			,TNDR_ATD_CLOSE_DAY = #{TNDR_ATD_CLOSE_DAY}
+			,TNDR_ATD_CLOSE_TIME = #{TNDR_ATD_CLOSE_TIME}
+			,LPRC_OPEN_PTNR_CNT = #{LPRC_OPEN_PTNR_CNT}
+			,TNDR_LOW_AMT = #{TNDR_LOW_AMT}
+			,ALT_RFQ_CHG = #{ALT_RFQ_CHG}
+			,ALT_PRE_BID = #{ALT_PRE_BID}
+			,ALT_LOW_FAIL_APLY = #{ALT_LOW_FAIL_APLY}
+			,ALT_PUR_AMT_APLY = #{ALT_PUR_AMT_APLY}
+			,ALT_PUR_AMT_OPEN = #{ALT_PUR_AMT_OPEN}
+			,ALT_EVAL_STD_OPEN = #{ALT_EVAL_STD_OPEN}
+			,ALT_CERT = #{ALT_CERT}
+			,ALT_CNFDNC_OBY_AGRMT = #{ALT_CNFDNC_OBY_AGRMT}
+			,ALT_LPRC_PTNR_OPEN = #{ALT_LPRC_PTNR_OPEN}
+			,ALT_LPRC_AMT_OPEN = #{ALT_LPRC_AMT_OPEN}
+			,ALT_TMP_BID = #{ALT_TMP_BID}
+			,ALT_LST_RFQ = #{ALT_LST_RFQ}
+			,ALT_ATD_PTNR_OPEN = #{ALT_ATD_PTNR_OPEN}
+			,ALT_TOT_BID = #{ALT_TOT_BID}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+		AND  TNDR_ODR = #{TNDR_ODR}
+	</update>
+	
+	<update id="tndrItemUpd" parameterType="hashmap">
+		<!--  입찰 아이템 업데이트 -->
+		UPDATE MM_TNDR_ITEM SET
+			TNDR_NO = #{TNDR_NO}
+			,PR_ITEM_ID = #{PR_ITEM_ID}
+			,RFQ_REQ_ITEM_ID = #{RFQ_REQ_ITEM_ID}
+			,ITM_NO = #{ITM_NO}
+			,CD_FCTRY = #{CD_FCTRY}
+			,MTRL_GRP_ID = #{MTRL_GRP_ID}
+			,MTRL_GRP_NM = #{MTRL_GRP_NM}
+			,SRC_GRP_ID = #{SRC_GRP_ID}
+			,SRC_GRP_NM = #{SRC_GRP_NM}
+			,MTRL_CD = #{MTRL_CD}
+			,MTRL_NM = #{MTRL_NM}
+			,QTY = #{QTY}
+			,CD_UNIT = #{CD_UNIT}
+			,GOALUNT_PRICE = #{GOALUNT_PRICE}
+			,GOALAMT = #{GOALAMT}
+			,AWRD_PRICE = #{AWRD_PRICE}
+			,AWRD_AMT = #{AWRD_AMT}
+			,DLV_REQ_DAY = #{DLV_REQ_DAY}
+			,ATTCH_FILE_CNT = #{ATTCH_FILE_CNT}
+			,RMARK = #{RMARK}
+			,CRTR_ID = #{CRTR_ID}
+			,CRT_DT = SYSDATE
+			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_ITEM_ID = #{TNDR_ITEM_ID}
+	</update>
+
+	<update id="tndrItemAddUpd" parameterType="hashmap">
+		<!--  입찰 아이템 추가정보 업데이트 -->
+		UPDATE MM_TNDR_ITEM_ADD SET
+			PTNR_ID = #{PTNR_ID}
+			,DLV_PLC_NM = #{DLV_PLC_NM}
+			,ZIP_NO = #{ZIP_NO}
+			,ADDR = #{ADDR}
+			,DTL_ADDR = #{DTL_ADDR}
+			,FWD_REMARK = #{FWD_REMARK}
+		WHERE   TNDR_ITEM_ID = #{TNDR_ITEM_ID}
+	</update>
+
+
+	<update id="tndrPtnrBidRoundItemUpd" parameterType="hashmap">
+		<!--  입찰 [T]입찰.협력사.응찰.이력 업데이트 -->
+		UPDATE MM_TNDR_PTNR_BID_ROUND_ITEM SET
+			ROUND_SEQ = #{ROUND_SEQ}
+			,TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+			,PTNR_BID_ITEM_ID = #{PTNR_BID_ITEM_ID}
+			,BID_UNIT_PRICE = #{BID_UNIT_PRICE}
+			,BID_AMT = #{BID_AMT}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+	</update>
+
+	<update id="tndrRoundUpd" parameterType="hashmap">
+		<!--  입찰 [T]입찰.ROUND 업데이트 -->
+		UPDATE MM_TNDR_ROUND SET
+			ROUND_SEQ = #{ROUND_SEQ}
+			,PRGRS_DAY = #{PRGRS_DAY}
+			,BGN_TIME = #{BGN_TIME}
+			,END_TIME = #{END_TIME}
+			,CD_ROUND_NEXT = #{CD_ROUND_NEXT}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+	</update>
+
+	<update id="tndrPtnrBidRoundUpd" parameterType="hashmap">
+		<!--  입찰 [T]입찰.협력사.응찰.라운드 업데이트 -->
+		UPDATE MM_TNDR_PTNR_BID_ROUND SET
+			ROUND_SEQ = #{ROUND_SEQ}
+			,TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+			,BIDR_ID = #{BIDR_ID}
+			,BIDR_NM = #{BIDR_NM}
+			,BID_DT = #{BID_DT}
+			,BID_AMT = #{BID_AMT}
+			,SIGN_DATA = #{SIGN_DATA}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+	</update>
+
+	<update id="tndrPtnrBidItemUpd" parameterType="hashmap">
+		<!--  입찰 [T]입찰.협력사.응찰.품목  업데이트 -->
+		UPDATE MM_TNDR_PTNR_BID_ITEM SET
+			AWRD_QTY = DECODE(TNDR_PTNR_ID,#{TNDR_PTNR_ID},#{QTY},0)
+			,AWRD_AMT = DECODE(TNDR_PTNR_ID,#{TNDR_PTNR_ID},#{BID_AMT},0)
+			,LAST_CHG_DT = SYSDATE
+		WHERE  TNDR_ITEM_ID = #{TNDR_ITEM_ID}
+	</update>
+	
+	<update id="tndrNacPtnrUpd" parameterType="hashmap">
+	 <!-- 입찰 낙찰업체 변경시 업체변경  -->
+		UPDATE MM_TNDR_PTNR SET
+			 CD_BID_RSLT = #{CD_BID_RSLT}
+			,LAST_CHGR_ID = #{USER_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+		AND PTNR_ID = #{PTNR_ID}
+	</update>
+
+	<update id="tndrPtnrUpd" parameterType="hashmap">
+		<!--  입찰 [T]입찰.협력사  업데이트 -->
+		UPDATE MM_TNDR_PTNR SET
+			PTNR_ID = #{PTNR_ID}
+			,CD_PTNR_BID_STTS = #{CD_PTNR_BID_STTS}
+			,CD_BID_RSLT = #{CD_BID_RSLT}
+			,RCVR_ID = #{RCVR_ID}
+			,RCVR_NM = #{RCVR_NM}
+			,RCV_DT = #{RCV_DT}
+			,BIDR_ID = #{BIDR_ID}
+			,BIDR_NM = #{BIDR_NM}
+			,BID_DT = #{BID_DT}
+			,BID_AMT = #{BID_AMT}
+			,SIGN_DATA = #{SIGN_DATA}
+			,RMARK = #{RMARK}
+			,ALT_PRGRS_TARG = #{ALT_PRGRS_TARG}
+			,ALT_PRGRS_CMPL = #{ALT_PRGRS_CMPL}
+			,TKEY = #{TKEY}
+			,CRTR_ID = #{CRTR_ID}
+			,CRT_DT = SYSDATE
+			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+		AND BRANCH_CD = #{BRANCH_CD}
+		AND TNDR_NO = #{TNDR_NO}
+	</update>
+
+	<update id="tndrSttsUpd" parameterType="hashmap">
+		<!--  입찰의 상태를 입찰공고 상태로 업데이트 -->
+		UPDATE MM_TNDR SET
+			CD_TNDR_STTS = #{CD_TNDR_STTS}
+			,REQ_DT = SYSDATE
+			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND  TNDR_NO = #{TNDR_NO}
+		AND  TNDR_ODR = #{TNDR_ODR}
+	</update>
+
+	<update id="tndrPtnrSttsUpd" parameterType="hashmap">
+		<!--  입찰 업체의 상태를 입찰공고 상태로 업데이트  -->
+		UPDATE MM_TNDR_PTNR SET
+			CD_PTNR_BID_STTS = 'ET24REQ'
+			,LAST_CHGR_ID = #{USER_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+		AND PTNR_ID = #{PTNR_ID}
+	</update>
+	
+	<update id="tndrItemDel" parameterType="hashmap">
+		<!-- 입찰 아이템 추가정보  삭제 -->
+   		DELETE MM_TNDR_ITEM WHERE  TNDR_ITEM_ID    	=  	#{TNDR_ITEM_ID}
+  	</update>
+
+	<update id="tndrPtnrDel" parameterType="hashmap">
+		<!-- 입찰 아이템 추가정보  삭제 -->
+   		DELETE MM_TNDR_PTNR WHERE  TNDR_PTNR_ID    	=  	#{TNDR_PTNR_ID}
+  	</update>
+
+	<update id="tndrItemAddDel" parameterType="hashmap">
+		<!-- 입찰 아이템 추가정보  삭제 -->
+   		DELETE MM_TNDR_ITEM_ADD WHERE  TNDR_NO    	=  	#{TNDR_NO}
+  	</update>
+
+	<update id="tndrRoundDel" parameterType="hashmap">
+		<!-- 입찰 라운드정보 삭제 -->
+   		DELETE MM_TNDR_ROUND
+   		WHERE  TNDR_NO    	=  	#{TNDR_NO}
+   		AND  TNDR_ODR    	=  	#{TNDR_ODR}
+  	</update>
+
+	<update id="tndrPurItemSttsUpd" parameterType="hashmap">
+		<!--  구매요청아이템 번호가 존재하면 입찰(PR13TND)로 변경한다. -->
+   		UPDATE MM_PR_ITEM
+		SET
+			 CD_PR_ITEM_STTS       		=	'PR13TND'
+			,LAST_CHGR_ID   					=  #{LAST_CHGR_ID}
+			,LAST_CHG_DT    					=  SYSDATE
+		WHERE PR_ITEM_ID      			=  #{PR_ITEM_ID}
+	</update>
+	
+	<!-- 입찰진행 Header 조회  -->
+    <select id = "tndrGoHeaderSrch" parameterType="hashmap" resultType="hashmap">
+	--BTndr.tndrGoHeaderSrch
+	 	SELECT	
+	 			 NVL(SUM(DECODE(CD_TNDR_STTS, 'ET20WRI', 1, 'ET20ING', 1, 'ET20ANI', 1, 'ET20APP', 1, 'ET20ANN', 1,  0)),0) AS TNDR_TOTAL			
+                ,NVL(SUM(DECODE(CD_TNDR_STTS, 'ET20WRI', 1, 0)),0) AS TNDR_WRI
+                ,NVL(SUM(DECODE(CD_TNDR_STTS, 'ET20ING', 1, 0)),0) AS TNDR_ING
+                ,NVL(SUM(DECODE(CD_TNDR_STTS, 'ET20ANI', 1, 0)),0) AS TNDR_ANI
+                ,NVL(SUM(DECODE(CD_TNDR_STTS, 'ET20APP', 1, 0)),0) AS TNDR_APP
+                ,NVL(SUM(DECODE(CD_TNDR_STTS, 'ET20ANN', 1, 0)),0) AS TNDR_ANN
+		  FROM	MM_TNDR
+		 WHERE  BRANCH_CD = #{BRANCH_CD}
+		 AND    WRTR_ID = #{WRTR_ID}
+	</select>
+	
+	<select id="tndrGoSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!-- 입찰진행현황 -->
+  		<include refid="commonService.list-before" />
+		SELECT
+			'0' CHECKED
+			,T.TNDR_NO
+			,T.TNDR_NO AS COREXP_KIDS
+			,T.CD_DOC_CTGR
+			,T.CD_TNDR_STTS
+			,T.TTL
+			,T.ROUND_CNT
+			,T.BRANCH_CD
+			,T.TNDR_ODR
+			,MAX(TR.PRGRS_DAY) PRGRS_DAY
+			,MIN(TR.BGN_TIME) BGN_TIME
+			,MAX(TR.END_TIME) END_TIME
+			,T.GOALAMT
+			,TA.CHRGR_ID
+			,TA.CHRGR_NM
+			,TO_CHAR(T.REQ_DT,'YYYYMMDD') REQ_DT
+			,'' LAST_CHGR_ID
+			,CASE WHEN 	MAX(TR.PRGRS_DAY)||MAX(TR.END_TIME) > TO_CHAR(SYSDATE, 'YYYYMMDDHH24MI')
+                    THEN 'N'
+                    ELSE 'Y'
+             END IS_CLOSE
+             ,(SELECT COUNT(*)
+                FROM MM_TNDR_PTNR
+                WHERE BRANCH_CD =  T.BRANCH_CD
+                AND TNDR_NO = T.TNDR_NO
+                AND TNDR_ODR = T.TNDR_ODR
+             ) TNDR_REQ
+             ,(SELECT COUNT(*)
+                FROM MM_TNDR_PTNR
+                WHERE BRANCH_CD =  T.BRANCH_CD
+                AND TNDR_NO = T.TNDR_NO
+                AND TNDR_ODR = T.TNDR_ODR
+                AND RCV_DT IS NOT NULL
+                AND CD_PTNR_BID_STTS <![CDATA[<>]]>  'ET24REJ'
+             ) TNDR_VIW
+             ,(SELECT COUNT(*)
+                FROM MM_TNDR_PTNR
+                WHERE BRANCH_CD =  T.BRANCH_CD
+                AND TNDR_NO = T.TNDR_NO
+                AND TNDR_ODR = T.TNDR_ODR
+                AND BID_DT IS NOT NULL
+             ) TNDR_CLO
+		FROM MM_TNDR T ,MM_TNDR_ADD TA,MM_TNDR_ROUND TR
+		WHERE T.BRANCH_CD =  TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD =  TR.BRANCH_CD(+)
+		AND T.TNDR_NO = TR.TNDR_NO(+)
+		AND T.TNDR_ODR = TR.TNDR_ODR(+)
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		<if test="ALT_SYSTEM != null and ALT_SYSTEM.equalsIgnoreCase('N')">
+			AND TA.CHRGR_ID IN (SELECT USER_ID FROM MM_MT_USER WHERE DEPT_CD = #{DEPT_CD})
+		</if>
+		<!-- 입찰번호 -->
+		<if test="TNDR_NO != null and TNDR_NO != 'undefined' and TNDR_NO != ''">
+			AND T.TNDR_NO IN
+			<foreach item="TNDR_NO" collection="TndrnoArr" open="(" close=")" separator=",">
+			 	#{TNDR_NO}
+			</foreach>
+		</if>
+		<!-- 입찰상태 -->
+		<if test="CD_TNDR_STTS != null and CD_TNDR_STTS != 'undefined' and CD_TNDR_STTS != ''">
+			AND T.CD_TNDR_STTS =  #{CD_TNDR_STTS}
+		</if>
+		<!-- 입찰상태가 전체이면 공고,진행,심사,품의만 셋팅 -->
+		<if test="CD_TNDR_STTS == ''">
+			AND T.CD_TNDR_STTS IN ('ET20ANI','ET20ANN','ET20APP','ET20ING','ET20WRI')
+		</if>
+
+		<!-- 구매유형 -->
+		<if test="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND T.CD_DOC_CTGR =  #{CD_DOC_CTGR}
+		</if>
+		<!-- 입찰요청명 -->
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND T.TTL LIKE '%'||#{TTL}||'%'
+		</if>
+		<!-- 자재코드 -->
+		<if test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+			AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI
+                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+                    AND TI.TNDR_NO = T.TNDR_NO
+                    AND TI.MTRL_CD =  #{MTRL_CD}
+                    )
+		</if>
+		<!-- 자재명 -->
+		<if test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+			AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI
+                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+                    AND TI.TNDR_NO = T.TNDR_NO
+                    AND TI.MTRL_NM LIKE '%'||#{MTRL_NM}||'%'
+                    )
+		</if>
+		<!-- 예산번호 -->
+		<if test="IM_ODR_NO != null and IM_ODR_NO != 'undefined' and IM_ODR_NO != ''">
+			AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI ,MM_PR_ITEM PI, MM_PR_ITEM_ADD PIA
+                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+                    AND TI.TNDR_NO = T.TNDR_NO
+                    AND TI.BRANCH_CD = PI.BRANCH_CD
+                    AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+                    AND PI.BRANCH_CD = PIA.BRANCH_CD
+                    AND PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+                    AND PIA.IM_ODR_NO =  #{IM_ODR_NO}
+                    )
+		</if>
+		<!-- 담당자ID -->
+		<if test="CHRGR_ID != null and CHRGR_ID != 'undefined' and CHRGR_ID != ''">
+			AND TA.CHRGR_ID =  #{CHRGR_ID}
+		</if>
+		<!-- 담당자명 -->
+		<if test="CHRGR_NM != null and CHRGR_NM != 'undefined' and CHRGR_NM != ''">
+			AND TA.CHRGR_NM LIKE '%'||#{CHRGR_NM}||'%'
+		</if>
+		<!-- 입찰마감일자 시작 -->
+		<if test="STR_PRGRS_DAY != null and STR_PRGRS_DAY != 'undefined' and STR_PRGRS_DAY != ''">
+			AND TR.PRGRS_DAY <![CDATA[>=]]> #{STR_PRGRS_DAY}
+		</if>
+		<!-- 입찰마감일자 종료 -->
+		<if test="END_PRGRS_DAY != null and END_PRGRS_DAY != 'undefined' and END_PRGRS_DAY != ''">
+			AND TR.PRGRS_DAY <![CDATA[<=]]> #{END_PRGRS_DAY}
+		</if>
+		<!-- 입찰요청일자 시작 -->
+		<if test="STR_REQ_DT != null and STR_REQ_DT != 'undefined' and STR_REQ_DT != ''">
+			AND T.REQ_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{STR_REQ_DT}, 'YYYYMMDD'))
+		</if>
+		<!-- 입찰마감일자 종료 -->
+		<if test="END_REQ_DT != null and END_REQ_DT != 'undefined' and END_REQ_DT != ''">
+			AND T.REQ_DT <![CDATA[<]]> TRUNC(TO_DATE(#{END_REQ_DT}, 'YYYYMMDD')+1)
+		</if>
+		GROUP BY T.TNDR_NO,TA.CHRGR_ID,TA.CHRGR_NM,T.CD_DOC_CTGR,T.TNDR_NO,T.CD_TNDR_STTS,T.TTL,T.ROUND_CNT,T.GOALAMT,T.REQ_DT,T.BRANCH_CD,T.TNDR_ODR
+		ORDER BY ''
+		<!-- 정렬조건 -->
+		<if test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+			,${SORT_ITEM1} ${SORT_TYPE1}
+		</if>
+		<if test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+			,${SORT_ITEM2} ${SORT_TYPE2}
+		</if>
+		<if test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+			,${SORT_ITEM3} ${SORT_TYPE3}
+		</if>
+		<if test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+			,${SORT_ITEM4} ${SORT_TYPE4}
+		</if>
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<select id="tndrGoPtnrSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!-- 입찰진행 업체접수 및 응찰현황 팝업  -->
+		SELECT
+			PTNR_ID
+			,GET_PTNRNM(PTNR_ID) TNDR_PTNR_NM
+			,CD_PTNR_BID_STTS
+			,RCVR_NM
+			,RCV_DT
+			,BIDR_NM
+			,BID_DT
+		FROM MM_TNDR_PTNR
+		WHERE TNDR_NO = 	 #{TNDR_NO}
+		AND	TNDR_ODR = 	 #{TNDR_ODR}
+		AND BRANCH_CD = #{BRANCH_CD}
+	</select>
+	
+	<select id="tndrEndSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!-- 입찰결과조회 -->
+  		<include refid="commonService.list-before" />
+		SELECT
+			 T.TNDR_NO
+			,T.TNDR_NO AS COREXP_KIDS
+			,T.TNDR_ODR			
+			,T.BRANCH_CD
+			,T.CD_DOC_CTGR
+			,T.CD_TNDR_STTS
+			,T.TTL
+			,T.ROUND_CNT PRGRS_ROUND
+			,MAX(TR.PRGRS_DAY) PRGRS_DAY
+			,MAX(TR.END_TIME) END_TIME
+			,T.GOALAMT
+			,TA.CHRGR_ID
+			,TA.CHRGR_NM
+			,TO_CHAR(T.REQ_DT,'YYYYMMDD') REQ_DT
+		FROM MM_TNDR T ,MM_TNDR_ADD TA , MM_TNDR_ROUND TR
+		WHERE T.BRANCH_CD =  TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD =  TR.BRANCH_CD
+		AND T.TNDR_NO = TR.TNDR_NO
+		AND T.TNDR_ODR = TR.TNDR_ODR
+		AND T.CD_TNDR_STTS IN ('ET20CLO','ET20CXL','ET20YOO','ET20REE')
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		<if test="ALT_SYSTEM != null and ALT_SYSTEM.equalsIgnoreCase('N')">
+			AND TA.CHRGR_ID IN (SELECT USER_ID FROM MM_MT_USER WHERE DEPT_CD = #{DEPT_CD})
+		</if>
+		<!-- 입찰번호 -->
+		<if test="TNDR_NO != null and TNDR_NO != 'undefined' and TNDR_NO != ''">
+			AND T.TNDR_NO IN
+			<foreach item="TNDR_NO" collection="TndrnoArr" open="(" close=")" separator=",">
+			 	#{TNDR_NO}
+			</foreach>
+		</if>
+		<!-- 입찰상태 -->
+		<if test="CD_TNDR_STTS != null and CD_TNDR_STTS != 'undefined' and CD_TNDR_STTS != ''">
+			AND T.CD_TNDR_STTS =  #{CD_TNDR_STTS}
+		</if>
+		<!-- 구매유형 -->
+		<if test="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND T.CD_DOC_CTGR =  #{CD_DOC_CTGR}
+		</if>
+		<!-- 입찰요청명 -->
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND T.TTL LIKE '%'||#{TTL}||'%'
+		</if>
+		<!-- 자재코드 -->
+		<if test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+			AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI
+                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+                    AND TI.TNDR_NO = T.TNDR_NO
+                    AND TI.MTRL_CD =  #{MTRL_CD}
+                    )
+		</if>
+		<!-- 자재명 -->
+		<if test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+			AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI
+                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+                    AND TI.TNDR_NO = T.TNDR_NO
+                    AND REGEXP_LIKE (TI.MTRL_NM, replace(#{MTRL_NM},' ','|'),'i')
+                    )
+		</if>
+		<if test="IM_ODR_NO != null and IM_ODR_NO != 'undefined' and IM_ODR_NO != ''">
+			AND EXISTS (SELECT * FROM MM_TNDR_ITEM TI ,MM_PR_ITEM PI, MM_PR_ITEM_ADD PIA
+                    WHERE TI.BRANCH_CD = T.BRANCH_CD
+                    AND TI.TNDR_NO = T.TNDR_NO
+                    AND TI.BRANCH_CD = PI.BRANCH_CD
+                    AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+                    AND PI.BRANCH_CD = PIA.BRANCH_CD
+                    AND PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+                    AND PIA.IM_ODR_NO =  #{IM_ODR_NO}
+                    )
+		</if>
+		<!-- 담당자ID -->
+		<if test="CHRGR_ID != null and CHRGR_ID != 'undefined' and CHRGR_ID != ''">
+			AND TA.CHRGR_ID =  #{CHRGR_ID}
+		</if>
+		<!-- 담당자명 -->
+		<if test="CHRGR_NM != null and CHRGR_NM != 'undefined' and CHRGR_NM != ''">
+			AND TA.CHRGR_NM LIKE '%'||#{CHRGR_NM}||'%'
+		</if>
+		<!-- 입찰마감일자 시작 -->
+		<if test="STR_PRGRS_DAY != null and STR_PRGRS_DAY != 'undefined' and STR_PRGRS_DAY != ''">
+			AND TR.PRGRS_DAY <![CDATA[>=]]> #{STR_PRGRS_DAY}
+		</if>
+		<!-- 입찰마감일자 종료 -->
+		<if test="END_PRGRS_DAY != null and END_PRGRS_DAY != 'undefined' and END_PRGRS_DAY != ''">
+			AND TR.PRGRS_DAY <![CDATA[<=]]> #{END_PRGRS_DAY}
+		</if>
+		<!-- 입찰요청일자 시작 -->
+		<if test="STR_REQ_DT != null and STR_REQ_DT != 'undefined' and STR_REQ_DT != ''">
+			AND T.REQ_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{STR_REQ_DT},'YYYYMMDD'))
+		</if>
+		<!-- 입찰마감일자 종료 -->
+		<if test="END_REQ_DT != null and END_REQ_DT != 'undefined' and END_REQ_DT != ''">
+			AND T.REQ_DT <![CDATA[<]]> TRUNC(TO_DATE(#{END_REQ_DT},'YYYYMMDD')+1)
+		</if>
+		GROUP BY T.TNDR_NO,TA.CHRGR_ID,TA.CHRGR_NM,T.CD_DOC_CTGR,T.TNDR_NO,T.TTL,T.ROUND_CNT,T.GOALAMT,T.REQ_DT,T.CD_TNDR_STTS,T.TNDR_ODR,T.BRANCH_CD
+	  	ORDER BY ''
+		
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<update id="tndrEndTndrUpd" parameterType="hashmap">
+		<!--  입찰진행현황에서 재입찰 작성시 기존입찰의 상태를 취소처리한다. -->
+		UPDATE MM_TNDR SET
+			CD_TNDR_STTS = 'ET20REE'
+			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE TNDR_NO	 = #{TNDR_NO}
+		AND BRANCH_CD   	 = #{BRANCH_CD}
+		AND TNDR_ODR   	 = #{TNDR_ODR}
+	</update>
+	
+	<select id="tndrEndTndrSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!-- 입찰결과 업체응찰결과   -->
+		SELECT
+			T.BRANCH_CD
+			,T.TNDR_NO
+			,T.TNDR_NO AS TNDR_COREXP_KIDS
+			,T.CD_TNDR_STTS
+			,T.CD_DOC_CTGR
+			,T.WRTR_ID
+			,T.ATTCH_FILE_CNT
+			,T.TTL
+			,T.WRTR_NM
+			,T.RMARK
+			,T.REQ_DT
+			,T.GOALAMT
+			,T.AWRD_AMT
+			,T.APP_DOC_ID
+			,T.ROUND_CNT
+			,T.CRTR_ID
+			,T.CRT_DT
+			,T.LAST_CHGR_ID
+			,T.LAST_CHG_DT
+			,T.TKEY
+			,T.CD_TNDR_MTHD
+			,T.TNDR_ODR
+			,T.PRGRS_ROUND
+			,T.TNDR_END_DT
+			,TO_NUMBER(T.GOALAMT) - TO_NUMBER(T.AWRD_AMT) FNL_AMT
+			,TA.CLOSED_RMK
+			,(SELECT RFQ_REQ_NO FROM MM_RFQ_ITEM WHERE RFQ_REQ_ITEM_ID = (
+                                        SELECT MAX(TI.RFQ_REQ_ITEM_ID)
+                                        FROM MM_TNDR_ITEM TI
+                                        WHERE TI.BRANCH_CD = T.BRANCH_CD
+                                        AND TI.TNDR_NO = T.TNDR_NO
+                                        AND TI.TNDR_ODR = T.TNDR_ODR
+                                        )
+			) RFQ_REQ_NO
+			,(SELECT RFQ_ODR FROM MM_RFQ_ITEM WHERE RFQ_REQ_ITEM_ID = (
+                                        SELECT MAX(TI.RFQ_REQ_ITEM_ID)
+                                        FROM MM_TNDR_ITEM TI
+                                        WHERE TI.BRANCH_CD = T.BRANCH_CD
+                                        AND TI.TNDR_NO = T.TNDR_NO
+                                        AND TI.TNDR_ODR = T.TNDR_ODR
+                                        )
+			) RFQ_ODR
+			,(
+		    	SELECT
+		    		MAX(PR_REQ_DAY)
+		    	FROM MM_TNDR_ITEM TI, MM_PR P, MM_PR_ITEM PI
+		    	WHERE P.PR_NO = PI.PR_NO
+		    	AND PI.PR_ITEM_ID = TI.PR_ITEM_ID
+		    	AND TI.BRANCH_CD = #{BRANCH_CD}
+				AND TI.TNDR_NO = #{TNDR_NO}
+				AND TI.TNDR_ODR = #{TNDR_ODR}
+		    ) PR_REQ_DAY
+		    ,'' AS PO_DAY
+		    ,TC.ALT_TOT_BID
+		    ,'' AS RFQ_TKEY
+		    ,'' AS CNTR_COREXP_KIDS
+		    ,'' AS RFQ_COREXP_KIDS
+		    ,'' AS PO_COREXP_KIDS
+		    ,'' AS CNTR_NO 
+		    ,'' AS PO_NO
+		    ,'' AS USER_ID
+		FROM MM_TNDR T, MM_TNDR_ADD TA, MM_TNDR_COND TC
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = 	 #{TNDR_NO}
+		AND T.TNDR_ODR = 	 #{TNDR_ODR}
+	</select>
+
+	<select id="tndrEndPtnrSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!-- 입찰결과 업체응찰결과   -->
+		SELECT AL.* ,ROWNUM LANKING FROM(
+			SELECT
+			   '0' CHECKED
+			    ,TP.TNDR_NO
+			    ,TP.PTNR_ID
+			    ,GET_PTNRNM(TP.PTNR_ID) TNDR_PTNR_NM
+			    ,TP.BIDR_NM
+			    ,TO_CHAR(TP.BID_DT,'YYYY.MM.DD HH24:MI') AS BID_DT
+                ,NVL(RP.RFQ_AMT,0) RFQ_AMT
+			    ,NVL(TP.BID_AMT,0) BID_AMT
+			    ,TP.CD_BID_RSLT
+			    ,TP.TNDR_ODR
+			    ,TP.BRANCH_CD
+			    ,TP.TNDR_PTNR_ID
+			    ,'' USER_ID
+			FROM MM_TNDR_PTNR TP , MM_RFQ_PTNR RP
+			WHERE TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+			AND TP.BRANCH_CD = #{BRANCH_CD}
+			AND TP.TNDR_NO = 	 #{TNDR_NO}
+			AND TP.TNDR_ODR = 	 #{TNDR_ODR}
+			ORDER BY TP.BID_AMT ASC
+		)	AL
+	</select>
+
+	<select id="tndrEndPtnrItemSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!-- 입찰결과 업체응찰결과 자재정보   -->
+		SELECT
+			TI.MTRL_CD
+			,TI.MTRL_NM
+			,TI.QTY
+			,TI.CD_UNIT
+			,TI.GOALAMT
+			,AL.TNDR_PTNR_ID
+			,AL.PTNR_BID_ITEM_ID
+			,NVL(AL.BID_UNIT_PRICE,0) BID_UNIT_PRICE
+			,NVL(AL.BID_AMT,0) BID_AMT
+			,(SELECT
+                MAX(RPQ.RFQ_PRICE) RFQ_PRICE
+                FROM MM_RFQ_PTNR RP , MM_RFQ_PTNR_QUOTE RPQ, MM_RFQ_ITEM RI
+                WHERE RP.RFQ_PTNR_ID = RPQ.RFQ_PTNR_ID
+                AND RI.RFQ_REQ_ITEM_ID = RPQ.RFQ_REQ_ITEM_ID
+                AND TI.RFQ_REQ_ITEM_ID = RI.RFQ_REQ_ITEM_ID(+)
+            ) RFQ_PRICE			
+            ,TP.PTNR_ID
+			,(SELECT PTNR_NM FROM MM_PTNR WHERE PTNR_ID = TP.PTNR_ID) TNDR_PTNR_NM
+			,'' AS CD_CNST_TYPE
+			,TI.PR_ITEM_ID
+		FROM
+				(
+				SELECT
+				PTNR_BID_ITEM_ID
+				,TNDR_PTNR_ID
+				,MIN(BID_UNIT_PRICE)  BID_UNIT_PRICE
+				,MIN(BID_AMT) BID_AMT
+				FROM MM_TNDR_PTNR_BID_ROUND_ITEM
+				WHERE TNDR_NO = #{TNDR_NO}
+				AND TNDR_ODR =#{TNDR_ODR}
+				AND BRANCH_CD = #{BRANCH_CD}
+				GROUP BY TNDR_PTNR_ID , PTNR_BID_ITEM_ID
+				) AL
+				,MM_TNDR T
+				,MM_TNDR_PTNR TP
+				,MM_TNDR_PTNR_BID_ITEM TPBI
+				,MM_TNDR_ITEM TI
+				WHERE T.TNDR_NO = TP.TNDR_NO
+				AND T.TNDR_ODR = TP.TNDR_ODR
+				AND T.BRANCH_CD = TP.BRANCH_CD
+				AND AL.TNDR_PTNR_ID = TP.TNDR_PTNR_ID
+				AND AL.PTNR_BID_ITEM_ID = TPBI.PTNR_BID_ITEM_ID
+				AND TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+				ORDER BY TI.MTRL_CD ASC ,  TP.PTNR_ID ASC
+	</select>
+	
+	<select id="tndSndMail" parameterType="hashmap" resultType="hashmap" >
+		 	SELECT
+		        MU.EMAIL
+		        ,MU.USER_NM
+		        ,MU.USER_ID
+		        ,MU.BRANCH_CD
+		        ,MU.ALT_SMS_RCV -- SMS 수신여부
+    			,MU.ALT_MAIL_RCV -- 메일 수신여부
+    			,MUP.ALT_TNDR_MAIL_RCV -- 입찰메일 수신여부
+    			,MUP.ALT_PO_MAIL_RCV -- 발주메일 수신여부
+    			,SUBSTRB('[e-Purchasing, 입찰공지] ' || PRGRS_DAY || '~' || SUBSTR(PRGRS_END_DAY,12,16) || ' 까지, ' || TTL,0,90) SMS_MSG
+		        ,AL.*
+		        FROM MM_MT_USER MU , MM_MT_USER_PSN MUP ,
+		        (
+				SELECT
+					T.TNDR_NO--입찰번호
+					,T.TTL--입찰명
+					,TA.CHRGR_ID	SEND_USER_ID
+					,TA.CHRGR_NM--입찰담당자
+					,TA.TEL CHRGR_TEL
+					,TA.EMAIL CHRGR_EMAIL
+					,TO_CHAR(TO_DATE(TC.TNDR_ATD_CLOSE_DAY||TC.TNDR_ATD_CLOSE_TIME,'YYYY.MM.DD HH24:MI:SS'),'YYYY.MM.DD HH24:MI')  TNDR_ATD_CLOSE_DAY --참여마감일자
+					,TO_CHAR(TO_DATE(MIN(TR.PRGRS_DAY)||MIN(TR.BGN_TIME),'YYYY.MM.DD HH24:MI:SS'),'YYYY.MM.DD HH24:MI')  PRGRS_DAY --최초입찰가능일자
+					,TO_CHAR(TO_DATE(MAX(TR.PRGRS_DAY)||MAX(TR.END_TIME),'YYYY.MM.DD HH24:MI:SS'),'YYYY.MM.DD HH24:MI')  PRGRS_END_DAY --최초입찰가능일자
+					,TP.PTNR_ID
+				FROM MM_TNDR T , MM_TNDR_ADD TA , MM_TNDR_COND TC ,MM_TNDR_ROUND TR ,MM_TNDR_PTNR TP
+				WHERE T.BRANCH_CD = TA.BRANCH_CD
+				AND T.TNDR_NO = TA.TNDR_NO
+				AND T.TNDR_ODR = TA.TNDR_ODR
+				AND T.BRANCH_CD = TC.BRANCH_CD
+				AND T.TNDR_NO = TC.TNDR_NO
+				AND T.TNDR_ODR = TC.TNDR_ODR
+				AND T.BRANCH_CD = TA.BRANCH_CD
+				AND T.TNDR_NO = TA.TNDR_NO
+				AND T.TNDR_ODR = TA.TNDR_ODR
+				AND T.BRANCH_CD = TR.BRANCH_CD
+				AND T.TNDR_NO = TR.TNDR_NO
+				AND T.TNDR_ODR = TR.TNDR_ODR
+				AND T.BRANCH_CD = TP.BRANCH_CD
+				AND T.TNDR_NO = TP.TNDR_NO
+				AND T.TNDR_ODR = TP.TNDR_ODR
+				AND T.TNDR_NO =  #{TNDR_NO}
+				AND T.TNDR_ODR = #{TNDR_ODR}
+				AND T.BRANCH_CD = #{BRANCH_CD}
+				GROUP BY T.BRANCH_CD
+		                ,TP.PTNR_ID
+				        ,TC.TNDR_ATD_CLOSE_DAY
+				        ,TC.TNDR_ATD_CLOSE_TIME
+				        ,T.TNDR_NO--입찰번호
+				        ,T.TTL--입찰명
+				        ,TA.CHRGR_NM--입찰담당자
+				        ,TA.TEL
+				        ,TA.EMAIL
+				        ,TA.CHRGR_ID
+				        ) AL
+		        WHERE MU.PTNR_ID = AL.PTNR_ID
+		        AND MU.BRANCH_CD = MUP.BRANCH_CD
+				AND MU.USER_ID = MUP.USER_ID
+		        AND MU.BRANCH_CD = 'SUPP'
+		        AND MU.ALT_MAIL_RCV = 'Y'
+	</select>
+
+
+
+
+   	<insert id="tndrReInsert" parameterType="hashmap">
+  		<!-- 입찰 재작성 INSERT -->
+			INSERT INTO MM_TNDR(
+				BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR
+				,CD_TNDR_STTS
+				,CD_DOC_CTGR
+				,CD_TNDR_MTHD
+				,WRTR_ID
+				,WRTR_NM
+				,TTL
+				,RMARK
+				,GOALAMT
+				,AWRD_AMT
+				,TKEY
+				,PRGRS_ROUND
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+			)(
+				SELECT
+					BRANCH_CD
+					,TNDR_NO
+					,TNDR_ODR+1
+					,'ET20WRI'
+					,CD_DOC_CTGR
+					,CD_TNDR_MTHD
+					,WRTR_ID
+					,WRTR_NM
+					,TTL
+					,RMARK
+					,GOALAMT
+					,AWRD_AMT
+					,TKEY
+					,'1'
+					,CRTR_ID
+					,SYSDATE
+					,LAST_CHGR_ID
+					,SYSDATE
+					FROM MM_TNDR
+					WHERE TNDR_NO = #{TNDR_NO}
+				AND TNDR_ODR = (SELECT MAX(TNDR_ODR) AS TNDR_ODR
+                                FROM MM_TNDR
+                                WHERE TNDR_NO = #{TNDR_NO}
+                                AND BRANCH_CD = #{BRANCH_CD})
+				AND BRANCH_CD = #{BRANCH_CD}
+			)
+	</insert>
+   	<insert id="tndrReInsertAdd" parameterType="hashmap">
+  		<!-- 입찰 재작성 추가정보 INSERT -->
+			INSERT INTO MM_TNDR_ADD(
+				BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR
+				,ALT_OPEN
+				,ALT_OPEN_EXPLN
+				,OPEN_EXPLN_DAY
+				,OPEN_EXPLN_TIME
+				,OPEN_EXPLN_AREA
+				,OPEN_EXPLN_ATTN_CNDTN
+				,OPEN_EXPLN_DR_TIME
+				,CHRGR_ID
+				,CHRGR_NM
+				,EMAIL
+				,TEL
+				,FAX
+				,CNCL_RSN
+			)(
+				SELECT
+					BRANCH_CD
+					,TNDR_NO
+					,TNDR_ODR+1
+					,ALT_OPEN
+					,ALT_OPEN_EXPLN
+					,OPEN_EXPLN_DAY
+					,OPEN_EXPLN_TIME
+					,OPEN_EXPLN_AREA
+					,OPEN_EXPLN_ATTN_CNDTN
+					,OPEN_EXPLN_DR_TIME
+					,CHRGR_ID
+					,CHRGR_NM
+					,EMAIL
+					,TEL
+					,FAX
+					,CNCL_RSN
+				FROM MM_TNDR_ADD
+				WHERE TNDR_NO = #{TNDR_NO}
+				AND TNDR_ODR = #{TNDR_ODR}
+				AND BRANCH_CD = #{BRANCH_CD}
+			)
+	</insert>
+   	<insert id="tndrReInsertCond" parameterType="hashmap">
+  		<!-- 입찰 재작성 컨티션 INSERT -->
+			INSERT INTO MM_TNDR_COND(
+				BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR
+				,CD_PYMT_CNDTN
+				,CD_BID_CRNC
+				,CD_BID_UNIT
+				,TNDR_ATD_CLOSE_DAY
+				,TNDR_ATD_CLOSE_TIME
+				,LPRC_OPEN_PTNR_CNT
+				,TNDR_LOW_AMT
+				,ALT_RFQ_CHG
+				,ALT_PRE_BID
+				,ALT_LOW_FAIL_APLY
+				,ALT_PUR_AMT_APLY
+				,ALT_PUR_AMT_OPEN
+				,ALT_EVAL_STD_OPEN
+				,ALT_CERT
+				,ALT_CNFDNC_OBY_AGRMT
+				,ALT_LPRC_PTNR_OPEN
+				,ALT_LPRC_AMT_OPEN
+				,ALT_TMP_BID
+				,ALT_LST_RFQ
+				,ALT_ATD_PTNR_OPEN
+				,ALT_TOT_BID
+			)(
+				SELECT
+					BRANCH_CD
+					,TNDR_NO
+					,TNDR_ODR+1
+					,CD_PYMT_CNDTN
+					,CD_BID_CRNC
+					,CD_BID_UNIT
+					,TNDR_ATD_CLOSE_DAY
+					,TNDR_ATD_CLOSE_TIME
+					,LPRC_OPEN_PTNR_CNT
+					,TNDR_LOW_AMT
+					,ALT_RFQ_CHG
+					,ALT_PRE_BID
+					,ALT_LOW_FAIL_APLY
+					,ALT_PUR_AMT_APLY
+					,ALT_PUR_AMT_OPEN
+					,ALT_EVAL_STD_OPEN
+					,ALT_CERT
+					,ALT_CNFDNC_OBY_AGRMT
+					,ALT_LPRC_PTNR_OPEN
+					,ALT_LPRC_AMT_OPEN
+					,ALT_TMP_BID
+					,ALT_LST_RFQ
+					,ALT_ATD_PTNR_OPEN
+					,ALT_TOT_BID
+				FROM MM_TNDR_COND
+				WHERE TNDR_NO = #{TNDR_NO}
+				AND TNDR_ODR = #{TNDR_ODR}
+				AND BRANCH_CD = #{BRANCH_CD}
+			)
+	</insert>
+
+	<insert id="tndrReInsertPtnr" parameterType="hashmap">
+  		<!-- 입찰 재작성 컨티션 INSERT -->
+			INSERT INTO MM_TNDR_PTNR(
+				TNDR_PTNR_ID
+				,BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR
+				,PTNR_ID
+				,CD_PTNR_BID_STTS
+				,RMARK
+				,ALT_PRGRS_TARG
+				,ALT_PRGRS_CMPL
+				,TKEY
+				,RFQ_PTNR_ID
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+			)(
+			SELECT
+				MM_TNDR_PTNR_SEQ.NEXTVAL
+				,BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR+1
+				,PTNR_ID
+				,'ET24REQ'
+				,RMARK
+				,ALT_PRGRS_TARG
+				,ALT_PRGRS_CMPL
+				,TKEY
+				,RFQ_PTNR_ID
+				,CRTR_ID
+				,SYSDATE
+				,LAST_CHGR_ID
+				,SYSDATE
+			FROM MM_TNDR_PTNR
+			WHERE TNDR_NO = #{TNDR_NO}
+			AND TNDR_ODR = #{TNDR_ODR}
+			AND BRANCH_CD = #{BRANCH_CD}
+			)
+  		</insert>
+
+	<insert id="tndrReInsertItem" parameterType="hashmap">
+  		<!-- 입찰 재작성 컨티션 INSERT -->
+			INSERT INTO MM_TNDR_ITEM (
+				TNDR_ITEM_ID
+				,BRANCH_CD
+				,TNDR_NO
+				,TNDR_ODR
+				,PR_ITEM_ID
+				,RFQ_REQ_ITEM_ID
+				,ITM_NO
+				,CD_FCTRY
+				,STR_CD
+				,MTRL_GRP_ID
+				,MTRL_GRP_NM
+				,SRC_GRP_ID
+				,SRC_GRP_NM
+				,MTRL_CD
+				,MTRL_NM
+				,QTY
+				,CD_UNIT
+				,GOALUNT_PRICE
+				,GOALAMT
+				,AWRD_PRICE
+				,AWRD_AMT
+				,DLV_REQ_DAY
+				,ATTCH_FILE_CNT
+				,RMARK
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+			) VALUES (
+				#{TNDR_ITEM_ID}
+				,#{BRANCH_CD}
+				,#{TNDR_NO}
+				,#{TNDR_ODR}+1
+				,#{PR_ITEM_ID}
+				,#{RFQ_REQ_ITEM_ID}
+				,#{ITM_NO}
+				,#{CD_FCTRY}
+				,#{STR_CD}
+				,#{MTRL_GRP_ID}
+				,#{MTRL_GRP_NM}
+				,#{SRC_GRP_ID}
+				,#{SRC_GRP_NM}
+				,#{MTRL_CD}
+				,#{MTRL_NM}
+				,#{QTY}
+				,#{CD_UNIT}
+				,#{GOALUNT_PRICE}
+				,#{GOALAMT}
+				,#{AWRD_PRICE}
+				,#{AWRD_AMT}
+				,#{DLV_REQ_DAY}
+				,#{ATTCH_FILE_CNT}
+				,#{RMARK}
+				,#{CRTR_ID}
+				,SYSDATE
+				,#{LAST_CHGR_ID}
+				,SYSDATE
+			)
+	</insert>
+	<insert id="tndrReInsertItemAdd" parameterType="hashmap">
+  		<!-- 입찰 재작성 컨티션 INSERT -->
+  		INSERT INTO MM_TNDR_ITEM_ADD(
+			TNDR_ITEM_ID
+			,PTNR_ID
+			,DLV_PLC_NM
+			,ZIP_NO
+			,ADDR
+			,DTL_ADDR
+			,FWD_REMARK
+		) VALUES (
+			#{TNDR_ITEM_ID}
+			,#{PTNR_ID}
+			,#{DLV_PLC_NM}
+			,#{ZIP_NO}
+			,#{ADDR}
+			,#{DTL_ADDR}
+			,#{FWD_REMARK}
+		)
+	</insert>
+
+	<insert id="tndrReRfxInsert" parameterType="hashmap">
+		INSERT INTO MM_RFQ(
+			BRANCH_CD
+			,RFQ_REQ_NO
+			,RFQ_ODR
+			,CD_RFQ_STTS
+			,CD_DOC_CTGR
+			,CD_RFQ_AIM
+			,WRTR_ID
+			,WRTR_NM
+			,GOALAMT
+			,TTL
+			,RMARK
+			,ATTCH_FILE_CNT
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+			,RFQ_CLOSE_DAY
+			,RFQ_CLOSE_TIME
+			,TKEY
+		)(
+			SELECT
+				R.BRANCH_CD
+				,R.RFQ_REQ_NO
+				,(
+                    SELECT
+                        MAX(RFQ_ODR)+1
+                    FROM MM_RFQ
+                    WHERE BRANCH_CD = R.BRANCH_CD
+                    AND RFQ_REQ_NO = R.RFQ_REQ_NO
+                )
+				,'ET10WRI'
+				,R.CD_DOC_CTGR
+				,'ET27LST'
+				,MAX(R.CRTR_ID)
+				,GET_USERNM(MAX(R.CRTR_ID),R.BRANCH_CD, NULL)
+				,R.GOALAMT
+				,R.TTL
+				,R.RMARK
+				,R.ATTCH_FILE_CNT
+				,MAX(R.CRTR_ID)
+				,SYSDATE
+				,MAX(R.LAST_CHGR_ID)
+				,SYSDATE
+				,TO_CHAR(SYSDATE,'YYYYMMDD')
+				,'23'
+				,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			FROM MM_RFQ R , MM_RFQ_ITEM RI
+			WHERE R.BRANCH_CD = RI.BRANCH_CD
+			AND R.RFQ_REQ_NO = RI.RFQ_REQ_NO
+			AND R.RFQ_ODR = RI.RFQ_ODR
+			AND RI.RFQ_REQ_ITEM_ID = (
+										SELECT
+											MAX(RFQ_REQ_ITEM_ID)
+										FROM MM_TNDR_ITEM
+										WHERE BRANCH_CD = #{BRANCH_CD}
+										AND TNDR_NO = #{TNDR_NO}
+										AND TNDR_ODR = #{TNDR_ODR}
+									)
+			GROUP BY R.BRANCH_CD
+				,R.RFQ_ODR
+				,R.CD_DOC_CTGR
+				,R.CD_RFQ_AIM
+				,R.GOALAMT
+				,R.TTL
+				,R.RMARK
+				,R.ATTCH_FILE_CNT
+				,R.RFQ_REQ_NO
+		)
+	</insert>
+	
+	<insert id="tndrReRfxAddInsert" parameterType="hashmap">
+				INSERT INTO MM_RFQ_ADD(
+				BRANCH_CD
+				,RFQ_REQ_NO
+				,RFQ_ODR
+				,CD_OPEN_TYPE
+				,CD_RFQ_CRNC
+				,CD_RFQ_SBMT_MTHD
+				,RFQ_SBMT_PLC
+				,ALT_RFQ_OPEN
+				,ALT_RFQ_EXPLN_ACT
+				,ALT_RFQ_EXPLN_NXT_NTC
+				,ALT_TARG_CORP_OPEN
+				,ALT_RFQ_RSLT_OPEN
+				,ALT_BDGT_OPEN
+				,ALT_RFQ_PRICE_SBMT
+				,ALT_OPEN_EXPLN
+				,ALT_CERT
+				,ALT_SVC_RFQ
+				,ALT_SVC_DTL_BID
+				,ALT_QTY_OPEN
+				,OPEN_EXPLN_DAY
+				,OPEN_EXPLN_TIME
+				,OPEN_EXPLN_AREA
+				,OPEN_EXPLN_ATTN_CNDTN
+				,OPEN_EXPLN_DR_TIME
+				,CHRGR_ID
+				,CHRGR_NM
+				,EMAIL
+				,TEL
+				,FAX
+				,CNCL_RSN
+				,TNDR_NO
+				,TNDR_ODR
+				)	(
+					 SELECT
+					RA.BRANCH_CD
+					,RA.RFQ_REQ_NO
+					,(
+	                    SELECT
+	                        MAX(RFQ_ODR)
+	                    FROM MM_RFQ
+	                    WHERE BRANCH_CD = R.BRANCH_CD
+	                    AND RFQ_REQ_NO = R.RFQ_REQ_NO
+                	)
+					,RA.CD_OPEN_TYPE
+					,RA.CD_RFQ_CRNC
+					,RA.CD_RFQ_SBMT_MTHD
+					,RA.RFQ_SBMT_PLC
+					,RA.ALT_RFQ_OPEN
+					,RA.ALT_RFQ_EXPLN_ACT
+					,RA.ALT_RFQ_EXPLN_NXT_NTC
+					,RA.ALT_TARG_CORP_OPEN
+					,RA.ALT_RFQ_RSLT_OPEN
+					,RA.ALT_BDGT_OPEN
+					,RA.ALT_RFQ_PRICE_SBMT
+					,RA.ALT_OPEN_EXPLN
+					,RA.ALT_CERT
+					,RA.ALT_SVC_RFQ
+					,RA.ALT_SVC_DTL_BID
+					,RA.ALT_QTY_OPEN
+					,RA.OPEN_EXPLN_DAY
+					,RA.OPEN_EXPLN_TIME
+					,RA.OPEN_EXPLN_AREA
+					,RA.OPEN_EXPLN_ATTN_CNDTN
+					,RA.OPEN_EXPLN_DR_TIME
+					,RA.CHRGR_ID
+					,RA.CHRGR_NM
+					,RA.EMAIL
+					,RA.TEL
+					,RA.FAX
+					,RA.CNCL_RSN
+					,#{TNDR_NO}
+					,#{TNDR_ODR}
+					FROM MM_RFQ R , MM_RFQ_ADD RA
+					WHERE R.BRANCH_CD = RA.BRANCH_CD
+					AND R.RFQ_REQ_NO = RA.RFQ_REQ_NO
+					AND R.RFQ_ODR = RA.RFQ_ODR
+					AND (RA.RFQ_REQ_NO ,RA.RFQ_ODR) = (
+				                                        SELECT
+				                                        MAX(RFQ_REQ_NO) , MAX(RFQ_ODR)
+				                                        FROM MM_RFQ_ITEM
+				                                        WHERE RFQ_REQ_ITEM_ID =
+			                                            	(
+					                                            SELECT
+					                                                MAX(RFQ_REQ_ITEM_ID)
+					                                            FROM MM_TNDR_ITEM
+					                                            WHERE BRANCH_CD = #{BRANCH_CD}
+					                                            AND TNDR_NO = #{TNDR_NO}
+					                                            AND TNDR_ODR = #{TNDR_ODR}
+			                                        		)
+                        )
+
+		)
+	</insert>
+	
+	<insert id="tndrReRfxPtnrInsert" parameterType="hashmap">
+			INSERT INTO MM_RFQ_PTNR(
+					RFQ_PTNR_ID
+					,BRANCH_CD
+					,RFQ_REQ_NO
+					,RFQ_ODR
+					,PTNR_ID
+					,CD_RFQ_CRNC
+					,CD_RFQ_SUBM_STTS
+					,RMARK
+					,RFQ_AMT
+					,CRTR_ID
+					,CRT_DT
+					,LAST_CHGR_ID
+					,LAST_CHG_DT
+					) (
+					SELECT
+					MM_RFQ_PTNR_SEQ.NEXTVAL
+					,RP.BRANCH_CD
+					,RP.RFQ_REQ_NO
+					,(
+	                    SELECT
+	                        MAX(RFQ_ODR)
+	                    FROM MM_RFQ
+	                    WHERE BRANCH_CD = R.BRANCH_CD
+	                    AND RFQ_REQ_NO = R.RFQ_REQ_NO
+                	)
+					,RP.PTNR_ID
+					,RP.CD_RFQ_CRNC
+					,'ET11REQ'
+					,R.RMARK
+					,RP.RFQ_AMT
+					,R.CRTR_ID
+					,SYSDATE
+					,R.CRTR_ID
+					,SYSDATE
+					FROM MM_RFQ R , MM_RFQ_PTNR RP
+					WHERE R.BRANCH_CD = RP.BRANCH_CD
+					AND R.RFQ_REQ_NO = RP.RFQ_REQ_NO
+					AND R.RFQ_ODR = RP.RFQ_ODR
+					AND (R.RFQ_REQ_NO ,R.RFQ_ODR) = (
+				                                        SELECT
+				                                        MAX(RFQ_REQ_NO) , MAX(RFQ_ODR)
+				                                        FROM MM_RFQ_ITEM
+				                                        WHERE RFQ_REQ_ITEM_ID =
+												                                            	(
+														                                            SELECT
+														                                                MAX(RFQ_REQ_ITEM_ID)
+														                                            FROM MM_TNDR_ITEM
+														                                            WHERE BRANCH_CD = #{BRANCH_CD}
+														                                            AND TNDR_NO = #{TNDR_NO}
+														                                            AND TNDR_ODR = #{TNDR_ODR}
+												                                        		)
+				                                    )
+					AND RP.PTNR_ID =   (
+                    																				SELECT PTNR_ID
+                                                                                                    FROM MM_TNDR_PTNR
+                                                                                                    WHERE BRANCH_CD = #{BRANCH_CD}
+														                                            AND TNDR_NO  = #{TNDR_NO}
+														                                            AND TNDR_ODR = #{TNDR_ODR}
+                                                                                                    AND CD_BID_RSLT = 'ET25AWD'
+                    )
+
+					)
+	</insert>
+
+	<insert id="tndrReRfxItemInsert" parameterType="hashmap">
+			INSERT INTO MM_RFQ_ITEM (
+				RFQ_REQ_ITEM_ID
+				,BRANCH_CD
+				,RFQ_REQ_NO
+				,RFQ_ODR
+				,PR_ITEM_ID
+				,ITM_NO
+				,CD_FCTRY
+				,STR_CD
+				,MTRL_GRP_ID
+				,MTRL_GRP_NM
+				,SRC_GRP_ID
+				,SRC_GRP_NM
+				,MTRL_CD
+				,MTRL_NM
+				,QTY
+				,CD_UNIT
+				,GOALUNT_PRICE
+				,GOALAMT
+				,DLV_REQ_DAY
+				,ATTCH_FILE_CNT
+				,RMARK
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+			)(
+				SELECT
+					#{NEW_RFQ_REQ_ITEM_ID}
+					,RI.BRANCH_CD
+					,RI.RFQ_REQ_NO
+					,(
+	                    SELECT
+	                        MAX(RFQ_ODR)
+	                    FROM MM_RFQ
+	                    WHERE BRANCH_CD = RI.BRANCH_CD
+	                    AND RFQ_REQ_NO = RI.RFQ_REQ_NO
+                	)
+					,RI.PR_ITEM_ID
+					,RI.ITM_NO
+					,RI.CD_FCTRY
+					,RI.STR_CD
+					,RI.MTRL_GRP_ID
+					,RI.MTRL_GRP_NM
+					,RI.SRC_GRP_ID
+					,RI.SRC_GRP_NM
+					,RI.MTRL_CD
+					,RI.MTRL_NM
+					,RI.QTY
+					,RI.CD_UNIT
+					,RI.GOALUNT_PRICE
+					,RI.GOALAMT
+					,RI.DLV_REQ_DAY
+					,RI.ATTCH_FILE_CNT
+					,RI.RMARK
+					,RI.CRTR_ID
+					,SYSDATE
+					,RI.CRTR_ID
+					,SYSDATE
+			FROM MM_TNDR_ITEM TI , MM_RFQ_ITEM RI
+			WHERE TI.BRANCH_CD = RI.BRANCH_CD
+			AND TI.RFQ_REQ_ITEM_ID = RI.RFQ_REQ_ITEM_ID
+			AND TI.RFQ_REQ_ITEM_ID  = #{RFQ_REQ_ITEM_ID}
+			AND TI.BRANCH_CD = #{BRANCH_CD}
+			AND TI.TNDR_NO = #{TNDR_NO}
+			AND TI.TNDR_ODR = #{TNDR_ODR}
+			)
+	</insert>
+
+	<insert id="tndrReRfxItemAddInsert" parameterType="hashmap">
+			INSERT INTO MM_RFQ_ITEM_ADD (
+				RFQ_REQ_ITEM_ID
+				,PTNR_ID
+				,DLV_PLC_NM
+				,ZIP_NO
+				,ADDR
+				,DTL_ADDR
+				,FWD_REMARK
+				,SRCH_KEY
+				,SPEC_FILE_NO
+			) (
+				SELECT
+					#{NEW_RFQ_REQ_ITEM_ID}
+					,RA.PTNR_ID
+					,RA.DLV_PLC_NM
+					,RA.ZIP_NO
+					,RA.ADDR
+					,RA.DTL_ADDR
+					,RA.FWD_REMARK
+					,RA.SRCH_KEY
+					,RA.SPEC_FILE_NO
+				FROM MM_TNDR_ITEM TI , MM_RFQ_ITEM_ADD RA
+				WHERE TI.RFQ_REQ_ITEM_ID = RA.RFQ_REQ_ITEM_ID
+				AND TI.RFQ_REQ_ITEM_ID = RA.RFQ_REQ_ITEM_ID
+				AND TI.RFQ_REQ_ITEM_ID   = #{RFQ_REQ_ITEM_ID}
+				AND TI.BRANCH_CD = #{BRANCH_CD}
+				AND TI.TNDR_NO = #{TNDR_NO}
+				AND TI.TNDR_ODR = #{TNDR_ODR}
+			)
+
+	</insert>
+
+  	<update id="tndrCnlTndr" parameterType="hashmap">
+		<!-- 낙찰취소 처리 -->
+		UPDATE MM_TNDR SET
+		    CD_TNDR_STTS = 'ET20CXL'
+		WHERE BRANCH_CD =  #{BRANCH_CD}
+		AND TNDR_NO = 		#{TNDR_NO}
+		AND TNDR_ODR = 	#{TNDR_ODR}
+	</update>
+
+  	<update id="tndrCnlTndrUpdRfq" parameterType="hashmap">
+		<!-- 낙찰취소 처리 -->
+		UPDATE MM_RFQ SET
+		    CD_RFQ_STTS = 'ET10ANI'
+		WHERE (BRANCH_CD,RFQ_REQ_NO,RFQ_ODR) =
+																		(
+																				SELECT
+																					MAX(BRANCH_CD),MAX(RFQ_REQ_NO) , MAX(RFQ_ODR)
+																				FROM MM_RFQ_ITEM
+																				WHERE RFQ_REQ_ITEM_ID IN (
+																					SELECT RFQ_REQ_ITEM_ID
+																					FROM MM_TNDR_ITEM
+																					WHERE BRANCH_CD =  #{BRANCH_CD}
+																					AND TNDR_NO = 		#{TNDR_NO}
+																					AND TNDR_ODR = 	#{TNDR_ODR}
+																				)
+																		)
+
+
+	</update>
+
+	<update id="tndrCloseTndr" parameterType="hashmap">
+		<!-- 입찰완료 처리 -->
+		UPDATE MM_TNDR SET
+		    CD_TNDR_STTS = 'ET20CLO'
+		    ,AWRD_AMT = #{AWRD_AMT}
+		    ,TNDR_END_DT = SYSDATE
+		WHERE BRANCH_CD =  #{BRANCH_CD}
+		AND TNDR_NO = 		#{TNDR_NO}
+		AND TNDR_ODR = 	#{TNDR_ODR}
+	</update>
+
+
+	<update id="tndrNacPtnr" parameterType="hashmap">
+		<!-- 입찰완료 처리 -->
+		UPDATE MM_TNDR_PTNR SET
+		    CD_BID_RSLT = DECODE(PTNR_ID,#{PTNR_ID},'ET25AWD','ET25TALO')
+		    ,ALT_PRGRS_TARG =  DECODE(PTNR_ID,#{PTNR_ID},'Y','')
+		WHERE TNDR_NO = #{TNDR_NO}
+		AND TNDR_ODR = #{TNDR_ODR}
+		AND BRANCH_CD =  #{BRANCH_CD}
+	</update>
+
+	<update id="tndrNacReTndr" parameterType="hashmap">
+		<!-- 재입찰 작성시 상태 업데이트 -->
+		UPDATE MM_TNDR_PTNR SET
+		    CD_BID_RSLT = 'ET25CXL'
+		    ,TNDR_END_DT	=	SYSDATE
+		WHERE TNDR_NO = #{TNDR_NO}
+		AND TNDR_ODR = #{TNDR_ODR}
+		AND BRANCH_CD =  #{BRANCH_CD}
+	</update>
+
+	<update id="tndrReeTndr" parameterType="hashmap">
+		<!--  재입찰 작성시 입찰 업데이트 -->
+		UPDATE MM_TNDR SET
+		    CD_TNDR_STTS = 'ET20REE'
+		    ,TNDR_END_DT	=	SYSDATE
+		WHERE BRANCH_CD =  #{BRANCH_CD}
+		AND TNDR_NO = 		#{TNDR_NO}
+		AND TNDR_ODR = 	#{TNDR_ODR}
+	</update>
+
+	<update id="tndrCloseRmk" parameterType="hashmap">
+		<!-- 입찰완료 처리 -->
+		UPDATE MM_TNDR_ADD SET
+		    CLOSED_RMK = #{CLOSED_RMK}
+		WHERE BRANCH_CD =  #{BRANCH_CD}
+		AND TNDR_NO = 		#{TNDR_NO}
+		AND TNDR_ODR = 	#{TNDR_ODR}
+	</update>
+	
+	<select id="tndrNacItem" parameterType="hashmap" resultType="hashmap">
+  		<!-- 낙찰아이템 정보 수집 -->
+		SELECT
+           TP.TNDR_PTNR_ID
+           ,TI.TNDR_ITEM_ID
+           ,TI.QTY
+           ,TP.BID_AMT
+       FROM MM_TNDR_PTNR TP , MM_TNDR_ITEM TI
+       WHERE TP.BRANCH_CD = TI.BRANCH_CD
+       AND TP.TNDR_NO = TI.TNDR_NO
+       AND TP.TNDR_ODR = TI.TNDR_ODR
+       AND TP.BRANCH_CD = #{BRANCH_CD}
+	   AND TP.TNDR_NO = #{TNDR_NO}
+	   AND TP.TNDR_ODR = #{TNDR_ODR}
+       AND TP.CD_BID_RSLT = 'ET25AWD'
+	</select>
+
+  	<select id="tndrReadPoTarget" parameterType="hashmap" resultType="hashmap">
+  		<!-- 발주대상조회 -->
+  		SELECT
+		    T.BRANCH_CD
+		    ,T.TNDR_NO
+		    ,T.TNDR_ODR
+		    ,T.CD_DOC_CTGR
+		    ,TP.TNDR_PTNR_ID
+		    ,TP.PTNR_ID
+		    ,MAX(TI.STR_CD) STR_CD  
+		    ,MAX(PI.PR_NO) PR_NO
+		    ,MAX(TI.PR_ITEM_ID) AS PR_ITEM_ID
+		    ,'' AS PO_NO
+		    ,'' AS USER_ID
+		    ,'' AS USER_NM
+		    ,'' AS DEPT_CD
+		    ,TO_CHAR(SYSDATE,'YYYYMMDD') AS PO_DAY
+		    ,'' AS CD_CNST_TYPE
+		    ,'' AS PO_COREXP_KIDS
+		    ,'' AS PO_NO_ARR
+		    ,TI.RFQ_REQ_ITEM_ID
+		FROM MM_TNDR T, MM_TNDR_PTNR TP, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+		WHERE T.BRANCH_CD = TI.BRANCH_CD
+		AND T.TNDR_NO = TI.TNDR_NO
+		AND T.TNDR_ODR = TI.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+		AND TP.CD_BID_RSLT = 'ET25AWD'
+		GROUP BY T.BRANCH_CD, T.TNDR_NO, T.TNDR_ODR, T.CD_DOC_CTGR, TP.TNDR_PTNR_ID, TP.PTNR_ID, TI.RFQ_REQ_ITEM_ID
+	</select>
+
+  	<insert id="poInsert" parameterType="hashmap">
+  		<!-- 발주작성 -->
+  		INSERT INTO MM_PO(
+		    BRANCH_CD
+		    ,PO_NO
+		    ,PTNR_ID
+		    ,CD_PO_STTS
+		    ,CD_DOC_CTGR
+		    ,CD_PO_CRNC
+		    ,TTL
+		    ,WRTR_ID
+		    ,WRTR_NM
+		    ,PO_AMT
+		    ,CRTR_ID
+		    ,CRT_DT
+		    ,LAST_CHGR_ID
+		    ,LAST_CHG_DT		    
+		    ,PO_DAY
+		    ,PO_ISSUE_DT
+		    ,CD_PO_CTGR
+			,CD_PYMT_CNDTN
+			,CD_PAY_CTGR	
+			,CD_DLV_MTHD			
+			)
+		SELECT
+		    T.BRANCH_CD
+		    ,#{PO_NO}
+		    ,#{PTNR_ID}
+		    ,'PO10WRI'
+		    ,T.CD_DOC_CTGR
+		    ,TP.CD_PO_CRNC
+		    ,(
+				SELECT
+		  				CASE
+		  		 		WHEN COUNT(TI.TNDR_ITEM_ID) > 1 THEN MAX(TI.MTRL_NM) || '외' || TO_CHAR(COUNT(TI.TNDR_ITEM_ID)-1) || '건'
+		  				ELSE MAX(TI.MTRL_NM)
+		  				END
+			  	<if test="PR_NO != null and PR_NO != 'undefined' and PR_NO != ''">    
+				FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+				WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+				AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+				AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+				AND TPBI.AWRD_QTY > 0
+				AND TPBI.AWRD_AMT > 0
+				</if>
+				<if test="PR_NO == null or PR_NO == 'undefined' or PR_NO == ''">
+					FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+					WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+					AND TI.PR_ITEM_ID IS NULL
+					AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+					AND TPBI.AWRD_QTY > 0
+					AND TPBI.AWRD_AMT > 0
+				</if>
+			)
+		    ,#{USER_ID}
+		    ,#{USER_NM}
+		    ,(
+			    SELECT
+			    	SUM(TPBI.AWRD_AMT)
+				FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+				WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+				AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+				AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+				AND TPBI.AWRD_QTY > 0
+				AND TPBI.AWRD_AMT > 0
+		    )
+		    ,#{USER_ID}
+		    ,SYSDATE
+		    ,#{USER_ID}
+		    ,SYSDATE		    
+		    ,TO_CHAR(SYSDATE, 'YYYYMMDD') AS PO_DAY
+		    ,SYSDATE
+		    ,'PO13NPO'
+		    ,TP.CD_PYMT_CNDTN
+			,TP.CD_PAY_CTGR
+			,TP.CD_DLV_MTHD			
+		FROM MM_TNDR T, MM_TNDR_ADD TA, MM_TNDR_COND TC,
+		    (
+		    SELECT   A.BRANCH_CD
+      				,A.TNDR_NO
+      				,A.TNDR_ODR
+      				,A.TNDR_PTNR_ID
+      				,B.CD_PO_CRNC
+      				,B.CD_PYMT_CNDTN
+      				,B.CD_PAY_CTGR
+      				,B.CD_DLV_MTHD
+			  FROM MM_TNDR_PTNR A
+			  	  ,MM_PTNR_PORG B
+			 WHERE A.BRANCH_CD = B.BRANCH_CD
+  			   AND A.PTNR_ID = B.PTNR_ID
+  			   AND A.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+ 			   AND A.CD_BID_RSLT = 'ET25AWD'    
+		     ) TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	</insert>
+
+  	<insert id="poAddInsert" parameterType="hashmap">
+		<!--  발주작성  -->
+		INSERT INTO MM_PO_ADD(
+		    BRANCH_CD
+		    ,PO_NO
+		    ,CHRGR_ID
+		    ,CHRGR_NM
+		    ,EMAIL
+		    ,TEL
+		    ,FAX
+		    ,RMARK
+		    ,EXCHG_RT
+		    ,ALT_EXCHG_RT_FIXD_YN
+			,ALT_GR_APP
+			,TOT_PAY_CNT
+			,CD_TAX_KIND
+			,CD_TAX_CD
+			,CD_DLV_AREA
+			,ALT_AUTO_PO
+		)
+		SELECT
+		    T.BRANCH_CD
+		    ,#{PO_NO}
+		    ,TA.CHRGR_ID
+		    ,TA.CHRGR_NM
+		    ,EMAIL
+		    ,TEL
+		    ,FAX
+		    ,T.RMARK
+		    ,'1'
+		    ,'Y'
+			,'N'
+			,'1'
+			,( SELECT	CD_TAX_KIND
+				 FROM	MM_PTNR_PORG
+				WHERE	BRANCH_CD	= TP.BRANCH_CD
+				  AND   PTNR_ID		= TP.PTNR_ID
+			)
+			,( SELECT	CD_TAX_CD
+				 FROM	MM_PTNR_PORG
+				WHERE	BRANCH_CD	= TP.BRANCH_CD
+				  AND   PTNR_ID		= TP.PTNR_ID
+			)
+			,( SELECT	CD_DLV_AREA
+				 FROM	MM_PTNR_PORG
+				WHERE	BRANCH_CD	= TP.BRANCH_CD
+				  AND   PTNR_ID		= TP.PTNR_ID
+			)
+			,'N'
+		FROM MM_TNDR T, MM_TNDR_ADD TA, MM_TNDR_PTNR TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	</insert>
+
+  	<insert id="poItemInsert" parameterType="hashmap">
+		<!--  발주작성  -->
+		INSERT INTO MM_PO_ITEM(
+		    PO_ITEM_ID
+		    ,ITM_NO
+		    ,CD_PO_ITM_STTS
+		    ,CD_FCTRY
+		    ,STR_CD
+		    ,BRANCH_CD
+		    ,PO_NO
+		    ,PR_ITEM_ID
+		    ,RFQ_REQ_ITEM_ID
+		    ,TNDR_ITEM_ID
+		    ,MTRL_GRP_ID
+		    ,MTRL_GRP_NM
+		    ,SRC_GRP_ID
+		    ,SRC_GRP_NM
+		    ,MTRL_CD
+		    ,MTRL_NM
+		    ,QTY
+		    ,CD_UNIT
+		    ,PO_PRICE
+		    ,PO_AMT
+		    ,DLV_REQ_DAY
+		    ,RMARK
+		    ,CRTR_ID
+		    ,CRT_DT
+		    ,LAST_CHGR_ID
+		    ,LAST_CHG_DT
+		    ,VAT)
+		SELECT
+		    MM_PO_ITEM_SEQ.nextval
+		    ,ROWNUM
+		    ,'PO12SAV'
+		    ,TI.CD_FCTRY
+		    ,TI.STR_CD
+		    ,TI.BRANCH_CD
+		    ,#{PO_NO}
+		    ,TI.PR_ITEM_ID
+		    ,TI.RFQ_REQ_ITEM_ID
+		    ,TI.TNDR_ITEM_ID
+		    ,TI.MTRL_GRP_ID
+		    ,TI.MTRL_GRP_NM
+		    ,TI.SRC_GRP_ID
+		    ,TI.SRC_GRP_NM
+		    ,TI.MTRL_CD
+		    ,TI.MTRL_NM
+		    ,TPBI.AWRD_QTY
+		    ,TI.CD_UNIT
+		    ,DECODE(MTC.ALT_TOT_BID,'Y',TPBI.AWRD_AMT,TPBI.BID_UNIT_PRICE)
+		    ,DECODE(MTC.ALT_TOT_BID,'Y',TPBI.AWRD_AMT,TPBI.BID_AMT)
+		    ,TI.DLV_REQ_DAY
+		    ,TPBI.RMARK
+		    ,#{USER_ID}
+		    ,SYSDATE
+		    ,#{USER_ID}
+		    ,SYSDATE
+		    ,(SELECT DECODE(INT_NTAX, 'T', (TPBI.AWRD_AMT * 0.1), 'N', '0')
+		    	FROM MM_MTRL 
+		       WHERE MTRL_CD = TI.MTRL_CD
+			 )
+		FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI , MM_TNDR_COND MTC
+		WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+		AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+		AND TI.BRANCH_CD = MTC.BRANCH_CD
+        AND TI.TNDR_NO = MTC.TNDR_NO
+        AND TI.TNDR_ODR = MTC.TNDR_ODR
+		AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+		AND TPBI.AWRD_QTY > 0
+		AND TPBI.AWRD_AMT > 0
+	</insert>
+
+	<insert id="poItemAddInsert" parameterType="hashmap">
+		<!--  발주작성  -->
+		INSERT INTO MM_PO_ITEM_ADD(
+		    PO_ITEM_ID
+		    ,INSP_CHRGR_ID
+		    ,PTNR_ID
+		    ,DLV_PLC_NM
+		    ,ZIP_NO
+		    ,ADDR
+		    ,DTL_ADDR
+		    ,FWD_REMARK)
+		SELECT
+		    (
+		        SELECT
+		            PO_ITEM_ID
+		        FROM MM_PO_ITEM PI
+		        WHERE BRANCH_CD = #{BRANCH_CD}
+		        AND PO_NO = #{PO_NO}
+		        AND PI.RFQ_REQ_ITEM_ID = TI.RFQ_REQ_ITEM_ID
+		    )
+		    ,#{USER_ID}
+		    ,TID.PTNR_ID
+		    ,TID.DLV_PLC_NM
+		    ,TID.ZIP_NO
+		    ,TID.ADDR
+		    ,TID.DTL_ADDR
+		    ,TID.FWD_REMARK
+		FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_TNDR_ITEM_ADD TID, MM_PR_ITEM PI
+		WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+		AND TI.TNDR_ITEM_ID = TID.TNDR_ITEM_ID
+		AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+		AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+		AND TPBI.AWRD_QTY > 0
+		AND TPBI.AWRD_AMT > 0
+
+	</insert>
+	
+	<insert id="poPayInsert" parameterType="hashmap">
+	INSERT INTO MM_PO_PAY(
+		    BRANCH_CD
+		    ,PO_NO
+		    ,ODR
+		    ,PYMT_RT
+		    ,PYMT_PLN_AMT
+		    ,ALT_PRCS_YN
+		    ,ALT_GR_YN
+		    )
+		   SELECT
+		    T.BRANCH_CD
+		    ,#{PO_NO}
+		    ,1
+		    ,'100'
+		    ,(
+			    SELECT
+			    	SUM(TPBI.BID_AMT)
+				FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+				WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+				AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+				AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+				AND TPBI.AWRD_QTY > 0
+				AND TPBI.AWRD_AMT > 0	
+		    )
+		    ,'N'
+		    ,'N'			
+		FROM MM_TNDR T, MM_TNDR_ADD TA, MM_TNDR_COND TC,
+		    (
+		    SELECT   A.BRANCH_CD
+      				,A.TNDR_NO
+      				,A.TNDR_ODR
+      				,A.TNDR_PTNR_ID
+      				,B.CD_PO_CRNC
+      				,B.CD_PYMT_CNDTN
+      				,B.CD_PAY_CTGR
+      				,B.CD_DLV_MTHD
+			  FROM MM_TNDR_PTNR A
+			  	  ,MM_PTNR_PORG B
+			 WHERE A.BRANCH_CD = B.BRANCH_CD
+  			   AND A.PTNR_ID = B.PTNR_ID
+  			   AND A.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+ 			   AND A.CD_BID_RSLT = 'ET25AWD'    
+		     ) TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID = #{TNDR_PTNR_ID} 
+		
+	</insert>
+	
+	<update id="poVatUpdate" parameterType="hashmap">
+	  UPDATE MM_PO SET
+	       VAT = (SELECT 
+	  		SUM(MPI.VAT)  
+	  	FROM  MM_PO MP
+	     	 ,MM_PO_ITEM MPI
+		WHERE MP.BRANCH_CD = MPI.BRANCH_CD
+	      AND MP.PO_NO = MPI.PO_NO
+	      AND MP.BRANCH_CD = #{BRANCH_CD} 
+	      AND MP.PO_NO = #{PO_NO})
+	  WHERE BRANCH_CD = #{BRANCH_CD}      
+	    AND PO_NO = #{PO_NO}
+	</update>
+
+	<insert id="poItemIDlvnsert" parameterType="hashmap">
+	<!--  발주작성  -->
+		INSERT INTO MM_PO_DLV_ITEM(
+		    DLV_ITM_NO
+		    ,PO_ITEM_ID
+		    ,BRANCH_CD)
+		SELECT
+		    MM_PO_ITEM_DLV_SEQ.NEXTVAL
+		    , (
+		        SELECT
+		            PO_ITEM_ID
+		        FROM MM_PO_ITEM PI
+		        WHERE BRANCH_CD = #{BRANCH_CD}
+		        AND PO_NO = #{PO_NO}
+		        AND PI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+		    )
+		    ,TI.BRANCH_CD
+		FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+		WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+<!-- 		AND TI.TNDR_ITEM_ID = TID.TNDR_ITEM_ID -->
+		AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+		AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+		AND TPBI.AWRD_QTY > 0
+		AND TPBI.AWRD_AMT > 0		
+
+	</insert>
+
+  	<select id="tndChgItemSrch" parameterType="hashmap" resultType="hashmap">
+		SELECT
+            TI.PR_ITEM_ID
+            ,TI.RFQ_REQ_ITEM_ID
+            ,TI.BRANCH_CD
+            ,'' CD_PR_ITEM_STTS
+		FROM MM_TNDR T , MM_TNDR_ITEM TI
+		WHERE T.BRANCH_CD = TI.BRANCH_CD
+		AND T.TNDR_NO = TI.TNDR_NO
+		AND T.TNDR_ODR = TI.TNDR_ODR
+		AND T.TNDR_NO = #{TNDR_NO}
+   		AND T.TNDR_ODR = #{TNDR_ODR}
+   		AND T.BRANCH_CD = #{BRANCH_CD}
+  	</select>
+
+	<update id="tndDel" parameterType="hashmap">
+		<!-- 입찰삭제 -->
+   		DELETE MM_TNDR
+   		WHERE  TNDR_NO = #{TNDR_NO}
+   		AND TNDR_ODR = #{TNDR_ODR}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+
+  	<update id="tndAddDel" parameterType="hashmap">
+		<!--입찰추가정보삭제 -->
+   		DELETE MM_TNDR_ADD
+   		WHERE  TNDR_NO = #{TNDR_NO}
+   		AND TNDR_ODR = #{TNDR_ODR}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+
+	<update id="tndCondDel" parameterType="hashmap">
+		<!--입찰조건삭제 -->
+   		DELETE MM_TNDR_COND
+   		WHERE  TNDR_NO = #{TNDR_NO}
+   		AND TNDR_ODR = #{TNDR_ODR}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+	<update id="tndItemDel" parameterType="hashmap">
+		<!--입찰아이템삭제 -->
+   		DELETE MM_TNDR_ITEM
+   		WHERE  TNDR_NO = #{TNDR_NO}
+   		AND TNDR_ODR = #{TNDR_ODR}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="tndRoundDel" parameterType="hashmap">
+		<!--입찰라운드삭제 -->
+   		DELETE MM_TNDR_ROUND
+   		WHERE  TNDR_NO = #{TNDR_NO}
+   		AND TNDR_ODR = #{TNDR_ODR}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+
+	<update id="tndPtnrDel" parameterType="hashmap">
+		<!--입찰라운드삭제 -->
+   		DELETE MM_TNDR_PTNR
+   		WHERE  TNDR_NO = #{TNDR_NO}
+   		AND TNDR_ODR = #{TNDR_ODR}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+
+	<update id="tndRfqUpd" parameterType="hashmap">
+		<!-- 견적상태 업데이트 -->
+		UPDATE MM_RFQ SET
+		    CD_RFQ_STTS = 'ET10ANI'
+		WHERE (RFQ_REQ_NO,RFQ_ODR,BRANCH_CD)
+		        = (
+		        SELECT
+		            RFQ_REQ_NO,RFQ_ODR,BRANCH_CD
+		        FROM MM_RFQ_ITEM
+		        WHERE RFQ_REQ_ITEM_ID = (
+		                                SELECT
+		                                    MAX(RFQ_REQ_ITEM_ID)
+		                                FROM MM_TNDR_ITEM
+		                                WHERE TNDR_NO	= #{TNDR_NO}
+		                                AND TNDR_ODR 	= #{TNDR_ODR}
+		                                AND BRANCH_CD 		= #{BRANCH_CD}
+		                                )
+		)
+  	</update>
+
+	<update id="tndRfqPtnrUpd" parameterType="hashmap">
+		<!-- 견적 협력사 진행완료여부 업데이트 -->
+   		UPDATE MM_RFQ_PTNR SET
+		    ALT_PRGRS_CMPL = DECODE(ALT_PRGRS_CMPL,'Y','N')
+		WHERE (RFQ_REQ_NO,RFQ_ODR,BRANCH_CD)
+		        = (
+		        SELECT
+		            RFQ_REQ_NO,RFQ_ODR,BRANCH_CD
+		        FROM MM_RFQ_ITEM
+		        WHERE RFQ_REQ_ITEM_ID = (
+		                                SELECT
+		                                    MAX(RFQ_REQ_ITEM_ID)
+		                                FROM MM_TNDR_ITEM
+		                                WHERE TNDR_NO	= #{TNDR_NO}
+		                                AND TNDR_ODR 	= #{TNDR_ODR}
+		                                AND BRANCH_CD 		= #{BRANCH_CD}
+		                                )
+		        )
+  	</update>
+
+
+	<update id="tndRtnPr" parameterType="hashmap">
+		<!--구매요청의 상태를 돌린다 -->
+   		UPDATE MM_PR_ITEM SET
+   			CD_PR_ITEM_STTS = #{CD_PR_ITEM_STTS}
+   		WHERE  PR_ITEM_ID = #{PR_ITEM_ID}
+   		AND BRANCH_CD = #{BRANCH_CD}
+  	</update>
+
+	<select id="tndrSameTime" parameterType="hashmap" resultType="hashmap">
+  		<!-- 입찰공고시 동일업체가  다른 입찰라운드 시간과 중복될  경우 경고메세지 -->
+  		SELECT
+			T.TNDR_NO
+			,T.TNDR_ODR
+			,TA.CHRGR_NM
+		FROM MM_TNDR T , MM_TNDR_ROUND TR ,MM_TNDR_ADD TA
+		WHERE T.BRANCH_CD = TR.BRANCH_CD
+		AND T.TNDR_NO = TR.TNDR_NO
+		AND T.TNDR_ODR = TR.TNDR_ODR
+		AND T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.CD_TNDR_STTS IN ('ET20ANN','ET20ING') and 1=2
+  	</select>
+ 
+   <select id="tndrDocTypeSrch" parameterType="hashmap" resultType="hashmap">
+	--BTndr.tndrDocTypeSrch	
+			SELECT 
+		    	 BRANCH_CD             
+				,TNDR_BASIC_ID         
+				,TTL                   
+				,RMARK                 
+				,CD_TNDR_MTHD          
+				,CRTR_ID               
+				,CRT_DT                
+				,LAST_CHGR_ID          
+				,LAST_CHG_DT           
+				,CD_PYMT_CNDTN         
+				,CD_BID_CRNC           
+				,CD_BID_UNIT           
+				,LPRC_OPEN_PTNR_CNT    
+				,ALT_ATD_PTNR_OPEN     
+				,ALT_PRE_BID           
+				,ALT_LOW_FAIL_APLY     
+				,ALT_PUR_AMT_APLY      
+				,ALT_PUR_AMT_OPEN      
+				,ALT_CERT              
+				,ALT_CNFDNC_OBY_AGRMT  
+				,ALT_LPRC_PTNR_OPEN    
+				,ALT_LPRC_AMT_OPEN     
+				,ALT_TMP_BID           
+				,ALT_LST_RFQ           
+				,ALT_TOT_BID           
+				,ROUND_CNT             
+				,BGN_TIME              
+				,ROUND_TIME            
+				,RST_TIME              
+				,ALT_OPEN_EXPLN                 
+			 FROM MM_TNDR_BASIC
+			WHERE BRANCH_CD = #{BRANCH_CD}
+	</select>	
+	
+	<select id="tndrReadCntrTarget" parameterType="hashmap" resultType="hashmap">
+  		<!-- 계약대상조회 -->
+  		--tndrReadCntrTarget start !
+  		SELECT
+		    T.BRANCH_CD
+		    ,T.TNDR_NO
+		    ,T.TNDR_ODR
+		    ,T.CD_DOC_CTGR
+		    ,TP.TNDR_PTNR_ID
+		    ,TP.PTNR_ID
+		    ,MAX(TI.STR_CD) STR_CD
+		    ,MAX(PI.PR_NO) PR_NO
+		    ,MAX(TI.PR_ITEM_ID) AS PR_ITEM_ID
+		    ,'' AS CNTR_NO
+		    ,'' AS USER_ID
+		    ,'' AS USER_NM
+		    ,'' AS DEPT_CD
+		    ,'' AS CNTR_COREXP_KIDS
+		    ,'' AS CNTR_NO_ARR
+		FROM MM_TNDR T, MM_TNDR_PTNR TP, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+		WHERE T.BRANCH_CD = TI.BRANCH_CD
+		AND T.TNDR_NO = TI.TNDR_NO
+		AND T.TNDR_ODR = TI.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+		--AND TP.CD_BID_RSLT = 'ET25AWD'
+		GROUP BY T.BRANCH_CD
+				,T.TNDR_NO
+				,T.TNDR_ODR
+				,T.CD_DOC_CTGR
+				,TP.TNDR_PTNR_ID
+				,TP.PTNR_ID
+	</select>
+
+	<!-- 계약작성 -->
+  	<insert id="cntrInsert" parameterType="hashmap">
+  	--BTndr.cntrInsert	
+  		INSERT INTO MM_CNTR(
+		    BRANCH_CD            
+			,CNTR_NO
+			,PTNR_ID           
+			,CD_CNTR_STTS   
+			,CD_CNTR_CTGR   
+			,CD_DOC_CTGR
+			,CD_CRNC
+			,CNTR_AMT
+			,TTL      
+			,CNTR_REQR_ID
+			,TKEY
+			,CRTR_ID           
+			,CRT_DT            
+			,LAST_CHGR_ID      
+			,LAST_CHG_DT   		
+			)
+			SELECT
+		    T.BRANCH_CD
+		    ,#{CNTR_NO}
+		    ,#{PTNR_ID}
+		    ,'CT10WRI'
+		    ,'CT11DAN'
+		    ,T.CD_DOC_CTGR
+		    ,TP.CD_PO_CRNC
+		    ,(
+			    SELECT
+			    	SUM(TPBI.BID_AMT)
+				FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+				WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+				AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+				AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+				AND TPBI.AWRD_QTY > 0
+				AND TPBI.AWRD_AMT > 0
+		    )
+		    ,(
+				SELECT
+		  				CASE
+		  		 		WHEN COUNT(TI.TNDR_ITEM_ID) > 1 THEN MAX(TI.MTRL_NM) || '외' || TO_CHAR(COUNT(TI.TNDR_ITEM_ID)-1) || '건'
+		  				ELSE MAX(TI.MTRL_NM)
+		  				END
+			  	<if test="PR_NO != null and PR_NO != 'undefined' and PR_NO != ''">    
+				FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+				WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+				AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+				AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+				AND TPBI.AWRD_QTY > 0
+				AND TPBI.AWRD_AMT > 0
+				</if>
+				<if test="PR_NO == null or PR_NO == 'undefined' or PR_NO == ''">
+					FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+					WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+					AND TI.PR_ITEM_ID IS NULL
+					AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+					AND TPBI.AWRD_QTY > 0
+					AND TPBI.AWRD_AMT > 0
+				</if>
+			)
+		   ,#{USER_ID}
+			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+		    ,#{USER_ID}
+		    ,SYSDATE
+		    ,#{USER_ID}
+		    ,SYSDATE
+		FROM MM_TNDR T, MM_TNDR_ADD TA, MM_TNDR_COND TC,
+			(
+			    SELECT   A.BRANCH_CD
+	      				,A.TNDR_NO
+	      				,A.TNDR_ODR
+	      				,A.TNDR_PTNR_ID
+	      				,B.CD_PO_CRNC
+	      				,B.CD_PYMT_CNDTN
+	      				,B.CD_PAY_CTGR
+	      				,B.CD_DLV_MTHD
+				  FROM MM_TNDR_PTNR A
+				  	  ,MM_PTNR_PORG B
+				 WHERE A.BRANCH_CD = B.BRANCH_CD
+	  			   AND A.PTNR_ID = B.PTNR_ID
+	  			   AND A.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	 			   AND A.CD_BID_RSLT = 'ET25AWD'    
+		     ) TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	</insert>
+
+	<!--  계약작성  -->
+  	<insert id="cntrAddInsert" parameterType="hashmap">
+	--BTndr.cntrAddInsert	
+		INSERT INTO MM_CNTR_ADD(
+			 BRANCH_CD     
+			,CNTR_NO
+			,CHRGR_ID
+			,CHRGR_NM
+			,EMAIL
+			,TEL
+			,FAX)
+		SELECT
+		    T.BRANCH_CD
+		    ,#{CNTR_NO}
+		    ,#{USER_ID}
+		    ,#{USER_NM}
+		    ,EMAIL
+		    ,TEL
+		    ,FAX	   
+		FROM MM_TNDR T, MM_TNDR_ADD TA, MM_TNDR_PTNR TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	</insert>
+	
+	<!-- 계약서 아이템 INSERT -->
+  	<insert id="cntrItemInsert" parameterType="hashmap">
+	--BTndr.cntrItemInsert
+			INSERT INTO MM_CNTR_ITEM(
+   			CNTR_ITEM_ID 
+			,BRANCH_CD     
+			,CNTR_NO     
+			,PR_ITEM_ID  
+			,ITM_NO      
+			,MTRL_GRP_ID 
+			,MTRL_GRP_NM 
+			,MTRL_CD     
+			,MTRL_NM     
+			,QTY         
+			,CD_UNIT     
+			,UNT_PRICE   
+			,AMT         
+			,DLV_REQ_DAY 
+			,STR_CD 
+			,RMARK       
+			,CRTR_ID     
+			,CRT_DT      
+			,LAST_CHGR_ID
+			,LAST_CHG_DT )
+		SELECT
+		     MM_CNTR_ITEM_SEQ.NEXTVAL
+		    ,TI.BRANCH_CD
+		    ,#{CNTR_NO}
+		    ,TI.PR_ITEM_ID
+		    ,ROWNUM
+		    ,TI.MTRL_GRP_ID
+		    ,TI.MTRL_GRP_NM
+		    ,TI.MTRL_CD
+		    ,TI.MTRL_NM
+		    ,TPBI.AWRD_QTY
+		    ,TI.CD_UNIT
+		    ,TPBI.BID_UNIT_PRICE
+		    ,TPBI.BID_AMT
+		    ,TI.DLV_REQ_DAY
+		    ,TI.STR_CD 
+		    ,TPBI.RMARK
+		    ,#{USER_ID}
+		    ,SYSDATE
+		    ,#{USER_ID}
+		    ,SYSDATE
+		<if test="PR_NO != null and PR_NO != 'undefined' and PR_NO != ''">    
+			FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+			WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+			AND TI.PR_ITEM_ID = PI.PR_ITEM_ID
+			AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+			AND TPBI.AWRD_QTY > 0
+			AND TPBI.AWRD_AMT > 0
+		</if>
+		<if test="PR_NO == null or PR_NO == 'undefined' or PR_NO == ''">
+			FROM MM_TNDR_PTNR_BID_ITEM TPBI, MM_TNDR_ITEM TI, MM_PR_ITEM PI
+			WHERE TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+			AND TI.PR_ITEM_ID IS NULL
+			AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+			AND TPBI.AWRD_QTY > 0
+			AND TPBI.AWRD_AMT > 0		
+		</if>
+	</insert>
+	
+	<!-- 계약작성  -->
+	<insert id="cntrItemIAddnsert" parameterType="hashmap">
+	--BTndr.cntrItemIAddnsert
+		
+		INSERT INTO MM_CNTR_ITEM_ADD(
+					 CNTR_ITEM_ID
+					,RFQ_REQ_ITEM_ID 
+					,TNDR_ITEM_ID
+			)
+			SELECT
+				      CI.CNTR_ITEM_ID 
+					 ,TI.RFQ_REQ_ITEM_ID
+					 ,TI.TNDR_ITEM_ID
+				FROM  MM_TNDR_PTNR TP
+				    , MM_TNDR_PTNR_BID_ITEM TPBI
+		            , MM_TNDR_ITEM TI
+		            , MM_TNDR_ITEM_ADD TID
+		            , MM_CNTR C
+		            , MM_CNTR_ITEM CI
+			WHERE TP.BRANCH_CD = TI.BRANCH_CD
+			AND TP.TNDR_NO = TI.TNDR_NO
+			AND TP.TNDR_ODR = TI.TNDR_ODR 
+			AND TPBI.TNDR_ITEM_ID = TI.TNDR_ITEM_ID
+			AND TI.TNDR_ITEM_ID = TID.TNDR_ITEM_ID
+			AND C.BRANCH_CD = CI.BRANCH_CD
+			AND C.CNTR_NO   = CI.CNTR_NO
+			AND CI.BRANCH_CD = TI.BRANCH_CD(+)
+			AND CI.PR_ITEM_ID = TI.PR_ITEM_ID(+)
+			AND TP.PTNR_ID = C.PTNR_ID
+			AND TP.PTNR_ID = #{PTNR_ID}
+			AND TPBI.TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	</insert>
+	
+	<insert id="tndrRfxInsert" parameterType="hashmap">
+		INSERT INTO MM_RFQ(
+			BRANCH_CD
+			,RFQ_REQ_NO
+			,RFQ_ODR
+			,CD_RFQ_STTS
+			,CD_DOC_CTGR
+			,CD_RFQ_AIM
+			,WRTR_ID
+			,WRTR_NM
+			,GOALAMT
+			,TTL
+			,RMARK
+			,ATTCH_FILE_CNT
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+			,RFQ_CLOSE_DAY
+			,RFQ_CLOSE_TIME
+			,TKEY
+		)(
+			SELECT
+				 T.BRANCH_CD
+				,#{RFQ_REQ_NO}
+				,#{RFQ_ODR}+1
+				,'ET10WRI'
+				,T.CD_DOC_CTGR
+				,'ET27LST'
+				,#{USER_ID}
+				,GET_USERNM(#{USER_ID},T.BRANCH_CD, NULL)
+				,T.GOALAMT
+				,T.TTL
+				,T.RMARK
+				,T.ATTCH_FILE_CNT
+				,#{USER_ID}
+				,SYSDATE
+				,#{USER_ID}
+				,SYSDATE
+				,TO_CHAR(SYSDATE,'YYYYMMDD')
+				,'23'
+				,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			FROM MM_TNDR T 
+			WHERE T.BRANCH_CD = #{BRANCH_CD}
+			  AND T.TNDR_NO   = #{TNDR_NO}
+			  AND T.TNDR_ODR  = #{TNDR_ODR}
+			)
+
+	</insert>
+
+	<insert id="tndrRfxAddInsert" parameterType="hashmap">
+				INSERT INTO MM_RFQ_ADD(
+				BRANCH_CD
+				,RFQ_REQ_NO
+				,RFQ_ODR
+				,CD_OPEN_TYPE
+				,CD_RFQ_CRNC
+				,CD_RFQ_SBMT_MTHD
+				,RFQ_SBMT_PLC
+				,ALT_RFQ_OPEN
+				,ALT_RFQ_EXPLN_ACT
+				,ALT_RFQ_EXPLN_NXT_NTC
+				,ALT_TARG_CORP_OPEN
+				,ALT_RFQ_RSLT_OPEN
+				,ALT_BDGT_OPEN
+				,ALT_RFQ_PRICE_SBMT
+				,ALT_OPEN_EXPLN
+				,ALT_CERT
+				,ALT_SVC_RFQ
+				,ALT_SVC_DTL_BID
+				,ALT_QTY_OPEN
+				,OPEN_EXPLN_DAY
+				,OPEN_EXPLN_TIME
+				,OPEN_EXPLN_AREA
+				,OPEN_EXPLN_ATTN_CNDTN
+				,OPEN_EXPLN_DR_TIME
+				,CHRGR_ID
+				,CHRGR_NM
+				,EMAIL
+				,TEL
+				,FAX
+				,CNCL_RSN
+				,TNDR_NO
+				,TNDR_ODR
+				)(
+				 SELECT
+					 TA.BRANCH_CD
+					,#{RFQ_REQ_NO}
+					,#{RFQ_ODR}+1
+					,''
+					,TC.CD_BID_CRNC
+					,'ET31ON'
+					,''							-- 견적제출장소
+					,'Y'						-- 견적공개여부
+					,'N'						-- 제안설명회 실시 여부
+					,'Y'						-- 제안설명회 추후공지
+					,'N'						-- 대상업체공개여부
+					,''							-- 견적결과 공개여부
+					,'N'						-- 예산공개여부
+					,'Y'						-- 견적가제출여부
+					,TA.ALT_OPEN_EXPLN			-- 공개설명회여부
+					,TC.ALT_CERT				-- 인증서 여부
+					,'N'						-- 서비스견적 여부
+					,'Y'						-- 서비스세부견적 여부
+					,'Y'						-- 수량공개 여부
+					,TA.OPEN_EXPLN_DAY			-- 공개설명회 일자
+					,TA.OPEN_EXPLN_TIME			-- 공개설명회 시간
+					,TA.OPEN_EXPLN_AREA			-- 공개셜명회 장소
+					,TA.OPEN_EXPLN_ATTN_CNDTN	-- 공개셜명회 참여조건
+					,TA.OPEN_EXPLN_DR_TIME		-- 공개설명회 소요시간
+					,TA.CHRGR_ID				-- 담당자ID
+					,TA.CHRGR_NM				-- 담당자명
+					,TA.EMAIL					-- EMAIL
+					,TA.TEL						-- TEL
+					,TA.FAX						-- FAX
+					,TA.CNCL_RSN				-- 취소사유
+					,#{TNDR_NO}					-- 입찰번호
+					,#{TNDR_ODR}				-- 입찰차수
+					FROM MM_TNDR T , MM_TNDR_ADD TA, MM_TNDR_COND TC
+					WHERE T.BRANCH_CD = TA.BRANCH_CD
+					AND T.TNDR_NO = TA.TNDR_NO
+					AND T.TNDR_ODR = TA.TNDR_ODR
+					AND T.BRANCH_CD = TC.BRANCH_CD
+					AND T.TNDR_NO = TC.TNDR_NO
+					AND T.TNDR_ODR = TC.TNDR_ODR
+					AND T.BRANCH_CD = #{BRANCH_CD}
+					AND T.TNDR_NO = #{TNDR_NO}
+					AND T.TNDR_ODR = #{TNDR_ODR}
+					)
+	</insert>
+	<insert id="tndrRfxPtnrInsert" parameterType="hashmap">
+			INSERT INTO MM_RFQ_PTNR(
+					RFQ_PTNR_ID
+					,BRANCH_CD
+					,RFQ_REQ_NO
+					,RFQ_ODR
+					,PTNR_ID
+					,CD_RFQ_CRNC
+					,CD_RFQ_SUBM_STTS
+					,RMARK
+					,RFQ_AMT
+					,CRTR_ID
+					,CRT_DT
+					,LAST_CHGR_ID
+					,LAST_CHG_DT
+					)(
+						SELECT
+							 MM_RFQ_PTNR_SEQ.NEXTVAL
+							,TP.BRANCH_CD
+							,#{RFQ_REQ_NO}
+							,#{RFQ_ODR}+1
+							,TP.PTNR_ID
+							,TC.CD_BID_CRNC
+							,'ET11REQ'
+							,TP.RMARK
+							,TP.BID_AMT
+							,T.CRTR_ID
+							,SYSDATE
+							,T.CRTR_ID
+							,SYSDATE
+							FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP
+						WHERE T.BRANCH_CD = TP.BRANCH_CD
+						AND T.TNDR_NO = TP.TNDR_NO
+						AND T.TNDR_ODR = TP.TNDR_ODR
+						AND T.BRANCH_CD = TC.BRANCH_CD
+						AND T.TNDR_NO = TC.TNDR_NO
+						AND T.TNDR_ODR = TC.TNDR_ODR
+						AND T.BRANCH_CD = #{BRANCH_CD}
+						AND T.TNDR_NO = #{TNDR_NO}
+						AND T.TNDR_ODR = #{TNDR_ODR}
+						AND TP.CD_BID_RSLT = 'ET25AWD'
+					)
+	</insert>
+
+	<insert id="tndrRfxItemInsert" parameterType="hashmap">
+			INSERT INTO MM_RFQ_ITEM (
+				 RFQ_REQ_ITEM_ID
+				,BRANCH_CD
+				,RFQ_REQ_NO
+				,RFQ_ODR
+				,PR_ITEM_ID
+				,ITM_NO
+				,CD_FCTRY
+				,STR_CD
+				,MTRL_GRP_ID
+				,MTRL_GRP_NM
+				,SRC_GRP_ID
+				,SRC_GRP_NM
+				,MTRL_CD
+				,MTRL_NM
+				,QTY
+				,CD_UNIT
+				,GOALUNT_PRICE
+				,GOALAMT
+				,DLV_REQ_DAY
+				,ATTCH_FILE_CNT
+				,RMARK
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+			)(
+				SELECT
+					 MM_RFQ_ITEM_SEQ.NEXTVAL
+					,TI.BRANCH_CD
+					,#{RFQ_REQ_NO}
+					,#{RFQ_ODR}+1
+					,TI.PR_ITEM_ID
+					,TI.ITM_NO
+					,TI.CD_FCTRY
+					,TI.STR_CD
+					,TI.MTRL_GRP_ID
+					,TI.MTRL_GRP_NM
+					,TI.SRC_GRP_ID
+					,TI.SRC_GRP_NM
+					,TI.MTRL_CD
+					,TI.MTRL_NM
+					,TI.QTY
+					,TI.CD_UNIT
+					,TI.GOALUNT_PRICE
+					,TI.GOALAMT
+					,TI.DLV_REQ_DAY
+					,TI.ATTCH_FILE_CNT
+					,TI.RMARK
+					,TI.CRTR_ID
+					,SYSDATE
+					,TI.CRTR_ID
+					,SYSDATE
+			FROM MM_TNDR_ITEM TI
+			WHERE TI.BRANCH_CD = #{BRANCH_CD}
+			AND TI.TNDR_NO = #{TNDR_NO}
+			AND TI.TNDR_ODR = #{TNDR_ODR}
+			)
+	</insert>
+	
+	<insert id="tndrRfxItemAddInsert" parameterType="hashmap">
+			INSERT INTO MM_RFQ_ITEM_ADD (
+				RFQ_REQ_ITEM_ID
+			) (
+				SELECT
+					 RI.RFQ_REQ_ITEM_ID
+				FROM MM_RFQ_ITEM RI , MM_RFQ_ADD RA
+				WHERE RI.BRANCH_CD = RA.BRANCH_CD
+				AND RI.RFQ_REQ_NO = RA.RFQ_REQ_NO
+				AND RI.RFQ_ODR   = RA.RFQ_ODR
+				AND RA.BRANCH_CD = #{BRANCH_CD}
+				AND RA.TNDR_NO = #{TNDR_NO}
+				AND RA.TNDR_ODR = #{TNDR_ODR}
+			)
+	</insert>
+	
+	<!-- 계약대상 품목 구매요청번호 체크 -->
+	<select id="tndrItemPurHist" parameterType="hashmap" resultType="hashmap">
+		--tndrItemPurHist start !
+		SELECT
+					  MCI.CNTR_ITEM_ID
+					, MCI.BRANCH_CD
+					, MCI.PR_ITEM_ID
+					, MC.CNTR_NO
+					, MC.PTNR_ID
+					, GET_PTNRNM(MC.PTNR_ID) AS PTNR_NM
+					, MCA.CHRGR_NM
+					, MCI.QTY
+					, MCI.MTRL_CD
+	          FROM	  MM_CNTR		MC
+	          		, MM_CNTR_ADD	MCA
+	          		, MM_CNTR_ITEM	MCI
+			 WHERE  MC.BRANCH_CD	= MCA.BRANCH_CD
+			   AND	MC.CNTR_NO		= MCA.CNTR_NO		   
+			   AND	MC.BRANCH_CD	= MCI.BRANCH_CD
+			   AND	MC.CNTR_NO		= MCI.CNTR_NO	 
+			   AND	MC.BRANCH_CD 	= #{BRANCH_CD}
+		  	   AND  MC.CNTR_NO     IN ( ${CNTR_NO_ARR} )
+	</select>
+</mapper>

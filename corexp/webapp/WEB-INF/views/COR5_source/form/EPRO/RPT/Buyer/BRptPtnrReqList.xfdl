@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="frmSearchCond" height="711" id="BRptPtnrReqList" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="신규업체현황" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="3" text="Div00" top="36">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="none" binddataset="dsList" bottom="38" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="6" top="10" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="120"/>
+                      <Column size="130"/>
+                      <Column size="130"/>
+                      <Column size="130"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                      <Row band="summ" size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="월"/>
+                      <Cell col="1" expr="" text="전체"/>
+                      <Cell col="2" expr="" text="합격"/>
+                      <Cell col="3" expr="" text="불합격"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="text" mask="####.##" maskchar=" " style="align:center;" text="bind:YM" tooltiptext="bind:YM"/>
+                      <Cell col="1" style="align:right;" text="bind:TOTAL_CNT" tooltiptext="bind:TOTAL_CNT"/>
+                      <Cell col="2" style="align:right;" text="bind:NCLO_CNT" tooltiptext="bind:NCLO_CNT"/>
+                      <Cell col="3" style="align:right;" text="bind:NREJ_CNT" tooltiptext="bind:NREJ_CNT"/>
+                    </Band>
+                    <Band id="summary">
+                      <Cell expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_01171&quot;)" text="합계 : "/>
+                      <Cell col="1" expr="expr:dataset.getSum(&quot;TOTAL_CNT*1&quot;)"/>
+                      <Cell col="2" expr="expr:dataset.getSum(&quot;NCLO_CNT*1&quot;)"/>
+                      <Cell col="3" expr="expr:dataset.getSum(&quot;NREJ_CNT*1&quot;)"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="11" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" taborder="4" top="0">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staStndDt" left="0" style="padding:0 10 0 6;align:right middle;" taborder="0" text="기준일자" top="5" width="170"/>
+              <Div height="24" id="divStndDt" left="170" objNm="요청일자" taborder="1" text="Div01" top="5" url="CCOMP::CompCalFromTo.xfdl" width="250"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="TTL" compid="divCondition.edtTtl" datasetid="dsCondition" id="item14" propid="value"/>
+      <BindItem columnid="CD_EVAL_RUN_STTS" compid="divCondition.cboCdEvalRunStts" datasetid="dsCondition" id="item5" propid="value"/>
+      <BindItem columnid="PR_NO" compid="Div_SOption.me_PrNo" datasetid="ds_searchPrNo" id="item22" propid="value"/>
+      <BindItem columnid="CD_PR_ITEM_STTS" compid="Div_SOption.cb_PrItemStatus" datasetid="ds_SearchOpt" id="item0" propid="value"/>
+      <BindItem columnid="REQ_DT_S" compid="Div_SOption.cd_WriteDayS" datasetid="ds_SearchOpt" id="item1" propid="value"/>
+      <BindItem columnid="REQ_DT_E" compid="Div_SOption.cd_WriteDayE" datasetid="ds_SearchOpt" id="item2" propid="value"/>
+      <BindItem columnid="REQR_NM" compid="Div_SOption.ed_RrqrNm" datasetid="ds_SearchOpt" id="item7" propid="value"/>
+      <BindItem columnid="MTRL_GRP_ID" compid="Div_SOption.ed_MtrlGrpId" datasetid="ds_SearchOpt" id="item8" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="Div_SOption.ed_MtrlCd" datasetid="ds_SearchOpt" id="item6" propid="value"/>
+      <BindItem columnid="MTRL_GRP_NM" compid="Div_SOption.ed_MtrlGrpNm" datasetid="ds_SearchOpt" id="item4" propid="value"/>
+      <BindItem columnid="REQR_ID" compid="Div_SOption.ed_RrqrId" datasetid="ds_SearchOpt" id="item12" propid="value"/>
+      <BindItem columnid="MTRL_CD" compid="Div_SOption.ed_CrtrId00" datasetid="ds_SearchOpt" id="item13" propid="value"/>
+      <BindItem columnid="PCHRGR_ID" compid="Div_SOption.ed_PchrgrId" datasetid="ds_SearchOpt" id="item10" propid="value"/>
+      <BindItem columnid="PCHRGR_NM" compid="Div_SOption.ed_PchrgrNm" datasetid="ds_SearchOpt" id="item11" propid="value"/>
+      <BindItem columnid="PCHRGR_ID" compid="div_Search.cbo_prItemStatus" datasetid="dsCondition" id="item9" propid="value"/>
+      <BindItem columnid="PORG_ID" compid="div_Search.cbo_bsnsPlc" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="EVAL_CHRGR_NM" compid="divCondition1.edtEvalChrgrNm" datasetid="dsCondition" id="item15" propid="value"/>
+      <BindItem columnid="EVAL_CHRGR_ID" compid="divCondition1.edtEvalChrgrId" datasetid="dsCondition" id="item16" propid="value"/>
+      <BindItem columnid="CD_DOC_CTGR" compid="divCondition1.cboCdScjdEvalType" datasetid="dsCondition" id="item48" propid="value"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindVi" id="divPagingVi" propid="visible"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindEn" id="divPagingEn" propid="enable"/>
+      <BindItem columnid="btnComInit" compid="ns.btnComInit" datasetid="dsObjBindVi" id="btnComInitVi" propid="visible"/>
+      <BindItem columnid="btnComInit" compid="ns.btnComInit" datasetid="dsObjBindEn" id="btnComInitEn" propid="enable"/>
+      <BindItem columnid="btnComSrch" compid="ns.btnComSrch" datasetid="dsObjBindVi" id="btnComSrchVi" propid="visible"/>
+      <BindItem columnid="btnComSrch" compid="ns.btnComSrch" datasetid="dsObjBindEn" id="btnComSrchEn" propid="enable"/>
+      <BindItem columnid="btnComSave" compid="ns.btnComSave" datasetid="dsObjBindVi" id="btnComSaveVi" propid="visible"/>
+      <BindItem columnid="btnComSave" compid="ns.btnComSave" datasetid="dsObjBindEn" id="btnComSaveEn" propid="enable"/>
+      <BindItem columnid="btnComNew" compid="ns.btnComNew" datasetid="dsObjBindVi" id="btnComNewVi" propid="visible"/>
+      <BindItem columnid="btnComNew" compid="ns.btnComNew" datasetid="dsObjBindEn" id="btnComNewEn" propid="enable"/>
+      <BindItem columnid="btnComDel" compid="ns.btnComDel" datasetid="dsObjBindVi" id="btnComDelVi" propid="visible"/>
+      <BindItem columnid="btnComDel" compid="ns.btnComDel" datasetid="dsObjBindEn" id="btnComDelEn" propid="enable"/>
+      <BindItem columnid="btnComPrint" compid="ns.btnComPrint" datasetid="dsObjBindVi" id="btnComPrintVi" propid="visible"/>
+      <BindItem columnid="btnComPrint" compid="ns.btnComPrint" datasetid="dsObjBindEn" id="btnComPrintEn" propid="enable"/>
+      <BindItem columnid="btnComClose" compid="ns.btnComClose" datasetid="dsObjBindVi" id="btnComCloseVi" propid="visible"/>
+      <BindItem columnid="btnComClose" compid="ns.btnComClose" datasetid="dsObjBindEn" id="btnComCloseEn" propid="enable"/>
+      <BindItem columnid="btnComMyMenu" compid="ns.btnComMyMenu" datasetid="dsObjBindVi" id="btnComMyMenuVi" propid="visible"/>
+      <BindItem columnid="btnComMyMenu" compid="ns.btnComMyMenu" datasetid="dsObjBindEn" id="btnComMyMenuEn" propid="enable"/>
+      <BindItem columnid="btnRemote" compid="ns.btnRemote" datasetid="dsObjBindVi" id="btnRemoteVi" propid="visible"/>
+      <BindItem columnid="btnRemote" compid="ns.btnRemote" datasetid="dsObjBindEn" id="btnRemoteEn" propid="enable"/>
+      
+      
+      
+    </Bind>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+          <Column id="BIZ_NO" size="256" type="STRING"/>
+          <Column id="CFMDT_STR" size="256" type="STRING"/>
+          <Column id="CFMDT_END" size="256" type="STRING"/>
+          <Column id="RPRSTV_NM" size="256" type="STRING"/>
+          <Column id="SRC_GRP_01" size="256" type="STRING"/>
+          <Column id="SRC_GRP_02" size="256" type="STRING"/>
+          <Column id="PTNR_ITEM" size="256" type="STRING"/>
+          <Column id="PTNR_CHT_DT" size="256" type="STRING"/>
+          <Column id="ALT_AUTO" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="CD_PTNR_CTGR" size="256" type="STRING"/>
+          <Column id="PCHRGR_ID" size="256" type="STRING"/>
+          <Column id="PCHRGR_NM" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+          <Column id="STD_FROM" size="256" type="STRING"/>
+          <Column id="STD_TO" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsCdSR12"/>
+      <Dataset id="dsCdSR20"/>
+      <Dataset id="dsSysCard">
+        <ColumnInfo>
+          <Column id="MGMT_HSTR_NO" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="TTL" size="256" type="STRING"/>
+          <Column id="CD_MGMT_TYPE" size="256" type="STRING"/>
+          <Column id="MGMT_MEMO" size="256" type="STRING"/>
+          <Column id="ATTCH_FILE_CNT" size="256" type="STRING"/>
+          <Column id="CRTR_ID" size="256" type="STRING"/>
+          <Column id="LAST_CHGR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrList.xfdl
+ * @생성자       	: 한의봉
+ * @생성일자     	: 2017. 9. 07.
+ * @설명			: 협력사 현황
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 20.
+*/  
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function(){
+
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+ 	
+	var sArgEx = {
+					isTran:"Y", tranNm:"BRptService.searchRptPtnrReq", dsParam:this.dsCondition
+				}
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this, sArgEx);
+ 	
+ 	
+	this.dsCondition.addRow();  
+	this.divViewCompCond00.divStndDt.fnSetDate(this.dsCondition, "STD_FROM", "STD_TO");
+	this.dsCondition.setColumn(0, "STD_FROM", gfnAddMonth(gfnToday(), -12));//오늘일자-1month
+    this.dsCondition.setColumn(0, "STD_TO", gfnToday());//오늘날짜    
+	gfnSetObj("A");   
+ 	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnClose
+  * @desc     	: (공통버튼)닫기
+  */
+this.fnClose = function()
+{	
+	return true;
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchRptPtnrReq";
+	var sController = "epro.rpt.service.BRptService.searchRptPtnrReq";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	var	oPaging = [
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

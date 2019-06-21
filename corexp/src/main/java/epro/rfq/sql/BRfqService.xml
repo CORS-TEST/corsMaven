@@ -1,0 +1,1207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BRfqService">
+
+	<select id="searchRfqPrg" parameterType="hashmap" resultType="hashmap">
+	/*[BRfqServie.searchRfqPrg][견적현황리스트][2019.04.29][정현근]*/
+		<include refid="commonService.list-before" />
+		SELECT
+			R.BRANCH_CD
+			,R.RFQ_REQ_NO
+			,R.RFQ_REQ_NO COREXP_KIDS
+			,R.CD_RFQ_STTS
+			,R.WRTR_ID
+			,R.ATTCH_FILE_CNT
+			,R.TTL
+			,R.RMARK
+			,R.WRTR_NM
+			,R.GOALAMT
+			,R.AWRD_AMT
+			,TO_CHAR(R.REQ_DT,'YYYYMMDD') REQ_DT
+			,R.APP_DOC_ID
+			,R.CRTR_ID
+			,R.CRT_DT
+			,R.LAST_CHGR_ID
+			,R.LAST_CHG_DT
+			,R.TKEY
+			,R.CD_DOC_CTGR
+			,R.RFQ_CLOSE_DAY
+			,RPAD(LPAD(R.RFQ_CLOSE_TIME,2,'0'),4,'0') RFQ_CLOSE_TIME
+			,R.CD_RFQ_AIM
+			,R.RFQ_ODR
+			,TO_CHAR(R.RFQ_END_DT,'YYYYMMDD') RFQ_END_DT
+			,RA.ALT_OPEN_EXPLN
+			,RA.CD_OPEN_TYPE
+			,RA.CD_RFQ_SBMT_MTHD
+			,RA.RFQ_SBMT_PLC
+			,RA.ALT_RFQ_OPEN
+			,RA.OPEN_EXPLN_DAY
+			,RA.ALT_RFQ_EXPLN_ACT
+			,RA.OPEN_EXPLN_TIME
+			,RA.ALT_RFQ_EXPLN_NXT_NTC
+			,RA.OPEN_EXPLN_AREA
+			,RA.ALT_TARG_CORP_OPEN
+			,RA.OPEN_EXPLN_ATTN_CNDTN
+			,RA.ALT_RFQ_RSLT_OPEN
+			,RA.ALT_CERT
+			,RA.OPEN_EXPLN_DR_TIME
+			,RA.ALT_BDGT_OPEN
+			,RA.ALT_SVC_RFQ
+			,RA.ALT_RFQ_PRICE_SBMT
+			,RA.ALT_SVC_DTL_BID
+			,RA.CHRGR_ID
+			,RA.CHRGR_NM
+			,RA.EMAIL
+			,RA.TEL
+			,RA.FAX
+			,RA.CNCL_RSN
+			,RA.CD_RFQ_CRNC
+			,RA.ALT_QTY_OPEN
+			,'0' AS CHECKED
+			,(
+				SELECT
+					COUNT(*)
+				FROM MM_RFQ_PTNR
+				WHERE BRANCH_CD = R.BRANCH_CD
+				AND RFQ_REQ_NO = R.RFQ_REQ_NO
+				AND RFQ_ODR = R.RFQ_ODR
+				AND BRANCH_CD = #{BRANCH_CD}
+			) PTNR_CNT -- 견적업체수
+			,(
+				SELECT
+				COUNT(*)
+				FROM MM_RFQ_PTNR
+				WHERE BRANCH_CD = R.BRANCH_CD
+				AND RFQ_REQ_NO = R.RFQ_REQ_NO
+				AND RFQ_ODR = R.RFQ_ODR
+				AND CD_RFQ_SUBM_STTS = 'ET11SND'
+				AND BRANCH_CD = #{BRANCH_CD}
+			) PTNR_QUOTE_CNT -- 견적제출업체수
+			,(
+				SELECT
+				COUNT(*)
+				FROM MM_RFQ_ITEM
+				WHERE BRANCH_CD = R.BRANCH_CD
+				AND RFQ_REQ_NO = R.RFQ_REQ_NO
+				AND RFQ_ODR = R.RFQ_ODR
+				AND BRANCH_CD = #{BRANCH_CD}
+			) ITEM_CNT -- 자재수
+			<if test="PAGE_ID == 'RfqRstList' ">			
+				,(
+				  	SELECT CASE WHEN COUNT(PTNR_NM) > 1 THEN FN_GETPTNRNM(MAX(PTNR_ID)) ||'외' || (COUNT(PTNR_NM)-1) || '개 업체' 
+	            			ELSE MAX(PTNR_NM)
+	         				END PTNR_NM
+					  FROM MM_PTNR
+					  WHERE PTNR_ID IN 
+					  (
+					    SELECT PTNR_ID
+					    FROM MM_RFQ_PTNR
+					    WHERE BRANCH_CD = R.BRANCH_CD
+					    AND RFQ_REQ_NO = R.RFQ_REQ_NO
+			            AND RFQ_ODR = R.RFQ_ODR
+			            AND ALT_PWIN_PTNR = 'Y'
+			            AND BRANCH_CD = #{BRANCH_CD}
+					  )
+				) AS ALT_PWIN_PTNR_NM
+				,(SELECT MAX(PTNR_ID)
+	                    FROM MM_RFQ_PTNR
+	                    WHERE BRANCH_CD = R.BRANCH_CD
+	                    AND RFQ_REQ_NO = R.RFQ_REQ_NO
+	                    AND RFQ_ODR = R.RFQ_ODR
+	                    AND ALT_PWIN_PTNR = 'Y'
+	                    AND BRANCH_CD = #{BRANCH_CD}
+	                    ) AS PTNR_ID
+				,(
+					SELECT
+					MAX(TNDR_NO)
+					FROM MM_TNDR_ITEM
+					WHERE RFQ_REQ_ITEM_ID IN 
+					(
+						SELECT
+						RFQ_REQ_ITEM_ID
+						FROM MM_RFQ_ITEM
+						WHERE BRANCH_CD = R.BRANCH_CD
+						AND RFQ_REQ_NO = R.RFQ_REQ_NO
+						AND RFQ_ODR = R.RFQ_ODR
+						AND BRANCH_CD = #{BRANCH_CD}
+					)
+				) AS TNDR_NO
+				,(
+					SELECT
+					MAX(TNDR_ODR)
+					FROM MM_TNDR_ITEM
+					WHERE RFQ_REQ_ITEM_ID IN 
+					(
+						SELECT
+						RFQ_REQ_ITEM_ID
+						FROM MM_RFQ_ITEM
+						WHERE BRANCH_CD = R.BRANCH_CD
+						AND RFQ_REQ_NO = R.RFQ_REQ_NO
+						AND RFQ_ODR = R.RFQ_ODR
+						AND BRANCH_CD = #{BRANCH_CD}
+					)
+				)AS TNDR_ODR
+				,(
+					SELECT
+					COUNT(*)
+					FROM MM_PO P ,MM_PO_ITEM PI
+                    WHERE P.BRANCH_CD = PI.BRANCH_CD
+                    AND P.PO_NO = PI.PO_NO
+                    AND P.CD_PO_STTS <![CDATA[<>]]> 'PO10CXL'                                        
+                    AND PI.RFQ_REQ_ITEM_ID IN 
+                    (
+                    	SELECT RFQ_REQ_ITEM_ID 
+                    	FROM MM_RFQ_ITEM 
+                    	WHERE RFQ_REQ_NO = R.RFQ_REQ_NO 
+                    	AND RFQ_ODR = R.RFQ_ODR 
+                    	AND BRANCH_CD = #{BRANCH_CD}
+					)
+				) AS PO_CNT
+				</if>
+		FROM MM_RFQ R, MM_RFQ_ADD RA
+		WHERE R.RFQ_REQ_NO = RA.RFQ_REQ_NO
+		AND R.RFQ_ODR = RA.RFQ_ODR
+		AND R.BRANCH_CD = RA.BRANCH_CD
+		AND R.BRANCH_CD = #{BRANCH_CD}
+		<if test="ALT_SYSTEM != null and ALT_SYSTEM.equalsIgnoreCase('N')">
+			AND R.WRTR_ID IN (SELECT USER_ID FROM MM_MT_USER WHERE
+			DEPT_CD = #{DEPT_CD})
+		</if>
+		<if test="RFQ_REQ_NO != null and RFQ_REQ_NO != 'undefined' and RFQ_REQ_NO != ''">
+			AND R.RFQ_REQ_NO IN
+			<foreach item="RFQ_REQ_NO" collection="RfqnoArr" open="("
+				close=")" separator=",">
+				#{RFQ_REQ_NO}
+			</foreach>
+		</if>
+		<if
+			test="CD_RFQ_STTS != null and CD_RFQ_STTS != 'undefined' and CD_RFQ_STTS != ''">
+			AND R.CD_RFQ_STTS = #{CD_RFQ_STTS}
+		</if>
+		
+		<if
+			test="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND R.CD_DOC_CTGR = #{CD_DOC_CTGR}
+		</if>
+		<if
+			test="CD_RFQ_AIM != null and CD_RFQ_AIM != 'undefined' and CD_RFQ_AIM != ''">
+			AND R.CD_RFQ_AIM = #{CD_RFQ_AIM}
+		</if>
+		<if
+			test="REQ_DT_START != null and REQ_DT_START != 'undefined' and REQ_DT_START != ''
+				and REQ_DT_END != null and REQ_DT_END != 'undefined' and REQ_DT_END != '' ">
+			AND R.REQ_DT BETWEEN TRUNC(TO_DATE(#{REQ_DT_START}, 'YYYYMMDD')) AND TRUNC(TO_DATE(#{REQ_DT_END}, 'YYYYMMDD')+1)
+		</if>
+		<if
+			test="CRT_DT_START != null and CRT_DT_START != 'undefined' and CRT_DT_START != ''
+				and CRT_DT_END != null and CRT_DT_END != 'undefined' and CRT_DT_END != '' ">
+			AND R.CRT_DT BETWEEN TRUNC(TO_DATE(#{CRT_DT_START}, 'YYYYMMDD')) AND TRUNC(TO_DATE({CRT_DT_END}, 'YYYYMMDD')+1)
+		</if>
+		<if
+			test="RFQ_CLOSE_DAY_START != null and RFQ_CLOSE_DAY_START != 'undefined' and RFQ_CLOSE_DAY_START != ''
+				and RFQ_CLOSE_DAY_END != null and RFQ_CLOSE_DAY_END != 'undefined' and RFQ_CLOSE_DAY_END != '' ">
+			AND R.RFQ_CLOSE_DAY BETWEEN #{RFQ_CLOSE_DAY_START} AND #{RFQ_CLOSE_DAY_END}
+		</if>
+		<if
+			test="RFQ_END_DT_START != null and RFQ_END_DT_START != 'undefined' and RFQ_END_DT_START != ''
+				and RFQ_END_DT_END != null and RFQ_END_DT_END != 'undefined' and RFQ_END_DT_END != '' ">
+			AND R.RFQ_END_DT BETWEEN TRUNC(TO_DATE(#{RFQ_END_DT_START},'YYYYMMDD'))	AND TRUNC(TO_DATE(#{RFQ_END_DT_END},'YYYYMMDD')+1)
+		</if>
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND R.TTL LIKE '%'||#{TTL}||'%'
+		</if>
+		<choose>
+			<when test="WRTR_ID != null and WRTR_ID != 'undefined' and WRTR_ID != ''" >
+				AND R.WRTR_ID = #{WRTR_ID}
+			</when>
+			<when test="WRTR_NM != null and WRTR_NM != 'undefined' and WRTR_NM != ''">
+				AND R.WRTR_NM LIKE '%'||#{WRTR_NM}||'%'
+			</when>
+		</choose> 
+		
+		<choose>
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''" >
+				AND EXISTS (
+					SELECT 1
+					FROM MM_RFQ_ITEM RI
+					WHERE RI.BRANCH_CD = R.BRANCH_CD
+					AND RI.RFQ_REQ_NO = R.RFQ_REQ_NO
+					AND RI.RFQ_ODR = R.RFQ_ODR
+					AND RI.BRANCH_CD = #{BRANCH_CD}
+					AND RI.MTRL_CD = #{MTRL_CD}
+				)
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND EXISTS (
+				SELECT 1
+				FROM MM_RFQ_ITEM RI
+				WHERE RI.BRANCH_CD = R.BRANCH_CD
+				AND RI.RFQ_REQ_NO = R.RFQ_REQ_NO
+				AND RI.RFQ_ODR = R.RFQ_ODR
+				AND RI.BRANCH_CD = #{BRANCH_CD}
+				AND REGEXP_LIKE (RI.MTRL_NM, replace(#{MTRL_NM},' ','|'),'i')
+			)
+			</when>
+		</choose> 
+		 
+		 
+		<if test="PR_NO != null and PR_NO != 'undefined' and PR_NO != ''">
+			AND EXISTS (
+			SELECT
+			1
+			FROM MM_RFQ_ITEM RI, MM_PR_ITEM PI
+			WHERE RI.PR_ITEM_ID = PI.PR_ITEM_ID
+			AND RI.BRANCH_CD = R.BRANCH_CD
+			AND RI.RFQ_REQ_NO = R.RFQ_REQ_NO
+			AND RI.RFQ_ODR = R.RFQ_ODR
+			AND PI.BRANCH_CD = #{BRANCH_CD}
+			AND PI.PR_NO = #{PR_NO}
+			)
+		</if>
+		<if test="IM_ODR_NO != null and IM_ODR_NO != 'undefined' and IM_ODR_NO != ''">
+			AND EXISTS (
+			SELECT
+			1
+			FROM MM_RFQ_ITEM RI, MM_PR_ITEM PI, MM_PR_ITEM_ADD PIA
+			WHERE RI.PR_ITEM_ID = PI.PR_ITEM_ID
+			AND RI.BRANCH_CD = R.BRANCH_CD
+			AND PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+			AND PI.BRANCH_CD = PIA.BRANCH_CD
+			AND RI.RFQ_REQ_NO = R.RFQ_REQ_NO
+			AND RI.RFQ_ODR = R.RFQ_ODR
+			AND PIA.BRANCH_CD = #{BRANCH_CD}
+			AND PIA.IM_ODR_NO = #{IM_ODR_NO}
+			)
+		</if>
+		<if
+			test="CD_RFQ_STTS == null or CD_RFQ_STTS == 'undefined' or CD_RFQ_STTS == ''">
+			<if test="PAGE_ID == 'BRfqPrgList' ">
+				AND R.CD_RFQ_STTS IN ('ET10REQ','ET10ANI','ET10WRI')
+			</if>
+			<if test="PAGE_ID == 'BRfqRstList' ">
+				AND R.CD_RFQ_STTS IN ('ET10CLO','ET10CXL','ET10REE')
+			</if>
+		</if>
+		ORDER BY ''
+		<!-- 정렬조건 -->
+		<if
+			test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+			,${SORT_ITEM1} ${SORT_TYPE1}
+			</if>
+		<if
+			test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+			,${SORT_ITEM2} ${SORT_TYPE2}
+			</if>
+		<if
+			test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+			,${SORT_ITEM3} ${SORT_TYPE3}
+			</if>
+		<if
+			test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+			,${SORT_ITEM4} ${SORT_TYPE4}
+			</if>
+        <include refid="commonService.list-after" />
+	</select>
+
+	<select id = "readRfqHeaderCount" parameterType="hashmap" resultType="hashmap">
+	/*[BRfqServie.readRfqHeaderCount][견적진행현황 > 헤더카운트][2019.04.29][정현근]*/
+	 SELECT	
+	 			 NVL(SUM(DECODE(CD_RFQ_STTS, 'ET10WRI', 1, 'ET10APP', 1, 'ET10REQ', 1, 'ET10ANI', 1,  0)),0) AS RFQ_TOT			
+                ,NVL(SUM(DECODE(CD_RFQ_STTS, 'ET10WRI', 1, 0)),0) AS RFQ_WRI
+                ,NVL(SUM(DECODE(CD_RFQ_STTS, 'ET10APP', 1, 0)),0) AS RFQ_APP
+                ,NVL(SUM(DECODE(CD_RFQ_STTS, 'ET10REQ', 1, 0)),0) AS RFQ_REQ
+                ,NVL(SUM(DECODE(CD_RFQ_STTS, 'ET10ANI', 1, 0)),0) AS RFQ_ANI
+		  FROM	MM_RFQ
+		 WHERE  BRANCH_CD = #{BRANCH_CD}
+		 <if test="WRTR_ID != null and WRTR_ID != 'undefined' and WRTR_ID != ''">
+			AND WRTR_ID = #{WRTR_ID}
+		</if>
+		<if
+			test="WRTR_ID == null or WRTR_ID == 'undefined' or WRTR_ID == ''
+ 			and WRTR_NM != null and WRTR_NM != 'undefined' and WRTR_NM != '' "> 
+			AND WRTR_NM LIKE '%'||#{WRTR_NM}||'%'
+		</if>
+	</select>
+	
+	<select id="readRfqPtnrQuote" parameterType="hashmap" resultType="hashmap">		
+	/*[BRfqServie.readRfqPtnrQuote][견적진행현황 > 견적제출업체조회][2019.05.07][정현근]*/
+		SELECT
+		RP.PTNR_ID
+		,MP.PTNR_NM
+		,MP.BIZ_NO
+		,RP.CD_RFQ_SUBM_STTS
+		,RP.RCVR_ID
+		,RP.RCVR_NM
+		,TO_CHAR(RP.RCV_DT, 'YYYY.MM.DD HH24:MI:SS') AS RCV_DT
+		,RP.SBMTR_ID
+		,RP.SBMTR_NM
+		,TO_CHAR(RP.SBMT_DT, 'YYYY.MM.DD HH24:MI:SS') AS SBMT_DT
+		,RP.RFQ_RJT_RSN
+		FROM MM_RFQ_PTNR RP, MM_PTNR MP
+		WHERE RP.PTNR_ID = MP.PTNR_ID
+		AND RP.BRANCH_CD = #{BRANCH_CD}
+		AND RP.RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RP.RFQ_ODR = #{RFQ_ODR}
+		<if test="CD_RFQ_SUBM_STTS != null and CD_RFQ_SUBM_STTS != 'undefined' and CD_RFQ_SUBM_STTS != ''">
+			AND RP.CD_RFQ_SUBM_STTS = #{CD_RFQ_SUBM_STTS}
+		</if>
+	</select>
+	
+	<update id="updateRfqCxl" parameterType="hashmap">
+	/*[BRfqServie.updateRfqCxl][견적취소][2019.05.07][정현근]*/
+		UPDATE MM_RFQ SET
+		CD_RFQ_STTS = 'ET10CXL'
+		,LAST_CHGR_ID = #{LAST_CHGR_ID}
+		,LAST_CHG_DT = SYSDATE
+		,RFQ_END_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</update>
+	
+	<insert id="insertRfqReReq" parameterType="hashmap">
+	/*[BRfqServie.rfqReReqInsert][견적재요청][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ (
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,CD_RFQ_STTS
+		,WRTR_ID
+		,ATTCH_FILE_CNT
+		,TTL
+		,RMARK
+		,WRTR_NM
+		,GOALAMT
+		,AWRD_AMT
+		,REQ_DT
+		,APP_DOC_ID
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		,TKEY
+		,CD_DOC_CTGR
+		,RFQ_CLOSE_DAY
+		,RFQ_CLOSE_TIME
+		,CD_RFQ_AIM
+		,RFQ_ODR)
+		SELECT
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,'ET10WRI'
+		,#{WRTR_ID}
+		,0
+		,TTL
+		,RMARK
+		,#{WRTR_NM}
+		,GOALAMT
+		,0
+		,''
+		,''
+		,#{WRTR_ID}
+		,SYSDATE
+		,#{WRTR_ID}
+		,SYSDATE
+		,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+		,CD_DOC_CTGR
+		,TO_CHAR(SYSDATE,'YYYYMMDD')
+		,'230000'
+		,CD_RFQ_AIM
+		,#{RFQ_ODR} + 1
+		FROM MM_RFQ
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</insert>
+
+	<insert id="insertRfqReReqAdd" parameterType="hashmap">
+	/*[BRfqServie.insertRfqReReqAdd][견적재요청 ADD][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_ADD (
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,ALT_OPEN_EXPLN
+		,CD_OPEN_TYPE
+		,CD_RFQ_SBMT_MTHD
+		,RFQ_SBMT_PLC
+		,ALT_RFQ_OPEN
+		,OPEN_EXPLN_DAY
+		,ALT_RFQ_EXPLN_ACT
+		,OPEN_EXPLN_TIME
+		,ALT_RFQ_EXPLN_NXT_NTC
+		,OPEN_EXPLN_AREA
+		,ALT_TARG_CORP_OPEN
+		,OPEN_EXPLN_ATTN_CNDTN
+		,ALT_RFQ_RSLT_OPEN
+		,ALT_CERT
+		,OPEN_EXPLN_DR_TIME
+		,ALT_BDGT_OPEN
+		,ALT_SVC_RFQ
+		,RFQ_ODR
+		,ALT_RFQ_PRICE_SBMT
+		,ALT_SVC_DTL_BID
+		,CHRGR_ID
+		,CHRGR_NM
+		,EMAIL
+		,TEL
+		,FAX
+		,CNCL_RSN
+		,TNDR_NO
+		,TNDR_ODR
+		,CD_RFQ_CRNC
+		,ALT_QTY_OPEN)
+		SELECT
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,ALT_OPEN_EXPLN
+		,CD_OPEN_TYPE
+		,CD_RFQ_SBMT_MTHD
+		,RFQ_SBMT_PLC
+		,ALT_RFQ_OPEN
+		,''
+		,ALT_RFQ_EXPLN_ACT
+		,''
+		,ALT_RFQ_EXPLN_NXT_NTC
+		,''
+		,ALT_TARG_CORP_OPEN
+		,''
+		,ALT_RFQ_RSLT_OPEN
+		,ALT_CERT
+		,''
+		,ALT_BDGT_OPEN
+		,ALT_SVC_RFQ
+		,#{RFQ_ODR} + 1
+		,ALT_RFQ_PRICE_SBMT
+		,ALT_SVC_DTL_BID
+		,CHRGR_ID
+		,CHRGR_NM
+		,EMAIL
+		,TEL
+		,FAX
+		,CNCL_RSN
+		,TNDR_NO
+		,TNDR_ODR
+		,CD_RFQ_CRNC
+		,ALT_QTY_OPEN
+		FROM MM_RFQ_ADD
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</insert>
+	
+	<insert id="insertRfqReReqItm" parameterType="hashmap">
+	/*[BRfqServie.insertRfqReReqItm][견적재요청 ITEM][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_ITEM (
+		BRANCH_CD
+		,RFQ_REQ_ITEM_ID
+		,RFQ_REQ_NO
+		,PR_ITEM_ID
+		,ITM_NO
+		,STR_CD
+		,MTRL_GRP_ID
+		,MTRL_GRP_NM
+		,SRC_GRP_ID
+		,MTRL_CD
+		,SRC_GRP_NM
+		,MTRL_NM
+		,QTY
+		,CD_UNIT
+		,GOALUNT_PRICE
+		,GOALAMT
+		,DLV_REQ_DAY
+		,ATTCH_FILE_CNT
+		,RMARK
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		,CFM_PRICE
+		,CFM_AMT
+		,RFQ_ODR)
+		SELECT
+		BRANCH_CD
+		,MM_RFQ_ITEM_SEQ.NEXTVAL
+		,RFQ_REQ_NO
+		,PR_ITEM_ID
+		,ITM_NO
+		,STR_CD
+		,MTRL_GRP_ID
+		,MTRL_GRP_NM
+		,SRC_GRP_ID
+		,MTRL_CD
+		,SRC_GRP_NM
+		,MTRL_NM
+		,QTY
+		,CD_UNIT
+		,GOALUNT_PRICE
+		,GOALAMT
+		,DLV_REQ_DAY
+		,0
+		,RMARK
+		,#{WRTR_ID}
+		,SYSDATE
+		,#{WRTR_ID}
+		,SYSDATE
+		,0
+		,0
+		,#{RFQ_ODR} + 1
+		FROM MM_RFQ_ITEM
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</insert>
+
+	<insert id="insertRfqReReqItmAdd" parameterType="hashmap">
+	/*[BRfqServie.insertRfqReReqItmAdd][견적재요청 ITEM 추가정보][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_ITEM_ADD (
+		RFQ_REQ_ITEM_ID
+		,PTNR_ID
+		,DLV_PLC_NM
+		,ZIP_NO
+		,ADDR
+		,DTL_ADDR
+		,FWD_REMARK
+		,SRCH_KEY)
+		SELECT
+		RI2.RFQ_REQ_ITEM_ID
+		,RID.PTNR_ID
+		,RID.DLV_PLC_NM
+		,RID.ZIP_NO
+		,RID.ADDR
+		,RID.DTL_ADDR
+		,RID.FWD_REMARK
+		,RID.SRCH_KEY
+		FROM MM_RFQ_ITEM RI, MM_RFQ_ITEM_ADD RID, (
+		SELECT
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,RFQ_ODR
+		,RFQ_REQ_ITEM_ID
+		,ITM_NO
+		FROM MM_RFQ_ITEM
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR} + 1
+		) RI2
+		WHERE RI.RFQ_REQ_ITEM_ID = RID.RFQ_REQ_ITEM_ID
+		AND RI.BRANCH_CD = RI2.BRANCH_CD
+		AND RI.RFQ_REQ_NO = RI2.RFQ_REQ_NO
+		AND RI.ITM_NO = RI2.ITM_NO
+		AND RI.BRANCH_CD = #{BRANCH_CD}
+		AND RI.RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RI.RFQ_ODR = #{RFQ_ODR}
+	</insert>
+
+	<insert id="insertRfqReReqPtnr" parameterType="hashmap">
+	/*[BRfqServie.insertRfqReReqPtnr][견적재요청 업체정보][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_PTNR (
+		RFQ_PTNR_ID
+		,BRANCH_CD
+		,RFQ_REQ_NO
+		,RCVR_ID
+		,RCVR_NM
+		,PTNR_ID
+		,RCV_DT
+		,CD_RFQ_SUBM_STTS
+		,SBMTR_ID
+		,SBMTR_NM
+		,TECH_SCORE
+		,SBMT_DT
+		,RFQ_AMT
+		,ATTCH_FILE_CNT
+		,RMARK
+		,CRTR_ID
+		,CRT_DT
+		,CFM_AMT
+		,ALT_PWIN_PTNR
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		,RFQ_EXPLN_DAY
+		,RFQ_EXPLN_TIME
+		,RFQ_EXPLN_AREA
+		,RFQ_ODR
+		,ALT_PRGRS_TARG
+		,ALT_PRGRS_CMPL
+		,CD_RFQ_CRNC)
+		SELECT
+		 MM_RFQ_PTNR_SEQ.NEXTVAL
+		,BRANCH_CD
+		,RFQ_REQ_NO
+		,''
+		,''
+		,PTNR_ID
+		,''
+		,''
+		,''
+		,''
+		,''
+		,''
+		,''
+		,0
+		,''
+		,#{WRTR_ID}
+		,SYSDATE
+		,0
+		,''
+		,#{WRTR_ID}
+		,SYSDATE
+		,''
+		,''
+		,''
+		,#{RFQ_ODR}+ 1
+		,''
+		,''
+		,CD_RFQ_CRNC
+		FROM MM_RFQ_PTNR
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+		AND ALT_PWIN_PTNR = 'Y'
+	</insert>
+
+	<insert id="insertRfqReReqFile" parameterType="hashmap">
+	/*[BRfqServie.insertRfqReReqFile][견적재요청 요청파일][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_REQ_FILE (
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,RFQ_REQ_FILE_ID
+		,REQ_FILE_NM
+		,CD_FILE_TYPE
+		,ALT_MDT
+		,RMARK
+		,RFQ_ODR)
+		SELECT
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,MM_RFQ_REQ_FILE_SEQ.NEXTVAL
+		,REQ_FILE_NM
+		,CD_FILE_TYPE
+		,'0'
+		,RMARK
+		,#{RFQ_ODR}+ 1
+		FROM MM_RFQ_REQ_FILE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</insert>
+	
+	<select id="chkPrItmTkey" parameterType="hashmap" resultType="hashmap">
+	/*[BRfqServie.chkPrItmTkey][견적작성시 중복을 체크한다.][2019.05.07][정현근]*/
+		SELECT
+		PR_ITEM_ID
+		FROM MM_PR_ITEM
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PR_ITEM_ID = #{PR_ITEM_ID}
+		AND TKEY = #{TKEY}
+	</select>	
+	
+	<select id="chkRfqTkey" parameterType="hashmap" resultType="hashmap">
+	/*[BRfqServie.chkRfqTkey][견적작성시 중복을 체크한다.][2019.05.07][정현근]*/
+		SELECT
+		TKEY
+		FROM MM_RFQ
+		WHERE RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+		AND BRANCH_CD = #{BRANCH_CD}
+		AND TKEY = #{TKEY}
+	</select>	
+	
+	<insert id="rfqInsert" parameterType="hashmap">
+	/*[BRfqServie.rfqInsert][견적작성시 중복을 체크한다.][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ (
+		 BRANCH_CD
+		,RFQ_REQ_NO
+		,CD_RFQ_STTS
+		,WRTR_ID
+		,ATTCH_FILE_CNT
+		,TTL
+		,RMARK
+		,WRTR_NM
+		,GOALAMT
+		,AWRD_AMT
+		,REQ_DT
+		,APP_DOC_ID
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		,TKEY
+		,CD_DOC_CTGR
+		,RFQ_CLOSE_DAY
+		,RFQ_CLOSE_TIME
+		,CD_RFQ_AIM
+		,RFQ_ODR
+		)VALUES(
+		#{BRANCH_CD}
+		,#{RFQ_REQ_NO}
+		,#{CD_RFQ_STTS}
+		,#{CRTR_ID}
+		,#{ATTCH_FILE_CNT}
+		,#{TTL}
+		,#{RMARK}
+		,#{WRTR_NM}
+		,#{GOALAMT}
+		,#{AWRD_AMT}
+		<if
+			test="CD_RFQ_STTS != null and CD_RFQ_STTS != 'undefined' and CD_RFQ_STTS != '' and CD_RFQ_STTS == 'ET10WRI' or CD_RFQ_STTS == 'ET10APP'">
+			,NULL
+			</if>
+		<if test="CD_RFQ_STTS == 'ET10REQ'">
+			,SYSDATE
+			</if>
+		,#{APP_DOC_ID}
+		,#{CRTR_ID}
+		,SYSDATE
+		,#{LAST_CHGR_ID}
+		,SYSDATE
+		,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+		,#{CD_DOC_CTGR}
+		,#{RFQ_CLOSE_DAY}
+		,#{RFQ_CLOSE_TIME} || '0000'
+		,#{CD_RFQ_AIM}
+		,#{RFQ_ODR}
+		)
+	</insert>	
+	
+	<insert id="rfqInsertAdd" parameterType="hashmap">
+	/*[BRfqServie.rfqInsertAdd][견적작성시 중복을 체크한다.][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_ADD (
+		BRANCH_CD
+		,RFQ_REQ_NO
+		,ALT_OPEN_EXPLN
+		,CD_OPEN_TYPE
+		,CD_RFQ_SBMT_MTHD
+		,RFQ_SBMT_PLC
+		,ALT_RFQ_OPEN
+		,OPEN_EXPLN_DAY
+		,ALT_RFQ_EXPLN_ACT
+		,OPEN_EXPLN_TIME
+		,ALT_RFQ_EXPLN_NXT_NTC
+		,OPEN_EXPLN_AREA
+		,ALT_TARG_CORP_OPEN
+		,OPEN_EXPLN_ATTN_CNDTN
+		,ALT_RFQ_RSLT_OPEN
+		,ALT_CERT
+		,OPEN_EXPLN_DR_TIME
+		,ALT_BDGT_OPEN
+		,ALT_SVC_RFQ
+		,RFQ_ODR
+		,ALT_RFQ_PRICE_SBMT
+		,ALT_SVC_DTL_BID
+		,CHRGR_ID
+		,CHRGR_NM
+		,EMAIL
+		,TEL
+		,FAX
+		,CNCL_RSN
+		,TNDR_NO
+		,TNDR_ODR
+		,CD_RFQ_CRNC
+		,ALT_QTY_OPEN
+		)VALUES(
+		#{BRANCH_CD}
+		,#{RFQ_REQ_NO}
+		,#{ALT_OPEN_EXPLN}
+		,#{CD_OPEN_TYPE}
+		,#{CD_RFQ_SBMT_MTHD}
+		,#{RFQ_SBMT_PLC}
+		,#{ALT_RFQ_OPEN}
+		,#{OPEN_EXPLN_DAY}
+		,#{ALT_RFQ_EXPLN_ACT}
+		,#{OPEN_EXPLN_TIME}
+		,#{ALT_RFQ_EXPLN_NXT_NTC}
+		,#{OPEN_EXPLN_AREA}
+		,#{ALT_TARG_CORP_OPEN}
+		,#{OPEN_EXPLN_ATTN_CNDTN}
+		,#{ALT_RFQ_RSLT_OPEN}
+		,#{ALT_CERT}
+		,#{OPEN_EXPLN_DR_TIME}
+		,#{ALT_BDGT_OPEN}
+		,#{ALT_SVC_RFQ}
+		,#{RFQ_ODR}
+		,#{ALT_RFQ_PRICE_SBMT}
+		,#{ALT_SVC_DTL_BID}
+		,#{CHRGR_ID}
+		,#{CHRGR_NM}
+		,#{EMAIL}
+		,#{TEL}
+		,#{FAX}
+		,#{CNCL_RSN}
+		,#{TNDR_NO}
+		,#{TNDR_ODR}
+		,#{CD_RFQ_CRNC}
+		,#{ALT_QTY_OPEN}
+		)
+	</insert>	
+	
+	<insert id="rfqInsertItm" parameterType="hashmap">
+	/*[BRfqServie.rfqInsertItm][견적작성시 중복을 체크한다.][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_ITEM (
+		BRANCH_CD
+		,RFQ_REQ_ITEM_ID
+		,RFQ_REQ_NO
+		,PR_ITEM_ID
+		,ITM_NO
+		,STR_CD	
+		,MTRL_GRP_ID
+		,MTRL_GRP_NM
+		,SRC_GRP_ID
+		,MTRL_CD
+		,SRC_GRP_NM
+		,MTRL_NM
+		,QTY
+		,CD_UNIT
+		,GOALUNT_PRICE
+		,GOALAMT
+		,DLV_REQ_DAY
+		,ATTCH_FILE_CNT
+		,RMARK
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		,CFM_PRICE
+		,CFM_AMT
+		,RFQ_ODR
+		)VALUES(
+		#{BRANCH_CD}
+		,#{RFQ_REQ_ITEM_ID}
+		,#{RFQ_REQ_NO}
+		,#{PR_ITEM_ID}
+		,#{ITM_NO}
+		,#{STR_CD}
+		,#{MTRL_GRP_ID}
+		,#{MTRL_GRP_NM}
+		,#{SRC_GRP_ID}
+		,#{MTRL_CD}
+		,#{SRC_GRP_NM}
+		,#{MTRL_NM}
+		,#{QTY}
+		,#{CD_UNIT}
+		,#{GOALUNT_PRICE}
+		,#{GOALAMT}
+		,#{DLV_REQ_DAY}
+		,#{ATTCH_FILE_CNT}
+		,#{RMARK}
+		,#{CRTR_ID}
+		,SYSDATE
+		,#{LAST_CHGR_ID}
+		,SYSDATE
+		,#{CFM_PRICE}
+		,#{CFM_AMT}
+		,#{RFQ_ODR}
+		)
+	</insert>
+
+	<insert id="rfqInsertItmAdd" parameterType="hashmap">
+	/*[BRfqServie.rfqInsertItmAdd][견적작성시 중복을 체크한다.][2019.05.07][정현근]*/
+		INSERT INTO MM_RFQ_ITEM_ADD (
+		RFQ_REQ_ITEM_ID
+		,PTNR_ID
+		,DLV_PLC_NM
+		,ZIP_NO
+		,ADDR
+		,DTL_ADDR
+		,FWD_REMARK
+		,SRCH_KEY
+		)VALUES(
+		#{RFQ_REQ_ITEM_ID}
+		,#{PTNR_ID}
+		,#{DLV_PLC_NM}
+		,#{ZIP_NO}
+		,#{ADDR}
+		,#{DTL_ADDR}
+		,#{FWD_REMARK}
+		,#{SRCH_KEY}
+		)
+	</insert>	
+	
+	<update id="rfqUpdPrItmTkey" parameterType="hashmap">
+	/*[BRfqServie.rfqUpdPrItmTkey][구매요청품목 TKEY 업데이트][2019.05.07][정현근]*/		
+		UPDATE MM_PR_ITEM
+		SET
+		TKEY = TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PR_ITEM_ID = #{PR_ITEM_ID}
+	</update>	
+	
+	<insert id="rfqInsertPtnr" parameterType="hashmap">
+	/*[BRfqServie.rfqInsertPtnr][구매요청품목 TKEY 업데이트][2019.05.07][정현근]*/	
+		INSERT INTO MM_RFQ_PTNR (
+		RFQ_PTNR_ID
+		,BRANCH_CD
+		,RFQ_REQ_NO
+		,RCVR_ID
+		,RCVR_NM
+		,PTNR_ID
+		,RCV_DT
+		,CD_RFQ_SUBM_STTS
+		,SBMTR_ID
+		,SBMTR_NM
+		,TECH_SCORE
+		,SBMT_DT
+		,RFQ_AMT
+		,ATTCH_FILE_CNT
+		,RMARK
+		,CRTR_ID
+		,CRT_DT
+		,CFM_AMT
+		,ALT_PWIN_PTNR
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		,RFQ_EXPLN_DAY
+		,RFQ_EXPLN_TIME
+		,RFQ_EXPLN_AREA
+		,RFQ_ODR
+		,ALT_PRGRS_TARG
+		,ALT_PRGRS_CMPL
+		,CD_RFQ_CRNC
+		)VALUES(
+		#{RFQ_PTNR_ID}
+		,#{BRANCH_CD}
+		,#{RFQ_REQ_NO}
+		,#{RCVR_ID}
+		,#{RCVR_NM}
+		,#{PTNR_ID}
+		,#{RCV_DT}
+		,#{CD_RFQ_SUBM_STTS}
+		,#{SBMTR_ID}
+		,#{SBMTR_NM}
+		,#{TECH_SCORE}
+		,#{SBMT_DT}
+		,#{RFQ_AMT}
+		,#{ATTCH_FILE_CNT}
+		,#{RMARK}
+		,#{CRTR_ID}
+		,SYSDATE
+		,#{CFM_AMT}
+		,#{ALT_PWIN_PTNR}
+		,#{LAST_CHGR_ID}
+		,SYSDATE
+		,#{RFQ_EXPLN_DAY}
+		,#{RFQ_EXPLN_TIME}
+		,#{RFQ_EXPLN_AREA}
+		,#{RFQ_ODR}
+		,#{ALT_PRGRS_TARG}
+		,#{ALT_PRGRS_CMPL}
+		,#{CD_RFQ_CRNC}
+		)
+	</insert>	
+	
+	<insert id="rfqInsertPtnrQuote" parameterType="hashmap">
+		/*[BRfqServie.rfqInsertPtnrQuote][견적 협력사 품목정보 INSERT][2019.05.07][정현근]*/	
+		INSERT INTO MM_RFQ_PTNR_QUOTE(
+		PTNR_RFQ_ITEM_ID
+		,RFQ_PTNR_ID
+		,RFQ_REQ_ITEM_ID
+		,RFQ_PRICE
+		,RFQ_AMT
+		,MTRL_PAY
+		,PSN_PAY
+		,ETC_PAY
+		,PROFIT_PAY
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		)
+		SELECT
+		 MM_RFQ_PTNR_QUOTE_SEQ.NEXTVAL
+		,RP.RFQ_PTNR_ID
+		,RI.RFQ_REQ_ITEM_ID
+		,0
+		,0
+		,0
+		,0
+		,0
+		,0
+		,#{CRTR_ID}
+		,SYSDATE
+		,#{LAST_CHGR_ID}
+		,SYSDATE
+		FROM MM_RFQ_ITEM RI, MM_RFQ_PTNR RP
+		WHERE RI.BRANCH_CD = RP.BRANCH_CD
+		AND RI.RFQ_REQ_NO = RP.RFQ_REQ_NO
+		AND RI.RFQ_ODR = RP.RFQ_ODR
+		AND RI.BRANCH_CD = #{BRANCH_CD}
+		AND RI.RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RI.RFQ_ODR = #{RFQ_ODR}
+	</insert>
+	
+	<update id="rfqUpd" parameterType="hashmap">
+	/*[BRfqServie.rfqUpd][견적작성 Header 업데이트][2019.05.07][정현근]*/			
+		UPDATE MM_RFQ
+		SET
+		CD_RFQ_STTS = #{CD_RFQ_STTS}
+		,WRTR_ID = #{WRTR_ID}
+		,ATTCH_FILE_CNT = #{ATTCH_FILE_CNT}
+		,TTL = #{TTL}
+		,RMARK = #{RMARK}
+		,WRTR_NM = #{WRTR_NM}
+		,GOALAMT = #{GOALAMT}
+		,AWRD_AMT = #{AWRD_AMT}
+		<if test="CD_RFQ_STTS == 'ET10WRI'">
+			,REQ_DT = NULL
+			</if>
+		<if test="CD_RFQ_STTS == 'ET10REQ'">
+			,REQ_DT = SYSDATE
+			</if>
+		,APP_DOC_ID = #{APP_DOC_ID}
+		,LAST_CHGR_ID = #{LAST_CHGR_ID}
+		,LAST_CHG_DT = SYSDATE
+		,CD_DOC_CTGR = #{CD_DOC_CTGR}
+		,RFQ_CLOSE_DAY = #{RFQ_CLOSE_DAY}
+		,RFQ_CLOSE_TIME = #{RFQ_CLOSE_TIME} || '0000'
+		,CD_RFQ_AIM = #{CD_RFQ_AIM}
+		<if test="CD_RFQ_STTS == 'ET10REQ'">
+			,TKEY = TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			</if>
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</update>	
+	
+	<update id="rfqUpdAdd" parameterType="hashmap">
+	/*[BRfqServie.rfqUpdAdd][견적추가정보 업데이트][2019.05.07][정현근]*/			
+		UPDATE MM_RFQ_ADD SET
+		ALT_OPEN_EXPLN = #{ALT_OPEN_EXPLN}
+		,CD_OPEN_TYPE = #{CD_OPEN_TYPE}
+		,CD_RFQ_SBMT_MTHD = #{CD_RFQ_SBMT_MTHD}
+		,RFQ_SBMT_PLC = #{RFQ_SBMT_PLC}
+		,ALT_RFQ_OPEN = #{ALT_RFQ_OPEN}
+		,OPEN_EXPLN_DAY = #{OPEN_EXPLN_DAY}
+		,ALT_RFQ_EXPLN_ACT = #{ALT_RFQ_EXPLN_ACT}
+		,OPEN_EXPLN_TIME = #{OPEN_EXPLN_TIME}
+		,ALT_RFQ_EXPLN_NXT_NTC = #{ALT_RFQ_EXPLN_NXT_NTC}
+		,OPEN_EXPLN_AREA = #{OPEN_EXPLN_AREA}
+		,ALT_TARG_CORP_OPEN = #{ALT_TARG_CORP_OPEN}
+		,OPEN_EXPLN_ATTN_CNDTN = #{OPEN_EXPLN_ATTN_CNDTN}
+		,ALT_RFQ_RSLT_OPEN = #{ALT_RFQ_RSLT_OPEN}
+		,ALT_CERT = #{ALT_CERT}
+		,OPEN_EXPLN_DR_TIME = #{OPEN_EXPLN_DR_TIME}
+		,ALT_BDGT_OPEN = #{ALT_BDGT_OPEN}
+		,ALT_SVC_RFQ = #{ALT_SVC_RFQ}
+		,ALT_RFQ_PRICE_SBMT = #{ALT_RFQ_PRICE_SBMT}
+		,ALT_SVC_DTL_BID = #{ALT_SVC_DTL_BID}
+		,CHRGR_ID = #{CHRGR_ID}
+		,CHRGR_NM = #{CHRGR_NM}
+		,EMAIL = #{EMAIL}
+		,TEL = #{TEL}
+		,FAX = #{FAX}
+		,CNCL_RSN = #{CNCL_RSN}
+		,CD_RFQ_CRNC = #{CD_RFQ_CRNC}
+		,ALT_QTY_OPEN = #{ALT_QTY_OPEN}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+	</update>	
+	
+	<update id="rfqDelPurItemSttsUpd" parameterType="hashmap">
+	/*[BRfqServie.rfqDelPurItemSttsUpd][견적품목 삭제시 구매요청 품목의 상태를 업데이트][2019.05.07][정현근]*/			
+		UPDATE MM_PR_ITEM
+		SET
+		CD_PR_ITEM_STTS = 'PR13RCV'
+		WHERE PR_ITEM_ID IN (
+		SELECT
+		PR_ITEM_ID
+		FROM MM_RFQ_ITEM
+		WHERE RFQ_REQ_ITEM_ID = #{RFQ_REQ_ITEM_ID}
+		)
+	</update>	
+	
+	<update id="rfqDelItem" parameterType="hashmap">
+		/*[BRfqServie.rfqDelItem][견적품목 삭제][2019.05.07][정현근]*/		
+		DELETE FROM MM_RFQ_ITEM WHERE RFQ_REQ_ITEM_ID = #{RFQ_REQ_ITEM_ID}
+	</update>
+
+	<update id="rfqDelItemAdd" parameterType="hashmap">
+		/*[BRfqServie.rfqDelItemAdd][견적품목 추가정보 삭제][2019.05.07][정현근]*/		
+		DELETE FROM MM_RFQ_ITEM_ADD WHERE RFQ_REQ_ITEM_ID = #{RFQ_REQ_ITEM_ID}
+	</update>
+	
+	<update id="rfqUpdItm" parameterType="hashmap">
+		/*[BRfqServie.rfqUpdItm][견적품목정보 업데이트][2019.05.07][정현근]*/		
+		UPDATE MM_RFQ_ITEM SET
+		ITM_NO = #{ITM_NO}
+		,STR_CD = #{STR_CD}		
+		,MTRL_GRP_ID = #{MTRL_GRP_ID}
+		,MTRL_GRP_NM = #{MTRL_GRP_NM}
+		,SRC_GRP_ID = #{SRC_GRP_ID}
+		,MTRL_CD = #{MTRL_CD}
+		,SRC_GRP_NM = #{SRC_GRP_NM}
+		,MTRL_NM = #{MTRL_NM}
+		,QTY = #{QTY}
+		,CD_UNIT = #{CD_UNIT}
+		,GOALUNT_PRICE = #{GOALUNT_PRICE}
+		,GOALAMT = #{GOALAMT}
+		,DLV_REQ_DAY = #{DLV_REQ_DAY}
+		,ATTCH_FILE_CNT = #{ATTCH_FILE_CNT}
+		,RMARK = #{RMARK}
+		,LAST_CHGR_ID = #{LAST_CHGR_ID}
+		,LAST_CHG_DT = SYSDATE
+		,CFM_PRICE = #{CFM_PRICE}
+		,CFM_AMT = #{CFM_AMT}
+		WHERE RFQ_REQ_ITEM_ID = #{RFQ_REQ_ITEM_ID}
+	</update>
+
+	<update id="rfqUpdItmAdd" parameterType="hashmap">
+		/*[BRfqServie.rfqUpdItmAdd][견적품목 추가정보 업데이트][2019.05.07][정현근]*/
+		UPDATE MM_RFQ_ITEM_ADD
+		SET
+		PTNR_ID = #{PTNR_ID}
+		,DLV_PLC_NM = #{DLV_PLC_NM}
+		,ZIP_NO = #{ZIP_NO}
+		,ADDR = #{ADDR}
+		,DTL_ADDR = #{DTL_ADDR}
+		,FWD_REMARK = #{FWD_REMARK}
+		,SRCH_KEY = #{SRCH_KEY}
+		WHERE RFQ_REQ_ITEM_ID = #{RFQ_REQ_ITEM_ID}
+	</update>
+
+	<update id="rfqDelPtnr" parameterType="hashmap">
+		/*[BRfqServie.rfqDelPtnr][견적업체 삭제][2019.05.07][정현근]*/
+		DELETE FROM MM_RFQ_PTNR WHERE RFQ_PTNR_ID = #{RFQ_PTNR_ID}
+	</update>
+	
+	<update id="rfqUpdPtnr" parameterType="hashmap">
+		/*[BRfqServie.rfqUpdPtnr][견적품목 협력사 업데이트][2019.05.07][정현근]*/		
+		UPDATE MM_RFQ_PTNR
+		SET
+		RCVR_ID = #{RCVR_ID}
+		,RCVR_NM = #{RCVR_NM}
+		,RCV_DT = #{RCV_DT}
+		,CD_RFQ_SUBM_STTS = #{CD_RFQ_SUBM_STTS}
+		,SBMTR_ID = #{SBMTR_ID}
+		,SBMTR_NM = #{SBMTR_NM}
+		,TECH_SCORE = #{TECH_SCORE}
+		,SBMT_DT = #{SBMT_DT}
+		,RFQ_AMT = #{RFQ_AMT}
+		,ATTCH_FILE_CNT = #{ATTCH_FILE_CNT}
+		,RMARK = #{RMARK}
+		,CFM_AMT = #{CFM_AMT}
+		,ALT_PWIN_PTNR = #{ALT_PWIN_PTNR}
+		,LAST_CHGR_ID = #{LAST_CHGR_ID}
+		,LAST_CHG_DT = SYSDATE
+		,RFQ_EXPLN_DAY = #{RFQ_EXPLN_DAY}
+		,RFQ_EXPLN_TIME = #{RFQ_EXPLN_TIME}
+		,RFQ_EXPLN_AREA = #{RFQ_EXPLN_AREA}
+		,ALT_PRGRS_TARG = #{ALT_PRGRS_TARG}
+		,ALT_PRGRS_CMPL = #{ALT_PRGRS_CMPL}
+		,CD_RFQ_CRNC = #{CD_RFQ_CRNC}
+		WHERE RFQ_PTNR_ID = #{RFQ_PTNR_ID}
+	</update>	
+	
+	<update id="rfqPurItemSttsUpd" parameterType="hashmap">
+		/*[BRfqServie.rfqPurItemSttsUpd][구매요청 품목의 상태를 업데이트][2019.05.07][정현근]*/		
+		UPDATE MM_PR_ITEM
+		SET
+		CD_PR_ITEM_STTS = #{CD_PR_ITEM_STTS}
+		WHERE PR_ITEM_ID IN (
+		SELECT
+		PR_ITEM_ID
+		FROM MM_RFQ_ITEM
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND RFQ_ODR = #{RFQ_ODR}
+		)
+	</update>	
+</mapper>

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="pop_docType" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="인지세납부 증빙첨부" left="0" width="529" top="0" height="394" cssclass="frm_POP_Search" onload="FormOnload">
+    <Layouts>
+      <Layout>
+        <Div id="Div00" taborder="1" text="Div00" left="0%" top="7" right="0%" bottom="0">
+          <Layouts>
+            <Layout>
+              <Div id="div_41" taborder="34" text="Div04" left="10" top="112" right="10" height="200" url="CCOMP::CompNFileUpDown.xfdl"/>
+              <Div id="Div00" taborder="35" text="* 전자수입인지 또는 국세청납부확인서를 첨부하시기 바랍니다." left="3.4%" top="312" right="9.45%" height="26" style="color:red;font:9 arial;"/>
+              <Div id="Div01" taborder="36" text="* 인지세 납부증빙 첨부파일 안내" left="6.05%" top="334" right="13.04%" height="24" style="align:left middle;"/>
+              <Div id="Div02" taborder="37" text="* 인지세 관련 법령 및 금액 안내" left="6.05%" top="355" right="13.04%" height="24" style="align:left middle;"/>
+              <Button id="btnTstampFileInfo" taborder="38" text="보기" cssclass="btn_WF_Custom" top="338" right="50" width="50" height="18" objNm="구매요청복사버튼" lbcd="" onclick="fnBtnTstampFileInfoOnclick"/>
+              <Button id="btnTstampAmtInfo" taborder="39" text="보기" cssclass="btn_WF_Custom" top="359" right="50" width="50" height="18" objNm="구매요청복사버튼" lbcd="" onclick="fnBtnTstampAmtInfoOnclick"/>
+              <Static id="sta_WFDA_Label05" taborder="40" cssclass="sta_WF_Labelbg" left="10" top="34" right="10" height="33"/>
+              <Static id="st_Ttl" taborder="41" text="전자수입인지 납부(고유)번호" onclick="Div00_st_Ttl_onclick" cssclass="sta_WF_Label" left="10" top="34" right="56.14%" height="33" lbcd=""/>
+              <Static id="sta_WFDA_Label00" taborder="42" cssclass="sta_WF_Labelbg" left="10" top="66" right="10" height="33"/>
+              <Static id="st_Ttl00" taborder="43" text="인지세(납부금액)" cssclass="sta_WF_Label" left="10" top="66" right="56.14%" height="33" lbcd=""/>
+              <MaskEdit id="MaskEdit01" taborder="47" mask="#,##0" left="237" top="71" right="20" height="24" readonly="true"/>
+              <Edit id="Edit00" taborder="48" left="237" top="39" right="20" height="24" readonly="true"/>
+              <Div id="divViewCompTitle00" taborder="49" left="0" top="7" right="10" height="24" objNm="DIV-기본정보 타이틀">
+                <Layouts>
+                  <Layout width="993" height="139">
+                    <Static id="staViewCompTitle00" taborder="6" text="기본정보" cssclass="sta_WF_Subtitle" left="10" top="0" width="255" height="24" objNm="기본정보타이틀"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCntr">
+        <ColumnInfo>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="CNTR_ORDR" type="STRING" size="256"/>
+          <Column id="FILE_TYPE" type="STRING" size="256"/>
+          <Column id="FILE_CNT" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="TSTAMP_RUN_AMT" type="STRING" size="256"/>
+          <Column id="ET_PAY_NO" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item1" compid="Div00.MaskEdit01" propid="value" datasetid="dsCntr" columnid="TSTAMP_RUN_AMT"/>
+      <BindItem id="item2" compid="Div00.Edit00" propid="value" datasetid="dsCntr" columnid="ET_PAY_NO"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/***************************************************************************
+ * Program ID    : SCntrPrgAttchFilePopup.xfdl
+ * Program Name  : 계약진행현황 첨부파일
+ * Author        : 안성민
+ * Created On    : 2019.03.07
+**************************************************************************/
+this.popTitle = "인지세납부 증빙첨부"
+var mode = "";
+
+this.FormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnMakeFileDs(this);
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsCntr.setColumn(0,"BRANCH_CD",ownFrame.agv_branchCd);
+	this.dsCntr.setColumn(0,"CNTR_NO",ownFrame.agv_no);
+	this.dsCntr.setColumn(0,"CNTR_ORDR",ownFrame.agv_ordr);
+	this.dsCntr.setColumn(0,"FILE_TYPE",ownFrame.agv_type);
+	mode = ownFrame.agv_mode;
+	
+	this.fnSearch();
+}
+
+this.fnSearch = function()
+{	
+    var sSvcID = "searchCntrTstamp";
+	var sController = "epro.cntr.service.BCntrService.searchCntrTstamp";
+	var sInDatasets = "dsCntr=dsCntr";
+	var sOutDatasets = "dsCntr=dsCntr";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnFileload
+  * @desc     	: 탭페이지 첨부파일 셋팅
+  */
+this.fnFileload= function(fUse)
+{
+	var sTableNm = "MM_CNTR";
+	var arrFileKey = [this.dsCntr.getColumn(0, "CNTR_NO")
+ 					 ,this.dsCntr.getColumn(0, "CNTR_ORDR")
+ 					 ,this.dsCntr.getColumn(0, "FILE_TYPE")]
+ 					 
+	this.Div00.div_41.fnFileInit(this, sTableNm, this.dsCntr, arrFileKey, fUse);
+}
+
+
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "searchCntrTstamp" :
+			this.fnFileload("Y");
+			break;
+		default:
+			break;	
+	}
+}
+
+this.fnBtnTstampFileInfoOnclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	gfnModalPop(this, "tstampAttchFileInfoPopup", "BCNTR::BCntrTstampAttchFileInfoPopup.xfdl", {}, "", 1000, 410);
+}
+
+this.fnBtnTstampAmtInfoOnclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	
+}
+]]></Script>
+  </Form>
+</FDL>

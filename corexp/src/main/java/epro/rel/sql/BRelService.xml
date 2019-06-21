@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BRelService">
+
+	<select id="stockSrch" parameterType="hashmap" resultType="hashmap" >
+	/* [BRelService.stockSrch][재고현황 List 조회][2019.06.05][박소진] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="MTRL_CD ASC"/>
+		</include>	
+		SELECT 
+            DISTINCT
+            MM.MTRL_CD			--품목코드
+            ,MM.MTRL_NM2		--품목명
+            ,MM.CD_PUR_UNIT			
+            ,MSM.STR_CD            
+            ,MMS.SL_NM
+            ,MSM.STOCK_QTY
+            ,MSM.STOCK_CST,STOCK_AMT
+            ,MMG3.MTRL_GRP_NM2
+        FROM MC_STOCK_MST MSM
+        	 ,MM_MTRL MM
+        	 ,MM_MTRL_PURC MMP
+        	 ,MM_MT_SL MMS 
+        	 ,MM_MTRL_GRP MMG1 
+        	 ,MM_MTRL_GRP MMG2
+        	 ,MM_MTRL_GRP MMG3
+		WHERE MSM.BRANCH_CD = #{BRANCH_CD}
+		AND MSM.MTRL_CD = MM.MTRL_CD
+		AND MSM.MTRL_CD = MMP.MTRL_CD
+		AND MSM.BRANCH_CD = MMP.BRANCH_CD
+        AND MSM.STR_CD = MMS.STR_CD
+        AND MM.LRG_CLS_ID = MMG1.MTRL_GRP_ID(+)
+        AND MM.MDL_CLS_ID = MMG2.MTRL_GRP_ID(+)
+        AND MM.SML_CLS_ID = MMG3.MTRL_GRP_ID(+)
+		AND MM.LRG_CLS_ID <![CDATA[<>]]> '8'
+		<if test="EXIST == 'true'">
+			AND MSM.STOCK_QTY > 0
+		</if>
+		
+		<if test="SRCH_STR_CD != null and SRCH_STR_CD != 'undefined' and SRCH_STR_CD != '' ">
+			  AND MSM.STR_CD = #{SRCH_STR_CD}
+		</if>
+		
+		<if test="SRCH_STR_NM != null and SRCH_STR_NM != 'undefined' and SRCH_STR_NM != '' ">
+			  AND MMS.SL_NM LIKE '%' || #{SRCH_STR_NM}  || '%'
+		</if>
+		
+		<if test="SRCH_MTRL_CD != null and SRCH_MTRL_CD != 'undefined' and SRCH_MTRL_CD != '' ">
+			  AND MM.MTRL_CD = #{SRCH_MTRL_CD}
+		</if>
+		
+		<if test="SRCH_MTRL_NM != null and SRCH_MTRL_NM != 'undefined' and SRCH_MTRL_NM != '' ">
+			  AND  REGEXP_LIKE (MM.MTRL_NM2, replace(#{SRCH_MTRL_NM},' ','|'),'i')
+		</if>
+		<if test="LRG_CLS_ID != null and LRG_CLS_ID != 'undefined' and LRG_CLS_ID != ''">
+			AND   MM.LRG_CLS_ID = #{LRG_CLS_ID}
+		</if>
+		<if test="MDL_CLS_ID != null and MDL_CLS_ID != 'undefined' and MDL_CLS_ID != ''">
+			AND   MM.MDL_CLS_ID = #{MDL_CLS_ID}
+		</if>
+		<if test="SML_CLS_ID != null and SML_CLS_ID != 'undefined' and SML_CLS_ID != ''">
+			AND   MM.SML_CLS_ID = #{SML_CLS_ID}
+		</if>
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<select id="relReadCnt" parameterType="hashmap" resultType="hashmap">
+  	/* [BRelService.relReadCnt][출고등록 카운트조회][2019.06.05][박소진] */
+        SELECT /*+ RULE */
+            NVL(SUM(DECODE(MMM.CD_GI_STTS,'ZZ20SAV',1,0)),0) AS TMP
+            ,NVL(SUM(DECODE(MMM.CD_GI_STTS,'ZZ20WAT',1,'ZZ20APP',1,0)),0) AS APP
+        FROM MM_MTRL_MOVE MMM
+        WHERE MMM.CD_GI_STTS IN ('ZZ20WAT','ZZ20APP','ZZ20SAV')
+           AND MMM.GI_REQR_ID = #{GI_REQR_ID}
+           AND MMM.BRANCH_CD = #{BRANCH_CD}  	
+	</select>  	
+	
+  	<select id="relReadList" parameterType="hashmap" resultType="hashmap">
+	/* [BRelService.relReadList][출고등록 리스트조회][2019.06.05][박소진] */
+  		SELECT
+            MMM.BRANCH_CD
+            ,MMM.GI_REQ_NO
+            ,MMM.CD_GI_STTS
+            ,TO_CHAR(MMM.CRT_DT,'YYYY.MM.DD')
+             || ' ' 
+             || (SELECT SL_NM
+                 FROM MM_MT_SL
+                 WHERE STR_CD = MMM.IN_STR_CD
+                   AND BRANCH_CD = #{BRANCH_CD}
+                 )
+             || '창고로 '
+             || (SELECT COUNT(*) || '건'
+                 FROM MM_MTRL_MOVE_ITEM 
+                 WHERE GI_REQ_NO = MMM.GI_REQ_NO
+             ) AS TTL
+        FROM MM_MTRL_MOVE MMM
+		WHERE MMM.BRANCH_CD = #{BRANCH_CD}
+		      AND MMM.GI_REQR_ID = #{GI_REQR_ID}
+		      AND MMM.CD_GI_STTS IN ('ZZ20SAV','ZZ20WAT','ZZ20APP')
+		ORDER BY MMM.GI_REQ_NO DESC
+  	</select>	
+
+  	<select id="relReadHeader" parameterType="hashmap" resultType="hashmap">
+	/* [BRelService.relReadHeader][출고등록 Header조회][2019.06.05][박소진] */
+  		SELECT
+		    MMM.BRANCH_CD
+		    ,MMM.GI_REQ_NO
+		    ,MMM.IN_STR_CD
+            ,MMS.SL_NM AS IN_STR_NM
+            ,MMM.CD_GI_STTS
+            ,MMM.GI_REQR_ID
+            ,FN_GETUSERNM(GI_REQR_ID,MMM.BRANCH_CD) AS GI_REQR_NM
+            ,(
+              SELECT GI_REQ_YMD
+              FROM   MM_MTRL_MOVE_ITEM
+              WHERE  BRANCH_CD = #{BRANCH_CD}
+                     AND GI_REQ_NO = #{GI_REQ_NO}
+                     AND ROWNUM = 1
+              ) AS GI_REQ_YMD 
+            ,MMM.CRTR_ID
+            ,MMM.LAST_CHGR_ID
+            ,MMM.APP_DOC_ID
+        FROM MM_MTRL_MOVE MMM
+             ,MM_MT_SL MMS 
+        WHERE MMM.BRANCH_CD = MMS.BRANCH_CD
+              AND MMM.IN_STR_CD = MMS.STR_CD
+              AND MMM.BRANCH_CD = #{BRANCH_CD}
+              AND MMM.GI_REQ_NO = #{GI_REQ_NO}
+  	</select> 
+  	
+  	<select id="relReadItem" parameterType="hashmap" resultType="hashmap">
+  	/* [BRelService.relReadItem][출고등록 Item조회][2019.06.05][박소진] */
+  		SELECT
+  			'0' CHECKED
+		    ,MMMI.GI_REQ_ITEM_NO
+		    ,MMMI.BRANCH_CD
+		    ,MMMI.GI_REQ_NO
+		    ,MMMI.OUT_STR_CD
+		    ,(SELECT SL_NM
+		      FROM MM_MT_SL
+		      WHERE STR_CD = MMMI.OUT_STR_CD
+		        AND BRANCH_CD = #{BRANCH_CD}) AS OUT_STR_NM
+            ,MMMI.GI_REQ_YMD
+            ,MMMI.GI_CFM_YMD
+            ,MMMI.GI_CFMR_ID
+            ,MMMI.CD_GI_RI_STTS
+            ,MMMI.OUT_ITEM_ACC
+            ,(SELECT ACNT_NM  
+              FROM MM_MT_ACCOUNT
+              WHERE ACNT_CD = OUT_ITEM_ACC
+                AND BRANCH_CD = #{BRANCH_CD}) AS OUT_ITEM_ACC_NM
+		    ,MMMI.MTRL_CD
+            ,MM.MTRL_NM2
+            ,MM.MTRL_NM
+		    ,MMMI.REQ_QTY
+		    ,MMMI.CFM_QTY
+		    ,MMMI.CRTR_ID
+		    ,MMMI.CRT_DT
+		    ,MMMI.LAST_CHGR_ID
+		    ,MMMI.LAST_CHG_DT
+            ,MSM.STOCK_QTY AS STOCK_QTY --현재고
+            ,NVL(AA.MOVE_REQ_QTY,0) AS MOVE_REQ_QTY --출고대기
+            ,MSM.STOCK_QTY - NVL(AA.MOVE_REQ_QTY,0) AS RELEPOSS --출고가능수량
+            ,MMMI.UNT_PRICE
+            ,MM.CD_PUR_UNIT
+		FROM MM_MTRL_MOVE_ITEM MMMI,MM_MTRL_MOVE MMM,MC_STOCK_MST MSM,MM_MTRL MM
+             ,(
+             SELECT
+              MMMI.MTRL_CD ,SUM(MMMI.REQ_QTY) MOVE_REQ_QTY
+              FROM MM_MTRL_MOVE MMM , MM_MTRL_MOVE_ITEM MMMI
+              WHERE MMM.BRANCH_CD = MMMI.BRANCH_CD 
+              AND MMM.GI_REQ_NO = MMMI.GI_REQ_NO
+              AND MMMI.CD_GI_RI_STTS = 'ZZ23REQ'
+              AND MMMI.GI_REQ_YMD > TO_CHAR(SYSDATE-1,'YYYYMMDD')
+              AND MMMI.BRANCH_CD = #{BRANCH_CD}
+              GROUP BY  MMMI.MTRL_CD
+             ) AA
+		WHERE MMMI.MTRL_CD = MM.MTRL_CD
+              AND MMMI.OUT_STR_CD = MSM.STR_CD(+)
+              AND MMMI.BRANCH_CD = MSM.BRANCH_CD(+)
+              AND MMMI.MTRL_CD = MSM.MTRL_CD(+)
+              AND MMMI.MTRL_CD = AA.MTRL_CD(+)
+              AND MMMI.BRANCH_CD = MMM.BRANCH_CD
+              AND MMMI.GI_REQ_NO = MMM.GI_REQ_NO
+              AND MMMI.BRANCH_CD = #{BRANCH_CD}
+		      AND MMMI.GI_REQ_NO = #{GI_REQ_NO}
+        ORDER BY MMMI.GI_REQ_ITEM_NO
+  	</select>  	 	
+	
+</mapper>

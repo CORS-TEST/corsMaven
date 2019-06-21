@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="commDebugDsPop" height="768" id="commDebugDsPop" left="0" onload="commDebugDsPop_onload" titletext="디버그 팝업" top="0" width="1080">
+    <Layouts>
+      <Layout>
+        <Tab height="715" id="Tab00" left="6" onchanged="Tab00_onchanged" scrollbars="autoboth" tabindex="0" taborder="0" top="38" width="1058">
+          <Tabpages>
+            <Tabpage id="tabpage1" text="Form 데이터셋">
+              <Layouts>
+                <Layout>
+                  <Button height="26" id="Button00" left="930" onclick="Tab00_tabpage1_Button00_onclick" taborder="0" text="가져오기" top="8" width="120"/>
+                  <Grid autofittype="col" binddataset="ds_lcDsList" height="633" id="Grid00" left="7" taborder="1" top="25" useinputpanel="false" width="263">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="77"/>
+                          <Column size="139"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="24"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="NM"/>
+                          <Cell col="1" expr="" text="OWNER"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="normal" edittype="readonly" text="bind:NM"/>
+                          <Cell col="1" displaytype="normal" edittype="readonly" text="bind:OWNER"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <TextArea height="204" id="TextArea00" left="278" taborder="2" top="454" width="772"/>
+                  <Grid binddataset="ds_dsData" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" height="205" id="grd_dsData" left="278" taborder="3" top="41" useinputpanel="false" width="772">
+                    <Formats/>
+                  </Grid>
+                  <Grid binddataset="ds_dsDel" height="105" id="grd_dsDel" left="278" taborder="4" top="324" useinputpanel="false" width="772">
+                    <Formats/>
+                  </Grid>
+                  <Static height="12" id="Static00" left="278" taborder="5" text="삭제 데이터" top="301" width="120"/>
+                  <Static height="12" id="Static01" left="278" taborder="6" text="XML" top="437" width="120"/>
+                  <Static height="12" id="Static02" left="278" taborder="7" text="데이터" top="25" width="120"/>
+                  <Div bottom="404" height="28" id="div_paing" left="26.47%" right="1.23%" scrollbars="none" taborder="8" url="CCOMP::CompPaging.xfdl"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabpage2" text="Form 컴포넌트">
+              <Layouts>
+                <Layout>
+                  <Static height="60" id="Static00" left="164" taborder="0" text="개발예정" top="154" width="120"/>
+                  <Static height="41" id="Static01" left="39" taborder="1" text="서비스 경로" top="44" width="128"/>
+                  <Button height="21" id="btn_svcChk" left="152" onclick="Tab00_tabpage2_btn_svcChk_onclick" taborder="2" text="확인" top="54" width="77"/>
+                  <Edit height="20" id="Edit00" left="237" taborder="3" top="55" width="607"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabpage3" text="Global 데이터셋">
+              <Layouts>
+                <Layout>
+                  <Grid autofittype="col" binddataset="ds_gvDsList" height="633" id="Grid00" left="7" taborder="0" top="25" useinputpanel="false" width="263">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="77"/>
+                          <Column size="139"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="24"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="NM"/>
+                          <Cell col="1" expr="" text="OWNER"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="normal" edittype="readonly" text="bind:NM"/>
+                          <Cell col="1" displaytype="normal" edittype="readonly" text="bind:OWNER"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Static height="12" id="Static02" left="278" taborder="1" text="데이터" top="25" width="120"/>
+                  <Grid binddataset="ds_gvDsData" height="232" id="grd_dsData" left="278" taborder="2" top="41" useinputpanel="false" width="772">
+                    <Formats/>
+                  </Grid>
+                  <Static height="12" id="Static00" left="278" taborder="3" text="삭제 데이터" top="301" width="120"/>
+                  <Grid binddataset="ds_gvDsDel" height="105" id="grd_dsDel" left="278" taborder="4" top="324" useinputpanel="false" width="772">
+                    <Formats/>
+                  </Grid>
+                  <TextArea height="204" id="TextArea00" left="278" taborder="5" top="454" width="772"/>
+                  <Static height="12" id="Static01" left="278" taborder="6" text="XML" top="437" width="120"/>
+                  <Button height="26" id="Button00" left="930" onclick="Tab00_tabpage3_Button00_onclick" taborder="7" text="가져오기" top="8" width="120"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <Button height="30" id="btn_close" onclick="btn_close_onclick" right="8" taborder="1" top="0" width="30"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_lcDsList" loadfiltermode="keep" loadkeymode="keep" onrowposchanged="ds_lcDsList_onrowposchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="NM" size="256" type="STRING"/>
+          <Column id="OWNER" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_dsData" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_dsDel" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_gvDsList" loadfiltermode="keep" loadkeymode="keep" onrowposchanged="ds_gvDsList_onrowposchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="NM" size="256" type="STRING"/>
+          <Column id="OWNER" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_gvDsData" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_gvDsDel" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+    </Objects>
+    <Bind>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00330" compid="Tab00.tabpage2.Static01" datasetid="gdsLabel" id="Static01LangBind2017110317184213996" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00563" compid="Tab00.tabpage1.Button00" datasetid="gdsLabel" id="Button00LangBind2017110317184219983" propid="text"/>
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompDebugFormPop.xfdl
+   @desc       디버그 팝업
+   @author     김현욱
+   @makedate   2015.09.08
+   @history    
+*/
+
+
+
+this.workForm = this.opener.divWork;
+
+/**
+	@function	commDebugDsPop_onload()
+	@desc   	폼 oninit 이벤트
+*/
+this.commDebugDsPop_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var objFrame = this.getOwnerFrame();
+	if(objFrame.agv_isPop == "Y") this.workForm = this.opener;	
+	
+	//로컬 데이터셋 가져오기
+	this.Tab00_tabpage1_Button00_onclick();
+	
+	//그리드 공통버튼 설정
+	this.Tab00.tabpage1.div_paing.fnDivGrdComBtnsInit(obj, this.Tab00.tabpage1.grd_dsData);
+		
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.Tab00.tabpage1.grd_dsData);
+		
+}
+ 
+/**
+	@function	Tab00_tabpage1_Button00_onclick()
+	@desc   	로컬 데이터셋 가져오기
+*/
+this.Tab00_tabpage1_Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_lcDsList.set_enableevent(false);
+	this.ds_lcDsList.clearData();
+	this.fn_getLocalDatasets(this.workForm);
+	this.ds_lcDsList.set_rowposition(-1);
+	this.ds_lcDsList.set_enableevent(true);
+}
+
+ 
+/**
+	@function	ds_lcDsList_onrowposchanged()
+	@desc   	로컬 데이터셋
+*/
+this.ds_lcDsList_onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	var id = obj.getColumn(e.newrow, "NM");
+	var owner = obj.getColumn(e.newrow, "OWNER");
+	var ds = this.fn_getDataset(owner, id);
+	
+	this.fn_DescriptDataset(ds, this.Tab00.tabpage1.grd_dsData, this.Tab00.tabpage1.grd_dsDel);
+	
+	this.Tab00.tabpage1.TextArea00.set_value(ds.saveXML());
+}
+ 
+/**
+	@function	ds_gvDsList_onrowposchanged()
+	@desc   	글로벌 데이터셋
+*/
+this.ds_gvDsList_onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	var id = obj.getColumn(e.newrow, "NM");
+	var owner = obj.getColumn(e.newrow, "OWNER");
+	var ds = this.fn_getDataset(owner, id);
+	
+	this.fn_DescriptDataset(ds, this.Tab00.tabpage3.grd_dsData, this.Tab00.tabpage3.grd_dsDel);
+	
+	this.Tab00.tabpage3.TextArea00.set_value(ds.saveXML());
+}
+
+/**
+	@function	Tab00_tabpage3_Button00_onclick()
+	@desc   	글로벌 데이터셋 가져오기
+*/
+this.Tab00_tabpage3_Button00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_gvDsList.set_enableevent(false);
+	this.ds_gvDsList.clearData();
+	this.fn_getGvDatasets();
+	this.ds_gvDsList.set_rowposition(-1);
+	this.ds_gvDsList.set_enableevent(true);
+}
+ 
+/**
+	@function	fn_getLocalDatasets()
+	@desc   	로컬 데이터셋 가져오기
+*/
+this.fn_getLocalDatasets = function(owner)
+{
+    if(!(owner instanceof Tab))
+    {
+         for(var i=0,size=owner.objects.length; i<size; i++)
+         {
+             var obj = owner.objects[i];
+             if(!(obj instanceof Dataset)) continue;
+
+             var nRow = this.ds_lcDsList.addRow();
+            
+             if(owner == this.workForm){
+                 this.ds_lcDsList.setColumn(nRow, "OWNER", "this");
+                 this.ds_lcDsList.setColumn(nRow, "NM", obj.name);
+             }else{
+                 this.ds_lcDsList.setColumn(nRow, "OWNER", this.fn_fullId(owner));
+                 this.ds_lcDsList.setColumn(nRow, "NM", obj.name);
+             }
+         }
+    }
+    
+    for(var i=0; i<owner.components.length; i++)
+    {
+        var oComp = owner.components[i];
+
+		if(oComp instanceof Div || oComp instanceof Tab || oComp instanceof Tabpage){
+            this.fn_getLocalDatasets(oComp);
+		}
+    }
+}
+
+/**
+	@function	fn_getGvDatasets()
+	@desc   	fn_getGvDatasets
+*/
+this.fn_getGvDatasets = function()
+{
+	var appAll = application.all;
+	for(var i=0; i< appAll.length;i++)
+	{
+		if(!(appAll[i] instanceof Dataset)) continue;
+
+		var nRow = this.ds_gvDsList.addRow();
+		this.ds_gvDsList.setColumn(nRow, "OWNER", "application");
+		this.ds_gvDsList.setColumn(nRow, "NM", appAll[i].name);
+	}
+}
+
+/**
+	@function	fn_fullId()
+	@desc   	fn_fullId
+*/
+this.fn_fullId = function(obj)
+{
+    var sId = "";
+    var rtn = "";
+    do{
+        sId = obj.name + "." +sId;
+        obj = obj.parent;
+    }while(obj != undefined && (obj+"") != "[object Form]" );
+    
+        
+    if(sId.charAt(0) == "."){
+        rtn = sId.substring(1, sId.length-1);
+    }else{
+        rtn =  sId.substring(0, sId.length-1);
+    }
+    
+    if(rtn.indexOf(this.workForm.name) == 0)
+    {
+		rtn = rtn.replace(this.workForm.name, "this");
+    } 
+    
+    return rtn;
+}
+ 
+/**
+	@function	fn_getDataset()
+	@desc   	데이터셋 가져오기
+*/
+this.fn_getDataset = function(sOwner, sDatasetName)
+{
+	switch(sOwner){
+		case "application":
+			return application.all[sDatasetName];
+		case "this":
+			return this.workForm[sDatasetName];
+		default:
+			if(this.workForm == this.opener)
+			{
+				return eval(sOwner +"." + sDatasetName);
+			}
+			else
+			{
+				var	sOwner = sOwner.replace("this", "");
+				return eval("this.opener.divWork" + sOwner +"." + sDatasetName);
+			}			
+	}
+}
+
+/**
+	@function	btn_close_onclick()
+	@desc   	닫기
+*/
+this.btn_close_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+/**
+	@function	fn_DescriptDataset()
+	@desc   	그리드에 데이터셋 표현
+*/
+this.fn_DescriptDataset = function(ds, objGrid, objDelGrid)
+{
+	var objDataDs = objGrid.getBindDataset();
+	var objDataDelDs = objDelGrid.getBindDataset();
+	
+	objDataDs.assign(ds);
+	
+	objDataDelDs.copyData(ds);
+	objDataDelDs.clearData();
+	
+	var aryObj = objDataDs.getDeletedRowset();
+	if(!gfnIsNull(aryObj)){
+		if( aryObj.length > 0 )
+		{
+			for(var i = 0 ; i < aryObj.length ; i++ ){
+				var nRow = objDataDelDs.addRow();
+				for( var j = 0 ; j < aryObj[i].length ; j++ ){
+					objDataDelDs.setColumn(i,j, aryObj[i][j] );
+				}
+			}
+		}
+		
+		////objDelGrid.set_binddataset("ds_dsDel");
+		objDelGrid.createFormat();		
+		objDelGrid.insertContentsCol('body', 0);
+		objDelGrid.setCellProperty("head", 0, "text", "No");
+		objDelGrid.setCellProperty("body", 0, "expr", "currow+1");
+	}
+
+	
+	objDataDs.set_filterstr(ds.filterstr);
+	
+	if(ds.getColCount() < 1 ) return;	
+
+	objGrid.createFormat();
+	
+	objDataDs.addColumn("rowType", 'string');
+
+	for(var i=0,size=objDataDs.rowcount; i<size; i++)
+	{
+		var sRowTypeText = "";
+		switch(objDataDs.getRowType(i)){
+			case Dataset.ROWTYPE_EMPTY : sRowTypeText = "empty"; break;
+			case Dataset.ROWTYPE_NORMAL: sRowTypeText = "normal"; break;
+			case Dataset.ROWTYPE_INSERT: sRowTypeText = "insert"; break;
+			case Dataset.ROWTYPE_UPDATE: sRowTypeText = "update"; break;
+			case Dataset.ROWTYPE_DELETE: sRowTypeText = "delete"; break;
+			case Dataset.ROWTYPE_GROUP : sRowTypeText = "group"; break;
+		}
+		
+		objDataDs.setColumn(i, "rowType", sRowTypeText);
+	}	
+	
+	if(objDataDs.getRowCount() > 0)
+	{
+		objGrid.insertContentsCol('body', 0);
+		objGrid.setCellProperty("head", 0, "text", "No");
+		objGrid.setCellProperty("body", 0, "expr", "currow+1");
+		
+		objGrid.setRealColSize(0, 40);
+		
+		//rowType 
+		objGrid.insertContentsCol('body', 1);
+		objGrid.setCellProperty("head", 1, "text", "rowType");
+		objGrid.setCellProperty("body", 1, "text", "bind:rowType");
+		
+		objGrid.setRealColSize(1, 70);
+		
+		for(var i=0,size=objDataDs.getColCount(); i<size; i++){
+			objGrid.setCellProperty("body", i, "displaytype", "normal");
+			objGrid.setCellProperty("body", i, "edittype", "normal");
+		}
+	}
+
+	objGrid.set_cellsizingtype('col');
+}
+
+/**
+	@function	Tab00_onchanged()
+	@desc   	Tab00 onchange 이벤트
+*/
+this.Tab00_onchanged = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	if(e.postindex == 2)
+	{
+		if(this.ds_gvDsList.rowcount == 0)
+		{
+			//글로벌 데이터셋 가져오기
+			this.Tab00_tabpage3_Button00_onclick();
+		}
+	}
+}
+
+/**
+	@function	Tab00_tabpage2_btn_svcChk_onclick()
+	@desc   	svcChk_onclick 이벤트
+*/
+this.Tab00_tabpage2_btn_svcChk_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Tab00.tabpage2.Edit00.set_value(application.services["svcurl"].url);
+}
+]]></Script>
+  </Form>
+</FDL>

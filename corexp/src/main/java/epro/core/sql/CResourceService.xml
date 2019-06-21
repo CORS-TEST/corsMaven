@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cResourceService">
+	<resultMap id="RM_getResourceString" type="HMap">
+		<result property="LABEL_STR" column="LABEL_STR" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>   
+	
+	<select id="getResourceString" resultType="HMap" resultMap="RM_getResourceString">
+	/* [cResourceService.getResourceString][] */
+	      SELECT 
+	            CD_ID
+	            ,GET_LABEL_XML(CD_ID) LABEL_STR
+	      FROM MM_SYS_CD
+	      WHERE CD_ID LIKE 'CM34%'
+	      AND CD_ID <![CDATA[<>]]> 'CM3400'
+	</select>
+	
+	<select id="getLangCd" resultType="HMap">
+	/* [cResourceService.getLangCd][] */
+		SELECT
+			CD_ID
+		FROM MM_SYS_CD
+		WHERE CD_ID LIKE 'CM34%'
+		AND  CD <![CDATA[<>]]> '00'
+	</select>
+	
+	<select id="getResource" resultType="HMap">
+	/* [cResourceService.getResource][] */
+		SELECT 
+			RSRC_ID
+			,RSRC_NM
+			,CD_RSRC_LANG 
+		FROM MM_SYS_RSRC
+	</select>
+</mapper>

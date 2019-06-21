@@ -1,0 +1,581 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form classname="form_parent_general" height="100" id="workFrame" inheritanceid="" left="0" onload="fnFormOnload" ontimer="fnFormOntimer" position="absolute" scrollbars="none" titletext="workFrame" top="0" width="1072">
+    <Layouts>
+      <Layout>
+        <Div bottom="0" id="divWork" left="10" right="0" taborder="5" top="41">
+          <Layouts>
+            <Layout/>
+          </Layouts>
+        </Div>
+        <Div height="25" id="divComBtns" right="0" taborder="27" top="5" width="500">
+          <Layouts>
+            <Layout>
+              <Button cssclass="btn_ComInit" height="25" id="btnComInit" objNm="(공통버튼)초기화" onclick="fnBtnComInitOnclick" right="231" style="border:0 none #808080ff ;" taborder="7" tooltiptext="초기화" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_ComSrch" height="25" id="btnComSrch" objNm="(공통버튼)조회" onclick="fnBtnComSrchOnclick" right="204" taborder="11" tooltiptext="조회" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_ComSave" height="25" id="btnComSave" objNm="(공통버튼)저장" onclick="fnBtnComSaveOnclick" right="177" style="border:0 none #808080ff ;" taborder="9" tooltiptext="저장" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_ComNew" height="25" id="btnComNew" objNm="(공통버튼)신규" onclick="fnBtnComNewOnclick" right="150" style="border:0 none #808080ff ;" taborder="6" tooltiptext="신규" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_ComDel" height="25" id="btnComDel" objNm="(공통버튼)삭제" onclick="fnBtnComDelOnclick" right="123" style="border:0 none #808080ff ;" taborder="5" tooltiptext="삭제" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_ComPrint" height="25" id="btnComPrint" objNm="(공통버튼)인쇄" onclick="fnBtnComPrintOnclick" right="96" style="border:0 none #808080ff ;" taborder="10" tooltiptext="인쇄" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_ComClose" height="25" id="btnComClose" objNm="(공통버튼)닫기" onclick="fnBtnComCloseOnclick" right="15" style="border:0 none #808080ff ;" taborder="8" tooltiptext="닫기" top="0" width="25"/>
+              <Button cssclass="btn_ComMyMenu" height="25" id="btnComMyMenu" objNm="(공통버튼)즐겨찾기" onclick="fnBtnComMyMenuOnclick" right="69" style="border:0 none #808080ff ;" taborder="12" tooltiptext="즐겨찾기" top="0" visible="false" width="25"/>
+              <Button cssclass="btn_Remote" height="25" id="btnRemote" objNm="(공통버튼)리모콘" onclick="fnBtnRemoteOnclick" right="42" style="border:0 none #808080ff ;" taborder="13" tooltiptext="리모콘" top="0" visible="false" width="25"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button cssclass="btn_NaviIcon" height="20" id="btnNaviIcon" left="10" objNm="네비게이션 아이콘" onclick="btnNaviOnclick" taborder="60" top="10" width="20"/>
+        <Static height="25" id="staNavi" left="36" style="font:bold 12 malgun gothic;" taborder="24" top="6" usedecorate="true" width="707"/>
+        <Div height="25" id="divDevelop" left="497" taborder="56" top="3" visible="true" width="216">
+          <Layouts>
+            <Layout>
+              <Button height="19" id="btnObj" left="111" objNm="" onclick="fnCallObjPopup" taborder="6" text="ObJ" top="6" width="38"/>
+              <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="19" id="cboObj" index="-1" left="40" onitemchanged="fnChgObj" taborder="8" top="6" width="68">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">A</Col>
+                      <Col id="datacolumn">A</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">B</Col>
+                      <Col id="datacolumn">B</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">C</Col>
+                      <Col id="datacolumn">C</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">D</Col>
+                      <Col id="datacolumn">D</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">E</Col>
+                      <Col id="datacolumn">E</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">F</Col>
+                      <Col id="datacolumn">F</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">G</Col>
+                      <Col id="datacolumn">G</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">H</Col>
+                      <Col id="datacolumn">H</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">I</Col>
+                      <Col id="datacolumn">I</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">J</Col>
+                      <Col id="datacolumn">J</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsMyMenuSaveInfo">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="PGM_ID" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSysPgm">
+        <ColumnInfo>
+          <Column id="OPEN_ID" size="256" type="STRING"/>
+          <Column id="PGM_ID" size="40" type="STRING"/>
+          <Column id="OBJ" size="4000" type="STRING"/>
+          <Column id="OBJ_BIND" size="4000" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsObjBindEn"/>
+      <Dataset id="dsObjBindVi"/>
+      <Dataset id="dsObjBindEs"/>
+      <Dataset id="dsTemp"/>
+      <Dataset id="dsObjBindGrid"/>
+    </Objects>
+    <Bind>
+      <BindItem compid="divComBtns.btnComInit" datasetid="dsObjBindVi" id="item0" propid="visible"/>
+      <BindItem columnid="btnComSrch" compid="divComBtns.btnComSrch" datasetid="dsObjBindVi" id="item1" propid="visible"/>
+      <BindItem columnid="btnComSave" compid="divComBtns.btnComSave" datasetid="dsObjBindVi" id="item2" propid="visible"/>
+      <BindItem columnid="btnComNew" compid="divComBtns.btnComNew" datasetid="dsObjBindVi" id="item3" propid="visible"/>
+      <BindItem columnid="btnComDel" compid="divComBtns.btnComDel" datasetid="dsObjBindVi" id="item4" propid="visible"/>
+      <BindItem columnid="btnComPrint" compid="divComBtns.btnComPrint" datasetid="dsObjBindVi" id="item5" propid="visible"/>
+      <BindItem compid="divComBtns.btnComMyMenu" datasetid="dsObjBindVi" id="item6" propid="visible"/>
+      <BindItem columnid="btnRemote" compid="divComBtns.btnRemote" datasetid="dsObjBindVi" id="item7" propid="visible"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: workFrame.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 8. 17.
+ * @설명			: 워크프레임
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 8. 17.
+*/  
+
+/**
+	@var  this.fvOpenId
+	@desc 전역변수 - 화면 Key
+*/
+this.fvOpenId;
+
+/**
+  * @함수명	: fnFormOnload
+  * @desc     	: 폼 onload 이벤트
+  */
+this.fnFormOnload = function (obj:Form, e:LoadEventInfo){
+	this.divWork.set_async(false);
+ 	application.gv_topFrame.form.setWaitCursor(true);
+
+	this.fvOpenId = this.fnGetFrameAguments("openId");
+	
+	this.fnSetNavi();
+		
+	this.dsSysPgm.addRow();
+	this.dsSysPgm.setColumn(0,"PGM_ID", this.fnGetFrameAguments("pgmId"));
+	
+	this.fnSearch();
+	
+	//개발자 모드 세팅
+// 	if(application.gv_svcMode == "D")
+// 	{
+ 		//this.divDevelop.set_visible(true);
+// 	}
+}
+
+/**
+  * @함수명	: fnSetNavi
+  * @desc     	: 네비게이션 세팅.
+  */
+this.fnSetNavi = function()
+{
+	//네비게이션 세팅 시작
+	var pgmId = this.fnGetFrameAguments("pgmId");
+
+	var arrMenuNm = new Array();
+	var altMenu = true;
+	var upPgmId = "";
+	var text = "";
+
+	while(true){		
+		if(!gfnIsNull(upPgmId)) pgmId = upPgmId;		
+		
+		var nRow = application.gdsMenu.findRow("PGM_ID", pgmId);		
+		if(application.gdsMenu.getColumn(nRow, "ALT_MENU") == "N"){
+			var prePgmId = this.fnGetFrameAguments("prePgmId");
+			
+			if(pgmId == prePgmId) prePgmId = application.gdsMenu.getColumn(nRow,"UP_PGM_ID");
+			
+			nRow = application.gdsMenu.findRow("PGM_ID", prePgmId);
+			altMenu = false;
+		}
+		
+		if(nRow > -1){
+			if(application.gdsMenu.getColumn(nRow, "TOP_MENU_LEVEL") < 0) break;		
+			arrMenuNm.push(application.gdsMenu.getColumn(nRow, "MENU_NM"));
+			upPgmId = application.gdsMenu.getColumn(nRow, "UP_PGM_ID");
+		}else{
+			break;
+		}
+	}	
+	
+	if(altMenu){
+		for(var i=arrMenuNm.length-1; i>=1; i--){
+			text += arrMenuNm[i] + " > ";
+		}
+		
+		this.staNavi.set_text(text + "<fc v='#000000'><b v='true'>" + arrMenuNm[0] + "</b></fc>");
+	}else{
+		for(var i=arrMenuNm.length-1; i>=0; i--){
+			text += arrMenuNm[i] + " > ";
+		}
+		
+		var menuNm = application.gdsOpenMenu.getColumn(application.gdsOpenMenu.rowposition, "MENU_NM");		
+		this.staNavi.set_text(text + "<fc v='#000000'><b v='true'>" + menuNm + "</b></fc>");
+	}	
+	
+	//네비게이션 세팅 끝
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{	
+	var sSvcID = "searchObjInfo";
+	var sController = "epro.sys.service.BSysService.searchObjInfo";
+	var sInDatasets = "dsSysPgm=dsSysPgm";
+	var sOutDatasets = "dsSysPgm=dsSysPgm";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+/**
+	@function	callBack()
+	@desc   	트랜잭션 콜백 함수
+*/
+this.fnTrCallBack = function (strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "searchObjInfo" :
+			this.setTimer(1,10);			
+			break;
+			
+		default:
+			break;	
+	}
+}
+
+/**
+  * @함수명	: fnFormOntimer
+  * @desc     	: 폼 ontimer 이벤트 - 폼이 열리는 사이 비어있는 하얀 화면뜨는 동안 로딩 이미지 띄우기 위해 타이머 주었음.
+  */
+this.fnFormOntimer = function(obj:Form, e:nexacro.TimerEventInfo)
+{	
+	this.killTimer(1);
+
+	/*
+		obj관리 데이터셋 세팅.
+	*/
+	if(this.dsSysPgm.getColumn(0,"OBJ_BIND")!=""){	
+		var obj = this.dsSysPgm.getColumn(0,"OBJ_BIND");
+		var info = obj.split("ㅫ");
+		
+		/*
+			enable, visible, grid mode loadXML() 하기전에 enableevent를 false로 적용한다.
+			적용하는 이유는 loadXML하면 무조건 0번째 로우 값으로 세팅되기 때문에 폼온로드후 원하는 모드로 바로 적용할 수 없다.
+			그래서 모드적용 (fnSetObj 펑션) 후 enableevent를 true로 풀어준다.
+		*/
+		this.dsObjBindEn.set_enableevent(false);
+		this.dsObjBindVi.set_enableevent(false);
+		this.dsObjBindGrid.set_enableevent(false);
+		this.dsObjBindEs.set_enableevent(false);
+		
+		this.dsObjBindEn.loadXML(info[0]);		
+		this.dsObjBindVi.loadXML(info[1]);		
+		this.dsObjBindGrid.loadXML(info[3]);
+		
+		this.dsObjBindEn.set_rowposition(-1);
+		this.dsObjBindVi.set_rowposition(-1);
+		this.dsObjBindGrid.set_rowposition(-1);		
+	}
+
+	var obj = this.dsSysPgm.getColumn(0,"OBJ");
+	this.dsTemp.loadXML(obj);
+	
+	var filterStr = "ESSENTIAL_A=='1' || ESSENTIAL_B=='1' || ESSENTIAL_C=='1' || ESSENTIAL_D=='1'"
+ 				+ "|| ESSENTIAL_E=='1' || ESSENTIAL_F=='1' || ESSENTIAL_G=='1' || ESSENTIAL_H=='1'"
+ 				+ "|| ESSENTIAL_I=='1' || ESSENTIAL_J=='1' || STR_MAX_LEN > 0";
+	this.dsTemp.filter(filterStr);	
+	this.dsObjBindEs.copyData(this.dsTemp, true);
+		
+	application.gv_topFrame.form.setWaitCursor(false);
+	
+	//공통 버튼 정렬
+	gfnBtnRange(this.divComBtns.btnComClose);
+	
+	var linkUrl = this.fnGetFrameAguments("linkUrl");
+	if(linkUrl.indexOf(".xfdl") < 0){
+		linkUrl += ".xfdl";
+	}
+	
+	linkUrl = gfnReplace(linkUrl, "commAdmin", "BSYS");
+	linkUrl = gfnReplace(linkUrl, "commPop", "CPOP");
+	linkUrl = gfnReplace(linkUrl, "commComp", "CCOMP");
+	
+	this.divWork.set_url(linkUrl);
+}
+
+/**
+  * @함수명	: fnGetFrameAguments
+  * @param		: sVal {String} Arguments
+  *	@return		: Object {Object} 등록된 아큐먼트 리턴
+  * @desc     	: child Frame에 등록한 아규먼트를 리턴.
+  */
+this.fnGetFrameAguments = function(sVal)
+{
+    return this.getOwnerFrame().arguments[sVal];
+}
+
+/**
+  * @함수명	: fnBtnComInitOnclick
+  * @desc     	: 초기화 버튼 onclick 이벤트
+  */
+this.fnBtnComInitOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.divWork.reload();
+}
+
+/**
+  * @함수명	: fnBtnComPrintOnclick
+  * @desc     	: 출력 버튼 onclick 이벤트
+  */
+this.fnBtnComPrintOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+// 	var pagePrintFunc = this.divWork.lookup("fnPrint");
+// 	if(gfnIsNull(pagePrintFunc)){
+// 		gfnAlert("페이지에 fnPrint() 만드세요!");
+// 		return;
+// 	}
+	this.divWork.fnPrint();
+}
+
+/**
+  * @함수명	: fnBtnComSrchOnclick
+  * @desc     	: 검색 버튼 onclick 이벤트
+  */
+this.fnBtnComSrchOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+// 	var pageSearchFunc = this.divWork.lookup("fnSearch");
+// 	if(gfnIsNull(new String(pageSearchFunc))){
+// 		gfnAlert("페이지에 fnSearch() 만드세요!");
+// 		return;
+// 	}
+	this.divWork.fnSearch();
+}
+
+/**
+  * @함수명	: fnBtnComNewOnclick
+  * @desc     	: 신규 버튼 onclick 이벤트
+  */
+this.fnBtnComNewOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+// 	var pageAddFunc = this.divWork.lookup("fnAdd");
+// 	if(gfnIsNull(pageAddFunc)){
+// 		gfnAlert("페이지에 fnAdd() 만드세요!");
+// 		return;
+// 	}
+	this.divWork.fnAdd();
+}
+
+/**
+  * @함수명	: fnBtnComDelOnclick
+  * @desc     	: 삭제 버튼 onclick 이벤트
+  */
+this.fnBtnComDelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+// 	var pageDeleteFunc = this.divWork.lookup("fnDelete");	
+// 	if(gfnIsNull(pageDeleteFunc)){
+// 		gfnAlert("페이지에 fnDelete() 만드세요!");
+// 		return;
+// 	}
+	this.divWork.fnDelete();
+}
+
+/**
+  * @함수명	: fnBtnComSaveOnclick
+  * @desc     	: 저장 버튼 onclick 이벤트
+  */
+this.fnBtnComSaveOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+// 	var pageSaveFunc = this.divWork.lookup("fnSave");
+// 	if(gfnIsNull(pageSaveFunc)){
+// 		gfnAlert("페이지에 fnSave() 만드세요!");
+// 		return;
+// 	}
+	this.divWork.fnSave();
+}
+
+/**
+  * @함수명	: fnBtnComCloseOnclick
+  * @desc     	: 닫기 버튼 onclick 이벤트
+  */
+this.fnBtnComCloseOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+// 	var pageCloseFunc = this.divWork.lookup("fnClose");
+// 	
+// 	if(gfnIsNull(pageCloseFunc)){
+// 		//각 화면에 fnClose 있는지 체크 안함...
+// 		//return;
+// 	}
+
+	var openId = this.fnGetFrameAguments("openId");
+	gfnTabOnClose(openId);	 
+}
+
+/**
+  * @함수명	: fnBtnComCloseOnclick
+  * @desc     	: 리모콘 버튼 onclick 이벤트
+  */
+this.fnBtnRemoteOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var openId = this.fnGetFrameAguments("openId");
+	var framesInfo = application.gv_workFrameSet.frames;
+	if(framesInfo[openId]){
+		var divRemote = framesInfo[openId].form.lookup(openId + "_divRemote")
+		
+		if(gfnIsNull(divRemote)) return;
+		
+		if(divRemote.visible){
+			divRemote.set_visible(false);
+		}else{
+			divRemote.set_visible(true);
+			divRemote.divTitle.set_visible(true);
+		}
+		
+		divRemote.setOffsetTop(this.divWork.getOffsetTop());
+		
+		var systemRight = this.divWork.getOffsetRight() - 10;
+		divRemote.setOffsetRight(systemRight);
+ 		divRemote.setOffsetLeft(systemRight - divRemote.fvWidth);
+ 		divRemote.setOffsetHeight(divRemote.fvHeight);
+ 		
+ 		divRemote.fnDivFoldImgChg("M");
+	}
+}
+
+/**
+  * @함수명	: fnCallObjPopup
+  * @desc     	: 개발자 기능 : obj 버튼 onclick 이벤트
+  */
+this.fnCallObjPopup = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var pgmId = this.fnGetFrameAguments("pgmId");
+
+	var sArg = {	agv_form	: this.divWork
+					, agv_key		: pgmId
+				};
+	//gfnModelessPop("CompObjMgtPop", "CPOP::CompObjMgtPop.xfdl", sArg, "", 0, 0, 640, 480);
+	//gfnModelessPop("CompObjMgtPop", "CPOP::BComObjMgmtPop.xfdl", sArg);
+		
+	gfnModalPop(this, "BComObjMgmtPop", "CPOP::BComObjMgmtPop.xfdl", sArg, "fnPopCallBack", 1200, 800);
+}
+
+/**
+  * @함수명	: fnPopCallBack
+  * @desc     	: 팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	switch(sPopupId){
+		case "BComObjMgmtPop" :
+			break;
+		
+		default:
+			break;	
+	}
+}
+
+/**
+  * @함수명	: fnChgObj
+  * @desc     	: 개발자 기능 : obj 버튼 콤보박스
+  */
+this.fnChgObj = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.fnSetObj(e.postvalue);
+}
+
+
+/**
+	@function	fnSetObj()
+	@param 		type(A,B,C,D,E,F,G,H,I,J)
+	@desc   	오브젝트 타입설정
+*/
+this.fnSetObj = function(type)
+{	
+	if(this.divDevelop.cboObj){
+		this.divDevelop.cboObj.set_value(type);
+	}
+
+	//enable 세팅
+	var idx = this.dsObjBindEn.findRow("TYPE",type);
+	if(idx >= 0){
+		this.dsObjBindEn.set_rowposition(idx);
+	}
+	
+	//visible 세팅
+	idx = this.dsObjBindVi.findRow("TYPE",type);
+	if(idx >= 0){		
+		this.dsObjBindVi.set_rowposition(idx);
+	}
+	
+	//필수체크 세팅
+	idx = this.dsObjBindEs.findRow("TYPE",type);
+	if(idx >= 0){
+		this.dsObjBindEs.set_rowposition(idx);
+	}
+	
+	//그리드 포멧 세팅
+	var idx = this.dsObjBindGrid.findRow("TYPE",type);
+	if(idx >= 0){
+		this.dsObjBindGrid.set_rowposition(idx);
+		
+		//모드 저장이 안되어 있으면 default 모드로 세팅한다.
+		if(gfnIsNull(this.dsObjBindGrid.getColumn(idx, "MODE_" + type))){
+			this.dsObjBindGrid.setColumn(idx, "MODE_" + type, "default");
+		}
+	}
+	
+	//첨부파일 모드 세팅
+	for(var i=0; i<this.dsObjBindGrid.getColCount(); i++){
+		var colvalue = this.dsObjBindGrid.getColumn(this.dsObjBindGrid.rowposition, i);		
+		if("Y" == colvalue || "N" == colvalue){
+			var divFile = this.dsObjBindGrid.getColID(i);
+			
+			var objFileComp = this.divWork.lookup(divFile);
+			if(objFileComp){
+				objFileComp.fnSetFileMode(colvalue);
+			}
+		}
+	}
+	
+	/*
+		enable, visible, grid mode loadXML() 하기전에 enableevent를 false로 적용한다.
+		적용하는 이유는 loadXML하면 무조건 0번째 로우 값으로 세팅되기 때문에 폼온로드후 원하는 모드로 바로 적용할 수 없다.
+		그래서 모드적용 (fnSetObj 펑션) 후 enableevent를 true로 풀어준다.
+	*/
+	this.dsObjBindEn.set_enableevent(true);
+	this.dsObjBindVi.set_enableevent(true);
+	this.dsObjBindGrid.set_enableevent(true);
+	this.dsObjBindEs.set_enableevent(true);
+	
+	//공통 버튼 정렬
+	gfnBtnRange(this.divComBtns.btnComClose);
+	
+	//리모컨 호출
+	var openId = application.gdsOpenMenu.getColumn(application.gdsOpenMenu.rowposition, "OPEN_ID");
+	var framesInfo = application.gv_workFrameSet.frames
+	if(framesInfo[openId].form){
+		var isFunc = new String(framesInfo[openId].form.divWork.lookup("fnRemote"));
+		if(!gfnIsNull(isFunc)){
+			framesInfo[openId].form.divWork.fnRemote.call();
+		}
+	}
+}
+
+/**
+  * @함수명	: btnNaviOnclick
+  * @desc     	: CUR 버튼 보이기 / 숨기기
+  */
+this.btnNaviOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(application.gdsUserRole.getCaseCount("ROLE_ID =='B_SYSTEM'")>0){
+		//if(application.gv_svcMode == "D") {
+			if(this.divDevelop.visible)
+			{
+				this.divDevelop.set_visible(false);
+			}
+			else
+			{
+				this.divDevelop.set_visible(true);
+			}
+		//}	
+	}
+}]]></Script>
+  </Form>
+</FDL>

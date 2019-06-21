@@ -1,0 +1,598 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="800" id="BMtrlPrSrchMultiPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="품목검색멀티팝업(PR)" top="0" width="1100">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00462&quot;)" height="24" id="staMtrl" left="361" style="align:right middle;" taborder="11" text="품목" top="17" width="100"/>
+        <Div height="36" id="divViewCompTitle00" left="0" objNm="DIV-평가서 타이틀" right="0" taborder="25" top="448">
+          <Layouts>
+            <Layout height="139" width="993"/>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompCond01" taborder="27" left="10" top="42" right="10" height="84" cssclass="div_WF_SearchBg" objNm="">
+          <Layouts>
+            <Layout width="1042" height="165">
+              <Static id="staAttr3" taborder="128" text="속성 3" cssclass="sta_WF_SearchLabel" left="710" top="35" width="110" height="24" lbcd="" objNm="사용여부" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staAttr2" taborder="129" text="속성 2" cssclass="sta_WF_SearchLabel" left="355" top="35" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staWarning" taborder="130" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="0" right="0" bottom="0" height="19" lbcd=""/>
+              <Static id="staCdPrePrDist" taborder="131" text="조회구분" onclick="Tab00_tabpage1_div_condition_sta_WFSA_LabelP_onclick" cssclass="sta_WF_SearchLabel" left="0" top="6" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Combo id="cboCdPrePrDist" taborder="132" innerdataset="dsAltInvntry" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="110" top="6" width="120" height="24"/>
+              <CheckBox id="chkExist" taborder="133" text="재고있는품목만" onchanged="fnChkExistOnchanged" left="235" top="6" width="116" height="24"/>
+              <Static id="staOutStr" taborder="134" text="출고창고" cssclass="sta_WF_SearchLabel" left="355" top="6" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtOutStrCd" taborder="135" cssclass="edt_default_r" enable="false" left="465" top="6" width="100" height="24" style=":disabled {align:center middle;}" objNm="구매요청자ID"/>
+              <Edit id="edtOutStrNm" taborder="136" lengthunit="utf8" ontextchanged="fnOnTextChanged" cssclass="edt_default" left="570" top="6" width="315" height="24" objNm="구매요청자명" onkeyup="fnOnKeyUp"/>
+              <Button id="btnOutStr" taborder="137" onclick="fnSrchOutStr" cssclass="btn_WF_SearchSmall" left="861" top="6" width="24" height="24" objNm="구매요청자 검색 버튼"/>
+              <Static id="staAttr1" taborder="138" text="속성 1" cssclass="sta_WF_SearchLabel" left="0" top="35" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Combo id="cboAttr11" taborder="139" innerdataset="@dsCombo" codecolumn="ATTR_ID" datacolumn="ATTR_NM" onitemchanged="fnMtrlAttrChange" left="110" top="35" width="120" height="24" objNm="사용여부"/>
+              <Combo id="cboAttr12" taborder="140" innerdataset="@dsMtrlAttr1" codecolumn="ATTR_NM" datacolumn="ATTR_NM" left="235" top="35" width="120" height="24" index="0" value="--전체--" text="--전체--"/>
+              <Combo id="cboAttr21" taborder="141" innerdataset="@dsCombo" codecolumn="ATTR_ID" datacolumn="ATTR_NM" onitemchanged="fnMtrlAttrChange" cssclass="cbo_default" left="465" top="35" width="120" height="24" objNm="사용여부"/>
+              <Combo id="cboAttr22" taborder="142" innerdataset="@dsMtrlAttr2" codecolumn="ATTR_NM" datacolumn="ATTR_NM" left="590" top="35" width="120" height="24" index="0" value="--전체--" text="--전체--"/>
+              <Combo id="cboAttr31" taborder="143" innerdataset="@dsCombo" codecolumn="ATTR_ID" datacolumn="ATTR_NM" onitemchanged="fnMtrlAttrChange" left="820" top="35" width="120" height="24" objNm="사용여부"/>
+              <Combo id="cboAttr32" taborder="144" innerdataset="@dsMtrlAttr3" codecolumn="ATTR_NM" datacolumn="ATTR_NM" left="945" top="35" width="120" height="24" index="0" value="--전체--" text="--전체--"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnFold" taborder="28" onclick="btnFold_onclick" cssclass="btn_Fold_Close" left="502" top="125" width="56" height="17"/>
+        <Static id="staMtrlType" taborder="29" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00464&quot;)" text="품목분류" cssclass="sta_WF_SearchLabel" left="16" top="17" width="100" height="24" style="align:right middle;"/>
+        <Div id="divViewCompCond00" taborder="30" left="10" top="7" right="10" height="36" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Static id="staMtrlType" taborder="49" text="품목분류" onclick="Tab00_tabpage1_div_condition_sta_WFSA_LabelP_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Button id="btnSearch" taborder="50" text="조회" cssclass="btn_WF_Search" top="5" right="5" width="60" height="24" style="imagealign:left middle;" onclick="fnSearch"/>
+              <Edit id="edtMtrlNm" taborder="51" left="638" top="5" width="200" height="24" objNm="품목명" onkeyup="fnOnKeyUp"/>
+              <Static id="staMtrl" taborder="52" text="품목" cssclass="sta_WF_SearchLabel" left="423" top="5" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtMtrlCd" taborder="53" left="533" top="5" width="100" height="24" objNm="품목코드" onkeyup="fnOnKeyUp"/>
+              <Div id="divMtrlType" taborder="54" left="110" top="5" width="306" height="24" scrollbars="none" objNm="품목그룹" url="CCOMP::CompMtrlType.xfdl"/>
+              <Button id="btnNewItemReg" taborder="55" text="신규상품등록" cssclass="btn_WF_Custom" top="5" right="68" width="100" height="24" objNm="신규상품등록" onclick="fnNewMtrlReg"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody00" taborder="31" left="10" top="147" right="10" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grdList" taborder="0" binddataset="dsList" autoenter="select" useinputpanel="false" autofittype="col" cellclickbound="cell" onkeydown="grdListOnkeydown" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" left="0" top="10" right="0" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" height="329">
+                <Formats>
+                  <Format id="SMODE">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="551"/>
+                      <Column size="70"/>
+                      <Column size="115"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드"/>
+                      <Cell col="1" text="품목명"/>
+                      <Cell col="2" text="단위"/>
+                      <Cell col="3" text="예상단가"/>
+                      <Cell col="4" text="계정명"/>
+                      <Cell col="5" text="재고수량"/>
+                      <Cell col="6" displaytype="image"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center;" cssclass="cell_link" text="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" cssclass="cell_link" text="bind:MTRL_NM_SPEC" tooltiptext="bind:MTRL_NM_SPEC"/>
+                      <Cell col="2" displaytype="normal" text="bind:CD_PUR_UNIT_NM"/>
+                      <Cell col="3" displaytype="number" style="align:right;" text="bind:CNTR_PRICE" mask="#,##0.00" expandshow="show" expandsize="25" expandimage="expr:CNTR_PTNR_ID==''?'':'img::ico_cont4.png'"/>
+                      <Cell col="4" style="align:left;" text="bind:GR_ACNT_NM"/>
+                      <Cell col="5" displaytype="number" style="align:right;" text="bind:STOCK_QTY" mask="#,##0.00"/>
+                      <Cell col="6" displaytype="button" style="align:center;" text="bind:BTN_STATUS_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="divPaging" taborder="1" url="CCOMP::CompPaging.xfdl" left="0" right="0" scrollbars="none" height="28" top="338"/>
+              <Static id="staViewCompTitle00" taborder="2" text="선택한 품목" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" top="371" width="255" height="24"/>
+              <Static id="staCntrCheck" taborder="3" text="*계약단가 픔목" onclick="Tab00_tabpage1_div_condition_sta_WFSA_LabelP_onclick" cssclass="sta_WF_SearchLabel" left="775" top="-906" width="132" height="24" style="background:transparent URL('img::ico_cont4.png');padding:0 10 0 6;align:right middle;"/>
+              <Button id="btnRtn" taborder="4" text="품목 적용" onclick="fnRtnData" top="371" right="0" width="65" height="24" objNm="적용"/>
+              <Grid id="grdAddList" taborder="5" binddataset="dsSelList" autoenter="select" useinputpanel="false" autofittype="col" cellclickbound="cell" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" left="0" top="400" right="0" bottom="14" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N">
+                <Formats>
+                  <Format id="SMODE">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="550"/>
+                      <Column size="70"/>
+                      <Column size="115"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="60"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드"/>
+                      <Cell col="1" text="품목명"/>
+                      <Cell col="2" text="단위"/>
+                      <Cell col="3" text="예상단가"/>
+                      <Cell col="4" text="계정명"/>
+                      <Cell col="5" text="재고수량"/>
+                      <Cell col="6" displaytype="image"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center;" cssclass="cell_link" text="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" cssclass="cell_link" text="bind:MTRL_NM_SPEC" tooltiptext="bind:MTRL_NM_SPEC"/>
+                      <Cell col="2" displaytype="normal" text="bind:CD_PUR_UNIT_NM"/>
+                      <Cell col="3" displaytype="number" style="align:right;" text="bind:CNTR_PRICE" mask="#,##0.00" expandshow="show" expandsize="25" expandimage="expr:CNTR_PTNR_ID==''?'':'img::ico_cont4.png'"/>
+                      <Cell col="4" style="align:left;" text="bind:GR_ACNT_NM"/>
+                      <Cell col="5" displaytype="number" style="align:right;" text="bind:STOCK_QTY" mask="#,##0.00"/>
+                      <Cell col="6" displaytype="button" style="align:center;" text="bind:BTN_STATUS_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset firefirstcount="0" firenextcount="0" id="dsSrchOpt">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="LRG_CLS_ID" type="STRING" size="256"/>
+          <Column id="MDL_CLS_ID" type="STRING" size="256"/>
+          <Column id="SML_CLS_ID" type="STRING" size="256"/>
+          <Column id="ALT_INVNTRY_MGMT" type="STRING" size="256"/>
+          <Column id="EXIST" type="STRING" size="256"/>
+          <Column id="OUT_STR_CD" type="STRING" size="256"/>
+          <Column id="OUT_STR_NM" type="STRING" size="256"/>
+          <Column id="ATTR_NM1" type="STRING" size="256"/>
+          <Column id="ATTR_NM2" type="STRING" size="256"/>
+          <Column id="ATTR_NM3" type="STRING" size="256"/>
+          <Column id="ATTR_ID" type="STRING" size="256"/>
+          <Column id="SRCH_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList"/>
+      <Dataset id="dsSelList" enableevent="false"/>
+      <Dataset id="dsCombo">
+        <ColumnInfo>
+          <Column id="ATTR_ID" type="STRING" size="256"/>
+          <Column id="ATTR_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsMtrlAttr1">
+        <ColumnInfo>
+          <Column id="ATTR_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ATTR_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMtrlAttr2">
+        <ColumnInfo>
+          <Column id="ATTR_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ATTR_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMtrlAttr3">
+        <ColumnInfo>
+          <Column id="ATTR_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ATTR_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item2" compid="div_condition1.cbo_cdPrePrDist" propid="value" datasetid="ds_srchOpt" columnid="ALT_INVNTRY_MGMT"/>
+      <BindItem id="item3" compid="div_condition1.CheckBox00" propid="value" datasetid="ds_srchOpt" columnid="EXIST"/>
+      <BindItem id="item4" compid="div_condition1.edt_outStrCd" propid="value" datasetid="ds_srchOpt" columnid="OUT_STR_CD"/>
+      <BindItem id="item5" compid="div_condition1.edt_outStrNm" propid="value" datasetid="ds_srchOpt" columnid="OUT_STR_NM"/>
+      <BindItem id="item6" compid="div_condition1.cbo_attrID1" propid="value" datasetid="ds_srchOpt" columnid="ATTR_ID1"/>
+      <BindItem id="item7" compid="div_condition1.cbo_mtrlattrNm1" propid="value" datasetid="ds_srchOpt" columnid="ATTR_NM1"/>
+      <BindItem id="item8" compid="div_condition1.cbo_attrID2" propid="value" datasetid="ds_srchOpt" columnid="ATTR_ID2"/>
+      <BindItem id="item9" compid="div_condition1.cbo_mtrlattrNm2" propid="value" datasetid="ds_srchOpt" columnid="ATTR_NM2"/>
+      <BindItem id="item10" compid="div_condition1.cbo_attrID3" propid="value" datasetid="ds_srchOpt" columnid="ATTR_ID3"/>
+      <BindItem id="item11" compid="div_condition1.cbo_mtrlattrNm3" propid="value" datasetid="ds_srchOpt" columnid="ATTR_NM3"/>
+      <BindItem id="item0" compid="div_condition.edt_mtrlCd" propid="value" datasetid="ds_srchOpt" columnid="MTRL_CD"/>
+      <BindItem id="item1" compid="div_condition.edt_mtrlNm" propid="value" datasetid="ds_srchOpt" columnid="MTRL_NM"/>
+      <BindItem id="item12" compid="divViewCompCond00.edtMtrlCd" propid="value" datasetid="dsSrchOpt" columnid="MTRL_CD"/>
+      <BindItem id="item13" compid="divViewCompCond00.edtMtrlNm" propid="value" datasetid="dsSrchOpt" columnid="MTRL_NM"/>
+      <BindItem id="item14" compid="divViewCompCond01.cboCdPrePrDist" propid="value" datasetid="dsSrchOpt" columnid="ALT_INVNTRY_MGMT"/>
+      <BindItem id="item15" compid="divViewCompCond01.chkExist" propid="value" datasetid="dsSrchOpt" columnid="EXIST"/>
+      <BindItem id="item16" compid="divViewCompCond01.edtOutStrCd" propid="value" datasetid="dsSrchOpt" columnid="OUT_STR_CD"/>
+      <BindItem id="item17" compid="divViewCompCond01.edtOutStrNm" propid="value" datasetid="dsSrchOpt" columnid="OUT_STR_NM"/>
+      <BindItem id="item21" compid="divViewCompCond01.cboAttr12" propid="value" datasetid="dsSrchOpt" columnid="ATTR_NM1"/>
+      <BindItem id="item18" compid="divViewCompCond01.cboAttr22" propid="value" datasetid="dsSrchOpt" columnid="ATTR_NM2"/>
+      <BindItem id="item19" compid="divViewCompCond01.cboAttr32" propid="value" datasetid="dsSrchOpt" columnid="ATTR_NM3"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMtrlPrSrchMultiPopup.xfdl
+ * @생성자       	: 김민성
+ * @생성일자     	: 2019. 04. 30
+ * @설명			: 품목검색멀티팝업(구매요청용)
+ * @최종수정자		: 김민성
+ * @최종수정일자	: 2019. 04. 30
+*/ 
+
+this.popTitle = "품목검색";
+var idNum = 0;
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this);
+	
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01, initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+	
+	this.divViewCompCond00.divMtrlType.fnSetBind(this.dsSrchOpt,"LRG_CLS_ID","MDL_CLS_ID","SML_CLS_ID");
+	
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsSrchOpt.addRow();
+	this.dsSrchOpt.setColumn(0,"IN_STR_CD",ownFrame.agv_id);
+	this.dsSrchOpt.setColumn(0,"MTRL_NM",ownFrame.agv_nm);
+	this.dsSrchOpt.setColumn(0,"BRANCH_CD", application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	this.dsSrchOpt.setColumn(0,"ALT_INVNTRY_MGMT","");
+	this.dsSrchOpt.setColumn(0,"SRCH_TYPE","PR");
+	
+	if(!gfnIsNull(this.dsSrchOpt.getColumn(0,"MTRL_NM"))){
+		this.fnSearch();	
+	}
+	
+	this.fnAttrSearch();
+}
+
+/**
+  * @함수명	: fnPreAttrSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreAttrSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnAttrSearch
+  * @desc     	: 속성조회 프로세스
+  */
+this.fnAttrSearch = function()
+{
+	if(!this.fnPreAttrSearch()) return false;
+
+	var sSvcID = "searchComAttr";
+	var sController = "epro.com.service.BComService.searchComAttr";
+	var sInDatasets = "dsCond=dsSrchOpt";
+	var sOutDatasets = "dsCombo=dsCombo";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+	
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 품목조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchComMtrl";
+	var sController = "epro.com.service.BComService.searchComMtrl";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+		
+	var	oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+	
+}
+
+/**
+  * @함수명	: fnMtrlAttrChange
+  * @desc     	: 속성값 변경시 상세조회 함수
+  */
+this.fnMtrlAttrChange = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	var length = obj.name.length;
+	idNum = obj.name.substring(length-2,length-1);
+	this.dsSrchOpt.setColumn(0,"ATTR_ID",this.dsCombo.getColumn(e.postindex,"ATTR_ID"));
+	this.fnMtrlAttrSrch(idNum);
+}
+
+/**
+	@function fnMtrlAttrSrch
+	@desc 	  자재속성조회 함수
+*/
+this.fnMtrlAttrSrch = function(idNum)
+{
+	var sSvcID = "searchComMtrlAttr";
+	var sController = "epro.com.service.BComService.searchComMtrlAttr";
+	var sInDatasets = "dsCond=dsSrchOpt";
+	var sOutDatasets = "dsMtrlAttr"+idNum+"=dsOut";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchComAttr" :	
+			this.divViewCompCond01.cboAttr11.set_index(0);
+			this.divViewCompCond01.cboAttr21.set_index(0);
+			this.divViewCompCond01.cboAttr31.set_index(0);
+			this.divViewCompCond01.cboAttr12.set_index(0);
+			this.divViewCompCond01.cboAttr22.set_index(0);
+			this.divViewCompCond01.cboAttr32.set_index(0);
+			break;
+		case "searchComMtrlAttr" :
+			this.dsSrchOpt.setColumn(0,"ATTR_NM"+idNum,"--전체--");
+			break;
+		
+		case "searchComMtrl" :	
+			
+			this.divViewCompBody00.grdList.setFocus();
+			
+			var rtnMsg="";
+			var rtnChk="";
+			
+			for(var i=0; i<this.dsList.getRowCount(); i++){
+			
+				var nRow = this.dsSelList.findRow("MTRL_CD", this.dsList.getColumn(i, "MTRL_CD"));
+	
+				if(nRow > -1){
+					rtnMsg = "삭제";
+					rtnChk = 0;
+				}else{
+					rtnMsg = "추가";
+					rtnChk = 1;
+				}
+				
+				this.dsList.setColumn(i, "BTN_STATUS_NM", rtnMsg);
+				this.dsList.setColumn(i, "BTN_STATUS", rtnChk);	
+			}
+			
+			// 데이터셋 틀 복사.
+			
+			if(this.dsSelList.colcount==0){
+				for(var i=0; i<this.dsList.colcount; i++){
+					this.dsSelList.addColumnInfo(this.dsList.getColumnInfo(i).name,this.dsList.getColumnInfo(i));
+				}
+			}
+		break;
+ 
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnAddData
+  * @desc   : 목록에 추가하는 함수
+  */
+this.fnAddData = function(mtrlCd) {
+	
+	this.dsList.set_enableevent(false);
+	
+	var ridx = 0;
+	
+	if(!gfnIsNull(mtrlCd)){
+		ridx = this.dsList.findRow("MTRL_CD", mtrlCd);
+	}else{
+		ridx = this.dsList.rowposition;
+	}
+	
+	if(this.dsList.getColumn(ridx, "BTN_STATUS") == "1"){
+		this.dsSelList.set_enableevent(false);
+		this.dsList.setColumn(ridx, "BTN_STATUS", "0");
+		this.dsList.setColumn(ridx, "BTN_STATUS_NM", "삭제");
+		var nRow = this.dsSelList.addRow();
+		this.dsSelList.copyRow(nRow, this.dsList, ridx);
+		this.dsSelList.set_enableevent(true);
+	}else{
+		var nRow = 0;
+		
+		if(ridx > -1){
+			nRow = this.dsSelList.findRow("MTRL_CD", this.dsList.getColumn(ridx, "MTRL_CD"));
+		}else{
+			nRow = this.dsSelList.rowposition;
+		}
+	
+		if(nRow > -1){
+			if(ridx > -1){
+				this.dsList.setColumn(ridx, "BTN_STATUS", "1");
+				this.dsList.setColumn(ridx, "BTN_STATUS_NM", "추가");
+			}
+			this.dsSelList.deleteRow(nRow);
+		}		
+	}
+	this.dsList.set_enableevent(true);
+}
+   
+/**
+  * @함수명		: fnRtnData
+  * @desc     	: 적용버튼 클릭 이벤트
+  */   
+this.fnRtnData = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	
+	if(this.dsSelList.rowcount != 0){
+		this.parent.close(this.dsSelList.saveXML());
+	} else{
+		gfnAlert("선택한 항목이 없습니다.");
+	}
+}
+
+/**
+  * @함수명	: grdListOnkeydown
+  * @desc     	: 그리드 Onkeydown 이벤트
+  */
+this.grdListOnkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		this.fnAddData();
+	}
+}
+
+/**
+  * @함수명	: fnOnecellclick
+  * @desc     	: 그리드 원클릭 이벤트
+  */
+this.fnOnecellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnGrdBindColId(obj,e.cell) == "BTN_STATUS_NM"){
+		if(obj.name=="grdList"){
+			this.fnAddData();
+		}else{
+			this.fnAddData(this.dsSelList.getColumn(this.dsSelList.rowposition, "MTRL_CD"));
+		}
+	}
+}
+
+/**
+  * @함수명	: fnOncelldbClick
+  * @desc     	: 그리드 더블클릭 이벤트
+  */
+this.fnOncelldbClick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnGrdBindColId(obj,e.cell) == "MTRL_CD" || gfnGrdBindColId(obj,e.cell) == "MTRL_NM_SPEC") {
+		this.alert("상세 준비중");
+	}else if(gfnGrdBindColId(obj,e.cell) != "BTN_STATUS_NM") {
+		if(obj.name=="grdList"){
+			this.fnAddData();
+		}
+	}
+	
+}
+
+/**
+  * @함수명	: fnOnKeyUp
+  * @desc     	: KEY UP 이벤트
+  */
+this.fnOnKeyUp = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		
+		obj.updateToDataset();
+		
+		if(obj.name == "edtMtrlCd" || obj.name == "edtMtrlNm"){
+			
+			this.fnSearch();
+			
+		}else if(obj.name =="edtOutStrNm"){
+			
+			this.fnSrchOutStr();
+			
+		}
+	}
+}
+
+/**
+  * @함수명	: fnOnTextChanged
+  * @desc     	: 텍스트변경시 발생하는 이벤트
+  */
+this.fnOnTextChanged = function(obj:Edit, e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name =="edtOutStrNm"){
+		this.dsSrchOpt.setColumn(0,"OUT_STR_CD","");
+	}	
+}
+
+/**
+  * @함수명	: fnChkExistOnchanged
+  * @desc     	: 재고유무에 따른 검색영역 변경 처리
+  */
+this.fnChkExistOnchanged = function(obj:CheckBox, e:nexacro.CheckBoxChangeEventInfo)
+{
+	if(null == this.dsSrchOpt.getColumn(0,"EXIST") || "false" == this.dsSrchOpt.getColumn(0,"EXIST")){
+		this.dsSrchOpt.setColumn(0,"ALT_INVNTRY_MGMT","Y");
+	}else{
+		this.dsSrchOpt.setColumn(0,"ALT_INVNTRY_MGMT","");
+	}
+}
+
+/**
+  * @함수명	: fnSrchOutStr
+  * @desc     	: 출고창고 검색
+  */
+this.fnSrchOutStr = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsSrchOpt.getColumn(0,"OUT_STR_NM")
+	};
+	gfnSearchComSl(this, "BSlSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  * @함수명	: fnNewMtrlReg
+  * @desc     	: 신규상품등록
+  */
+this.fnNewMtrlReg = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.dsSelList.clear();
+	this.dsSelList.addColumn("MTRL_CD","STRING");
+	var row = this.dsSelList.addRow();
+	this.dsSelList.setColumn(row,"MTRL_CD","NEWITEM");
+	this.parent.close(this.dsSelList.saveXML());
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "BSlSrchPopup" :
+			this.dsSrchOpt.setColumn(0,"OUT_STR_CD",this.dsReturn.getColumn(0,"STR_CD"));
+			this.dsSrchOpt.setColumn(0,"OUT_STR_NM",this.dsReturn.getColumn(0,"SL_NM"));
+			break;
+		default:
+			break;	
+	}
+}]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,19 @@
+﻿{
+	"name": "CommonLib",
+	"version": "14.0.1.1401",
+	"description": "nexacro platform 14 Unified Framework Library",
+	"license": "",
+	"scripts": [
+			"CommonLib/libBase.js"
+			, "CommonLib/libForm.js"
+			, "CommonLib/libGrid.js"
+			, "CommonLib/libPop.js"
+			, "CommonLib/libDate.js"
+			, "CommonLib/libString.js"
+			, "CommonLib/libUtil.js"
+			, "CommonLib/libDataset.js" 
+			, "CommonLib/libAes.js"
+			, "CommonLib/libPadZeropadding.js" 
+	]
+}
+//@ sourceURL=CommonLib.json

@@ -1,0 +1,755 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="1541" id="BPorDetail" left="0" oninit="FormOninit" onload="FormOnload" titletext="발주상세" top="0" width="1220" scrollbars="autoboth">
+    <Layouts>
+      <Layout>
+        <Div cssclass="div_WF_SearchBg" height="34" id="div_1" left="0" objNm="DIV-입찰 진행 상세 " right="15" taborder="15" top="0">
+          <Layouts>
+            <Layout>
+              <Edit id="edtPoNo" taborder="0" readonly="true" cssclass="edt_default_r" left="160" top="6" width="220" height="21" objNm="발주번호"/>
+              <Combo id="cboDocType" taborder="1" readonly="true" innerdataset="@dsCdCM10" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default_r" enable="false" left="5" top="6" width="150" height="21" objNm="구매유형"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_2" taborder="16" left="0" top="44" right="10" height="24" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="3" text="기본정보" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_21" taborder="17" left="0%" top="73" right="15" height="241">
+          <InitValue>
+            <Tab id="Tab01">
+              <Tabpages>
+                <Tabpage id="tabp03" text="첨부파일"/>
+              </Tabpages>
+            </Tab>
+          </InitValue>
+          <Layouts>
+            <Layout>
+              <Tab id="Tab01" taborder="0" preload="true" left="0" top="0" right="0" height="229" onchanged="div_21_Tab01_onchanged" tabindex="0" scrollbars="autoboth" cssclass="tab_default">
+                <Tabpages>
+                  <Tabpage id="tabp01" text="기본정보" scrollbars="none" lbcd="" objNm="기본정보">
+                    <Layouts>
+                      <Layout width="1042" height="218">
+                        <Static id="staViewCompLine01" taborder="35" cssclass="sta_WF_Labelbg" left="0" top="5" right="0" height="33"/>
+                        <Static id="staPoDay" taborder="2" text="상태" wordwrap="char" cssclass="sta_WF_Label" left="581" top="5" width="160" height="33" positionstep="1" objNm="발주일자"/>
+                        <Static id="staTtl" taborder="0" text="송장명" cssclass="sta_WF_Label" left="0" top="5" width="171" height="33" positionstep="1"/>
+                        <Static id="staViewCompLine00" taborder="36" cssclass="sta_WF_Labelbg" left="0" top="37" right="0" height="33"/>
+                        <Static id="staPoCtgr" taborder="9" text="지급계정" wordwrap="char" cssclass="sta_WF_Label" left="581" top="37" width="160" height="33" positionstep="1" objNm="발주유형"/>
+                        <Static id="staPtnrNm" taborder="6" text="협력사" cssclass="sta_WF_Label" left="0" top="37" width="171" height="33" positionstep="1"/>
+                        <Static id="staViewCompLine02" taborder="37" cssclass="sta_WF_Labelbg" left="0" top="69" right="0" height="33"/>
+                        <Static id="staDlvArea" taborder="15" text="전표구분" wordwrap="char" cssclass="sta_WF_Label" left="581" top="69" width="160" height="33" positionstep="1" objNm="배송처"/>
+                        <Static id="staTaxNo" taborder="13" text="세금계산서번호" cssclass="sta_WF_Label" left="0" top="69" width="171" height="33" positionstep="1"/>
+                        <Static id="staViewCompLine03" taborder="38" cssclass="sta_WF_Labelbg" left="0" top="101" right="0" height="33"/>
+                        <Static id="staPymtCndtn" taborder="20" text="부가세" wordwrap="char" cssclass="sta_WF_Label" left="581" top="101" width="160" height="33" positionstep="1" objNm="지급계정"/>
+                        <Static id="staAmt" taborder="17" text="공급가액" cssclass="sta_WF_Label" left="0" top="101" width="171" height="33" positionstep="1"/>
+                        <Static id="staViewCompLine04" taborder="39" cssclass="sta_WF_Labelbg" left="0" top="165" right="0" height="33"/>
+                        <Static id="staPayCtgr" taborder="25" text="카드정보" wordwrap="char" cssclass="sta_WF_Label" left="581" top="165" width="160" height="33" positionstep="1" objNm="정산유형"/>
+                        <Static id="staViewCompLine08" taborder="43" cssclass="sta_WF_Labelbg" left="0" top="133" right="0" height="33"/>
+                        <Static id="staTotPayCnt" taborder="22" text="총금액" wordwrap="char" cssclass="sta_WF_Label" left="581" top="133" width="160" height="33" positionstep="1" objNm="지급회차"/>
+                        <Edit id="edtTtl" taborder="1" lengthunit="utf8" left="177" top="9" width="396" height="24" objNm="발주서명"/>
+                        <Combo id="cboPoCtgr" taborder="10" innerdataset="@dsCdCM13" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="747" top="42" width="150" height="24" objNm="배송처"/>
+                        <Edit id="edtPtnrNo" taborder="51" readonly="true" cssclass="edt_default_r" left="177" top="41" width="100" height="24" objNm="협력사번호"/>
+                        <Edit id="edtPtnrNm" taborder="52" onkeydown="fnOnkeydown" ontextchanged="fnOntextchanged" left="282" top="41" width="291" height="24" objNm="협력사명" cssclass="edt_default_r" readonly="true"/>
+                        <Combo id="cboPoCtgr00" taborder="57" innerdataset="dsCdIV10" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="747" top="9" width="150" height="24" objNm="배송처"/>
+                        <Static id="staAltPartialDlv" taborder="58" text="증빙일" wordwrap="char" cssclass="sta_WF_Label" left="903" top="69" width="140" height="33" positionstep="1" objNm="분할납품"/>
+                        <Calendar id="calPoDay" taborder="59" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd ddd" left="1049" top="74" width="150" height="24" objNm="발주일자"/>
+                        <Calendar id="calPoDay00" taborder="60" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd ddd" left="1049" top="105" width="150" height="24" objNm="발주일자"/>
+                        <Static id="staAltPartialDlv00" taborder="61" text="전기일" wordwrap="char" cssclass="sta_WF_Label" left="903" top="101" width="140" height="33" positionstep="1" objNm="분할납품"/>
+                        <MaskEdit id="maeTotAmt00" taborder="63" readonly="true" cssclass="input_point" enable="false" left="177" top="105" width="238" height="24" style="color:blue;font:bold 10 Dotum;" objNm="총금액" mask="#,##0"/>
+                        <Edit id="edtTtl00" taborder="64" lengthunit="utf8" left="177" top="74" width="396" height="24" objNm="발주서명"/>
+                        <Static id="staTaxCd" taborder="65" text="구분" wordwrap="char" cssclass="sta_WF_Label" left="0" top="165" width="171" height="33" positionstep="1" objNm="지급계정"/>
+                        <Static id="staCdTax" taborder="66" text="계산서종류" wordwrap="char" cssclass="sta_WF_Label" left="0" top="133" width="171" height="33" positionstep="1" objNm="배송처"/>
+                        <Combo id="cboDlvAddr01" taborder="67" innerdataset="@dsCdIV20" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="177" top="137" width="238" height="24" objNm="배송처" onitemchanged="div_21_Tab01_tabp01_cboDlvAddr01_onitemchanged"/>
+                        <Combo id="cboPymtCndtn00" taborder="68" innerdataset="@dsCdIV21" codecolumn="CD_ID" datacolumn="CD_NM_LO" onitemchanged="div_21_Tab01_tabp01_cbo_cdPymtCndtn_onitemchanged" left="177" top="170" width="238" height="24" objNm="지급계정"/>
+                        <MaskEdit id="maeTotAmt01" taborder="69" readonly="true" mask="#,##0" cssclass="input_point" enable="false" left="747" top="137" width="238" height="24" style="color:blue;font:bold 10 Dotum;" objNm="총금액"/>
+                        <Edit id="edtPtnrNo00" taborder="70" readonly="true" cssclass="edt_default_r" left="747" top="169" width="100" height="24" objNm="협력사번호"/>
+                        <Edit id="edtPtnrNm00" taborder="71" onkeydown="fnOnkeydown" ontextchanged="fnOntextchanged" left="852" top="169" width="269" height="24" objNm="협력사명"/>
+                        <Button id="btnPntr" taborder="72" onclick="btnPntr_onclick" cssclass="btn_WF_SearchSmall" left="1121" top="170" width="24" height="24" objNm="구매요청자 검색 버튼"/>
+                        <Edit id="edtTtl01" taborder="73" lengthunit="utf8" left="747" top="74" width="150" height="24" objNm="발주서명"/>
+                        <MaskEdit id="maeTotAmt02" taborder="74" readonly="true" mask="#,##0" cssclass="input_point" enable="false" left="747" top="105" width="150" height="24" style="color:blue;font:bold 10 Dotum;" objNm="총금액"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp03" text="특이사항" objNm="특이사항">
+                    <Layouts>
+                      <Layout>
+                        <TextArea id="txtRmark" taborder="0" scrollbars="none" wordwrap="char" lengthunit="utf8" maxlength="500" left="0" top="5" right="0" height="263" objNm="특이사항"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp04" text="첨부파일" url="CCOMP::CompNFileUpDown.xfdl" objNm="첨부파일"/>
+                  <Tabpage id="tabp05" text="담당자" objNm="발주담당자">
+                    <Layouts>
+                      <Layout>
+                        <Static id="staViewCompLine03" taborder="12" cssclass="sta_WF_Labelbg" left="0" top="101" right="0" height="33"/>
+                        <Static id="staViewCompLine00" taborder="10" cssclass="sta_WF_Labelbg" left="0" top="37" right="0" height="33"/>
+                        <Static id="staViewCompLine01" taborder="9" cssclass="sta_WF_Labelbg" left="0" top="5" right="0" height="33"/>
+                        <Static id="staWrtr" taborder="0" text="담당자" cssclass="sta_WF_Label" left="0" top="5" width="171" height="33" positionstep="1"/>
+                        <Static id="staTel" taborder="3" text="전화번호" cssclass="sta_WF_Label" left="0" top="37" width="171" height="33" positionstep="1"/>
+                        <Static id="staViewCompLine02" taborder="11" cssclass="sta_WF_Labelbg" left="0" top="69" right="0" height="33"/>
+                        <Static id="staEmail" taborder="5" text="e-Mail" cssclass="sta_WF_Label" left="0" top="69" width="171" height="33" positionstep="1"/>
+                        <Static id="staFax" taborder="7" text="Fax" cssclass="sta_WF_Label" left="0" top="101" width="171" height="33" positionstep="1"/>
+                        <Edit id="edtFax" taborder="8" readonly="true" cssclass="edt_default_r" left="177" top="105" width="356" height="24" objNm="Fax"/>
+                        <Edit id="edtEmail" taborder="6" readonly="true" cssclass="edt_default_r" left="177" top="73" width="356" height="24" objNm="e-Mail"/>
+                        <Edit id="edtTel" taborder="4" readonly="true" cssclass="edt_default_r" left="177" top="41" width="356" height="24" objNm="전화번호"/>
+                        <Edit id="edtWrtrNm" taborder="2" readonly="true" cssclass="edt_default_r" left="282" top="9" width="250" height="24" objNm="담당자명"/>
+                        <Edit id="edtWrtrId" taborder="1" readonly="true" cssclass="edt_default_r" left="177" top="9" width="100" height="24" objNm="담당자ID"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp06" text="송장이력" objNm="발주이력">
+                    <Layouts>
+                      <Layout>
+                        <Grid id="grdPoHsty" taborder="0" binddataset="dsIvHsty" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" autofittype="col" autosizingtype="row" left="0%" top="5" right="0" bottom="1">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="145"/>
+                                <Column size="80"/>
+                                <Column size="80"/>
+                                <Column size="900"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="32" band="head"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell text="일시"/>
+                                <Cell col="1" text="구분"/>
+                                <Cell col="2" text="담당자명"/>
+                                <Cell col="3" text="내용"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="date" edittype="none" text="bind:DT" mask="yyyy.MM.dd HH:mm" calendardisplaynulltype="none" tooltiptext="bind:DT"/>
+                                <Cell col="1" text="bind:TYPE" tooltiptext="bind:TYPE"/>
+                                <Cell col="2" text="bind:CHRGR_NM" tooltiptext="bind:CHRGR_NM"/>
+                                <Cell col="3" style="align:left;" text="bind:CNTNT" tooltiptext="bind:CNTNT"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_3" taborder="18" left="0" top="315" right="10" height="24" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="품목" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+              <Button id="btn_Set_Day" taborder="3" text="삭제" onclick="div_3_btn_Set_Day_onclick" visible="true" top="0" right="5" width="70" height="24" lbcd="" objNm="납품요청일자 일괄적용"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_31" taborder="20" left="0" top="343" right="15" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grdIvItem" taborder="6" binddataset="dsIvItem" autoenter="select" useinputpanel="false" selecttype="cell" cellsizingtype="col" cellmovingtype="col" left="0" top="0" right="0" bottom="10" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y" f_copyitemcolumn="MTRL_CD" f_editcol="MTRL_CD" f_version="Y" objNm="품목그리드" oncelldblclick="div_31_grdIvItem_oncelldblclick">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="40" band="left"/>
+                      <Column size="90"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="220"/>
+                      <Column size="55"/>
+                      <Column size="55"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="100"/>
+                      <Column size="150"/>
+                      <Column size="100"/>
+                      <Column size="160"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox" expr="0"/>
+                      <Cell col="1" text="검수번호"/>
+                      <Cell col="2" text="창고"/>
+                      <Cell col="3" text="품목코드"/>
+                      <Cell col="4" text="품목명"/>
+                      <Cell col="5" text="수량"/>
+                      <Cell col="6" text="단위"/>
+                      <Cell col="7" text="단가"/>
+                      <Cell col="8" text="공급가"/>
+                      <Cell col="9" text="부가세"/>
+                      <Cell col="10" text="총금액"/>
+                      <Cell col="11" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계정코드"/>
+                      <Cell col="12" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계정명"/>
+                      <Cell col="13" text="자산번호"/>
+                      <Cell col="14" text="구매요청번호"/>
+                      <Cell col="15" text="발주번호"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2;">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED" editdisplay="display" expandshow="hide"/>
+                      <Cell col="1" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:DLV_NO" tooltiptext="bind:DLV_NO"/>
+                      <Cell col="2" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:SL_NM" tooltiptext="bind:SL_NM"/>
+                      <Cell col="3" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_CD" editautoselect="true" editdisplay="edit" tooltiptext="bind:MTRL_CD"/>
+                      <Cell col="4" edittype="none" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:MTRL_NM" editdisplay="edit" expandsize="21" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="5" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:QTY"/>
+                      <Cell col="6" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_UNIT_NM" combodataset="ds_cdCM11" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodisplay="display" tooltiptext="bind:CD_UNIT_NM"/>
+                      <Cell col="7" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:UNT_PRICE" mask="#,##0.00" editautoselect="false" editdisplay="edit"/>
+                      <Cell col="8" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:AMT" mask="#,##0" editautoselect="true" tooltiptext="bind:AMT"/>
+                      <Cell col="9" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:VAT" mask="#,##0" tooltiptext="bind:VAT"/>
+                      <Cell col="10" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:ITM_TOT_AMT" mask="#,##0" tooltiptext="bind:ITM_TOT_AMT"/>
+                      <Cell col="11" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:GR_ACNT_CD"/>
+                      <Cell col="12" displaytype="normal" edittype="text" style="align:left;" text="bind:ACNT_NM" editautoselect="true" expandshow="show" expandimage="URL('img::grd_WF_Expand.png')" tooltiptext="bind:ACNT_NM"/>
+                      <Cell col="13" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:AST_NO" tooltiptext="bind:AST_NO"/>
+                      <Cell col="14" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:PR_NO" maskchar=" " tooltiptext="bind:PR_NO"/>
+                      <Cell col="15" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:PO_NO" tooltiptext="bind:PO_NO"/>
+                    </Band>
+                  </Format>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="259"/>
+                      <Column size="55"/>
+                      <Column size="55"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="100"/>
+                      <Column size="150"/>
+                      <Column size="100"/>
+                      <Column size="160"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="검수번호"/>
+                      <Cell col="1" text="창고"/>
+                      <Cell col="2" text="품목코드"/>
+                      <Cell col="3" text="품목명"/>
+                      <Cell col="4" text="수량"/>
+                      <Cell col="5" text="단위"/>
+                      <Cell col="6" text="단가"/>
+                      <Cell col="7" text="공급가"/>
+                      <Cell col="8" text="부가세"/>
+                      <Cell col="9" text="총금액"/>
+                      <Cell col="10" text="계정코드"/>
+                      <Cell col="11" text="계정명"/>
+                      <Cell col="12" text="자산번호"/>
+                      <Cell col="13" text="구매요청번호"/>
+                      <Cell col="14" text="발주번호"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2;">
+                      <Cell style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:DLV_NO" tooltiptext="bind:DLV_NO"/>
+                      <Cell col="1" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:SL_NM" tooltiptext="bind:SL_NM"/>
+                      <Cell col="2" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_CD" editautoselect="true" editdisplay="edit" tooltiptext="bind:MTRL_CD"/>
+                      <Cell col="3" edittype="none" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_NM" editdisplay="edit" expandsize="21" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="4" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:QTY"/>
+                      <Cell col="5" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_UNIT_NM" combodataset="ds_cdCM11" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodisplay="display" tooltiptext="bind:CD_UNIT_NM"/>
+                      <Cell col="6" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:UNT_PRICE" mask="#,##0.00" editautoselect="false" editdisplay="edit"/>
+                      <Cell col="7" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:AMT" mask="#,##0" editautoselect="true" tooltiptext="bind:AMT"/>
+                      <Cell col="8" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:VAT" mask="#,##0" tooltiptext="bind:VAT"/>
+                      <Cell col="9" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:ITM_TOT_AMT" mask="#,##0" tooltiptext="bind:ITM_TOT_AMT"/>
+                      <Cell col="10" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:GR_ACNT_CD"/>
+                      <Cell col="11" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:ACNT_NM" tooltiptext="bind:ACNT_NM"/>
+                      <Cell col="12" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:AST_NO" tooltiptext="bind:AST_NO"/>
+                      <Cell col="13" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:PR_NO" maskchar=" " tooltiptext="bind:PR_NO"/>
+                      <Cell col="14" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:PO_NO" tooltiptext="bind:PO_NO"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="divPaging" taborder="7" url="CCOMP::CompPaging.xfdl" left="0" right="0" bottom="0" height="28" scrollbars="none"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item50" compid="divViewCompCond00.cboCdCntrTmplt" propid="value" datasetid="dsCntr" columnid="CD_CNTR_STTS"/>
+      <BindItem id="LabelLang60" compid="divViewCompTitle00.staViewCompTitle00" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00047"/>
+      <BindItem id="item12" compid="Div00.Tab01.tabp02.spn_advPymtRt" propid="value" datasetid="dsPo" columnid="ADV_PYMT_RT"/>
+      <BindItem id="item13" compid="Div00.Tab01.tabp02.spn_partPymtRt" propid="value" datasetid="dsPo" columnid="PART_PAMT_RT"/>
+      <BindItem id="item14" compid="Div00.Tab01.tabp02.spn_banlanceAmtRt" propid="value" datasetid="dsPo" columnid="BALANCE_AMT_RT"/>
+      <BindItem id="item8" compid="Div00.Tab01.tabp02.cbo_pymtCndtn" propid="value" datasetid="dsPo" columnid="CD_PYMT_CNDTN"/>
+      <BindItem id="item9" compid="Div00.Tab01.tabp02.cal_advPymtDay" propid="value" datasetid="dsPo" columnid="ADV_PYMT_DAY"/>
+      <BindItem id="item10" compid="Div00.Tab01.tabp02.cal_partPymtDay" propid="value" datasetid="dsPo" columnid="PART_PAMT_DAY"/>
+      <BindItem id="item11" compid="Div00.Tab01.tabp02.cal_banlanceAmtDay" propid="value" datasetid="dsPo" columnid="BALANCE_AMT_DAY"/>
+      <BindItem id="item7" compid="Div00.Tab01.tabp02.cal_poDay" propid="value" datasetid="dsPo" columnid="PO_DAY"/>
+      <BindItem id="item5" compid="Div00.Tab01.tabp02.edt_ptnrNo" propid="value" datasetid="dsPo" columnid="PTNR_ID"/>
+      <BindItem id="item0" compid="Div00.Tab01.tabp02.edt_ptnrNm" propid="value" datasetid="dsPo" columnid="PTNR_NM"/>
+      <BindItem id="item16" compid="Div00.Tab01.tabp05.edt_wrtrId" propid="value" datasetid="dsPo" columnid="CHRGR_ID"/>
+      <BindItem id="item20" compid="Div00.Tab01.tabp05.edt_email" propid="value" datasetid="dsPo" columnid="EMAIL"/>
+      <BindItem id="item21" compid="Div00.Tab01.tabp05.edt_fax" propid="value" datasetid="dsPo" columnid="FAX"/>
+      <BindItem id="item22" compid="Div00.Tab01.tabp01.edt_ttl" propid="value" datasetid="dsPo" columnid="TTL"/>
+      <BindItem id="item24" compid="Div00.Tab01.tabp05.edt_tel" propid="value" datasetid="dsPo" columnid="TEL"/>
+      <BindItem id="item46" compid="Div00.Tab01.tabpage6.grd_rfqItem" propid="binddataset" datasetid="dsPoHsty" columnid=""/>
+      <BindItem id="item48" compid="Div00.Tab01.tabp05.edt_wrtrNm" propid="value" datasetid="dsPo" columnid="CHRGR_NM"/>
+      <BindItem id="item59" compid="Div00.Tab01.tabp01.mae_totAmt" propid="value" datasetid="dsPo" columnid="TOT_AMT"/>
+      <BindItem id="item47" compid="Div00.Tab01.tabp01.cbo_cdDlvMthd" propid="value" datasetid="dsPo" columnid="CD_DLV_MTHD"/>
+      <BindItem id="item1" compid="Div00.Tab01.tabp01.edt_ptnrNm" propid="value" datasetid="dsPo" columnid="PTNR_NM"/>
+      <BindItem id="item56" compid="Div00.Tab01.tabp01.edt_ptnrNo" propid="value" datasetid="dsPo" columnid="PTNR_ID"/>
+      <BindItem id="item58" compid="Div00.Tab01.tabp01.cal_poDay" propid="value" datasetid="dsPo" columnid="PO_DAY"/>
+      <BindItem id="item34" compid="Div00.Tab01.tabp01.cbo_cdPymtCndtn" propid="value" datasetid="dsPo" columnid="CD_PYMT_CNDTN"/>
+      <BindItem id="item15" compid="Div00.Tab01.tabp03.txt_rmark" propid="value" datasetid="dsPo" columnid="RMARK"/>
+      <BindItem id="item4" compid="Div00.Tab01.tabp01.rdo_altPartialDlv" propid="value" datasetid="dsPo" columnid="ALT_PARTIAL_DLV"/>
+      <BindItem id="item60" compid="Div00.Tab01.tabp01.cbo_totPayCnt" propid="value" datasetid="dsPo" columnid="TOT_PAY_CNT"/>
+      <BindItem id="item61" compid="Div00.Tab01.tabp01.chk_altGrPymt" propid="value" datasetid="dsPo" columnid="ALT_GR_PYMT"/>
+      <BindItem id="item27" compid="Div00.Tab01.tabp01.cbo_cdPayCtgr" propid="value" datasetid="dsPo" columnid="CD_PAY_CTGR"/>
+      <BindItem id="item23" compid="Div00.Tab01.tabp01.mae_poAm" propid="value" datasetid="dsPo" columnid="PO_AMT"/>
+      <BindItem id="item64" compid="Div00.Tab01.tabp01.mae_vat" propid="value" datasetid="dsPo" columnid="VAT"/>
+      <BindItem id="item70" compid="Div00.Tab01.tabp01.edt_cdPoCtgr" propid="value" datasetid="dsPo" columnid="CD_PO_CTGR_NM"/>
+      <BindItem id="item71" compid="Div00.Tab01.tabpage7.edt_exchgRmark" propid="value" datasetid="dsPo" columnid="EXCHG_RMARK"/>
+      <BindItem id="item72" compid="Div00.Tab01.tabp01.edt_cardNo" propid="value" datasetid="dsPo" columnid="CARD_NO"/>
+      <BindItem id="item73" compid="Div00.Tab01.tabp01.cbo_cdTaxKind" propid="value" datasetid="dsPo" columnid="CD_TAX_KIND"/>
+      <BindItem id="item74" compid="Div00.Tab01.tabp01.edt_cardAppNo" propid="value" datasetid="dsPo" columnid="CARD_APRV_NO"/>
+      <BindItem id="item75" compid="Div00.Tab01.tabp01.cbo_cdTaxCd" propid="value" datasetid="dsPo" columnid="CD_TAX_CD"/>
+      <BindItem id="item3" compid="Div00.Tab01.tabp01.cbo_dlvAddr" propid="value" datasetid="dsPo" columnid="CD_DLV_AREA"/>
+      <BindItem id="item2" compid="Div00.Tab01.tabpage7.cbo_poCrnc" propid="value" datasetid="dsPo" columnid="CD_PO_CRNC"/>
+      <BindItem id="item6" compid="Div00.Tab01.tabpage7.mae_exchgRt" propid="value" datasetid="dsPo" columnid="EXCHG_RT"/>
+      <BindItem id="item17" compid="divViewCompTitle01.staViewCompTitle00" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00047"/>
+      <BindItem id="item104" compid="div_21.Tab01.tabp01.edtTtl" propid="value" datasetid="dsIv" columnid="TTL"/>
+      <BindItem id="item106" compid="div_21.Tab01.tabp01.cboPoCtgr" propid="value" datasetid="dsIv" columnid="CD_PYMT_CNDTN"/>
+      <BindItem id="item138" compid="div_21.Tab01.tabp02.maeExchgRt" propid="value" datasetid="dsPo" columnid="EXCHG_RT"/>
+      <BindItem id="item139" compid="div_21.Tab01.tabp02.cboPoCrnc" propid="value" datasetid="dsPo" columnid="CD_PO_CRNC"/>
+      <BindItem id="item140" compid="div_21.Tab01.tabp02.edtExchgRmark" propid="value" datasetid="dsPo" columnid="EXCHG_RMARK"/>
+      <BindItem id="item29" compid="div_21.Tab01.tabp05.edtFax" propid="value" datasetid="dsIv" columnid="FAX"/>
+      <BindItem id="item30" compid="div_21.Tab01.tabp05.edtEmail" propid="value" datasetid="dsIv" columnid="EMAIL"/>
+      <BindItem id="item32" compid="div_21.Tab01.tabp05.edtTel" propid="value" datasetid="dsIv" columnid="TEL"/>
+      <BindItem id="item33" compid="div_21.Tab01.tabp05.edtWrtrNm" propid="value" datasetid="dsIv" columnid="CHRGR_NM"/>
+      <BindItem id="item35" compid="div_21.Tab01.tabp05.edtWrtrId" propid="value" datasetid="dsIv" columnid="CHRGR_ID"/>
+      <BindItem id="item51" compid="div_1.edtPoNo" propid="value" datasetid="dsPo" columnid="PO_NO"/>
+      <BindItem id="item54" compid="div_1.cboDocType" propid="value" datasetid="dsPo" columnid="CD_DOC_CTGR"/>
+      <BindItem id="item103" compid="div_21.Tab01.tabp01.edtPtnrNo" propid="value" datasetid="dsIv" columnid="PTNR_ID"/>
+      <BindItem id="item102" compid="div_21.Tab01.tabp01.edtPtnrNm" propid="value" datasetid="dsIv" columnid="PTNR_NM"/>
+      <BindItem id="item18" compid="div_21.Tab01.tabp01.cboPoCtgr00" propid="value" datasetid="dsIv" columnid="CD_INV_STTS"/>
+      <BindItem id="item105" compid="div_21.Tab01.tabp01.calPoDay" propid="value" datasetid="dsIv" columnid="ISSUE_DAY"/>
+      <BindItem id="item19" compid="div_21.Tab01.tabp01.calPoDay00" propid="value" datasetid="dsIv" columnid="WRITE_DAY"/>
+      <BindItem id="item26" compid="div_21.Tab01.tabp01.maeTotAmt00" propid="value" datasetid="dsIv" columnid="SPLY_VL"/>
+      <BindItem id="item28" compid="div_21.Tab01.tabp01.edtTtl00" propid="value" datasetid="dsIv" columnid="TAX_BILL"/>
+      <BindItem id="item31" compid="div_21.Tab01.tabp01.cboDlvAddr01" propid="value" datasetid="dsIv" columnid="CD_TAX_KIND"/>
+      <BindItem id="item36" compid="div_21.Tab01.tabp01.cboPymtCndtn00" propid="value" datasetid="dsIv" columnid="CD_TAX_CD"/>
+      <BindItem id="item37" compid="div_21.Tab01.tabp01.maeTotAmt01" propid="value" datasetid="dsIv" columnid="TOT_AMT"/>
+      <BindItem id="item38" compid="div_21.Tab01.tabp01.edtPtnrNo00" propid="value" datasetid="dsIv" columnid="CARD_NO"/>
+      <BindItem id="item39" compid="div_21.Tab01.tabp01.edtPtnrNm00" propid="value" datasetid="dsIv" columnid="CARD_APRV_NO"/>
+      <BindItem id="item40" compid="div_21.Tab01.tabp01.edtTtl01" propid="value" datasetid="dsIv" columnid="INT_INV_TYPE_NM"/>
+      <BindItem id="item25" compid="div_21.Tab01.tabp01.maeTotAmt02" propid="value" datasetid="dsIv" columnid="VAT"/>
+      <BindItem id="item41" compid="div_21.Tab01.tabp03.txtRmark" propid="value" datasetid="dsIv" columnid="RMARK"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsIvItem"/>
+      <Dataset id="dsIv">
+        <ColumnInfo>
+          <Column id="CHRGR_ID" type="string" size="256"/>
+          <Column id="CD_PYMT_CNDTN_NM" type="string" size="256"/>
+          <Column id="CD_PYMT_CNDTN" type="string" size="256"/>
+          <Column id="WRITE_DAY" type="string" size="256"/>
+          <Column id="PTNR_NM" type="string" size="256"/>
+          <Column id="TOT_AMT" type="string" size="256"/>
+          <Column id="ISSUE_DAY" type="string" size="256"/>
+          <Column id="TTL" type="string" size="256"/>
+          <Column id="CD_DOC_CTGR_NM" type="string" size="256"/>
+          <Column id="CD_DOC_CTGR" type="string" size="256"/>
+          <Column id="CNCL_RSN" type="string" size="256"/>
+          <Column id="CMPUTE_DAY" type="string" size="256"/>
+          <Column id="TEL" type="string" size="256"/>
+          <Column id="CD_TAX_CD_NM" type="string" size="256"/>
+          <Column id="CD_TAX_CD" type="string" size="256"/>
+          <Column id="STR_CD" type="string" size="256"/>
+          <Column id="EMAIL" type="string" size="256"/>
+          <Column id="PTNR_ID" type="string" size="256"/>
+          <Column id="FAX" type="string" size="256"/>
+          <Column id="TAX_BILL" type="string" size="256"/>
+          <Column id="USER_ID" type="string" size="256"/>
+          <Column id="CD_INV_STTS_NM" type="string" size="256"/>
+          <Column id="CD_INV_STTS" type="string" size="256"/>
+          <Column id="CD_INV_CRNC_NM" type="string" size="256"/>
+          <Column id="CD_INV_CRNC" type="string" size="256"/>
+          <Column id="SPLY_VL" type="string" size="256"/>
+          <Column id="RMARK" type="string" size="256"/>
+          <Column id="CHRGR_NM" type="string" size="256"/>
+          <Column id="VAT" type="string" size="256"/>
+          <Column id="INV_NO" type="string" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="DLV_NO" type="STRING" size="256"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="COREXP_KIDS" type="STRING" size="256"/>
+          <Column id="INT_NTAX" type="STRING" size="256"/>
+          <Column id="APPND_SET_CHR_2" type="STRING" size="256"/>
+          <Column id="APPND_SET_CHR_1" type="STRING" size="256"/>
+          <Column id="ALT_ASSET" type="STRING" size="256"/>
+          <Column id="CD_TAX_KIND" type="STRING" size="256"/>
+          <Column id="INT_INV_TYPE_NM" type="STRING" size="256"/>
+          <Column id="INT_INV_TYPE" type="STRING" size="256"/>
+          <Column id="GUBUN" type="STRING" size="256"/>
+          <Column id="INSP_DAY" type="STRING" size="256"/>
+          <Column id="INSP_MONTH" type="STRING" size="256"/>
+          <Column id="INSP_DAY_STR" type="STRING" size="256"/>
+          <Column id="INSP_DAY_END" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsIvHsty"/>
+      <Dataset id="dsPoItmDlv"/>
+      <Dataset id="dsCdIV10"/>
+      <Dataset id="dsCdCM10"/>
+      <Dataset id="dsCdIV20"/>
+      <Dataset id="dsCdIV21"/>
+      <Dataset id="dsCdCM13"/>
+      <Dataset id="dsCdCM11"/>
+      <Dataset id="dsCdCM15"/>
+    </Objects>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BInvDetail.xfdl
+ * @생성자			: 배열
+ * @생성일시		: 2019. 05. 16.
+ * @설명			: 송장상세
+ * @최종수정자		: 배열
+ * @최종수정일시	: 2019. 05. 16.
+*/  
+
+
+this.fv_appPopCall = false;
+this.fv_appCheck = false;
+this.fv_prReqPoYn = "N";
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					{code:"CM10", sSelectType:"S"} 	// 문서유형
+					,{code:"CM13", sSelectType:"S"} // 지급계정
+					,{code:"CM11", sSelectType:"S"} // 단위
+					,{code:"CM15", sSelectType:"S"} // 통화
+					,{code:"IV10", sSelectType:"S"} // 송장상태
+					,{code:"IV20", sSelectType:"S"} // 계산서종류
+					,{code:"IV21", sSelectType:"S"} // 계산서구분(세금코드)
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnRemote
+  * @desc     	: 리모콘 버튼 생성
+  */
+this.fnRemote = function()
+{
+	var sArg = [ 
+				{btnName:"계산서발행요청", clickEventFunc:"fnPoReq"}
+				,{btnName:"계산서수취완료", clickEventFunc:"fnPoAppReq"}
+		   ];		   
+	gfnRemote(this, sArg);
+}
+
+/**
+  * @함수명	: BRfqPrgDetail_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+ 
+/**
+  * @함수명	: FormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.FormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+    //그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.div_31.grdIvItem , '', this);
+
+	gfnSetGrdFunc(this.div_31.grdIvItem , this.div_31.divPaging , this);
+
+	gfnMakeFileDs(this);
+                         
+	//이전화면에서 넘어오는 파라미터를 받는다.
+	var dlvNo	= gfnGetTmprData("DLV_NO");
+	var dlvKid	= gfnGetTmprData("DLV_COREXP_KIDS");
+	var intNtax	= gfnGetTmprData("INT_NTAX");
+	var invNo	= gfnGetTmprData("INV_NO");
+	var invKid	= gfnGetTmprData("INV_COREXP_KIDS");
+	var invStts	= gfnGetTmprData("CD_INV_STTS");
+	
+	var gubun	= gfnGetTmprData("GUBUN");	// 구분. 건별:ONE, 일괄:ALL, 일합:DAY, 월합:MONTH
+	
+	//일괄송장작성할때 가져옴
+	var altAsset		= gfnGetTmprData("ALT_ASSET");
+	var cdPymtCndtn		= gfnGetTmprData("CD_PYMT_CNDTN");
+	var cdTaxKind		= gfnGetTmprData("CD_TAX_KIND");
+	var cdTaxCd			= gfnGetTmprData("CD_TAX_CD");
+	var ptnrId			= gfnGetTmprData("PTNR_ID");
+	var inspDayStr		= gfnGetTmprData("INSP_DAY_STR");
+	var inspDayEnd		= gfnGetTmprData("INSP_DAY_END");
+	var inspDay			= gfnGetTmprData("INSP_DAY");
+	var inspMonth		= gfnGetTmprData("INSP_MONTH");	
+	
+	gfnClearTmprData(); 
+	
+	if(gfnIsNull(invNo))
+	{
+		trace("1");
+		this.dsIv.deleteAll();
+		this.dsIv.addRow();
+		
+		this.dsIv.setColumn(0, "CD_INV_STTS"	, "IV10WRI");
+		this.dsIv.setColumn(0, "CD_PYMT_CNDTN"	, "");
+		this.dsIv.setColumn(0, "STR_CD"		, "");
+		//this.dsIv.setColumn(0, "CD_TAX_CD"		, "");
+		
+		//신규 작성 시 파일내부의 Dataset을 초기화 시켜준다.
+		//this.gfn_newFileDsInit(this.dsIv, this.dsIvItem);
+		
+		if(gubun == "ALL")
+		{
+			this.dsIv.setColumn(0, "INSP_DAY_STR", inspDayStr);
+			this.dsIv.setColumn(0, "INSP_DAY_END", inspDayEnd);
+		}
+		else if(gubun == "DAY")
+		{
+			this.dsIv.setColumn(0, "INSP_DAY", inspDay);
+		}
+				
+		//ALL:일괄, DAY:일합
+		if(gubun == "ALL" || gubun == "DAY")
+		{
+			this.dsIv.setColumn(0, "GUBUN"			, gubun);
+			this.dsIv.setColumn(0, "DLV_NO"			, dlvNo);
+			this.dsIv.setColumn(0, "COREXP_KIDS"	, dlvKid);
+			this.dsIv.setColumn(0, "ALT_ASSET"		, altAsset);
+			this.dsIv.setColumn(0, "CD_PYMT_CNDTN"	, cdPymtCndtn);
+			this.dsIv.setColumn(0, "INT_NTAX"		, intNtax);
+			this.dsIv.setColumn(0, "CD_TAX_KIND"	, cdTaxKind);
+			this.dsIv.setColumn(0, "CD_TAX_CD"		, cdTaxCd);
+			this.dsIv.setColumn(0, "PTNR_ID"		, ptnrId);
+			
+			// 시스템 공통함수 호출
+			//this.gfn_formOnLoad(obj, "C", this.fn_dlvReadEnBloc);
+			
+		}		
+		else if(gubun == "ONE")	//건별송장작성		
+		{		
+			this.dsIv.setColumn(0, "DLV_NO"			, dlvNo);
+			this.dsIv.setColumn(0, "INT_NTAX"		, intNtax);
+			this.dsIv.setColumn(0, "ALT_ASSET"		, altAsset);
+			this.dsIv.setColumn(0, "COREXP_KIDS"	, dlvKid);
+			
+			// 시스템 공통함수 호출
+			//this.gfn_formOnLoad(obj, "C", this.fn_dlvSearch);
+		}
+		this.fn_dlvSearch();
+	}
+	else	//송장 작성 후 Read
+	{
+	trace("2");
+		this.dsIv.deleteAll();
+		this.dsIv.addRow();
+		this.dsIv.setColumn(0, "INV_NO"			, invNo);
+		this.dsIv.setColumn(0, "COREXP_KIDS"		, invKid);
+		
+		// 시스템 공통함수 호출
+		//this.gfn_formOnLoad(obj, "R", this.fn_search);
+	}
+	
+	this.fnRemote();
+	
+	
+	
+}
+ 
+/**
+  	@function	 fn_dlvSearch()
+  	@desc  		 납품 조회 프로세스(건별송장작성)
+ */
+this.fn_dlvSearch = function()
+{	 
+	var sSvcID = "dlvRead";
+	var sController = "epro.inv.service.BInvService.dlvRead";
+	var sInDatasets = "dsIv=dsIv";
+	var sOutDatasets = "dsIv=dsIv dsIvItem=dsIvItem";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "dlvRead" :
+			trace(this.dsIvItem.saveXML());
+			this.div_21_Tab01_tabp01_cboDlvAddr01_onitemchanged();
+			
+			this.fnStatusControl(this.dsIv.getColumn(0, "CD_INV_STTS"));
+						
+			this.fn_getTotAmt();
+			
+		break;
+				
+		default:
+		break;	
+	}
+}
+
+/**
+  	@function	 fn_statusControl()
+  	@desc  		 버튼 처리
+ */
+this.fnStatusControl = function(status)
+{
+	/*버튼처리*/	
+	if(status=="IV10CLO" || status=="IV10REQ" || status=="IV10TAX" || this.gfn_isNull(status))
+	{	
+		//this.gfn_objReSet(this, "R");
+		var sArg = [ 
+		   ];		   
+		gfnRemote(this, sArg);
+		
+		
+							
+		this.div_31.grd_ivItem.setFormat("VMODE");
+		this.parent.div_commBtns.btn_comDel.set_visible(false); //삭제
+		this.parent.div_commBtns.btn_commSave.set_visible(false); //저장			
+	}
+	else if(status=="IV10WRI")
+	{		
+		if(this.gfn_isNull(this.ds_iv.getColumn(0, "INV_NO")))
+		{
+			this.gfn_objReSet(this, "C");
+			this.parent.div_commBtns.btn_comDel.set_visible(false); //삭제
+			this.parent.div_commBtns.btn_commSave.set_visible(true); //저장
+		}
+		else
+		{
+			this.gfn_objReSet(this, "U");
+			this.parent.div_commBtns.btn_comDel.set_visible(true); //삭제
+			this.parent.div_commBtns.btn_commSave.set_visible(true); //저장	
+		}
+		
+		this.div_21_Tab01_tabp01_cb_cdPymtCndtn_onitemchanged();
+		this.div_21_Tab01_tabp01_cbo_billType_onitemchanged();
+		this.div_21_Tab01_tabp01_cbo_cdTaxCd_onitemchanged();
+	}
+	else if(status=="IV10CXL")
+	{
+		this.gfn_objReSet(this, "U");
+		this.parent.div_commBtns.btn_comDel.set_visible(true); //삭제
+		this.parent.div_commBtns.btn_commSave.set_visible(true); //저장
+		
+		this.div_21_Tab01_tabp01_cb_cdPymtCndtn_onitemchanged();
+		this.div_21_Tab01_tabp01_cbo_billType_onitemchanged();
+		this.div_21_Tab01_tabp01_cbo_cdTaxCd_onitemchanged();		
+	}
+	
+	this.gfn_btnRange(this.parent.div_commBtns.btn_commInit);
+} 
+ 
+ 
+/**
+  	@function	 div_31_grdIvItem_oncelldblclick()
+  	@desc  		 품목그리드 더블클릭 이벤트
+ */
+this.div_31_grdIvItem_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnIsNull(this.dsIvItem.getColumn(e.row,gfnGrdBindColId(obj, e.cell)))) return false;
+	
+	if(gfnGrdBindColId(obj, e.cell)=="DLV_NO")	//검수번호 클릭
+	{
+		gfnSetTmprData("DLV_NO" ,this.dsIvItem.getColumn(e.row, "DLV_NO"));
+		gfnOpenMenuUrl("BDLV::BDlvDetail");
+	}
+	else if(gfnGrdBindColId(obj, e.cell)=="MTRL_CD")	//품목코드 클릭
+	{
+		var sArg = { 
+					mtrl_cd : this.dsIvItem.getColumn(e.row, "MTRL_CD")
+					};
+		alert("품목정보상세팝업");
+		//gfnModalPop(this, "CtnrPtnrInfo", "CPOP::BPtnrInfoPopup.xfdl", sArg, "fnPopCallBack", 550, 500);
+	}
+	else if(gfnGrdBindColId(obj, e.cell)=="PR_NO")	//구매요청번호 클릭
+	{
+		gfnSetTmprData("PR_NO" ,this.dsIvItem.getColumn(e.row, "PR_NO"));
+		gfnOpenMenuUrl("BPUR::BPurDetail");
+	}
+	else if(gfnGrdBindColId(obj, e.cell)=="PO_NO")	//발주번호 클릭
+	{
+		gfnSetTmprData("PO_NO" ,this.dsIvItem.getColumn(e.row, "PO_NO"));
+		gfnOpenMenuUrl("BPOR::BPorDetail");
+	}
+}
+
+
+/**
+  	@function	 div_21_Tab01_tabp01_cboDlvAddr01_onitemchanged()
+  	@desc  		 기본정보의 계산서정보 클릭시 변경처리
+ */
+this.div_21_Tab01_tabp01_cboDlvAddr01_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	var postVal = this.dsIv.getColumn(0, "CD_TAX_KIND");
+	
+ 	this.dsCdIV21.filter("UP_CD_ID=='"+ postVal +"' || CD_ID==''");
+ 	
+ 	var nRow = this.dsCdIV21.findRow("CD_ID", this.dsIv.getColumn(0, "CD_TAX_CD"));	
+	if(nRow < 0)
+	{
+		this.dsIv.setColumn(0, "CD_TAX_CD", "");
+	}
+	
+	//계산서종류를 신용카드 선택시 카드번호 및 카드승인번호는 필수
+	if(postVal == "IV20A1")
+	{
+		this.div_21.Tab01.tabp01.staPayCtgr.set_usedecorate(true);
+		this.div_21.Tab01.tabp01.staPayCtgr.set_text("<fc v='red'>*</fc> 카드정보");	
+	}
+	else
+	{
+		this.div_21.Tab01.tabp01.staPayCtgr.set_usedecorate(false);
+		this.div_21.Tab01.tabp01.staPayCtgr.set_text("카드정보");	
+	}
+	
+	//전자세금계산서
+	if(postVal == "IV20C1")
+	{		
+		var sArg = [ 
+					{btnName:"계산서수취완료", clickEventFunc:"fnPoAppReq"}
+			   ];		   
+		gfnRemote(this, sArg);
+	}
+	else
+	{	
+		var sArg = [ 
+					{btnName:"계산서발행요청", clickEventFunc:"fnPoReq"}
+			   ];		   
+		gfnRemote(this, sArg);
+		this.dsIv.setColumn(0, "TAX_BILL", "");
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

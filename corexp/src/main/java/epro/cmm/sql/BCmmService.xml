@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BCmmService">
+
+	<select id="searchCmmNotice" parameterType="hashmap" resultType="hashmap">
+		/* [BCmmService.searchCmmNotice][공지사항 조회][2018.02.06][김동호] */
+		<include refid="commonService.list-before" >
+			<property name="ORDERS" value="DOC_NO DESC,DOC_NM DESC"/>
+		</include>
+			SELECT 	BRANCH_CD
+      				, BBS_CTGR
+      				, DOC_NO
+      				, UPR_DOC_NO
+      				, DOC_NM
+      				, LVL
+      				, NVL(READ_CNT,0) READ_CNT
+      				, INT_OPEN_SITE
+      				, 'CM91'||NVL(INT_OPEN_SITE,'A') AS CD_INT_OPEN_SITE
+      				, ALT_POPUP_WIN
+      				, ALT_TOP_DISP
+      				, BGN_DT
+      				, END_DT
+      				, CONTENT
+      				, WRTR_ID
+      				, GET_USERNM(WRTR_ID, BRANCH_CD, #{LANG_CD}) AS WRTR_NM
+      				, PWD
+      				, ATTCH_FILE_CNT
+      				, CRTR_ID
+      				, TO_CHAR(CRT_DT, 'yyyymmdd') AS CRT_DT
+      				, LAST_CHGR_ID
+      				, GET_USERNM(LAST_CHGR_ID, BRANCH_CD, #{LANG_CD}) AS LAST_CHGR_NM
+      				, TO_CHAR(LAST_CHG_DT, 'yyyymmdd') AS LAST_CHG_DT
+      				, ROW_NUMBER() OVER(ORDER BY ALT_TOP_DISP DESC, DOC_NO DESC) AS "ROWNUM"
+			FROM 	MM_CM_BBS
+			WHERE 	BRANCH_CD	= #{BRANCH_CD}
+			AND   	BBS_CTGR	= #{BBS_CTGR}
+			<!-- 제목 -->
+			<if test="DOC_NM != null and DOC_NM != 'undefined' and DOC_NM != ''">
+				AND	DOC_NM   LIKE '%' || #{DOC_NM} || '%'
+			</if>
+			<!-- 공개여부 -->
+			<if test="INT_OPEN_SITE != 'CM91A'.toString() and INT_OPEN_SITE != null and INT_OPEN_SITE != 'undefined' and INT_OPEN_SITE != ''">
+				AND   INT_OPEN_SITE =  SUBSTR(#{INT_OPEN_SITE},5,5)
+			</if>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<resultMap id="RM_readCmmNotice" type="HMap">
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>   
+	<select id="readCmmNotice" resultType="HMap" resultMap="RM_readCmmNotice">
+		/* [BCmmService.readCmmNotice][공지사항 조회][2017.09.06][배열] */	
+			SELECT	BRANCH_CD
+					, BBS_CTGR
+					, DOC_NO
+					, UPR_DOC_NO
+					, DOC_NM
+					, LVL
+					, READ_CNT
+					, CASE	WHEN INT_OPEN_SITE ='A' 
+							 THEN ''
+							 ELSE'CM91'||INT_OPEN_SITE
+				  	  		 END 	AS INT_OPEN_SITE
+					, ALT_POPUP_WIN
+					, ALT_TOP_DISP
+					, BGN_DT
+					, END_DT
+					, CONTENT
+					, WRTR_ID
+					, GET_USERNM(WRTR_ID, BRANCH_CD,#{LANG_CD}) AS WRTR_NM
+					, '' PWD
+					, PWD OLD_PWD
+					, 'N' AS RELOAD
+					, ATTCH_FILE_CNT
+					, CRTR_ID
+					, TO_CHAR(CRT_DT,'yyyymmdd') AS CRT_DT
+					, LAST_CHGR_ID
+					, GET_USERNM(LAST_CHGR_ID, BRANCH_CD,#{LANG_CD}) AS LAST_CHGR_NM
+					, TO_CHAR(LAST_CHG_DT,'yyyymmdd') AS LAST_CHG_DT
+					, GET_USERNM(WRTR_ID, BRANCH_CD, #{LANG_CD}) || ' / ' || TO_CHAR(CRT_DT, 'yyyy-mm-dd') AS WRTR_INFO
+					, GET_USERNM(LAST_CHGR_ID, BRANCH_CD, #{LANG_CD})  || ' / ' || TO_CHAR(LAST_CHG_DT, 'yyyy-mm-dd')LAST_WRTR_INFO
+			FROM 	MM_CM_BBS
+			WHERE 	BRANCH_CD = #{BRANCH_CD}
+			AND 	DOC_NO = #{DOC_NO}
+	</select>
+	
+	<update id="updateReadCnt" parameterType="hashmap" >
+		/* [BCmmService.updateReadCnt][조회수 업데이트 ][2017.09.06][배열] */	
+		UPDATE	MM_CM_BBS
+		   SET	READ_CNT	=	NVL(READ_CNT,0)+1
+		 WHERE	BRANCH_CD 	= 	#{BRANCH_CD}
+		   AND	DOC_NO		=	#{DOC_NO}
+	</update>
+	
+	<insert id="insertBbs" parameterType="hashmap">
+		/* [BCmmService.insertBbs][공지사항 저장][2017.09.06][배열] */
+		INSERT INTO MM_CM_BBS(
+								BRANCH_CD
+								, BBS_CTGR
+								, DOC_NO
+								, DOC_NM
+								, INT_OPEN_SITE
+								, ALT_POPUP_WIN
+								, ALT_TOP_DISP
+								, BGN_DT
+								, END_DT
+								, CONTENT
+								, WRTR_ID
+								, WRTR_NM
+								, PWD
+								, CRTR_ID
+								, CRT_DT
+								, LAST_CHGR_ID
+								, LAST_CHG_DT
+		) VALUES (
+								#{BRANCH_CD}
+								, 'NOTICE'
+								, #{DOC_NO}
+								, #{DOC_NM}
+								, SUBSTR(NVL(NVL(#{INT_OPEN_SITE},''),'CM91A'),5,5)
+								, #{ALT_POPUP_WIN}
+								, #{ALT_TOP_DISP}
+								, TO_DATE( #{BGN_DT}, 'YYYYMMDDHH24MISS')
+								, TO_DATE( #{END_DT}, 'YYYYMMDDHH24MISS')
+								, #{CONTENT}
+								, #{USER_ID}
+								, #{USER_NM}
+								, #{PWD}
+								, #{USER_ID}
+								, SYSDATE
+								, #{USER_ID}
+								, SYSDATE
+		)
+	</insert>	
+	
+	<update id="updateBbs" parameterType="hashmap" >
+		/* [BCmmService.updateBbs][공지사항 업데이트 ][2017.09.06][배열] */	
+		UPDATE MM_CM_BBS
+		SET DOC_NM			= #{DOC_NM}
+			, INT_OPEN_SITE	= SUBSTR(NVL(NVL(#{INT_OPEN_SITE},''),'CM91A'),5,5)
+			, ALT_POPUP_WIN	= #{ALT_POPUP_WIN}
+			, ALT_TOP_DISP	= #{ALT_TOP_DISP}
+			, BGN_DT		= #{BGN_DT}
+			, END_DT		= #{END_DT}
+			, CONTENT		= #{CONTENT}
+			, LAST_CHGR_ID	= #{LAST_CHGR_ID}
+			, LAST_CHG_DT	= SYSDATE
+		WHERE BRANCH_CD		= #{BRANCH_CD}
+		AND   DOC_NO		= #{DOC_NO}
+	</update>
+	
+	<delete id="deleteBbs" parameterType="hashmap" >
+		/* [BCmmService.deleteBbs][공지사항 삭제 ][2017.09.20][김민성] */	
+		DELETE FROM MM_CM_BBS
+		WHERE  BRANCH_CD	= #{BRANCH_CD}
+		AND    DOC_NO		= #{DOC_NO}
+	</delete>
+</mapper>

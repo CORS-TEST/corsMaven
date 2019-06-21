@@ -1,0 +1,1556 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BPrService">
+
+	<select id="searchPrList" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.searchPrList][구매요청 list 조회][2019.04.26][박소진] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>        
+		SELECT
+			PR.CD_PR_CTGR														-- 구분
+			,PI.CD_DOC_CTGR														-- 문서유형
+			,PI.PR_ITEM_ID														-- 물품요청 품목번호
+			,PR.CD_PR_STTS     													-- 물품요청 상태
+			,PI.CD_PR_ITEM_STTS													-- 물품요청 품목상태
+			,PI.ITM_NO															-- 품번
+			,PR_REQ_DAY        													-- 구매요청일자
+			,PI.DLV_REQ_DAY    													-- 납품요청일
+			,PI.MTRL_CD        													-- 품목코드
+			,PI.MTRL_NM        													-- 품목명
+			,PI.QTY            													-- 요청수량
+			,PI.CD_UNIT        													-- 단위
+			,PI.REQ_PRICE      													-- 구매단가
+			,PI.REQ_AMT      													-- 구매금액
+			,PI.STR_CD															-- 창고(요청부서)
+			,MS.SL_NM AS STR_NM													-- 창고명(요청부서명)
+			,PI.REQ_DPMT_CD    													-- 요청부서코드
+			,PI.REQ_DPMT_NM    													-- 요청부서명
+			,PR.PR_NO         	 												-- 물품요청번호
+			,PI.REQR_ID        													-- 요청자
+			,PI.REQR_NM        													-- 요청자명
+			,PI.PCHRGR_ID														-- 구매담당자ID
+			,GET_USERNM(PI.PCHRGR_ID,PI.BRANCH_CD,'') AS PCHRGR_NM							-- 구매담당자명
+			,PI.RMARK          													-- 비고
+			,PIA.GR_ACNT_CD														-- 입고계정
+			,(
+				SELECT ACNT_NM
+				FROM MM_MT_ACCOUNT
+				WHERE ACNT_CD = PIA.GR_ACNT_CD
+				AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+			) AS GR_ACNT_NM														-- 입고계정명
+			,PI.RCV_DT															-- 접수일시
+			,TO_CHAR(PI.RCV_DT,'YYYY.MM.DD HH24:MI:SS') AS RCV_DT_MASK			-- 접수일시 포멧변경
+		FROM MM_PR PR
+			 ,MM_PR_ITEM PI
+			 ,MM_PR_ITEM_ADD PIA 
+			 ,MM_MTRL_PURC MMP
+			 ,MM_MT_SL MS
+		WHERE PR.PR_NO = PI.PR_NO
+		AND   PR.BRANCH_CD = PI.BRANCH_CD
+		AND   PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+		AND   PI.MTRL_CD = MMP.MTRL_CD(+)
+		AND   PI.BRANCH_CD = MMP.BRANCH_CD(+)
+		AND   PI.STR_CD = MS.STR_CD(+)
+		AND   PI.BRANCH_CD = MS.BRANCH_CD(+)
+		AND   PR.CD_PR_CTGR = 'PR20PR'
+		AND   PR.BRANCH_CD = #{SESSION_BRANCH_CD}
+		
+				
+	   <!-- 창고코드 -->
+	   <if test="SRCH_STR_CD != null and SRCH_STR_CD != 'undefined' and SRCH_STR_CD != ''">
+			AND   PI.STR_CD = #{SRCH_STR_CD}
+	   </if>  
+	   
+	   <!-- 창고명 -->
+	   <if test="SRCH_STR_NM != null and SRCH_STR_NM != 'undefined' and SRCH_STR_NM != ''">
+			AND   EXISTS (
+							SELECT '1'
+							FROM MM_MT_SL
+							WHERE STR_CD = PI.STR_CD
+							AND   SL_NM LIKE '%' || #{SRCH_STR_NM} || '%'
+						)
+	   </if>  
+       
+       <!-- 물품요청번호 -->
+	   <if test="PR_NO != null and PR_NO != 'undefined' and PR_NO != ''">
+			AND   PR.PR_NO IN (${PR_NO})
+	   </if>  
+       
+       <!-- 상태 -->
+       <if test="CD_PR_ITEM_STTS != null and CD_PR_ITEM_STTS  != 'undefined' and CD_PR_ITEM_STTS  != ''">
+       		AND   PI.CD_PR_ITEM_STTS  = #{CD_PR_ITEM_STTS}
+       </if>
+       
+       <!-- 문서유형 -->
+       <if test="CD_DOC_CTGR != null and CD_DOC_CTGR  != 'undefined' and CD_DOC_CTGR  != ''">
+       		AND   PI.CD_DOC_CTGR  = #{CD_DOC_CTGR}
+       </if>
+       <choose>
+       		<!--  품목 코드 -->
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''" >
+				AND   PI.MTRL_CD  = #{MTRL_CD}
+			</when>
+			<!--  품목 명 -->
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND   REGEXP_LIKE (PI.MTRL_NM, REPLACE(#{MTRL_NM},' ','|'),'i')
+			</when>
+		</choose> 
+       	<choose>
+       		<!--  요청자  -->
+			<when test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''" >
+				AND   PR.REQR_ID  = #{REQR_ID}
+			</when>
+			<!--  요청자 명 -->
+			<when test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+				AND   PI.REQR_NM LIKE '%' || #{REQR_NM} || '%' 
+			</when>
+		</choose>
+	   <!-- 작성일 -->
+	   <if test="CRT_DT_STR != null and CRT_DT_STR != 'undefined' and CRT_DT_STR != ''">
+			AND   PR.CRT_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{CRT_DT_STR},'YYYYMMDD'))
+	   </if>
+		
+	   <!-- 작성일 -->
+	   <if test="CRT_DT_END != null and CRT_DT_END != 'undefined' and CRT_DT_END != ''">
+			AND   PR.CRT_DT <![CDATA[<]]> TRUNC(TO_DATE(#{CRT_DT_END},'YYYYMMDD')+1)
+	   </if>
+       	ORDER BY PI.PR_NO DESC, PI.ITM_NO
+		
+		<include refid="commonService.list-after" />
+	</select>
+	
+	
+	<select id="searchPrItem" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.searchPrItem][품목검색 list 여러개 조회][2019.04.29][박소진] */
+		
+		
+		SELECT		
+					'' AS BTN_STATUS
+					,'' AS BTN_STATUS_NM
+					,MM.MTRL_CD        
+					,MM.MTRL_NM2     
+					,MM.CD_PUR_UNIT   
+					,MP.CNTR_PRICE     
+		FROM MM_MTRL MM, MM_MTRL_PURC MP
+		WHERE MM.MTRL_CD = MP.MTRL_CD
+		AND	  MM.MTRL_CD = #{MTRL_CD}
+     
+	</select>
+	
+	<select id="searchPrItemPop" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.searchPrItemPop][품목검색 list 팝업 조회][2019.04.29][박소진] */
+	
+		SELECT		
+					'' AS BTN_STATUS
+					,'' AS BTN_STATUS_NM
+					,MM.MTRL_CD        
+					,MM.MTRL_NM2     
+					,MM.CD_PUR_UNIT   
+					,MP.CNTR_PRICE
+					,SYSDATE AS DLV_DAY
+		FROM MM_MTRL MM, MM_MTRL_PURC MP
+		WHERE MM.MTRL_CD = MP.MTRL_CD
+		<if test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+		AND	MM.MTRL_NM LIKE '%'||#{MTRL_NM}||'%'
+		</if>
+
+	</select>
+	
+	<select id="searchItem" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.searchItem][품목검색 list 하나만 조회][2019.04.29][박소진] */
+	
+		SELECT		
+					'' AS BTN_STATUS
+					,'' AS BTN_STATUS_NM"Z:/00000/AAA"
+					,MM.MTRL_CD        
+					,MM.MTRL_NM2     
+					,MM.CD_PUR_UNIT   
+					,MP.CNTR_PRICE   "Z:/00000/AAA"
+					,SYSDATE AS DLV_DAY  
+		FROM MM_MTRL MM, MM_MTRL_PURC MP
+		WHERE MM.MTRL_CD = MP.MTRL_CD
+		AND	MM.MTRL_NM LIKE '%'||#{MTRL_NM}||'%'
+
+	</select>
+
+  	<!-- 물품요청 이전요청검색 -->
+  	<select id="purPreReqSrch" parameterType="hashmap" resultType="hashmap">
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>  
+			SELECT		
+            '' AS CHECKED                        --추가,삭제 code 출력용 컬럼
+            ,ALT_INVNTRY_MGMT
+            ,PI.MTRL_GRP_NM AS SML_CLS_NM
+            ,PI.MTRL_CD        													-- 품목코드
+			,PI.MTRL_NM AS MTRL_NM_SPEC        													-- 품목명
+            ,TO_CHAR(SYSDATE,'YYYYMMDD') AS DLV_DAY
+            ,PI.CD_UNIT        													-- 단위
+            ,PI.REQ_PRICE AS CNTR_PRICE     													-- 구매단가
+            ,PIA.GR_ACNT_CD                                                        -- 입고계정
+            ,(
+                SELECT ACNT_NM
+                FROM MM_MT_ACCOUNT
+                WHERE ACNT_CD = PIA.GR_ACNT_CD
+                AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+            ) AS GR_ACNT_NM                                                        -- 입고계정명
+            ,PI.STR_CD AS OUT_STR_CD															-- 창고(요청부서)
+			,MS.SL_NM AS OUT_STR_NM													-- 창고명(요청부서명)
+            ,MSM.STOCK_QTY
+            ,GRP1.MTRL_GRP_ID SML_CLS_ID
+            ,GRP2.MTRL_GRP_ID MDL_CLS_ID
+            ,GRP3.MTRL_GRP_ID LRG_CLS_ID
+        FROM MM_PR PR
+             ,MM_PR_ITEM PI
+             ,MM_PR_ITEM_ADD PIA 
+             ,MM_MTRL_PURC MMP
+             ,MM_MT_SL MS
+             ,MC_STOCK_MST MSM
+             ,MM_MTRL_GRP GRP1
+             ,MM_MTRL_GRP GRP2
+             ,MM_MTRL_GRP GRP3
+        WHERE     PR.PR_NO = PI.PR_NO
+	      AND PR.BRANCH_CD = PI.BRANCH_CD
+	      AND PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+	      AND PI.BRANCH_CD = MMP.BRANCH_CD(+)
+	      AND PI.MTRL_CD = MMP.MTRL_CD(+)
+	      AND PI.STR_CD = MS.STR_CD(+)
+	      AND PI.BRANCH_CD = MS.BRANCH_CD(+)
+	      AND PI.MTRL_CD = MSM.MTRL_CD(+)
+	      AND PI.STR_CD = MSM.STR_CD(+)
+	      AND PI.BRANCH_CD = MSM.BRANCH_CD(+)
+	      AND PR.CD_PR_CTGR = 'PR20PR'
+	      AND PI.MTRL_GRP_ID = GRP1.MTRL_GRP_ID(+)
+	      AND GRP1.UPMTRL_GRP_ID = GRP2.MTRL_GRP_ID(+)
+	      AND GRP2.UPMTRL_GRP_ID = GRP3.MTRL_GRP_ID(+)
+          AND   PR.BRANCH_CD = #{SESSION_BRANCH_CD}
+          AND   PR.REQR_ID = #{SESSION_USER_ID}
+		
+		<if test="REQ_DAY_START != null and REQ_DAY_START != 'undefined' and REQ_DAY_START != ''">
+			AND PR.PR_REQ_DAY <![CDATA[>=]]> TO_CHAR(TRUNC(TO_DATE(#{REQ_DAY_STA}, 'YYYYMMDD')),'YYYYMMDD')
+		</if>
+        
+        <if test="REQ_DAY_END != null and REQ_DAY_END != 'undefined' and REQ_DAY_END != ''">
+        	AND PR.PR_REQ_DAY <![CDATA[<=]]> TO_CHAR(TRUNC(TO_DATE(#{REQ_DAY_END}, 'YYYYMMDD')+1),'YYYYMMDD')
+        </if>
+        
+        <if test="LRG_CLS_ID != null and LRG_CLS_ID != 'undefined' and LRG_CLS_ID != ''">
+			AND   GRP3.MTRL_GRP_ID = #{LRG_CLS_ID}
+		</if>
+		<if test="MDL_CLS_ID != null and MDL_CLS_ID != 'undefined' and MDL_CLS_ID != ''">
+			AND   GRP2.MTRL_GRP_ID = #{MDL_CLS_ID}
+		</if>
+		<if test="SML_CLS_ID != null and SML_CLS_ID != 'undefined' and SML_CLS_ID != ''">
+			AND   GRP1.MTRL_GRP_ID = #{SML_CLS_ID}
+		</if>
+       <choose>
+       		<!--  품목 코드 -->
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''" >
+				AND   PI.MTRL_CD  = #{MTRL_CD}
+			</when>
+			<!--  품목 명 -->
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND   REGEXP_LIKE (PI.MTRL_NM, REPLACE(#{MTRL_NM},' ','|'),'i')
+			</when>
+		</choose> 
+       	<choose>
+       		<!--  요청자  -->
+			<when test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''" >
+				AND   PR.REQR_ID  = #{REQR_ID}
+			</when>
+			<!--  요청자 명 -->
+			<when test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+				AND   PI.REQR_NM LIKE '%' || #{REQR_NM} || '%' 
+			</when>
+		</choose>
+		<include refid="commonService.list-after" />  
+  	</select>
+  		
+	  	<!-- 물품요청 추가 -->
+	<insert id="savePrHeader" parameterType="hashmap">
+  		INSERT INTO MM_PR(
+  			PR_NO
+  			,BRANCH_CD
+  			,CD_PR_STTS
+  			,CD_PR_CTGR
+  			,REQR_ID
+  			,REQR_NM
+  			,CD_BDGT_TYPE
+  			,RMARK
+  			,TKEY
+  			,PR_AMT
+  			,CRTR_ID
+  			,CRT_DT
+  			,LAST_CHGR_ID
+			,LAST_CHG_DT
+			,TTL
+			,PR_REQ_DAY
+			,REQ_DT
+			,APRV_CMPLT_DT
+			,APP_DOC_ID
+			,ATTCH_FILE_CNT 
+  		)VALUES(
+  			 #{PR_NO}
+			 ,#{SESSION_BRANCH_CD}
+			 ,#{CD_PR_STTS}
+			 ,#{CD_PR_CTGR}
+			 ,#{SESSION_USER_ID}
+			 ,#{SESSION_USER_NM}
+			 ,'CM2110'
+			 ,#{RMARK}
+			 ,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			 ,#{PR_AMT}
+			 ,#{SESSION_USER_ID}
+			 ,SYSDATE
+			 ,#{SESSION_USER_ID}
+			 ,SYSDATE	 
+			 ,#{TTL}
+			 ,#{PR_REQ_DAY}
+			 ,#{REQ_DT}
+			 ,#{APRV_CMPLT_DT}
+			 ,#{APP_DOC_ID}
+			 ,#{ATTCH_FILE_CNT} 
+		)
+  	</insert>
+
+	<!-- 물품요청 품목 추가 -->
+  	<insert id="savePrItem" parameterType="hashmap">
+  		INSERT INTO MM_PR_ITEM(
+			PR_ITEM_ID
+			,BRANCH_CD
+			,PR_NO
+			,ITM_NO
+			,CD_PR_ITEM_STTS
+			,STR_CD
+			,OUT_STR_CD
+			,MTRL_GRP_ID
+			,MTRL_GRP_NM
+			,MTRL_CD
+			,MTRL_NM
+			,MTRL_REQ_NO
+			,QTY
+			,CD_UNIT
+			,REQ_PRICE
+			,REQ_AMT
+			,DLV_REQ_DAY
+			,INSP_CHRGR_ID
+			,RMARK
+			<if test="CD_PR_ITEM_STTS == 'PR13RCV'">	
+			,PCHRGR_ID
+			,RCV_DT
+			</if>
+			,REQ_DPMT_CD
+			,REQ_DPMT_NM
+			,CD_DOC_CTGR
+			,REQR_ID
+			,REQR_NM
+			,TKEY
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+   		) VALUES (
+	   		#{PR_ITEM_ID}
+			,#{SESSION_BRANCH_CD}
+			,#{PR_NO}
+			,#{ITM_NO}
+			,#{CD_PR_ITEM_STTS}
+			,#{IN_STR_CD}
+			,#{OUT_STR_CD}
+			,#{MTRL_GRP_ID}
+			,#{MTRL_GRP_NM}
+			,#{MTRL_CD}
+			,#{MTRL_NM}
+			,#{MTRL_REQ_NO}
+			,NVL(#{QTY},0)
+			,#{CD_UNIT}
+			,NVL(#{REQ_PRICE},0)
+			,NVL(#{QTY},0)*NVL(#{REQ_PRICE},0)
+			,#{DLV_REQ_DAY}
+			,#{INSP_CHRGR_ID}
+			<if test="CD_PR_ITEM_STTS == 'PR13RCV'">	
+			,(
+			SELECT 
+				SGP.USER_ID
+			FROM MM_MTRL_GRP MG
+				,MM_MT_SRC_GRP SG
+				,MM_MT_SRC_GRP_PUR SGP
+			WHERE MG.SRC_GRP_ID = SG.SRC_GRP_ID
+			AND SG.SRC_GRP_ID = SGP.SRC_GRP_ID(+)
+			AND MG.MTRL_GRP_ID = #{MTRL_GRP_ID}
+			AND ALT_RPTST_YN='Y'
+			)
+			,SYSDATE
+			</if>
+			,#{RMARK}
+			,#{REQ_DPMT_CD}
+			,#{REQ_DPMT_NM}
+			,NVL2(#{MTRL_CD},('CM10' || SUBSTR(#{MTRL_CD},0,2)),'')
+			,#{SESSION_USER_ID}
+			,#{SESSION_USER_NM}
+			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			,#{SESSION_USER_ID}
+			,SYSDATE
+			,#{SESSION_USER_ID}
+			,SYSDATE
+   		)
+  	</insert>
+	
+	<!-- 물품요청 품목 상세정보 추가 -->
+  	<insert id="savePrItemAdd" parameterType="hashmap">
+  		--BPur.purInsertItmAdd
+  		INSERT INTO MM_PR_ITEM_ADD(
+			PR_ITEM_ID
+			,GR_ACNT_CD
+			,AST_NO
+			,AST_NM
+			,IM_ODR_NO
+			,IM_ODR_NM
+   		) VALUES (
+			#{PR_ITEM_ID}
+			,#{GR_ACNT_CD}
+			,#{AST_NO}
+			,#{AST_NM}
+			,#{IM_ODR_NO}
+			,#{IM_ODR_NM}	
+   		)
+  	</insert>
+	
+	<!--  물품요청 수정 -->
+	<update id="updatePrHeader" parameterType="hashmap">
+ 		UPDATE MM_PR
+		SET
+			RMARK = #{RMARK}
+			,CD_PR_STTS = #{CD_PR_STTS}
+			,TKEY = TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			,REQR_ID = #{SESSION_USER_ID}
+			,REQR_NM = #{SESSION_USER_NM}
+			,CD_BDGT_TYPE = #{CD_BDGT_TYPE}
+			,TTL = #{TTL}
+			,PR_REQ_DAY = #{PR_REQ_DAY}
+			,PR_AMT = #{PR_AMT}
+			,APP_DOC_ID = #{APP_DOC_ID}
+			,ATTCH_FILE_CNT = #{ATTCH_FILE_CNT}
+			,LAST_CHGR_ID = #{SESSION_USER_ID}
+			,LAST_CHG_DT = SYSDATE
+		WHERE PR_NO = #{PR_NO}
+		AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+  	</update>
+
+	<!-- 물품요청 Item 업데이트 -->
+	<update id="updatePrItem" parameterType="hashmap">
+		UPDATE MM_PR_ITEM
+		SET
+			MTRL_GRP_ID = #{MTRL_GRP_ID}
+			,MTRL_GRP_NM = #{MTRL_GRP_NM}
+			,MTRL_CD = #{MTRL_CD}
+			,MTRL_NM = #{MTRL_NM}
+			,QTY = NVL(#{QTY},0)
+			,CD_UNIT = #{CD_UNIT}
+			,REQ_PRICE = NVL(#{REQ_PRICE},0)
+			,REQ_AMT = NVL(#{QTY},0)*NVL(#{REQ_PRICE},0)
+			,DLV_REQ_DAY = #{DLV_REQ_DAY}
+			,INSP_CHRGR_ID = #{INSP_CHRGR_ID}
+			,RMARK = #{RMARK}
+			<if test="CD_PR_ITEM_STTS == 'PR13RCV'">	
+			,PCHRGR_ID = ,(
+							SELECT 
+								SGP.USER_ID
+							FROM MM_MTRL_GRP MG
+								,MM_MT_SRC_GRP SG
+								,MM_MT_SRC_GRP_PUR SGP
+							WHERE MG.SRC_GRP_ID = SG.SRC_GRP_ID
+							AND SG.SRC_GRP_ID = SGP.SRC_GRP_ID(+)
+							AND MG.MTRL_GRP_ID = #{MTRL_GRP_ID}
+							AND ALT_RPTST_YN='Y'
+							)
+			,RCV_DT	= SYSDATE
+			</if>
+			,CD_DOC_CTGR = NVL2(#{MTRL_CD},('CM10' || SUBSTR(#{MTRL_CD},0,2)),'')
+			,OUT_STR_CD = #{OUT_STR_CD}
+			,STR_CD = #{IN_STR_CD}
+			,TKEY = TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+		WHERE PR_ITEM_ID = #{PR_ITEM_ID}
+		AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+  	</update>
+	
+	<!-- 물품요청 품목 추가정보 업데이트 -->
+	<update id="updatePrItemAdd" parameterType="hashmap">
+		--BPur.purUpdItmAdd
+   		UPDATE MM_PR_ITEM_ADD
+		SET
+			GR_ACNT_CD = #{GR_ACNT_CD} 
+			,AST_NO = #{AST_NO}
+			,AST_NM = #{AST_NM}
+			,IM_ODR_NO = #{IM_ODR_NO}
+			,IM_ODR_NM = #{IM_ODR_NM}
+		WHERE PR_ITEM_ID = #{PR_ITEM_ID}
+  	</update>
+  	
+  	<!-- 물품요청 품목 삭제 -->
+  	<delete id="deletePrItem" parameterType="hashmap">
+		--BPur.purDelItm
+		DELETE MM_PR_ITEM
+		WHERE  PR_ITEM_ID = #{PR_ITEM_ID}
+  	</delete>
+  	
+  	<!-- 물품요청 품목 추가정보 삭제 -->
+  	<delete id="deletePrItemAdd" parameterType="hashmap">
+  		--BPur.purDelItmAdd
+		DELETE MM_PR_ITEM_ADD
+		WHERE  PR_ITEM_ID = #{PR_ITEM_ID}
+  	</delete>
+  	
+  	<!-- 물품요청 삭제 -->
+  	<delete id="deletePrHeader" parameterType="hashmap">
+		--BPur.purDel
+   		DELETE MM_PR 
+   		WHERE PR_NO = #{PR_NO}
+   		AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+  	</delete>
+  	
+  	<!-- 물품요청에 모든 품목추가정보 삭제 -->
+  	<delete id="deleteAllItemAdd" parameterType="hashmap">
+  		--BPur.purDelAllItmAdd
+		DELETE MM_PR_ITEM_ADD
+		WHERE PR_ITEM_ID IN (
+								SELECT PR_ITEM_ID
+								FROM MM_PR_ITEM
+								WHERE PR_NO = #{PR_NO}
+								AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+							)		 
+  	</delete>
+  	
+  	<!-- 물품요청에 모든 품목 삭제 -->
+	<delete id="deleteAllItem" parameterType="hashmap">
+		--BPur.purDelAllItm
+		DELETE MM_PR_ITEM
+		WHERE PR_NO = #{PR_NO}
+		AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+  	</delete>
+	
+	<resultMap id="contentobj" type="hashmap">
+		<result property="RMARK" column="RMARK" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	<!-- 물품요청상세 품목 조회 -->
+  	<select id="readPrItem" resultMap="contentobj" resultType="hashmap">
+        SELECT
+  			'0' AS CHECKED
+  			,PI.BRANCH_CD
+  			,PI.PR_ITEM_ID
+  			,PI.PR_NO
+  			,PI.PCHRGR_ID
+  			,PI.ITM_NO
+  			,PI.CD_PR_ITEM_STTS
+  			,PI.STR_CD AS IN_STR_CD
+  			,PI.OUT_STR_CD
+            ,IMS.SL_NM AS IN_STR_NM
+            ,OMS.SL_NM AS OUT_STR_NM
+  			,PI.MTRL_CD
+  			,PI.MTRL_GRP_ID
+  			,PI.MTRL_GRP_NM
+  			,PI.MTRL_NM
+  			,PI.QTY
+  			,PI.CD_UNIT
+  			,PI.REQ_PRICE
+  			,PI.REQ_AMT
+  			,PI.DLV_REQ_DAY
+  			,PI.INSP_CHRGR_ID
+  			,GET_USERNM(PI.INSP_CHRGR_ID,PI.BRANCH_CD,'') AS INSP_CHRGR_NM
+  			,PI.REQR_ID
+  			,PI.REQR_NM
+  			,PI.REQ_DPMT_CD
+  			,PI.REQ_DPMT_NM
+  			,PI.RMARK
+  			,PI.MTRL_REQ_NO
+  			,NVL(PI.ATTCH_FILE_CNT,0) ATTCH_FILE_CNT
+  			,PI.CRTR_ID
+  			,PI.LAST_CHGR_ID
+  			,PIA.GR_ACNT_CD
+  			,PIA.AST_NO
+  			,PIA.AST_NM
+  			,PIA.IM_ODR_NO
+		    ,PIA.IM_ODR_NM
+  			,NVL2(PI.OUT_STR_CD,'Y','N') AS ALT_INVNTRY_MGMT
+  			,SM.STOCK_QTY
+  			,MA.ACNT_NM AS GR_ACNT_NM
+  			,MA.ALT_BDGT_CNTL
+        FROM MM_PR_ITEM PI
+             ,MM_PR_ITEM_ADD PIA
+             ,MM_MT_SL IMS
+             ,MM_MT_SL OMS
+             ,MM_MTRL_PURC MP
+             ,MM_MT_ACCOUNT MA
+             ,MC_STOCK_MST SM
+        WHERE PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+            AND   PI.BRANCH_CD = IMS.BRANCH_CD(+)
+            AND   PI.BRANCH_CD = OMS.BRANCH_CD(+)
+            AND   PI.STR_CD = IMS.STR_CD(+)
+            AND   PI.OUT_STR_CD = OMS.STR_CD(+)
+            AND   PI.MTRL_CD = MP.MTRL_CD(+)
+            AND   PI.BRANCH_CD = MP.BRANCH_CD(+)
+            AND   PIA.GR_ACNT_CD = MA.ACNT_CD(+)
+            AND   MA.BRANCH_CD(+) = #{SESSION_BRANCH_CD}
+            AND   PI.BRANCH_CD = SM.BRANCH_CD(+)
+            AND   PI.MTRL_CD = SM.MTRL_CD(+)
+            AND   PI.OUT_STR_CD = SM.STR_CD(+)
+            AND   PI.PR_NO = #{PR_NO}
+            AND   PI.BRANCH_CD = #{SESSION_BRANCH_CD}
+        ORDER BY TO_NUMBER(PI.ITM_NO) ASC		        
+  	</select>
+  		<!-- 물품요청 상세 조회 -->
+  	<select id="readPr" parameterType="hashmap" resultType="hashmap">
+		SELECT
+	        PR.PR_NO
+	        ,PR.BRANCH_CD
+	        ,PR.CD_PR_STTS
+	        ,PR.CD_PR_CTGR
+	        ,PR.REQR_ID
+	        ,PR.REQR_NM
+	        ,PR.CD_BDGT_TYPE
+	        ,PR.TTL
+	        ,PR.RMARK
+	        ,PR.PR_REQ_DAY
+	        ,PR.REQ_DT
+	        ,PR.PR_AMT
+	        ,PR.APP_DOC_ID
+	        ,PR.CRTR_ID
+	        ,PR.LAST_CHGR_ID
+	        ,PR.TKEY
+	        ,PR.ATTCH_FILE_CNT
+	        ,PRI.STR_CD
+	        ,(
+	            SELECT SL_NM
+	            FROM MM_MT_SL
+	            WHERE STR_CD = PRI.STR_CD  AND BRANCH_CD = PR.BRANCH_CD
+	         )AS STR_NM -- 요청부서명
+		FROM MM_PR PR
+	        ,MM_PR_ITEM PRI
+		WHERE PR.PR_NO = #{PR_NO}
+	        AND PR.BRANCH_CD = #{SESSION_BRANCH_CD}
+	        AND PR.BRANCH_CD = PRI.BRANCH_CD(+) AND PR.PR_NO = PRI.PR_NO(+)
+	        AND ROWNUM = 1
+  	</select>	
+  	
+  	  	<!-- 구매요청 품목 히스토리 저장 -->
+  	<insert id="insertPurHist" parameterType="hashmap">
+  		INSERT INTO MM_PR_ITEM_HIST(
+  			VOC_NO                  		-- MM_PR_ITEM_HIST_SEQ.NEXTVAL
+  			,PR_ITEM_ID            			-- 구매요청아이템번호
+  			,DT                        		-- 일시
+  			,DOC_NO                  		-- 문서번호
+  			,TYPE                     		-- 구분 (구매요청/견적/입찰/발주/납품/송장/계약)
+  			,PRGRS_STEP						-- 진행단계(작성/공고/품의완료...)
+  			,RMARK                  		-- 비고
+  			,CRT_DT                  		-- 생성일시
+  		)VALUES(
+  			MM_PR_ITEM_HIST_SEQ.NEXTVAL
+  			,#{PR_ITEM_ID}      			-- 구매요청아이템번호
+  			,SYSDATE               			-- 일시
+  			,#{DOC_NO}            			-- 문서번호
+  			,#{TYPE}               			-- 구분
+  			,#{PRGRS_STEP}					-- 진행단계
+  			,#{RMARK}               		-- 비고
+  			,SYSDATE         	 			-- 생성일시
+  		)
+  	</insert>
+  	
+   
+	<select id="prRcvSrch" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.prRcvSrch][구매요청접수현황 list 조회][2019.05.22][배열] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="P.PR_NO DESC"/>
+		</include>	
+		SELECT
+  			0 AS CHECKED														-- 품목상태
+  			,P.BRANCH_CD														-- 구매조직
+  			,PI.PR_ITEM_ID														-- 구매요청품목ID
+  			,P.PR_NO															-- 구매요청번호
+  			,PI.ITM_NO															-- 품번
+  			,PI.CD_PR_ITEM_STTS													-- 품목상태
+  			,PI.STR_CD															-- 요청부서
+  			,MS.SL_NM															-- 요청창고명(견적용)
+  			,MS.SL_NM AS STR_NM													-- 요청창고명
+  			,P.CD_PR_CTGR														-- 구매유형
+  			,PI.MTRL_GRP_ID														-- 자재그룹ID
+  			,PI.MTRL_GRP_NM														-- 자재그룹명
+  			,MG.MTRL_GRP_NM2													-- 자재그룹명2
+  			,PI.MTRL_CD															-- 자재코드
+  			,PI.MTRL_NM															-- 자재명
+  			,PI.MTRL_REQ_NO														-- 자재등록요청번호
+  			,PI.QTY																-- 수량
+  			,PI.TKEY															-- TKEY(중복방지)
+  			,PI.CD_UNIT															-- 단위
+  			,PI.REQ_PRICE														-- 단가
+  			,PI.REQ_AMT															-- 금액
+  			,PI.DLV_REQ_DAY														-- 납품요청일자
+  			,PI.PCHRGR_ID														-- 구매담당자ID
+  			,GET_USERNM(PI.PCHRGR_ID,PI.BRANCH_CD,'') AS PCHRGR_NM							-- 구매담당자명
+  			,PI.PCHRGR_ID AS OLD_PCHRGR_ID										-- 변경전 구매담당자ID
+  			,GET_USERNM(PI.PCHRGR_ID,PI.BRANCH_CD,'') AS ODL_PCHRGR_NM						-- 변경전 구매담당자명
+  			,PI.RCV_DT															-- 접수일시
+  			,TO_CHAR(PI.RCV_DT,'YYYY.MM.DD HH24:MI:SS') AS RCV_DT_MASK			-- 접수일시
+  			,PI.CD_DOC_CTGR														-- 문서유형
+  			,PI.REQ_DPMT_CD														-- 구매요청부서코드
+  			,PI.REQ_DPMT_NM														-- 요청부서명
+  			,PI.REQR_ID															-- 구매요청자ID
+  			,PI.REQR_NM															-- 구매요청자명
+  			,PI.RMARK															-- 비고
+  			,PIA.GR_ACNT_CD														-- 입고계정코드
+  			,(
+  				SELECT ACNT_NM
+  				FROM MM_MT_ACCOUNT
+  				WHERE ACNT_CD = PIA.GR_ACNT_CD
+  				AND   BRANCH_CD = #{SESSION_BRANCH_CD}
+  			) AS GR_ACNT_NM														-- 입고계정명
+  			,PI.LAST_CHGR_ID
+  			,PI.ALT_EMGCY
+  			,NVL(PIA.PO_PTNR_ID,MP.CNTR_PTNR_ID) AS PTNR_ID						-- 협력업체ID
+  			,GET_PTNRNM(NVL(PIA.PO_PTNR_ID,MP.CNTR_PTNR_ID)) AS PTNR_NM		-- 협력업체명
+  			,P.PR_REQ_DAY
+  			,PI.DUMY1
+  			,PIA.ALT_REQ_CXL
+  			,CASE 
+                WHEN PIA.ALT_REQ_CXL = 'Y'
+                THEN 'img::no.png'
+                WHEN P.CD_PR_CTGR = 'PR20DO' AND PI.ALT_EMGCY = 'Y' 
+                THEN 'img::status_warning.png'
+                ELSE ''
+            END IMG_TYPE
+            ,DECODE(
+            				(
+				            SELECT COUNT(*)
+				            FROM MM_MT_SRC_GRP MMSG
+				                    ,MM_MT_SRC_GRP_PUR MMSGP
+				                    ,MM_MT_USER MMU
+				            WHERE MMSG.SRC_GRP_ID = MMSGP.SRC_GRP_ID
+				            AND MMSGP.USER_ID = MMU.USER_ID
+				            AND MMSGP.BRANCH_CD = MMU.BRANCH_CD
+				            AND MMSG.SRC_GRP_ID = (SELECT 
+				                                                    SRC_GRP_ID
+				                                                FROM MM_MTRL_GRP
+				                                                WHERE MTRL_GRP_ID =PI.MTRL_GRP_ID
+                                                				)
+				            AND MMSGP.BRANCH_CD =P.BRANCH_CD
+				            AND MMSGP.USER_ID =PI.PCHRGR_ID
+           					 )
+                    	,0
+	                    ,'N'
+	                    ,'Y'
+	                    ) IS_AUTH
+  		FROM MM_PR P
+  			 ,MM_PR_ITEM PI
+  			 ,MM_PR_ITEM_ADD PIA
+  			 ,MM_MTRL_PURC MP
+  			 ,MM_MT_SL MS
+  			 ,MM_MTRL_GRP MG
+  		WHERE P.PR_NO = PI.PR_NO
+  		AND	  P.BRANCH_CD = PI.BRANCH_CD
+  		AND	  PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+  		AND	  PI.MTRL_CD = MP.MTRL_CD(+)
+  		AND	  PI.BRANCH_CD = MP.BRANCH_CD(+)
+  		AND   PI.STR_CD = MS.STR_CD
+  		AND   PI.MTRL_GRP_ID = MG.MTRL_GRP_ID(+)
+  		AND   PI.BRANCH_CD = MS.BRANCH_CD
+		AND   P.BRANCH_CD =#{SESSION_BRANCH_CD}
+		AND   PI.MTRL_CD IS NOT NULL
+		<!-- 구매요청번호 -->
+		<if test="PR_NO_ARR != null and PR_NO_ARR != 'undefined' and PR_NO_ARR != ''">
+			AND	  P.PR_NO IN (${PR_NO_ARR})
+		</if>
+		<if test="PR_NO != null and PR_NO != 'undefined' and PR_NO != ''">
+			AND	  P.PR_NO LIKE '%'||#{PR_NO}||'%' 
+		</if>
+		<!-- 구매요청상태(구매요청품목상태) -->
+		<if test="CD_PR_ITEM_STTS != null and CD_PR_ITEM_STTS != 'undefined' and CD_PR_ITEM_STTS != ''">
+			AND	  PI.CD_PR_ITEM_STTS = #{CD_PR_ITEM_STTS}
+		</if>
+		<!-- 구매유형(문서유형) -->
+		<if test="CD_PR_CTGR != null and CD_PR_CTGR != 'undefined' and CD_PR_CTGR != ''">
+			AND	  P.CD_PR_CTGR = #{CD_PR_CTGR}
+		</if>
+		<!-- 작성일자 시작일 -->
+		<if test="CRTR_DT_STR != null and CRTR_DT_STR != 'undefined' and CRTR_DT_STR != ''">
+			AND   P.CRT_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{CRTR_DT_STR},'YYYYMMDD'))
+		</if>
+		<!-- 작성일자 종료일 -->
+		<if test="CRTR_DT_END != null and CRTR_DT_END != 'undefined' and CRTR_DT_END != ''">
+			AND   P.CRT_DT <![CDATA[<]]> TRUNC(TO_DATE(#{CRTR_DT_END},'YYYYMMDD')+1)
+		</if>
+		<!-- 접수일자 시작일 -->
+		<if test="REQ_DT_STR != null and REQ_DT_STR != 'undefined' and REQ_DT_STR != ''">
+			AND   P.PR_REQ_DAY <![CDATA[>=]]> #{REQ_DT_STR}
+		</if>
+		<!-- 접수일자 종료일 -->
+		<if test="REQ_DT_END != null and REQ_DT_END != 'undefined' and REQ_DT_END != ''">
+			AND   P.PR_REQ_DAY <![CDATA[<=]]> #{REQ_DT_END}
+		</if>
+		<!-- 요청부서 -->
+		<if test="SRCH_STR_CD != null and SRCH_STR_CD != 'undefined' and SRCH_STR_CD != ''">
+			AND   PI.STR_CD = #{SRCH_STR_CD}
+		</if>
+		<!-- 요청부서명-->
+		<if test="SRCH_STR_NM != null and SRCH_STR_NM != 'undefined' and SRCH_STR_NM != ''">
+			AND   MS.SL_NM LIKE '%' || #{SRCH_STR_NM} || '%'
+		</if>
+		<!-- 소싱그룹ID(자재그룹ID) -->
+		<if test="MTRL_GRP_ID != null and MTRL_GRP_ID != 'undefined' and MTRL_GRP_ID != ''">
+			AND   PI.MTRL_GRP_ID = #{MTRL_GRP_ID}
+		</if>
+		<!-- 소싱그룹NM(자재그룹NM) -->
+		<if test="MTRL_GRP_NM != null and MTRL_GRP_NM != 'undefined' and MTRL_GRP_NM != ''">
+			AND   PI.MTRL_GRP_NM LIKE '%'||#{MTRL_GRP_NM}||'%'
+		</if>
+		<!-- 긴급 -->
+		<if test='IS_EMGCY == "Y" '>
+			AND   P.CD_PR_CTGR = 'PR20DO' AND PI.ALT_EMGCY = 'Y'
+		</if>
+		<choose>
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''" >
+				AND   PI.MTRL_CD = #{MTRL_CD}
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND   REGEXP_LIKE (PI.MTRL_NM, REPLACE(#{MTRL_NM},' ','|'),'i')
+			</when>
+		</choose>
+		<choose>
+			<when test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''">
+				AND   PI.REQR_ID = #{REQR_ID}
+			</when>
+			<when test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+				AND   PI.REQR_NM LIKE '%'||#{REQR_NM}||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="PCHRGR_ID != null and PCHRGR_ID != 'undefined' and PCHRGR_ID != ''">
+				AND   PI.PCHRGR_ID = #{PCHRGR_ID}
+			</when>
+			
+			<when test="PCHRGR_NM != null and PCHRGR_NM != 'undefined' and PCHRGR_NM != ''">
+				AND   EXISTS (
+							SELECT 'EXISTS'
+							FROM MM_MT_USER
+							WHERE USER_ID = PI.PCHRGR_ID
+							AND   USER_NM LIKE '%'||#{PCHRGR_NM}||'%'
+						 )
+			</when>
+		</choose>
+		<!-- 자동발주 유무 -->
+		<if test='IS_AUTO_PO == "Y" '>
+			AND NVL(PIA.PO_PTNR_ID, MP.CNTR_PTNR_ID) IS NOT NULL
+			AND REQ_AMT <![CDATA[>]]>  0
+		</if>
+		<!-- 정렬조건 -->
+		<if test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+				 ,${SORT_ITEM1} ${SORT_TYPE1}
+		</if>
+		<if test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+				 ,${SORT_ITEM2} ${SORT_TYPE2}
+		</if>
+		<if test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+				 ,${SORT_ITEM3} ${SORT_TYPE3}
+		</if>
+		<if test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+				 ,${SORT_ITEM4} ${SORT_TYPE4}
+		</if>
+		<include refid="commonService.list-after" />
+	</select>  	
+  	
+  	<update id="savePrClose" parameterType="hashmap">
+  	/* [BPrService.savePrClose][구매종료업데이트][2019.05.22][배열] */
+  		UPDATE MM_PR_ITEM SET
+  			CD_PR_ITEM_STTS 	= 'PR13CLO'
+  			,LAST_CHGR_ID 		= #{LOGIN_USER_ID}		
+			,LAST_CHG_DT 		= SYSDATE
+  		WHERE PR_ITEM_ID 		= #{PR_ITEM_ID}
+  		AND   BRANCH_CD 		= #{SESSION_BRANCH_CD}
+  	</update>  	  	
+
+  	<select id="prChgUserChk" parameterType="hashmap" resultType="hashmap">
+  	/* [BPrService.prChgUserChk][구매요청접수시 해당 품목그룹의 정부담당자들은 담당자를 변경 할 수 있음으로 해당 담당자 여부 확인][2019.05.22][배열] */
+       SELECT MMSGP.USER_ID
+			,MMU.USER_NM
+		FROM MM_MT_SRC_GRP MMSG
+				,MM_MT_SRC_GRP_PUR MMSGP
+				,MM_MT_USER MMU
+		WHERE MMSG.SRC_GRP_ID = MMSGP.SRC_GRP_ID
+		AND MMSGP.USER_ID = MMU.USER_ID
+		AND MMSGP.BRANCH_CD = MMU.BRANCH_CD
+		AND MMSG.SRC_GRP_ID = 	(
+								SELECT 
+									SRC_GRP_ID
+								FROM MM_MTRL_GRP
+								WHERE MTRL_GRP_ID = #{MTRL_GRP_ID}
+								)
+		AND MMSGP.BRANCH_CD = #{SESSION_BRANCH_CD}
+		AND MMSGP.USER_ID 	= #{LOGIN_USER_ID}
+  	</select>
+  	
+
+	<update id="savePtnrChange" parameterType="hashmap">
+	/* [BPrService.savePtnrChange][협력업체를 지정한다][2019.05.22][배열] */
+   		UPDATE MM_PR_ITEM_ADD
+		SET PO_PTNR_ID = #{PTNR_ID}
+		WHERE PR_ITEM_ID = #{PR_ITEM_ID}
+  	</update>  	 
+
+
+	<select id="prRtnChgReqSrch" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.prRtnChgReqSrch][반품/교환 요청할 대상을 조회한다][2019.05.22][배열] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>        
+		SELECT
+		    '0' AS CHECKED
+		    ,PD.INSP_DAY
+		    ,PDI.DLV_ITEM_ID
+		    ,PDI.MTRL_CD
+		    ,PDI.MTRL_NM
+		    ,PDI.DLV_QTY - NVL(PIV.QTY,0) AS DLV_QTY
+		    ,PDI.CD_UNIT
+		    ,PDI.UNT_PRICE
+		    ,PDI.AMT
+		    ,POI.PO_ITEM_ID
+		    ,PO.PO_NO
+		    ,PO.PTNR_ID
+		    ,MP.PTNR_NM
+		    ,PRI.PR_NO
+		    ,PRI.BRANCH_CD
+		    ,PRI.PR_ITEM_ID
+		    ,PRI.PCHRGR_ID
+		    ,'' AS QTY
+		    ,'' AS RMARK
+		    ,'' AS VOC_NO
+		    ,'' AS INT_TYPE
+		    ,'' AS USER_ID
+		    ,'' AS USER_NM
+		FROM MM_PO_DLV PD
+		     ,MM_PO_DLV_ITEM PDI
+		     ,MM_PO_ITEM POI
+		     ,MM_PO PO
+		     ,MM_PR_ITEM PRI
+		     ,MM_PTNR MP
+		     ,(
+		        SELECT 
+		            PR_ITEM_ID
+		            ,SUM(QTY) AS QTY
+		        FROM MM_PR_ITEM_VOC
+		        WHERE CD_VOC_STTS IN ('ZZ22REQ','ZZ22RCV','ZZ22CLO')
+		        GROUP BY PR_ITEM_ID
+		     )PIV
+		WHERE PD.DLV_NO = PDI.DLV_NO
+		AND   PD.BRANCH_CD = PDI.BRANCH_CD
+		AND   PDI.PO_ITEM_ID = POI.PO_ITEM_ID
+		AND   PDI.BRANCH_CD = POI.BRANCH_CD
+		AND   POI.PO_NO = PO.PO_NO
+		AND   POI.BRANCH_CD = PO.BRANCH_CD
+		AND   POI.PR_ITEM_ID = PRI.PR_ITEM_ID
+		AND   PRI.PR_ITEM_ID = PIV.PR_ITEM_ID(+)
+		AND   PO.PTNR_ID = MP.PTNR_ID
+		AND   PRI.REQR_ID = #{SESSION_USER_ID}
+		AND   PD.CD_DLV_STTS = 'DL10CLO'
+		AND   PDI.DLV_QTY - NVL(PIV.QTY,0) <![CDATA[>]]> 0
+  		<!-- 검수일자 시작일 -->
+		<if test="INSP_DAY_STR != null and INSP_DAY_STR != 'undefined' and INSP_DAY_STR != ''">
+			AND   PD.INSP_DAY <![CDATA[>=]]> #{INSP_DAY_STR}
+		</if>
+		<!-- 검수일자 종료일 -->
+		<if test="INSP_DAY_END != null and INSP_DAY_END != 'undefined' and INSP_DAY_END != ''">
+			AND   PD.INSP_DAY <![CDATA[<=]]> #{INSP_DAY_END}
+		</if>
+  		<!-- 자재코드 -->
+		<if test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+			AND   PDI.MTRL_CD = #{MTRL_CD}
+		</if>
+  		<!-- 자재코드명 -->
+		<if test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+			AND   REGEXP_LIKE (PDI.MTRL_NM, REPLACE(#{MTRL_NM},' ','|'),'i')
+		</if>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	
+	<select id="prRtnChgSrch" parameterType="hashmap" resultType="hashmap">
+	/* [BPrService.prRtnChgSrch][반품/교환요청 현황을 조회한다.][2019.05.22][배열] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>        
+		SELECT
+  			'0' AS CHECKED
+  			,PI.PR_NO
+  			,PIV.PR_ITEM_ID
+  			,PIV.VOC_NO
+  			,PIV.INT_TYPE
+  			,PIV.CD_VOC_STTS
+  			,PIV.DLV_ITEM_ID
+  			,PI.MTRL_CD
+  			,PI.MTRL_NM
+  			,PIV.QTY
+  			,PIV.RMARK
+  			,PIV.REQR_ID
+  			,PIV.REQR_NM
+  			,PIV.PO_NO
+  			,PIV.PO_ITEM_ID
+  			,PIV.RTN_CNTNT
+  			,PIV.PCHRGR_ID
+  			,GET_USERNM(PIV.PCHRGR_ID,PI.BRANCH_CD,'') AS PCHRGR_NM
+  			,TO_CHAR(PIV.RCV_DT,'YYYYMMDD') AS RCV_DT
+  			,TO_CHAR(PIV.CMPLT_DT,'YYYYMMDD') AS CMPLT_DT
+  			,PIV.CRTR_ID
+  			,TO_CHAR(PIV.CRT_DT,'YYYYMMDD') AS CRT_DT
+  			,PIV.LAST_CHGR_ID
+  		FROM MM_PR_ITEM_VOC PIV
+  			 ,MM_PR_ITEM PI
+  		WHERE PIV.PR_ITEM_ID = PI.PR_ITEM_ID
+  		AND   PIV.BRANCH_CD = #{SESSION_BRANCH_CD}
+  		AND   PI.STR_CD IN (    
+                            SELECT
+                            STR_CD
+                            FROM MM_MT_SL 
+                            WHERE DEPT_CD = (SELECT DEPT_CD FROM MM_MT_USER WHERE USER_ID = #{LOGIN_USER_ID}  AND BRANCH_CD= #{SESSION_BRANCH_CD} )
+                            AND BRANCH_CD = #{SESSION_BRANCH_CD}
+                           )
+  		<!-- 요청일자 시작일 -->
+		<if test="REQ_DAY_STR != null and REQ_DAY_STR != 'undefined' and REQ_DAY_STR != ''">
+			AND   PIV.CRT_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{REQ_DAY_STR},'YYYYMMDD'))
+		</if>
+		<!-- 요청일자 종료일 -->
+		<if test="REQ_DAY_END != null and REQ_DAY_END != 'undefined' and REQ_DAY_END != ''">
+			AND   PIV.CRT_DT <![CDATA[<]]> TRUNC(TO_DATE(#{REQ_DAY_END},'YYYYMMDD')+1)
+		</if>
+		<!-- 구분 -->
+		<if test="INT_TYPE != null and INT_TYPE != 'undefined' and INT_TYPE != ''">
+			AND   PIV.INT_TYPE = #{INT_TYPE}
+		</if>
+		<!-- 상태 -->
+		<if test="CD_VOC_STTS != null and CD_VOC_STTS != 'undefined' and CD_VOC_STTS != ''">
+			AND   PIV.CD_VOC_STTS = #{CD_VOC_STTS}
+		</if>
+		<!-- 자재코드 -->
+		<if test="SRCH_MTRL_CD != null and SRCH_MTRL_CD != 'undefined' and SRCH_MTRL_CD != ''">
+			AND   PI.MTRL_CD = #{SRCH_MTRL_CD}
+		</if>
+		<!-- 자재코드명 -->
+		<if test="SRCH_MTRL_NM != null and SRCH_MTRL_NM != 'undefined' and SRCH_MTRL_NM != ''">
+			AND   REGEXP_LIKE (PI.MTRL_NM, REPLACE(#{SRCH_MTRL_NM},' ','|'),'i')
+		</if>
+		<!-- 요청자ID -->
+		<if test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''">
+			AND   PIV.REQR_ID = #{REQR_ID}
+		</if>
+		<!-- 요청자명 -->
+		<if test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+			AND   PIV.REQR_NM LIKE '%'||#{REQR_NM}||'%'
+		</if>
+		<include refid="commonService.list-after" />
+	</select>
+		
+	<insert id="insertReqRtnChg" parameterType="hashmap">
+	/* [BPrService.insertReqRtnChg][반품/교환 요청 작성][2019.05.22][배열] */
+   		INSERT INTO MM_PR_ITEM_VOC(
+   			PR_ITEM_ID
+   			,VOC_NO
+   			,PR_NO
+   			,BRANCH_CD
+   			,INT_TYPE
+   			,CD_VOC_STTS
+   			,QTY
+   			,RMARK
+   			,PO_NO
+   			,PO_ITEM_ID
+   			,DLV_ITEM_ID
+   			,REQR_ID
+   			,REQR_NM
+   			,PCHRGR_ID
+   			,CRT_DT
+   			,CRTR_ID
+   			,LAST_CHG_DT
+   			,LAST_CHGR_ID
+   		)VALUES(
+   			#{PR_ITEM_ID}
+   			,#{VOC_NO}
+   			,#{PR_NO}
+   			,#{SESSION_BRANCH_CD}
+   			,#{INT_TYPE}
+   			,'ZZ22REQ'
+   			,#{QTY}
+   			,#{RMARK}
+   			,#{PO_NO}
+   			,#{PO_ITEM_ID}
+   			,#{DLV_ITEM_ID}
+   			,#{SESSION_USER_ID}
+   			,#{USER_NM}
+   			,#{PCHRGR_ID}
+   			,SYSDATE
+   			,#{SESSION_USER_ID}
+   			,SYSDATE
+   			,#{SESSION_USER_ID}
+   		)
+  	</insert>		
+  	
+	<!--  -->	
+  	<select id="searchPrReturnRcvList" parameterType="hashmap" resultType="hashmap" >
+	/* [BPrService.searchPrReturnRcvList][반품/교환 접수현황][2019.05.22][배열] */
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>
+  		SELECT
+  			'0' AS CHECKED
+  			,PIV.BRANCH_CD
+  			,PIV.PR_ITEM_ID
+  			,PIV.VOC_NO
+  			,PIV.INT_TYPE
+  			,PIV.CD_VOC_STTS
+  			,PIV.DLV_ITEM_ID
+  			,PI.MTRL_CD
+  			,PI.MTRL_NM
+  			,PDI.DLV_QTY
+  			,PIV.QTY
+  			,PI.CD_UNIT
+  			,PD.INSP_DAY
+  			,PIV.RMARK
+  			,PIV.REQR_ID
+  			,PIV.REQR_NM
+  			,PIV.PO_NO
+  			,PIV.PO_ITEM_ID
+  			,PIV.PCHRGR_ID AS PCHRGR_ID
+  			,MU.USER_NM AS PCHRGR_NM
+  			,PIV.RTN_CNTNT
+  			,TO_CHAR(PIV.CRT_DT,'YYYYMMDDHH24MI') AS CRT_DT
+  			,PO.PTNR_ID
+		    ,MP.PTNR_NM
+  			,PD.DLV_NO
+  			,PI.PR_NO
+  			,PI.ITM_NO
+  			,PI.CD_DOC_CTGR
+  			,PI.DUMY1
+  			,PIV.LAST_CHGR_ID
+  			,DECODE(MP.BIZ_NO, '1078609325', 'Y', 'N') AS ALT_SVO_VOC
+  			,'' AS REQ_SVO_VOC
+  		FROM MM_PR_ITEM_VOC PIV
+  			 ,MM_PR_ITEM PI
+  			 ,MM_PO_ITEM POI
+  			 ,MM_PO PO
+  			 ,MM_PO_DLV_ITEM PDI
+  			 ,MM_PO_DLV PD
+  			 ,MM_PTNR MP
+  			 ,MM_MT_USER MU
+  		WHERE PIV.PR_ITEM_ID = PI.PR_ITEM_ID
+  		AND   PIV.PO_ITEM_ID = POI.PO_ITEM_ID
+  		AND   PIV.BRANCH_CD = POI.BRANCH_CD
+  		AND   PIV.DLV_ITEM_ID = PDI.DLV_ITEM_ID
+  		AND   POI.PO_NO = PO.PO_NO
+  		AND   POI.BRANCH_CD = PO.BRANCH_CD
+  		AND   PDI.DLV_NO = PD.DLV_NO
+  		AND   PDI.BRANCH_CD = PD.BRANCH_CD
+  		AND   PO.PTNR_ID = MP.PTNR_ID
+  		AND   PIV.PCHRGR_ID = MU.USER_ID
+  		AND   PIV.BRANCH_CD = MU.BRANCH_CD
+  		
+  		<!-- 요청일자 시작일 -->
+		<if test="SRCH_REQ_DAY_STR != null and SRCH_REQ_DAY_STR != 'undefined' and SRCH_REQ_DAY_STR != ''">
+			AND   PIV.CRT_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{SRCH_REQ_DAY_STR},'YYYYMMDD'))
+		</if>
+		<!-- 요청일자 종료일 -->
+		<if test="SRCH_REQ_DAY_END != null and SRCH_REQ_DAY_END != 'undefined' and SRCH_REQ_DAY_END != ''">
+			AND   PIV.CRT_DT <![CDATA[<]]> TRUNC(TO_DATE(#{SRCH_REQ_DAY_END},'YYYYMMDD')+1)
+		</if>
+		<choose>
+			<when test="SRCH_MTRL_CD != null and SRCH_MTRL_CD != 'undefined' and SRCH_MTRL_CD != ''">
+				AND   PI.MTRL_CD = #{SRCH_MTRL_CD}
+			</when>
+			<when test="SRCH_MTRL_NM != null and SRCH_MTRL_NM != 'undefined' and SRCH_MTRL_NM != ''">
+				AND   REGEXP_LIKE (PI.MTRL_NM, REPLACE(#{SRCH_MTRL_NM},' ','|'),'i')
+			</when>
+		</choose>
+ 
+		<!-- 구분 -->
+		<if test="SRCH_INT_TYPE != null and SRCH_INT_TYPE != 'undefined' and SRCH_INT_TYPE != ''">
+			AND   PIV.INT_TYPE = #{SRCH_INT_TYPE}
+		</if>
+		<!-- 상태 -->
+		<if test="SRCH_CD_VOC_STTS != null and SRCH_CD_VOC_STTS != 'undefined' and SRCH_CD_VOC_STTS != ''">
+			AND   PIV.CD_VOC_STTS = #{SRCH_CD_VOC_STTS}
+		</if>
+		
+		<choose>
+			<when test="SRCH_REQR_ID != null and SRCH_REQR_ID != 'undefined' and SRCH_REQR_ID != ''">
+				AND   PIV.REQR_ID = #{SRCH_REQR_ID}
+			</when>
+			<when test="SRCH_REQR_NM != null and SRCH_REQR_NM != 'undefined' and SRCH_REQR_NM != ''">
+				AND   PIV.REQR_NM LIKE '%'||#{SRCH_REQR_NM}||'%'
+			</when>
+		</choose>
+		 
+		<choose>
+			<when test="SRCH_PCHRGR_ID != null and SRCH_PCHRGR_ID != 'undefined' and SRCH_PCHRGR_ID != ''">
+				AND   PIV.PCHRGR_ID = #{SRCH_PCHRGR_ID}
+			</when>
+			<when test="SRCH_PCHRGR_NM != null and SRCH_PCHRGR_NM != 'undefined' and SRCH_PCHRGR_NM != ''">
+				AND   MU.USER_NM LIKE '%'||#{SRCH_PCHRGR_NM}||'%'
+			</when>
+		</choose>		 
+		<choose>
+			<when test="SRCH_PTNR_ID != null and SRCH_PTNR_ID != 'undefined' and SRCH_PTNR_ID != ''">
+				AND   PO.PTNR_ID = #{SRCH_PTNR_ID}
+			</when>
+			<when test="SRCH_PTNR_NM != null and SRCH_PTNR_NM != 'undefined' and SRCH_PTNR_NM != ''">
+				AND   MP.PTNR_NM LIKE '%'||#{SRCH_PTNR_NM}||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="SRCH_STR_CD != null and SRCH_STR_CD != 'undefined' and SRCH_STR_CD != ''">
+				AND   PI.STR_CD = #{SRCH_STR_CD}
+			</when>
+			<when test="SRCH_STR_NM != null and SRCH_STR_NM != 'undefined' and SRCH_STR_NM != ''">
+				AND   EXISTS(
+	                    SELECT 'EXISTS'
+	                    FROM MM_MT_SL
+	                    WHERE STR_CD = PI.STR_CD
+	                    AND   SL_NM LIKE '%'||#{SRCH_STR_NM}||'%'
+	              )
+			</when>
+		</choose>		 
+		<include refid="commonService.list-after" />  
+  	</select>  	
+
+	<update id="purItmVocDumyUpd" parameterType="hashmap">
+	/* [BPrService.purItmVocDumyUpd][대상 구매요청반품품목들에 현재시간 업데이트(대상 구매요청품목 구분용)][2019.05.22][배열] */
+   		UPDATE MM_PR_ITEM_VOC
+		SET DUMY1 = #{DUMY1}
+			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+		WHERE VOC_NO = #{VOC_NO} 
+		AND   PR_ITEM_ID = #{PR_ITEM_ID}
+  	</update>
+
+  	<update id="updateMmPrItemVocStts" parameterType="hashmap">
+	/* [BPrService.updateMmPrItemVocStts][반품/교환 접수][2019.05.22][배열] */
+  		UPDATE MM_PR_ITEM_VOC
+  		SET CD_VOC_STTS = #{CD_VOC_STTS}
+  			<if test="CD_VOC_STTS == 'ZZ22RCV'">
+  				,PCHRGR_ID = #{LAST_CHGR_ID}
+  				,INT_TYPE = #{INT_TYPE}
+  				,RCV_DT = SYSDATE
+  			</if>
+  			<if test="CD_VOC_STTS == 'ZZ22CLO'">
+  				,CMPLT_DT = SYSDATE
+  			</if>
+  			,RTN_CNTNT = #{RTN_CNTNT}
+  			,LAST_CHG_DT = SYSDATE
+  			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+  		WHERE VOC_NO = #{VOC_NO}
+  		AND   PR_ITEM_ID = #{PR_ITEM_ID}
+  	</update>
+  	
+  	<select id="purItmVocReadForPor" parameterType="hashmap" resultType="hashmap" >
+	/* [BPrService.purItmVocReadForPor][발주대상 조회][2019.05.22][배열] */
+  		SELECT
+  			MAX(PIV.BRANCH_CD) AS BRANCH_CD
+  			,MAX(PI.CD_DOC_CTGR) AS CD_DOC_CTGR
+  			,MAX(PO.PTNR_ID) AS PTNR_ID
+  			,SUM((NVL(PIV.QTY,0) * NVL(PI.REQ_PRICE,0)) + DECODE(MM.INT_NTAX, 'T', NVL(PIV.QTY,0) * NVL(PI.REQ_PRICE,0) * 0.1, 'N', 0)) AS REQ_AMT
+  			,CASE COUNT(PI.PR_ITEM_ID)-1 WHEN 0 THEN '(반품)'||MAX(PI.MTRL_NM)
+  				  ELSE '(반품)'||MAX(PI.MTRL_NM) || '외 ' || TO_CHAR(COUNT(PI.PR_ITEM_ID)-1) ||'건'
+  			 END TTL
+  			,'' AS PO_NO
+  			,'' AS COREXP_KIDS
+  			,'' AS USER_ID
+  			,'' AS USER_NM
+  			,'' AS CD_PO_STTS
+  			,'' AS CD_PO_CTGR
+  			,'' AS ALT_AUTO_PO  			
+  		FROM MM_PR_ITEM_VOC PIV
+  			 ,MM_PR_ITEM PI
+  			 ,MM_MTRL MM
+  			 ,MM_PO_ITEM POI
+  			 ,MM_PO PO
+  		WHERE PIV.PR_ITEM_ID = PI.PR_ITEM_ID
+  		AND   PI.MTRL_CD = MM.MTRL_CD
+  		AND   PIV.PO_ITEM_ID = POI.PO_ITEM_ID
+  		AND   PIV.BRANCH_CD = POI.BRANCH_CD
+  		AND   POI.PO_NO = PO.PO_NO
+  		AND   PIV.BRANCH_CD = #{SESSION_BRANCH_CD}
+  		AND   PIV.DUMY1 = #{TIME_STR}
+  		AND   PIV.LAST_CHGR_ID = #{LAST_CHGR_ID}
+  		GROUP BY PIV.DUMY1
+  	</select>
+  	
+  	<select id="purItmVocReadForPorItm" parameterType="hashmap" resultType="hashmap" >
+	/* [BPrService.purItmVocReadForPorItm][발주 품목 대상 조회][2019.05.22][배열] */
+  		SELECT
+  			PIV.BRANCH_CD
+  			,PIV.PR_ITEM_ID
+  			,PI.STR_CD
+  			,PI.MTRL_GRP_ID
+  			,PI.MTRL_GRP_NM
+  			,PI.MTRL_CD
+  			,PI.MTRL_NM
+  			,PIV.QTY
+  			,PI.CD_UNIT
+  			,PI.REQ_PRICE
+  			,NVL(PIV.QTY,0) * NVL(PI.REQ_PRICE,0) AS REQ_AMT
+  			,'' AS DLV_REQ_DAY
+  			,PIV.REQR_ID AS INSP_CHRGR_ID
+  			,PI.RMARK
+  			,PI.LAST_CHGR_ID
+  			,PIA.GR_ACNT_CD
+  			,'' AS PO_NO
+  			,'' AS USER_ID
+  			,'' AS USER_NM
+  			,'' AS PO_ITEM_ID
+  			,'' AS CD_PO_ITM_STTS
+  			,MM.INT_NTAX
+  			,PIV.VOC_NO
+  		FROM MM_PR_ITEM_VOC PIV
+  			 ,MM_PR_ITEM PI
+  			 ,MM_PR_ITEM_ADD PIA
+  			 ,MM_PO_ITEM POI
+  			 ,MM_MTRL MM
+  		WHERE PIV.PR_ITEM_ID = PI.PR_ITEM_ID
+  		AND   PI.PR_ITEM_ID = PIA.PR_ITEM_ID
+  		AND   PIV.PO_ITEM_ID = POI.PO_ITEM_ID
+  		AND   PI.MTRL_CD = MM.MTRL_CD
+  		AND	PIV.DUMY1 = #{TIME_STR}
+  		AND   PIV.LAST_CHGR_ID = #{LAST_CHGR_ID}
+  		AND   PIV.BRANCH_CD = #{SESSION_BRANCH_CD}
+  	</select>  	
+  	
+	<insert id="porItmInsertToPur" parameterType="hashmap">
+	/* [BPrService.porItmInsertToPur][발주 품목 작성][2019.05.22][배열] */
+   		INSERT INTO MM_PO_ITEM(
+   			BRANCH_CD
+   			,PO_ITEM_ID
+   			,ITM_NO
+   			,CD_PO_ITM_STTS
+   			,STR_CD
+   			,PO_NO
+   			,PR_ITEM_ID
+   			,MTRL_GRP_ID
+   			,MTRL_GRP_NM
+   			,MTRL_CD
+   			,MTRL_NM
+   			,QTY
+   			,CD_UNIT
+   			,PO_PRICE
+   			,PO_AMT
+   			,VAT
+   			,DLV_REQ_DAY
+   			,RMARK
+   			,CRTR_ID
+   			,CRT_DT
+   			,LAST_CHGR_ID
+   			,LAST_CHG_DT
+   			,VOC_NO
+   		)VALUES(
+   			#{SESSION_BRANCH_CD}
+   			,#{PO_ITEM_ID}
+   			,(SELECT NVL(COUNT(*),0)+1 FROM MM_PO_ITEM WHERE PO_NO = #{PO_NO})
+   			,#{CD_PO_ITM_STTS}
+   			,#{STR_CD}
+   			,#{PO_NO}
+   			,#{PR_ITEM_ID}
+   			,#{MTRL_GRP_ID}
+   			,#{MTRL_GRP_NM}
+   			,#{MTRL_CD}
+   			,#{MTRL_NM}
+   			,#{QTY}
+   			,#{CD_UNIT}
+   			,#{REQ_PRICE}
+   			,FLOOR( #{QTY} * #{REQ_PRICE} )   			   			
+   			<if test='INT_NTAX == "T"'>
+   			,FLOOR( #{QTY} * #{REQ_PRICE} * 0.1)
+   			</if>
+   			<if test='INT_NTAX == "N"'>
+   			,0
+   			</if>   			
+   			,#{DLV_REQ_DAY}
+   			,#{RMARK}
+   			,#{SESSION_USER_ID}
+   			,SYSDATE
+   			,#{SESSION_USER_ID}
+   			,SYSDATE
+   			,#{VOC_NO}
+   		)
+  	</insert>
+  
+	<insert id="porItmAddInsertToPur" parameterType="hashmap">
+	/* [BPrService.porItmAddInsertToPur][발주 품목 추가정보 작성 ][2019.05.22][배열] */
+   		INSERT INTO MM_PO_ITEM_ADD(
+   			PO_ITEM_ID
+   			,INSP_CHRGR_ID
+   			,DLV_OVR_RT
+   			,GR_ACNT_CD
+   		)VALUES(
+   			#{PO_ITEM_ID}
+   			,#{SESSION_USER_ID}
+   			,(
+   			SELECT	NVL(OVER_GR_RATE, 100) AS OVER_GR_RATE
+   			  FROM	MM_MTRL_PURC
+   			 WHERE	BRANCH_CD = #{SESSION_BRANCH_CD}
+   			   AND	MTRL_CD   = #{MTRL_CD}
+   			)
+   			,#{GR_ACNT_CD}
+   		)	
+  	</insert>
+  	
+	<insert id="porInsertToPur" parameterType="hashmap">
+	/* [BPrService.porInsertToPur][발주 작성 ][2019.05.22][배열] */
+   		INSERT INTO MM_PO(
+   			BRANCH_CD
+   			,PO_NO
+   			,CD_PO_STTS
+   			,CD_DOC_CTGR
+   			,PTNR_ID
+   			,TTL
+   			,CD_PO_CRNC
+   			,CD_PYMT_CNDTN
+   			,CD_PO_CTGR
+   			,CD_DLV_MTHD
+   			,CD_PAY_CTGR
+   			,ALT_GR_PYMT
+   			,ALT_PARTIAL_DLV
+   			,WRTR_ID
+   			,WRTR_NM
+   			,PO_DAY
+   			,PO_AMT
+   			,VAT
+   			,CRTR_ID
+   			,CRT_DT
+   			,LAST_CHGR_ID
+   			,LAST_CHG_DT
+   		)
+   		SELECT
+   			MPP.BRANCH_CD
+   			,#{PO_NO}
+   			,#{CD_PO_STTS}
+   			,#{CD_DOC_CTGR}
+   			,MP.PTNR_ID
+   			,#{TTL}
+   			,MPP.CD_PO_CRNC
+   			,MPP.CD_PYMT_CNDTN
+   			,#{CD_PO_CTGR}
+   			,MPP.CD_DLV_MTHD
+   			,MPP.CD_PAY_CTGR
+   			,'N'
+   			,'N'
+   			,#{SESSION_USER_ID}
+   			,#{USER_NM}
+   			,TO_CHAR(SYSDATE,'YYYYMMDD')
+   			,(SELECT	SUM(PO_AMT)
+   			    FROM	MM_PO_ITEM
+   			   WHERE	BRANCH_CD	= #{SESSION_BRANCH_CD}
+   			     AND	PO_NO 		= #{PO_NO}
+   			)
+   			,(SELECT	SUM(VAT)
+   			    FROM	MM_PO_ITEM
+   			   WHERE	BRANCH_CD	= #{SESSION_BRANCH_CD}
+   			     AND	PO_NO 		= #{PO_NO}
+   			)	
+   			,#{SESSION_USER_ID}
+   			,SYSDATE
+   			,#{SESSION_USER_ID}
+   			,SYSDATE
+   		FROM MM_PTNR MP
+   			 ,MM_PTNR_PORG MPP
+   		WHERE MP.PTNR_ID = MPP.PTNR_ID
+   		AND   MP.PTNR_ID = #{PTNR_ID}
+   		AND   MPP.BRANCH_CD = #{SESSION_BRANCH_CD}
+  	</insert>  	
+  	
+	<insert id="porAddInsertToPur" parameterType="hashmap">
+	/* [BPrService.porAddInsertToPur][발주 추가정보 작성][2019.05.22][배열] */
+   		INSERT INTO MM_PO_ADD(
+   			BRANCH_CD
+   			,PO_NO
+   			,EXCHG_RT
+   			,ALT_EXCHG_RT_FIXD_YN
+   			,CHRGR_ID
+   			,CHRGR_NM
+   			,EMAIL
+   			,TEL
+   			,FAX
+   			,ALT_GR_APP
+   			,TOT_PAY_CNT
+   			,CD_TAX_KIND
+			,CD_TAX_CD
+			,CD_DLV_AREA
+			,ALT_AUTO_PO		
+   		)SELECT
+   			BRANCH_CD
+   			,#{PO_NO}
+   			,1
+   			,'Y'
+   			,USER_ID
+   			,USER_NM
+   			,EMAIL
+   			,TEL
+   			,FAX
+   			,'N'
+   			,1
+   			,(
+   				SELECT 
+   					CD_TAX_KIND 
+   				FROM MM_PTNR_PORG 
+   				WHERE BRANCH_CD = #{SESSION_BRANCH_CD}  
+   				AND PTNR_ID = (
+   										SELECT 
+   											PTNR_ID 
+   										FROM MM_PO 
+   										WHERE BRANCH_CD = #{SESSION_BRANCH_CD}  
+   										AND PO_NO = #{PO_NO}
+   										)
+   			)
+   			,(
+   				SELECT 
+   					CD_TAX_CD 
+   				FROM MM_PTNR_PORG 
+   				WHERE BRANCH_CD = #{SESSION_BRANCH_CD}  
+   				AND PTNR_ID = (
+   										SELECT 
+   											PTNR_ID 
+   										FROM MM_PO 
+   										WHERE BRANCH_CD = #{SESSION_BRANCH_CD}  
+   										AND PO_NO = #{PO_NO}
+   										)
+   			)
+   			,(
+   				SELECT 
+   					CD_DLV_AREA 
+   				FROM MM_PTNR_PORG 
+   				WHERE BRANCH_CD = #{SESSION_BRANCH_CD}  
+   				AND PTNR_ID = (
+   										SELECT 
+   											PTNR_ID 
+   										FROM MM_PO 
+   										WHERE BRANCH_CD = #{SESSION_BRANCH_CD}  
+   										AND PO_NO = #{PO_NO}
+   										)
+   			)
+   			,#{ALT_AUTO_PO}
+   		FROM MM_MT_USER
+   		WHERE USER_ID = #{SESSION_USER_ID}
+   		AND   BRANCH_CD = #{SESSION_BRANCH_CD}	
+  	</insert>  	
+
+	<insert id="porPayInsertToPur" parameterType="hashmap">
+	/* [BPrService.porPayInsertToPur][발주 지급일정 작성][2019.05.22][배열] */
+   		INSERT INTO MM_PO_PAY(
+   			BRANCH_CD
+   			,PO_NO
+   			,ODR
+   			,PYMT_RT
+   			,PYMT_PLN_AMT
+   			,ALT_PRCS_YN
+   			,ALT_GR_YN
+   		)VALUES(
+   			#{SESSION_BRANCH_CD}
+   			,#{PO_NO}
+   			,1
+   			,100
+   			,#{REQ_AMT}
+   			,'N'
+   			,'N'
+   		)
+  	</insert>
+</mapper>

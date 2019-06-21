@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="21" id="CompCalFromTo" left="0" onkillfocus="fnOnKillFocus" ontimer="comCalendar_ontimer" titletext="From~To 기간 Calendar" top="0" width="198">
+    <Layouts>
+      <Layout>
+        <Calendar autoselect="true" autoskip="true" dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" height="24" id="cldFrom" left="0" locale="en_US" objNm="기간 From" onchanged="cldTo_onchanged" right="54.55%" style="buttonsize:0;popuptype:none;" taborder="1" top="0" value="null"/>
+        <Calendar autoselect="true" autoskip="true" dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" height="24" id="cldTo" left="51.01%" locale="en_US" objNm="기간 To" onchanged="cldTo_onchanged" oneditclick="cldTo_oneditclick" onlbuttonup="calToOnlbuttonup" right="0%" style="popuptype:none;" taborder="2" top="0" value="null"/>
+        <Static height="20" id="staSwungDash" left="44.44%" right="47.98%" style="align:center middle;" taborder="3" text="~" top="0"/>
+        <PopupDiv height="302" id="pdvCal" left="35" objNm="달력 팝업Div" top="55" visible="false" width="488" style="background:transparent;">
+          <Layouts>
+            <Layout>
+              <Button class="btn_rBox" height="25" id="btnApply" left="42.01%" objNm="적용" onclick="fnPdvCalBtnApplyOnclick" right="40.98%" taborder="32" text="적용" top="267" style="border:1 solid gray ;"/>
+              <Button class="btn_rBox" height="25" id="btnClose" left="59.84%" objNm="닫기" onclick="fnPdvCalBtnCloseOnclick" right="23.36%" taborder="33" text="닫기" top="267" style="border:1 solid gray ;"/>
+              <Calendar dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" height="248" id="cldTo" left="50.61%" locale="en_US" objNm="달력 To" right="3.07%" style="popupsize:165 200;" taborder="34" top="15" type="monthonly" value="null"/>
+              <Calendar dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" height="248" id="cldFrom" left="3.89%" locale="en_US" objNm="달력 From" right="49.8%" style="popupsize:165 200;" taborder="35" top="15" type="monthonly" value="null"/>
+              <Button class="btn_rBox" height="25" id="btnYearAgo" left="18.24%" objNm="과거1년" onclick="fnPdvCalBtnYearAgoOnclick" right="58.81%" taborder="37" text="과거1년" top="267" style="border:1 solid gray ;"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Bind>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompCalFromTo.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 12.
+ * @설명			: From~To 기간 Calendar
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 12.
+*/  
+
+/**
+  * @함수명	: fnSetDate
+  * @input    	: objDs:Dataset(데이터셋 오브젝트), sFromDtCol(from 날짜), sToDtCol(to 날짜)
+  * @desc     	: 데이터셋 입력된 날짜를 바인딩
+  */
+this.fnSetDate = function(objDs:Dataset, sFromDtCol, sToDtCol)
+{
+	this.removeChild("Bind01");
+	this.removeChild("Bind02");
+	
+	var objBindItem = new BindItem("Bind01", "cldFrom", "value", objDs.name, sFromDtCol);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	objBindItem = new BindItem("Bind02", "cldTo", "value", objDs.name, sToDtCol);
+	this.addChild("Bind02", objBindItem);
+	objBindItem.bind();
+}
+
+/**
+  * @함수명	: calToOnlbuttonup
+  * @input    	: obj:Calendar(달력 오브젝트), e:MouseEventInfo(이벤트변수)
+  * @desc     	: 캘린더 Onlbuttonup 이벤트
+  */
+this.calToOnlbuttonup = function(obj:Calendar, e:MouseEventInfo)
+{
+	if(e.fromreferenceobject.name == "dropbutton"){		
+		if(this.pdvCal.isPopup()){
+			this.pdvCal.closePopup("");
+		}
+		
+		var fromVal = gfnIsNull(this.cldFrom.value) ? gfnFirstDay() : this.cldFrom.value;	
+		this.pdvCal.cldFrom.set_value(fromVal);
+		
+		var toVal = gfnIsNull(obj.value) ? gfnToday() : obj.value;	
+		this.pdvCal.cldTo.set_value(toVal);
+		
+		this.pdvCal.trackPopupByComponent(this.cldFrom, -17, 10);		
+	}
+}
+
+/**
+  * @함수명	: fnCompare
+  * @desc     	: 캘린터 validation
+  */
+this.fnCompare = function() 
+{
+	if(gfnIsNull(this.cldFrom.value) && gfnIsNull(this.cldTo.value)){		
+		return false;
+	}else{
+		if(this.cldFrom.value > this.cldTo.value){
+			gfnAlert(gfnMultiLabel("EPRO_LABEL_00985"));
+			this.cldTo.set_value("");
+			this.cldTo.setFocus();
+			return false;
+		}	
+	}
+		
+	return true;
+}
+
+/**
+  * @함수명	: fnPdvCalBtnYearAgoOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 과거1년
+  */
+this.fnPdvCalBtnYearAgoOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.cldFrom.set_value(gfnAddMonth(gfnToday(), -12));
+	this.cldTo.set_value(this.pdvCal.cldTo.value);
+
+	var rtn = this.fnCompare();	
+	if(rtn) this.pdvCal.closePopup();
+}
+
+/**
+  * @함수명	: fnPdvCalBtnApplyOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:ClickEventInfo(이벤트변수)
+  * @desc     	: 적용
+  */
+this.fnPdvCalBtnApplyOnclick = function(obj:Button,  e:ClickEventInfo)
+{	
+	this.cldFrom.set_value(this.pdvCal.cldFrom.value);
+	this.cldTo.set_value(this.pdvCal.cldTo.value);
+
+	var rtn = this.fnCompare();	
+	if(rtn) this.pdvCal.closePopup();
+}
+
+/**
+  * @함수명	: fnPdvCalBtnCloseOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:ClickEventInfo(이벤트변수)
+  * @desc     	: 닫기
+  */
+this.fnPdvCalBtnCloseOnclick = function(obj:Button,  e:ClickEventInfo)
+{
+	this.pdvCal.closePopup();
+}
+this.cldTo_onchanged = function(obj:Calendar, e:nexacro.ChangeEventInfo)
+{
+	var fromV = this.cldFrom.value;
+	var toV = this.cldTo.value;
+	
+	if(!gfnIsNull(fromV) && !gfnIsNull(toV)){
+		this.fnCompare();
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

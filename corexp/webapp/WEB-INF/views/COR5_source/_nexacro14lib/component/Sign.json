@@ -1,0 +1,11 @@
+﻿{
+	"name": "Sign",
+	"version": "14.0.0.240",
+	"description": "Sign",
+	"license": "",
+	"scripts": [
+			"Sign/CC_Object.js", 
+			"Sign/init.js", 
+	]
+}
+//@ sourceURL=Sign.json

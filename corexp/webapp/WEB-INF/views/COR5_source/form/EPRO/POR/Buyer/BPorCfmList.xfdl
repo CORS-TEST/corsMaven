@@ -1,0 +1,743 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="768" id="BPorCfmList" left="0" oninit="FormOninit" onload="FormOnload" titletext="발주완료현황" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div cssclass="div_WF_SearchBg" height="113" id="divViewCompCond01" left="0" objNm="" right="15" taborder="0" top="35">
+          <Layouts>
+            <Layout>
+              <Static id="staWarning" taborder="49" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="-1" top="92" right="1" height="19"/>
+              <Edit id="edtPtnrId" taborder="57" enable="false" left="170" top="63" width="117" height="24" style=":disabled {color:black;align:center middle;}" objNm="협력사ID"/>
+              <Edit id="edtPtnrNm" taborder="58" lengthunit="utf8" left="292" top="63" width="163" height="24" objNm="협력사명" onkeydown="fnKeydown"/>
+              <Edit id="edtMtrlCd" taborder="61" lengthunit="utf8" maxlength="10" enable="false" left="573" top="5" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="품목코드"/>
+              <Edit id="edtMtrlNm" taborder="62" lengthunit="utf8" onkeydown="fnKeydown" ontextchanged="div_condition1_ed_ptnrNm_ontextchanged" left="699" top="5" width="214" height="24" objNm="품목명"/>
+              <Button id="btnMtrl" taborder="64" onclick="fnMtrlSearch" cssclass="btn_WF_SearchSmall" left="913" top="5" width="24" height="24" objNm="품목검색 버튼"/>
+              <Button id="btnPntr" taborder="65" cssclass="btn_WF_SearchSmall" left="455" top="63" width="24" height="24" objNm="협력사 검색 버튼" onclick="divViewCompCond01_btnPntr_onclick"/>
+              <Static id="staTtl" taborder="67" text="발주명" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="0" top="34" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staPtnr" taborder="68" text="협력사" cssclass="sta_WF_SearchLabel" left="0" top="63" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtTtl" taborder="69" left="170" top="34" width="285" height="24" objNm="발주명" onkeydown="fnKeydown"/>
+              <Static id="staPoMtrl" taborder="70" text="품목" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="455" top="5" width="118" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staChrgrId" taborder="71" text="발주담당자" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="455" top="34" width="118" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtChrgrId" taborder="72" enable="false" left="573" top="34" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="발주담당자ID"/>
+              <Edit id="edtChrgrNm" taborder="73" lengthunit="utf8" onkeydown="fnKeydown" left="699" top="34" width="214" height="24" objNm="발주담당자명" ontextchanged="fn_ontextchanged_event"/>
+              <Button id="btnChrgr" taborder="74" onclick="fnUserSearch" cssclass="btn_WF_SearchSmall" left="913" top="34" width="24" height="21" objNm="발주담당자 검색 버튼"/>
+              <Static id="staPoDay" taborder="75" text="발주일자" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Div id="divPoDay" taborder="76" url="CCOMP::CompCalFromTo.xfdl" text="Div01" left="170" top="5" width="285" height="24" objNm="발주일자"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="1" text="Div00" top="164">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="none" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="1" top="29" useinputpanel="false" oncelldblclick="grdListOnCelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40" band="left"/>
+                      <Column size="110"/>
+                      <Column size="90"/>
+                      <Column size="65"/>
+                      <Column size="400"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="70"/>
+                      <Column size="90"/>
+                      <Column size="118"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" text="발주번호" combodisplaynulltext="CD_CNTR_STTS"/>
+                      <Cell col="2" text="구매유형"/>
+                      <Cell col="3" text="상태"/>
+                      <Cell col="4" text="발주명"/>
+                      <Cell col="5" text="사업자번호"/>
+                      <Cell col="6" text="협력사명"/>
+                      <Cell col="7" text="담당자"/>
+                      <Cell col="8" text="발주일자"/>
+                      <Cell col="9" text="발주접수일시"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED" expandshow="hide"/>
+                      <Cell col="1" edittype="none" cssclass="cell_link" text="bind:PO_NO" maskchar=" " tooltiptext="bind:PO_NO"/>
+                      <Cell col="2" text="bind:CD_DOC_CTGR_NM" tooltiptext="bind:CD_DOC_CTGR_NM"/>
+                      <Cell col="3" text="bind:CD_PO_STTS_NM" tooltiptext="bind:CD_PO_STTS_NM"/>
+                      <Cell col="4" style="align:left;" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="5" text="bind:BIZ_NO" mask="@@@-@@-@@@@@" maskchar="_" suppressalign="first" tooltiptext="bind:BIZ_NO"/>
+                      <Cell col="6" displaytype="normal" edittype="none" style="align:left;padding:3 3 3 3;" cssclass="cell_link" text="bind:PTNR_NM" editautoselect="true" editdisplay="edit" tooltiptext="bind:PTNR_NM"/>
+                      <Cell col="7" cssclass="cell_link" text="bind:WRTR_NM" tooltiptext="bind:WRTR_NM"/>
+                      <Cell col="8" displaytype="date" edittype="none" text="bind:PO_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none" tooltiptext="bind:PO_DAY"/>
+                      <Cell col="9" displaytype="date" text="bind:RCV_DT" mask="yyyy.MM.dd HH:mm" calendardisplaynulltype="none" tooltiptext="bind:RCV_DT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="9" height="28" id="divPaging" left="0" objNm="페이징" right="0" scrollbars="none" taborder="2" url="CCOMP::CompPaging.xfdl"/>
+              <Button id="btnPtnrChg" taborder="3" text="협력사변경" cssclass="btn_WF_Ssign" top="0" right="0" width="87" height="24" onclick="btnPtnrChg_onclick" objNm="협력사변경"/>
+              <Button id="btnPoCxl" taborder="4" text="발주취소" cssclass="btn_WF_Ssign" top="0" right="89" width="87" height="24" onclick="btnPoCxl_onclick" objNm="발주취소"/>
+              <Button id="btnChgRej" taborder="5" text="변경요청거부" cssclass="btn_WF_Ssign" top="0" right="267" width="87" height="24" onclick="btnChgRej_onclick" objNm="변경요청거부"/>
+              <Button id="btnPoCfm" taborder="6" text="납품완료" cssclass="btn_WF_Ssign" top="0" right="178" width="87" height="24" onclick="btnPoCfm_onclick" objNm="납품완료"/>
+              <Button id="btnCntrAdd" taborder="7" text="계약작성" cssclass="btn_WF_Ssign" top="0" right="356" width="87" height="24" onclick="btnCntrAdd_onclick" objNm="계약작성"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" style="align:center;" taborder="3" top="0">
+          <Layouts>
+            <Layout>
+              <Combo id="cboPostts" taborder="3" innerdataset="dsCdPO10" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="573" top="5" height="24" objNm="상태" width="148">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows/>
+                </Dataset>
+              </Combo>
+              <Combo id="cboDocCtgr" taborder="4" innerdataset="dsCdCM10" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="892" top="5" height="24" objNm="구매유형" width="185"/>
+              <Static id="staPoStts" taborder="7" text="상태" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="455" top="5" width="118" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staDocCtgr" taborder="8" text="구매유형" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="774" top="5" width="118" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staPoNo" taborder="9" text="발주번호" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtPoNo" taborder="10" onkeydown="fnKeydown" left="170" top="5" width="285" height="24" objNm="발주번호"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnFold" taborder="5" cssclass="btn_Fold_Close" left="45.66%" top="148" width="56" height="17" onclick="btnFold_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCdCM10"/>
+      <Dataset id="dsCdPO10"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_NO" size="20" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="INT"/>
+          <Column id="CD_RFQ_STTS" size="40" type="STRING"/>
+          <Column id="CD_DOC_CTGR" size="40" type="STRING"/>
+          <Column id="TTL" size="100" type="STRING"/>
+          <Column id="RFQ_CLOSE_DAY" size="8" type="STRING"/>
+          <Column id="RFQ_CLOSE_TIME" size="6" type="STRING"/>
+          <Column id="GOALAMT" size="15" type="INT"/>
+          <Column id="CHRGR_NM" size="50" type="STRING"/>
+          <Column id="REQ_DT" size="256" type="DATE"/>
+          <Column id="ITEM_CNT" size="20" type="STRING"/>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="TNDR_NO" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="PO_DAY_STR" type="STRING" size="256"/>
+          <Column id="PO_DAY_END" type="STRING" size="256"/>
+          <Column id="CD_PO_STTS" type="STRING" size="256"/>
+          <Column id="CD_DOC_CTGR" type="STRING" size="256"/>
+          <Column id="PO_NO" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="TTL" type="STRING" size="256"/>
+          <Column id="CHRGR_ID" type="STRING" size="256"/>
+          <Column id="CHRGR_NM" type="STRING" size="256"/>
+          <Column id="PTNR_ID" type="STRING" size="256"/>
+          <Column id="PTNR_NM" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompCond00.cboPostts" propid="value" datasetid="dsCondition" columnid="CD_PO_STTS"/>
+      <BindItem id="item4" compid="divViewCompCond01.edtPtnrNm" propid="value" datasetid="dsCondition" columnid="PTNR_NM"/>
+      <BindItem id="item5" compid="divViewCompCond01.edtPtnrId" propid="value" datasetid="dsCondition" columnid="PTNR_ID"/>
+      <BindItem id="item6" compid="divViewCompCond01.edtMtrlNm" propid="value" datasetid="dsCondition" columnid="MTRL_NM"/>
+      <BindItem id="item7" compid="divViewCompCond01.edtMtrlCd" propid="value" datasetid="dsCondition" columnid="MTRL_CD"/>
+      <BindItem id="item8" compid="divViewCompCond00.cboDocCtgr" propid="value" datasetid="dsCondition" columnid="CD_DOC_CTGR"/>
+      <BindItem id="item21" compid="divViewCompCond01.edtTtl" propid="value" datasetid="dsCondition" columnid="TTL"/>
+      <BindItem id="item2" compid="divViewCompCond01.edtChrgrId" propid="value" datasetid="dsCondition" columnid="CHRGR_ID"/>
+      <BindItem id="item3" compid="divViewCompCond01.edtChrgrNm" propid="value" datasetid="dsCondition" columnid="CHRGR_NM"/>
+      <BindItem id="item1" compid="divViewCompCond00.edtPoNo" propid="value" datasetid="dsCondition" columnid="PO_NO"/>
+      <BindItem id="edtPtnrIdVi" compid="divViewCompCond01.edtPtnrId" propid="visible" datasetid="dsObjBindVi" columnid="edtPtnrId"/>
+      <BindItem id="edtPtnrIdEn" compid="divViewCompCond01.edtPtnrId" propid="readonly" datasetid="dsObjBindEn" columnid="edtPtnrId"/>
+      <BindItem id="edtPtnrNmVi" compid="divViewCompCond01.edtPtnrNm" propid="visible" datasetid="dsObjBindVi" columnid="edtPtnrNm"/>
+      <BindItem id="edtPtnrNmEn" compid="divViewCompCond01.edtPtnrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtPtnrNm"/>
+      <BindItem id="edtMtrlCdVi" compid="divViewCompCond01.edtMtrlCd" propid="visible" datasetid="dsObjBindVi" columnid="edtMtrlCd"/>
+      <BindItem id="edtMtrlCdEn" compid="divViewCompCond01.edtMtrlCd" propid="readonly" datasetid="dsObjBindEn" columnid="edtMtrlCd"/>
+      <BindItem id="edtMtrlNmVi" compid="divViewCompCond01.edtMtrlNm" propid="visible" datasetid="dsObjBindVi" columnid="edtMtrlNm"/>
+      <BindItem id="edtMtrlNmEn" compid="divViewCompCond01.edtMtrlNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtMtrlNm"/>
+      <BindItem id="btnMtrlVi" compid="divViewCompCond01.btnMtrl" propid="visible" datasetid="dsObjBindVi" columnid="btnMtrl"/>
+      <BindItem id="btnMtrlEn" compid="divViewCompCond01.btnMtrl" propid="enable" datasetid="dsObjBindEn" columnid="btnMtrl"/>
+      <BindItem id="btnPntrVi" compid="divViewCompCond01.btnPntr" propid="visible" datasetid="dsObjBindVi" columnid="btnPntr"/>
+      <BindItem id="btnPntrEn" compid="divViewCompCond01.btnPntr" propid="enable" datasetid="dsObjBindEn" columnid="btnPntr"/>
+      <BindItem id="staTtlVi" compid="divViewCompCond01.staTtl" propid="visible" datasetid="dsObjBindVi" columnid="staTtl"/>
+      <BindItem id="staTtlEn" compid="divViewCompCond01.staTtl" propid="enable" datasetid="dsObjBindEn" columnid="staTtl"/>
+      <BindItem id="staPtnrVi" compid="divViewCompCond01.staPtnr" propid="visible" datasetid="dsObjBindVi" columnid="staPtnr"/>
+      <BindItem id="staPtnrEn" compid="divViewCompCond01.staPtnr" propid="enable" datasetid="dsObjBindEn" columnid="staPtnr"/>
+      <BindItem id="edtTtlVi" compid="divViewCompCond01.edtTtl" propid="visible" datasetid="dsObjBindVi" columnid="edtTtl"/>
+      <BindItem id="edtTtlEn" compid="divViewCompCond01.edtTtl" propid="readonly" datasetid="dsObjBindEn" columnid="edtTtl"/>
+      <BindItem id="staPoMtrlVi" compid="divViewCompCond01.staPoMtrl" propid="visible" datasetid="dsObjBindVi" columnid="staPoMtrl"/>
+      <BindItem id="staPoMtrlEn" compid="divViewCompCond01.staPoMtrl" propid="enable" datasetid="dsObjBindEn" columnid="staPoMtrl"/>
+      <BindItem id="staChrgrIdVi" compid="divViewCompCond01.staChrgrId" propid="visible" datasetid="dsObjBindVi" columnid="staChrgrId"/>
+      <BindItem id="staChrgrIdEn" compid="divViewCompCond01.staChrgrId" propid="enable" datasetid="dsObjBindEn" columnid="staChrgrId"/>
+      <BindItem id="edtChrgrIdVi" compid="divViewCompCond01.edtChrgrId" propid="visible" datasetid="dsObjBindVi" columnid="edtChrgrId"/>
+      <BindItem id="edtChrgrIdEn" compid="divViewCompCond01.edtChrgrId" propid="readonly" datasetid="dsObjBindEn" columnid="edtChrgrId"/>
+      <BindItem id="edtChrgrNmVi" compid="divViewCompCond01.edtChrgrNm" propid="visible" datasetid="dsObjBindVi" columnid="edtChrgrNm"/>
+      <BindItem id="edtChrgrNmEn" compid="divViewCompCond01.edtChrgrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtChrgrNm"/>
+      <BindItem id="btnChrgrVi" compid="divViewCompCond01.btnChrgr" propid="visible" datasetid="dsObjBindVi" columnid="btnChrgr"/>
+      <BindItem id="btnChrgrEn" compid="divViewCompCond01.btnChrgr" propid="enable" datasetid="dsObjBindEn" columnid="btnChrgr"/>
+      <BindItem id="staPoDayVi" compid="divViewCompCond01.staPoDay" propid="visible" datasetid="dsObjBindVi" columnid="staPoDay"/>
+      <BindItem id="staPoDayEn" compid="divViewCompCond01.staPoDay" propid="enable" datasetid="dsObjBindEn" columnid="staPoDay"/>
+      <BindItem id="divPoDayVi" compid="divViewCompCond01.divPoDay" propid="visible" datasetid="dsObjBindVi" columnid="divPoDay"/>
+      <BindItem id="divPoDayEn" compid="divViewCompCond01.divPoDay" propid="enable" datasetid="dsObjBindEn" columnid="divPoDay"/>
+      <BindItem id="divPagingVi" compid="divViewCompBody00.divPaging" propid="visible" datasetid="dsObjBindVi" columnid="divPaging"/>
+      <BindItem id="divPagingEn" compid="divViewCompBody00.divPaging" propid="enable" datasetid="dsObjBindEn" columnid="divPaging"/>
+      <BindItem id="btnPtnrChgVi" compid="divViewCompBody00.btnPtnrChg" propid="visible" datasetid="dsObjBindVi" columnid="btnPtnrChg"/>
+      <BindItem id="btnPtnrChgEn" compid="divViewCompBody00.btnPtnrChg" propid="enable" datasetid="dsObjBindEn" columnid="btnPtnrChg"/>
+      <BindItem id="btnPoCxlVi" compid="divViewCompBody00.btnPoCxl" propid="visible" datasetid="dsObjBindVi" columnid="btnPoCxl"/>
+      <BindItem id="btnPoCxlEn" compid="divViewCompBody00.btnPoCxl" propid="enable" datasetid="dsObjBindEn" columnid="btnPoCxl"/>
+      <BindItem id="btnChgRejVi" compid="divViewCompBody00.btnChgRej" propid="visible" datasetid="dsObjBindVi" columnid="btnChgRej"/>
+      <BindItem id="btnChgRejEn" compid="divViewCompBody00.btnChgRej" propid="enable" datasetid="dsObjBindEn" columnid="btnChgRej"/>
+      <BindItem id="btnPoCfmVi" compid="divViewCompBody00.btnPoCfm" propid="visible" datasetid="dsObjBindVi" columnid="btnPoCfm"/>
+      <BindItem id="btnPoCfmEn" compid="divViewCompBody00.btnPoCfm" propid="enable" datasetid="dsObjBindEn" columnid="btnPoCfm"/>
+      <BindItem id="btnCntrAddVi" compid="divViewCompBody00.btnCntrAdd" propid="visible" datasetid="dsObjBindVi" columnid="btnCntrAdd"/>
+      <BindItem id="btnCntrAddEn" compid="divViewCompBody00.btnCntrAdd" propid="enable" datasetid="dsObjBindEn" columnid="btnCntrAdd"/>
+      <BindItem id="cboPosttsVi" compid="divViewCompCond00.cboPostts" propid="visible" datasetid="dsObjBindVi" columnid="cboPostts"/>
+      <BindItem id="cboPosttsEn" compid="divViewCompCond00.cboPostts" propid="readonly" datasetid="dsObjBindEn" columnid="cboPostts"/>
+      <BindItem id="cboDocCtgrVi" compid="divViewCompCond00.cboDocCtgr" propid="visible" datasetid="dsObjBindVi" columnid="cboDocCtgr"/>
+      <BindItem id="cboDocCtgrEn" compid="divViewCompCond00.cboDocCtgr" propid="readonly" datasetid="dsObjBindEn" columnid="cboDocCtgr"/>
+      <BindItem id="staPoSttsVi" compid="divViewCompCond00.staPoStts" propid="visible" datasetid="dsObjBindVi" columnid="staPoStts"/>
+      <BindItem id="staPoSttsEn" compid="divViewCompCond00.staPoStts" propid="enable" datasetid="dsObjBindEn" columnid="staPoStts"/>
+      <BindItem id="staDocCtgrVi" compid="divViewCompCond00.staDocCtgr" propid="visible" datasetid="dsObjBindVi" columnid="staDocCtgr"/>
+      <BindItem id="staDocCtgrEn" compid="divViewCompCond00.staDocCtgr" propid="enable" datasetid="dsObjBindEn" columnid="staDocCtgr"/>
+      <BindItem id="staPoNoVi" compid="divViewCompCond00.staPoNo" propid="visible" datasetid="dsObjBindVi" columnid="staPoNo"/>
+      <BindItem id="staPoNoEn" compid="divViewCompCond00.staPoNo" propid="enable" datasetid="dsObjBindEn" columnid="staPoNo"/>
+      <BindItem id="edtPoNoVi" compid="divViewCompCond00.edtPoNo" propid="visible" datasetid="dsObjBindVi" columnid="edtPoNo"/>
+      <BindItem id="edtPoNoEn" compid="divViewCompCond00.edtPoNo" propid="readonly" datasetid="dsObjBindEn" columnid="edtPoNo"/>
+      <BindItem id="btnFoldVi" compid="btnFold" propid="visible" datasetid="dsObjBindVi" columnid="btnFold"/>
+      <BindItem id="btnFoldEn" compid="btnFold" propid="enable" datasetid="dsObjBindEn" columnid="btnFold"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BPorCfmList
+ * @생성자			: 한의봉
+ * @생성일시		: 2019. 04. 26.
+ * @설명			: 발주완료현황
+ * @최종수정자		: 한의봉
+ * @최종수정일시	: 2019. 04. 26.
+*/  
+
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"PO10", sSelectType:"A", sFiltered:"D:WRI,APP,,WAT"} //발주상태
+					 , {code:"CM10", sSelectType:"A"}
+					 
+				];				
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01,initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacr o.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.FormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	gfnSetObj("A");
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this,{isTran:"Y", tranNm:"BPorService.searchPorCfmList", dsParam:this.dsCondition});
+ 	
+ 	//조회조건 Div 접기/펼치기 세팅
+ 	this.fnFold();
+	//요청일자 셋팅
+	this.divViewCompCond01.divPoDay.fnSetDate(this.dsCondition, "PO_DAY_STR", "PO_DAY_END");
+	
+	this.dsCondition.addRow();
+	
+	this.dsCondition.setColumn(0, "CD_PO_STTS", "");
+	this.dsCondition.setColumn(0, "CD_DOC_CTGR", "");
+	this.dsCondition.setColumn(0,"PO_DAY_STR",gfnAddMonth(gfnToday(), -1));
+ 	this.dsCondition.setColumn(0,"PO_DAY_END",gfnToday());
+
+ 	this.dsCondition.setColumn(0,"CHRGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+ 	this.dsCondition.setColumn(0,"CHRGR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+
+	//메인에서 파라미터가 넘어오면 견적번호를 셋팅하여 검색	
+	if("" != gfnGetTmprData("DOC_NO")){
+		this.dsCondition.setColumn(0,"PO_NO",gfnGetTmprData("DOC_NO"));
+		this.dsCondition.setColumn(0,"CD_PO_STTS","PO10REQ");
+		this.gfn_clearTmprData(); 	
+	}else{
+		this.dsCondition.setColumn(0,"CD_PO_STTS","PO10SND");
+	}
+
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function(svcId)
+{	
+	var sSvcID = "search";
+	var sController = "epro.por.service.BPorService.searchPorCfmList";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+		
+ 	var	oPaging = [      
+                    {inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+                ];
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+	@function	fnAdd()
+	@desc   	(공통버튼)신규
+*/
+this.fnAdd = function() 
+{
+	gfnOpenMenuUrl("BPOR::BPorDetail");
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "search" :
+		break;
+				
+		case "cancle" :
+			gfnAlert("취소되었습니다.");
+			this.fnSearch();
+		break;
+
+		case "reject" :
+			gfnAlert("거부되었습니다.");
+			this.fnSearch();
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+
+this.grdListOnCelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnIsNull(this.dsList.getColumn(e.row,gfnGrdBindColId(obj, e.cell)))) return false;
+
+	if(gfnGrdBindColId(obj, e.cell)=="PO_NO")	//발주번호
+	{
+		gfnSetTmprData("PO_NO" ,this.dsList.getColumn(e.row, "PO_NO"));
+		gfnOpenMenuUrl("BPOR::BPorDetail");
+	}
+	else if(gfnGrdBindColId(obj, e.cell)=="PTNR_NM")	//협력사명
+	{
+		var sArg = { agv_id : this.dsList.getColumn(e.row, "PTNR_ID"),
+				 agv_nm : this.dsList.getColumn(e.row, "PTNR_NM")
+				};
+		gfnModalPop(this, "CtnrPtnrInfo", "CPOP::BPtnrInfoPopup.xfdl", sArg, "fnPopCallBack", 550, 500);
+	}
+	else if(gfnGrdBindColId(obj, e.cell)=="WRTR_NM")	//담당자
+	{
+		var sArg = { agv_id : this.dsList.getColumn(this.dsList.rowposition, "WRTR_ID") };
+		gfnModalPop(this, "CtnrUserInfo", "CPOP::BUserInfoPopup.xfdl", sArg, "fnPopCallBack", 550, 230);
+	}
+}
+
+
+
+/**
+  	@function	 fnEnterOnkeyup()
+  	@desc  		 Enter or BackSpace 처리.
+ */
+this.fnKeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	//Enter 입력시
+	if(e.keycode == "13")
+	{
+		obj.updateToDataset();
+		if(obj.name == "edtPoNo" || obj.name == "edtTtl")
+		{
+			this.fnSearch();
+		}
+		else if(obj.name == "edtPtnrNm")
+		{
+			this.fnPtnrSearch()
+		}
+		else if(obj.name == "edtChrgrNm")
+		{
+			this.fnUserSearch()
+		}
+		else if(obj.name == "edtItemNm")
+		{
+			this.div_condition1_btn_mtrlCd_onclick();
+		}
+	}
+}
+
+/**
+  	@function	 fn_ontextchanged_event()
+  	@desc  		 값변경시 ID 초기화
+ */
+this.fn_ontextchanged_event = function(obj:Edit, e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name == "edtPtnrNm")
+	{
+		gfnInitKey(this.dsCondition,e,"PTNR_ID");	
+	}
+	else if(obj.name == "edtChrgrNm")
+	{
+		gfnInitKey(this.dsCondition,e,"CHRGR_ID");	
+	}
+	else if(obj.name == "edtMtrlNm")
+	{
+		gfnInitKey(this.dsCondition,e,"MTRL_CD");
+	}
+}
+
+/**
+  	@function	 fnPtnrSearch()
+  	@desc  		 협력사팝업
+ */
+this.fnPtnrSearch = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+			agv_id:this.dsCondition.getColumn(0,"PTNR_ID")
+			,agv_nm:this.dsCondition.getColumn(0,"PTNR_NM")
+	   }; 
+	gfnSearchComPtnr(this, "BPtnrSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  	@function	 fnUserSearch()
+  	@desc  		 사용자팝업
+ */
+this.fnUserSearch = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_id:""
+					,agv_nm:this.dsCondition.getColumn(0,"CHRGR_NM")
+			   };
+			   
+	gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  	@function	 fnItemSearch()
+  	@desc  		 품목팝업
+ */
+this.fnMtrlSearch = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_id:""
+					,agv_nm:this.dsCondition.getColumn(0,"ITEM_NM")
+			   };
+			   
+	gfnSearchComMtrl(this, "MtrlSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "MtrlSrchPopup" :
+			this.dsCondition.setColumn(0,"MTRL_CD",this.dsReturn.getColumn(0,"MTRL_CD"));
+			this.dsCondition.setColumn(0,"MTRL_NM",this.dsReturn.getColumn(0,"MTRL_NM"));
+			break;
+		case "BPtnrSrchPopup":
+			this.dsCondition.setColumn(0,"PTNR_ID",this.dsReturn.getColumn(0,"PTNR_ID"));
+			this.dsCondition.setColumn(0,"PTNR_NM",this.dsReturn.getColumn(0,"PTNR_NM"));
+			break;
+		case "BUserSrchPopup":
+			this.dsCondition.setColumn(0,"CHRGR_ID",this.dsReturn.getColumn(0,"USER_ID"));
+			this.dsCondition.setColumn(0,"CHRGR_NM",this.dsReturn.getColumn(0,"USER_NM"));
+			break;
+		case "PopupCnclRsn":
+		
+			var sSvcID = "cancle";
+			var sController = "epro.por.service.SPorService.updatePorCncl";
+			var sInDatasets = "in_po=dsReturn";
+			var sOutDatasets = "";
+			var sCallbackFunc = "fnTrCallBack";
+
+			 gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+			
+			break;
+		case "PopupChgRejRsn":
+		
+			var sSvcID = "reject";
+			var sController = "epro.por.service.SPorService.updatePorChgReject";
+			var sInDatasets = "in_po=dsReturn";
+			var sOutDatasets = "";
+			var sCallbackFunc = "fnTrCallBack";
+
+			 gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+			
+			break;
+			
+		default:
+			break;	
+	}
+}
+
+/**
+  	@function	btnCntrAdd_onclick()
+ 	@desc  		계약작성
+ */
+this.btnCntrAdd_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var rtn = this.gfnGetChkRowString(this.dsList);	
+	if(!rtn) return;
+	
+	this.dsReturn.loadXML(rtn);
+	this.dsReturn.filter("CD_PO_STTS!='PO10CLO' && CD_PO_STTS!='PO10ING' && CD_PO_STTS!='PO10SND'");
+	
+	var msg="";
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		msg += "발주번호 ["+this.dsReturn.getColumn(i, "PO_NO")+"]의 상태 [" +this.dsReturn.getColumn(i, "CD_PO_STTS_NM")+"] \n";	
+	}
+	
+	if(!this.gfn_isNull(msg))
+	{
+		gfnAlert(msg + "이므로 계약작성 할 수 없습니다.");
+		return;
+	}
+	
+	this.dsReturn.filter("");
+	if(this.dsReturn.getRowCount() > 1)
+	{
+		gfnAlert("계약을 작성하기 위해서는 한가지만 선택하세요.");
+		return;
+	}
+	
+	if(!gfnCnfirm("계약작성 하시겠습니까?")) return false;
+	
+	var sSvcID = "Po_CreateCntr";
+	var sController = "Po_CreateCntr.do";
+	var sInDatasets = "in_po=dsReturn:A";
+	var sOutDatasets = "ds_ctr=ds_ctr";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	this.gfn_tran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+  	@function	btnChgRej_onclick()
+ 	@desc  		변경요청거부
+ */
+this.btnChgRej_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var rtn = this.gfnGetChkRowString(this.dsList);	
+	if(!rtn) return;
+	
+	this.dsReturn.loadXML(rtn);
+	this.dsReturn.set_enableevent(false);
+	this.dsReturn.filter("CD_PO_STTS!='PO10REQ'");
+	
+	var msg="";
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		msg += "발주번호 ["+this.dsReturn.getColumn(i, "PO_NO")+"]의 상태 [" +this.dsReturn.getColumn(i, "CD_PO_STTS_NM")+"] \n";	
+	}
+	
+	if(!this.gfn_isNull(msg))
+	{
+		gfnAlert(msg + "이므로 변경요청거부를 할 수 없습니다.");
+		return;
+	}
+	
+	var poNoArr=new Array();
+	this.dsReturn.filter("");
+	this.dsReturn.set_enableevent(true);
+	
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		if(this.dsList.getColumn(i, "WRTR_ID") != application.gdsUserInfo.getColumn(0, "USER_ID"))
+		{
+			gfnAlert("담당자가 다르므로 변경요청거부 할 수 없습니다.");
+			return;
+		}
+		
+		poNoArr[i] = this.dsReturn.getColumn(i, "PO_NO");
+	}
+	
+	var sArg = { 
+					agv_poNoArr:poNoArr.toString()
+			   };	
+
+	gfnModalPop(this,"PopupChgRejRsn", "BPOR::BPorChgRejPopUp.xfdl", sArg, "fnPopCallBack",400,300);
+	
+}
+
+/**
+  	@function	btnPoCfm_onclick()
+ 	@desc  		납품완료
+ */
+this.btnPoCfm_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(this.dsList.getColumn(this.dsList.rowposition, "WRTR_ID") != application.gdsUserInfo.getColumn(0, "USER_ID"))
+	{
+		gfnAlert("담당자가 다르므로 납품완료 할 수 없습니다.");
+		return;
+	}
+	
+	var rtn = this.gfnGetChkRowString(this.dsList);	
+	if(!rtn) return;
+	
+	this.dsReturn.loadXML(rtn);
+	this.dsReturn.filter("CD_PO_STTS=='PO10CLO' || CD_PO_STTS=='PO10CXL'");
+	
+	var msg="";
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		msg += "발주번호 ["+this.dsReturn.getColumn(i, "PO_NO")+"]의 상태 [" +this.dsReturn.getColumn(i, "CD_PO_STTS_NM")+"] \n";	
+	}	
+	
+	if(!this.gfn_isNull(msg))
+	{
+		gfnAlert(msg + "이므로 납품완료 할 수 없습니다.");
+		return;
+	}
+		
+	var sSvcID = "Po_ProcessCloseItemSttsSrch";
+	var sController = "Po_ProcessCloseItemSttsSrch.do";
+	var sInDatasets = "in_po=dsReturn:A";
+	var sOutDatasets = "ds_closePor=in_ds";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	this.gfn_tran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+  	@function	btnPoCxl_onclick()
+ 	@desc  		발주취소
+ */
+this.btnPoCxl_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var rtn = this.gfnGetChkRowString(this.dsList);
+	if(!rtn) return;
+	
+	this.dsReturn.loadXML(rtn);
+	this.dsReturn.set_enableevent(false);
+	this.dsReturn.filter("CD_PO_STTS!='PO10SND'");
+		
+	var msg="";	
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		msg += "발주번호 ["+this.dsReturn.getColumn(i, "PO_NO")+"]의 상태 [" +this.dsReturn.getColumn(i, "CD_PO_STTS_NM")+"] \n";
+	}
+		
+	if(!this.gfn_isNull(msg))
+	{
+		gfnAlert(msg + "이므로 발주취소 할 수 없습니다.");
+		return;
+	}
+	
+	var poNoArr=new Array();
+	this.dsReturn.filter("");
+	this.dsReturn.set_enableevent(true);
+	
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		if(this.dsReturn.getColumn(i, "WRTR_ID") != application.gdsUserInfo.getColumn(0, "USER_ID"))
+		{
+			gfnAlert("담당자가 다르므로 발주취소 할 수 없습니다.");
+			return;
+		}
+		
+		poNoArr[i] = this.dsReturn.getColumn(i, "PO_NO");
+	}
+		
+	var sArg = { 
+					agv_poNoArr:poNoArr.toString()
+			   };	
+
+	gfnModalPop(this,"PopupCnclRsn", "BPOR::BPorCnclPopUp.xfdl", sArg, "fnPopCallBack",400,300);
+}
+
+/**
+  	@function	btnPtnrChg_onclick()
+ 	@desc  		협력사변경
+ */
+this.btnPtnrChg_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(this.dsList.getColumn(this.dsList.rowposition, "WRTR_ID") != application.gdsUserInfo.getColumn(0, "USER_ID"))
+	{
+		gfnAlert("담당자가 다르므로 협력사변경 할 수 없습니다.");
+		return;
+	}
+	
+	var rtn = this.gfnGetChkRowString(this.dsList);	
+	if(!rtn) return;
+
+	this.ds_ptnrChgRow.loadXML(rtn);				
+	this.dsReturn.loadXML(rtn);
+	this.dsReturn.filter("CD_PO_STTS!='PO10SND' && CD_PO_STTS!='PO10REQ'");
+	
+	var msg="";
+	for(var i=0; i<this.dsReturn.getRowCount(); i++)
+	{
+		msg += "발주번호 ["+this.dsReturn.getColumn(i, "PO_NO")+"]의 상태 [" +this.dsReturn.getColumn(i, "CD_PO_STTS_NM")+"] \n";	
+	}	
+	
+	if(!this.gfn_isNull(msg))
+	{
+		gfnAlert(msg + "이므로 협력사를 변경할 수 없습니다.");
+		return;
+	}
+	
+	//협력업체 검색 팝업 호출	
+	var sArg = { 
+					agv_nm:" "
+			   };	
+	this.gfn_CPop_ComCorpSrch(sArg,"fnPopCallBack","PtnrChgSrch");	
+}
+]]></Script>
+  </Form>
+</FDL>

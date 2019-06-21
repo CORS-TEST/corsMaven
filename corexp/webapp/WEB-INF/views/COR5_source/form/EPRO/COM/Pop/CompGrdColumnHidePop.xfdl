@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="244" id="CompGrdFilterPop" left="0" ondeactivate="commGrdFilterPop_ondeactivate" onkeyup="CompGrdFilterPopOnkeyup" onload="fnFormOnload" titletext="그리드 열 숨기기 및 숨기기 취소" top="0" width="600">
+    <Layouts>
+      <Layout>
+        <Grid autoenter="select" autofittype="col" binddataset="dsParentGrid" height="182" id="grdItemList" left="10" oncelldblclick="fnGrdItemListOncelldblclick" taborder="0" top="27" useinputpanel="false" width="187">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="143"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="27"/>
+                <Row size="22"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="No"/>
+                <Cell col="1" expr="" text="Column"/>
+              </Band>
+              <Band id="body">
+                <Cell text="expr:currow+1"/>
+                <Cell col="1" displaytype="decoratetext" text="bind:COL_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button height="21" id="btnAdd" left="210" onclick="fnBtnAddOnclick" taborder="1" text="&gt;&gt;" top="80" width="45"/>
+        <Button height="21" id="btnRemove" left="210" onclick="fnBtnRemoveOnclick" taborder="2" text="&lt;&lt;" top="130" width="45"/>
+        <Grid autoenter="select" autofittype="col" autoupdatetype="itemselect" binddataset="dsFilterList" height="182" id="grdFilter" left="263" taborder="3" top="27" useinputpanel="false" width="327">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="No"/>
+                <Cell col="1" expr="" text="Column"/>
+              </Band>
+              <Band id="body">
+                <Cell expr="currow+1"/>
+                <Cell col="1" displaytype="decoratetext" text="bind:COL_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button height="25" id="btnApply" left="424" onclick="fnBtnApplyOnclick" taborder="4" text="적용" top="215" width="50"/>
+        <Button height="25" id="btnCancel" left="476" onclick="fnBtnCancelOnclick" taborder="5" text="전체 숨기기 취소" top="215" width="114"/>
+        <Static cssclass="sta_WF_SearchLabel" height="24" id="staTtl" left="10" taborder="6" text="전체 열" top="4" width="85"/>
+        <Static cssclass="sta_WF_SearchLabel" height="24" id="staTtl00" left="263" taborder="7" text="숨기기" top="4" width="85"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsCondition" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="DATA" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DATA">포함</Col>
+            <Col id="CODE">IN</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">비포함</Col>
+            <Col id="CODE">NOT_IN</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">같음</Col>
+            <Col id="CODE">==</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">다름</Col>
+            <Col id="CODE">!=</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">&gt;</Col>
+            <Col id="CODE">&gt;</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">&lt;</Col>
+            <Col id="CODE">&lt;</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">&gt;=</Col>
+            <Col id="CODE">&gt;=</Col>
+          </Row>
+          <Row>
+            <Col id="DATA">&lt;=</Col>
+            <Col id="CODE">&lt;=</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsFilterList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="COL_ID" size="256" type="STRING"/>
+          <Column id="COL_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsParentGrid">
+        <ColumnInfo>
+          <Column id="COL_ID" size="256" type="STRING"/>
+          <Column id="COL_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00494" compid="btnRemove" datasetid="gdsLabel" id="btnRemoveLangBind2017110317184225442" propid="text"/>
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompGrdColumnHidePop.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 10. 16.
+ * @설명			: 그리드 열 숨기기 및 숨기기 취소
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 10. 16.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_01412");
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.dsParentGrid.set_enableevent(false);
+	this.dsFilterList.set_enableevent(false);
+
+	var ownFrame = this.getOwnerFrame();	
+	var grid = ownFrame.arg_grid;
+	
+	for(i=0; i<grid.getCellCount("Head"); i++){	
+		var sHeadText = grid.getCellProperty("head", i, "text");		
+		if(gfnIsNull(sHeadText)) continue;
+		
+		var nRow = this.dsParentGrid.addRow();
+		
+		var arrBind = grid.getCellProperty("body", i, "text").split("bind:");
+		this.dsParentGrid.setColumn(nRow, "COL_ID", arrBind[1]);
+		
+		this.dsParentGrid.setColumn(nRow, "COL_NM", sHeadText);
+	}
+	
+	if(!gfnIsNull(grid.hidelist)){
+		var arrHideList = grid.hidelist.split("|");
+		for(var i=arrHideList.length-2; i>-1; i=i-2){	
+			var nRow = arrHideList[i-1];
+			var colId = this.dsParentGrid.getColumn(nRow, "COL_ID");
+			var colNm = this.dsParentGrid.getColumn(nRow, "COL_NM");
+			
+			var addRow = this.dsFilterList.addRow();
+			this.dsFilterList.setColumn(addRow, "COL_ID", colId);
+			this.dsFilterList.setColumn(addRow, "COL_NM", colNm);
+		}
+	}
+	
+	this.dsParentGrid.set_rowposition(0);	
+	this.grdFilter.dropdownCombo();
+	this.dsParentGrid.set_enableevent(true);
+	this.dsFilterList.set_enableevent(true);
+}
+
+/**
+  * @함수명	: fnGrdItemListOncelldblclick
+  * @input    	: obj:Grid(그리드 오브젝트), e:nexacro.GridClickEventInfo(이벤트변수)
+  * @desc     	: 그리드 Oncelldblclick 이벤트시 filter 항목 추가
+  */
+this.fnGrdItemListOncelldblclick = function(obj:Grid, e:GridClickEventInfo)
+{
+	this.fnBtnAddOnclick();
+}
+
+/**
+  * @함수명	: fnBtnAddOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: filter 항목 추가
+  */
+this.fnBtnAddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var fRow = this.dsFilterList.findRow("COL_ID", this.dsParentGrid.getColumn(this.dsParentGrid.rowposition, "COL_ID"));
+	if(fRow > -1) return;
+
+	var nRow = this.dsFilterList.addRow();
+	this.dsFilterList.setColumn(nRow, "COL_ID",	this.dsParentGrid.getColumn(this.dsParentGrid.rowposition, "COL_ID"));
+	this.dsFilterList.setColumn(nRow, "COL_NM",	this.dsParentGrid.getColumn(this.dsParentGrid.rowposition, "COL_NM"));}
+
+/**
+  * @함수명	: fnBtnRemoveOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: filter 항목 삭제
+  */
+this.fnBtnRemoveOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.dsFilterList.deleteRow(this.dsFilterList.rowposition);
+}
+
+/**
+  * @함수명	: fnBtnApplyOnclick
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.KeyEventInfo(이벤트변수)
+  * @desc     	: 적용
+  */  
+this.CompGrdFilterPopOnkeyup = function(obj:Form, e:nexacro.KeyEventInfo)
+{
+	//ESC
+	if(e.keycode == 27){
+		this.fnBtnCancelOnclick();
+	}
+	
+	//Enter
+	else if(e.keycode == 13){
+		this.fnBtnApplyOnclick();
+	}
+}
+
+/**
+  * @함수명	: fnBtnCancelOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 전체 숨기기 취소
+  */
+this.fnBtnCancelOnclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{	
+	var ownFrame = this.getOwnerFrame();	
+	var grid = ownFrame.arg_grid;
+	
+	if(gfnIsNull(grid.hidelist)) return;
+	
+	var arrHideList = grid.hidelist.split("|");	
+	for(var i=arrHideList.length-2;i>-1;i=i-2){
+		grid.setFormatColProperty(arrHideList[i-1], "size", arrHideList[i]);
+	}
+	grid.hidelist = "";
+	
+	this.dsFilterList.deleteAll();
+}
+
+/**
+  * @함수명	: fnBtnApplyOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 적용
+  */  
+this.fnBtnApplyOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();	
+	var grid = ownFrame.arg_grid;
+	var ds = grid.getBindDataset();
+	
+	grid.set_enableevent(false);
+	ds.set_enableevent(false);	
+	
+	if(!gfnIsNull(grid.hidelist)){
+		var arrHideList = grid.hidelist.split("|");	
+		for(var i=arrHideList.length-2;i>-1;i=i-2){
+			grid.setFormatColProperty(arrHideList[i-1], "size", arrHideList[i]);
+		}		
+	}
+	
+	grid.hidelist = "";
+	for(var i=0, x=this.dsFilterList.rowcount; i<x; i++){
+		var nCell = grid.getBindCellIndex( "body", this.dsFilterList.getColumn(i, "COL_ID"));
+		var nCol = grid.getCellProperty("Head", nCell, "col");
+		grid.hidelist += String(nCell) + "|" + grid.getFormatColProperty(nCol, "size") + "|";
+		grid.setFormatColProperty(nCol, "size", 0);
+	}	
+		
+	ds.set_enableevent(true);
+	grid.set_enableevent(true);
+}
+]]></Script>
+  </Form>
+</FDL>

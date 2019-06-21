@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form classname="MainPotal_01" dragscrolltype="none" height="992" id="MainPotal" left="0" onload="MainPotal_onload" titletext="내부 메인화면" top="0" width="1262">
+    <Layouts>
+      <Layout>
+        <Div bottom="10" id="Div01" left="5" right="5" style="border:0 none #808080ff ;" taborder="14" text="Div01" top="290">
+          <Layouts>
+            <Layout>
+              <Static bottom="4" cssclass="sta_WF_Renewal2" id="sta_ptnrChtDt" left="0" objNm="" right="0" style="shadow:outer 1,1 2 #e1e1e1ff;" taborder="0" top="21"/>
+              <Grid autofittype="col" binddataset="dsList" bottom="13" cssclass="Maingrid1" id="Grid02" lbcd="" left="15" objNm="신규등록요청 그리드" oncellclick="Tab00_tabpage1_div_toDoList_Grid02_oncellclick" oncelldblclick="div_toDoList_Grid02_oncelldblclick" right="15" scrollbars="autovert" taborder="1" top="66" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="109"/>
+                      <Column size="62"/>
+                      <Column size="80"/>
+                      <Column size="573"/>
+                      <Column size="76"/>
+                      <Column size="76"/>
+                      <Column size="70"/>
+                      <Column size="64"/>
+                      <Column size="45"/>
+                      <Column size="44"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="36"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="소싱그룹"/>
+                      <Cell col="1" text="담당자"/>
+                      <Cell col="2" text="입찰번호"/>
+                      <Cell col="3" text="입찰명"/>
+                      <Cell col="4" text="상태"/>
+                      <Cell col="5" text="공고일자"/>
+                      <Cell col="6" text="완료일자"/>
+                      <Cell col="7" text="구매상태"/>
+                      <Cell col="8" text="기준"/>
+                      <Cell col="9" text="일수"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left;color:red;color2:red;" text="쿼리없음"/>
+                      <Cell col="1" style="color2:EXPR(구매상태==&quot;지연&quot;?&quot;red&quot;:&quot;black&quot;);" text="bind:CHRGR_NM"/>
+                      <Cell col="2" style="color2:EXPR(구매상태==&quot;지연&quot;?&quot;red&quot;:&quot;black&quot;);" text="bind:RFQ_REQ_NO"/>
+                      <Cell col="3" style="align:left;color2: ;font:bold 9 arial;" text="bind:TTL"/>
+                      <Cell col="4" style="color:EXPR(구매상태==&quot;지연&quot;?&quot;red&quot;:&quot;black&quot;);color2:EXPR(구매상태==&quot;지연&quot;?&quot;red&quot;:&quot;black&quot;);" text="bind:CD_RFQ_STTS_NM"/>
+                      <Cell col="5" displaytype="date" mask="yyyy-MM-dd" style="color2:EXPR(구매상태==&quot;지연&quot;?&quot;red&quot;:&quot;black&quot;);" text="bind:APP_CMPLT_DT"/>
+                      <Cell col="6" displaytype="date" mask="yyyy-MM-dd" style="color2:EXPR(구매상태==&quot;지연&quot;?&quot;red&quot;:&quot;black&quot;);" text="bind:RFQ_CLOSE_DAY"/>
+                      <Cell col="7" style="color:red;color2:red;" text="쿼리없음"/>
+                      <Cell col="8" style="color:red;color2:red;" text="쿼리없음"/>
+                      <Cell col="9" style="color:red;color2:red;" text="쿼리없음"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static01" left="14" taborder="2" text="입찰진행현황" top="29" width="11.74%"/>
+              <Static cssclass="sta_WF_GrdTotal" height="20" id="sta_grdStatus" left="161" style="align:right middle;" taborder="3" top="37" usedecorate="true" width="32"/>
+              <Static cssclass="sta_WF_GrdTotal" height="20" id="sta_grdStatus00" left="193" taborder="4" text="건" top="37" usedecorate="true" width="50"/>
+              <Radio codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" height="21" id="Radio00" onitemchanged="Div01_Radio00_onitemchanged" onitemclick="Div01_Radio00_onitemclick" right="18" style="align:left middle;" taborder="5" top="33" value="A" width="186">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">A</Col>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">T</Col>
+                      <Col id="datacolumn">지연</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">F</Col>
+                      <Col id="datacolumn">정상</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="311" id="divViewCompCond01" left="0" right="0" taborder="15" top="0">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_ProcessLine" height="6" id="Static03" lbcd="" left="152" objNm="" taborder="1" top="138" width="1050"/>
+              <Static cssclass="sta_WF_Order" height="125" id="Static00" lbcd="" left="42" objNm="" taborder="2" top="79" width="117"/>
+              <Button cssclass="btn_WF_Creation" height="31" id="Button00" lbcd="TTL_PO_CREATE" left="53" objNm="발주생성" taborder="3" text="입찰진행" top="154" width="95"/>
+              <Static cssclass="sta_WF_OrderCount" height="21" id="Static01" lbcd="" left="83" objNm="" taborder="4" top="100" width="51"/>
+              <Static cssclass="sta_WF_OrderCount" height="21" id="Static02" lbcd="" left="83" objNm="" style="color:red;" taborder="5" top="126" width="51"/>
+              <Static cssclass="sta_WF_ProcessLine2" height="80" id="Static04" lbcd="" left="817" objNm="" taborder="6" top="101" width="149"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static05" lbcd="" left="310" objNm="" taborder="7" top="133" width="16"/>
+              <Button cssclass="btn_WF_Process3" enable="false" height="41" id="Button05" lbcd="TTL_PO_RECIPT" left="833" objNm="발주접수" onclick="Tab00_tabpage1_Button05_onclick" taborder="8" text=" 유찰" top="53" width="115"/>
+              <Button cssclass="btn_WF_Process4" height="41" id="Button06" lbcd="TTL_REQ" left="208" objNm="요청" onclick="Tab00_tabpage1_Button06_onclick" taborder="9" text=" 입찰작성중" top="97" width="129"/>
+              <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static13" lbcd="" left="1096" objNm="" taborder="11" top="133" width="16"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static16" left="14" taborder="12" text="구매진행현황" top="14" width="16.96%"/>
+              <Button cssclass="btn_WF_Process6" enable="false" height="41" id="Button10" lbcd="TTL_GR" left="826" objNm="입고" style=":disabled {padding:0 0 0 14;}" taborder="13" text=" 재입찰" top="186" width="130"/>
+              <Button cssclass="btn_WF_Process3" height="41" id="Button04" lbcd="TTL_PO_RECIPT" left="1048" objNm="견적진행" onclick="Tab00_tabpage1_Button05_onclick" taborder="14" text="낙찰" top="94" width="115"/>
+              <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static06" lbcd="" left="883" objNm="" taborder="15" top="95" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static07" lbcd="" left="883" objNm="" taborder="16" top="169" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static08" lbcd="" left="402" objNm="" taborder="20" top="133" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static09" lbcd="" left="576" objNm="" taborder="21" top="133" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static10" lbcd="" left="711" objNm="" taborder="22" top="133" width="16"/>
+              <Button cssclass="btn_WF_Process2" height="41" id="Button03" lbcd="TTL_GR" left="648" objNm="입고" onclick="Tab00_tabpage1_div_purSttsFlow_Button03_onclick" style="background:URL('theme://beforeDesign/btn_WF_Process2.png') stretch;" taborder="25" text="입찰심사중" top="149" width="142"/>
+              <Button cssclass="btn_WF_Process2" height="41" id="Button01" lbcd="TTL_GR" left="321" objNm="입고" onclick="Tab00_tabpage1_div_purSttsFlow_Button03_onclick" style="background:URL('theme://beforeDesign/btn_WF_Process2.png') stretch;" taborder="26" text=" 입찰공고승인중" top="149" width="177"/>
+              <Button cssclass="btn_WF_Process3" height="41" id="Button02" lbcd="TTL_PO_RECIPT" left="503" objNm="견적진행" onclick="Tab00_tabpage1_Button05_onclick" style="background:URL('theme://beforeDesign/btn_WF_Process3.png') stretch;" taborder="27" text="입찰진행중" top="97" width="161"/>
+              <Static cssclass="sta_WF_OrderCount" height="21" id="Static14" lbcd="" left="1091" objNm="" taborder="30" top="101" width="51"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCount"/>
+      <Dataset id="dsList"/>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       MainPotal_01.xfdl
+   @desc       Buyer 메인화면
+   @author     한민희
+   @makedate   2016.07.18
+   @history    
+*/
+ 
+
+this.MainPotal_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fnMainSearch();
+}
+
+
+/**
+  * @함수명	: fnMainSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnMainSearch = function()
+{
+	
+ 	var sSvcID = "searchBMain";
+ 	var sController = "epro.com.service.BMainService.searchBMain";
+ 	var sInDatasets = "";
+ 	var sOutDatasets = "dsCount=dsCount dsList=dsList";
+ 	var sCallbackFunc = "fnTrCallBack";
+	
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+	
+		case "searchBMain" :
+			this.Div01.sta_grdStatus.set_text(this.dsList.getRowCount());			
+		break;
+		
+		default:
+		break;	
+	}
+}]]></Script>
+  </Form>
+</FDL>

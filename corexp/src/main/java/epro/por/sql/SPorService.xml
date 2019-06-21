@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SPorService">
+
+	<select id="searchPoPrgList" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.searchPoPrgList][발주진행현황][2019.04.29][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>
+			SELECT
+					'0' AS CHECKED
+					, MP.BRANCH_CD
+					, MMP.BRANCH_NM
+					, MP.PO_NO
+					, MP.PO_NO AS COREXP_KIDS
+					, MAX(MP.TTL) AS TTL
+					, MAX(MP.CD_DOC_CTGR) AS CD_DOC_CTGR
+					, MAX(MP.PO_AMT + MP.VAT) AS TOT_AMT
+					, MAX(MP.CD_PO_CRNC) AS CD_PO_CRNC
+					, MAX(MP.PO_DAY) AS PO_DAY
+					, MAX(MP.WRTR_ID) AS WRTR_ID
+					, MAX(MP.WRTR_NM) AS WRTR_NM
+					, MAX(MP.CD_PYMT_CNDTN) AS CD_PYMT_CNDTN
+					, COUNT(MPI.PO_ITEM_ID) AS ITM_CNT
+					, '' AS USER_ID
+					, '' AS USER_NM
+					, '' AS CNCL_RSN
+					, '' AS CNTNT
+					, '' AS TYPE
+			FROM	MM_PO MP
+					, MM_PO_ITEM MPI
+					, MM_MT_PORG MMP
+			WHERE	MP.PO_NO		=	MPI.PO_NO
+			AND		MP.BRANCH_CD	=	MPI.BRANCH_CD
+			AND		MP.BRANCH_CD	=	MMP.BRANCH_CD
+			AND		MP.CD_PO_STTS	=	'PO10SND'
+			AND		MP.PTNR_ID		=	#{PTNR_ID}
+		<if test ="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+			AND		MP.BRANCH_CD	=	#{BRANCH_CD}			
+		</if>
+		<if test ="PO_NO != null and PO_NO != 'undefined' and PO_NO != ''">
+			AND		MP.PO_NO		=	#{PO_NO}	
+		</if>
+		<if	test ="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND		MP.CD_DOC_CTGR	=	#{CD_DOC_CTGR}
+		</if>
+		<if	test ="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND		MP.PO_DAY <![CDATA[>=]]> #{PO_DAY_STR}
+		</if>
+		<if	test ="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND		MP.PO_DAY <![CDATA[<=]]> #{PO_DAY_END}
+		</if>
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND		MP.TTL LIKE		'%'|| #{TTL} ||'%'
+		</if>
+			GROUP BY MP.BRANCH_CD, MMP.BRANCH_NM, MP.PO_NO
+
+		<include refid="commonService.list-after" />
+	</select>
+
+	<update id="updatePoReceipt" parameterType="hashmap">
+	/* [SPorService.updatePoReceipt][발주 접수][2019.04.29][한의봉] */
+		UPDATE	MM_PO
+		SET	
+				CD_PO_STTS			=	'PO10ING'
+				, RCVR_ID			=	#{USER_ID}
+				, RCVR_NM			=	#{USER_NM}
+				, RCV_DT			=	SYSDATE
+				, LAST_CHGR_ID		=	#{USER_ID}
+				, LAST_CHG_DT		=	SYSDATE
+		WHERE	BRANCH_CD			=	#{BRANCH_CD}
+		AND		PO_NO				=	#{PO_NO}
+	</update>
+
+	<update id="updatePoItemReceipt" parameterType="hashmap">
+	/* [SPorService.updatePoItemReceipt][발주품목 접수][2019.04.29][한의봉] */
+		UPDATE	MM_PO_ITEM
+		SET	
+				CD_PO_ITM_STTS		=	'PO12RCT'
+				, LAST_CHGR_ID		=	#{USER_ID}
+				, LAST_CHG_DT		=	SYSDATE
+		WHERE	BRANCH_CD			=	#{BRANCH_CD}
+		AND		PO_NO				=	#{PO_NO}
+	</update>
+	
+	 
+	<update id="updatePoChgReq" parameterType="hashmap">
+	/* [SPorService.updatePoChgReq][발주 변경요청][2019.04.29][한의봉] */
+		UPDATE	MM_PO
+		SET
+				CD_PO_STTS			=	'PO10REQ'
+				, LAST_CHGR_ID		=	#{USER_ID}
+				, LAST_CHG_DT		=	SYSDATE
+		WHERE	BRANCH_CD			=	#{BRANCH_CD}
+		AND		PO_NO				=	#{PO_NO}
+	</update>
+
+	<update id="updatePoItemChgReq" parameterType="hashmap">
+	/* [SPorService.updatePoItemChgReq][발주 품목 변경요청][2019.04.29][한의봉] */
+		UPDATE	MM_PO_ITEM
+		SET	
+				CD_PO_ITM_STTS		=	'PO12REQ'
+				, LAST_CHGR_ID		=	#{USER_ID}
+				, LAST_CHG_DT		=	SYSDATE
+		WHERE	BRANCH_CD			=	#{BRANCH_CD}
+		AND		PO_NO				=	#{PO_NO}
+	</update>
+
+	<update id="updatePoAddChgReq" parameterType="hashmap">
+	/* [SPorService.updatePoAddChgReq][발주 추가정보 변경요청][2019.04.29][한의봉] */
+		UPDATE	MM_PO_ADD
+		SET
+				CNCL_RSN			=	#{CNCL_RSN}
+		WHERE	BRANCH_CD			=	#{BRANCH_CD}
+		AND		PO_NO				=	#{PO_NO}
+	</update>
+
+	<insert id="savePoHsty" parameterType="hashmap">
+	/* [SPorService.savePoHsty][발주  히스토리 저장][2019.04.29][한의봉] */
+		INSERT INTO MM_PO_HSTY (
+			BRANCH_CD
+			,SN
+			,DT
+			,PO_NO
+			,CHRGR_ID
+			,CHRGR_NM
+			,CNTNT
+			,TYPE
+		) VALUES (
+			 #{BRANCH_CD}
+			,MM_PO_HSTY_SEQ.NEXTVAL
+			,SYSDATE
+			,#{PO_NO}
+			,#{USER_ID}
+			,#{USER_NM}
+			,#{CNTNT}
+			,#{TYPE}
+		)
+ 	</insert>
+ 	
+	<insert id="savePrItemHist" parameterType="hashmap">
+	/* [SPorService.savePrItemHist][해당 발주의 구매요청 품목조회 ][2019.04.29][한의봉] */
+		INSERT INTO MM_PR_ITEM_HIST (
+			VOC_NO
+			,PR_ITEM_ID
+			,DT
+			,DOC_NO
+			,TYPE
+			,PRGRS_STEP
+			,RMARK
+			,CRT_DT
+		) SELECT
+			MM_PR_ITEM_HIST_SEQ.NEXTVAL
+			,PR_ITEM_ID
+			,SYSDATE
+			,PO_NO
+			,'발주'
+			,'발주접수'
+			,'협력사 발주 접수'
+			,SYSDATE
+		FROM 	MM_PO_ITEM
+		WHERE	BRANCH_CD			=	#{BRANCH_CD}
+		AND		PO_NO				=	#{PO_NO}
+ 	</insert>
+	
+	<select id="readPo" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.readPo][발주상세][2019.04.29][한의봉] */
+			SELECT
+					MP.BRANCH_CD
+					, MP.PO_NO
+					, MP.PO_NO AS COREXP_KIDS
+					, MP.APP_DOC_ID
+					, MP.TTL
+					, MP.CD_PO_STTS
+					, NVL(MP.ALT_PARTIAL_DLV, 'N') AS ALT_PARTIAL_DLV
+					, MP.CD_DOC_CTGR
+					, MP.CD_PO_CTGR
+					, NVL(MP.PO_AMT, 0) AS PO_AMT
+					, NVL(MP.VAT, 0) AS VAT
+					, NVL(MP.PO_AMT, 0) + NVL(MP.VAT, 0) AS TOT_AMT
+					, MP.PTNR_ID
+					, GET_PTNRNM(MP.PTNR_ID) AS PTNR_NM
+					, MP.PO_DAY
+					, NVL(MP.CD_PO_CRNC, MPP.CD_PO_CRNC) AS CD_PO_CRNC
+					, NVL(MP.CD_DLV_MTHD, MPP.CD_DLV_MTHD) AS CD_DLV_MTHD
+					, NVL(MP.CD_PYMT_CNDTN, MPP.CD_PYMT_CNDTN) AS CD_PYMT_CNDTN
+					, NVL(MP.CD_PAY_CTGR, MPP.CD_PAY_CTGR) AS CD_PAY_CTGR
+					, NVL(MP.ALT_GR_PYMT, 'N') AS ALT_GR_PYMT
+					, MPA.EXCHG_RT
+					, MPA.ALT_EXCHG_RT_FIXD_YN
+					, MPA.EXCHG_RMARK
+					, NVL(MPA.TOT_PAY_CNT, 1) AS TOT_PAY_CNT
+					, MPA.RMARK
+					, MPA.CHRGR_ID
+					, MPA.CHRGR_NM
+					, MPA.EMAIL
+					, MPA.TEL
+					, MPA.FAX
+					, MPA.CD_TAX_KIND
+					, MPA.CD_TAX_CD
+					, MPA.CARD_NO
+					, MPA.CARD_APRV_NO
+					, NVL(MPA.ALT_GR_APP, 'N') AS ALT_GR_APP
+					, MP.LAST_CHGR_ID
+					, MPA.CD_DLV_AREA
+					, MPA.APRV_ODR
+					, ( SELECT	DISTINCT 'Y'
+						FROM	MM_PO_DLV_ITEM
+						WHERE	BRANCH_CD = #{BRANCH_CD}
+						AND		PO_ITEM_ID IN ( SELECT	PO_ITEM_ID
+												FROM	MM_PO_ITEM
+												WHERE	BRANCH_CD	= #{BRANCH_CD}
+												AND	PO_NO		= #{PO_NO} 
+												)
+						) AS ALT_DLV
+			FROM	MM_PO 			MP
+					, MM_PO_ADD 	MPA
+					, MM_PTNR_PORG	MPP
+			WHERE	MP.BRANCH_CD = MPA.BRANCH_CD(+)
+			AND	MP.PO_NO 	 = MPA.PO_NO(+)
+			AND	MP.BRANCH_CD = MPP.BRANCH_CD(+)
+			AND	MP.PTNR_ID 	 = MPP.PTNR_ID(+)
+			AND	MP.BRANCH_CD = #{BRANCH_CD}
+			AND	MP.PO_NO 	 = #{PO_NO}
+	</select>
+	
+	<select id="readPoPay" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.readPoPay][발주지급정보][2019.04.29][한의봉] */
+			SELECT
+					BRANCH_CD
+					, PO_NO
+					, ODR
+					, PYMT_PLN_DAY
+					, TO_NUMBER(PYMT_PLN_AMT) AS PYMT_PLN_AMT
+					, TO_NUMBER(PYMT_RT) AS PYMT_RT
+					, INSP_REQ_DT
+					, ALT_PRCS_YN
+					, RMARK
+			FROM	MM_PO_PAY
+			WHERE	BRANCH_CD	= #{BRANCH_CD}
+			AND		PO_NO		= #{PO_NO}
+			ORDER BY	ODR
+	</select>
+	
+	<select id="readPoItem" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.readPoItem][발주품목상세][2019.04.29][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="TO_NUMBER(ITM_NO) ASC"/>
+		</include>
+			SELECT
+					'0' AS CHECKED
+					, MAX(MPI.BRANCH_CD) AS BRANCH_CD
+					, MPI.PO_ITEM_ID
+					, MAX(MPI.PO_NO) AS PO_NO
+					, MAX(MPI.ITM_NO) AS ITM_NO
+					, MAX(MPI.CD_PO_ITM_STTS) AS CD_PO_ITM_STTS
+					, MAX(MPI.CNTR_ITEM_ID) AS CNTR_ITEM_ID
+					, MAX(MPI.TNDR_ITEM_ID) AS TNDR_ITEM_ID
+					, MAX(MPI.PR_ITEM_ID) AS PR_ITEM_ID
+					, MAX(MPI.RFQ_REQ_ITEM_ID) AS RFQ_REQ_ITEM_ID
+					, MAX(MPI.STR_CD) AS STR_CD
+					, MAX(MMS.SL_NM) AS SL_NM
+					, MAX(MPI.MTRL_CD) AS MTRL_CD
+					, MAX(MPI.MTRL_NM) AS ORG_MTRL_NM
+					, MAX(MM.MTRL_NM2) AS MTRL_NM
+					, TO_NUMBER(MAX(MPI.QTY)) AS QTY
+					, MAX(MPI.CD_UNIT) AS CD_UNIT
+					, TO_NUMBER(MAX(MPI.PO_PRICE)) AS PO_PRICE
+					, NVL(MAX(MPI.PO_AMT), 0) AS PO_AMT
+					, NVL(MAX(MPI.VAT), 0) AS VAT
+					, MAX(MPIA.GR_ACNT_CD) AS GR_ACNT_CD
+					, MAX(MMA.ACNT_NM) AS ACNT_NM
+					, MAX(MPI.DLV_REQ_DAY) AS DLV_REQ_DAY
+					, MAX(MPIA.INSP_CHRGR_ID) AS INSP_CHRGR_ID
+					, GET_USERNM(MAX(MPIA.INSP_CHRGR_ID), #{BRANCH_CD},'') AS INSP_CHRGR_NM
+					, MAX(MPI.RMARK) AS RMARK
+					, MAX(MPRI.REQR_ID) AS REQR_ID
+					, MAX(MPRI.REQR_NM) AS REQR_NM
+					, MAX(MPRI.PR_NO) AS PR_NO
+					, MAX(MPI.SRC_GRP_ID) AS SRC_GRP_ID
+					, MAX(MPI.SRC_GRP_NM) AS SRC_GRP_NM
+					, NVL(NVL(MAX(MPIA.DLV_OVR_RT), MAX(MMP.OVER_GR_RATE)), 100) AS DLV_OVR_RT
+					, MAX(MPDI.DLV_ITEM_ID) AS DLV_ITEM_ID
+					, MAX(MPDI.ALT_DLV_CMPLT) AS ALT_DLV_CMPLT
+					, MAX(MP.RCVR_ID) AS RCVR_ID
+					, MAX(MP.RCVR_NM) AS RCVR_NM
+					, TO_CHAR(MAX(MP.RCV_DT), 'YYYYMMDD') AS RCV_DT
+					, MAX(MPIA.SPEC_FILE_NO) AS SPEC_FILE_NO
+					, MAX(MPI.MTRL_GRP_ID) AS MTRL_GRP_ID
+					, MAX(MPI.MTRL_GRP_NM) AS MTRL_GRP_NM
+					, MAX(MPI.VOC_NO) AS VOC_NO
+			FROM	MM_PO_ITEM 			MPI
+					, MM_PO 			MP
+					, MM_MTRL 			MM
+					, MM_MT_SL 			MMS
+					, MM_PO_ITEM_ADD 	MPIA
+					, MM_MT_ACCOUNT 	MMA
+					, MM_PR_ITEM 		MPRI
+					, MM_PO_DLV_ITEM    MPDI
+					, MM_MTRL_PURC 		MMP
+		 	WHERE	MPI.BRANCH_CD   	= MP.BRANCH_CD
+			AND		MPI.PO_NO     		= MP.PO_NO
+			AND	MPI.MTRL_CD			= MM.MTRL_CD
+			AND	MPI.BRANCH_CD 		= MMS.BRANCH_CD(+)
+			AND	MPI.STR_CD 			= MMS.STR_CD(+)
+			AND	MPI.PO_ITEM_ID		= MPIA.PO_ITEM_ID(+)
+			AND	MPIA.GR_ACNT_CD		= MMA.ACNT_CD(+)		   
+			AND	MMA.BRANCH_CD(+)	= #{BRANCH_CD}
+			AND MPI.BRANCH_CD   	= MPRI.BRANCH_CD(+)
+			AND MPI.PR_ITEM_ID  	= MPRI.PR_ITEM_ID(+)
+			AND MPI.BRANCH_CD   	= MPDI.BRANCH_CD(+)
+			AND MPI.PO_ITEM_ID  	= MPDI.PO_ITEM_ID(+)
+			AND	MPI.BRANCH_CD		= MMP.BRANCH_CD
+			AND	MPI.MTRL_CD			= MMP.MTRL_CD
+			AND MPI.BRANCH_CD		= #{BRANCH_CD}
+			AND MPI.PO_NO			= #{PO_NO}
+			GROUP BY	MPI.PO_ITEM_ID
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="readPoDlvItem" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.readPoDlvItem][발주납품상세][2019.04.29][한의봉] */
+			SELECT
+					'0' AS CHECKED
+					, MPID.BRANCH_CD
+					, MPID.PO_ITEM_ID
+					, MPID.DLV_ITEM_ID
+					, MPID.DLV_QTY
+					, MPID.UNT_PRICE
+					, MPID.AMT
+					, MPI.PO_NO
+			FROM	MM_PO_DLV_ITEM MPID
+					, MM_PO_ITEM MPI
+					, MM_PO MP
+			WHERE	MPID.BRANCH_CD	= MPI.BRANCH_CD
+			AND		MPID.PO_ITEM_ID	= MPI.PO_ITEM_ID
+			AND		MPI.BRANCH_CD	= MP.BRANCH_CD
+			AND		MPI.PO_NO		= MP.PO_NO
+			AND		MPID.BRANCH_CD	= #{BRANCH_CD}
+			AND		MPI.PO_NO		= #{PO_NO}
+	</select>
+	
+	
+	
+	
+	<select id="searchPoList" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.searchPoList][발주현황][2019.04.29][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>
+			SELECT
+					'0' AS CHECKED
+					, MP.BRANCH_CD
+					, MMP.BRANCH_NM
+					, MP.PO_NO
+					, MP.PO_NO					AS COREXP_KIDS
+					, MAX(MP.CD_PO_STTS)		AS CD_PO_STTS
+					, MAX(MP.TTL)				AS TTL
+					, MAX(MP.CD_DOC_CTGR)		AS CD_DOC_CTGR
+					, COUNT(MPI.PO_ITEM_ID)		AS ITM_CNT
+					, MAX(MP.CD_PYMT_CNDTN)		AS CD_PYMT_CNDTN
+					, MAX(MP.PO_DAY)			AS PO_DAY
+					, TO_CHAR(MAX(MP.RCV_DT), 'YYYYMMDD') AS RCV_DT					
+			FROM	MM_PO MP, MM_PO_ITEM MPI, MM_MT_PORG MMP
+			WHERE	MP.PO_NO		=	MPI.PO_NO
+			AND		MP.BRANCH_CD	=	MPI.BRANCH_CD
+			AND		MPI.BRANCH_CD	=	MMP.BRANCH_CD
+			AND		MP.CD_PO_STTS IN ( 'PO10ING','PO10CLO','PO10REQ' )
+			AND		MP.PTNR_ID		=	#{PTNR_ID}
+		<if test ="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+			AND		MP.BRANCH_CD	=	#{BRANCH_CD}			
+		</if>
+		<if test ="PO_NO != null and PO_NO != 'undefined' and PO_NO != ''">
+			AND		MP.PO_NO		=	#{PO_NO}	
+		</if>
+		<if test ="CD_PO_STTS != null and CD_PO_STTS != 'undefined' and CD_PO_STTS != ''">
+			AND		MP.CD_PO_STTS	=	#{CD_PO_STTS}
+		</if>
+		<if	test ="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND		MP.PO_DAY <![CDATA[>=]]> #{PO_DAY_STR}
+		</if>
+		<if	test ="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND		MP.PO_DAY <![CDATA[<=]]> #{PO_DAY_END}
+		</if>
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND		MP.TTL LIKE		'%'|| #{TTL} ||'%'
+		</if>
+		<if	test ="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND		MP.CD_DOC_CTGR	= #{CD_DOC_CTGR}
+		</if>
+		<if test="CD_PYMT_CNDTN != null and CD_PYMT_CNDTN != 'undefined' and CD_PYMT_CNDTN != ''">
+			AND		MP.CD_PYMT_CNDTN = #{CD_PYMT_CNDTN}
+		</if>
+			GROUP BY MP.BRANCH_CD, MMP.BRANCH_NM, MP.PO_NO
+
+		<include refid="commonService.list-after" />
+	</select>
+
+	<select id="searchPorItemList" parameterType="hashmap" resultType="hashmap">
+	/* [SPorService.searchPorItemList][발주현황 품목별조회][2019.04.29][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>
+			SELECT
+					MPI.BRANCH_CD
+					, MMP.BRANCH_NM
+					, MPI.PO_NO
+					, MPI.PO_NO AS COREXP_KIDS
+					, MPI.ITM_NO
+					, MPI.STR_CD
+					, MMS.SL_NM
+					, MPI.MTRL_CD
+					, MPI.MTRL_NM
+					, MPI.CD_UNIT
+					, MPI.PO_PRICE
+					, MPI.QTY
+					, (MPI.PO_AMT + MPI.VAT) AS TOT_AMT
+					, MPI.DLV_REQ_DAY
+			FROM	MM_PO_ITEM MPI
+					, MM_PO MP
+					, MM_MT_SL MMS
+					, MM_MT_PORG MMP
+			WHERE	MPI.BRANCH_CD	=	MP.BRANCH_CD
+			AND		MPI.PO_NO		=	MP.PO_NO
+			AND		MPI.BRANCH_CD	=	MMS.BRANCH_CD
+			AND		MPI.STR_CD		=	MMS.STR_CD
+			AND		MMS.BRANCH_CD	=	MMP.BRANCH_CD
+			AND		MP.CD_PO_STTS IN ( 'PO10ING','PO10CLO','PO10REQ' )
+			AND		MP.PTNR_ID		=	#{PTNR_ID}
+		<if test ="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+			AND		MP.BRANCH_CD	=	#{BRANCH_CD}			
+		</if>
+		<if test ="PO_NO != null and PO_NO != 'undefined' and PO_NO != ''">
+			AND		MP.PO_NO		=	#{PO_NO}	
+		</if>
+		<if test ="CD_PO_STTS != null and CD_PO_STTS != 'undefined' and CD_PO_STTS != ''">
+			AND		MP.CD_PO_STTS	=	#{CD_PO_STTS}
+		</if>
+		<if	test ="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND		MP.CD_DOC_CTGR	= #{CD_DOC_CTGR}
+		</if>
+		<if	test ="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND		MP.PO_DAY <![CDATA[>=]]> #{PO_DAY_STR}
+		</if>
+		<if	test ="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND		MP.PO_DAY <![CDATA[<=]]> #{PO_DAY_END}
+		</if>
+		<if	test ="RCV_DT_STR != null and RCV_DT_STR != 'undefined' and RCV_DT_STR != ''">
+			AND		MP.RCV_DT  <![CDATA[>=]]> TRUNC(TO_DATE(#{RCV_DT_STR},'YYYYMMDD'))
+		</if>
+		<if	test ="RCV_DT_END != null and RCV_DT_END != 'undefined' and RCV_DT_END != ''">
+			AND		MP.RCV_DT  <![CDATA[<]]> TRUNC(TO_DATE(#{RCV_DT_END},'YYYYMMDD')+1)
+		</if>
+
+		<include refid="commonService.list-after" />
+	</select>
+
+	
+	
+</mapper>

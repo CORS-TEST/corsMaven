@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="SCntrTstampAttchFileInfoPopup" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="인지세 납부증빙 첨부파일 안내" left="0" width="999" top="0" height="376" cssclass="frm_POP_Search" onload="FormOnload">
+    <Layouts>
+      <Layout>
+        <ImageViewer id="ImageViewer00" taborder="0" image="URL('img::pcntrsTstampFileInfo.png')" left="1.5%" top="8" right="1.5%" height="354"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/***************************************************************************
+ * Program ID    : BCntrTstampAttchFileInfoPopup.xfdl
+ * Program Name  : 인지세 납부증빙 첨부파일 안내
+ * Author        : 안성민
+ * Created On    : 2019.03.22
+**************************************************************************/
+this.popTitle = "인지세 납부증빙 첨부파일 안내"
+var mode = "";
+
+this.FormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+
+}]]></Script>
+  </Form>
+</FDL>

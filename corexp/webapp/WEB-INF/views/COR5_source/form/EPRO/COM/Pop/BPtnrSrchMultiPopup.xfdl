@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="800" id="BPtnrSrchMultiPopup" inheritanceid="" left="0" oninit="fnOninit" onload="fnOnLoad" position="absolute" titletext="업체검색멀티팝업" top="0" width="1100">
+    <Layouts>
+      <Layout>
+        <Div height="28" id="divPaging" left="5" right="5" scrollbars="none" taborder="8" top="416" url="CCOMP::CompPaging.xfdl"/>
+        <Static cssclass="sta_WF_Labelbg" height="45" id="staViewCompCond00" left="10" right="10" taborder="10" top="7"/>
+        <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00005&quot;)" height="24" id="btnSearch" onclick="fnSearch" right="16" taborder="15" text="조회" top="16" width="60"/>
+        <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00410&quot;)" height="24" id="btnRtn" objNm="적용" onclick="fnRtnData" right="10" taborder="22" text="적용" top="454" width="65"/>
+        <Static cssclass="sta_WF_SearchLabel" height="24" id="staMtrlCd" left="16" taborder="23" text="사업자번호" top="16" width="106"/>
+        <Edit height="24" id="edBizNo" inputtype="number" left="125" onkeyup="fnOnkeyup" taborder="24" top="16" width="200"/>
+        <Static cssclass="sta_WF_SearchLabel" height="24" id="staPtnrNm" left="325" taborder="25" text="업체명" top="16" width="115"/>
+        <Edit height="24" id="edPtnrNm" left="442" objNm="협력사명" onkeyup="fnOnkeyup" taborder="26" top="16" width="200"/>
+        <Grid autoenter="select" autofittype="col" binddataset="dsList" cellclickbound="cell" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" height="354" id="grdList" left="10" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="10" taborder="27" top="62" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="300"/>
+                <Column size="59"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="VENDOR"/>
+                <Cell col="1" expr="" text="사업자번호"/>
+                <Cell col="2" expr="" text="업체명"/>
+                <Cell col="3" expr="" text="대표자명"/>
+                <Cell col="4" expr="" text="업태"/>
+                <Cell col="5" expr="" text="업종"/>
+                <Cell col="6" expr="" text="주소"/>
+                <Cell col="7"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SAP_VENDOR"/>
+                <Cell col="1" text="bind:BIZ_NO"/>
+                <Cell col="2" style="align:left;" text="bind:PTNR_NM"/>
+                <Cell col="3" style="align:left;" text="bind:RPRSTV_NM"/>
+                <Cell col="4" style="align:left;" text="bind:BIZ_CNDTN"/>
+                <Cell col="5" style="align:left;" text="bind:BIZ_TYPE"/>
+                <Cell col="6" style="align:left;" text="bind:ADDR"/>
+                <Cell col="7" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid autoenter="select" autofittype="col" binddataset="dsAddList" bottom="10" cellclickbound="cell" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" id="grdAddList" left="10" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="10" taborder="28" top="483" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+                <Column size="120"/>
+                <Column size="200"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="300"/>
+                <Column size="59"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="VENDOR"/>
+                <Cell col="1" expr="" text="사업자번호"/>
+                <Cell col="2" expr="" text="업체명"/>
+                <Cell col="3" expr="" text="대표자명"/>
+                <Cell col="4" expr="" text="업태"/>
+                <Cell col="5" expr="" text="업종"/>
+                <Cell col="6" expr="" text="주소"/>
+                <Cell col="7"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:SAP_VENDOR"/>
+                <Cell col="1" text="bind:BIZ_NO"/>
+                <Cell col="2" style="align:left;" text="bind:PTNR_NM"/>
+                <Cell col="3" style="align:left;" text="bind:RPRSTV_NM"/>
+                <Cell col="4" style="align:left;" text="bind:BIZ_CNDTN"/>
+                <Cell col="5" style="align:left;" text="bind:BIZ_TYPE"/>
+                <Cell col="6" style="align:left;" text="bind:ADDR"/>
+                <Cell col="7" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static cssclass="sta_WF_SearchLabel" height="24" id="staPtnrPorgStts" left="642" taborder="29" text="업체구분" top="16" width="85"/>
+        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cboPtnrPorgStts" innerdataset="dsCdSR20" left="727" taborder="30" top="16" width="200"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsSrchOpt" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="BIZ_NO" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="USE_FORM" size="256" type="STRING"/>
+          <Column id="CD_PORG_UNIT_STTS" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList"/>
+      <Dataset id="dsAddList"/>
+      <Dataset id="dsCdSR20"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="BIZ_NO" compid="edBizNo" datasetid="dsSrchOpt" id="item0" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="edPtnrNm" datasetid="dsSrchOpt" id="item1" propid="value"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00410" compid="btnRtn" datasetid="gdsLabel" id="btnRtnLangBind2017110317184291451" propid="text"/>
+      
+      <BindItem columnid="CD_PORG_UNIT_STTS" compid="cboPtnrPorgStts" datasetid="dsSrchOpt" id="item4" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrSrchMultiPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 8. 31.
+ * @설명			    : 업체검색멀티팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 8. 31.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00919");
+
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"SR20", sSelectType:"A", sFiltered:"S:WAI,PTNR"}
+				];
+	
+	gfnGetCode(this, param);
+}
+
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.grdList, this.divPaging, this);
+	var ownFrame = this.getOwnerFrame();
+	this.dsSrchOpt.addRow();
+	this.dsSrchOpt.setColumn(0,"ALT_USE","Y");
+	this.dsSrchOpt.setColumn(0,"CD_PORG_UNIT_STTS","SR20PTNR");
+	this.dsSrchOpt.setColumn(0,"BRANCH_CD", application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+}
+ 
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	if(gfnIsNull(this.dsSrchOpt.getColumn(0, "CD_PORG_UNIT_STTS"))){
+		this.dsSrchOpt.setColumn(0, "CD_PORG_UNIT_STTS", "ALL")
+	}
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchComPtnr";
+	var sController = "epro.com.service.BComService.searchComPtnr";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+	var	oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.grdList, divPaging:this.divPaging}
+				];					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+	
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchComPtnr" :	
+			this.grdList.setFocus();
+			
+			if(this.dsAddList.colcount == 0){
+				for(var i = 0 ; i < this.dsList.colcount ; i++){
+					this.dsAddList.addColumn(this.dsList.getColID(i),"STRING");
+				}
+			}
+			
+			if(this.dsAddList.rowcount != 0){
+				for(var i = 0 ; i < this.dsList.rowcount ; i++){
+					var nRow = this.dsAddList.findRow("BIZ_NO",this.dsList.getColumn(i,"BIZ_NO"));
+					
+					if(nRow != -1){
+						this.dsList.setColumn(i,"BTN","삭제");
+					}
+				}
+			}
+			
+			if("ALL" == this.dsSrchOpt.getColumn(0, "CD_PORG_UNIT_STTS")){
+				this.dsSrchOpt.setColumn(0, "CD_PORG_UNIT_STTS", "")
+			}
+			
+		break;
+ 
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnAddData
+  * @desc   : 목록에 추가하는 함수
+  */
+this.fnAddData = function(obj:Grid)
+{
+	var bindDs = obj.getBindDataset();
+
+	if(bindDs.getColumn(bindDs.rowposition,"BTN") == "추가"){
+		this.dsList.setColumn(this.dsList.rowposition,"BTN", "삭제");
+		var nRow = this.dsAddList.addRow();
+		this.dsAddList.copyRow(nRow,this.dsList,this.dsList.rowposition);
+		
+	} else{
+		var ptnrId = bindDs.getColumn(bindDs.rowposition,"PTNR_ID");
+		
+		var nRow = this.dsAddList.findRow("PTNR_ID",ptnrId);
+		this.dsAddList.deleteRow(nRow);
+		
+		nRow = this.dsList.findRow("PTNR_ID",ptnrId);
+		this.dsList.setColumn(nRow,"BTN", "추가");
+	}
+}
+   
+/**
+  * @함수명		: fnRtnData
+  * @desc     	: 적용버튼 클릭 이벤트
+  */   
+this.fnRtnData = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.dsAddList.rowcount != 0){
+		this.parent.close(this.dsAddList.saveXML());
+		
+	} else{
+		gfnAlert("EPRO_LABEL_00937");
+	}
+}
+
+/**
+  * @함수명	: grdListOnkeyup
+  * @desc     	: 에디트 Onkeyup 이벤트
+  */ 
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		if(obj.name == "edBizNo" || obj.name == "edPtnrNm"){
+				this.fnSearch()
+			}
+		}
+}
+
+/**
+  * @함수명	: grdListOnkeydown
+  * @desc     	: 그리드 Onkeydown 이벤트
+  */
+this.grdListOnkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		this.fnAddData(obj);
+	}
+}
+
+/**
+  * @함수명	: fnOnecellclick
+  * @desc     	: 그리드 원클릭 이벤트
+  */
+this.fnOnecellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnGrdBindColId(obj,e.cell) == "BTN"){
+		this.fnAddData(obj);
+	}
+}
+
+/**
+  * @함수명	: fnOncelldbClick
+  * @desc     	: 그리드 더블클릭 이벤트
+  */
+this.fnOncelldbClick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnGrdBindColId(obj,e.cell) != "BTN") this.fnAddData(obj);
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="576" id="BPurTypePop" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="구매유형선택팝업" top="0" width="1100" oninit="fnOnInit">
+    <Layouts>
+      <Layout>
+        <Button height="24" id="btnRtn" objNm="적용" onclick="fnRtnData" right="10" taborder="4" text="적용" top="10" width="65"/>
+        <Grid autoenter="select" autofittype="col" bottom="10" cellclickbound="cell" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" id="grdList" left="10" oncelldblclick="fnRtnData" onkeydown="grdListOnkeydown" right="10" taborder="5" top="39" useinputpanel="false" binddataset="dsCdCM10">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="134"/>
+                <Column size="597"/>
+              </Columns>
+              <Rows>
+                <Row size="30" band="head"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="구매유형"/>
+                <Cell col="1" text="설명"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CD_NM_LO"/>
+                <Cell col="1" text="bind:CD_DESC"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCdCM10"/>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPurTypePop.xfdl
+ * @생성자       	: 김민성
+ * @생성일자     	: 2019. 05. 07.
+ * @설명			: 구매유형선택팝업
+ * @최종수정자		: 김민성
+ * @최종수정일자	: 2019. 05. 07.
+*/ 
+
+this.popTitle = "구매유형 선택"
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+	var param = [
+					{code:"CM10"}
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnOnInit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnOnInit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetGrdFunc(this.grdList, '', this);
+}
+   
+/**
+  * @함수명		: fnRtnData
+  * @desc     	: 그리드 cell 더블클릭
+  */   
+this.fnRtnData = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rtn = gfnGetSelRowString(this.dsCdCM10);
+			
+	if(rtn){
+		this.parent.close(rtn);
+	}	
+}
+
+/**
+  * @함수명	: grdListOnkeydown
+  * @desc     	: 그리드 Onkeydown 이벤트
+  */
+this.grdListOnkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		var rtn = gfnGetSelRowString(this.dsCdCM10);
+
+		if(rtn){
+			this.parent.close(rtn);
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

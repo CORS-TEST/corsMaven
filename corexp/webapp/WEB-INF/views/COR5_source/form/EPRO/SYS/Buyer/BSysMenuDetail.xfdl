@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="769" id="BSysMenuDetail" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="메뉴관리" top="0" width="1200">
+    <Layouts>
+      <Layout>
+        <Grid autofittype="col" binddataset="dsMenu" bottom="6" cantreestatuschange="fnGrdTreeCantreestatuschange" id="grdTree" left="0" oncellclick="fnOncellclick" right="720" taborder="137" top="39" treeinitstatus="expand,all" treeusecheckbox="false" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="183"/>
+                <Column size="40"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="Menu Name"/>
+                <Cell col="1" text="Menu"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="tree" edittype="tree" text="bind:PGM_NM" treelevel="bind:LVL"/>
+                <Cell col="1" text="bind:ALT_MENU"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div bottom="6" cssclass="div_WF_DetailBg" id="divViewCompBody00" objNm="DIV-헤더 상세" right="14" scrollbars="none" style="background:#ffffffff;" taborder="138" top="39" width="686">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Label" height="33" id="sta_upPgmId" lbcd="" left="371" objNm="상위프로그램ID" taborder="187" text="상위프로그램ID" top="-1" width="117"/>
+              <Edit cssclass="readonly_P" enable="false" height="23" id="edt_upPgmId" left="493" objNm="상위프로그램ID" taborder="188" top="4" width="194"/>
+              <Static cssclass="sta_WF_Label" height="33" id="sta_pgmNmGb" lbcd="" left="371" objNm="프로그램명_GB" taborder="189" text="프로그램명_GB" top="31" width="117"/>
+              <Edit autoselect="true" height="23" id="edtPgmNmGb" left="493" lengthunit="utf8" objNm="프로그램명_GB" taborder="190" top="36" width="194"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="0" right="0" taborder="191" top="127"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="0" right="0" taborder="192" top="159"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="0" right="0" taborder="193" top="191"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine07" left="0" right="0" taborder="194" top="223"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine08" left="0" right="0" taborder="195" top="255"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="196" top="-1"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="197" top="31"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="198" top="63"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" right="0" taborder="199" top="95"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSiteGubun" lbcd="" left="0" objNm="사이트구분" taborder="200" text="사이트구분" top="31" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staPgmNm" lbcd="" left="0" objNm="프로그램명" taborder="201" text="프로그램명" top="63" width="117"/>
+              <Edit autoselect="true" height="23" id="edtLinkUrl" left="122" lengthunit="utf8" objNm="연결URL" taborder="202" top="100" width="558"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staLinkUrl" lbcd="" left="0" objNm="연결URL" taborder="203" text="연결URL" top="95" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltLoginReq" lbcd="" left="0" objNm="로그인필요" taborder="204" text="로그인필요" top="159" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAryOrdr" lbcd="" left="371" objNm="정렬순서" taborder="205" text="정렬순서" top="191" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltUse" lbcd="" left="0" taborder="206" text="사용여부" top="191" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staCrtrNm" lbcd="" left="0" objNm="생성자" taborder="207" text="생성자" top="223" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staCrtDay" left="371" objNm="생성일시" taborder="208" text="생성일자" top="223" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staLastChgrNm" lbcd="" left="0" objNm="최종수정자" taborder="209" text="최종수정자" top="255" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staLastChgDay" left="371" objNm="최종수정일자" taborder="210" text="최종수정일자" top="255" width="117"/>
+              <Edit autoselect="true" height="23" id="edtPgmNm" left="122" lengthunit="utf8" objNm="프로그램명" onchanged="divViewCompBody00_edtPgmNm_onchanged" taborder="211" top="68" width="558"/>
+              <CheckBox falsevalue="N" height="23" id="chkAltLoginReq" left="122" objNm="예약응찰" taborder="212" text="사용" top="164" truevalue="Y" value="Y" width="159"/>
+              <Edit autoselect="true" height="23" id="edtPgmExpln" left="122" lengthunit="utf8" objNm="프로그램설명" taborder="213" top="132" width="558"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staPgmExpln" lbcd="" left="0" objNm="프로그램설명" taborder="214" text="프로그램설명" top="127" width="117"/>
+              <Edit cssclass="readonly_P" enable="false" height="23" id="edtCrtrNm" left="122" objNm="생성자" taborder="215" top="228" width="211"/>
+              <Edit cssclass="readonly_P" enable="false" height="23" id="edtLastChgrNm" left="122" objNm="최종수정자" taborder="216" top="260" width="211"/>
+              <Calendar cssclass="readonly_P" dateformat="yyyy-MM-dd" enable="false" height="23" id="calCrtDay" left="493" locale="en_US" objNm="생성일시" readonly="true" taborder="217" top="228" width="187"/>
+              <Calendar cssclass="readonly_P" dateformat="yyyy-MM-dd" enable="false" height="23" id="calLastChgDay" left="493" locale="en_US" objNm="최종수정일자" readonly="true" taborder="218" top="260" width="187"/>
+              <Spin height="23" id="spnAryOrdr" left="493" max="100" taborder="219" top="196" value="0" width="89"/>
+              <CheckBox falsevalue="N" height="23" id="chkAltUse" left="122" objNm="예약응찰" taborder="220" text="사용" top="196" truevalue="Y" value="N" width="159"/>
+              <Radio codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" height="23" id="rdSiteGubun" left="122" onitemclick="Div00_rdSiteGubun_onitemclick" taborder="221" top="36" width="211">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">B</Col>
+                      <Col id="datacolumn">내부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">S</Col>
+                      <Col id="datacolumn">외부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">C</Col>
+                      <Col id="datacolumn">공통</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+              <Static cssclass="sta_WF_Label" height="33" id="staPgmId" lbcd="" left="0" objNm="프로그램ID" taborder="222" text="프로그램ID" top="-1" width="117"/>
+              <Edit cssclass="readonly_P" height="23" id="edtPgmId" left="122" objNm="프로그램ID" readonly="true" taborder="223" top="4" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltMenu" left="371" objNm="메뉴여부" taborder="224" text="메뉴여부" top="159" width="117"/>
+              <CheckBox falsevalue="N" height="23" id="chkAltMenu" left="493" objNm="예약응찰" taborder="225" text="사용" top="164" truevalue="Y" value="N" width="159"/>
+              <Grid autoenter="select" autofittype="col" binddataset="dsMenuRsrc" height="189" id="Grid00" left="0%" right="0.14%" taborder="226" top="293" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="120"/>
+                      <Column size="500"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="Language"/>
+                      <Cell col="1" text="Title"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left middle;" text="bind:CD_NM_LO"/>
+                      <Cell col="1" displaytype="text" edittype="text" style="align:left middle;" text="bind:RSRC_NM" editlimit="2000" editlengthunit="ascii"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Button cssclass="btn_WF_Module" height="24" id="btnAddUnderRow" objNm="메뉴추가" onclick="fnAddUnderRow" right="216" taborder="139" text="하위레벨메뉴추가" top="10" width="122"/>
+        <Button cssclass="btn_WF_Module" height="24" id="btnAddSameRow" objNm="메뉴추가" onclick="fnAddSameRow" right="91" taborder="140" text="동일레벨메뉴추가" top="10" width="122"/>
+        <Button cssclass="btn_WF_Module" height="24" id="btnDelMenu" objNm="메뉴삭제" onclick="fnDelMenu" right="14" taborder="141" text="메뉴삭제" top="10" width="74"/>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" taborder="142" text="메뉴조회" top="10" width="254"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMenu" loadfiltermode="keep" loadkeymode="keep" onrowposchanged="fnDsMenuOnrowposchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMenuRsrc" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsTreeRow">
+        <ColumnInfo>
+          <Column id="expand" size="256" type="STRING"/>
+          <Column id="row" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCM34" oncolumnchanged="fnOncolumnchanged" onrowposchanged="fnOnrowposchanged"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="PGM_ID" compid="divViewCompBody00.edtPgmId" datasetid="dsMenu" id="item15" propid="value"/>
+      <BindItem columnid="INT_SITE_DIST" compid="divViewCompBody00.rdSiteGubun" datasetid="dsMenu" id="item16" propid="value"/>
+      <BindItem columnid="PGM_NM" compid="divViewCompBody00.edtPgmNm" datasetid="dsMenu" id="item17" propid="value"/>
+      <BindItem columnid="LINK_URL" compid="divViewCompBody00.edtLinkUrl" datasetid="dsMenu" id="item18" propid="value"/>
+      <BindItem columnid="PGM_EXPLN" compid="divViewCompBody00.edtPgmExpln" datasetid="dsMenu" id="item19" propid="value"/>
+      <BindItem columnid="ALT_LOGIN_REQ" compid="divViewCompBody00.chkAltLoginReq" datasetid="dsMenu" id="item20" propid="value"/>
+      <BindItem columnid="ALT_MENU" compid="divViewCompBody00.chkAltMenu" datasetid="dsMenu" id="item21" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="divViewCompBody00.chkAltUse" datasetid="dsMenu" id="item22" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="divViewCompBody00.spnAryOrdr" datasetid="dsMenu" id="item23" propid="value"/>
+      <BindItem columnid="CRTR_NM" compid="divViewCompBody00.edtCrtrNm" datasetid="dsMenu" id="item24" propid="value"/>
+      <BindItem columnid="LAST_CHGR_NM" compid="divViewCompBody00.edtLastChgrNm" datasetid="dsMenu" id="item25" propid="value"/>
+      <BindItem columnid="CRT_DAY" compid="divViewCompBody00.calCrtDay" datasetid="dsMenu" id="item26" propid="value"/>
+      <BindItem columnid="LAST_CHG_DAY" compid="divViewCompBody00.calLastChgDay" datasetid="dsMenu" id="item27" propid="value"/>
+      <BindItem columnid="UP_PGM_ID" compid="divViewCompBody00.edt_upPgmId" datasetid="dsMenu" id="item28" propid="value"/>
+      <BindItem columnid="PGM_NM_GB" compid="divViewCompBody00.edtPgmNmGb" datasetid="dsMenu" id="item29" propid="value"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BSysMenuDetail.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 8. 25.
+ * @설명			: 메뉴관리
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 03.
+*/  
+
+/**
+  * @변수명	: fvNewMenuNm	
+  * @desc     	: 새로운 메뉴명 기본설정
+  */
+this.fvNewMenuNm = "추가메뉴"; //gfnMultiLabel("EPRO_LABEL_00747");
+this.fvOldPosition;
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					{code:"CM34"} //  언어
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	gfnSetObj("A");
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회전 이벤트
+  */
+this.fnPreSearch = function()
+{
+	this.dsMenu.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	return true;
+}
+ 
+/**
+	@함수명	fnSearch()
+	@desc   	조회 프로세스
+*/ 
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return;
+
+	var sSvcID = "readSysMenu";
+	var sController = "epro.sys.service.BSysService.readSysMenu";
+	var sInDatasets = "dsMenu=dsMenu"
+	var sOutDatasets = "dsMenu=dsMenu dsMenuRsrc=dsMenuRsrc";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@함수명	fnPreSave()
+	@desc   	저장 전 처리
+*/    
+this.fnPreSave = function(obj)
+{	
+	if(!gfnConfirm("EPRO_LABEL_00001")) return false;
+	
+	this.fvOldPosition = this.dsMenu.rowposition;
+	this.dsMenuRsrc.set_enableevent(false);
+	this.dsMenuRsrc.filter("");
+	
+	return true;
+} 
+
+/**
+	@함수명	fnSave()
+	@desc   	저장버튼
+*/ 
+this.fnSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if (!this.fnPreSave(obj)) return false;
+		
+	var sSvcID = "saveSysMenu";
+	var sController = "epro.sys.service.BSysService.saveSysMenu";
+	var sInDatasets = "dsMenu=dsMenu:U dsMenuRsrc=dsMenuRsrc:A";
+	var sOutDatasets = "dsMenu=dsMenu dsMenuRsrc=dsMenuRsrc";
+	var sCallbackFunc = "fnTrCallBack"; 
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+   
+}
+
+/**
+	@함수명	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/      
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "readSysMenu" : 
+			this.dsMenuRsrc.filter("PGM_ID=='"+this.dsMenu.getColumn(this.dsMenu.rowposition, "PGM_ID")+"'");
+			this.dsMenuRsrc.set_enableevent(true);
+			if(!gfnIsNull(this.fvOldPosition)) this.dsMenu.set_rowposition(this.fvOldPosition);	
+		break;
+		
+		case "saveSysMenu" : 
+			this.fnSearch();
+			gfnAlert(strErrMsg);
+		break;	
+		
+		case "reset" : 
+			this.fnSearch();
+		break;	
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@함수명	fnAddUnderRow()
+	@desc   	하위레벨 메뉴 추가
+*/   
+this.fnAddUnderRow = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	// 선택된 로우
+	var nCurRow = this.dsMenu.rowposition;	
+	var strExpr = "LVL =='"+this.dsMenu.getColumn(nCurRow,"LVL")+"'";
+	
+	if(this.dsMenu.getColumn(nCurRow,"UP_PGM_ID")==""){
+		strExpr += " && TMP_UP_PGM_ID =='"+this.dsMenu.getColumn(nCurRow,"TMP_UP_PGM_ID")+"'";
+	}else{
+		strExpr += " && UP_PGM_ID =='"+this.dsMenu.getColumn(nCurRow,"UP_PGM_ID")+"'";
+	}
+	
+	// 로우를 추가할 위치
+	var nRowCnt = this.dsMenu.findRowExpr(strExpr,nCurRow+1);
+	
+	if(nRowCnt<0){
+		var tmpCurRow = nCurRow;
+		for(var i=this.dsMenu.getColumn(nCurRow,"LVL")-1; i>=0; i--){
+			var strExpr2 = "LVL =='"+i+"'";
+			var nIdxRow = 0;
+			if(this.dsMenu.getColumn(tmpCurRow,"UP_PGM_ID")==""){
+				nIdxRow = this.dsMenu.findRow("TMP_PGM_ID",this.dsMenu.getColumn(tmpCurRow,"TMP_UP_PGM_ID"));
+			}else{
+				nIdxRow = this.dsMenu.findRow("PGM_ID",this.dsMenu.getColumn(tmpCurRow,"UP_PGM_ID"));
+			}
+			if(this.dsMenu.getColumn(nIdxRow,"UP_PGM_ID")==""){
+				strExpr2 += " && TMP_UP_PGM_ID =='"+this.dsMenu.getColumn(nIdxRow,"TMP_UP_PGM_ID")+"'";
+			}else{
+				strExpr2 += " && UP_PGM_ID =='"+this.dsMenu.getColumn(nIdxRow,"UP_PGM_ID")+"'";
+			}
+			tmpCurRow = nIdxRow;
+			nRowCnt = this.dsMenu.findRowExpr(strExpr2,nIdxRow+1);
+			if(nRowCnt >= 0) break;
+		}
+		if(nRowCnt<0) nRowCnt = nCurRow+1;
+	}
+	
+	var nRow = this.dsMenu.insertRow(nRowCnt);
+	this.dsMenu.setColumn(nRow, "PGM_ID","");
+	this.dsMenu.setColumn(nRow, "TMP_PGM_ID",gfnMakeTempKey()); //임시 시퀀스 생성
+	this.dsMenu.setColumn(nRow, "PGM_NM",this.fvNewMenuNm);
+	this.dsMenu.setColumn(nRow, "LVL",this.dsMenu.getColumn(nCurRow,"LVL")+1);
+	if(this.dsMenu.getColumn(nCurRow,"PGM_ID")==""){
+		this.dsMenu.setColumn(nRow, "TMP_UP_PGM_ID",this.dsMenu.getColumn(nCurRow,"TMP_PGM_ID"));
+		this.dsMenu.setColumn(nRow, "UP_PGM_ID","");
+	}else{
+		this.dsMenu.setColumn(nRow, "UP_PGM_ID",this.dsMenu.getColumn(nCurRow,"PGM_ID"));
+	}
+	this.dsMenu.setColumn(nRow, "ALT_LOGIN_REQ","Y");
+	this.dsMenu.setColumn(nRow, "ALT_MENU","N");
+	this.dsMenu.setColumn(nRow, "ALT_USE","Y");
+	this.dsMenu.setColumn(nRow, "GRID_INIT_STATUS","1");
+	this.dsMenu.setColumn(nRow, "INT_SITE_DIST",this.dsMenu.getColumn(nCurRow,"INT_SITE_DIST"));
+	
+	this.addRsrc(nRow);
+}
+
+/**
+  * @함수명	: fnDsFilter
+  * @desc     	: 언어필터
+  */
+this.fnDsFilter = function() 
+{
+	if(this.dsMenu.getRowType(this.dsMenu.rowposition) == 2) {
+		this.dsMenuRsrc.filter("PGM_ID=='" + this.dsMenu.getColumn(this.dsMenu.rowposition,"TMP_PGM_ID")+"'");
+	} else {
+		this.dsMenuRsrc.filter("PGM_ID=='" + this.dsMenu.getColumn(this.dsMenu.rowposition,"PGM_ID")+"'");
+	}
+	
+	this.dsMenuRsrc.set_enableevent(true);
+	
+}	
+
+/**
+  * @함수명	: addRsrc
+  * @desc     	: 언어추가
+  */
+this.addRsrc = function(nRow)
+{
+	this.dsMenuRsrc.set_enableevent(false);
+	this.dsMenuRsrc.filter("");
+	for(var i=0; i<this.dsCdCM34.getRowCount(); i++) {
+		var nRsrcRow = this.dsMenuRsrc.addRow();
+		this.dsMenuRsrc.setColumn( nRsrcRow, "PGM_ID", this.dsMenu.getColumn(nRow, "TMP_PGM_ID"));
+		this.dsMenuRsrc.setColumn( nRsrcRow, "CD_ID", this.dsCdCM34.getColumn(i, "CD_ID"));
+		this.dsMenuRsrc.setColumn( nRsrcRow, "CD_NM_LO", this.dsCdCM34.getColumn(i, "CD_NM_LO"));
+		this.dsMenuRsrc.setColumn( nRsrcRow, "CD", this.dsCdCM34.getColumn(i, "CD"));
+		this.dsMenuRsrc.setColumn( nRsrcRow, "CREATEYN", "Y");
+	}
+	this.fnDsFilter();
+}
+
+/**
+  * @함수명	: fnAddSameRow
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnAddSameRow = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	// 선택된 로우
+	var nCurRow = this.dsMenu.rowposition;	
+	
+	if(this.dsMenu.getColumn(nCurRow,"UP_PGM_ID")==""){
+		nCurRow = this.dsMenu.findRow("TMP_PGM_ID",this.dsMenu.getColumn(nCurRow,"TMP_UP_PGM_ID"));
+		if(nCurRow<0){
+			nCurRow = this.dsMenu.findRow("PGM_ID",this.dsMenu.getColumn(this.dsMenu.rowposition,"TMP_UP_PGM_ID"));
+		}
+	}else{
+		nCurRow = this.dsMenu.findRow("PGM_ID",this.dsMenu.getColumn(nCurRow,"UP_PGM_ID"));
+	}
+	
+	var strExpr = "LVL =='"+this.dsMenu.getColumn(nCurRow,"LVL")+"'";
+	
+	if(this.dsMenu.getColumn(nCurRow,"UP_PGM_ID")==""){
+		strExpr += " && TMP_UP_PGM_ID =='"+this.dsMenu.getColumn(nCurRow,"TMP_UP_PGM_ID")+"'";
+	}else{
+		strExpr += " && UP_PGM_ID =='"+this.dsMenu.getColumn(nCurRow,"UP_PGM_ID")+"'";
+	}
+	
+	// 로우를 추가할 위치
+	var nRowCnt = this.dsMenu.findRowExpr(strExpr,nCurRow+1);
+	
+	if(nRowCnt<0){
+		var tmpCurRow = nCurRow;
+		for(var i=this.dsMenu.getColumn(nCurRow,"LVL")-1; i>=0; i--){
+			var strExpr2 = "LVL =='"+i+"'";
+			var nIdxRow = 0;
+			if(this.dsMenu.getColumn(tmpCurRow,"UP_PGM_ID")==""){
+				nIdxRow = this.dsMenu.findRow("TMP_PGM_ID",this.dsMenu.getColumn(tmpCurRow,"TMP_UP_PGM_ID"));
+			}else{
+				nIdxRow = this.dsMenu.findRow("PGM_ID",this.dsMenu.getColumn(tmpCurRow,"UP_PGM_ID"));
+			}
+			if(this.dsMenu.getColumn(nIdxRow,"UP_PGM_ID")==""){
+				strExpr2 += " && TMP_UP_PGM_ID =='"+this.dsMenu.getColumn(nIdxRow,"TMP_UP_PGM_ID")+"'";
+			}else{
+				strExpr2 += " && UP_PGM_ID =='"+this.dsMenu.getColumn(nIdxRow,"UP_PGM_ID")+"'";
+			}
+			tmpCurRow = nIdxRow;
+			nRowCnt = this.dsMenu.findRowExpr(strExpr2,nIdxRow+1);
+			if(nRowCnt >= 0) break;
+		}
+		if(nRowCnt<0) nRowCnt = this.dsMenu.rowposition+1;
+	}
+	
+	var nRow = this.dsMenu.insertRow(nRowCnt);
+	this.dsMenu.setColumn(nRow, "PGM_ID","");
+	this.dsMenu.setColumn(nRow, "TMP_PGM_ID",gfnMakeTempKey()); //임시 시퀀스 생성
+	this.dsMenu.setColumn(nRow, "PGM_NM",this.fvNewMenuNm);
+	this.dsMenu.setColumn(nRow, "LVL",this.dsMenu.getColumn(nCurRow,"LVL")+1);
+	if(this.dsMenu.getColumn(nCurRow,"PGM_ID")==""){
+		this.dsMenu.setColumn(nRow, "TMP_UP_PGM_ID",this.dsMenu.getColumn(nCurRow,"TMP_PGM_ID"));
+		this.dsMenu.setColumn(nRow, "UP_PGM_ID","");
+	}else{
+		this.dsMenu.setColumn(nRow, "UP_PGM_ID",this.dsMenu.getColumn(nCurRow,"PGM_ID"));
+	}
+	this.dsMenu.setColumn(nRow, "ALT_LOGIN_REQ","Y");
+	this.dsMenu.setColumn(nRow, "ALT_MENU","N");
+	this.dsMenu.setColumn(nRow, "ALT_USE","Y");
+	this.dsMenu.setColumn(nRow, "GRID_INIT_STATUS","1");
+	this.dsMenu.setColumn(nRow, "INT_SITE_DIST",this.dsMenu.getColumn(nCurRow,"INT_SITE_DIST"));
+	
+	this.addRsrc(nRow);
+}
+
+/**
+	@함수명	fnDelMenu()
+	@desc   	메뉴삭제 클릭이벤트 메뉴를 삭제한다.
+*/     
+this.fnDelMenu = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("EPRO_LABEL_00750") ) { return;}
+	
+	var nCurRow = this.dsMenu.rowposition;
+	var dsIdx = nCurRow;
+	var curLvl = this.dsMenu.getColumn(dsIdx,"LVL");
+	var arrGrdIdx = [];
+	var idx = 0;
+	
+	arrGrdIdx[idx++] = dsIdx;
+	while((dsIdx+1)<this.dsMenu.getRowCount()){
+		var nextLvl = this.dsMenu.getColumn(dsIdx+1,"LVL");
+		
+		if(curLvl < nextLvl){
+			arrGrdIdx[idx++] = ++dsIdx;
+		}else{
+			break;
+		}
+	}
+	
+	this.dsMenuRsrc.set_enableevent(false);
+	for(var i=0; i<arrGrdIdx.length; i++) {
+		if(this.dsMenu.getRowType(arrGrdIdx[i]) == "2") {
+			this.dsMenuRsrc.filter("PGM_ID=='" + this.dsMenu.getColumn(arrGrdIdx[i],"TMP_PGM_ID")+"'");
+		} else {
+			this.dsMenuRsrc.filter("PGM_ID=='" + this.dsMenu.getColumn(arrGrdIdx[i],"PGM_ID")+"'");
+		}
+		this.dsMenuRsrc.deleteAll();
+	}
+	this.dsMenuRsrc.set_enableevent(true);
+	
+	this.dsMenu.deleteMultiRows(arrGrdIdx);
+	this.fnSetTreeStatus();	
+}	
+
+/**
+	@함수명	fnSetTreeStatus()
+	@desc   	트리 세팅
+*/   
+this.fnSetTreeStatus = function()
+{
+	for(var i=0; i<this.dsMenu.getRowCount(); i++){
+		if(this.dsMenu.getColumn(i,"GRID_INIT_STATUS")==1){
+			this.grdTree.setTreeStatus(this.grdTree.getTreeRow(i), true);
+		}
+	}
+}
+
+/**
+	@함수명	fnGrdTreeCantreestatuschange()
+	@desc   	트리 상태변경시 발생하는 이벤트
+*/   
+this.fnGrdTreeCantreestatuschange = function(obj:Grid, e:nexacro.GridTreeStatusEventInfo)
+{
+	this.dsMenu.setColumn(e.realrow,"GRID_INIT_STATUS",e.reason);
+}
+
+/**
+	@함수명	fnOncellclick()
+	@desc   	언어설정 필터
+*/  
+this.fnOncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	this.fnDsFilter();
+}
+
+/**
+	@함수명	fnDsMenuOnrowposchanged()
+	@desc   	메뉴 rowposition 변경이벤트
+*/  
+this.fnDsMenuOnrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fnDsFilter();
+}
+
+]]></Script>
+  </Form>
+</FDL>

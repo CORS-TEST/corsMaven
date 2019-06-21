@@ -1,0 +1,1527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BSysService">
+	
+ 	<select id="readSysRole" parameterType="hashmap" resultType="hashmap">
+ 	/* [BSysService.readSysRole][권한을 조회][][] */
+		SELECT
+			'0' AS CHECKED
+			,SUBSTR(ROLE_ID, 3) ROLE_ID
+			,INT_SITE_DIST
+			,ROLE_NM_LO
+			,ROLE_NM_GB
+			,ROLE_EXPLN
+			,ARY_ORDR
+			,ALT_USE
+			,CRTR_ID
+			,CRT_DT
+		FROM MM_SYS_ROLE
+		WHERE 1=1
+		<if test="INT_SITE_DIST != null and INT_SITE_DIST != 'undefined' and INT_SITE_DIST != ''">
+			AND   INT_SITE_DIST = #{INT_SITE_DIST}
+		</if>
+
+		<if test="ALT_USE != null and ALT_USE != 'undefined' and ALT_USE != ''">
+			AND   ALT_USE = #{ALT_USE}
+		</if>
+
+		<if test="ROLE_NM_LO != null and ROLE_NM_LO != 'undefined' and ROLE_NM_LO != ''">
+			AND   ROLE_NM_LO LIKE '%'|| #{ROLE_NM_LO} ||'%'
+		</if>
+		ORDER BY INT_SITE_DIST ,TO_NUMBER(ARY_ORDR)
+	</select>
+	
+	<select id="readSysRoleMenu" parameterType="hashmap" resultType="hashmap">
+	/* [BSysService.readSysRoleMenu][권한에따른 메뉴를 조회][][] */
+		SELECT
+		      NVL2(TRP.PGM_ID,'1','0') AS CHECKED
+		      ,SUBSTR(TRP.ROLE_ID, 3) ROLE_ID
+		      ,SP.PGM_ID
+		      ,SP.UP_PGM_ID
+		      ,SP.INT_SITE_DIST
+		      ,SP.PGM_NM
+		      ,SP.PGM_NM_GB
+		      ,SP.LINK_URL
+		      ,SP.ARY_ORDR
+		      ,LEVEL-1 AS LVL
+		      ,DECODE(LEVEL,1,1,0) AS GRID_INIT_STATUS
+		      ,CRTR_ID
+		FROM MM_SYS_PGM SP
+		     ,(SELECT 
+		     		PGM_ID
+		     		,ROLE_ID
+		       FROM MM_SYS_PGM_ROLE
+		       WHERE ROLE_ID = #{ROLE_ID}
+		       ) TRP
+		WHERE SP.PGM_ID = TRP.PGM_ID(+)
+		AND     SP.ALT_USE = 'Y'
+		START WITH SP.UP_PGM_ID IS NULL
+		CONNECT BY PRIOR SP.PGM_ID = SP.UP_PGM_ID
+		ORDER SIBLINGS BY TO_NUMBER(SP.ARY_ORDR) ASC
+	</select>
+	
+	<!-- 권한을 추가 한다. -->
+	<insert id="insertRole" parameterType="hashmap">
+	/* [BSysService.insertRole][권한 추가][][] */
+		INSERT INTO MM_SYS_ROLE(
+			ROLE_ID       
+			,INT_SITE_DIST   
+			,ROLE_NM_LO 
+			,ROLE_NM_GB       
+			,ROLE_EXPLN      
+			,ARY_ORDR   
+			,ALT_USE            
+			,CRTR_ID            
+			,CRT_DT  
+		) VALUES (
+			#{ROLE_ID}       
+			,#{INT_SITE_DIST}   
+			,#{ROLE_NM_LO} 
+			,#{ROLE_NM_GB}       
+			,#{ROLE_EXPLN}      
+			,#{ARY_ORDR}   
+			,#{ALT_USE}    
+			,#{CRTR_ID}          
+			,SYSDATE
+		)  		
+	</insert>
+ 	
+ 	<delete id="deleteRoleUser" parameterType="Hmap">
+ 	/* [BSysService.deleteRoleUser][권한 삭제시 유저권한 삭제][][] */
+ 		DELETE
+		FROM MM_SYS_USER_ROLE
+		WHERE ROLE_ID = #{ROLE_ID}
+ 	</delete>
+ 	
+ 	<delete id="deleteMenuRole" parameterType="Hmap">
+ 	/* [BSysService.deleteMenuRole][권한 삭제시 메뉴권한 삭제][][] */
+ 		DELETE
+ 		FROM  MM_SYS_PGM_ROLE
+ 		WHERE ROLE_ID = #{ROLE_ID}
+ 	</delete>
+ 	
+ 	<delete id="deleteRole" parameterType="hashmap">
+ 	/* [BSysService.deleteRole][권한 삭제][][] */
+		DELETE FROM MM_SYS_ROLE
+	</delete>
+	
+	<insert id="insertRoleMenu" parameterType="hashmap">
+	/* [BSysService.insertRoleMenu][권한에따른 메뉴추가][][] */
+		INSERT INTO MM_SYS_PGM_ROLE(
+			ROLE_ID       
+			,PGM_ID   
+			,CRTR_ID            
+			,CRT_DT  
+		) VALUES (
+			#{ROLE_ID}       
+			,#{PGM_ID}
+			,#{CRTR_ID}          
+			,SYSDATE
+		)  		
+	</insert>
+	
+ 	<!-- 코드관리 -->
+	<select id="searchSysCode" resultType="HMap">
+	/*[BSysService.searchSysCode][코드조회][2017.09.07][송태봉] */
+		 SELECT
+			CD_ID
+			,UP_CD_ID
+			,CD_NM_LO
+			,CD_GRP
+			,CD
+			,CD_CLS
+			,CD_NM_GB
+			,CD_DESC
+			,ALT_USE
+			,ALT_ERP_CD
+			,ERP_CD
+			,ARY_ORDR
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+			,APPND_SET_NUM_6
+			,APPND_SET_NUM_7
+			,APPND_SET_NUM_8
+			,APPND_SET_CHR_1
+			,APPND_SET_CHR_2
+			,APPND_SET_CHR_3
+			,APPND_SET_CHR_4
+			,APPND_SET_CHR_5
+			,APPND_SET_NUM_1
+			,APPND_SET_CHR_6
+			,APPND_SET_CHR_7
+			,APPND_SET_CHR_8
+			,APPND_SET_NUM_2
+			,APPND_SET_NUM_3
+			,APPND_SET_NUM_4
+			,APPND_SET_NUM_5
+			,ALT_EPRO
+			,ALT_ASET
+			,ALT_CNST
+			,ALT_CMSD
+			,ALT_COMM
+			,'0' CHECKED
+			,'' AS GUBUN
+		FROM MM_SYS_CD
+		WHERE 1=1
+			<choose>
+				<when test="GUBUN == 'GRP'">
+					AND CD = '00'
+					AND CD_CLS = '00'				
+				</when>
+				
+				<when test="GUBUN == 'CLS'">
+				    AND CD = '00'
+					AND CD_GRP = #{CD_GRP}
+				</when>
+				
+				<when test="GUBUN == 'CD'">
+					AND CD_GRP = #{CD_GRP}
+					AND CD_CLS = #{CD_CLS}
+				</when>
+				
+			</choose>			
+
+		ORDER BY ARY_ORDR
+		         ,CD_ID		
+	</select>
+	
+	<insert id="insertSysCd" parameterType="hashmap">
+	/* [BSysService.insertSysCd][코드 추가][2017.11.07][안성민] */
+		INSERT INTO MM_SYS_CD(
+			  CD_ID
+			, UP_CD_ID
+			, CD_NM_LO
+			, CD_GRP
+			, CD
+			, CD_CLS 
+			, CD_DESC 
+			, ALT_USE
+			, ALT_ERP_CD
+			, ERP_CD
+			, ARY_ORDR 
+			, CRTR_ID 
+			, CRT_DT
+			, LAST_CHGR_ID 
+			, LAST_CHG_DT
+			, APPND_SET_NUM_1
+			, APPND_SET_NUM_2 
+			, APPND_SET_NUM_3 
+			, APPND_SET_NUM_4 
+			, APPND_SET_NUM_5 
+			, APPND_SET_NUM_6 
+			, APPND_SET_NUM_7 
+			, APPND_SET_NUM_8 
+			, APPND_SET_CHR_1 
+			, APPND_SET_CHR_2 
+			, APPND_SET_CHR_3 
+			, APPND_SET_CHR_4 
+			, APPND_SET_CHR_5 
+			, APPND_SET_CHR_6 
+			, APPND_SET_CHR_7 
+			, APPND_SET_CHR_8 
+		)VALUES(
+			  #{CD_ID}
+			, #{UP_CD_ID}
+			, #{CD_NM_LO}
+			, #{CD_GRP}
+			, #{CD}
+			, #{CD_CLS}
+			, #{CD_DESC}
+			, #{ALT_USE}
+			, #{ALT_ERP_CD}
+			, #{ERP_CD}
+			, NVL(#{ARY_ORDR}, (SELECT NVL2( MAX(ARY_ORDR)
+									   , 1
+									   , MAX(ARY_ORDR)+1 )
+			 					  FROM MM_SYS_CD
+								 WHERE UP_CD_ID = #{UP_CD_ID}))
+			, #{CRTR_ID}
+			, NVL(#{CRT_DT},SYSDATE)
+			, #{LAST_CHGR_ID}
+			, SYSDATE
+			, #{APPND_SET_NUM_1}
+			, #{APPND_SET_NUM_2}
+			, #{APPND_SET_NUM_3}
+			, #{APPND_SET_NUM_4}
+			, #{APPND_SET_NUM_5}
+			, #{APPND_SET_NUM_6}
+			, #{APPND_SET_NUM_7}
+			, #{APPND_SET_NUM_8}
+			, #{APPND_SET_CHR_1}
+			, #{APPND_SET_CHR_2}
+			, #{APPND_SET_CHR_3}
+			, #{APPND_SET_CHR_4}
+			, #{APPND_SET_CHR_5}
+			, #{APPND_SET_CHR_6}
+			, #{APPND_SET_CHR_7}
+			, #{APPND_SET_CHR_8}
+		)
+	</insert>
+	
+	<delete id="delSysCodeGrp" parameterType="HMap">
+	/* [BSysService.delSysCodeGrp][코드그룹 삭제][2017.09.07][송태봉] */
+		DELETE
+		FROM MM_SYS_CD
+		WHERE CD = '00'
+		  AND CD_CLS = '00'
+	</delete>
+	
+	<delete id="delSysCodeCls" parameterType="HMap">
+	/* [BSysService.delSysCodeCls][코드클래스 삭제][2017.09.07][송태봉] */
+		DELETE
+		FROM MM_SYS_CD
+		WHERE CD = '00'
+		  AND CD_CLS <![CDATA[<>]]> '00'
+		  AND CD_GRP = #{CD_GRP}
+	</delete>
+	
+	<delete id="delSysCodeCd" parameterType="HMap">
+	/* [BSysService.delSysCodeCd][코드 삭제][2017.09.07][송태봉] */
+		DELETE
+		FROM MM_SYS_CD
+		WHERE CD_CLS = #{CD_CLS}
+		  AND CD_GRP = #{CD_GRP}
+		  AND CD <![CDATA[<>]]> '00'
+	</delete>
+
+	<update id="updateSysCd" parameterType="hashmap">
+	/* [BSysService.updateSysCd][코드 수정][2017.11.07][안성민] */
+		UPDATE MM_SYS_CD
+		SET UP_CD_ID = #{UP_CD_ID}
+		, CD_NM_LO = #{CD_NM_LO}
+		, CD_DESC = #{CD_DESC}
+		, ALT_USE = #{ALT_USE}
+		, ALT_ERP_CD = #{ALT_ERP_CD}
+		, ERP_CD = #{ERP_CD}
+		, ARY_ORDR = #{ARY_ORDR}
+		, LAST_CHGR_ID = #{LAST_CHGR_ID}
+		, LAST_CHG_DT = SYSDATE
+		, APPND_SET_NUM_1 = #{APPND_SET_NUM_1}
+		, APPND_SET_NUM_2 = #{APPND_SET_NUM_2}
+		, APPND_SET_NUM_3 = #{APPND_SET_NUM_3}
+		, APPND_SET_NUM_4 = #{APPND_SET_NUM_4}
+		, APPND_SET_NUM_5 = #{APPND_SET_NUM_5}
+		, APPND_SET_NUM_6 = #{APPND_SET_NUM_6}
+		, APPND_SET_NUM_7 = #{APPND_SET_NUM_7}
+		, APPND_SET_NUM_8 = #{APPND_SET_NUM_8}
+		, APPND_SET_CHR_1 = #{APPND_SET_CHR_1}
+		, APPND_SET_CHR_2 = #{APPND_SET_CHR_2}
+		, APPND_SET_CHR_3 = #{APPND_SET_CHR_3}
+		, APPND_SET_CHR_4 = #{APPND_SET_CHR_4}
+		, APPND_SET_CHR_5 = #{APPND_SET_CHR_5}
+		, APPND_SET_CHR_6 = #{APPND_SET_CHR_6}
+		, APPND_SET_CHR_7 = #{APPND_SET_CHR_7}
+		, APPND_SET_CHR_8 = #{APPND_SET_CHR_8}
+		WHERE
+		CD_ID = #{CD_ID}
+	</update>
+
+	<insert id="insertSysCdRsrc" parameterType="HMap">
+	/* [BSysService.insertSysCdRsrc][코드언어 저장][2017.10.19][안성민] */
+		INSERT INTO MM_SYS_CD_RSRC (
+			  CD_ID
+			, RSRC_NM
+			, CD_RSRC_LANG
+			, CRTR_ID
+			, CRT_DT
+			, LAST_CHGR_ID
+			, LAST_CHG_DT
+		) VALUES( #{MM_CD_ID}
+			, NVL(#{RSRC_NM}, (SELECT '[' || #{CD} || ']' || CD_NM_LO
+								 FROM MM_SYS_CD
+								WHERE CD_ID = #{MM_CD_ID}) )
+			, #{CD_ID}
+			, #{CRTR_ID}
+			, SYSDATE
+			, #{LAST_CHGR_ID}
+			, SYSDATE
+		)
+	</insert>
+
+	<update id="updateSysCdRsrc" parameterType="hashmap">
+	/* [BSysService.updateSysCd][코드언어 수정][2017.11.07][안성민] */
+		UPDATE MM_SYS_CD_RSRC
+		   SET RSRC_NM = #{RSRC_NM}
+		       , CRTR_ID = #{CRTR_ID}
+		 	   , CRT_DT = SYSDATE
+			   , LAST_CHGR_ID = #{LAST_CHGR_ID}
+			   , LAST_CHG_DT = SYSDATE
+		 WHERE CD_ID = #{MM_CD_ID}
+		   AND CD_RSRC_LANG = #{CD_ID}
+	</update>
+
+	<resultMap id="RM_searchObjInfo" type="HMap">
+		<result property="OBJ" column="OBJ" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="OBJ_BIND" column="OBJ_BIND" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	<select id="searchObjInfo" resultType="HMap" resultMap="RM_searchObjInfo">
+		/* [BSysService.searchObjInfo][화면 오브젝트조회][2017.09.06][김민성] */
+		SELECT
+			PGM_ID
+			,OBJ
+			,OBJ_BIND
+			,'' AS BRANCH_CD
+			,'' AS USER_ID
+		FROM MM_SYS_PGM
+		WHERE PGM_ID = #{PGM_ID}
+	</select>
+	
+	<select id="searchFvrtPgm" resultType="HMap" resultMap="RM_searchObjInfo">
+		/* [BSysService.searchFvrtPgm][즐겨찾기 정보 조회][2017.09.06][김민성] */
+		SELECT
+			BRANCH_CD
+			,PGM_ID
+			,USER_ID
+		FROM MM_FVRT_PGM
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PGM_ID = #{PGM_ID}
+		AND USER_ID = #{USER_ID}
+	</select>
+	
+	<update id="updatePgmObj" parameterType="hashmap">
+		/* [BSysService.updatePgmObj][화면 오브젝트저장][2017.09.06][김민성] */
+		UPDATE MM_SYS_PGM
+		SET	OBJ = #{OBJ, jdbcType=CLOB}
+			,OBJ_BIND = #{OBJ_BIND, jdbcType=CLOB}
+			,LAST_CHGR_ID = 'SYSTEM'
+			,LAST_CHG_DT = SYSDATE
+		WHERE PGM_ID = #{PGM_ID}	
+  	</update>
+  	
+	<select id="readSysMenu" parameterType="hashmap" resultType="hashmap">
+	/* [BSysService.listMenuCSys][메뉴관리 조회][2017.08.25][한민희] */
+		SELECT
+				PGM_ID
+				, '' AS BRANCH_CD
+				, '' AS TMP_PGM_ID
+				, UP_PGM_ID
+				, '' AS TMP_UP_PGM_ID
+				, INT_SITE_DIST
+				, PGM_NM
+				, PGM_NM_GB
+				, LINK_URL
+				, PGM_EXPLN
+				, ALT_LOGIN_REQ
+				, ALT_MENU
+				, ARY_ORDR
+				, ALT_USE
+				, LEVEL-1 AS LVL
+				, DECODE(LEVEL,1,1,0) AS GRID_INIT_STATUS
+				, CRTR_ID
+				, GET_USERNM(CRTR_ID,#{BRANCH_CD},'') AS CRTR_NM
+				, CRT_DT
+				, TO_CHAR(CRT_DT, 'YYYYMMDD') AS CRT_DAY
+				, LAST_CHGR_ID
+				, GET_USERNM(LAST_CHGR_ID,#{BRANCH_CD},'') AS LAST_CHGR_NM
+				, LAST_CHG_DT
+				, TO_CHAR(LAST_CHG_DT, 'YYYYMMDD') AS LAST_CHG_DAY  
+				, '' AS LANG_CD
+		FROM	MM_SYS_PGM
+        START WITH UP_PGM_ID IS NULL
+        CONNECT BY PRIOR PGM_ID = UP_PGM_ID
+        ORDER SIBLINGS BY TO_NUMBER(ARY_ORDR) ASC
+	</select>
+	
+	<select id="readSysMenuRsrc" parameterType="hashmap" resultType="hashmap">
+	/* [BSysService.readSysMenuRsrc][메뉴언어 조회][2017.10.19][안성민] */
+		SELECT PGM.PGM_ID
+			   , PGM.PGM_NM
+			   , PGM.CD_ID
+			   , (SELECT RSRC.RSRC_NM
+			  	    FROM MM_SYS_CD_RSRC RSRC
+			       WHERE CD_ID=PGM.CD_ID
+			         AND CD_RSRC_LANG = #{LANG_CD}
+			     ) AS CD_NM_LO
+			   , RSRC.RSRC_NM
+			   , PGM.ARY_ORDR
+			   , NVL2(RSRC.PGM_ID, 'N', 'Y') AS CREATEYN
+			   , PGM.CD
+			   , RSRC.CRTR_ID
+			   , RSRC.LAST_CHGR_ID
+		  FROM (SELECT MM_PGM.PGM_ID
+			           , MM_PGM.PGM_NM
+			           , CD.CD_NM_LO
+			           , CD.CD_ID
+			           , CD.CD
+			           , CD.ARY_ORDR
+		          FROM MM_SYS_CD CD
+		      		   , MM_SYS_PGM MM_PGM
+		         WHERE CD.CD_ID LIKE '%CM34%'
+		           AND CD.CD <![CDATA[<>]]>'00'
+				   AND CD.ALT_USE = 'Y') PGM
+		       , MM_SYS_PGM_RSRC RSRC
+		 WHERE PGM.PGM_ID = RSRC.PGM_ID(+)
+		   AND PGM.CD_ID = RSRC.CD_RSRC_LANG(+)
+		 ORDER BY PGM.PGM_ID, PGM.ARY_ORDR, PGM.CD_ID
+	</select>
+	
+	<select id="readSysCdTree" parameterType="Hmap" resultType="Hmap">
+		/* [BSysService.readSysCdTree][코드트리 조회][2018.02.09][안성민] */
+		SELECT LEVEL
+			   , CASE WHEN CD = '00' AND CD_CLS = '00' THEN CD_GRP
+				      WHEN CD = '00' AND CD_CLS <![CDATA[<>]]> '00' THEN CD_GRP || CD_CLS
+					  ELSE CD_ID
+				 END AS CD_ID2
+			    , CD_ID
+				, CD_ID AS OLD_CD_ID
+				, UP_CD_ID
+				, CD_NM_LO
+				, CD_GRP
+				, CD
+				, CD_CLS
+				, CD_DESC
+				, ALT_USE
+				, ALT_ERP_CD
+				, ERP_CD
+				, ARY_ORDR
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+				, APPND_SET_NUM_6
+				, APPND_SET_NUM_7
+				, APPND_SET_NUM_8
+				, APPND_SET_CHR_1
+				, APPND_SET_CHR_2
+				, APPND_SET_CHR_3
+				, APPND_SET_CHR_4
+				, APPND_SET_CHR_5
+				, APPND_SET_NUM_1
+				, APPND_SET_CHR_6
+				, APPND_SET_CHR_7
+				, APPND_SET_CHR_8
+				, APPND_SET_NUM_2
+				, APPND_SET_NUM_3
+				, APPND_SET_NUM_4
+				, APPND_SET_NUM_5
+				, '' AS BRANCH_CD
+				, '' AS LANG_CD
+				, '' AS TEMPKEY
+		   FROM MM_SYS_CD
+		  START WITH UP_CD_ID IS NULL
+		CONNECT BY PRIOR CD_ID = UP_CD_ID
+		  ORDER SIBLINGS BY TO_NUMBER(ARY_ORDR),CD_ID ASC
+	</select>
+	
+	<select id="readSysCdRsrc" parameterType="Hmap" resultType="Hmap">
+		/* [BSysService.readSysCdRsrc][코드언어 조회][2017.10.20][안성민] */
+		SELECT SYSCD.MM_CD_ID
+			   , SYSCD.MM_CD_NM_LO
+			   , SYSCD.CD_ID
+			   , (SELECT RSRC_NM
+		  		    FROM MM_SYS_CD_RSRC
+		 		   WHERE CD_ID=SYSCD.CD_ID
+		   			 AND CD_RSRC_LANG = #{LANG_CD}
+				 ) AS CD_NM_LO
+			   , SYSCD.CD
+			   , SYSCD.ARY_ORDR
+			   , RSRC.RSRC_NM
+			   , NVL2(RSRC.CD_ID, 'N', 'Y') AS CREATEYN
+			   , RSRC.CRTR_ID
+			   , RSRC.LAST_CHGR_ID
+			   , '' AS TEMPKEY
+		  FROM ( SELECT MM_CD.CD_ID AS MM_CD_ID
+						, MM_CD.CD_NM_LO AS MM_CD_NM_LO
+						, CD.CD_ID AS CD_ID
+						, CD.CD_NM_LO AS CD_NM_LO
+						, CD.CD AS CD
+						, CD.ARY_ORDR
+				   FROM MM_SYS_CD CD
+						, MM_SYS_CD MM_CD
+				  WHERE CD.CD_ID LIKE '%CM34%'
+					AND CD.CD <![CDATA[<>]]> '00'
+					AND CD.ALT_USE = 'Y') SYSCD
+			   , MM_SYS_CD_RSRC RSRC
+		 WHERE SYSCD.MM_CD_ID = RSRC.CD_ID
+		   AND SYSCD.CD_ID = RSRC.CD_RSRC_LANG
+		 ORDER BY SYSCD.MM_CD_ID, SYSCD.ARY_ORDR, SYSCD.CD_ID
+	</select>	
+	
+	<insert id="insertMenuCSys" parameterType="hashmap">
+	/* [BSysService.insertMenuCSys][메뉴관리 메뉴 insert][2017.11.03][안성민] */
+		INSERT INTO MM_SYS_PGM(
+			PGM_ID
+			, UP_PGM_ID
+			, INT_SITE_DIST
+			, PGM_NM
+			, LINK_URL
+			, PGM_EXPLN
+			, ALT_LOGIN_REQ
+			, ALT_MENU
+			, ARY_ORDR
+			, ALT_USE
+			, CRTR_ID
+			, CRT_DT
+			, LAST_CHGR_ID
+			, LAST_CHG_DT
+		)VALUES(
+			#{PGM_ID}
+			, #{UP_PGM_ID}
+			, #{INT_SITE_DIST}
+			, #{PGM_NM}
+			, #{LINK_URL}
+			, #{PGM_EXPLN}
+			, #{ALT_LOGIN_REQ}
+			, #{ALT_MENU}
+			, NVL(#{ARY_ORDR}, ( SELECT NVL2(MAX(ARY_ORDR)
+										, 1
+										, MAX(ARY_ORDR)+1)
+								   FROM MM_SYS_PGM
+								 WHERE UP_PGM_ID = #{UP_PGM_ID}))
+			, #{ALT_USE}
+			, #{CRTR_ID}
+			, SYSDATE
+			, #{CRTR_ID}
+			, SYSDATE
+		)
+	</insert>
+	
+	<insert id="insertMenuRsrc" parameterType="hashmap">
+	/* [BSysService.insertMenuRsrc][메뉴언어 저장][2017.10.19][안성민] */
+		INSERT INTO MM_SYS_PGM_RSRC (
+			PGM_ID
+			, RSRC_NM
+			, CD_RSRC_LANG
+			, CRTR_ID
+			, CRT_DT
+			, LAST_CHGR_ID
+			, LAST_CHG_DT
+		) VALUES ( 
+			#{PGM_ID}
+			, NVL(#{RSRC_NM}, ( SELECT '[' || #{CD} || ']' || PGM_NM
+							      FROM MM_SYS_PGM
+								 WHERE PGM_ID = #{PGM_ID}) )
+			, #{CD_ID}
+			, #{CRTR_ID}
+			, SYSDATE
+			, #{LAST_CHGR_ID}
+			, SYSDATE
+		)
+	</insert>
+	
+	<update id="updateMenuRsrc" parameterType="hashmap">
+	/* [BSysService.updateMenuRsrc][메뉴언어 수정][2017.10.19][안성민] */
+		UPDATE MM_SYS_PGM_RSRC
+		   SET RSRC_NM = #{RSRC_NM}
+			   , LAST_CHGR_ID = #{LAST_CHGR_ID}
+			   , LAST_CHG_DT = SYSDATE
+		 WHERE PGM_ID = #{PGM_ID}
+		   AND CD_RSRC_LANG = #{CD_ID}
+	</update>
+	
+	<update id="updateMenuCSys" parameterType="hashmap">
+	/* [BSysService.updateMenuCSys][메뉴관리 메뉴 update][2017.11.03][안성민] */
+		UPDATE MM_SYS_PGM
+		   SET INT_SITE_DIST = #{INT_SITE_DIST}
+			   , PGM_NM = #{PGM_NM}
+			   , LINK_URL = #{LINK_URL}
+			   , PGM_EXPLN = #{PGM_EXPLN}
+			   , ALT_LOGIN_REQ = #{ALT_LOGIN_REQ}
+			   , ALT_MENU = #{ALT_MENU}
+			   , ARY_ORDR = #{ARY_ORDR}
+			   , ALT_USE = #{ALT_USE}
+			   , LAST_CHGR_ID = #{CRTR_ID}
+			   , LAST_CHG_DT = SYSDATE
+		 WHERE PGM_ID = #{PGM_ID}
+	</update>
+	
+	<update id="updateChangeKeyMenuCSys" parameterType="hashmap">
+	/* [BSysService.updateMenuCSys][메뉴관리 _ 임시키를 시퀀스로 바꿔준다.][2017.08.25][한민희] */
+		UPDATE	MM_SYS_PGM
+		SET		PGM_ID	= #{PGM_ID}
+		WHERE	PGM_ID	= #{TEMP_PGM_ID}
+	</update>
+	
+	<update id="updateChangeUpKeyMenuCSys" parameterType="hashmap">
+	/* [BSysService.updateMenuCSys][메뉴관리 _ 임시키를 시퀀스로 바꿔준다.][2017.08.25][한민희] */
+		UPDATE	MM_SYS_PGM
+		SET		UP_PGM_ID	= #{PGM_ID}
+		WHERE	UP_PGM_ID	= #{TEMP_PGM_ID}
+	</update>
+	
+	<update id="updateChangeUpKeyMenuRsrc" parameterType="hashmap">
+	/* [BSysService.updateChangeUpKeyMenuRsrc][메뉴언어관리 _ 임시키를 시퀀스로 바꿔준다.][2017.11.03][안성민] */
+		UPDATE MM_SYS_PGM_RSRC
+		   SET PGM_ID = #{PGM_ID}
+		 WHERE PGM_ID = #{TEMP_PGM_ID}
+	</update>
+	
+	<delete id="deleteMenuCSys" parameterType="hashmap">
+	/* [BSysService.deleteMenuCSys][메뉴관리 _ 메뉴 delete][2017.08.25][한민희] */
+		DELETE	MM_SYS_PGM
+		WHERE	PGM_ID = #{PGM_ID}
+	</delete>
+	
+	<update id="deleteMenuRsrc" parameterType="hashmap">
+	/* [BSysService.deleteMenuRsrc][메뉴언어 삭제][2017.10.19][안성민] */
+		DELETE FROM MM_SYS_PGM_RSRC
+		 WHERE PGM_ID = #{PGM_ID}
+	</update>
+	
+	<select id="searchSysUser" parameterType="Hmap" resultType="Hmap">
+	/*[BSysService.searchSysUser][사용자 조회][2017.09.07][송태봉] */
+		<include refid="commonService.list-before" >
+			<property name="ORDERS" value="USER_NM" />
+		</include>
+		 SELECT '0' AS CHECKED /*체크박스*/
+			   ,MU.BRANCH_CD /*구매조직*/
+		       ,SUBSTR(MU.USER_ID,3,LENGTH(MU.USER_ID)) AS USER_ID /*사용자ID*/
+		       ,MU.USER_NM /*사용자명(한)*/
+		       ,MU.USER_NM_GB /*사용자명(영)*/
+		       ,MU.EMP_NO /*사번*/
+		       ,MU.EMAIL AS EMAIL /*EMAIL*/
+		       ,MU.HP AS HP /*핸드폰*/
+		       ,MU.TEL AS TEL /*전화번호*/
+		       ,MU.FAX AS FAX /*FAX*/
+		       ,MU.MJR_JOB /*주요업무*/
+		       ,MU.DEPT_CD /*부서코드*/
+		       ,MU.DEPT_NM /*부서명*/
+		       ,MU.ALT_USE /*사용여부*/
+		       ,MU.ALT_SMS_RCV /*SMS 수신여부*/
+		       ,MU.ALT_MAIL_RCV /*MAIL 수신여부*/
+		       ,MU.CRTR_ID /*생성자*/
+		       ,MU.LAST_CHGR_ID /*최종수정자*/
+		       ,MU.PTNR_ID /*협력사ID*/
+		       ,(SELECT LISTAGG(ROLE_ID, ',') WITHIN GROUP (ORDER BY ROLE_ID) AS ROLE_ID /*권한ID*/
+                 FROM MM_SYS_USER_ROLE
+                 WHERE USER_ID = MU.USER_ID) AS ROLE_ID
+			   ,MU.PSTN
+		FROM MM_MT_USER MU
+		WHERE MU.INT_USER_TYPE = 'B'
+		  AND BRANCH_CD = #{BRANCH_CD}
+		  
+		  <if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+		  		AND USER_ID LIKE '%' || #{USER_ID} || '%'
+		  </if>
+		  
+		  <if test="USER_NM != null and USER_NM != 'undefined' and USER_NM != ''">
+		   		AND USER_NM LIKE '%' || #{USER_NM} || '%'
+		  </if>
+		  
+		ORDER BY CRT_DT DESC
+		
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="readSysUserRole" resultType="Hmap">
+	/*[BSysService.readSysUserRole][권한 조회][2017.09.07][송태봉] */
+		SELECT SUBSTR(ROLE_ID,3,LENGTH(ROLE_ID)) AS ROLE_ID /*권한ID*/
+                 ,ROLE_NM_LO /*권한명*/
+		  FROM MM_SYS_ROLE
+		  WHERE INT_SITE_DIST = 'B'
+	</select>
+	
+	<select id="readSysBranch" resultType="Hmap">
+	/*[BSysService.readSysBranch][운영단위 조회][2017.09.29][송태봉] */
+		SELECT '' AS BRANCH_CD
+		       ,'선택' AS BRANCH_NM
+		FROM DUAL
+		UNION ALL
+		SELECT BRANCH_CD
+		       ,BRANCH_NM
+		FROM MM_MT_PORG
+	</select>
+	
+	<select id="checkSysUserId" resultType="Hmap" parameterType="Hmap">
+	/*[BSysService.checkUserId][사용자ID 중복체크][2017.09.07][송태봉] */
+		SELECT DECODE(COUNT(USER_ID),0,'TRUE','FALSE') AS USE /*사용여부체크*/
+		  FROM MM_MT_USER
+		  WHERE BRANCH_CD = #{BRANCH_CD}
+		    AND USER_ID = 'B_' || #{USER_ID}
+	</select>
+	
+	<insert id="insertUser" parameterType="Hmap">
+	/*[BSysService.insertUser][사용자 추가][2017.09.07][송태봉] */
+		INSERT INTO MM_MT_USER(
+                BRANCH_CD /*구매조직*/
+                ,USER_ID /*사용자명*/
+                ,PWD /*비밀번호*/
+                ,ALT_USE /*사용여부*/
+                ,INT_USER_TYPE /*사용자구분*/
+                ,PTNR_ID /*협력사ID*/
+                ,USER_NM /*사용자명(한)*/
+                ,USER_NM_GB /*사용자명(영)*/
+                ,DEPT_CD /*부서코드*/
+                ,DEPT_NM /*부서명*/
+                ,FAX /*fax*/
+                ,MJR_JOB /*주요업무*/
+                ,TEL /*전화번호*/
+                ,HP /*핸드폰*/
+                ,ALT_SMS_RCV /*SMS 수신여부*/
+                ,ALT_MAIL_RCV /*MAIL 수신여부*/
+                ,EMP_NO /*사번*/
+                ,EMAIL /*이메일*/
+                ,CRTR_ID /*생성자*/
+                ,CRT_DT /*생성일*/
+                ,LAST_CHGR_ID /*최종수정자*/
+                ,LAST_CHG_DT /*최종수정일*/
+                ,PSTN
+		    ) VALUES(
+                 #{BRANCH_CD}
+                ,#{USER_ID}
+                ,GET_ENCRYPT('0000')
+                ,#{ALT_USE}
+                ,'B'
+                ,#{PTNR_ID}
+                ,#{USER_NM}
+                ,#{USER_NM_GB}
+                ,#{DEPT_CD}
+                ,#{DEPT_NM}
+                ,GET_ENCRYPT(#{FAX})
+                ,#{MJR_JOB}
+                ,GET_ENCRYPT(#{TEL})
+                ,GET_ENCRYPT(#{HP})
+                ,#{ALT_SMS_RCV}
+                ,#{ALT_MAIL_RCV}
+                ,#{EMP_NO}
+                ,GET_ENCRYPT(#{EMAIL})
+                ,#{CRTR_ID}
+                ,SYSDATE
+                ,#{CRTR_ID}
+                ,SYSDATE
+                ,#{PSTN}
+		    )
+	</insert>
+	
+	<update id="updateUser" parameterType="Hmap">
+	/*[BSysService.updateUser][사용자 수정][2017.09.07][송태봉] */
+	 UPDATE MM_MT_USER
+		SET
+			ALT_USE       = #{ALT_USE}  /*사용여부*/          
+			,USER_NM      = #{USER_NM}  /*사용자명(한)*/
+			,USER_NM_GB   = #{USER_NM_GB} /*사용자명(영)*/
+			,DEPT_CD      = #{DEPT_CD}      /*부서코드*/
+			,DEPT_NM      = #{DEPT_NM}      /*부서명*/
+			,FAX          = GET_ENCRYPT(#{FAX}) /*FAX*/    
+			,MJR_JOB      = #{MJR_JOB}      /*주요업무*/
+			,TEL          = GET_ENCRYPT(#{TEL}) /*전화번호*/  
+			,HP           = GET_ENCRYPT(#{HP})  /*핸드폰*/
+			,ALT_SMS_RCV  = #{ALT_SMS_RCV}  /*SMS수신여부*/
+			,ALT_MAIL_RCV = #{ALT_MAIL_RCV} /*MAIL수신여부*/
+			,EMP_NO       = #{EMP_NO}       /*사번*/
+			,EMAIL        = GET_ENCRYPT(#{EMAIL})   /*이메일*/     
+			,LAST_CHGR_ID = #{LAST_CHGR_ID} /*최중수정자*/
+			,LAST_CHG_DT  = SYSDATE /*최종수정일*/
+			,PSTN         = #{PSTN}
+	 WHERE BRANCH_CD = #{BRANCH_CD}
+       AND USER_ID = #{USER_ID}
+	</update>
+	
+	<delete id="deleteUser" parameterType="Hmap">
+	/*[BSysService.deleteUser][사용자 삭제][2017.09.07][송태봉] */
+		DELETE
+		FROM MM_MT_USER
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		  AND USER_ID = #{USER_ID}
+	</delete>
+	
+	<insert id="insertUserRole" parameterType="Hmap">
+	/*[BSysService.insertUserRole][사용자 권한추가][2017.09.07][송태봉] */
+		INSERT INTO MM_SYS_USER_ROLE(
+			BRANCH_CD /*구매조직*/
+			,USER_ID /*사용자 ID*/
+			,ROLE_ID /*권한 ID*/
+			,CRTR_ID /*생서자*/
+			,CRT_DT  /*생성일*/
+			,LAST_CHGR_ID /*최종수정자*/
+			,LAST_CHG_DT  /*최종수정일*/	  
+		) VALUES(
+			#{BRANCH_CD}
+			,#{USER_ID}
+			,#{ROLE_ID}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{CRTR_ID}
+			,SYSDATE
+		)
+	</insert>
+	
+	<delete id="deleteUserRole" parameterType="Hmap">
+	/*[BSysService.deleteUserRole][사용자 권한삭제][2017.09.07][송태봉] */
+		DELETE
+		FROM MM_SYS_USER_ROLE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		  AND USER_ID = #{USER_ID}
+	</delete>
+	
+	<select id="readSysMethod" parameterType="Hmap" resultType="Hmap">
+	/*[BSysService.readSysMethod][메소드권한 - 조회][2017.09.19][송태봉] */
+		SELECT '0' AS CHECKED
+               ,MSS.SVC_NM
+               ,MSS.METHOD
+               ,MSS.AUTHCHK
+               ,MSS.EXPLN
+               ,MSS.CRTR_ID
+               ,'Y' AS UP_YN
+		       ,WMSYS.WM_CONCAT(MSSR.ROLE_ID) AS ROLE_ID
+		  FROM MM_SYS_SERVICE MSS
+               , MM_SYS_SERVICE_ROLE  MSSR
+         WHERE 1=1
+           AND MSS.SVC_NM = MSSR.SVC_NM
+           AND MSS.METHOD = MSSR.METHOD
+		
+		<if test="SVC_NM != null and SVC_NM != 'undefined' and SVC_NM != ''">
+			AND MSS.SVC_NM = #{SVC_NM}
+		</if>
+		
+		<if test="METHOD != null and METHOD != 'undefined' and METHOD != ''">
+			AND MSS.METHOD LIKE '%' || #{METHOD} || '%'
+		</if>
+		
+		<if test="CHECKED != null and CHECKED != 'undefined' and CHECKED != ''">
+			AND MSS.AUTHCHK = #{CHECKED}
+		</if>
+		GROUP BY MSS.SVC_NM
+                 , MSS.METHOD
+               	 , MSS.AUTHCHK
+                 , MSS.EXPLN
+                 , MSS.CRTR_ID
+		ORDER BY MSS.SVC_NM, MSS.METHOD
+	</select>
+	
+	<select id="readMethodAuth" parameterType="Hmap" resultType="Hmap">
+	/*[BSysService.readMethodAuth][메소드권한 - 메소드별 권한 조회][2017.09.20][송태봉] */
+		SELECT NVL2(SR.ROLE_ID,'1','0') AS CHECKED
+	           ,MS.ROLE_ID
+	           ,MS.ROLE_NM_LO
+	           ,#{SVC_NM} AS SVC_NM
+	           ,#{METHOD} AS METHOD
+	    FROM MM_SYS_ROLE MS
+	         ,MM_SYS_SERVICE_ROLE SR
+	   WHERE MS.ROLE_ID = SR.ROLE_ID(+)
+	     AND SR.SVC_NM(+) = #{SVC_NM}
+	     AND SR.METHOD(+) = #{METHOD}
+	</select>
+	
+	<select id="readSysMethodGubun" parameterType="Hmap" resultType="Hmap">
+	/*[BSysService.readSysMethodGubun][메소드권한 - 서비스구분 조회][2017.09.20][송태봉] */
+		 SELECT '' AS SVC_ID
+				,'전체' SVC_GUBUN
+		FROM DUAL
+		UNION ALL
+		SELECT  SVC_NM
+				,SUBSTR(SVC_NM,INSTR(SVC_NM,'.',1,3) + 1) AS SVC_GUBUN
+		FROM MM_SYS_SERVICE
+		GROUP BY SVC_NM
+		ORDER BY SVC_GUBUN DESC
+	</select>
+	
+	<select id="readMethodCheck" parameterType="Hmap" resultType="Hmap">
+	/*[BSysService.readMethodCheck][메소드권한 - 서비스 메소드 중복체크][2017.09.20][송태봉] */
+		SELECT DECODE(COUNT(METHOD),0,'TRUE','FALSE') AS USED
+		FROM MM_SYS_SERVICE
+		WHERE SVC_NM = #{SVC_NM}
+		  AND METHOD = #{METHOD}
+	</select>
+	
+	<update id="updateMethod" parameterType="Hmap">
+	/*[BSysService.updateMethod][메소드권한 - 메소드 수정][2017.09.20][송태봉] */
+		UPDATE MM_SYS_SERVICE
+		SET AUTHCHK = #{AUTHCHK}
+		    ,EXPLN = #{EXPLN}
+		    ,LAST_CHGR_ID = #{CRTR_ID}
+		    ,LAST_CHG_DT = SYSDATE
+		WHERE SVC_NM = #{SVC_NM}
+		  AND METHOD = #{METHOD}
+	</update>
+	
+	<insert id="insertMethod" parameterType="Hmap">
+	/*[BSysService.insertMethod][메소드권한 - 메소드 추가][2017.09.20][송태봉] */
+		INSERT INTO MM_SYS_SERVICE(
+			SVC_NM
+			,METHOD
+			,AUTHCHK
+			,EXPLN
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT		
+		) VALUES(
+			#{SVC_NM}
+			,#{METHOD}
+			,#{AUTHCHK}
+			,#{EXPLN}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{CRTR_ID}
+			,SYSDATE
+		)
+	</insert>
+	
+	<delete id="deleteMethod" parameterType="Hmap">
+	/*[BSysService.deleteMethod][메소드권한 - 메소드 삭제][2017.09.20][송태봉] */
+		DELETE
+		FROM MM_SYS_SERVICE
+		WHERE SVC_NM = #{SVC_NM}
+		  AND METHOD = #{METHOD}
+	</delete>
+	
+	<delete id="deleteMethodRole" parameterType="Hmap">
+	/*[BSysService.deleteMethodRole][메소드권한 - 메소드권한 삭제][2017.09.20][송태봉] */
+		DELETE
+		FROM MM_SYS_SERVICE_ROLE
+		WHERE SVC_NM = #{SVC_NM}
+		  AND METHOD = #{METHOD}
+	</delete>
+	
+	<insert id="insertMethodRole" parameterType="Hmap">
+	/*[BSysService.deleteMethodRole][메소드권한 - 메소드권한 추가][2017.09.20][송태봉] */
+		INSERT INTO MM_SYS_SERVICE_ROLE(
+				SVC_NM
+				,METHOD
+				,ROLE_ID		
+		) VALUES(
+				#{SVC_NM}
+				,#{METHOD}
+				,#{ROLE_ID}
+		)
+	</insert>
+	
+	<select id="checkSysCdId" parameterType="Hmap" resultType="Hmap">
+		/*[BSysService.checkSysCdId][코드 중복체크][2017.09.25][안성민] */
+		SELECT
+		DECODE(SIGN(COUNT(CD_ID)), 1, 'FALSE', 'TRUE') AS USED /*사용여부체크*/
+		FROM MM_SYS_CD
+		WHERE CD_ID = #{CD_ID}
+	</select>
+	
+	<delete id="deleteSysCd" parameterType="Hmap">
+	/*[BSysService.deleteSysCd][코드 삭제][2017.09.25][송태봉] */
+		DELETE
+		FROM MM_SYS_CD
+		WHERE CD_ID = #{CD_ID}
+	</delete>
+	
+	<delete id="deleteSysCdRsrc" parameterType="Hmap">
+	/*[BSysService.deleteSysCdRsrc][코드언어 삭제][2017.10.19][안성민] */
+		DELETE
+		FROM MM_SYS_CD_RSRC
+		WHERE CD_ID = #{CD_ID}
+	</delete>	
+	
+	<resultMap id="RM_searchSysPgmHist" type="HMap">
+		<result property="PARAMETER" column="PARAMETER" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	<select id="searchSysPgmHist" resultType="Hmap" resultMap="RM_searchSysPgmHist">
+	/*[BSysService.searchSysPgmHist][프로그램 사용이력 조회] */
+		<include refid="commonService.list-before" >
+			<property name="ORDERS" value="SN"/>
+		</include>
+		SELECT SSH.SN
+			   , SSH.SVC_NM
+		       , SSH.METHOD
+		       , SSH.PARAMETER
+		       , TO_CHAR(SSH.CON_DT,'YYYYMMDDHH24MISS') AS CON_DT
+		       , SSH.CON_USR_IP
+		       , DECODE(SSH.TYPE,'A','성공','에러') AS TYPE
+		       , SS.EXPLN
+		       , SSH.REQR_ID
+		       , MU.USER_NM
+		FROM MM_SYS_SERVICE_HSTR SSH
+			 , MM_SYS_SERVICE SS
+			 , MM_MT_USER MU
+		WHERE SSH.SVC_NM	=	SS.SVC_NM
+		  AND SSH.METHOD	=	SS.METHOD
+		  AND SSH.REQR_ID	=	MU.USER_ID(+)
+		<if test="SVC_NM != null and SVC_NM != 'undefined' and SVC_NM != ''">
+			AND SSH.SVC_NM = #{SVC_NM}
+		</if>
+		
+		<if test="METHOD != null and METHOD != 'undefined' and METHOD != ''">
+			AND SSH.METHOD LIKE '%' || #{METHOD} || '%'
+		</if>
+		
+		<if test="TYPE != null and TYPE != 'undefined' and TYPE != ''">
+			AND SSH.TYPE = #{TYPE}
+		</if>
+		
+		<if test="USER_IP != null and USER_IP != 'undefined' and USER_IP != ''">
+			AND SSH.CON_USR_IP LIKE '%' || #{USER_IP} || '%'
+		</if>
+		
+		<if test="START_DT != null and START_DT  != 'undefined' and START_DT != ''">
+      		AND SSH.CON_DT <![CDATA[>=]]> TO_DATE(#{START_DT},'YYYYMMDD')
+        </if>
+      
+        <if test="END_DT != null and END_DT  != 'undefined' and END_DT != ''">
+      		AND SSH.CON_DT <![CDATA[<=]]> TO_DATE(#{END_DT},'YYYYMMDD')+1
+        </if>
+		
+		ORDER BY ''
+	     <!-- 정렬조건 -->
+	 	 <if test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+			  ,${SORT_ITEM1} ${SORT_TYPE1}
+	 	 </if>
+	 	 <if test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+			  ,${SORT_ITEM2} ${SORT_TYPE2}
+	  	</if>
+	 	 <if test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+			  ,${SORT_ITEM3} ${SORT_TYPE3}
+	 	 </if>
+	 	 <if test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+			  ,${SORT_ITEM4} ${SORT_TYPE4}
+	 	 </if>
+	 	 
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<resultMap id="RM_readSysParam" type="HMap">
+		<result property="PARAMETER" column="PARAMETER" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	<select id="readSysParam" parameterType="Hmap" resultType="Hmap" resultMap="RM_readSysParam">
+	/*[BSysService.readSysParam][프로그램 사용이력 파라미터조회][2017.09.26][송태봉] */
+		SELECT SN
+			   ,PARAMETER
+		FROM MM_SYS_SERVICE_HSTR
+		WHERE SN = #{SN}
+	</select>
+	
+	<select id="listPgmChgReq" parameterType="Hmap" resultType="Hmap">
+	/*[BSysService.listPgmChgReq][화면변경요청 - 변경관리요청내역조회][2017.10.10][김민성] */
+		SELECT
+			'0' AS CHECKED
+			,SN
+			,PGM_ID
+			,BRANCH_CD
+			,REQ_TTL
+			,CD_CHG_REQ
+			,CD_PRCS_STTS
+			,DECODE(CD_PRCS_STTS,'CM33REQ','R','CM33RCP','R','C') AS LIST_FILTER
+			,REQR_NM
+			,REQ_DT
+			,TO_CHAR(REQ_DT,'YYYYMMDDHH24MISS') AS REQ_DAY
+			,REQ_CNTNT
+			,PRCSR_NM
+			,PRCS_DT
+			,TO_CHAR(PRCS_DT,'YYYYMMDDHH24MISS') AS PRCS_DAY
+			,PRCS_CNTNT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+		FROM MM_SYS_PGM_CHG_REQ
+		WHERE PGM_ID = #{PGM_ID}
+	</select>
+	
+	<update id="insertUpdatePgmChgReq" parameterType="Hmap">
+	/*[BSysService.insertUpdatePgmChgReq][화면변경요청 - 요청내용 추가, 수정][2017.10.10][한민희] */
+		MERGE INTO MM_SYS_PGM_CHG_REQ
+			USING DUAL
+			ON (
+				SN = #{SN}
+			)
+		WHEN MATCHED THEN
+			UPDATE 
+			SET		CD_PRCS_STTS	= #{CD_PRCS_STTS}
+					, CD_CHG_REQ	= #{CD_CHG_REQ}
+					, REQR_NM		= #{REQR_NM}
+					, REQ_CNTNT		= #{REQ_CNTNT, jdbcType=CLOB}
+					, REQ_DT		= SYSDATE
+					, PRCSR_NM		= #{PRCSR_NM}
+					, PRCS_DT		= ''
+			    	, LAST_CHGR_ID	= #{LAST_CHGR_ID}
+			    	, LAST_CHG_DT	= SYSDATE
+		WHEN NOT MATCHED THEN
+			INSERT (
+					SN
+					, BRANCH_CD
+					, PGM_ID
+					, CD_CHG_REQ
+					, CD_PRCS_STTS
+					, REQR_NM
+					, REQ_DT
+					, REQ_CNTNT
+					, PRCSR_NM
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+					, REQ_TTL	
+			)VALUES(
+					MM_SYS_PGM_CHG_REQ_SEQ.NEXTVAL
+					, #{BRANCH_CD}
+					, #{PGM_ID}
+					, #{CD_CHG_REQ}
+					, 'CM33REQ'
+					, #{REQR_NM}
+					, SYSDATE
+					, #{REQ_CNTNT, jdbcType=CLOB}
+					, #{PRCSR_NM}
+					, #{LAST_CHGR_ID}
+					, SYSDATE
+					, #{REQ_TTL}
+			)	
+	</update>	
+	
+	<select id="searchPgmChgReqDetail" parameterType="HMap" resultType="HMap">
+	/*[BSysService.searchPgmChgReqDetail][변경요청관리 조회][2017.10.11][한민희] */
+		<include refid="commonService.list-before" />
+		SELECT
+				'0' AS CHECKED
+				, MSPCR.SN
+				, MSPCR.BRANCH_CD
+				, MSPCR.PGM_ID
+				, MSP.PGM_NM
+				, MSPCR.REQ_TTL
+				, MSPCR.CD_CHG_REQ
+				, MSPCR.CD_PRCS_STTS				
+				, DECODE(MSPCR.CD_PRCS_STTS,'CM33REQ','R','CM33RCP','R','C') AS LIST_FILTER
+				, MSPCR.REQR_NM
+				, TO_CHAR(MSPCR.REQ_DT,'YYYYMMDDHH24MISS') AS REQ_DAY
+				, MSPCR.REQ_CNTNT
+				, MSPCR.PRCSR_NM
+				, TO_CHAR(MSPCR.PRCS_DT,'YYYYMMDDHH24MISS') AS PRCS_DAY
+				, MSPCR.PRCS_CNTNT
+				, MSPCR.LAST_CHGR_ID
+				, MSPCR.LAST_CHG_DT
+		FROM	MM_SYS_PGM_CHG_REQ	MSPCR
+				, MM_SYS_PGM		MSP
+		WHERE	MSPCR.PGM_ID = MSP.PGM_ID
+		
+		<!-- 구매조직ID -->
+		<if test="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+			AND MSPCR.BRANCH_CD = #{BRANCH_CD}
+		</if>
+		
+		<!-- 처리상태 -->
+		<if test="CD_PRCS_STTS != null and CD_PRCS_STTS != 'undefined' and CD_PRCS_STTS != ''">
+			AND MSPCR.CD_PRCS_STTS = #{CD_PRCS_STTS}
+		</if>
+		
+		<!-- 변경구분 -->
+		<if test="CD_CHG_REQ != null and CD_CHG_REQ != 'undefined' and CD_CHG_REQ != ''">
+			AND MSPCR.CD_CHG_REQ = #{CD_CHG_REQ}
+		</if>
+		
+		<!-- 요청자 -->
+		<if test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+			AND MSPCR.REQR_NM LIKE '%' || #{REQR_NM} || '%'
+		</if>
+		
+		<!-- 요청일자 -->
+		<if test="REQ_DT_STR != null and REQ_DT_STR != 'undefined' and REQ_DT_STR != ''">
+			AND	MSPCR.REQ_DT <![CDATA[>=]]> TO_DATE(#{REQ_DT_STR}, 'YYYYMMDD')
+		</if>
+		<if test="REQ_DT_END != null and REQ_DT_END != 'undefined' and REQ_DT_END != ''">
+			AND	MSPCR.REQ_DT <![CDATA[<]]> TO_DATE(#{REQ_DT_END}, 'YYYYMMDD') + 1
+		</if>
+		
+		<!-- 처리자 -->
+		<if test="PRCSR_NM != null and PRCSR_NM != 'undefined' and PRCSR_NM != ''">
+			AND MSPCR.PRCSR_NM LIKE '%' || #{PRCSR_NM} || '%'
+		</if>
+		
+		<!-- 처리일자 -->
+		<if test="PRCS_DT_STR != null and PRCS_DT_STR != 'undefined' and PRCS_DT_STR != ''">
+			AND	MSPCR.PRCS_DT <![CDATA[>=]]> TO_DATE(#{PRCS_DT_STR}, 'YYYYMMDD')
+		</if>
+		<if test="PRCS_DT_END != null and PRCS_DT_END != 'undefined' and PRCS_DT_END != ''">
+			AND	MSPCR.PRCS_DT <![CDATA[<]]> TO_DATE(#{PRCS_DT_END}, 'YYYYMMDD')+1
+		</if>
+		
+		<!-- 화면ID -->
+		<if test="PGM_ID != null and PGM_ID != 'undefined' and PGM_ID != ''">
+			AND MSPCR.PGM_ID = #{PGM_ID}
+		</if>
+		
+		<!-- 화면명 -->
+		<if test="PGM_NM != null and PGM_NM != 'undefined' and PGM_NM != ''">
+			AND MSP.PGM_NM LIKE '%' || #{PGM_NM} || '%'
+		</if>
+		
+		<!-- 요청명 -->
+		<if test="REQ_TTL != null and REQ_TTL != 'undefined' and REQ_TTL != ''">
+			AND MSPCR.REQ_TTL LIKE '%' || #{REQ_TTL} || '%'
+		</if>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<resultMap id="RM_readPgmChgReqDetail" type="HMap">
+		<result property="REQ_CNTNT" column="REQ_CNTNT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>	
+	<select id="readPgmChgReqDetail" parameterType="HMap" resultType="HMap" resultMap="RM_readPgmChgReqDetail">
+	/*[BSysService.readPgmChgReqDetail][변경요청관리 상세정보 조회][2017.10.11][한민희] */
+		SELECT
+				SN
+				, PGM_ID
+				, BRANCH_CD
+				, REQ_TTL
+				, CD_CHG_REQ
+				, CD_PRCS_STTS				
+				, REQR_NM
+				, TO_CHAR(REQ_DT,'YYYYMMDDHH24MISS') AS REQ_DAY
+				, REQ_CNTNT
+				, PRCSR_NM
+				, TO_CHAR(PRCS_DT,'YYYYMMDDHH24MISS') AS PRCS_DAY
+				, PRCS_CNTNT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+		FROM	MM_SYS_PGM_CHG_REQ
+		WHERE	SN = #{SN}
+	</select>
+	
+	<update id="savePgmChgReqDetail" parameterType="Hmap">
+	/*[BSysService.savePgmChgReqDetail][변경요청관리 저장][2017.10.11][한민희] */
+		UPDATE	MM_SYS_PGM_CHG_REQ
+		SET		LAST_CHGR_ID	= #{LAST_CHGR_ID}
+		    	, LAST_CHG_DT	= SYSDATE
+				<if test="CD_PRCS_STTS != null and CD_PRCS_STTS != 'undefined' and CD_PRCS_STTS != ''">
+				, CD_PRCS_STTS	= #{CD_PRCS_STTS}
+				</if>
+				<if test="CD_PRCS_STTS == 'CM33END'">
+				, PRCS_DT		= SYSDATE
+				, PRCS_CNTNT 	= #{PRCS_CNTNT}
+				</if>
+				<if test="PRCSR_NM != null and PRCSR_NM != 'undefined' and PRCSR_NM != ''">
+				, PRCSR_NM		= #{PRCSR_NM}
+				</if>  	
+		WHERE	SN = #{SN}
+	</update>
+
+	<insert id="insertFvrtPgm" parameterType="Hmap">
+	/*[BSysService.insertFvrtPgm][마이메뉴 추가][][] */
+		INSERT INTO MM_FVRT_PGM(
+			BRANCH_CD
+			,PGM_ID
+			,USER_ID
+			,ARY_ORDR
+			,CRT_DT
+		) VALUES(
+			#{BRANCH_CD}
+			,#{PGM_ID}
+			,#{USER_ID}
+			,''
+			,SYSDATE
+		)
+	</insert>
+	
+	 <delete id="deleteFvrtPgm" parameterType="Hmap">
+ 	/* [BSysService.deleteFvrtPgm][마이메뉴 삭제][][] */
+ 		DELETE
+		FROM MM_FVRT_PGM
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PGM_ID = #{PGM_ID}
+		AND USER_ID = #{USER_ID}
+ 	</delete>	
+
+	<select id="readSysRsrc" parameterType="Hmap" resultType="HMap">
+	/*[BSysService.readSysRsrc][리소스 조회][2018.02.09][김동호] */
+
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="LAST_CHG_DT DESC, RSRC_ID DESC" />
+		</include>
+
+		SELECT RSRC_ID
+		, REPLACE(RSRC_NM,'▩', '\n') AS RSRC_NM
+		, CD_RSRC_LANG
+		, CRTR_ID
+		, CRT_DT
+		, LAST_CHGR_ID
+		, LAST_CHG_DT
+		, '' AS "VALIDATE"
+		, '' AS CHECKID
+		, '' AS LANG
+		, '' AS TEMPKEY
+		FROM MM_SYS_RSRC 
+		WHERE CD_RSRC_LANG = NVL(#{CD_RSRC_LANG}, 'CM34KR')
+		<choose>
+			<when
+				test="RSRC_NM != null and RSRC_NM != '' and RSRC_NM != 'undefined' and RSRC_ID != null and RSRC_ID != '' and RSRC_ID != 'undefined'">
+				AND RSRC_NM LIKE '%' || REPLACE(#{RSRC_NM},'\n', '▩') || '%'
+				AND RSRC_ID = #{RSRC_ID}
+			</when>
+			<when test="RSRC_ID != null and RSRC_ID != '' and RSRC_ID != 'undefined'">
+				AND RSRC_ID = #{RSRC_ID}
+			</when>
+			<when test="RSRC_NM != null and RSRC_NM != '' and RSRC_NM != 'undefined'">
+				AND RSRC_NM LIKE '%' || REPLACE(#{RSRC_NM},'\n', '▩') || '%'
+			</when>
+		</choose>
+		ORDER BY LAST_CHG_DT DESC, RSRC_ID DESC
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="readSysRsrcLang" parameterType="Hmap" resultType="HMap">
+	/*[BSysService.readSysRsrcLang][리소스언어 조회][2018.02.09][김동호] */
+		SELECT SYSCD.RSRC_ID
+			   , REPLACE(RSRC.RSRC_NM,'▩', '\n') AS RSRC_NM
+			   , SYSCD.CD_ID
+			   , ( SELECT RSRC_NM
+			   		 FROM MM_SYS_CD_RSRC
+			        WHERE CD_ID=SYSCD.CD_ID
+			   		  AND CD_RSRC_LANG = NVL(#{LANG_CD}, 'CM34KR')
+			     ) AS CD_NM_LO
+			   , RSRC.CRTR_ID
+			   , SYSCD.ARY_ORDR
+			   , TO_CHAR(RSRC.CRT_DT, 'YYYYMMDD') AS CRT_DT
+			   , RSRC.LAST_CHGR_ID
+			   , TO_CHAR(RSRC.LAST_CHG_DT, 'YYYYMMDD') AS LAST_CHG_DT
+			   , NVL2(RSRC.RSRC_ID, 'N', 'Y') AS CREATEYN
+			   , '' AS TEMPKEY
+			   , '' AS CD
+			   , '' AS LANG
+		  FROM ( SELECT RSRC.RSRC_ID
+			   			, RSRC.RSRC_NM
+						, CD.CD_NM_LO
+						, CD.CD_ID
+						, CD.CD
+						, CD.ARY_ORDR
+				   FROM MM_SYS_CD CD
+						, ( SELECT RSRC_ID
+								   , RSRC_NM
+							  FROM MM_SYS_RSRC
+							 WHERE CD_RSRC_LANG =  NVL(#{CD_RSRC_LANG}, 'CM34KR')
+						  ) RSRC
+				  WHERE CD.CD_ID LIKE '%CM34%'
+					AND CD.CD <![CDATA[<>]]> '00'	
+					AND CD.ALT_USE = 'Y'
+				) SYSCD
+				, MM_SYS_RSRC RSRC
+		  WHERE SYSCD.RSRC_ID = RSRC.RSRC_ID(+)
+		   AND SYSCD.CD_ID = RSRC.CD_RSRC_LANG(+)
+		   AND SYSCD.CD_ID	<![CDATA[<>]]>  NVL(#{CD_RSRC_LANG}, 'CM34KR')
+		   AND SYSCD.RSRC_ID IN ( SELECT RSRC_ID 
+                                    FROM ( SELECT ROW_NUMBER() OVER(ORDER BY ROW_NUM) AS ROW_NUMBER_TOP, PAGE_TABLE.* 
+                                             FROM( SELECT ROW_NUMBER() OVER(ORDER BY LAST_CHG_DT DESC, RSRC_ID DESC) AS ROW_NUM,  COUNT(1) OVER() AS TOTAL_ITEM_COUNT, COREXP_DATA_TABLE.* 
+                                                     FROM( SELECT RSRC_ID
+                                                                  , LAST_CHG_DT
+                                                             FROM MM_SYS_RSRC
+                                                            WHERE CD_RSRC_LANG = NVL(#{CD_RSRC_LANG}, 'CM34KR')
+                                                            <choose>
+																<when
+																	test="RSRC_NM != null and RSRC_NM != '' and RSRC_NM != 'undefined' and RSRC_ID != null and RSRC_ID != '' and RSRC_ID != 'undefined'">
+																	AND RSRC_NM LIKE '%' || REPLACE(#{RSRC_NM},'\n', '▩') || '%'
+																	AND RSRC_ID = #{RSRC_ID}
+																</when>
+																<when test="RSRC_ID != null and RSRC_ID != '' and RSRC_ID != 'undefined'">
+																	AND RSRC_ID = #{RSRC_ID}
+																</when>
+																	<when test="RSRC_NM != null and RSRC_NM != '' and RSRC_NM != 'undefined'">
+																	AND RSRC_NM LIKE '%' || REPLACE(#{RSRC_NM},'\n', '▩') || '%'
+																</when>
+															</choose> 
+                                                          ) COREXP_DATA_TABLE 
+                                                 ) PAGE_TABLE
+                                             WHERE PAGE_TABLE.ROW_NUM BETWEEN NVL(#{PAGE_STR_NO},0) AND NVL(#{PAGE_END_NO},20)
+                                             ORDER BY ROW_NUM) ) 
+		   
+	</select>
+	
+	<select id="checkSysRsrcId" parameterType="Hmap" resultType="HMap">
+	/*[BSysService.checkSysRsrcId][리소스ID 중복체크 ][2017.10.23][안성민] */
+
+		SELECT RSRC_ID
+		FROM MM_SYS_RSRC
+		WHERE RSRC_ID = #{RSRC_ID}
+
+	</select>
+	
+	<update id="deleteSysRsrc" parameterType="Hmap">
+	/*[BSysService.deleteSysRsrc][리소스 삭제][2017.10.23][안성민] */
+
+		DELETE FROM MM_SYS_RSRC
+		WHERE RSRC_ID = #{RSRC_ID}
+
+	</update>
+	
+	<insert id="saveSysRsrc" parameterType="Hmap">
+	/*[BSysService.saveSysRsrc][리소스 저장][2017.10.23][안성민] */
+		INSERT INTO MM_SYS_RSRC (
+				RSRC_ID
+				, RSRC_NM
+				, CD_RSRC_LANG
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+		) VALUES ( 
+		   		#{RSRC_ID}
+				, REPLACE(#{RSRC_NM}, '\n', '▩' )
+				, #{CD_RSRC_LANG}
+				, #{CRTR_ID}
+				, SYSDATE
+				, #{LAST_CHGR_ID}
+				, SYSDATE
+		)
+	</insert>
+	
+	<update id="updateSysRsrc" parameterType="Hmap">
+	/*[BSysService.updateSysRsrc][리소스 수정][2017.10.23][안성민] */
+
+		UPDATE MM_SYS_RSRC
+		   SET RSRC_NM = REPLACE(#{RSRC_NM}, '\n', '▩' )
+			   , LAST_CHGR_ID = #{CRTR_ID}
+			   , LAST_CHG_DT = SYSDATE
+		 WHERE RSRC_ID = #{RSRC_ID}
+		   AND CD_RSRC_LANG = #{CD_RSRC_LANG}
+	</update>
+	
+	<insert id="saveSysRsrcLang" parameterType="Hmap">
+	/*[BSysService.saveSysRsrcLang][리소스 저장][2017.10.23][안성민] */
+		INSERT INTO MM_SYS_RSRC 
+			(	RSRC_ID
+				, RSRC_NM
+				, CD_RSRC_LANG
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+			) VALUES (
+				#{RSRC_ID}
+				, NVL(REPLACE(#{RSRC_NM}, '\n', '▩' ), (SELECT '[' || #{CD} || ']' || RSRC_NM
+														  FROM MM_SYS_RSRC
+														 WHERE RSRC_ID = #{RSRC_ID}
+														   AND CD_RSRC_LANG = #{LANG}))
+				, #{CD_ID}
+				, #{CRTR_ID}
+				, SYSDATE
+				, #{LAST_CHGR_ID}
+				, SYSDATE
+		)
+	</insert>
+	
+	<update id="updateSysRsrcLang" parameterType="Hmap">
+	/*[BSysService.updateSysRsrcLang][리소스언어 수정][2017.10.27][안성민] */
+
+		UPDATE MM_SYS_RSRC
+		   SET RSRC_NM = REPLACE(#{RSRC_NM}, '\n', '▩' )
+		       , LAST_CHGR_ID = #{CRTR_ID}
+			   , LAST_CHG_DT = SYSDATE
+		 WHERE RSRC_ID = #{RSRC_ID}
+		   AND CD_RSRC_LANG = #{CD_ID}
+	</update>
+	
+	<update id="updateSysVersion" parameterType="hashmap">
+	/* [BSysService.updateSysVersion][리소스버전 수정][2018.01.11][한의봉] */
+		UPDATE MM_SYS_CD
+		   SET APPND_SET_NUM_1 = #{SYS_VERSION}
+			   , LAST_CHGR_ID = 'SYSTEM'
+			   , LAST_CHG_DT = SYSDATE
+		 WHERE CD_ID = 'CM99VERSION'
+	</update>
+	
+	<select id="readRsrcIdMax" parameterType="Hmap" resultType="HMap">
+	/*[BSysService.readRsrcIdMax][리소스ID 생성 ][2017.11.15][안성민] */
+		SELECT 
+			'EPRO_LABEL_' || (MAX(TO_NUMBER(SUBSTR(RSRC_ID, 12, LENGTH(RSRC_ID))))+1) AS RSRC_ID  
+		FROM MM_SYS_RSRC
+	</select>
+	
+	<select id="getMyMenuSrch" parameterType="HMap" resultType="HMap" resultMap="RM_readPgmChgReqDetail">
+	/*[BSysService.getMyMenuSrch][마이메뉴 조회][][] */
+		SELECT
+			MFP.BRANCH_CD
+			,MFP.PGM_ID
+			,MFP.USER_ID
+			,MFP.ARY_ORDR
+			,MFP.CRT_DT
+			,MSP.PGM_NM
+			,MSP.LINK_URL
+		FROM MM_FVRT_PGM MFP
+			,MM_SYS_PGM MSP
+		WHERE MFP.PGM_ID = MSP.PGM_ID
+		AND MSP.ALT_USE = 'Y'
+		AND BRANCH_CD = #{BRANCH_CD}
+		AND USER_ID = #{USER_ID}
+
+	</select>
+	
+</mapper>

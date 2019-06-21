@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="pop_cntrTmplSrch" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="계약서 템플릿참조" left="0" width="999" top="0" height="509" cssclass="frm_POP_Search" onload="pop_cntrTmplSrch_onload" oninit="pop_cntrTmplSrch_oninit">
+    <Layouts>
+      <Layout>
+        <Grid id="grd_list" taborder="0" useinputpanel="false" left="11" right="11" bottom="37" autoenter="select" top="113" cellclickbound="cell" autofittype="col" binddataset="ds_list" oncelldblclick="grd_list_oncelldblclick">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="203"/>
+                <Column size="546"/>
+                <Column size="95"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="계약유형"/>
+                <Cell col="1" text="계약구분"/>
+                <Cell col="2" text="제목"/>
+                <Cell col="3" text="최종수정일자"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:CD_CNTR_CTGR_NM"/>
+                <Cell col="1" text="bind:CD_CNTR_TYPE_NM"/>
+                <Cell col="2" style="align:left;" text="bind:TTL"/>
+                <Cell col="3" text="bind:LAST_CHG_DT" mask="@@@@.@@.@@" maskchar=" "/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_close" taborder="7" top="30" height="30" cssclass="btn_POP_CloseBtn" width="30" right="8" onclick="btn_close_onclick"/>
+        <Div id="div_paing" taborder="6" url="commComp::commPaging.xfdl" left="1.2%" right="1.2%" bottom="10" height="28" scrollbars="none"/>
+        <Div id="div_condition" taborder="2" left="11" top="36" right="11" height="43" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Button id="btn_search" taborder="4" text="조회" cssclass="btn_WF_Search" left="905" top="10" height="24" objNm="검색버튼" onclick="div_condition_btn_search_onclick" width="59"/>
+              <Static id="sta_bsnsPlc" taborder="0" text="계약유형" cssclass="sta_WF_SearchLabel" left="0" top="10" height="24" lbcd="" width="117"/>
+              <Static id="sta_WFDA_Label26" taborder="2" text="계약구분" cssclass="sta_WF_SearchLabel" left="237" top="10" height="24" lbcd="" width="117"/>
+              <Combo id="cb_cdCntrCtgr" taborder="3" innerdataset="ds_cdCT11" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="117" top="10" height="24" objNm="계약유형" width="120"/>
+              <Combo id="cb_cdCntrType" taborder="5" innerdataset="ds_cdCT19" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="354" top="10" height="21" objNm="계약구분" width="120"/>
+              <Static id="sta_WFDA_Label00" taborder="6" text="제목" cssclass="sta_WF_SearchLabel" left="487" top="10" height="24" lbcd="" width="117"/>
+              <Edit id="edt_Ttl" taborder="7" lengthunit="utf8" cssclass="edt_default" left="604" top="10" height="24" objNm="계약명" width="250"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="sta_title00" taborder="1" text="계약서 템플릿참조" cssclass="sta_POP_PopTitle" left="0%" top="0" right="64.06%" height="30"/>
+        <Button id="btn_close00" taborder="8" onclick="btn_close_onclick" cssclass="btn_POP_CloseBtn" left="96.2%" top="0" right="0.8%" height="30"/>
+        <Button id="btn_app" taborder="9" text="적용" cssclass="btn_WF_Custom" top="84" right="22" width="59" height="24" objNm="적용" lbcd="" onclick="btn_app_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_condition" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE" size="40" type="string"/>
+          <Column id="TTL" size="600" type="string"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column type="string" id="CHECKED" size="1"/>
+          <Column type="string" id="TKEY" size="40"/>
+          <Column type="string" id="ALT_USE" size="1"/>
+          <Column type="string" id="CNTR_CNTNT" size="4000"/>
+          <Column type="string" id="TTL" size="600"/>
+          <Column type="string" id="CRTR_ID" size="50"/>
+          <Column type="string" id="RMARK" size="1500"/>
+          <Column type="string" id="LAST_CHG_DT" size="7"/>
+          <Column type="string" id="CD_CNTR_TYPE_NM" size="40"/>
+          <Column type="string" id="CD_CNTR_TYPE" size="40"/>
+          <Column type="string" id="LAST_CHGR_ID" size="50"/>
+          <Column type="string" id="CD_CNTR_CTGR_NM" size="40"/>
+          <Column type="string" id="CD_CNTR_CTGR" size="40"/>
+          <Column type="string" id="CRT_DT" size="7"/>
+          <Column type="string" id="PORG_ID" size="20"/>
+          <Column type="string" id="CNTR_TMPL_ID" size="40"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_condition.edt_Ttl" propid="value" datasetid="ds_condition" columnid="TTL"/>
+      <BindItem id="item1" compid="div_condition.cb_cdCntrCtgr" propid="value" datasetid="ds_condition" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item2" compid="div_condition.cb_cdCntrType" propid="value" datasetid="ds_condition" columnid="CD_CNTR_TYPE"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       PCTRB100P01.xfdl
+   @desc       계약서 템플릿참조
+   @author     김민성
+   @makedate   2016.04.08
+   @history    
+*/
+include "lib::lib_all.xjs"
+
+/**
+	@var  this.fv_value
+	@desc 전역변수 사용안함
+*/
+
+/**
+	@function	pop_cntrTmplSrch_oninit()
+	@desc   	폼 init이벤트
+*/
+this.pop_cntrTmplSrch_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fn_setCode();
+}
+
+/**
+	@function	fn_setCode()
+	@desc   	콤보박스 세팅.
+*/
+this.fn_setCode = function()
+{
+	var param = [
+					 {code:"CT19", sSelectType:"A"}
+					,{code:"CT11", sSelectType:"A"}
+				];
+
+	//공통코드 데이터셋 생성 : "ds_cd" + code + sfx
+	this.gfn_getCommonCode(param);
+}
+
+
+
+/**
+	@function	pop_cntrTmplSrch_onload()
+	@desc   	폼 onload이벤트
+*/
+ this.pop_cntrTmplSrch_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//시스템 공통함수 호출 : 팝업
+	this.gfn_popOnLoad(this);
+	
+	//그리드 공통버튼 설정
+	this.div_paing.fn_initGridInfo(obj, this.grd_list);
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	this.gfn_setGrdFunc(this.grd_list);
+	
+	//검색조건 DataSet Row추가
+	this.ds_condition.addRow();
+	this.ds_condition.setColumn(0,"CD_CNTR_TYPE","");
+	this.ds_condition.setColumn(0,"CD_CNTR_CTGR","");
+	this.ds_condition.setColumn(0,"ALT_USE","Y"); //템플릿 참조 시, 사용여부가 'Y'인것만을 불러온다.
+	
+	this.fn_search();
+}
+ 
+/**
+	@function	div_condition_btn_search_onclick()
+	@desc   	조회
+*/
+this.div_condition_btn_search_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+}
+
+/**
+	@function	fn_preSearch()
+	@desc   	조회 전 처리
+*/
+this.fn_preSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_search()
+	@desc   	조회 프로세스
+*/
+this.fn_search = function()
+{
+	if(!this.fn_preSearch()) return false;
+	var sSvcID = "search";
+	var sController = "Cntr_TmplSrch.do";
+	var sInDatasets = "in_ds=ds_condition";
+	var sOutDatasets = "ds_list=ds_srch";
+	var sCallbackFunc = "fn_trCallBack";
+	
+    this.div_paing.gfn_pagingTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fn_callBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "search" :	
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	btn_close_onclick()
+	@desc   	팝업닫기
+*/
+this.btn_close_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+ 
+
+/**
+	@function	grd_list_oncelldblclick()
+	@desc   	그리드 더블클릭시 데이터적용
+*/
+this.grd_list_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var rtn = this.gfn_getSelRowString(this.ds_list);
+	
+	if(rtn){
+		this.close(rtn);
+	}
+}
+
+/**
+	@function	btn_app_onclick()
+	@desc   	적용버튼 클릭
+*/
+this.btn_app_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.ds_list.rowposition < 0){
+		this.gfn_alert("선택된 행이 없습니다.");
+		return;
+		
+	} else{
+		var rtn = this.gfn_getSelRowString(this.ds_list);
+		this.close(rtn);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

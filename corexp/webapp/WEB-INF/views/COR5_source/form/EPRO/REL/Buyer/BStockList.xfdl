@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BStockList" left="0" top="0" width="1220" height="768" titletext="재고현황" oninit="FormOninit" onload="FormOnload">
+    <Layouts>
+      <Layout>
+        <Static id="Static01" taborder="0" text="15" visible="false" top="0" right="0" bottom="0" width="15" style="background:coral;align:center middle;"/>
+        <Div id="divViewCompCond01" taborder="1" left="0" top="35" right="15" height="88" cssclass="div_WF_SearchBg" objNm="">
+          <Layouts>
+            <Layout>
+              <Static id="staPrNm" taborder="80" text="정렬순서" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="0" top="34" width="105" height="24" style="padding:0 10 0 6;align:right middle;" objNm="정렬순서"/>
+              <Div id="divOrderBy" taborder="87" text="divOrderBy" left="105" top="34" right="86" height="24" url="CCOMP::CompOrderBy.xfdl" objNm="divOrderBy"/>
+              <Static id="staWarning" taborder="88" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="-1" top="67" right="0" height="19"/>
+              <CheckBox id="chkMtrl" taborder="89" left="105" top="10" right="1084" height="15"/>
+              <Static id="staMtrl" taborder="90" text="재고있는 품목만" left="124" top="10" right="975" height="14"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompCond00" taborder="2" left="0" top="0" right="15" height="36" style="align:center;" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Static id="staStrNm" taborder="12" text="창고" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="106" height="24" style="padding:0 10 0 6;align:right middle;" objNm="창고"/>
+              <Static id="staMtrlNm" taborder="20" text="품목" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="367" top="6" width="47" height="24" style="padding:0 10 0 6;align:right middle;" objNm="품목"/>
+              <Static id="staMtrlType" taborder="25" text="품목분류" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="745" top="6" width="72" height="24" style="padding:0 10 0 6;align:right middle;" objNm="품목분류"/>
+              <Div id="divMtrlType" taborder="26" left="815" top="6" right="86" height="24" url="CCOMP::CompMtrlType.xfdl" objNm="divMtrlType"/>
+              <Div id="divStr" taborder="27" url="CCOMP::ComSrchStr.xfdl" left="106" top="5" width="250" height="24" objNm="divStr"/>
+              <Div id="divMtrl" taborder="28" url="CCOMP::ComSrchMtrl.xfdl" left="414" top="5" width="350" height="24" objNm="divMtrl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnFold" taborder="3" onclick="btnFold_onclick" cssclass="btn_Fold_Close" left="45.66%" top="122" width="56" height="17"/>
+        <Div id="divViewCompBody00" taborder="4" text="Div00" left="0" top="161" right="15" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grdList" taborder="3" binddataset="dsList" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" left="0" top="29" right="0" bottom="37" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" objNm="검색결과 그리드" autofittype="col">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="104"/>
+                      <Column size="226"/>
+                      <Column size="387"/>
+                      <Column size="96"/>
+                      <Column size="135"/>
+                      <Column size="73"/>
+                      <Column size="74"/>
+                      <Column size="113"/>
+                      <Column size="118"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드"/>
+                      <Cell col="1" text="품목그룹"/>
+                      <Cell col="2" text="품목명"/>
+                      <Cell col="3" text="창고코드"/>
+                      <Cell col="4" text="창고명"/>
+                      <Cell col="5" text="재고단위"/>
+                      <Cell col="6" text="재고수량"/>
+                      <Cell col="7" text="재고단가"/>
+                      <Cell col="8" text="재고금액"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" text="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" text="bind:MTRL_GRP_NM2"/>
+                      <Cell col="2" style="align:left;" text="bind:MTRL_NM2"/>
+                      <Cell col="3" text="bind:STR_CD"/>
+                      <Cell col="4" style="align:left;" text="bind:SL_NM"/>
+                      <Cell col="5" displaytype="none" text="bind:CD_PUR_UNIT_NM" calendardisplaynulltype="none"/>
+                      <Cell col="6" style="align:right;" text="bind:STOCK_QTY"/>
+                      <Cell col="7" style="align:right;" text="bind:STOCK_CST" calendardisplaynulltype="none"/>
+                      <Cell col="8" style="align:right;" text="bind:STOCK_AMT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="divPaging" taborder="4" url="CCOMP::CompPaging.xfdl" left="0" right="0" bottom="9" height="28" scrollbars="none" objNm="페이징"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM2" type="STRING" size="256"/>
+          <Column id="CD_PACK_UNIT" type="STRING" size="256"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="STOCK_QTY" type="STRING" size="256"/>
+          <Column id="STOCK_CST" type="STRING" size="256"/>
+          <Column id="STOCK_AMT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="SRCH_MTRL_CD" type="STRING" size="40"/>
+          <Column id="SRCH_MTRL_NM" type="STRING" size="400"/>
+          <Column id="SRCH_STR_CD" type="STRING" size="40"/>
+          <Column id="SRCH_STR_NM" type="STRING" size="400"/>
+          <Column id="LRG_CLS_ID" type="STRING" size="256"/>
+          <Column id="MDL_CLS_ID" type="STRING" size="256"/>
+          <Column id="SML_CLS_ID" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01,initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+this.FormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetObj("A");
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(
+				this.divViewCompBody00.grdList
+				,this.divViewCompBody00.divPaging
+				,this,{isTran:"Y", tranNm:"BRelService.stockSrch", dsParam:this.dsCondition}
+				);
+ 	
+  
+ 	this.divViewCompCond00.divStr.fnSet(this.dsCondition		, "SRCH_STR_CD", "SRCH_STR_NM");
+ 	this.divViewCompCond00.divMtrl.fnSet(this.dsCondition		, "SRCH_MTRL_CD", "SRCH_MTRL_NM");
+	this.divViewCompCond00.divMtrlType.fnSetBind(this.dsCondition,"LRG_CLS_ID","MDL_CLS_ID","SML_CLS_ID");
+
+ 	this.fnFold();		//조회조건 Div 접기/펼치기 세팅
+	//this.fnSearch();
+
+}
+
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function(svcId)
+{
+	
+	var sSvcID = "stockSrch";
+	var sController = "epro.rel.service.BRelService.stockSrch";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+		
+ 	var	oPaging = [      
+                    {inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+                ];
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "stockSrch" :
+		break;
+		 
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

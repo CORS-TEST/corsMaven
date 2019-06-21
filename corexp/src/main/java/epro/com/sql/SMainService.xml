@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SMainService">
+	
+	<select id="searchNotice" parameterType="hashmap" resultType="hashmap" >
+	/* [SMainService.searchNotice][협력사사용자메인 공지사항 리스트 ][2017.11.10][배열] */
+		SELECT
+			DOC_NO          
+			,UPR_DOC_NO      
+			,DOC_NM 
+			,TO_CHAR(CRT_DT, 'YYYYMMDD') AS CRT_DT         
+		FROM MM_CM_BBS 
+		WHERE TO_CHAR(SYSDATE , 'YYYYMMDD')  <![CDATA[>= ]]>   TO_CHAR( BGN_DT, 'YYYYMMDD')
+		AND TO_CHAR( SYSDATE , 'YYYYMMDD')   <![CDATA[<=]]>   TO_CHAR( END_DT, 'YYYYMMDD')	
+		AND INT_OPEN_SITE IN ('S','A')	
+	</select>				
+
+	<select id="readPtnrInfo" parameterType="hashmap" resultType="hashmap" >
+	/* [SMainService.readPtnrInfo][협력사사용자메인 정보 ][2017.12.04][한의봉] */
+		SELECT
+			TO_CHAR(MP.PTNR_CHT_DT, 'YYYY-MM-DD HH24:MI:SS') AS PTNR_CHT_DT
+			, CASE WHEN MPP.SCJD_EVAL_SCORE <![CDATA[>=]]> 85 THEN 'GREEN'
+				   WHEN MPP.SCJD_EVAL_SCORE <![CDATA[>=]]> 65 AND MPP.SCJD_EVAL_SCORE <![CDATA[<]]> 85 THEN 'YELLOW'
+				   WHEN MPP.SCJD_EVAL_SCORE <![CDATA[<]]> 65 THEN 'RED'
+				   ELSE 'GRAY'
+			  END EVAL_GRADE
+			, CASE WHEN MPP.SCJD_EVAL_SCORE <![CDATA[>=]]> 85 THEN 'green'
+				   WHEN MPP.SCJD_EVAL_SCORE <![CDATA[>=]]> 65 AND MPP.SCJD_EVAL_SCORE <![CDATA[<]]> 85 THEN 'gold'
+				   WHEN MPP.SCJD_EVAL_SCORE <![CDATA[<]]> 65 THEN 'red'
+				   ELSE 'gray'
+			  END EVAL_COLOR
+			, NVL(MPP.SCJD_EVAL_SCORE,TRD_EVAL_SCORE)  AS EVAL_SCORE
+			, TO_CHAR(NVL(MPP.SCJD_CMPLT_DT,SYSDATE),'YYYYMMDD')AS EVAL_DT
+		FROM MM_PTNR MP 
+			,MM_PTNR_PORG MPP 
+		WHERE MP.PTNR_ID = MPP.PTNR_ID
+		  AND MP.PTNR_ID = #{PTNR_ID}
+	</select>	
+</mapper>

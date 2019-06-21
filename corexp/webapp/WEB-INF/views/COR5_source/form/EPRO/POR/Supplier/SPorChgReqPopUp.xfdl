@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="SPorChgReq" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="변경요청 사유" left="0" width="382" top="0" height="200" cssclass="frm_POP_Search">
+    <Layouts>
+      <Layout>
+        <Static id="sta_title" text="변경요청 사유" position="absolute" left="0" top="0" height="30" cssclass="sta_POP_PopTitle" right="272" objNm="취소사유"/>
+        <TextArea id="txt_reason" taborder="5" scrollbars="none" left="10" top="41" objNm="취소사유" right="10" bottom="10" maxlength="500" lengthunit="utf8" wordwrap="char"/>
+        <Button id="btnRtn" taborder="6" text="확인" onclick="btnRtn_onclick" cssclass="btn_WF_Module" top="11" right="10" height="24" objNm="확인버튼" width="45"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsRtn" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CNCL_RSN" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item2" compid="txt_reason" propid="value" datasetid="dsRtn" columnid="CNCL_RSN"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       SPorChgReqPopUp
+   @desc       발주 변경요청 사유입력 팝업
+   @author     한의봉
+   @makedate   
+   @history    
+*/
+
+this.popTitle = "변경요청 사유";
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc		: 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+
+}
+
+/**
+  * @함수명	: btnRtn_onclick
+  * @desc		: 적용
+  */ 
+this.btnRtn_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.dsRtn.getColumn(0,"CNCL_RSN"))){
+		gfnAlert("사유를 입력하시기 바랍니다.");
+		return;
+	}
+	
+	this.parent.close(this.dsRtn.saveXML());
+}
+]]></Script>
+  </Form>
+</FDL>

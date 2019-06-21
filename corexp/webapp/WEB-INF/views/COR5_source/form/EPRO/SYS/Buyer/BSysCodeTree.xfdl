@@ -1,0 +1,824 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="769" id="BSysCodeTree" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="코드관리" top="0" width="1200">
+    <Layouts>
+      <Layout>
+        <Grid autofittype="col" binddataset="dsCd" bottom="6" cantreestatuschange="fnGrdTreeOntreeStatusChange" id="grdTree" left="0" oncellclick="fnOncellclick" oncelldblclick="fnOncelldblclick" ontreestatuschanged="grdTree_ontreestatuschanged" right="720" taborder="137" top="39" treeinitstatus="collapse,all" treeusecheckbox="false" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="200" band="left"/>
+                <Column size="200"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="코드"/>
+                <Cell col="1" text="코드명"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="tree" edittype="tree" style="background:EXPR(gfnIsNull(CD_CLS) || gfnIsNull(CD) || gfnIsNull(CD_GRP)? 'antiquewhite' : '');background2:EXPR(gfnIsNull(CD_CLS) || gfnIsNull(CD) || gfnIsNull(CD_GRP)? 'antiquewhite' : '');font:EXPR(LEVEL == '1' ? 'bold 9 Dotum' : '');selectfont:EXPR(LEVEL == '1' ? 'bold 9 Dotum' : '');" text="bind:CD_ID2" treelevel="bind:LEVEL"/>
+                <Cell col="1" style="align:left middle;background:EXPR(gfnIsNull(CD_CLS) || gfnIsNull(CD) || gfnIsNull(CD_GRP)? 'antiquewhite' : '');background2:EXPR(gfnIsNull(CD_CLS) || gfnIsNull(CD) || gfnIsNull(CD_GRP)? 'antiquewhite' : '');font:EXPR(LEVEL == '1' ? 'bold 9 Dotum' : '');selectfont:EXPR(LEVEL == '1' ? 'bold 9 Dotum' : '');" text="bind:CD_NM_LO"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div bottom="6" cssclass="div_WF_DetailBg" id="divViewCompBody00" objNm="DIV-헤더 상세" right="14" scrollbars="none" style="background:#ffffffff;" taborder="138" top="39" width="686">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine12" left="0" right="0" taborder="271" top="383"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine07" left="0" right="0" taborder="254" top="255"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine08" left="0" right="0" taborder="259" top="287"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine09" left="0" right="0" taborder="264" top="319"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="0" right="0" taborder="249" top="223"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="0" right="0" taborder="241" top="127"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="196" top="-1"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staPgmId" lbcd="" left="0" objNm="상위코드" taborder="222" text="상위코드" top="-1" width="117"/>
+              <Edit height="23" id="edtUpCd" left="122" objNm="상위코드" readonly="false" taborder="223" top="4" width="211"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="226" top="31"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staPgmId00" lbcd="" left="0" objNm="코드그룹" taborder="227" text="코드그룹" top="31" width="117"/>
+              <Edit cssclass="essential" height="23" id="edtCdGrp" left="122" objNm="코드그룹" readonly="false" taborder="228" top="36" width="211"/>
+              <Edit cssclass="essential" height="23" id="edtCdCls" left="493" objNm="코드클래스" readonly="false" taborder="225" top="36" width="193"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staLastChgDay00" left="371" objNm="코드클래스" taborder="224" text="코드클래스" top="31" width="117"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="229" top="63"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staPgmId01" lbcd="" left="0" objNm="코드" taborder="230" text="코드" top="63" width="117"/>
+              <Edit cssclass="essential" height="23" id="edtCd" imemode="none" left="122" objNm="코드" taborder="231" top="68" width="211"/>
+              <Edit cssclass="essential" height="23" id="edtCdId" left="493" objNm="코드ID" taborder="232" top="68" width="193"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staLastChgDay01" left="371" objNm="코드ID" taborder="233" text="코드ID" top="63" width="117"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" right="0" taborder="234" top="95"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staCdNmLo" lbcd="" left="0" objNm="코드명(한)" taborder="235" text="코드명(한)" top="95" width="117"/>
+              <Edit cssclass="essential" height="23" id="edtCdNmLo" left="122" objNm="코드명(한)" taborder="236" top="100" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staDesc" lbcd="" left="0" objNm="코드설명" taborder="239" text="코드설명" top="127" width="117"/>
+              <Edit height="23" id="edtDesc" left="122" objNm="코드설명" taborder="240" top="132" width="564"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="0" right="0" taborder="242" top="159"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staOrdr" left="0" objNm="정렬순서" taborder="243" text="정렬순서" top="159" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltUse" left="371" objNm="사용여부" taborder="245" text="사용여부" top="159" width="117"/>
+              <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="23" id="cboAltUse" index="0" left="493" taborder="246" text="사용" top="164" value="Y" width="193" objNm="사용여부">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum1" left="0" objNm="설정1(숫자)" taborder="247" text="설정1(숫자)" top="223" width="117"/>
+              <Edit height="23" id="edtSetNum1" inputtype="number" left="122" objNm="설정1(숫자)" taborder="248" top="228" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum2" left="371" objNm="설정2(숫자)" taborder="250" text="설정2(숫자)" top="223" width="117"/>
+              <Edit height="23" id="edtSetNum2" inputtype="number" left="493" objNm="설정2(숫자)" taborder="251" top="228" width="193"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum3" left="0" objNm="설정3(숫자)" taborder="252" text="설정3(숫자)" top="255" width="117"/>
+              <Edit height="23" id="edtSetNum3" inputtype="number" left="122" objNm="설정3(숫자)" taborder="253" top="260" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum4" left="371" objNm="설정4(숫자)" taborder="255" text="설정4(숫자)" top="255" width="117"/>
+              <Edit height="23" id="edtSetNum4" inputtype="number" left="493" objNm="설정4(숫자)" taborder="256" top="260" width="193"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum5" left="0" objNm="설정5(숫자)" taborder="257" text="설정5(숫자)" top="287" width="117"/>
+              <Edit height="23" id="edtSetNum5" inputtype="number" left="122" objNm="설정5(숫자)" taborder="258" top="292" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum6" left="371" objNm="설정6(숫자)" taborder="260" text="설정6(숫자)" top="287" width="117"/>
+              <Edit height="23" id="edtSetNum6" inputtype="number" left="493" objNm="설정6(숫자)" taborder="261" top="292" width="193"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum7" left="0" objNm="설정7(숫자)" taborder="262" text="설정7(숫자)" top="319" width="117"/>
+              <Edit height="23" id="edtSetNum7" inputtype="number" left="122" objNm="설정7(숫자)" taborder="263" top="324" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetNum8" left="371" objNm="설정8(숫자)" taborder="265" text="설정8(숫자)" top="319" width="117"/>
+              <Edit height="23" id="edtSetNum8" inputtype="number" left="493" objNm="설정8(숫자)" taborder="266" top="324" width="193"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staViewCompLine10" left="0" right="0" style="align:center;" taborder="267" text="추가설정숫자" top="191"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staViewCompLine11" left="0" right="0" style="align:center;" taborder="268" text="추가설정문자" top="351"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar1" left="0" objNm="설정1(문자)" taborder="269" text="설정1(문자)" top="383" width="117"/>
+              <Edit height="23" id="edtSetChar1" left="122" objNm="설정1(문자)" taborder="270" top="388" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar2" left="371" objNm="설정2(문자)" taborder="272" text="설정2(문자)" top="383" width="117"/>
+              <Edit height="23" id="edtSetChar2" inputfilter="digit" left="493" objNm="설정2(문자)" taborder="273" top="388" width="193"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine13" left="0" right="0" taborder="274" top="415"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar3" left="0" objNm="설정3(문자)" taborder="275" text="설정3(문자)" top="415" width="117"/>
+              <Edit height="23" id="edtSetChar00" inputfilter="digit" left="122" objNm="설정3(문자)" taborder="276" top="420" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar4" left="371" objNm="설정4(문자)" taborder="277" text="설정4(문자)" top="415" width="117"/>
+              <Edit height="23" id="edtSetChar03" inputfilter="digit" left="493" objNm="설정4(문자)" taborder="278" top="420" width="193"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine14" left="0" right="0" taborder="279" top="447"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar5" left="0" objNm="설정5(문자)" taborder="280" text="설정5(문자)" top="447" width="117"/>
+              <Edit height="23" id="edtSetChar04" inputfilter="digit" left="122" objNm="설정5(문자)" taborder="281" top="452" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar6" left="371" objNm="설정6(문자)" taborder="282" text="설정6(문자)" top="447" width="117"/>
+              <Edit height="23" id="edtSetChar05" inputfilter="digit" left="493" objNm="설정6(문자)" taborder="283" top="452" width="193"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine15" left="0" right="0" taborder="284" top="479"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar7" left="0" objNm="설정7(문자)" taborder="285" text="설정7(문자)" top="479" width="117"/>
+              <Edit height="23" id="edtSetChar06" inputfilter="digit" left="122" objNm="설정7(문자)" taborder="286" top="484" width="211"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSetChar8" left="371" objNm="설정8(문자)" taborder="287" text="설정8(문자)" top="479" width="117"/>
+              <Edit height="23" id="edtSetChar07" inputfilter="digit" left="493" objNm="설정8(문자)" taborder="288" top="484" width="193"/>
+              <Grid autoenter="select" autofittype="col" binddataset="dsCdRsrc" height="189" id="Grid00" left="0%" right="0.14%" taborder="289" top="522" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="120"/>
+                      <Column size="500"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="언어"/>
+                      <Cell col="1" text="언어명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left middle;" text="bind:CD_NM_LO"/>
+                      <Cell col="1" displaytype="text" edittype="text" style="align:left middle;" text="bind:RSRC_NM" editlimit="200" editlengthunit="ascii"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Spin height="23" id="spnAryOrdr" left="122" max="999" min="1" taborder="290" top="164" value="0" width="211" objNm="정렬순서"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Button cssclass="btn_WF_Module" height="24" id="btnAddUnderRow" objNm="하위레벨코드추가" onclick="fnAddUnderRow" right="216" taborder="139" text="하위레벨코드추가" top="10" width="122"/>
+        <Button cssclass="btn_WF_Module" height="24" id="btnAddSameRow" objNm="동일레벨코드추가" onclick="fnAddSameRow" right="91" taborder="140" text="동일레벨코드추가" top="10" width="122"/>
+        <Button cssclass="btn_WF_Module" height="24" id="btnDelMenu" objNm="코드삭제" onclick="fnDelCode" right="14" taborder="141" text="코드삭제" top="10" width="74"/>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" taborder="142" text="코드조회" top="10" width="254"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCd" oncolumnchanged="fnOncolumnchanged" onrowposchanged="fnOnrowposchanged">
+        <ColumnInfo>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCheckId">
+        <ColumnInfo>
+          <Column id="CD_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdRsrc" oncolumnchanged="fnOncolumnchanged" onrowposchanged="fnOnrowposchanged">
+        <ColumnInfo>
+          <Column id="Column0" size="256" type="STRING"/>
+          <Column id="Column1" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCM34" oncolumnchanged="fnOncolumnchanged" onrowposchanged="fnOnrowposchanged"/>
+      <Dataset id="dsTreeStatus">
+        <ColumnInfo>
+          <Column id="PATH" size="256" type="STRING"/>
+          <Column id="STATUS" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="edtOrdr" compid="divViewCompBody00.spnAryOrdr" datasetid="dsObjBindVi" id="edtOrdrVi" propid="visible"/>
+      <BindItem columnid="edtOrdr" compid="divViewCompBody00.spnAryOrdr" datasetid="dsObjBindEn" id="edtOrdrEn" propid="readonly"/>
+      <BindItem columnid="UP_CD_ID" compid="divViewCompBody00.edtUpCd" datasetid="dsCd" id="item0" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="divViewCompBody00.edtCdGrp" datasetid="dsCd" id="item1" propid="value"/>
+      <BindItem columnid="CD" compid="divViewCompBody00.edtCd" datasetid="dsCd" id="item2" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="divViewCompBody00.edtCdNmLo" datasetid="dsCd" id="item3" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="divViewCompBody00.edtDesc" datasetid="dsCd" id="item4" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_1" compid="divViewCompBody00.edtSetNum1" datasetid="dsCd" id="item6" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_3" compid="divViewCompBody00.edtSetNum3" datasetid="dsCd" id="item7" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_5" compid="divViewCompBody00.edtSetNum5" datasetid="dsCd" id="item8" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_7" compid="divViewCompBody00.edtSetNum7" datasetid="dsCd" id="item9" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_1" compid="divViewCompBody00.edtSetChar1" datasetid="dsCd" id="item10" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_3" compid="divViewCompBody00.edtSetChar00" datasetid="dsCd" id="item11" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_5" compid="divViewCompBody00.edtSetChar04" datasetid="dsCd" id="item12" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_7" compid="divViewCompBody00.edtSetChar06" datasetid="dsCd" id="item13" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_8" compid="divViewCompBody00.edtSetChar07" datasetid="dsCd" id="item14" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_6" compid="divViewCompBody00.edtSetChar05" datasetid="dsCd" id="item15" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_4" compid="divViewCompBody00.edtSetChar03" datasetid="dsCd" id="item16" propid="value"/>
+      <BindItem columnid="APPND_SET_CHR_2" compid="divViewCompBody00.edtSetChar2" datasetid="dsCd" id="item17" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_8" compid="divViewCompBody00.edtSetNum8" datasetid="dsCd" id="item18" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_6" compid="divViewCompBody00.edtSetNum6" datasetid="dsCd" id="item19" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_4" compid="divViewCompBody00.edtSetNum4" datasetid="dsCd" id="item20" propid="value"/>
+      <BindItem columnid="APPND_SET_NUM_2" compid="divViewCompBody00.edtSetNum2" datasetid="dsCd" id="item21" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="divViewCompBody00.cboAltUse" datasetid="dsCd" id="item22" propid="value"/>
+      <BindItem columnid="CD_ID" compid="divViewCompBody00.edtCdId" datasetid="dsCd" id="item24" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="divViewCompBody00.edtCdCls" datasetid="dsCd" id="item25" propid="value"/>
+      <BindItem columnid="staPgmId" compid="divViewCompBody00.staPgmId" datasetid="dsObjBindVi" id="staPgmIdVi" propid="visible"/>
+      <BindItem columnid="staPgmId" compid="divViewCompBody00.staPgmId" datasetid="dsObjBindEn" id="staPgmIdEn" propid="enable"/>
+      <BindItem columnid="edtUpCd" compid="divViewCompBody00.edtUpCd" datasetid="dsObjBindVi" id="edtUpCdVi" propid="visible"/>
+      <BindItem columnid="edtUpCd" compid="divViewCompBody00.edtUpCd" datasetid="dsObjBindEn" id="edtUpCdEn" propid="readonly"/>
+      <BindItem columnid="staPgmId00" compid="divViewCompBody00.staPgmId00" datasetid="dsObjBindVi" id="staPgmId00Vi" propid="visible"/>
+      <BindItem columnid="staPgmId00" compid="divViewCompBody00.staPgmId00" datasetid="dsObjBindEn" id="staPgmId00En" propid="enable"/>
+      <BindItem columnid="edtCdGrp" compid="divViewCompBody00.edtCdGrp" datasetid="dsObjBindVi" id="edtCdGrpVi" propid="visible"/>
+      <BindItem columnid="edtCdGrp" compid="divViewCompBody00.edtCdGrp" datasetid="dsObjBindEn" id="edtCdGrpEn" propid="readonly"/>
+      <BindItem columnid="edtCdCls" compid="divViewCompBody00.edtCdCls" datasetid="dsObjBindVi" id="edtCdClsVi" propid="visible"/>
+      <BindItem columnid="edtCdCls" compid="divViewCompBody00.edtCdCls" datasetid="dsObjBindEn" id="edtCdClsEn" propid="readonly"/>
+      <BindItem columnid="staLastChgDay00" compid="divViewCompBody00.staLastChgDay00" datasetid="dsObjBindVi" id="staLastChgDay00Vi" propid="visible"/>
+      <BindItem columnid="staLastChgDay00" compid="divViewCompBody00.staLastChgDay00" datasetid="dsObjBindEn" id="staLastChgDay00En" propid="enable"/>
+      <BindItem columnid="staPgmId01" compid="divViewCompBody00.staPgmId01" datasetid="dsObjBindVi" id="staPgmId01Vi" propid="visible"/>
+      <BindItem columnid="staPgmId01" compid="divViewCompBody00.staPgmId01" datasetid="dsObjBindEn" id="staPgmId01En" propid="enable"/>
+      <BindItem columnid="edtCd" compid="divViewCompBody00.edtCd" datasetid="dsObjBindVi" id="edtCdVi" propid="visible"/>
+      <BindItem columnid="edtCd" compid="divViewCompBody00.edtCd" datasetid="dsObjBindEn" id="edtCdEn" propid="readonly"/>
+      <BindItem columnid="edtCdId" compid="divViewCompBody00.edtCdId" datasetid="dsObjBindVi" id="edtCdIdVi" propid="visible"/>
+      <BindItem columnid="edtCdId" compid="divViewCompBody00.edtCdId" datasetid="dsObjBindEn" id="edtCdIdEn" propid="readonly"/>
+      <BindItem columnid="staLastChgDay01" compid="divViewCompBody00.staLastChgDay01" datasetid="dsObjBindVi" id="staLastChgDay01Vi" propid="visible"/>
+      <BindItem columnid="staLastChgDay01" compid="divViewCompBody00.staLastChgDay01" datasetid="dsObjBindEn" id="staLastChgDay01En" propid="enable"/>
+      <BindItem columnid="staCdNmLo" compid="divViewCompBody00.staCdNmLo" datasetid="dsObjBindVi" id="staCdNmLoVi" propid="visible"/>
+      <BindItem columnid="staCdNmLo" compid="divViewCompBody00.staCdNmLo" datasetid="dsObjBindEn" id="staCdNmLoEn" propid="enable"/>
+      <BindItem columnid="edtCdNmLo" compid="divViewCompBody00.edtCdNmLo" datasetid="dsObjBindVi" id="edtCdNmLoVi" propid="visible"/>
+      <BindItem columnid="edtCdNmLo" compid="divViewCompBody00.edtCdNmLo" datasetid="dsObjBindEn" id="edtCdNmLoEn" propid="readonly"/>
+      <BindItem columnid="staDesc" compid="divViewCompBody00.staDesc" datasetid="dsObjBindVi" id="staDescVi" propid="visible"/>
+      <BindItem columnid="staDesc" compid="divViewCompBody00.staDesc" datasetid="dsObjBindEn" id="staDescEn" propid="enable"/>
+      <BindItem columnid="edtDesc" compid="divViewCompBody00.edtDesc" datasetid="dsObjBindVi" id="edtDescVi" propid="visible"/>
+      <BindItem columnid="edtDesc" compid="divViewCompBody00.edtDesc" datasetid="dsObjBindEn" id="edtDescEn" propid="readonly"/>
+      <BindItem columnid="staOrdr" compid="divViewCompBody00.staOrdr" datasetid="dsObjBindVi" id="staOrdrVi" propid="visible"/>
+      <BindItem columnid="staOrdr" compid="divViewCompBody00.staOrdr" datasetid="dsObjBindEn" id="staOrdrEn" propid="enable"/>
+      <BindItem columnid="staAltUse" compid="divViewCompBody00.staAltUse" datasetid="dsObjBindVi" id="staAltUseVi" propid="visible"/>
+      <BindItem columnid="staAltUse" compid="divViewCompBody00.staAltUse" datasetid="dsObjBindEn" id="staAltUseEn" propid="enable"/>
+      <BindItem columnid="cboAltUse" compid="divViewCompBody00.cboAltUse" datasetid="dsObjBindVi" id="cboAltUseVi" propid="visible"/>
+      <BindItem columnid="cboAltUse" compid="divViewCompBody00.cboAltUse" datasetid="dsObjBindEn" id="cboAltUseEn" propid="readonly"/>
+      <BindItem columnid="staSetNum1" compid="divViewCompBody00.staSetNum1" datasetid="dsObjBindVi" id="staSetNum1Vi" propid="visible"/>
+      <BindItem columnid="staSetNum1" compid="divViewCompBody00.staSetNum1" datasetid="dsObjBindEn" id="staSetNum1En" propid="enable"/>
+      <BindItem columnid="edtSetNum1" compid="divViewCompBody00.edtSetNum1" datasetid="dsObjBindVi" id="edtSetNum1Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum1" compid="divViewCompBody00.edtSetNum1" datasetid="dsObjBindEn" id="edtSetNum1En" propid="readonly"/>
+      <BindItem columnid="staSetNum2" compid="divViewCompBody00.staSetNum2" datasetid="dsObjBindVi" id="staSetNum2Vi" propid="visible"/>
+      <BindItem columnid="staSetNum2" compid="divViewCompBody00.staSetNum2" datasetid="dsObjBindEn" id="staSetNum2En" propid="enable"/>
+      <BindItem columnid="edtSetNum2" compid="divViewCompBody00.edtSetNum2" datasetid="dsObjBindVi" id="edtSetNum2Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum2" compid="divViewCompBody00.edtSetNum2" datasetid="dsObjBindEn" id="edtSetNum2En" propid="readonly"/>
+      <BindItem columnid="staSetNum3" compid="divViewCompBody00.staSetNum3" datasetid="dsObjBindVi" id="staSetNum3Vi" propid="visible"/>
+      <BindItem columnid="staSetNum3" compid="divViewCompBody00.staSetNum3" datasetid="dsObjBindEn" id="staSetNum3En" propid="enable"/>
+      <BindItem columnid="edtSetNum3" compid="divViewCompBody00.edtSetNum3" datasetid="dsObjBindVi" id="edtSetNum3Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum3" compid="divViewCompBody00.edtSetNum3" datasetid="dsObjBindEn" id="edtSetNum3En" propid="readonly"/>
+      <BindItem columnid="staSetNum4" compid="divViewCompBody00.staSetNum4" datasetid="dsObjBindVi" id="staSetNum4Vi" propid="visible"/>
+      <BindItem columnid="staSetNum4" compid="divViewCompBody00.staSetNum4" datasetid="dsObjBindEn" id="staSetNum4En" propid="enable"/>
+      <BindItem columnid="edtSetNum4" compid="divViewCompBody00.edtSetNum4" datasetid="dsObjBindVi" id="edtSetNum4Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum4" compid="divViewCompBody00.edtSetNum4" datasetid="dsObjBindEn" id="edtSetNum4En" propid="readonly"/>
+      <BindItem columnid="staSetNum5" compid="divViewCompBody00.staSetNum5" datasetid="dsObjBindVi" id="staSetNum5Vi" propid="visible"/>
+      <BindItem columnid="staSetNum5" compid="divViewCompBody00.staSetNum5" datasetid="dsObjBindEn" id="staSetNum5En" propid="enable"/>
+      <BindItem columnid="edtSetNum5" compid="divViewCompBody00.edtSetNum5" datasetid="dsObjBindVi" id="edtSetNum5Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum5" compid="divViewCompBody00.edtSetNum5" datasetid="dsObjBindEn" id="edtSetNum5En" propid="readonly"/>
+      <BindItem columnid="staSetNum6" compid="divViewCompBody00.staSetNum6" datasetid="dsObjBindVi" id="staSetNum6Vi" propid="visible"/>
+      <BindItem columnid="staSetNum6" compid="divViewCompBody00.staSetNum6" datasetid="dsObjBindEn" id="staSetNum6En" propid="enable"/>
+      <BindItem columnid="edtSetNum6" compid="divViewCompBody00.edtSetNum6" datasetid="dsObjBindVi" id="edtSetNum6Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum6" compid="divViewCompBody00.edtSetNum6" datasetid="dsObjBindEn" id="edtSetNum6En" propid="readonly"/>
+      <BindItem columnid="staSetNum7" compid="divViewCompBody00.staSetNum7" datasetid="dsObjBindVi" id="staSetNum7Vi" propid="visible"/>
+      <BindItem columnid="staSetNum7" compid="divViewCompBody00.staSetNum7" datasetid="dsObjBindEn" id="staSetNum7En" propid="enable"/>
+      <BindItem columnid="edtSetNum7" compid="divViewCompBody00.edtSetNum7" datasetid="dsObjBindVi" id="edtSetNum7Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum7" compid="divViewCompBody00.edtSetNum7" datasetid="dsObjBindEn" id="edtSetNum7En" propid="readonly"/>
+      <BindItem columnid="staSetNum8" compid="divViewCompBody00.staSetNum8" datasetid="dsObjBindVi" id="staSetNum8Vi" propid="visible"/>
+      <BindItem columnid="staSetNum8" compid="divViewCompBody00.staSetNum8" datasetid="dsObjBindEn" id="staSetNum8En" propid="enable"/>
+      <BindItem columnid="edtSetNum8" compid="divViewCompBody00.edtSetNum8" datasetid="dsObjBindVi" id="edtSetNum8Vi" propid="visible"/>
+      <BindItem columnid="edtSetNum8" compid="divViewCompBody00.edtSetNum8" datasetid="dsObjBindEn" id="edtSetNum8En" propid="readonly"/>
+      <BindItem columnid="staSetChar1" compid="divViewCompBody00.staSetChar1" datasetid="dsObjBindVi" id="staSetChar1Vi" propid="visible"/>
+      <BindItem columnid="staSetChar1" compid="divViewCompBody00.staSetChar1" datasetid="dsObjBindEn" id="staSetChar1En" propid="enable"/>
+      <BindItem columnid="edtSetChar1" compid="divViewCompBody00.edtSetChar1" datasetid="dsObjBindVi" id="edtSetChar1Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar1" compid="divViewCompBody00.edtSetChar1" datasetid="dsObjBindEn" id="edtSetChar1En" propid="readonly"/>
+      <BindItem columnid="staSetChar2" compid="divViewCompBody00.staSetChar2" datasetid="dsObjBindVi" id="staSetChar2Vi" propid="visible"/>
+      <BindItem columnid="staSetChar2" compid="divViewCompBody00.staSetChar2" datasetid="dsObjBindEn" id="staSetChar2En" propid="enable"/>
+      <BindItem columnid="edtSetChar2" compid="divViewCompBody00.edtSetChar2" datasetid="dsObjBindVi" id="edtSetChar2Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar2" compid="divViewCompBody00.edtSetChar2" datasetid="dsObjBindEn" id="edtSetChar2En" propid="readonly"/>
+      <BindItem columnid="staSetChar3" compid="divViewCompBody00.staSetChar3" datasetid="dsObjBindVi" id="staSetChar3Vi" propid="visible"/>
+      <BindItem columnid="staSetChar3" compid="divViewCompBody00.staSetChar3" datasetid="dsObjBindEn" id="staSetChar3En" propid="enable"/>
+      <BindItem columnid="edtSetChar00" compid="divViewCompBody00.edtSetChar00" datasetid="dsObjBindVi" id="edtSetChar00Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar00" compid="divViewCompBody00.edtSetChar00" datasetid="dsObjBindEn" id="edtSetChar00En" propid="readonly"/>
+      <BindItem columnid="staSetChar4" compid="divViewCompBody00.staSetChar4" datasetid="dsObjBindVi" id="staSetChar4Vi" propid="visible"/>
+      <BindItem columnid="staSetChar4" compid="divViewCompBody00.staSetChar4" datasetid="dsObjBindEn" id="staSetChar4En" propid="enable"/>
+      <BindItem columnid="edtSetChar03" compid="divViewCompBody00.edtSetChar03" datasetid="dsObjBindVi" id="edtSetChar03Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar03" compid="divViewCompBody00.edtSetChar03" datasetid="dsObjBindEn" id="edtSetChar03En" propid="readonly"/>
+      <BindItem columnid="staSetChar5" compid="divViewCompBody00.staSetChar5" datasetid="dsObjBindVi" id="staSetChar5Vi" propid="visible"/>
+      <BindItem columnid="staSetChar5" compid="divViewCompBody00.staSetChar5" datasetid="dsObjBindEn" id="staSetChar5En" propid="enable"/>
+      <BindItem columnid="edtSetChar04" compid="divViewCompBody00.edtSetChar04" datasetid="dsObjBindVi" id="edtSetChar04Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar04" compid="divViewCompBody00.edtSetChar04" datasetid="dsObjBindEn" id="edtSetChar04En" propid="readonly"/>
+      <BindItem columnid="staSetChar6" compid="divViewCompBody00.staSetChar6" datasetid="dsObjBindVi" id="staSetChar6Vi" propid="visible"/>
+      <BindItem columnid="staSetChar6" compid="divViewCompBody00.staSetChar6" datasetid="dsObjBindEn" id="staSetChar6En" propid="enable"/>
+      <BindItem columnid="edtSetChar05" compid="divViewCompBody00.edtSetChar05" datasetid="dsObjBindVi" id="edtSetChar05Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar05" compid="divViewCompBody00.edtSetChar05" datasetid="dsObjBindEn" id="edtSetChar05En" propid="readonly"/>
+      <BindItem columnid="staSetChar7" compid="divViewCompBody00.staSetChar7" datasetid="dsObjBindVi" id="staSetChar7Vi" propid="visible"/>
+      <BindItem columnid="staSetChar7" compid="divViewCompBody00.staSetChar7" datasetid="dsObjBindEn" id="staSetChar7En" propid="enable"/>
+      <BindItem columnid="edtSetChar06" compid="divViewCompBody00.edtSetChar06" datasetid="dsObjBindVi" id="edtSetChar06Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar06" compid="divViewCompBody00.edtSetChar06" datasetid="dsObjBindEn" id="edtSetChar06En" propid="readonly"/>
+      <BindItem columnid="staSetChar8" compid="divViewCompBody00.staSetChar8" datasetid="dsObjBindVi" id="staSetChar8Vi" propid="visible"/>
+      <BindItem columnid="staSetChar8" compid="divViewCompBody00.staSetChar8" datasetid="dsObjBindEn" id="staSetChar8En" propid="enable"/>
+      <BindItem columnid="edtSetChar07" compid="divViewCompBody00.edtSetChar07" datasetid="dsObjBindVi" id="edtSetChar07Vi" propid="visible"/>
+      <BindItem columnid="edtSetChar07" compid="divViewCompBody00.edtSetChar07" datasetid="dsObjBindEn" id="edtSetChar07En" propid="readonly"/>
+      <BindItem columnid="btnAddUnderRow" compid="btnAddUnderRow" datasetid="dsObjBindVi" id="btnAddUnderRowVi" propid="visible"/>
+      <BindItem columnid="btnAddUnderRow" compid="btnAddUnderRow" datasetid="dsObjBindEn" id="btnAddUnderRowEn" propid="enable"/>
+      <BindItem columnid="btnAddSameRow" compid="btnAddSameRow" datasetid="dsObjBindVi" id="btnAddSameRowVi" propid="visible"/>
+      <BindItem columnid="btnAddSameRow" compid="btnAddSameRow" datasetid="dsObjBindEn" id="btnAddSameRowEn" propid="enable"/>
+      <BindItem columnid="btnDelMenu" compid="btnDelMenu" datasetid="dsObjBindVi" id="btnDelMenuVi" propid="visible"/>
+      <BindItem columnid="btnDelMenu" compid="btnDelMenu" datasetid="dsObjBindEn" id="btnDelMenuEn" propid="enable"/>
+      <BindItem columnid="ARY_ORDR" compid="divViewCompBody00.spnAryOrdr" datasetid="dsCd" id="item5" propid="value"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BSysCodeTree.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 14.
+ * @설명			: 코드관리
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 03.
+*/  
+
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+	var param = [
+					{code:"CM34"} //  언어
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetObj("A");
+	this.fnSearch();
+}
+
+/**
+	@함수명	fnPreSave()
+	@desc   	저장전 처리
+*/ 
+this.fnPreSave = function()
+{
+	this.dsCheckId.deleteAll();
+	
+	var arr = [];
+	for(var i = 0 ; i < this.dsCd.rowcount ; i++){
+		if(gfnIsNull(this.dsCd.getColumn(i,"CD_GRP"))){
+			var msg = gfnMultiLabel("EPRO_LABEL_00761"); //"코드그룹을 입력 해 주세요.";
+			var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+			
+		} else if(gfnIsNull(this.dsCd.getColumn(i,"CD_CLS"))){
+			var msg = gfnMultiLabel("EPRO_LABEL_00762"); //"코드클래스를 입력 해 주세요.";
+			var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+			
+		} else if(gfnIsNull(this.dsCd.getColumn(i,"CD"))){
+			var msg = gfnMultiLabel("EPRO_LABEL_00763"); //"코드를 입력 해 주세요.";
+			var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+			
+		} else if(gfnIsNull(this.dsCd.getColumn(i,"CD_NM_LO"))){
+			var msg = gfnMultiLabel("EPRO_LABEL_00764"); //"코드명(한)을 입력 해 주세요.";
+			var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+		}
+		
+		if(this.dsCd.getColumn(i,"CD_ID") != this.dsCd.getColumn(i,"OLD_CD_ID")){
+			var nRow = this.dsCheckId.addRow();
+			this.dsCheckId.setColumn(nRow,"CD_ID",this.dsCd.getColumn(i,"CD_ID"));
+		}
+	}
+	
+	if(!gfnValidate(this, false, arr)) return false;
+	
+	if(this.dsCheckId.rowcount != 0){
+		var sSvcID = "checkSysCdId";
+		var sController = "epro.sys.service.BSysService.checkSysCdId";
+		var sInDatasets = "dsCheckId=dsCheckId";
+		var sOutDatasets = "dsCheckId=dsCheckId";
+		var sCallbackFunc = "fnTrCallBack";	
+						
+		gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+		
+		return false;
+	}
+
+	return true;
+}
+/**
+	@함수명	코드중복체크
+	@desc   	fnDupCheck
+*/ 
+this.fnDupCheck = function(cRow)
+{
+	var arr = [];
+	// 비교할 코드
+	var cdId = this.dsCd.getColumn(cRow, "CD_ID");
+	//전 비교
+	var findCdRow = this.dsCd.findRow("CD_ID", cdId, 0, cRow);
+	// 후 비교
+	if(findCdRow < 0){
+		findCdRow = this.dsCd.findRow("CD_ID", cdId, cRow+1, this.dsCd.rowcount);
+	}
+	
+	// 코드 중복체크 (찾은 ROW과 현재 ROW를 비교한다.)
+	if(findCdRow >= 0 && findCdRow != cRow){
+		var msg = gfnMultiLabel("EPRO_LABEL_00765");
+		var type = gfnMultiLabel("EPRO_LABEL_00935");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		var cd =  this.dsCd.getColumn(cRow, "CD");
+		// 값 초기화
+		var cdRow = (cdId.length - cd.length);
+		var slice = cdId.slice(0,cdRow);
+		this.dsCd.setColumn(cRow, "CD_ID", slice);
+		this.dsCd.setColumn(cRow, "CD", "");
+		
+		arr.push(objParam);
+	}
+	
+	return gfnValidate(this, true, arr);
+}
+/**
+	@함수명	fnSave()
+	@desc   	저장
+*/ 
+this.fnSave = function()
+{
+	if(!this.fnPreSave()) return;
+	
+	if(!gfnConfirm("EPRO_LABEL_00001")) return;
+	
+	var sSvcID = "saveSysCd";
+	var sController = "epro.sys.service.BSysService.saveSysCd";
+	var sInDatasets = "dsCd=dsCd:A dsCdRsrc=dsCdRsrc:A";
+	var sOutDatasets = "dsCd=dsCd dsCdRsrc=dsCdRsrc";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@함수명	fnSearch()
+	@desc   	조회 프로세스
+	
+*/ 
+this.fnSearch = function()
+{
+	var sSvcID = "readSysCdTree";
+	var sController = "epro.sys.service.BSysService.readSysCdTree";
+	var sInDatasets = "dsCd=dsCd"
+	var sOutDatasets = "dsCd=dsCd dsCdRsrc=dsCdRsrc";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@함수명	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/      
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "readSysCdTree" :
+			this.grdTree.set_treepathdelimiter("/") 
+			this.grdTree.set_enableevent(false);
+			this.dsCdRsrc.filter("MM_CD_ID=='"+this.dsCd.getColumn(this.dsCd.rowposition, "CD_ID")+"'");
+			for(var i=0; i<this.dsTreeStatus.getRowCount(); i++) {
+				var treeRow = this.grdTree.getTreeRow(this.dsTreeStatus.getColumn(i, "PATH"))
+				if(-1 < treeRow) {
+					this.grdTree.setTreeStatus(treeRow, true)
+				}
+			}
+			this.grdTree.set_enableevent(true);
+		break;
+		
+		case "checkSysCdId" :
+			if(strErrMsg != ""){
+				var arr = [];
+				var str = strErrMsg.split(',');
+				for(var i = 0 ; i < str.length ; i++){
+					var msg = str[i] + gfnMultiLabel("EPRO_LABEL_00765"); //" 코드ID가 중복됩니다.";
+					var type = gfnMultiLabel("EPRO_LABEL_00757"); //"중복체크";
+					var objParam = {agv_msg:msg, agv_type:type};
+					arr.push(objParam);
+				}
+				
+				if(!gfnValidate(this, false, arr)) return;
+			}
+			
+			if(!gfnConfirm("EPRO_LABEL_00001")) return;
+			
+			var sSvcID = "saveSysCd";
+			var sController = "epro.sys.service.BSysService.saveSysCd";
+			var sInDatasets = "dsCd=dsCd:A dsCdRsrc=dsCdRsrc:A";
+			var sOutDatasets = "dsCd=dsCd dsCdRsrc=dsCdRsrc";
+			var sCallbackFunc = "fnTrCallBack";	
+							
+			gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+			
+		break;
+		
+		case "saveSysCd" :
+			this.dsCd.applyChange();
+			gfnAlert(strErrMsg);
+			this.fnSearch();
+			
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@함수명	fnAddUnderRow()
+	@desc   	하위레벨 코드 추가
+*/    
+this.fnAddUnderRow = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.dsCd.getColumn(this.dsCd.rowposition,"CD_GRP"))){
+		gfnAlert("EPRO_LABEL_00761");
+		return;
+		
+	} else if(gfnIsNull(this.dsCd.getColumn(this.dsCd.rowposition,"CD_CLS"))){
+		gfnAlert("EPRO_LABEL_00762");
+		return;
+	
+	} else if(gfnIsNull(this.dsCd.getColumn(this.dsCd.rowposition,"CD"))){
+		gfnAlert("EPRO_LABEL_00763");
+		return;
+	}
+
+	var inRow = "";
+	var nRow = this.dsCd.rowposition;
+	var bro = this.grdTree.getTreeSiblingRow(nRow,1,true)
+	//형제노드가 있을때
+	if(bro > -1){
+		inRow = bro;
+	} else{
+		//자식이 없는 노드
+		if(this.grdTree.isTreeLeafRow(nRow)){
+			inRow = nRow + 1;
+		} else{//자식이 있는노드
+			inRow = this.grdTree.getTreeChildRow(nRow,-1,true); //자식의 마지막로우
+			if(0 < this.grdTree.getTreeChildRow(inRow,-1,true)){ //자식의 자식이 있는지 확인
+				inRow = this.grdTree.getTreeChildRow(inRow,-1,true) //손주의 마지막 로우
+			}
+			inRow+=1 //확인된 마지막 로우에 +1
+		}
+	}
+	
+	this.dsCd.insertRow(inRow);
+	this.dsCd.setColumn(inRow, "CD_ID", "");
+	this.dsCd.setColumn(inRow, "LEVEL", this.dsCd.getColumn(nRow,"LEVEL") + 1);	
+	this.dsCd.setColumn(inRow, "UP_CD_ID", this.dsCd.getColumn(nRow,"CD_ID"));
+	this.dsCd.setColumn(inRow, "CD_GRP", this.dsCd.getColumn(nRow,"CD_GRP"));
+	this.dsCd.setColumn(inRow, "ALT_USE", "Y");
+	
+	this.grdTree.setTreeStatus(this.grdTree.getTreeRow(nRow), true);
+
+	this.fnAddRsrc(inRow);
+	
+}
+
+/**
+	@함수명	fnAddSameRow()
+	@desc   	동일레벨 코드 추가
+*/   
+this.fnAddSameRow = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var inRow = "";
+	var nRow = this.dsCd.rowposition;
+	var par = this.grdTree.getTreeParentRow(nRow)
+	//부모가 있는경우
+	if(par > -1){
+		for(var i = par+1; i < this.dsCd.rowcount ; i++){
+			if((Number(this.dsCd.getColumn(par,"LEVEL")) == Number(this.dsCd.getColumn(i,"LEVEL"))) 
+				|| Number(this.dsCd.getColumn(par,"LEVEL")) > Number(this.dsCd.getColumn(i,"LEVEL"))){
+				inRow = i;
+				break;
+			}
+			if(inRow == "") inRow = this.dsCd.rowcount;
+		}
+		
+	} else {
+		inRow = this.dsCd.rowcount;
+	}
+	this.dsCd.insertRow(inRow);
+	this.dsCd.setColumn(inRow, "CD_ID", "");
+	this.dsCd.setColumn(inRow, "LEVEL", this.dsCd.getColumn(nRow,"LEVEL"));
+	this.dsCd.setColumn(inRow, "ALT_USE", "Y");
+	
+	if(par > -1){
+		this.dsCd.setColumn(inRow, "UP_CD_ID", this.dsCd.getColumn(par,"CD_ID"));
+		this.dsCd.setColumn(inRow, "CD_GRP", this.dsCd.getColumn(par,"CD_GRP"));
+	}
+	
+	this.fnAddRsrc(inRow);
+}
+
+/**
+	@함수명	fnDelCode()
+	@desc   	코드 삭제
+*/ 
+this.fnDelCode = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsCd.rowposition;
+	trace("nRow => "+nRow)
+	var child = this.grdTree.getTreeChildCount(nRow);
+	var msg = "";
+	
+	if(child == 0) msg = gfnMultiLabel("EPRO_LABEL_00766"); //"선택된 코드를 삭제하시겠습니까?";
+	else msg = gfnMultiLabel("EPRO_LABEL_00767"); //"선택된 코드와 하위레벨코드가 함께 삭제됩니다.\n삭제하시겠습니까?"
+	
+	if(!gfnConfirm(msg)) return;
+	
+	var bro = this.grdTree.getTreeSiblingRow(nRow,1)
+	var tbro = this.grdTree.getTreeSiblingRow(nRow,-1)
+	//형제노드가 있을때
+	if(bro > -1){
+		for(var i = bro - 1 ; i >= nRow ; i--){
+			this.fnDelCdRsrc(i)
+			this.dsCd.deleteRow(i);
+		}
+	} else {
+		if(child == 0) {
+			this.fnDelCdRsrc(nRow)
+			this.dsCd.deleteRow(nRow);
+		} else {
+			child = this.grdTree.getTreeChildRow(nRow,-1);
+			
+			for(var i = child ; i >= nRow ; i--){
+				this.fnDelCdRsrc(i)
+				this.dsCd.deleteRow(i);
+			}
+		}
+	}
+	if(0 > bro) {
+		this.dsCd.set_rowposition(tbro)
+	}
+	
+	this.fnDsFilter();
+}
+
+this.fnDelCdRsrc = function(row)
+{
+	if(this.dsCd.getRowType(row) == "2") {
+		this.dsCdRsrc.filter("TEMPKEY=='"+this.dsCd.getColumn(row, "TEMPKEY")+"'");
+	} else {
+		this.dsCdRsrc.filter("MM_CD_ID=='"+this.dsCd.getColumn(row, "CD_ID")+"'");
+	}
+	this.dsCdRsrc.deleteAll();
+}
+
+/**
+	@함수명	fnOncolumnchanged()
+	@desc   	컬럼의 내용 변경후 이벤트
+*/ 
+this.fnOncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CD_GRP" || e.columnid == "CD_CLS" || e.columnid == "CD"){
+		var grp = obj.getColumn(e.row,"CD_GRP");
+		var cls = obj.getColumn(e.row,"CD_CLS");
+		var cd  = obj.getColumn(e.row,"CD")
+		
+		if(gfnIsNull(grp)) grp = "";
+		if(gfnIsNull(cls)) cls = "";
+		if(gfnIsNull(cd))  cd = "";
+		
+		var cdId = grp + cls + cd;
+		obj.setColumn(e.row,"CD_ID",cdId);
+				
+		if(obj.getColumn(e.row,"LEVEL") == "1"){
+			obj.setColumn(e.row,"CD_ID2",grp);
+		
+		} else if(obj.getColumn(e.row,"LEVEL") == "2"){
+			obj.setColumn(e.row,"CD_ID2",grp+cls);
+			
+		} else{
+			obj.setColumn(e.row,"CD_ID2",cdId);
+		}
+		this.fnDsFilter()
+		this.fnRsrcCdIdChange(e.row);
+	}
+	if(e.columnid == "CD"){
+		// 중복체크 
+		this.fnDupCheck(e.row);
+	}
+	
+	
+}
+/**
+	@함수명	fnRsrcCdIdChange()
+	@desc   	언어의 CD_ID 변경
+*/ 
+this.fnRsrcCdIdChange = function(row)
+{	
+	this.dsCdRsrc.set_enableevent(false);
+	for(var i=0; i<this.dsCdRsrc.getRowCount(); i++) {
+		this.dsCdRsrc.setColumn(i, "MM_CD_ID", this.dsCd.getColumn(row, "CD_ID"))
+	}
+	this.dsCdRsrc.set_enableevent(true);
+}
+
+/**
+	@함수명	fnOnrowposchanged()
+	@desc   	그리드의 rowposition 변경
+*/ 
+this.fnOnrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+// 	// insert 상태일때
+// 	if(obj.getRowType(e.newrow) == "2") {
+// 		gfnSetObj("A");
+// 	// level이 1일때	
+// 	}else if(this.dsCd.getColumn(e.newrow, "LEVEL") == 1){
+// 		gfnSetObj("C");
+// 	// RowType 텅빈 상태가 아닐때	
+// 	}else if(obj.getRowType(e.newrow) != "0") {
+// 		gfnSetObj("B");
+// 	}
+// 	
+	this.fnDsFilter();
+}
+
+/**
+	@함수명	fnOncelldblclick()
+	@desc   	그리드 트리셀 더블클릭
+*/ 
+this.fnOncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	var nRow = this.grdTree.getTreeRow(this.dsCd.rowposition);
+	
+	if(this.grdTree.getTreeStatus(nRow) == 0){
+		this.grdTree.setTreeStatus(nRow, true);
+		
+	} else if(this.grdTree.getTreeStatus(nRow) == 1){
+		this.grdTree.setTreeStatus(nRow, false);
+	}	
+}
+
+/**
+	@함수명	fnAddRsrc()
+	@desc   	언어추가
+*/ 
+this.fnAddRsrc = function(inRow)
+{
+	this.dsCdRsrc.set_enableevent(false);
+	this.dsCdRsrc.filter("");
+	var tempKey = gfnMakeTempKey();
+	this.dsCd.setColumn(inRow, "TEMPKEY", tempKey);
+	for(var i=0; i<this.dsCdCM34.getRowCount(); i++) {
+		var nRow = this.dsCdRsrc.addRow();
+		this.dsCdRsrc.setColumn(nRow, "TEMPKEY", tempKey);
+		this.dsCdRsrc.setColumn(nRow, "CD", this.dsCdRsrc.getColumn(i, "CD"));
+		this.dsCdRsrc.setColumn(nRow, "CD_ID", this.dsCdRsrc.getColumn(i, "CD_ID"));
+		this.dsCdRsrc.setColumn(nRow, "CD_NM_LO", this.dsCdRsrc.getColumn(i, "CD_NM_LO"));
+	}
+	
+	this.fnDsFilter();
+	this.dsCdRsrc.set_enableevent(true);
+}
+
+/**
+	@함수명	fnDsFilter()
+	@desc   	그리드 필터설정
+*/
+this.fnDsFilter = function() 
+{
+		if(this.dsCd.getRowType(this.dsCd.rowposition) == "2"){
+			this.dsCdRsrc.filter("TEMPKEY=='"+this.dsCd.getColumn(this.dsCd.rowposition, "TEMPKEY")+"'");
+		} else {
+			this.dsCdRsrc.filter("MM_CD_ID=='"+this.dsCd.getColumn(this.dsCd.rowposition, "CD_ID")+"' && TEMPKEY==''");
+		}
+}	
+
+/**
+	@함수명	fnOncellclick()
+	@desc   	그리드 셀 클릭시 필터변경
+*/ 
+this.fnOncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	this.fnDsFilter();
+}
+
+/**
+	@함수명	fnGrdTreeOntreeStatusChanged()
+	@desc   	
+*/ 
+this.fnGrdTreeOntreeStatusChange = function(obj:Grid, e:nexacro.GridTreeStatusEventInfo)
+{
+	if(e.reason == 1) {
+		var nRow = this.dsTreeStatus.addRow();
+		this.dsTreeStatus.setColumn(nRow, "PATH", obj.getTreePath(e.realrow, true));
+		this.dsTreeStatus.setColumn(nRow, "STATUS", e.reason);
+	} else {
+		var row = this.dsTreeStatus.findRowAs("PATH", obj.getTreePath(e.realrow, true));
+		while(row > -1) {
+			this.dsTreeStatus.deleteRow(row);
+			row = this.dsTreeStatus.findRowAs("PATH", obj.getTreePath(e.realrow, true));
+		}
+		
+	}
+}]]></Script>
+  </Form>
+</FDL>

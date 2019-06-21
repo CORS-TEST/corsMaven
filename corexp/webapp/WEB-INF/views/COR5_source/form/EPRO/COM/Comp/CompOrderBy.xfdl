@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompOrderBy" height="27" id="CompOrderBy" left="0" style="background:transparent;" titletext="정렬순서 컴포넌트" top="0" width="969">
+    <Layouts>
+      <Layout>
+        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cb_SortItem00" innerdataset="dsSortItem" left="0%" objNm="정렬순서_1" onitemchanged="cb_SortItem00_onitemchanged" right="87%" style="padding:0 0 0 25;background:#ffffffff URL('img::sort1.png');" taborder="1" top="0"/>
+        <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="24" id="cb_SortType00" left="13.31%" objNm="정렬방식_1" onitemchanged="Div_SOption_cb_SortType00_onitemchanged" right="76.37%" taborder="2" top="0">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn"/>
+                <Col id="datacolumn">--선택--</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">ASC</Col>
+                <Col id="datacolumn">오름차순</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">DESC</Col>
+                <Col id="datacolumn">내림차순</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cb_SortItem01" innerdataset="dsSortItem" left="24.05%" objNm="정렬순서_2" onitemchanged="cb_SortItem01_onitemchanged" right="62.02%" style="padding:0 0 0 25;background:#ffffffff URL('img::sort2.png');" taborder="3" top="0"/>
+        <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="24" id="cb_SortType01" left="38.6%" objNm="정렬방식_2" onitemchanged="Div_SOption_cb_SortType01_onitemchanged" right="51.08%" taborder="4" top="0">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn"/>
+                <Col id="datacolumn">--선택--</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">ASC</Col>
+                <Col id="datacolumn">오름차순</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">DESC</Col>
+                <Col id="datacolumn">내림차순</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="24" id="cb_SortType02" left="63.98%" objNm="정렬방식_3" onitemchanged="cb_SortType02_onitemchanged" right="25.7%" taborder="7" top="0">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn"/>
+                <Col id="datacolumn">--선택--</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">ASC</Col>
+                <Col id="datacolumn">오름차순</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">DESC</Col>
+                <Col id="datacolumn">내림차순</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cb_SortItem02" innerdataset="dsSortItem" left="49.43%" objNm="정렬순서_3" onitemchanged="cb_SortItem02_onitemchanged" right="36.64%" style="padding:0 0 0 25;background:#ffffffff URL('img::sort3.png');" taborder="9" top="0"/>
+        <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="24" id="cb_SortType03" left="89.16%" objNm="정렬방식_4" onitemchanged="cb_SortType03_onitemchanged" right="0.52%" taborder="10" top="0">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn"/>
+                <Col id="datacolumn">--선택--</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">ASC</Col>
+                <Col id="datacolumn">오름차순</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">DESC</Col>
+                <Col id="datacolumn">내림차순</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cb_SortItem03" innerdataset="dsSortItem" left="75.13%" objNm="정렬순서_4" onitemchanged="cb_SortItem03_onitemchanged" right="11.35%" style="padding:0 0 0 25;background:#ffffffff URL('img::sort4.png');" taborder="12" top="0"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="SORT_ITEM1" compid="cb_SortItem00" datasetid="dsCondition" id="item14" propid="value"/>
+      <BindItem columnid="SORT_TYPE1" compid="cb_SortType00" datasetid="dsCondition" id="item15" propid="value"/>
+      <BindItem columnid="SORT_ITEM2" compid="cb_SortItem01" datasetid="dsCondition" id="item16" propid="value"/>
+      <BindItem columnid="SORT_TYPE2" compid="cb_SortType01" datasetid="dsCondition" id="item17" propid="value"/>
+      <BindItem columnid="SORT_TYPE3" compid="cb_SortType02" datasetid="dsCondition" id="item10" propid="value"/>
+      <BindItem columnid="SORT_ITEM3" compid="cb_SortItem02" datasetid="dsCondition" id="item11" propid="value"/>
+      <BindItem columnid="SORT_TYPE4" compid="cb_SortType03" datasetid="dsCondition" id="item18" propid="value"/>
+      <BindItem columnid="SORT_ITEM4" compid="cb_SortItem03" datasetid="dsCondition" id="item19" propid="value"/>
+    </Bind>
+    <Objects/>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompOrderBy.xfdl
+   @desc       정렬순서 컴포넌트
+   @author     배열
+   @makedate   2015.08.20
+   @history    
+*/   
+
+
+/**
+	@function	cb_SortItem00_onitemchanged()
+	@desc   	
+*/  
+this.cb_SortItem00_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_Orerby_Control(obj, this.cb_SortType00);
+}
+
+/**
+	@function	cb_SortItem01_onitemchanged()
+	@desc   	
+*/  
+this.cb_SortItem01_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_Orerby_Control(obj, this.cb_SortType01);
+}
+
+/**
+	@function	cb_SortItem02_onitemchanged()
+	@desc   	
+*/  
+this.cb_SortItem02_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_Orerby_Control(obj, this.cb_SortType02);
+}
+
+/**
+	@function	cb_SortItem03_onitemchanged()
+	@desc   	
+*/  
+this.cb_SortItem03_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_Orerby_Control(obj, this.cb_SortType03);
+}
+
+/**
+	@function	fn_Orerby_Control()
+	@desc   	
+*/  
+this.fn_Orerby_Control = function (obj:Combo, objType:Combo){
+	if(obj.index == 0) {
+		objType.set_index(0);
+	}
+	if(obj.index > 0 && objType.index <= 0) {
+		objType.set_index(2); //DESC
+	}
+}
+
+/**
+	@function	Div_SOption_cb_SortType00_onitemchanged()
+	@desc   	
+*/  
+this.Div_SOption_cb_SortType00_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(obj.index == 0) this.cb_SortItem00.set_index(0);
+}
+
+/**
+	@function	Div_SOption_cb_SortType01_onitemchanged()
+	@desc   	
+*/  
+this.Div_SOption_cb_SortType01_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(obj.index == 0) this.cb_SortItem01.set_index(0);
+}
+
+/**
+	@function	cb_SortType02_onitemchanged()
+	@desc   	
+*/  
+this.cb_SortType02_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(obj.index == 0) this.cb_SortItem02.set_index(0);
+}
+
+/**
+	@function	cb_SortType03_onitemchanged()
+	@desc   	
+*/  
+this.cb_SortType03_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	if(obj.index == 0) this.cb_SortItem03.set_index(0);
+}
+]]></Script>
+  </Form>
+</FDL>

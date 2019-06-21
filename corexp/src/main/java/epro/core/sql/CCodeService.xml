@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cCodeService">
+		<select id="getAllCodes" resultType="HMap">
+			SELECT
+			    CD_ID
+			    ,UP_CD_ID
+			    ,CD_NM_LO
+			    ,CD_GRP
+			    ,CD
+			    ,CD_CLS
+			    --,CD_NM_GB
+			    ,CD_DESC
+			    ,ALT_USE
+			    --,ALT_ERP_CD
+			    --,ERP_CD
+			    --,ARY_ORDR
+			    ,APPND_SET_CHR_1
+			    ,APPND_SET_CHR_2
+			    ,APPND_SET_CHR_3
+			    ,APPND_SET_CHR_4
+			    ,APPND_SET_CHR_5
+			    ,APPND_SET_CHR_6
+			    ,APPND_SET_CHR_7
+			    ,APPND_SET_CHR_8
+			    ,APPND_SET_NUM_1
+			    ,APPND_SET_NUM_2
+			    ,APPND_SET_NUM_3
+			    ,APPND_SET_NUM_4
+			    ,APPND_SET_NUM_5
+			    ,APPND_SET_NUM_6
+			    ,APPND_SET_NUM_7
+			    ,APPND_SET_NUM_8
+			    ,CD_GRP||CD_CLS AS CD_GD_ID
+			    ,'' BRANCH_CD
+			FROM MM_SYS_CD
+			WHERE ALT_USE = 'Y'
+			UNION ALL
+			SELECT
+			    CD_ID
+			    ,UP_CD_ID
+			    ,CD_NM_LO
+			    ,CD_GRP
+			    ,CD
+			    ,CD_CLS
+			    --,CD_NM_GB
+			    ,CD_DESC
+			    ,ALT_USE
+			    --,ALT_ERP_CD
+			    --,ERP_CD
+			    --,ARY_ORDR
+			    ,APPND_SET_CHR_1
+			    ,APPND_SET_CHR_2
+			    ,APPND_SET_CHR_3
+			    ,APPND_SET_CHR_4
+			    ,APPND_SET_CHR_5
+			    ,APPND_SET_CHR_6
+			    ,APPND_SET_CHR_7
+			    ,APPND_SET_CHR_8
+			    ,APPND_SET_NUM_1
+			    ,APPND_SET_NUM_2
+			    ,APPND_SET_NUM_3
+			    ,APPND_SET_NUM_4
+			    ,APPND_SET_NUM_5
+			    ,APPND_SET_NUM_6
+			    ,APPND_SET_NUM_7
+			    ,APPND_SET_NUM_8
+			    ,CD_GRP||CD_CLS AS CD_GD_ID
+			    ,'' BRANCH_CD
+			FROM MM_MT_SYS_CD
+			WHERE ALT_USE = 'Y'
+			ORDER BY CD_GRP, CD_CLS,  CD
+		</select>
+
+		<select id="getUseCodes" resultType="HMap">
+			SELECT
+			    CD_ID
+			    ,UP_CD_ID
+			    ,CD_NM_LO
+			    ,CD_GRP
+			    ,CD
+			    ,CD_CLS
+			    --,CD_NM_GB
+			    ,CD_DESC
+			    ,ALT_USE
+			    --,ALT_ERP_CD
+			    --,ERP_CD
+			    --,ARY_ORDR
+			    ,APPND_SET_CHR_1
+			    ,APPND_SET_CHR_2
+			    ,APPND_SET_CHR_3
+			    ,APPND_SET_CHR_4
+			    ,APPND_SET_CHR_5
+			    ,APPND_SET_CHR_6
+			    ,APPND_SET_CHR_7
+			    ,APPND_SET_CHR_8
+			    ,APPND_SET_NUM_1
+			    ,APPND_SET_NUM_2
+			    ,APPND_SET_NUM_3
+			    ,APPND_SET_NUM_4
+			    ,APPND_SET_NUM_5
+			    ,APPND_SET_NUM_6
+			    ,APPND_SET_NUM_7
+			    ,APPND_SET_NUM_8
+			    ,CD_GRP||CD_CLS AS CD_GD_ID
+			    ,'' BRANCH_CD
+			FROM MM_SYS_CD
+			WHERE ALT_USE = 'Y'
+			<![CDATA[AND CD <> '00' ]]>
+			UNION ALL
+			SELECT
+			    CD_ID
+			    ,UP_CD_ID
+			    ,CD_NM_LO
+			    ,CD_GRP
+			    ,CD
+			    ,CD_CLS
+			    --,CD_NM_GB
+			    ,CD_DESC
+			    ,ALT_USE
+			    --,ALT_ERP_CD
+			    --,ERP_CD
+			    --,ARY_ORDR
+			    ,APPND_SET_CHR_1
+			    ,APPND_SET_CHR_2
+			    ,APPND_SET_CHR_3
+			    ,APPND_SET_CHR_4
+			    ,APPND_SET_CHR_5
+			    ,APPND_SET_CHR_6
+			    ,APPND_SET_CHR_7
+			    ,APPND_SET_CHR_8
+			    ,APPND_SET_NUM_1
+			    ,APPND_SET_NUM_2
+			    ,APPND_SET_NUM_3
+			    ,APPND_SET_NUM_4
+			    ,APPND_SET_NUM_5
+			    ,APPND_SET_NUM_6
+			    ,APPND_SET_NUM_7
+			    ,APPND_SET_NUM_8
+			    ,CD_GRP||CD_CLS AS CD_GD_ID
+			    ,'' BRANCH_CD
+			FROM MM_MT_SYS_CD
+			WHERE ALT_USE = 'Y'
+			<![CDATA[AND CD <> '00' ]]>
+			ORDER BY CD_GRP, CD_CLS,  CD
+		</select>
+		<select id="getMultiUseCodes" resultType="HMap">
+			SELECT
+				MSC.CD_ID
+				,MSCR.CD_RSRC_LANG LANG_CD
+				,MSC.UP_CD_ID
+				,MSCR.RSRC_NM  CD_NM_LO
+				,MSC.CD_GRP
+				,MSC.CD
+				,MSC.CD_CLS
+				--,MSC.CD_NM_GB
+				,MSC.CD_DESC
+				,MSC.ALT_USE
+				--,MSC.ALT_ERP_CD
+				--,MSC.ERP_CD
+				--,MSC.ARY_ORDR
+				,MSC.APPND_SET_CHR_1
+				,MSC.APPND_SET_CHR_2
+				,MSC.APPND_SET_CHR_3
+				,MSC.APPND_SET_CHR_4
+				,MSC.APPND_SET_CHR_5
+				,MSC.APPND_SET_CHR_6
+				,MSC.APPND_SET_CHR_7
+				,MSC.APPND_SET_CHR_8
+				,MSC.APPND_SET_NUM_1
+				,MSC.APPND_SET_NUM_2
+				,MSC.APPND_SET_NUM_3
+				,MSC.APPND_SET_NUM_4
+				,MSC.APPND_SET_NUM_5
+				,MSC.APPND_SET_NUM_6
+				,MSC.APPND_SET_NUM_7
+				,MSC.APPND_SET_NUM_8
+				,CD_GRP||CD_CLS AS CD_GD_ID
+				,'' BRANCH_CD
+			FROM MM_SYS_CD MSC,MM_SYS_CD_RSRC MSCR
+			WHERE   MSC.CD_ID = MSCR.CD_ID
+			AND MSC.ALT_USE = 'Y'
+			AND MSC.CD <![CDATA[<> ]]> '00'  
+			--ORDER BY MSC.CD_GRP, MSC.CD_CLS, MSC.ARY_ORDR, MSC.CD, MSCR.CD_RSRC_LANG
+			UNION ALL
+			SELECT
+				MSC.CD_ID
+				,MSCR.CD_RSRC_LANG LANG_CD
+				,MSC.UP_CD_ID
+				,MSCR.RSRC_NM  CD_NM_LO
+				,MSC.CD_GRP
+				,MSC.CD
+				,MSC.CD_CLS
+				--,MSC.CD_NM_GB
+				,MSC.CD_DESC
+				,MSC.ALT_USE
+				--,MSC.ALT_ERP_CD
+				--,MSC.ERP_CD
+				--,MSC.ARY_ORDR
+				,MSC.APPND_SET_CHR_1
+				,MSC.APPND_SET_CHR_2
+				,MSC.APPND_SET_CHR_3
+				,MSC.APPND_SET_CHR_4
+				,MSC.APPND_SET_CHR_5
+				,MSC.APPND_SET_CHR_6
+				,MSC.APPND_SET_CHR_7
+				,MSC.APPND_SET_CHR_8
+				,MSC.APPND_SET_NUM_1
+				,MSC.APPND_SET_NUM_2
+				,MSC.APPND_SET_NUM_3
+				,MSC.APPND_SET_NUM_4
+				,MSC.APPND_SET_NUM_5
+				,MSC.APPND_SET_NUM_6
+				,MSC.APPND_SET_NUM_7
+				,MSC.APPND_SET_NUM_8
+				,CD_GRP||CD_CLS AS CD_GD_ID
+				,'' BRANCH_CD
+			FROM MM_MT_SYS_CD MSC,MM_SYS_CD_RSRC MSCR
+			WHERE   MSC.CD_ID = MSCR.CD_ID
+			AND MSC.ALT_USE = 'Y'
+			AND MSC.CD <![CDATA[<> ]]> '00'  
+			--ORDER BY MSC.CD_GRP, MSC.CD_CLS, MSC.ARY_ORDR, MSC.CD, MSCR.CD_RSRC_LANG
+		</select>
+</mapper>

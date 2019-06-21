@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form classname="MainPotal_01" dragscrolltype="none" height="992" id="MainPotal" left="0" oninit="MainPotal_oninit" onload="MainPotal_onload" titletext="내부 메인화면" top="0" width="1262">
+    <Layouts>
+      <Layout>
+        <Div height="266" id="divViewCompCond01" left="0" right="0" taborder="15" top="0">
+          <Layouts>
+            <Layout>
+              <Static bottom="14" cssclass="sta_WF_Renewal2" id="sta_ptnrChtDt00" left="5" objNm="" right="5" style="border:1 solid #4d7990ff ;shadow:outer 1,1 2 #e1e1e1ff;" taborder="42" top="10"/>
+              <Static cssclass="sta_WF_ProcessLine" height="8" id="Static03" lbcd="" left="152" objNm="" taborder="1" top="144" width="1024"/>
+              <Static cssclass="sta_WF_Order" height="125" id="Static00" lbcd="" left="42" objNm="" taborder="2" top="85" width="117"/>
+              <Button cssclass="btn_WF_Creation" height="31" id="btnRfq" lbcd="TTL_PO_CREATE" left="53" objNm="발주생성" onclick="divViewCompCond01_btnRfq_onclick" taborder="3" text="입찰진행" top="160" width="95"/>
+              <Static height="21" id="Static01" lbcd="" left="83" objNm="" style="color:#ffffffff;align:right middle;font:bold 13 malgun gothic;" taborder="4" top="106" width="51"/>
+              <Static height="21" id="Static02" lbcd="" left="83" objNm="" style="color:red;align:right middle;font:bold 13 malgun gothic;" taborder="5" top="132" width="51"/>
+              <Static cssclass="sta_WF_ProcessLine2" height="80" id="Static04" lbcd="" left="817" objNm="" taborder="6" top="107" width="149"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static05" lbcd="" left="310" objNm="" taborder="7" top="139" width="16"/>
+              <Button cssclass="btn_WF_Process3" enable="false" height="41" id="btn2_RREQ" lbcd="TTL_PO_RECIPT" left="833" objNm="발주접수" onclick="fnRfqDeatil2" taborder="8" text=" 재입찰" top="59" width="122"/>
+              <Button cssclass="btn_WF_Process4" height="41" id="btn2_WRI" lbcd="TTL_REQ" left="208" objNm="요청" onclick="fnRfqDeatil2" taborder="9" text=" 입찰작성중" top="103" width="129"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static16" left="15" taborder="12" text="구매진행현황" top="14" width="16.96%"/>
+              <Button cssclass="btn_WF_Process6" enable="false" height="41" id="btn2_CXL" lbcd="TTL_GR" left="833" objNm="입고" onclick="fnRfqDeatil2" style=":disabled {padding:0 0 0 14;}" taborder="13" text=" 취소" top="192" width="119"/>
+              <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static06" lbcd="" left="883" objNm="" taborder="15" top="101" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static07" lbcd="" left="883" objNm="" taborder="16" top="175" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static08" lbcd="" left="402" objNm="" taborder="20" top="139" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static09" lbcd="" left="576" objNm="" taborder="21" top="139" width="16"/>
+              <Static cssclass="sta_WF_ProcessBullet" height="16" id="Static10" lbcd="" left="711" objNm="" taborder="22" top="139" width="16"/>
+              <Button cssclass="btn_WF_Process2" height="41" id="btn2_ANI" lbcd="TTL_GR" left="648" objNm="입고" onclick="fnRfqDeatil2" style="background:URL('theme://beforeDesign/btn_WF_Process2.png') stretch;" taborder="25" text="입찰심사중" top="155" width="142"/>
+              <Button cssclass="btn_WF_Process2" height="41" id="btn2_AREQ" lbcd="TTL_GR" left="321" objNm="입고" onclick="fnRfqDeatil2" style="background:URL('theme://beforeDesign/btn_WF_Process2.png') stretch;" taborder="26" text=" 입찰공고승인중" top="155" width="177"/>
+              <Button cssclass="btn_WF_Process3" height="41" id="btn2_REQ" lbcd="TTL_PO_RECIPT" left="515" objNm="견적진행" onclick="fnRfqDeatil2" style="background:URL('theme://beforeDesign/btn_WF_Process3.png') stretch;" taborder="27" text="입찰진행중" top="103" width="141"/>
+              <Static cssclass="sta_WF_OrderCount" height="21" id="Static14" lbcd="" left="1091" objNm="" taborder="30" top="107" width="51"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_WRI" lbcd="" left="290" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="31" top="109" width="35"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_AREQ" lbcd="" left="448" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="32" top="166" width="35"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_REQ" lbcd="" left="607" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="33" top="108" width="35"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_ANI" lbcd="" left="741" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="34" top="166" width="35"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_RREQ" lbcd="" left="908" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="35" top="64" width="35"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_CXL" lbcd="" left="906" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="36" top="204" width="35"/>
+              <Static cssclass="sta_WF_ProcessLine2" height="80" id="Static11" lbcd="" left="1033" objNm="" taborder="38" top="107" width="147"/>
+              <Button cssclass="btn_WF_Process2" enable="true" height="41" id="btn2_CLOX" lbcd="TTL_GR" left="1037" objNm="입고" onclick="fnRfqDeatil2" style=":disabled {padding:0 0 0 14;}" taborder="39" text=" 완료" top="192" width="134"/>
+              <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static12" lbcd="" left="1099" objNm="" taborder="40" top="175" width="16"/>
+              <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_CLOX" lbcd="" left="1127" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="41" top="204" width="34"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static cssclass="sta_WF_ProcessBullet" enable="false" height="16" id="Static13" lbcd="" left="1096" objNm="" taborder="16" top="101" width="16"/>
+        <Button cssclass="btn_WF_Process3" height="41" id="btn2_CLO" lbcd="TTL_PO_RECIPT" left="1037" objNm="견적진행" onclick="fnRfqDeatil2" taborder="17" text=" 낙찰" top="59" width="134"/>
+        <Button cssclass="btn_WF_ProcessCount" height="20" id="btn_CLO" lbcd="" left="1127" objNm="" onclick="fnRfqDeatil" style="font:bold 10 malgun gothic;" taborder="18" top="64" width="34"/>
+        <Div bottom="10" id="Div01" left="0" right="0" style="border:0 none #808080ff ;" taborder="19" text="Div01" top="260">
+          <Layouts>
+            <Layout>
+              <Static bottom="14" cssclass="sta_WF_Renewal2" id="sta_ptnrChtDt00" left="5" objNm="" right="5" style="border:1 solid #4d7990ff ;shadow:outer 1,1 2 #e1e1e1ff;" taborder="13" top="10"/>
+              <Grid autofittype="col" binddataset="dsList" bottom="25" id="Grid02" lbcd="" left="15" objNm="신규등록요청 그리드" oncelldblclick="div_toDoList_Grid02_oncelldblclick" right="15" scrollbars="autovert" taborder="7" top="66" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="150"/>
+                      <Column size="125"/>
+                      <Column size="130"/>
+                      <Column size="380"/>
+                      <Column size="120"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="80"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="36"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="소싱그룹" tooltiptext=""/>
+                      <Cell col="1" expr="" text="담당자" tooltiptext=""/>
+                      <Cell col="2" expr="" text="입찰번호" tooltiptext=""/>
+                      <Cell col="3" expr="" text="입찰명" tooltiptext=""/>
+                      <Cell col="4" expr="" text="상태" tooltiptext=""/>
+                      <Cell col="5" expr="" text="공고일자" tooltiptext=""/>
+                      <Cell col="6" expr="" text="완료일자" tooltiptext=""/>
+                      <Cell col="7" expr="" text="기준" tooltiptext=""/>
+                      <Cell col="8" expr="" text="일수" tooltiptext=""/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left;background: ;" text="bind:SRC_GRP_NM2" tooltiptext="bind:SRC_GRP_NM2"/>
+                      <Cell col="1" style="align:center;background: ;" text="bind:CHRGR_NM" tooltiptext="bind:CHRGR_NM"/>
+                      <Cell col="2" cssclass="cell_link" style="color: ;" text="bind:RFQ_REQ_NO_ODR" tooltiptext="bind:RFQ_REQ_NO_ODR"/>
+                      <Cell col="3" expandsize="20" style="align:left;padding:0 0 0 20;font:9 aria;backgroundimage:EXPR(CD_DELAY_STTS ==&quot;CM14DLY&quot;?'img::btn_warning_1.png':'');" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="4" style="align:left;" text="bind:CD_RFQ_STTS_NM" tooltiptext="bind:CD_RFQ_STTS_NM"/>
+                      <Cell col="5" displaytype="normal" mask="####-##-##" maskchar=" " style="align:center;background2: ;" text="bind:REQ_DT" tooltiptext="bind:REQ_DT"/>
+                      <Cell col="6" displaytype="normal" mask="####-##-##" maskchar=" " style="align:center;background2: ;" text="bind:RFQ_END_DT" tooltiptext="bind:RFQ_END_DT"/>
+                      <Cell col="7" displaytype="number" maskchar=" " style="align:center;color: ;" text="bind:APPND_SET_NUM_1" tooltiptext="bind:APPND_SET_NUM_1"/>
+                      <Cell col="8" displaytype="number" style="align:right;background2: ;color:EXPR(CD_DELAY_STTS ==&quot;CM14DLY&quot;?'red':'black');color2:EXPR(CD_DELAY_STTS ==&quot;CM14DLY&quot;?'red':'black');" text="bind:STD_NUM_DAY" tooltiptext="bind:STD_NUM_DAY"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static01" left="15" taborder="8" text="입찰진행현황" top="29" width="11.74%"/>
+              <Static cssclass="sta_WF_GrdTotal" height="20" id="sta_grdStatus" left="160" style="align:right middle;font:bold 10 Gulim;" taborder="9" text="0" top="37" usedecorate="true" width="57"/>
+              <Static height="20" id="sta_grdStatus00" left="225" style="font:bold 10 Gulim;" taborder="10" text="건" top="37" usedecorate="true" width="50"/>
+              <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="23" id="cboCdDlyStts" innerdataset="@dsCdCM14" objNm="대분류" onitemchanged="Div01_cboCdDlyStts_onitemchanged" readonly="false" right="23" taborder="12" top="35" visible="true" width="127"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCount"/>
+      <Dataset id="dsList"/>
+      <Dataset id="dsNotice">
+        <ColumnInfo>
+          <Column id="DOC_NO" size="256" type="STRING"/>
+          <Column id="DENY" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DENY">S</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCdCM14"/>
+      <Dataset id="dsSrchOpt">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="DEPT_CD" size="256" type="STRING"/>
+          <Column id="CD_DELAY_STTS" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTeamUser">
+        <ColumnInfo>
+          <Column id="CD_ID" size="256" type="STRING"/>
+          <Column id="CD_NM_LO" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCM90"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="CNT_LIST_ALL" compid="Div01.sta_grdStatus" datasetid="dsCount" id="item22" propid="text"/>
+      <BindItem columnid="CNT_ALL" compid="divViewCompCond01.Static01" datasetid="dsCount" id="item12" propid="text"/>
+      <BindItem columnid="CNT_DLY" compid="divViewCompCond01.Static02" datasetid="dsCount" id="item13" propid="text"/>
+      <BindItem columnid="CNT_WRI" compid="divViewCompCond01.btn_WRI" datasetid="dsCount" id="item14" propid="text"/>
+      <BindItem columnid="CNT_AREQ" compid="divViewCompCond01.btn_AREQ" datasetid="dsCount" id="item15" propid="text"/>
+      <BindItem columnid="CNT_REQ" compid="divViewCompCond01.btn_REQ" datasetid="dsCount" id="item16" propid="text"/>
+      <BindItem columnid="CNT_ANI" compid="divViewCompCond01.btn_ANI" datasetid="dsCount" id="item17" propid="text"/>
+      <BindItem columnid="CNT_RREQ" compid="divViewCompCond01.btn_RREQ" datasetid="dsCount" id="item18" propid="text"/>
+      <BindItem columnid="CNT_CXL" compid="divViewCompCond01.btn_CXL" datasetid="dsCount" id="item19" propid="text"/>
+      <BindItem columnid="CNT_CLOX" compid="divViewCompCond01.btn_CLOX" datasetid="dsCount" id="item20" propid="text"/>
+      <BindItem columnid="CNT_CLO" compid="btn_CLO" datasetid="dsCount" id="item21" propid="text"/>
+      <BindItem columnid="CD_DELAY_STTS" compid="Div01.cboCdDlyStts" datasetid="dsSrchOpt" id="item27" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       MainPotal_01.xfdl
+   @desc       Buyer 메인화면
+   @author     한민희
+   @makedate   2016.07.18
+   @history    
+*/
+ 
+this.fnSetCode = function()
+{
+
+	var param = [
+					{code:"CM14", sSelectType:"A"}
+					,{code:"CM90", sSelectType:"A"}
+				];
+	gfnGetCode(this, param);
+}
+
+this.MainPotal_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+this.MainPotal_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.dsSrchOpt.addRow();
+	this.dsSrchOpt.setColumn(0,"CD_DELAY_STTS","");
+	this.dsSrchOpt.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	
+	if(!gfnIsNull(application.gv_portalPage)){
+		if(application.gv_portalPage == "APRV"){
+			gfnSetTmprData("APP_DOC_ID"		,application.gv_No);
+			gfnSetTmprData("GUBUN","REQ");
+			if(application.gv_Type=="AP11ARFQ"){
+				gfnOpenMenuUrl("BAPRV::BAprvDetailRfqReq");
+			}else if(application.gv_Type=="AP11RFQ"){
+				gfnOpenMenuUrl("BAPRV::BAprvDetailRfqAls");
+			}else if(application.gv_Type=="AP11EVL"){
+				gfnOpenMenuUrl("BAPRV::BAprvDetailScjdEval");
+			}else{
+				gfnOpenMenuUrl("BAPRV::BAprvReqList");
+			}			
+		}else if(application.gv_portalPage == "PTNR"){
+			gfnOpenMenuUrl("BAPRV::BAprvReqList");
+		}
+		application.gv_portalPage="";
+	}else{
+		if(application.gdsUserRole.getCaseCount("ROLE_ID =='B_PUR_TL'")>0){
+			this.divViewCompCond01.cboLvl1.set_visible(true);
+			this.divViewCompCond01.cboLvl2.set_visible(true);
+			this.divViewCompCond01.cboLvl1.set_readonly(false);
+			this.dsSrchOpt.setColumn(0,"DEPT_CD","");
+		}else if(application.gdsUserRole.getCaseCount("ROLE_ID =='B_PUR_M'")>0){
+			this.divViewCompCond01.cboLvl1.set_visible(true);
+			this.divViewCompCond01.cboLvl2.set_visible(true);
+			this.dsSrchOpt.setColumn(0,"DEPT_CD",application.gdsUserInfo.getColumn(0,"DEPT_CD"));
+		}else{
+			this.dsSrchOpt.setColumn(0,"USER_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+		}
+
+		this.fnMainSearch();
+		this.fnNotice();
+	}
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnNotice = function()
+{	
+	var sSvcID = "readNoticePop";
+	var sController = "epro.com.service.BMainService.readNoticePop";
+	var sInDatasets = "dsNotice=dsNotice";
+	var sOutDatasets = "dsNotice=dsNotice";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+
+
+/**
+  * @함수명	: fnMainSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnMainSearch = function()
+{
+ 	var sSvcID = "searchBMain";
+ 	var sController = "epro.com.service.BMainService.searchBMain";
+ 	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+ 	var sOutDatasets = "dsCount=dsCount dsList=dsList dsTeamUser=dsTeamUser";
+ 	var sCallbackFunc = "fnTrCallBack";
+	
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+	
+		case "searchBMain" :
+			this.Div01.sta_grdStatus.set_text(this.dsList.getRowCount());
+			
+			if(!gfnIsNull(this.dsSrchOpt.getColumn(0,"DEPT_CD"))&&this.dsSrchOpt.getColumn(0,"DEPT_CD").indexOf("CM90")<0){
+				this.dsSrchOpt.setColumn(0,"DEPT_CD", "CM90"+this.dsSrchOpt.getColumn(0,"DEPT_CD"));
+			}
+			if(this.dsTeamUser.getRowCount()>0){
+				var nRow = this.dsTeamUser.insertRow();
+				this.dsTeamUser.setColumn(nRow,"CD_ID","");
+				this.dsTeamUser.setColumn(nRow,"CD_NM_LO",gfnMultiLabel("EPRO_LABEL_00786"));
+			}
+			break;
+		
+		case "readNoticePop" : 
+			var today = "";
+			for(var i=0; i<this.dsNotice.rowcount; i++)
+			{	
+				today = this.dsNotice.getColumn(i,"TODAY");
+				if(gfnIsNull(application.getPrivateProfile(today))){
+					var sArg = {
+										agv_id:this.dsNotice.getColumn(i,"DOC_NO")
+										};
+
+					var xLeft = i*100;
+					var yTop  = i*100;
+					
+					if(application.popupframes["modeless_"+ i]){
+						continue;
+					}
+					
+					var strOpenStyle = "showtitlebar=true showstatusbar=false";
+					application.open("modeless_" + i,"CPOP::BComNoticePopup.xfdl",this.parent,sArg,strOpenStyle,xLeft,yTop,700,800,this);
+				}
+			}
+			
+			break;
+		
+		default:
+		break;	
+	}
+}
+/**
+  * @함수명	: divViewCompCond01_btnRfq_onclick
+  * @input    	: 
+  * @desc     	: 입찰작성화면으로 이동한다.
+  */
+this.divViewCompCond01_btnRfq_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	gfnOpenMenuUrl("BRFQ::BRfqPrgDetail.xfdl");
+}
+
+/**
+  * @함수명	: fnRfqDeatil
+  * @desc     	: 상태별 화면이동 
+  */
+this.fnRfqDeatil = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rfqStts = obj.name.substr(4) ;
+	
+	gfnSetTmprData("RFQ_STTS","ET10"+rfqStts);
+
+	if(rfqStts =="RREQ"||rfqStts =="CLO"||rfqStts =="CXL"||rfqStts =="CLOX"){
+		gfnOpenMenuUrl("BRFQ::BRfqRstList.xfdl");
+	}else{
+		gfnOpenMenuUrl("BRFQ::BRfqPrgList.xfdl");
+	}
+}
+
+/**
+  * @함수명	: fnRfqDeatil2
+  * @desc     	: 상태별 화면이동 
+  */
+this.fnRfqDeatil2 = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rfqStts = obj.name.substr(5) ;
+	
+	gfnSetTmprData("RFQ_STTS","ET10"+rfqStts);
+
+	if(rfqStts =="RREQ"||rfqStts =="CLO"||rfqStts =="CXL"||rfqStts =="CLOX"){
+		gfnOpenMenuUrl("BRFQ::BRfqRstList.xfdl");
+	}else{
+		gfnOpenMenuUrl("BRFQ::BRfqPrgList.xfdl");
+	}
+}
+
+/**
+  * @함수명	: Div01_Radio00_onitemchanged
+  * @desc     	: 지연상태 클릭 이벤트
+  */
+this.Div01_cboCdDlyStts_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	obj.updateToDataset;
+	this.fnMainSearch();
+}
+
+this.div_toDoList_Grid02_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "RFQ_REQ_NO_ODR"){
+		var rfqStts = this.dsList.getColumn(e.row,"CD_RFQ_STTS");
+		gfnSetTmprData("RFQ_REQ_NO"	,this.dsList.getColumn(e.row, "RFQ_REQ_NO"));
+		gfnSetTmprData("RFQ_ODR"	,this.dsList.getColumn(e.row, "RFQ_ODR"));
+		gfnSetTmprData("BRANCH_CD"	,this.dsList.getColumn(e.row, "BRANCH_CD"));
+		
+		if(rfqStts =="ET10CLO"||rfqStts =="ET10CLOX"||rfqStts =="ET10CXL"||rfqStts =="ET10RREQ"
+			||application.gdsUserInfo.getColumn(0,"USER_ID")==this.dsList.getColumn(e.row,"CRTR_ID")){
+			if(rfqStts =="ET10WRI"||rfqStts =="ET10AREQ"){
+				gfnOpenMenuUrl("BRFQ::BRfqPrgDetail.xfdl");
+			}else if(rfqStts =="ET10REQ"){
+				gfnOpenMenuUrl("BRFQ::BRfqReqDetail.xfdl");
+			}else{
+				if(this.dsList.getColumn(e.row,"CD_RFQ_AIM")=="ET27TCO"||this.dsList.getColumn(e.row,"CD_RFQ_AIM")=="ET27DSG"){
+					gfnOpenMenuUrl("BRFQ::BRfqAlsTcoExpDetail.xfdl");
+				}else{
+					gfnOpenMenuUrl("BRFQ::BRfqAlsDetail.xfdl");
+				}
+			}
+		}else{
+			gfnAlert("EPRO_LABEL_01374");
+		}
+	}
+}
+
+this.cboLvl2_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	obj.updateToDataset;
+// 	if(this.dsSrchOpt.getColumn(0,"DEPT_CD").indexOf("CM90")>=0){
+// 		this.dsSrchOpt.setColumn(0,"DEPT_CD",this.dsSrchOpt.getColumn(0,"DEPT_CD").substr(4))
+// 	}
+	this.fnMainSearch();
+}
+
+
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+
+}
+]]></Script>
+  </Form>
+</FDL>

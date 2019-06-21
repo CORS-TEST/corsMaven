@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="PCTRB100P00" classname="UbiReport" left="0" top="0" width="934" height="700" titletext="에디터 컴포넌트" onload="UbiReport_onload" style="font:9 arial;" cssclass="frm_POP_Search">
+    <Layouts>
+      <Layout stepcount="">
+        <UbiReport id="UbiReport00" taborder="3" text="UbiReport00" left="1.53%" top="73" right="1.92%" bottom="10"/>
+        <WebBrowser id="WebEditor" left="0" top="0" right="0" taborder="0" onusernotify="wbDaumEditorOnusernotify" objNm="에디터" onloadcompleted="wb_daumEditor_onloadcompleted" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       ComEditor.xfdl
+   @desc       에디터 컴포넌트
+   @author     배열
+   @makedate   2019.03.15
+   @history    
+*/
+
+
+this.fv_editorUrl = application.gvDomain+"/ckeditor/editor.jsp";
+//this.fv_editorUrl = application.gvDomain+"/daumeditor/editor.jsp";
+this.fv_content = "";
+this.fv_readMode = "N";
+this.dsObj = "";
+this.dsCol = "";
+this.dsRow = "";
+this.fv_callBack = ""
+
+this.fnEditorInit = function(content, readMode)
+{
+	this.fv_content = content;
+	this.fv_readMode = readMode;
+	this.WebEditor.set_url(this.fv_editorUrl);
+}
+
+this.getContent = function(dsObj, dsRow, dsCol, callBack)
+{
+	this.dsObj = dsObj;
+	this.dsRow = dsRow;
+	this.dsCol = dsCol;
+	this.fv_callBack = callBack;
+	this.WebEditor.callMethod("saveContent");
+}
+
+/**
+	@function	wbDaumEditorOnusernotify()
+	@desc   	
+*/
+this.wbDaumEditorOnusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{
+	var sArg = {};	
+	//웹
+	if (e.userdata.indexOf("▦") == 0){
+		//read
+		if (gfnReplace(e.userdata,"▦","") == "true"){			
+			this.WebEditor.callMethod("setEditor",this.fv_content);
+		}
+		//tag
+		else if(gfnReplace(e.userdata,"▦","") == "SET_TAG") {
+			gfnModalPop(this, "TagPopup", "BCNTR::BCntrTagPop.xfdl", sArg, "fnPopCallBack", 800, 450);
+			//this.WebEditor.set_visible(true)
+		//mode
+		} else if(gfnReplace(e.userdata,"▦","") == "MODE") {
+			this.WebEditor.callMethod("setReadMode",this.fv_readMode);	
+		
+		}
+		//save
+		else {
+			this.dsObj.setColumn(this.dsRow, this.dsCol, gfnReplace(e.userdata,"▦",""));
+			eval("this.parent." + this.fv_callBack + "()")
+		}
+	}
+	//런타임
+	else if(obj.getProperty("document").getProperty("title").indexOf("▩") == 0){
+		//read
+		if (gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "true"){
+			this.WebEditor.callMethod("setEditor", this.fv_content);
+		}
+		//tag
+		else if(gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "SET_TAG"){
+			gfnModalPop(this, "TagPopup", "BCNTR::BCntrTagPop.xfdl", sArg, "fnPopCallBack", 800, 450);
+		}
+		//mode
+		else if(gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "MODE"){
+			this.WebEditor.callMethod("setReadMode",this.fv_readMode);	
+		} 
+		//save
+		else {	
+			this.dsObj.setColumn(this.dsRow, this.dsCol, gfnReplace(obj.getProperty("document").getProperty("title"),"▩",""))
+			eval("this.parent." + this.fv_callBack + "()")
+		}
+	}
+}
+
+
+this.wb_daumEditor_onloadcompleted = function(obj:WebBrowser, e:nexacro.WebLoadCompEventInfo)
+{
+	this.WebEditor.callMethod("setEditor",this.fv_content);	
+}
+
+/**
+  *	@function	fnPopCallBack()
+  *	@desc   	팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	switch(sPopupId){
+		case "TagPopup":
+			if(!gfnIsNull(this.dsReturn.getColumn(0,"TAG"))) {
+				this.WebEditor.callMethod("setTagEditor",this.dsReturn.getColumn(0,"TAG"));
+			}
+		break;
+	}
+}
+
+
+this.Button00_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.WebEditor.callMethod("setReadMode");
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="PCTRB400N00" classname="FrmTemplate100" left="0" top="0" width="1220" height="711" titletext="계약서템플릿작성" onload="form_onload" oninit="form_oninit">
+    <Layouts>
+      <Layout>
+        <Div id="div_2" taborder="3" left="0" top="58" height="24" objNm="DIV-헤더 타이틀" right="15">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opHead" taborder="20" left="0" top="-4" height="24" width="147" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" objNm="접기펼치기 버튼" text="계약서" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_21" taborder="1" left="0" top="81" height="142" scrollbars="none" objNm="DIV-헤더 상세" right="15">
+          <Layouts>
+            <Layout>
+              <Static id="sta_WFDA_Label05" taborder="80" cssclass="sta_WF_DetailLabel02" left="0%" top="5" right="0%" height="132"/>
+              <Edit id="edt_Ttl" taborder="0" lengthunit="utf8" cssclass="edt_default" left="117" top="15" height="24" objNm="계약서명" width="400"/>
+              <Static id="st_Ttl" taborder="82" text="계약서명" onclick="div_21_Tab01_tabp01_st_Ttl_onclick" cssclass="sta_WF_DetailLabel01" left="0" top="15" height="24" lbcd="" width="117"/>
+              <Static id="st_cdCntrType" taborder="87" text="계약구분" cssclass="sta_WF_DetailLabel01" left="600" top="44" height="24" objNm="계약구분" lbcd="" width="124"/>
+              <Combo id="cb_cdCntrType" taborder="2" innerdataset="ds_cdCT19" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="724" top="44" height="24" objNm="계약구분" width="180"/>
+              <Static id="st_altUse" taborder="93" cssclass="sta_WF_DetailLabel01" left="0" top="44" height="24" objNm="계약구분" lbcd="" text="사용여부" width="117"/>
+              <Static id="st_crtrNm" taborder="95" text="작성자" cssclass="sta_WF_DetailLabel01" left="0" top="73" height="24" objNm="계약유형" lbcd="" width="117"/>
+              <Static id="st_crtDt" taborder="96" text="작성일자" cssclass="sta_WF_DetailLabel01" left="600" top="73" height="24" objNm="계약구분" lbcd="" width="124"/>
+              <Static id="st_lastChgrNm" taborder="97" text="수정자" cssclass="sta_WF_DetailLabel01" left="0" top="102" height="24" objNm="수정자" lbcd="" width="117"/>
+              <Static id="st_lastChgDt" taborder="98" text="수정일자" cssclass="sta_WF_DetailLabel01" left="600" top="102" height="24" objNm="계약구분" lbcd="" width="124"/>
+              <Combo id="cbo_altUse" taborder="1" codecolumn="codecolumn" datacolumn="datacolumn" cssclass="cbo_default" left="117" top="44" height="24" objNm="사용여부" width="100">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Edit id="edt_lastChgrNm" taborder="100" cssclass="edt_default_r" left="117" top="102" height="24" objNm="수정자" enable="false" width="250"/>
+              <Calendar id="cal_lastChgDt" taborder="101" dateformat="yyyy.MM.dd" cssclass="cal_default" left="724" top="102" height="24" objNm="수정일자" enable="false" width="120" value="null" editformat="yyyy.MM.dd"/>
+              <Calendar id="cal_crtDt" taborder="102" dateformat="yyyy.MM.dd" cssclass="cal_default" left="724" top="73" height="24" objNm="작성일자" enable="false" width="120" value="null" editformat="yyyy.MM.dd"/>
+              <Edit id="edt_crtrNm" taborder="3" cssclass="edt_default_r" left="117" top="73" height="24" objNm="작성자" enable="false" width="250"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Static id="Static02" taborder="48" visible="false" left="98.58%" top="0" height="937" style="background:#ff7272ff;" width="15" text="w15"/>
+        <Div id="div_31" taborder="2" text="div_71" left="0" top="262" right="15" scrollbars="none" bottom="13">
+          <Layouts>
+            <Layout width="1042" height="500">
+              <WebBrowser id="wb_daumEditor" left="0" top="0" taborder="0" onusernotify="div_71_wb_daumEditor_onusernotify" objNm="에디터" right="0" bottom="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_1" taborder="0" left="0" top="0" right="15" height="44" cssclass="div_WF_SearchBg3" objNm="컨트롤 박스">
+          <Layouts>
+            <Layout>
+              <Combo id="cbo_cntrCtgr" taborder="0" innerdataset="ds_cdCT11" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="20" top="10" height="24" objNm="계약유형" width="150"/>
+              <Edit id="mae_docNo" taborder="1" cssclass="input_point" left="172" top="10" height="24" objNm="문서번호" width="240"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_3" taborder="76" left="0" top="231" right="7" height="24" objNm="DIV-헤더 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_oPItem" taborder="0" text="계약내용" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="108" height="22" objNm="접기펼치기 버튼" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static01" taborder="77" text="h10" visible="false" left="0.66%" top="45" right="4.43%" height="10" style="background:#ff7272ff;"/>
+        <Static id="Static03" taborder="78" text="h5" visible="false" left="0.82%" top="81" right="4.26%" height="5" style="background:#ff7272ff;"/>
+        <Static id="Static00" taborder="79" text="h10" visible="false" left="1.31%" top="218" right="3.77%" height="10" style="background:#ff7272ff;"/>
+        <Static id="Static04" taborder="80" text="h5" visible="false" left="1.48%" top="257" right="3.61%" height="5" style="background:#ff7272ff;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_return" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="ds_cntrTmpl" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TKEY" size="40" type="string"/>
+          <Column id="ALT_USE" size="1" type="string"/>
+          <Column id="CNTR_CNTNT" size="4000" type="STRING"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="CRTR_NM" size="90" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="CD_CNTR_TYPE_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE" size="40" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="LAST_CHGR_NM" size="90" type="string"/>
+          <Column id="CD_CNTR_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="PORG_ID" size="20" type="string"/>
+          <Column id="CNTR_TMPL_ID" size="40" type="string"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_21.cbo_altUse" propid="value" datasetid="ds_cntrTmpl" columnid="ALT_USE"/>
+      <BindItem id="item1" compid="div_21.edt_Ttl" propid="value" datasetid="ds_cntrTmpl" columnid="TTL"/>
+      <BindItem id="item2" compid="div_1.mae_docNo" propid="value" datasetid="ds_cntrTmpl" columnid="CNTR_TMPL_ID"/>
+      <BindItem id="item3" compid="div_1.cbo_cntrCtgr" propid="value" datasetid="ds_cntrTmpl" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item4" compid="div_21.cb_cdCntrType" propid="value" datasetid="ds_cntrTmpl" columnid="CD_CNTR_TYPE"/>
+      <BindItem id="item5" compid="div_21.edt_crtrNm" propid="value" datasetid="ds_cntrTmpl" columnid="CRTR_NM"/>
+      <BindItem id="item6" compid="div_21.cal_crtDt" propid="value" datasetid="ds_cntrTmpl" columnid="CRT_DT"/>
+      <BindItem id="item7" compid="div_21.cal_lastChgDt" propid="value" datasetid="ds_cntrTmpl" columnid="LAST_CHG_DT"/>
+      <BindItem id="item8" compid="div_21.edt_lastChgrNm" propid="value" datasetid="ds_cntrTmpl" columnid="LAST_CHGR_NM"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       PCTRB400N00.xfdl
+   @desc       계약서 템플릿
+   @author     김민성
+   @makedate   2016.04.08
+   @history    
+*/
+include "lib::lib_all.xjs";
+
+/**
+	@var  this.fv_cntrTmplId
+	@desc 전역변수
+*/
+this.fv_cntrTmplId = "";			//리스트화면에서 넘어오는 파라미터를 정의한다. 넘어온 파라미터는 onload에서 처리한다.
+this.fv_branchCd = "";				//리스트화면에서 넘어오는 파라미터를 정의한다. 넘어온 파라미터는 onload에서 처리한다.
+
+/**
+	@function	form_oninit()
+	@desc   	폼 oninit이벤트
+*/
+this.form_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{	
+	this.fn_setCode();
+}
+
+this.fn_setCode = function(){
+	
+	//콤보박스 생성시 S:선택, A:전체
+	var param = [
+					{code:"CT11", sSelectType:"S"} // 계약유형
+					,{code:"CT19", sSelectType:"S"} // 계약구분
+				];
+
+	//공통코드 데이터셋 생성
+	this.gfn_getCommonCode(param);
+}
+
+/**
+	@function	form_onload()
+	@desc   	폼 onload이벤트
+*/
+this.form_onload = function(obj:Form, e:LoadEventInfo)
+{	
+	this.ds_cntrTmpl.addRow();
+	
+	//이전화면에서 넘어오는 파라미터를 받는다.
+	this.fv_cntrTmplId = this.gfn_getTmprData("CNTR_TMPL_ID");
+	this.fv_branchCd   = this.gfn_getTmprData("BRANCH_CD");
+
+	if(this.fv_cntrTmplId == ""){
+		this.gfn_formOnLoad(obj,"C");
+		this.parent.div_commBtns.btn_comDel.set_visible(false);  //삭제 버튼
+		
+		this.ds_cntrTmpl.setColumn(0,"CRTR_NM",application.gds_userInfo.getColumn(0,"USER_NM"));
+		this.ds_cntrTmpl.setColumn(0,"CRT_DT",this.gfn_today());
+		this.ds_cntrTmpl.setColumn(0,"LAST_CHGR_NM",application.gds_userInfo.getColumn(0,"USER_NM"));
+		this.ds_cntrTmpl.setColumn(0,"LAST_CHG_DT",this.gfn_today());
+		
+	} else {
+		this.parent.div_commBtns.btn_comDel.set_visible(true);  //삭제 버튼
+		this.gfn_formOnLoad(obj,"U");
+	}
+
+	//파라미터를 받은 이후에는 파라미터를 를 초기화 해준다.
+	this.gfn_clearTmprData(); 
+	
+	//파라미터가 존재하면 조회 
+	if("" != this.fv_cntrTmplId){
+		this.ds_cntrTmpl.setColumn(0,"CNTR_TMPL_ID",this.fv_cntrTmplId);
+		this.ds_cntrTmpl.setColumn(0,"BRANCH_CD",this.fv_branchCd);
+		this.fn_search();
+	}else{
+		this.gfn_popupComCntrType();
+
+		this.ds_cntrTmpl.setColumn(0, "ALT_USE", "Y"); //사용여부
+		this.ds_cntrTmpl.setColumn(0, "CD_CNTR_TYPE", ""); //계약구분
+		
+		this.div_31.wb_daumEditor.set_url(application.services["svcurl"].url+"daumeditor/editor.jsp");
+	}
+	
+	this.gfn_btnRange(this.parent.div_commBtns.btn_commSrch);
+}
+
+/**
+	@function	fn_preSearch()
+	@desc   	조회 전 처리
+*/
+this.fn_preSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_search()
+	@desc   	조회 프로세스
+*/
+this.fn_search = function()
+{
+	if(!this.fn_preSearch()) return false;
+	
+	var sSvcID = "read";
+	var sController = "Cntr_TmplRead.do";
+	var sInDatasets = "in_ds=ds_cntrTmpl";
+	var sOutDatasets = "ds_cntrTmpl=ds_cntrTmpl";
+	var sCallbackFunc = "fn_trCallBack";
+
+	//FILE_JOB_2 :  트랜잭션 gfn_fileTran 으로 변경
+    this.gfn_tran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+	
+}
+
+/**
+	@function	Fold_onclick()
+	@desc   	폴더접기
+*/
+this.fn_fold_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.gfn_divFold(obj);
+}
+
+/**
+	@function	fn_commAdd()
+	@desc   	(공통버튼)신규
+*/
+this.fn_commAdd = function()
+{
+	//데이터셋의 수정사항이 존재하는지 확인한다.
+	if(this.gfn_getDsUpdate(this.ds_cntrTmpl)){
+		if(!this.gfn_confirm("수정사항이 존재합니다. 그래도 신규작성 하시겠습니까?")) return false;
+	}
+	
+	//모든 데이터셋을 초기화 한다.
+	this.ds_cntrTmpl.clearData();
+	
+	this.gfn_popupComCntrType();
+		
+	this.ds_cntrTmpl.addRow();
+		
+	//신규 작성 시 파일내부의 Dataset을 초기화 시켜준다.
+	this.ds_cntrTmpl.setColumn(0, "ALT_USE", "Y"); //사용여부
+	this.ds_cntrTmpl.setColumn(0, "CD_CNTR_TYPE", ""); //계약구분
+	
+}
+
+/**
+	@function	fn_commDelete()
+	@desc   	(공통버튼)삭제 프로세스
+*/
+this.fn_commDelete = function()
+{
+	var sSvcID = "delete";
+	var sController = "Cntr_TmplDelete.do";
+	var sInDatasets = "in_cntrTmpl=ds_cntrTmpl:A"; 
+	var sOutDatasets = "ds_cntrTmpl=in_cntrTmpl";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	//FILE_JOB_3 :  트랜잭션 gfn_fileTran 으로 변경
+	this.gfn_fileSaveTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fn_preSave()
+	@desc   	저장 전 처리
+*/
+this.fn_preSave = function()
+{	
+
+	if(!this.gfn_validate()) //확인 클릭
+	{		
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+	@function	fn_commSave()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fn_commSave = function()
+{
+	if (!this.fn_preSave()) return false;
+	
+	this.div_31.wb_daumEditor.callMethod("saveContent");
+}
+
+/**
+	@function	fn_commSave2()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fn_commSave2 = function()
+{
+	var sSvcID = "save";
+	var sController = "Cntr_TmplSave.do";
+	var sInDatasets = "in_cntrTmpl=ds_cntrTmpl:A"; 
+	var sOutDatasets = "ds_cntrTmpl=in_cntrTmpl";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	//FILE_JOB_3 :  트랜잭션 gfn_fileTran 으로 변경
+	this.gfn_fileSaveTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	btn_commCancel()
+	@desc   	(공통버튼)취소 프로세스
+*/
+this.btn_commCancel = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_commClose()
+	@desc   	(공통버튼)닫기 : form 닫기 전 공통에서 체크함
+*/
+this.fn_commClose = function()
+{
+	//데이터셋 수정여부 체크
+	if(this.gfn_getDsUpdate(this.ds_cntrTmpl))
+	{
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+	@function	fn_callBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	//strSvcID 가 read:fn_trCallBack 게 넘어옴
+	if(strErrCd < 0)
+	{
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "read" : 
+			//read 데이터가 존재하지 않으면 작성중인 상태로 데이터를 셋팅한다.
+			if(this.ds_cntrTmpl.rowcount > 0){
+				//this.gfn_formOnLoad(this,"U");
+				this.gfn_objReSet(this, "U");
+			}
+			
+			this.div_31.wb_daumEditor.set_url(application.services["svcurl"].url+"daumeditor/editor.jsp");
+			
+		break;
+		
+		case "save" : 
+			if(strErrMsg != ""){
+				this.gfn_alert(strErrMsg);
+				//저장후 받아온 값으로 데이터조회
+				this.fv_cntrTmplId = this.ds_cntrTmpl.getColumn(0,"CNTR_TMPL_ID");
+				
+				this.fn_search();
+			}
+		break;
+		
+		case "delete":
+			if(strErrMsg != ""){
+				this.gfn_alert(strErrMsg);	
+							
+				//sUrl {String} 화면경로, formCloseYn {Y|N} (새로운 화면을 호출하는) 기존화면 닫기 여부
+				this.gfn_openMenuUrl("CTRB::PCTRB400L00.xfdl", "Y");
+
+			}
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fn_popCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fn_popCallBack = function(sPopupId, rtn)
+{
+	if(this.gfn_isNull(rtn)) return;
+	
+	if(rtn.indexOf("<Dataset id=") == 0){
+		if(sPopupId == "popupComCntrType"){
+			this.ds_return.loadXML(rtn);
+			//계약유형을 반영 후 수정불가하게 처리한다.
+			this.ds_cntrTmpl.setColumn(0, "CD_CNTR_CTGR", this.ds_return.getColumn(0,"CD_ID"));
+			this.div_1.cbo_cntrCtgr.set_enable(false);
+
+		}
+	}
+}
+
+/**
+	@function	div_71_wb_daumEditor_onusernotify()
+	@desc   	KSPARK - Daum editor
+*/
+this.div_71_wb_daumEditor_onusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{ 
+	//런타임
+	if(obj.getProperty("document").getProperty("title").indexOf("▩") == 0){
+		//read
+		if (this.gfn_replace(obj.getProperty("document").getProperty("title"),"▩","") == "true"){
+			this.div_31.wb_daumEditor.callMethod("setEditor",this.ds_cntrTmpl.getColumn(0,"CNTR_CNTNT"));
+		//save
+		} else {
+			this.ds_cntrTmpl.setColumn(0,"CNTR_CNTNT",this.gfn_replace(obj.getProperty("document").getProperty("title"),"▩",""));
+			this.fn_commSave2();
+		}
+
+	//웹
+	} else if (e.userdata.indexOf("▦") == 0){
+		//read
+		if (this.gfn_replace(e.userdata,"▦","") == "true"){			
+			this.div_31.wb_daumEditor.callMethod("setEditor",this.ds_cntrTmpl.getColumn(0,"CNTR_CNTNT"));
+		//save
+		} else {
+			this.ds_cntrTmpl.setColumn(0,"CNTR_CNTNT",this.gfn_replace(e.userdata,"▦",""));
+			this.fn_commSave2();
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

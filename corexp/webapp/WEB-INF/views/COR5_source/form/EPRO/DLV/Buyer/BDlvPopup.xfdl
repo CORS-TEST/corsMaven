@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BDlvPopup" left="0" top="0" width="1024" height="768" titletext="검수문서생성">
+    <Layouts>
+      <Layout>
+        <Div id="div_1" taborder="0" left="10" top="46" right="10" height="43" cssclass="div_WF_SearchBg3" objNm="컨트롤 박스">
+          <Layouts>
+            <Layout>
+              <Button id="btn_dlvCreate" taborder="0" text="검수문서생성" onclick="div_1_btn_dlvCreate_onclick" cssclass="btn_WF_SearchBtn" top="10" right="5" width="93" height="24" objNm="납품서작성버튼"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_2" taborder="1" left="10" top="101" right="10" height="24" objNm="DIV-헤더 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opHead" taborder="0" text="기본정보" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="147" height="24" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_21" taborder="2" left="10" top="131" right="15" height="47" scrollbars="none" objNm="DIV-헤더 상세">
+          <Layouts>
+            <Layout>
+              <Static id="sta_WFDA_Label01" taborder="10" cssclass="sta_WF_DetailLabel02" left="0" top="0" right="0" height="38"/>
+              <Static id="sta_CrtrNm01" taborder="11" text="&lt;fc v='red'&gt;* &lt;/fc&gt;검수일자" usedecorate="true" cssclass="sta_WF_DetailLabel01" left="15" top="7" width="117" height="24" objNm="작성자" lbcd=""/>
+              <Calendar id="cal_dlvPlanDay" taborder="12" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd ddd" cssclass="cal_default" left="132" top="7" width="125" height="24" objNm="납품예정일자"/>
+              <Static id="st_Ttl03" taborder="13" text="설명회  소요 시간" cssclass="sta_WF_DetailLabel01" left="53.35%" top="-101" right="33.83%" height="29" objNm="발주서명"/>
+              <Static id="st_CrDt00" taborder="14" text="분할납품" cssclass="sta_WF_DetailLabel01" left="358" top="7" width="125" height="24" lbcd="" objNm="발주유형"/>
+              <Radio id="Radio00" taborder="15" codecolumn="codecolumn" datacolumn="datacolumn" value="1" readonly="true" direction="vertical" enable="false" left="48.65%" top="8" right="37.64%" height="21">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">가능</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">불가능</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Radio>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Div id="div_3" taborder="3" left="10" top="183" right="10" height="24" visible="false" objNm="DIV-품목 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opItem" taborder="42" text="지급차수" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="160" height="24" lbcd=""/>
+              <Static id="st_Ttl03" taborder="43" text="설명회  소요 시간" cssclass="sta_WF_DetailLabel01" left="53.39%" top="-101" right="33.86%" height="29" objNm="발주서명"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_close" taborder="4" onclick="btn_close_onclick" cssclass="btn_POP_CloseBtn" left="96.09%" top="3" right="1.07%" height="30"/>
+        <Static id="sta_title" taborder="5" text="검수문서생성" cssclass="sta_POP_PopTitle" left="0%" top="3" right="89.84%" height="30"/>
+        <Div id="div_4" taborder="6" text="Div_H01" left="10" top="348" right="10" height="24" cssclass="div_WF_bg" visible="false" objNm="DIV-품목 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_OP_Item" taborder="0" text="품목" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="105" height="24" objNm="접기펼치기 버튼" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_31" taborder="7" left="10" top="215" right="10" height="140" visible="false" objNm="DIV-품목 상세">
+          <Layouts>
+            <Layout width="1037" height="140">
+              <Grid id="grd_poPay" taborder="0" binddataset="ds_poPay" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" autofittype="col" onheadclick="div_31_grd_poItem_onheadclick" left="0" top="0" right="0" bottom="20" objNm="품목 그리드">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="60"/>
+                      <Column size="100"/>
+                      <Column size="130"/>
+                      <Column size="742"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="30" band="head"/>
+                      <Row size="28"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="차수"/>
+                      <Cell col="1" text="지급율(%)"/>
+                      <Cell col="2" text="지급금액"/>
+                      <Cell col="3" text="지급조건"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="normal" style="background:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;background2:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;font: ;" text="bind:ODR" tooltiptext="bind:ODR"/>
+                      <Cell col="1" displaytype="normal" style="background:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;background2:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;font: ;" text="bind:PYMT_RT" tooltiptext="bind:PYMT_RT"/>
+                      <Cell col="2" displaytype="number" style="align:right;background:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;background2:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;" text="bind:PYMT_PLN_AMT" mask="#,##0" tooltiptext="bind:PYMT_PLN_AMT"/>
+                      <Cell col="3" style="align:left;background:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;background2:expr:currow==dataset.getRowCount()-1 ? &quot;yellow&quot; : &quot;&quot;;" text="bind:RMARK" tooltiptext="bind:RMARK"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_41" taborder="8" left="10" top="380" right="10" bottom="0" visible="false" objNm="DIV-품목 상세">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_poItem" taborder="0" binddataset="ds_poItem" autoenter="select" useinputpanel="false" selecttype="cell" cellsizingtype="col" cellmovingtype="col" autofittype="col" onheadclick="div_31_grd_poItem_onheadclick" enableevent="false" left="0" top="0" right="0" bottom="10" style="background:transparent;" objNm="품목 그리드">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="550"/>
+                      <Column size="70"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="CHECKED"/>
+                      <Cell col="1" text="품목명"/>
+                      <Cell col="2" text="단위"/>
+                      <Cell col="3" text="단가"/>
+                      <Cell col="4" text="발주수량"/>
+                      <Cell col="5" text="검수완료"/>
+                      <Cell col="6" text="납품수량"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="expr:ALT_DLV == &quot;Y&quot; ? &quot;none&quot; : &quot;checkbox&quot;" edittype="expr:ALT_DLV == &quot;Y&quot; ? &quot;none&quot; : &quot;checkbox&quot;" style="background:EXPR(ALT_DLV == &quot;Y&quot; ? &quot;#f5f5f5ff&quot; : &quot;&quot;);background2:EXPR(ALT_DLV == &quot;Y&quot; ? &quot;#f5f5f5ff&quot; : &quot;&quot;);" text="bind:CHECKED" editautoselect="true"/>
+                      <Cell col="1" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:MTRL_NM" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="2" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_UNIT_NM" tooltiptext="bind:CD_UNIT_NM"/>
+                      <Cell col="3" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:PO_PRICE" mask="#,##0.00" tooltiptext="bind:PO_PRICE"/>
+                      <Cell col="4" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:QTY" mask="#,##0.00" tooltiptext="bind:QTY"/>
+                      <Cell col="5" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:TOT_DLV_QTY" mask="#,##0.00" tooltiptext="bind:TOT_DLV_QTY"/>
+                      <Cell col="6" displaytype="number" edittype="expr:ALT_DLV == 'Y' ? 'none' : 'masknumber'" style="align:right;background:EXPR(ALT_DLV == &quot;Y&quot; ? &quot;#f5f5f5ff&quot; : &quot;&quot;);background2:EXPR(ALT_DLV == &quot;Y&quot; ? &quot;#f5f5f5ff&quot; : &quot;&quot;);" text="bind:DLV_PLAN_QTY" expr="expr:ALT_DLV == &quot;Y&quot; ? 0 : DLV_PLAN_QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:DLV_PLAN_QTY"/>
+                    </Band>
+                  </Format>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="550"/>
+                      <Column size="70"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목명"/>
+                      <Cell col="1" text="단위"/>
+                      <Cell col="2" text="단가"/>
+                      <Cell col="3" text="발주수량"/>
+                      <Cell col="4" text="검수완료"/>
+                      <Cell col="5" text="납품수량"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:MTRL_NM" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="1" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_UNIT_NM" tooltiptext="bind:CD_UNIT_NM"/>
+                      <Cell col="2" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:PO_PRICE" mask="#,##0.00" tooltiptext="bind:PO_PRICE"/>
+                      <Cell col="3" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:QTY" mask="#,##0.00" tooltiptext="bind:QTY"/>
+                      <Cell col="4" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:TOT_DLV_QTY" mask="#,##0.00" tooltiptext="bind:TOT_DLV_QTY"/>
+                      <Cell col="5" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:DLV_PLAN_QTY" mask="#,##0.00" editdisplay="edit" tooltiptext="bind:DLV_PLAN_QTY"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item1" compid="div_21.cal_dlvPlanDay" propid="value" datasetid="ds_po" columnid="DLV_PLAN_DAY"/>
+      <BindItem id="item0" compid="div_21.Radio00" propid="value" datasetid="ds_po" columnid="ALT_PARTIAL_DLV"/>
+    </Bind>
+  </Form>
+</FDL>

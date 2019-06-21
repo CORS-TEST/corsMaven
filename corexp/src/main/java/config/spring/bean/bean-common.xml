@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+            http://www.springframework.org/schema/task
+            http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+	<!-- *********************************************************** -->
+	<!-- *********************************************************** -->
+	<!-- bean-common.xml -all annotation scan -transaction aop -DB연결관련셋팅 Datasource 
+		TransactionManager mybatis -->
+	<!-- *********************************************************** -->
+	<!-- *********************************************************** -->
+	<context:annotation-config />
+	<context:component-scan base-package="core,epro" />
+	<context:component-scan base-package="core.service,epro"	resource-pattern="**/*Service.class" />
+	<context:component-scan base-package="core.module,epro" 	resource-pattern="**/*Module.class" />
+	<bean id="CExcelService" class="core.service.service.CExcelService" />
+	<!-- XSS -->
+	<bean id="XssFilterUtil" class="epro.core.util.XssFilterUtilImpl" />
+	<!-- ==================================================== bean객체 불러올때 사용 
+		모든곳에서 bean객체를 호출하여 사용할 수 있다. ==================================================== -->
+	<bean id="applicationContextProvider" class="core.common.context.ApplicationContextProvider"></bean>
+	<!-- ==================================================== AOP and Transaction 
+		Setting ==================================================== -->
+	<aop:config proxy-target-class="true">
+		<aop:advisor id="managerTx" advice-ref="txAdvice"	pointcut="execution(* *..service.*Service.*(..))" />
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+
+			<tx:method name="create*" rollback-for="Exception" />
+			<tx:method name="update*" rollback-for="Exception" />
+			<tx:method name="delete*" rollback-for="Exception" />
+			<tx:method name="save*" rollback-for="Exception" />
+			<tx:method name="search*" rollback-for="Exception"/>
+			<tx:method name="loggingError2DB" rollback-for="Exception"
+				propagation="REQUIRES_NEW" />
+			<tx:method name="*" read-only="true" propagation="SUPPORTS" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="coreDs"	class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@192.1.1.201:1521:ora11utf8" />
+		<property name="username" value="COR8" />
+		<property name="password" value="COR8_PW" />
+	</bean>
+
+
+	<!-- ==================================================== TransactionManager 
+		==================================================== -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="coreDs" />
+	</bean>
+	<!-- ==================================================== mybatis setting 
+		==================================================== -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="coreDs" />
+		<property name="configLocation" value="classpath:/config/mybatis/mybatis-config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:epro/*/*/*.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="coreSqlManager" class="core.sql.SqlManager">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<!-- ==================================================== exceptions ==================================================== -->
+	<bean id="exceptionManager" class="core.exception.manager.ExceptionManager" />
+
+	<!-- ==================================================== Scheduler context 
+		for Quartz. ==================================================== -->
+	<bean id="coreReloadJob"
+		class="org.springframework.scheduling.quartz.JobDetailFactoryBean"
+		p:jobClass="core.scheduling.reload.CoreReloadJob" p:durability="true"></bean>
+	<bean id="reLoadTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean"
+		p:jobDetail-ref="coreReloadJob"
+		p:startDelay="1000"
+		p:repeatInterval="300000" />
+		
+	<bean id="resourceReloadJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"
+		p:jobClass="core.scheduling.reload.ResourceReloadJob" p:durability="true"></bean>
+	<bean id="resourceTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean"
+		p:jobDetail-ref="resourceReloadJob"
+		p:startDelay="1000"
+		p:repeatInterval="300000" /><!--1000이 1초임.  -->
+
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="reLoadTrigger" />
+				<ref bean="resourceTrigger" />
+			</list>
+		</property>
+		<property name="quartzProperties">
+			<map>
+				<entry key="org.quartz.threadPool.class" value="org.quartz.simpl.SimpleThreadPool" />
+				<entry key="org.quartz.threadPool.threadCount" value="3" />
+				<entry key="org.quartz.threadPool.makeThreadsDaemons" value="true" />
+				<entry
+					key="org.quartz.threadPool.threadsInheritContextClassLoaderOfInitializingThread"
+					value="false" />
+			</map>
+		</property>
+		<property name="waitForJobsToCompleteOnShutdown" value="false"></property>
+	</bean>
+	<!-- ==================================================== module intercepter. 
+		==================================================== -->
+	<bean id="coreModuleIntercepter" class="core.web.intercepter.CoreModuleIntercepter" />
+	<!-- ==================================================== Config.java ==================================================== -->
+	<bean id="applicationConfig" class="core.common.config.Config">
+		<property name="reloadDelay" value="5000" />
+		<property name="reloadPeriod" value="100000" />
+	</bean>
+</beans>

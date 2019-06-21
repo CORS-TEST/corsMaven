@@ -1,0 +1,793 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="769" id="BSysCodeDetail" left="0" onload="fnOnload" titletext="코드관리" top="0" width="1200">
+    <Layouts>
+      <Layout>
+        <Div height="34" id="div_btn" left="1340" objNm="컨트롤 박스" right="-319" taborder="83" top="-5" visible="false">
+          <Layouts>
+            <Layout>
+              <Button cssclass="btn_WF_Com_R" height="24" id="btn_systemApply" objNm="메뉴삭제" onclick="fn_system" right="10" taborder="3" text="시스템적용" top="5" width="92"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="261" id="divViewCompBody00" left="0%" taborder="84" top="0" width="48%">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsGrp" bottom="0" id="grdGrp" left="0%" right="60.07%" taborder="7" top="35" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="152"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="27"/>
+                      <Row size="26"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="그룹"/>
+                      <Cell col="1" expr="" text="코드명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CD_GRP"/>
+                      <Cell col="1" style="align:left;" text="bind:CD_NM_LO"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button cssclass="btn_WF_Module" height="21" id="btnGrpDel" objNm="코드그룹삭제버튼" onclick="dfnGrpDel" right="53" taborder="8" text="삭제" top="10" visible="true" width="50"/>
+              <Button cssclass="btn_WF_Module" height="21" id="btnGrpSave" objNm="코드그룹삭제버튼" onclick="fnGrpSave" right="0" taborder="9" text="저장" top="10" width="50"/>
+              <Static cssclass="sta_WF_Subtitle" height="23" id="staViewCompTitle00" left="0" taborder="10" text="코드그룹" top="11" width="254"/>
+              <Div cssclass="div_WF_DetailBg" height="226" id="divViewCompBody00" left="43.4%" right="0%" taborder="11" top="35">
+                <Layouts>
+                  <Layout>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" onclick="Div21_Static01_onclick" right="0" taborder="50" top="-1"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" onclick="Div21_Static01_onclick" right="0" taborder="51" top="31"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" onclick="Div21_Static01_onclick" right="0" taborder="52" top="63"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="0" onclick="Div21_Static01_onclick" right="0" taborder="53" top="95"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="0" onclick="Div21_Static01_onclick" right="0" taborder="54" top="127"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="0" onclick="Div21_Static01_onclick" right="0" taborder="55" top="159"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine07" left="0" onclick="Div21_Static01_onclick" right="0" taborder="56" top="191"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdId" lbcd="" left="0" objNm="코드" taborder="57" text="코드" top="-1" usedecorate="true" width="79"/>
+                    <Edit cssclass="readonly_P" height="23" id="edtCdId" lbcd="" left="84" lengthunit="utf8" objNm="코드" readonly="true" taborder="58" top="4" width="75"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdNm" lbcd="" left="0" objNm="코드명한글" taborder="59" text="코드명(한)" top="63" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdGrp" lbcd="" left="0" objNm="그룹" taborder="60" text="그룹" top="31" usedecorate="true" width="79"/>
+                    <Edit height="23" id="edtCdGrp" lbcd="" left="84" lengthunit="utf8" maxlength="2" objNm="그룹" taborder="61" top="36" width="75"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdNmEn" lbcd="" left="0" objNm="코드명영문" taborder="62" text="코드명(영)" top="95" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdDesc" lbcd="" left="0" objNm="코드설명" taborder="63" text="코드설명" top="127" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staAltUse" lbcd="" left="0" objNm="사용여부" taborder="64" text="사용여부" top="159" usedecorate="true" width="79"/>
+                    <Radio codecolumn="codecolumn" columncount="-1" datacolumn="datacolumn" direction="vertical" height="23" id="rdAltUse" left="84" objNm="사용여부" rowcount="-1" style="textpadding:0 20 0 6;padding:0 0 0 0;" taborder="65" top="164" value="0" width="180">
+                      <Dataset id="innerdataset">
+                        <ColumnInfo>
+                          <Column id="codecolumn" size="256"/>
+                          <Column id="datacolumn" size="256"/>
+                        </ColumnInfo>
+                        <Rows>
+                          <Row>
+                            <Col id="codecolumn">Y</Col>
+                            <Col id="datacolumn">예</Col>
+                          </Row>
+                          <Row>
+                            <Col id="codecolumn">N</Col>
+                            <Col id="datacolumn">아니오</Col>
+                          </Row>
+                        </Rows>
+                      </Dataset>
+                    </Radio>
+                    <Static cssclass="sta_WF_Label" height="33" id="staOrder" lbcd="" left="0" objNm="정렬순서" taborder="66" text="정렬순서" top="191" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdClass" lbcd="" left="164" objNm="클래스" taborder="67" text="클래스" top="31" usedecorate="true" width="79"/>
+                    <Edit cssclass="readonly_P" height="23" id="edtCdClass" lbcd="" left="248" lengthunit="utf8" objNm="클래스" readonly="true" taborder="68" top="36" width="75"/>
+                    <Edit height="23" id="edtCdNm" lbcd="" left="84" lengthunit="utf8" objNm="코드명한글" taborder="69" top="68" width="236"/>
+                    <Edit height="23" id="edtCdNmEn" lbcd="" left="84" lengthunit="utf8" objNm="코드명영문" taborder="70" top="100" width="236"/>
+                    <Edit height="23" id="edtCdDesc" lbcd="" left="84" lengthunit="utf8" objNm="코드설명" taborder="71" top="132" width="236"/>
+                    <Edit height="23" id="edtOrder" inputtype="number" lbcd="" left="84" lengthunit="utf8" objNm="정렬순서" taborder="72" top="196" width="236"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+              <Button cssclass="btn_WF_Module" height="21" id="btnGrpAdd" objNm="코드그룹추가버튼" onclick="fnGrpAdd" right="106" taborder="12" text="추가" top="10" width="50"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="261" id="divViewCompBody01" left="49.67%" right="2.08%" taborder="85" top="0">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsCls" bottom="0" id="grdCls" left="0%" right="59.76%" taborder="7" top="35" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="152"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="27"/>
+                      <Row size="26"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="클래스"/>
+                      <Cell col="1" expr="" text="코드명"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CD_CLS"/>
+                      <Cell col="1" style="align:left;" text="bind:CD_NM_LO"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button cssclass="btn_WF_Module" height="21" id="btnClsDel" objNm="코드그룹삭제버튼" onclick="fnClsDel" right="53" taborder="8" text="삭제" top="10" visible="true" width="50"/>
+              <Button cssclass="btn_WF_Module" height="21" id="btnClsSave" objNm="코드그룹삭제버튼" onclick="fnClsSave" right="0" taborder="9" text="저장" top="10" width="50"/>
+              <Static cssclass="sta_WF_Subtitle" height="23" id="staViewCompTitle00" left="0" taborder="11" text="코드클래스" top="11" width="254"/>
+              <Button cssclass="btn_WF_Module" height="21" id="btnClsAdd" objNm="코드그룹추가버튼" onclick="fnClsAdd" right="106" taborder="12" text="추가" top="10" width="50"/>
+              <Div cssclass="div_WF_DetailBg" height="226" id="divViewCompBody00" left="43.35%" right="0%" taborder="13" top="35">
+                <Layouts>
+                  <Layout>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" onclick="Div21_Static01_onclick" right="0" taborder="73" top="-1"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" onclick="Div21_Static01_onclick" right="0" taborder="74" top="31"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" onclick="Div21_Static01_onclick" right="0" taborder="75" top="63"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="0" onclick="Div21_Static01_onclick" right="0" taborder="76" top="95"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="0" onclick="Div21_Static01_onclick" right="0" taborder="77" top="127"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="0" onclick="Div21_Static01_onclick" right="0" taborder="78" top="159"/>
+                    <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine07" left="0" onclick="Div21_Static01_onclick" right="0" taborder="79" top="191"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdId" lbcd="" left="0" objNm="코드" taborder="80" text="코드" top="-1" usedecorate="true" width="79"/>
+                    <Edit cssclass="readonly_P" height="23" id="edtCdId" lbcd="" left="84" lengthunit="utf8" objNm="코드" readonly="true" taborder="81" top="4" width="75"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdNm" lbcd="" left="0" objNm="코드명한글" taborder="82" text="코드명(한)" top="63" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdGrp" lbcd="" left="0" objNm="그룹" taborder="83" text="그룹" top="31" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdNmEn" lbcd="" left="0" objNm="코드명영문" taborder="85" text="코드명(영)" top="95" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdDesc" lbcd="" left="0" objNm="코드설명" taborder="86" text="코드설명" top="127" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staAltUse" lbcd="" left="0" objNm="사용여부" taborder="87" text="사용여부" top="159" usedecorate="true" width="79"/>
+                    <Radio codecolumn="codecolumn" columncount="-1" datacolumn="datacolumn" direction="vertical" height="23" id="rdAltUse" left="84" objNm="사용여부" rowcount="-1" style="textpadding:0 20 0 6;padding:0 0 0 0;" taborder="88" top="164" value="0" width="180">
+                      <Dataset id="innerdataset">
+                        <ColumnInfo>
+                          <Column id="codecolumn" size="256"/>
+                          <Column id="datacolumn" size="256"/>
+                        </ColumnInfo>
+                        <Rows>
+                          <Row>
+                            <Col id="codecolumn">Y</Col>
+                            <Col id="datacolumn">예</Col>
+                          </Row>
+                          <Row>
+                            <Col id="codecolumn">N</Col>
+                            <Col id="datacolumn">아니오</Col>
+                          </Row>
+                        </Rows>
+                      </Dataset>
+                    </Radio>
+                    <Static cssclass="sta_WF_Label" height="33" id="staOrder" lbcd="" left="0" objNm="정렬순서" taborder="89" text="정렬순서" top="191" usedecorate="true" width="79"/>
+                    <Static cssclass="sta_WF_Label" height="33" id="staCdClass" lbcd="" left="164" objNm="클래스" taborder="90" text="클래스" top="31" usedecorate="true" width="79"/>
+                    <Edit height="23" id="edtCdClass" lbcd="" left="248" lengthunit="utf8" objNm="클래스" taborder="91" top="36" width="75"/>
+                    <Edit height="23" id="edtCdNm" lbcd="" left="84" lengthunit="utf8" objNm="코드명한글" taborder="92" top="68" width="236"/>
+                    <Edit height="23" id="edtCdNmEn" lbcd="" left="84" lengthunit="utf8" objNm="코드명영문" taborder="93" top="100" width="236"/>
+                    <Edit height="23" id="edtCdDesc" lbcd="" left="84" lengthunit="utf8" objNm="코드설명" taborder="94" top="132" width="236"/>
+                    <Edit height="23" id="edtOrder" inputtype="number" lbcd="" left="84" lengthunit="utf8" objNm="정렬순서" taborder="95" top="196" width="236"/>
+                    <Edit enable="false" height="23" id="edtCdGrp" lbcd="" left="84" lengthunit="utf8" maxlength="2" objNm="그룹" taborder="97" top="36" width="75"/>
+                  </Layout>
+                </Layouts>
+              </Div>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="divViewCompBody02" left="0" right="25" taborder="86" top="261">
+          <Layouts>
+            <Layout>
+              <Grid autoenter="select" binddataset="dsCd" bottom="29" cellmovingtype="col" cellsizingtype="col" id="grdCd" left="0" objNm="품목 그리드" right="0" selectscrollmode="scroll" taborder="11" top="35" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column band="left" size="31"/>
+                      <Column size="63"/>
+                      <Column size="64"/>
+                      <Column size="61"/>
+                      <Column size="67"/>
+                      <Column size="65"/>
+                      <Column size="172"/>
+                      <Column size="147"/>
+                      <Column size="166"/>
+                      <Column size="80"/>
+                      <Column size="83"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="27"/>
+                      <Row size="26"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" expr="" text="그룹"/>
+                      <Cell col="2" expr="" text="클래스"/>
+                      <Cell col="3" expr="" text="코드"/>
+                      <Cell col="4" expr="" text="KEY"/>
+                      <Cell col="5" expr="" text="상위코드"/>
+                      <Cell col="6" expr="" text="코드명_한글"/>
+                      <Cell col="7" cssclass="Cellgrd_edit" expr="" text="코드명_영문"/>
+                      <Cell col="8" cssclass="Cellgrd_edit" expr="" text="코드설명"/>
+                      <Cell col="9" cssclass="Cellgrd_edit" expr="" text="사용여부"/>
+                      <Cell col="10" cssclass="Cellgrd_edit" expr="" text="정렬순서"/>
+                      <Cell col="11" cssclass="Cellgrd_edit" expr="" text="설정1(숫자)"/>
+                      <Cell col="12" cssclass="Cellgrd_edit" expr="" text="설정2(숫자)"/>
+                      <Cell col="13" cssclass="Cellgrd_edit" expr="" text="설정3(숫자)"/>
+                      <Cell col="14" cssclass="Cellgrd_edit" expr="" text="설정4(숫자)"/>
+                      <Cell col="15" cssclass="Cellgrd_edit" expr="" text="설정5(숫자)"/>
+                      <Cell col="16" cssclass="Cellgrd_edit" expr="" text="설정6(숫자)"/>
+                      <Cell col="17" cssclass="Cellgrd_edit" expr="" text="설정7(숫자)"/>
+                      <Cell col="18" cssclass="Cellgrd_edit" expr="" text="설정8(숫자)"/>
+                      <Cell col="19" cssclass="Cellgrd_edit" expr="" text="설정1(문자)"/>
+                      <Cell col="20" cssclass="Cellgrd_edit" expr="" text="설정2(문자)"/>
+                      <Cell col="21" cssclass="Cellgrd_edit" expr="" text="설정3(문자)"/>
+                      <Cell col="22" cssclass="Cellgrd_edit" expr="" text="설정4(문자)"/>
+                      <Cell col="23" cssclass="Cellgrd_edit" expr="" text="설정5(문자)"/>
+                      <Cell col="24" cssclass="Cellgrd_edit" expr="" text="설정6(문자)"/>
+                      <Cell col="25" cssclass="Cellgrd_edit" expr="" text="설정7(문자)"/>
+                      <Cell col="26" cssclass="Cellgrd_edit" expr="" text="설정8(문자)"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="expr:CD == '00' ? &quot;none&quot;:&quot;checkbox&quot;" edittype="expr:CD == '00' ? &quot;none&quot;:&quot;checkbox&quot;" text="bind:CHECKED"/>
+                      <Cell col="1" displaytype="normal" edittype="none" style="background2: ;" text="bind:CD_GRP"/>
+                      <Cell col="2" displaytype="normal" edittype="none" style="background2: ;" text="bind:CD_CLS"/>
+                      <Cell col="3" displaytype="normal" edittype="expr:CD == '00' ? &quot;none&quot;:&quot;text&quot;" style="align:left;background:EXPR(CD == '00' ? &quot;#ebebebff&quot;:&quot;&quot;);background2:EXPR(CD == '00' ? &quot;#ebebebff&quot;:&quot;&quot;);" text="bind:CD"/>
+                      <Cell col="4" style="align:left;background2: ;" text="bind:CD_ID"/>
+                      <Cell col="5" displaytype="text" edittype="text" text="bind:UP_CD_ID"/>
+                      <Cell col="6" displaytype="text" edittype="text" style="align:left;" text="bind:CD_NM_LO"/>
+                      <Cell col="7" displaytype="text" edittype="text" style="align:left;" text="bind:CD_NM_GB"/>
+                      <Cell col="8" displaytype="text" edittype="text" style="align:left;" text="bind:CD_DESC" tooltiptext="bind:CD_DESC"/>
+                      <Cell col="9" combodisplay="edit" displaytype="checkbox" edittype="checkbox" text="bind:ALT_USE"/>
+                      <Cell col="10" displaytype="number" editlimit="2" edittype="masknumber" style="align:right;" text="bind:ARY_ORDR"/>
+                      <Cell col="11" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_1"/>
+                      <Cell col="12" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_2"/>
+                      <Cell col="13" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_3"/>
+                      <Cell col="14" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_4"/>
+                      <Cell col="15" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_5"/>
+                      <Cell col="16" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_6"/>
+                      <Cell col="17" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_7"/>
+                      <Cell col="18" displaytype="number" edittype="masknumber" style="align:right;" text="bind:APPND_SET_NUM_8"/>
+                      <Cell col="19" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_1"/>
+                      <Cell col="20" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_2"/>
+                      <Cell col="21" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_3"/>
+                      <Cell col="22" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_4"/>
+                      <Cell col="23" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_5"/>
+                      <Cell col="24" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_6"/>
+                      <Cell col="25" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_7"/>
+                      <Cell col="26" displaytype="text" edittype="text" text="bind:APPND_SET_CHR_8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button cssclass="btn_WF_Module" height="21" id="btnCdDel" objNm="코드그룹삭제버튼" onclick="fnCdDel" right="53" taborder="12" text="삭제" top="10" visible="true" width="50"/>
+              <Button cssclass="btn_WF_Module" height="21" id="btnCdSave" objNm="코드그룹삭제버튼" onclick="fnCdSave" right="0" taborder="13" text="저장" top="10" width="50"/>
+              <Static cssclass="sta_WF_Subtitle" height="23" id="staViewCompTitle00" left="0" taborder="14" text="코드상세" top="11" width="254"/>
+              <Button cssclass="btn_WF_Module" height="21" id="btnCdAdd" objNm="코드그룹추가버튼" onclick="fnCdAdd" right="106" taborder="15" text="추가" top="10" width="50"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset cancolumnchange="fnDsGrpCancolumnchange" canrowposchange="fnDsGrpCanrowposchange" id="dsGrp" onrowposchanged="fnDsGrpOnrowposchanged"/>
+      <Dataset cancolumnchange="fnDsClsCancolumnchange" canrowposchange="fnDsClsCanrowposchange" id="dsCls" onrowposchanged="fnDsClsOnrowposchanged" onrowsetchanged="fnDsClsOnrowsetchanged"/>
+      <Dataset cancolumnchange="fnDsCdCancolumnchange" id="dsCd" oncolumnchanged="fnDsCdOncolumnchanged" onrowsetchanged="fnDsCdOnrowsetchanged"/>
+      <Dataset id="dsAllCd">
+        <ColumnInfo>
+          <Column id="GUBUN" size="256" type="STRING"/>
+          <Column id="CD_GRP" size="256" type="STRING"/>
+          <Column id="CD_CLS" size="256" type="STRING"/>
+          <Column id="CD" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="CD_GRP" compid="divViewCompBody01.divViewCompBody00.edtCdGrp" datasetid="dsCls" id="item49" propid="value"/>
+      <BindItem columnid="CD_ID" compid="Div11.div_input.edt_cdId" datasetid="ds_grp" id="item5" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="Div11.div_input.edt_cdNmLo" datasetid="ds_grp" id="item0" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="Div11.div_input.edt_cdGrp" datasetid="ds_grp" id="item1" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="Div11.div_input.edt_cdNmGb" datasetid="ds_grp" id="item3" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="Div11.div_input.edt_cdDesc" datasetid="ds_grp" id="item4" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="Div11.div_input.edt_aryOrdr" datasetid="ds_grp" id="item6" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="Div11.div_input.rdo_altUse" datasetid="ds_grp" id="item2" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="Div21.div_input.edt_aryOrdr" datasetid="ds_cls" id="item7" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="Div21.div_input.rdo_altUse" datasetid="ds_cls" id="item8" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="Div21.div_input.edt_cdDesc" datasetid="ds_cls" id="item9" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="Div21.div_input.edt_cdNmGb" datasetid="ds_cls" id="item10" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="Div21.div_input.edt_cdNmLo" datasetid="ds_cls" id="item11" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="Div21.div_input.edt_cdGrp" datasetid="ds_cls" id="item12" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="Div21.div_input.edt_cdCls" datasetid="ds_cls" id="item13" propid="value"/>
+      <BindItem columnid="CD_ID" compid="Div21.div_input.edt_cdId" datasetid="ds_cls" id="item14" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="Div11.div_input.edt_cdCls" datasetid="ds_grp" id="item15" propid="value"/>
+      <BindItem columnid="CD_ID" compid="div_grp.div_input.edt_cdId" datasetid="ds_grp" id="item16" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="div_grp.div_input.edt_cdGrp" datasetid="ds_grp" id="item17" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="div_grp.div_input.edt_cdCls" datasetid="ds_grp" id="item18" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="div_grp.div_input.edt_cdNmLo" datasetid="ds_grp" id="item19" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="div_grp.div_input.edt_cdNmGb" datasetid="ds_grp" id="item20" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="div_grp.div_input.edt_cdDesc" datasetid="ds_grp" id="item21" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="div_grp.div_input.rdo_altUse" datasetid="ds_grp" id="item22" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="div_grp.div_input.edt_aryOrdr" datasetid="ds_grp" id="item23" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="div_cls.div_input.edt_aryOrdr" datasetid="ds_cls" id="item24" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="div_cls.div_input.rdo_altUse" datasetid="ds_cls" id="item25" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="div_cls.div_input.edt_cdDesc" datasetid="ds_cls" id="item26" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="div_cls.div_input.edt_cdNmGb" datasetid="ds_cls" id="item27" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="div_cls.div_input.edt_cdNmLo" datasetid="ds_cls" id="item28" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="div_cls.div_input.edt_cdGrp" datasetid="ds_cls" id="item29" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="div_cls.div_input.edt_cdCls" datasetid="ds_cls" id="item30" propid="value"/>
+      <BindItem columnid="CD_ID" compid="div_cls.div_input.edt_cdId" datasetid="ds_cls" id="item31" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="div_cls.div_input.edt_aryOrdr" datasetid="ds_cls" id="item32" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="div_cls.div_input.rdo_altUse" datasetid="ds_cls" id="item33" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="div_cls.div_input.edt_cdDesc" datasetid="ds_cls" id="item34" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="div_cls.div_input.edt_cdNmGb" datasetid="ds_cls" id="item35" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="div_cls.div_input.edt_cdNmLo" datasetid="ds_cls" id="item36" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="div_cls.div_input.edt_cdGrp" datasetid="ds_cls" id="item37" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="div_cls.div_input.edt_cdCls" datasetid="ds_cls" id="item38" propid="value"/>
+      <BindItem columnid="CD_ID" compid="div_cls.div_input.edt_cdId" datasetid="ds_cls" id="item39" propid="value"/>
+      <BindItem columnid="CD_ID" compid="divViewCompBody00.divViewCompBody00.edtCdId" datasetid="dsGrp" id="item40" propid="value"/>
+      <BindItem columnid="CD_GRP" compid="divViewCompBody00.divViewCompBody00.edtCdGrp" datasetid="dsGrp" id="item41" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="divViewCompBody00.divViewCompBody00.edtCdClass" datasetid="dsGrp" id="item42" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="divViewCompBody00.divViewCompBody00.edtCdNm" datasetid="dsGrp" id="item43" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="divViewCompBody00.divViewCompBody00.edtCdNmEn" datasetid="dsGrp" id="item44" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="divViewCompBody00.divViewCompBody00.edtCdDesc" datasetid="dsGrp" id="item45" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="divViewCompBody00.divViewCompBody00.rdAltUse" datasetid="dsGrp" id="item46" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="divViewCompBody00.divViewCompBody00.edtOrder" datasetid="dsGrp" id="item47" propid="value"/>
+      <BindItem columnid="CD_ID" compid="divViewCompBody01.divViewCompBody00.edtCdId" datasetid="dsCls" id="item48" propid="value"/>
+      <BindItem columnid="CD_CLS" compid="divViewCompBody01.divViewCompBody00.edtCdClass" datasetid="dsCls" id="item50" propid="value"/>
+      <BindItem columnid="CD_NM_LO" compid="divViewCompBody01.divViewCompBody00.edtCdNm" datasetid="dsCls" id="item51" propid="value"/>
+      <BindItem columnid="CD_NM_GB" compid="divViewCompBody01.divViewCompBody00.edtCdNmEn" datasetid="dsCls" id="item52" propid="value"/>
+      <BindItem columnid="CD_DESC" compid="divViewCompBody01.divViewCompBody00.edtCdDesc" datasetid="dsCls" id="item53" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="divViewCompBody01.divViewCompBody00.rdAltUse" datasetid="dsCls" id="item54" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="divViewCompBody01.divViewCompBody00.edtOrder" datasetid="dsCls" id="item55" propid="value"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BSysCodeDetail.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 05.
+ * @설명			    : 코드관리
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 9. 05.
+*/ 
+
+/**
+	@function	fnOnload()
+	@desc   	폼 onload이벤트
+*/   
+this.fnOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.divViewCompBody01.grdCls, null, this);
+	gfnSetGrdFunc(this.divViewCompBody02.grdCd, null, this);
+	
+	this.dsAllCd.setColumn(0,"GUBUN","GRP");
+	this.fnSearch();
+}
+
+/**
+	@function	fnSearch()
+	@desc   	조회이벤트
+*/   
+this.fnSearch = function()
+{
+	var sSvcID = "";
+	var sOutDatasets = "";
+	var gubun = this.dsAllCd.getColumn(0,"GUBUN");
+	
+	if(gubun == "GRP") { // 코드그룹
+		sSvcID = "searchSysCodeGrp"; 
+		sOutDatasets = "dsGrp=dsAllCd";
+		
+	} else if(gubun == "CLS") { // 코드클래스
+		sSvcID = "searchSysCodeCls"; 
+		sOutDatasets = "dsCls=dsAllCd";
+		
+	} else if(gubun == "CD") { // 코드
+		sSvcID = "searchSysCodeCd"; 
+		sOutDatasets = "dsCd=dsAllCd";
+	}
+
+	var sController = "epro.sys.service.BSysService.searchSysCode";
+	var sInDatasets = "dsAllCd=dsAllCd"
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/      
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "searchSysCodeGrp" : 
+			this.dsGrp.set_enableevent(false);
+			
+			if(this.dsGrp.rowcount != 0){
+				this.dsAllCd.setColumn(0,"GUBUN","CLS");
+				this.dsAllCd.setColumn(0,"CD_GRP",this.dsGrp.getColumn(0,"CD_GRP"));
+			}
+			
+			this.dsGrp.set_enableevent(true);
+		break;
+		
+		case "searchSysCodeCls" :
+			this.dsCls.set_enableevent(false);
+			
+			if(this.dsCls.rowcount != 0){
+				this.dsAllCd.setColumn(0,"GUBUN","CD");
+				this.dsAllCd.setColumn(0,"CD_GRP",this.dsCls.getColumn(0,"CD_GRP"));
+				this.dsAllCd.setColumn(0,"CD_CLS",this.dsCls.getColumn(0,"CD_CLS"));	
+				
+			}  else{
+				this.dsCd.clear();
+			}
+			
+			this.dsCls.set_enableevent(true);
+		
+		break;
+		
+		case "searchSysCodeCd" : 
+			//onrowsetchanged 이벤트를 발생시키기 위해.
+			this.dsCd.set_enableevent(false); 
+			this.dsCd.set_enableevent(true);
+			
+		break;
+		
+		case "saveSysCodeGrp" :
+			gfnAlert(strErrMsg);
+		break;
+		
+		case "saveSysCodeCls" :
+			this.fnDsClsOnrowposchanged();
+			gfnAlert(strErrMsg);
+		break;
+		
+		case "saveSysCodeCd" :
+			gfnAlert(strErrMsg);
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fnDsGrpOnrowposchanged()
+	@desc   	코드그룹 row변경 이벤트
+*/   
+this.fnDsGrpOnrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.dsAllCd.setColumn(0,"GUBUN","CLS");
+	this.dsAllCd.setColumn(0,"CD_GRP",this.dsGrp.getColumn(this.dsGrp.rowposition,"CD_GRP"));
+	this.fnSearch();
+}
+
+/**
+	@function	fnDsGrpCanrowposchange()
+	@desc   	코드그룹 row변경전 이벤트
+*/      
+this.fnDsGrpCanrowposchange = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	for(var i = 0 ; i < this.dsCls.rowcount ; i++){
+		if(this.dsCls.getRowType(i) == 2){
+			if(gfnConfirm("코드클래스에 추가된 행이 있습니다.\n계속하시겠습니까?")){
+				return true;
+			} else{
+				return false;				
+			}
+		}
+	}
+}
+
+/**
+	@function	fnDsGrpCancolumnchange()
+	@desc   	코드그룹 column변경이벤트
+*/      
+this.fnDsGrpCancolumnchange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CD_GRP" && !gfnIsNull(e.newvalue)){
+		var nRow = obj.findRow("CD_GRP",e.newvalue)
+		
+		if(nRow != -1){
+			gfnAlert("중복되는 코드그룹이 존재합니다.")
+			e.newvalue = e.oldvalue;
+		}
+	}
+}
+
+/**
+	@function	fnGrpAdd()
+	@desc   	코드그룹 추가 이벤트
+*/
+this.fnGrpAdd = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsGrp.addRow();
+	var ordr = this.dsGrp.getMax("ARY_ORDR") == undefined ? 0 : this.dsGrp.getMax("ARY_ORDR") + 1;
+	
+	this.dsGrp.setColumn(nRow,"CD_GRP","");
+	this.dsGrp.setColumn(nRow,"CD_CLS","00");
+	this.dsGrp.setColumn(nRow,"CD","00");
+	this.dsGrp.setColumn(nRow,"CD_NM_LO","");
+	this.dsGrp.setColumn(nRow,"ALT_USE","Y");
+	this.dsGrp.setColumn(nRow,"ARY_ORDR",ordr);
+	this.dsGrp.setColumn(nRow,"CRTR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+	this.dsGrp.setColumn(nRow,"LAST_CHGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));	
+}
+
+/**
+	@function	dfnGrpDel()
+	@desc   	코드그룹 row삭제
+*/  
+this.dfnGrpDel = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("코드그룹을 삭제하시겠습니까?")) return;
+	
+	this.dsGrp.deleteRow(this.dsGrp.rowposition);
+}
+
+/**
+	@function	fnGrpSave()
+	@desc   	코드그룹 저장
+*/  
+this.fnGrpSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("코드그룹을 저장하시겠습니까?")) return;
+	
+	var sSvcID = "saveSysCodeGrp";
+	var sController = "epro.sys.service.BSysService.saveSysCodeGrp";
+	var sInDatasets = "dsGrp=dsGrp"
+	var sOutDatasets = "dsGrp=dsGrp";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnDsClsOnrowposchanged()
+	@desc   	코드클래스 row변경 이벤트
+*/   
+this.fnDsClsOnrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.dsAllCd.setColumn(0,"GUBUN","CD");
+	this.dsAllCd.setColumn(0,"CD_GRP",this.dsCls.getColumn(this.dsCls.rowposition,"CD_GRP"));
+	this.dsAllCd.setColumn(0,"CD_CLS",this.dsCls.getColumn(this.dsCls.rowposition,"CD_CLS"));
+	
+	this.fnSearch();
+}
+
+/**
+	@function	fnDsClsCancolumnchange()
+	@desc   	코드클래스 column변경이벤트
+*/
+this.fnDsClsCancolumnchange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CD_CLS" && !gfnIsNull(e.newvalue)){
+		var nRow = obj.findRow("CD_CLS",e.newvalue)
+		
+		if(nRow != -1){
+			gfnAlert("중복되는 코드클래스가 존재합니다.")
+			e.newvalue = e.oldvalue;
+		}
+	}
+}
+
+/**
+	@function	fnDsClsCanrowposchange()
+	@desc   	코드클래스 row변경전 이벤트
+*/
+this.fnDsClsCanrowposchange = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	for(var i = 0 ; i < this.dsCd.rowcount ; i++){
+		if(this.dsCd.getRowType(i) == 2){
+			if(gfnConfirm("코드에 추가된 행이 있습니다.\n계속하시겠습니까?")){
+				return true;
+			} else{
+				return false;				
+			}
+		}
+	}
+}
+
+/**
+	@function	fnClsAdd()
+	@desc   	코드클래스 row추가
+*/
+this.fnClsAdd = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var nRow = this.dsCls.addRow();
+	var ordr = this.dsCls.getMax("ARY_ORDR") + 1;
+	
+	this.dsCls.setColumn(nRow,"CD_GRP",this.dsGrp.getColumn(this.dsGrp.rowposition,"CD_GRP"));
+	this.dsCls.setColumn(nRow,"CD_CLS","");
+	this.dsCls.setColumn(nRow,"CD","00");
+	this.dsCls.setColumn(nRow,"CD_NM_LO","");
+	this.dsCls.setColumn(nRow,"ALT_USE","Y");
+	this.dsCls.setColumn(nRow,"ARY_ORDR",ordr);
+	this.dsCls.setColumn(nRow,"CRTR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+	this.dsCls.setColumn(nRow,"LAST_CHGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+}
+
+/**
+	@function	fnClsDel()
+	@desc   	코드클래스 row삭제
+*/
+this.fnClsDel = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.dsCls.getColumn(this.dsCls.rowposition,"CD_CLS") == "00"){
+		gfnAlert("선택하신 코드클래스는 삭제하실 수 없습니다.");
+		return;
+	}
+
+	if(!gfnConfirm("코드클래스를 삭제하시겠습니까?")) return;
+	
+	this.dsCls.deleteRow(this.dsCls.rowposition);
+}
+
+/**
+	@function	fnClsSave()
+	@desc   	코드클래스 저장
+*/
+this.fnClsSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("코드클래스를 저장하시겠습니까?")) return;
+	
+	var sSvcID = "saveSysCodeCls";
+	var sController = "epro.sys.service.BSysService.saveSysCodeCls";
+	var sInDatasets = "dsCls=dsCls"
+	var sOutDatasets = "dsCls=dsCls";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnCdAdd()
+	@desc   	코드 추가
+*/
+this.fnCdAdd = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var nRow = this.dsCd.addRow();
+	var ordr = this.dsCd.getMax("ARY_ORDR") + 1;
+	
+	this.dsCd.setColumn(nRow,"CD_GRP",this.dsCls.getColumn(this.dsCls.rowposition,"CD_GRP"));
+	this.dsCd.setColumn(nRow,"CD_CLS",this.dsCls.getColumn(this.dsCls.rowposition,"CD_CLS"));
+	this.dsCd.setColumn(nRow,"ALT_USE","Y");
+	this.dsCd.setColumn(nRow,"ARY_ORDR",ordr);
+	this.dsCd.setColumn(nRow,"CRTR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+	this.dsCd.setColumn(nRow,"LAST_CHGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+}
+
+/**
+	@function	fnDsCdOncolumnchanged()
+	@desc   	코드 컬럼 변경 이벤트
+*/
+this.fnDsCdOncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CD"){
+		obj.setColumn(e.row,"CD_ID",obj.getColumn(e.row,"CD_GRP") + obj.getColumn(e.row,"CD_CLS") + obj.getColumn(e.row,"CD"));
+	}
+}
+
+/**
+	@function	fnDsCdCancolumnchange()
+	@desc   	코드 컬럼변경전 이벤트
+*/
+this.fnDsCdCancolumnchange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "CD" && !gfnIsNull(e.newvalue)){
+		var nRow = obj.findRow("CD",e.newvalue)
+		
+		if(nRow != -1){
+			gfnAlert("중복되는 코드가 존재합니다.")
+			e.newvalue = e.oldvalue;
+		}
+	}
+}
+
+/**
+	@function	fnCdDel()
+	@desc   	코드 삭제 이벤트
+*/
+this.fnCdDel = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	if(this.dsCd.findRow("CHECKED","1") == -1){
+		gfnAlert("선택된 행이 없습니다.");
+		return;
+	}
+
+	if(!gfnConfirm("코드를 삭제하시겠습니까?")) return;
+	
+	for(var i = this.dsCd.rowcount ; i >= 0 ; i--){
+		if(this.dsCd.getColumn(i,"CHECKED") == "1" && this.dsCd.getColumn(i,"CD") != "00") this.dsCd.deleteRow(i);
+	}
+}
+
+/**
+	@function	fnCdSave()
+	@desc   	코드 저장 이벤트
+*/
+this.fnCdSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("코드를 저장하시겠습니까?")) return;
+	
+	var sSvcID = "saveSysCodeCd";
+	var sController = "epro.sys.service.BSysService.saveSysCodeCd";
+	var sInDatasets = "dsCd=dsCd"
+	var sOutDatasets = "dsCd=dsCd";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnDsCdOnrowsetchanged()
+	@desc   	코드 onrowsetchanged 이벤트
+*/
+this.fnDsCdOnrowsetchanged = function(obj:Dataset, e:nexacro.DSRowsetChangeEventInfo)
+{
+	if(obj.rowcount == 0){
+		this.divViewCompBody02.btnCdAdd.set_enable(false);
+		this.divViewCompBody02.btnCdDel.set_enable(false);
+		this.divViewCompBody02.btnCdSave.set_enable(false);
+		
+		this.divViewCompBody01.btnClsDel.set_enable(true);
+		
+	} else if(obj.rowcount == 1){
+		this.divViewCompBody02.btnCdAdd.set_enable(true);
+		this.divViewCompBody02.btnCdDel.set_enable(false);
+		this.divViewCompBody02.btnCdSave.set_enable(true);
+		
+		this.divViewCompBody01.btnClsDel.set_enable(true);
+	
+	} else {
+		this.divViewCompBody02.btnCdAdd.set_enable(true);
+		this.divViewCompBody02.btnCdDel.set_enable(true);
+		this.divViewCompBody02.btnCdSave.set_enable(true);
+		
+		this.divViewCompBody01.btnClsDel.set_enable(false);
+	}
+}
+
+/**
+	@function	fnDsClsOnrowsetchanged()
+	@desc   	코드클래스 onrowsetchanged 이벤트
+*/
+this.fnDsClsOnrowsetchanged = function(obj:Dataset, e:nexacro.DSRowsetChangeEventInfo)
+{
+	if(obj.rowcount == 0){
+		this.divViewCompBody01.btnClsAdd.set_enable(false);
+		this.divViewCompBody01.btnClsDel.set_enable(false);
+		this.divViewCompBody01.btnClsSave.set_enable(false);
+		
+		this.divViewCompBody00.btnGrpDel.set_enable(true);
+		
+	} else if(obj.rowcount == 1){
+		this.divViewCompBody01.btnClsAdd.set_enable(true);
+		this.divViewCompBody01.btnClsDel.set_enable(false);
+		this.divViewCompBody01.btnClsSave.set_enable(true);
+		
+		this.divViewCompBody00.btnGrpDel.set_enable(true);
+	
+	} else {
+		this.divViewCompBody01.btnClsAdd.set_enable(true);
+		this.divViewCompBody01.btnClsDel.set_enable(true);
+		this.divViewCompBody01.btnClsSave.set_enable(true);
+		
+		this.divViewCompBody00.btnGrpDel.set_enable(false);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

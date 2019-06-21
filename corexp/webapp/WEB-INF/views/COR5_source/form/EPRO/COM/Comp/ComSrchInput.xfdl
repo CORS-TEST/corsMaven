@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="24" id="CompSrchInput" left="0" titletext="AddOn-Input검색조건" top="0" width="263">
+    <Layouts>
+      <Layout>
+        <Edit id="edtComInput" taborder="1" lengthunit="utf8" onkeydown="fnOnkeydownEvent" left="0%" top="0" height="24" objNm="구매담당자명" right="0%"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsComReturn"/>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompSrcType.xfdl
+   @desc       소싱그룹 컴포넌트
+   @author     송태봉
+   @makedate   2017.09.13
+   @history    
+*/
+
+this.fvFuntion = "";
+
+/**
+  * @함수명	: fnSetDate
+  * @input    	: objDs:Dataset(데이터셋 오브젝트), sFromDtCol(from 날짜), sToDtCol(to 날짜)
+  * @desc     	: 데이터셋 입력된 날짜를 바인딩
+  */
+this.fnSet = function(objDs:Dataset, sFromDtCol, sToDtCol)
+{
+	this.removeChild("Bind01");
+	this.removeChild("Bind02");
+	var objBindItem = new BindItem("Bind01", "edtComInput", "value", objDs.name,sFromDtCol);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	this.fvFuntion = sToDtCol;
+
+}
+
+this.fnOnkeydownEvent = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	
+	if(e.keycode == "13"){
+		eval("this.parent.parent." + this.fvFuntion+"()" )
+		
+	}
+}
+ 
+ ]]></Script>
+  </Form>
+</FDL>

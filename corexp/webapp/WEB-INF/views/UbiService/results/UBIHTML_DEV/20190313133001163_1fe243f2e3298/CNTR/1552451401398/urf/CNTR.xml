@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Doc version="1.0" pagecount="2"                  docname="" fontRevision="1" serviceid="48B5F134F77599425FC9AA878FCF78" enableNoPage="false" isconverthtml="false">
+<DocProperty width="595" height="842" margintop="29" marginbottom="28" marginleft="29" marginright="28" pagesize="A4" orientation="Portrait" language="Korean" />
+<Fontobj id="0_0" name="맑은 고딕" style="0" size="5" />
+<Fontobj id="1_0" name="맑은 고딕" style="0" size="8" />
+<Fontobj id="2_0" name="맑은 고딕" style="1" size="18" />
+<Fontobj id="3_0" name="맑은 고딕" style="1" size="8" />
+<Fontobj id="4_0" name="맑은 고딕" style="0" size="7" />
+<Lineobj id="0_0" type="-1" thickness="1" colorid="0_0" />
+<Lineobj id="1_0" type="-1" thickness="3" colorid="0_0" />
+<Lineobj id="2_0" type="0" thickness="3" colorid="0_0" />
+<Lineobj id="3_0" type="0" thickness="1" colorid="0_0" />
+<Lineobj id="4_0" type="2" thickness="1" colorid="0_0" />
+<Lineobj id="5_0" type="0" thickness="2" colorid="0_0" />
+<Colorobj id="0_0" color="000000" />
+<Colorobj id="1_0" color="ffffff" />
+<Colorobj id="2_0" color="fce4d6" />
+<Borderobj id="0_0" top="0_0" bottom="0_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="1_0" top="2_0" bottom="2_0" left="1_0" right="1_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="2_0" top="2_0" bottom="2_0" left="3_0" right="1_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="3_0" top="2_0" bottom="2_0" left="3_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="4_0" top="0_0" bottom="3_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="5_0" top="3_0" bottom="3_0" left="3_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="6_0" top="0_0" bottom="4_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="7_0" top="4_0" bottom="0_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="8_0" top="2_0" bottom="5_0" left="0_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="9_0" top="2_0" bottom="5_0" left="5_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="10_0" top="3_0" bottom="3_0" left="0_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="11_0" top="3_0" bottom="3_0" left="5_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="12_0" top="3_0" bottom="3_0" left="3_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="13_0" top="3_0" bottom="2_0" left="0_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="14_0" top="3_0" bottom="2_0" left="3_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="15_0" top="3_0" bottom="2_0" left="5_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="16_0" top="3_0" bottom="2_0" left="3_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Imageobj id="IMAGECOLUMN3http19211338090ubi4workcommonimagescijpg" width="0" height="0" originalsize="false" fixedrate="0" brightness="0" loadtype="2" loadsrc="http://192.1.1.33:8090/ubi4/work/commonimages/ci.jpg" />
+<Page pagenum="1" masterflag="0" mastertitle="" width="595" height="842" iwidth="538" iheight="785" x="29" y="29" pagesize="A4" orientation="Portrait">
+<Fontid>0_0</Fontid>
+<Fontid>1_0</Fontid>
+<Fontid>2_0</Fontid>
+<Fontid>3_0</Fontid>
+<Fontid>4_0</Fontid>
+<Lineid>0_0</Lineid>
+<Lineid>2_0</Lineid>
+<Lineid>1_0</Lineid>
+<Lineid>3_0</Lineid>
+<Lineid>4_0</Lineid>
+<Lineid>5_0</Lineid>
+<Colorid>0_0</Colorid>
+<Colorid>1_0</Colorid>
+<Colorid>2_0</Colorid>
+<Borderid>0_0</Borderid>
+<Borderid>1_0</Borderid>
+<Borderid>2_0</Borderid>
+<Borderid>3_0</Borderid>
+<Borderid>4_0</Borderid>
+<Borderid>5_0</Borderid>
+<Borderid>6_0</Borderid>
+<Borderid>7_0</Borderid>
+<Borderid>8_0</Borderid>
+<Borderid>9_0</Borderid>
+<Borderid>10_0</Borderid>
+<Borderid>11_0</Borderid>
+<Borderid>12_0</Borderid>
+<Borderid>13_0</Borderid>
+<Borderid>14_0</Borderid>
+<Borderid>15_0</Borderid>
+<Borderid>16_0</Borderid>
+<Objectid>IMAGECOLUMN3http19211338090ubi4workcommonimagescijpg</Objectid>
+<Item classname="UbiTextItem" id="USERCOLUMN1" x="420" y="0" width="118" height="40" compid="COMP1" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="0_0" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >본사 : 서울특별시 영등포구 국제금융로8길 11(여의도동, 대영빌딩) 731호</Text>
+</Item>
+<Item classname="UbiImageItem" id="IMAGECOLUMN3" x="0" y="0" width="80" height="40" compid="COMP1" forecolorid="" backcolorid="" transparent="0" >
+<Image imageid="IMAGECOLUMN3http19211338090ubi4workcommonimagescijpg" halign="0" valign="1" borderid="0_0" />
+</Item>
+<Item classname="UbiTextItem" id="CELL224" x="0" y="761" width="538" height="24" compid="COMP1" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" iswordwrap="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL6" x="0" y="42" width="538" height="35" compid="COMP3" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="2_0" halign="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >용 역 도 급 계 약 서</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL25" x="0" y="77" width="538" height="43" compid="COMP3" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" iswordwrap="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >대한유화㈜ (이하 &quot;발주자&quot;라 칭함)와 (이하 &quot;계약자&quot;라 칭함) 간에 아래와 같이 계약(이하 &quot;본 계약&quot;이라 칭함)을 체결하며, 상호 신의를 바탕으로 계약서류 및 약정조건을 준수하고 계약을 성실히 이행할 것을 확약한다.</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL27" x="0" y="120" width="90" height="25" compid="COMP3" forecolorid="0_0" backcolorid="2_0" transparent="0" >
+<Text fontid="3_0" halign="1" border="1_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >계약번호</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL28" x="90" y="120" width="133" height="25" compid="COMP3" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="2_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL29" x="223" y="120" width="143" height="25" compid="COMP3" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="1_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL30" x="366" y="120" width="39" height="25" compid="COMP3" forecolorid="0_0" backcolorid="2_0" transparent="0" >
+<Text fontid="3_0" halign="1" border="3_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >계약일</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL31" x="405" y="120" width="133" height="25" compid="COMP3" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="1_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" format="YYYY.MM.DD" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL37" x="0" y="145" width="538" height="18" compid="COMP3" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="4_0" halign="1" border="4_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL967" x="107" y="168" width="31" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >항순</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL968" x="138" y="168" width="188" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >품목</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL969" x="326" y="168" width="42" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >단위</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL970" x="368" y="168" width="39" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >수량</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL971" x="407" y="168" width="63" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >단가</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL972" x="470" y="168" width="68" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >금액</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL973" x="107" y="188" width="31" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL974" x="138" y="188" width="188" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL975" x="326" y="188" width="42" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL976" x="368" y="188" width="39" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL977" x="407" y="188" width="63" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" format="#,##0" > \0</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL978" x="470" y="188" width="68" height="20" compid="COMP44" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" halign="1" border="5_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" format="#,##0" > \0</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1124" x="0" y="209" width="80" height="11" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" valign="0" border="6_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1125" x="0" y="220" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >3. 계약기간</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1126" x="0" y="242" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >4. 계약자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1127" x="80" y="209" width="28" height="11" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="6_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1128" x="80" y="220" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1129" x="80" y="242" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1130" x="0" y="264" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >5. 이행장소</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1131" x="0" y="286" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >6. 지불조건</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1132" x="108" y="209" width="429" height="11" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="6_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1134" x="80" y="264" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1135" x="80" y="286" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1136" x="108" y="286" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1137" x="108" y="242" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1140" x="0" y="308" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >7. 지체상금율</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1141" x="0" y="330" width="80" height="27" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >8. 하자담보책임기간</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1142" x="80" y="308" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1143" x="108" y="308" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1144" x="80" y="330" width="28" height="27" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1145" x="108" y="330" width="429" height="27" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1146" x="0" y="357" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >9. 보증증권</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1147" x="80" y="357" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1148" x="108" y="357" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1149" x="0" y="379" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >10. 계약서류</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1150" x="0" y="401" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="6_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1151" x="80" y="379" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1152" x="80" y="401" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="6_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1153" x="108" y="379" width="429" height="44" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1154" x="0" y="423" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >11. 특기사항</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1155" x="80" y="423" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1156" x="108" y="423" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1157" x="0" y="445" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >12. 특약사항</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1158" x="0" y="467" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="6_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1159" x="80" y="445" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1160" x="80" y="467" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="6_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1161" x="108" y="445" width="429" height="44" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1162" x="0" y="489" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="7_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >* 첨부</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1163" x="80" y="489" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1164" x="108" y="489" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1165" x="0" y="511" width="80" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" border="4_0" marginleft="3" marginright="3" margintop="1" marginbottom="1" >* 기타서류</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1166" x="80" y="511" width="28" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="3_0" halign="1" border="4_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >:</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1167" x="108" y="511" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="4_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >별첨</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1199" x="108" y="264" width="429" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1200" x="108" y="220" width="170" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="7_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1201" x="278" y="220" width="259" height="22" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1173" x="-1" y="538" width="269" height="18" compid="COMP47" forecolorid="0_0" backcolorid="2_0" transparent="0" >
+<Text fontid="3_0" halign="1" border="8_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >발   주   자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1174" x="268" y="538" width="269" height="18" compid="COMP47" forecolorid="0_0" backcolorid="2_0" transparent="0" >
+<Text fontid="3_0" halign="1" border="9_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >계   약   자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1175" x="-1" y="556" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="10_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >등록번호</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1176" x="79" y="556" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="5_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1177" x="-1" y="574" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="10_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >상호</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1178" x="79" y="574" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="5_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1179" x="-1" y="592" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="10_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >사업장 주소</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1180" x="79" y="592" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="5_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1181" x="-1" y="610" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="10_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >대표자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1182" x="79" y="610" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="5_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1183" x="-1" y="628" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="10_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >담당자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1184" x="79" y="628" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="5_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1185" x="268" y="556" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="11_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >등록번호</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1186" x="348" y="556" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="12_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1187" x="268" y="574" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="11_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >상호</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1188" x="348" y="574" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="12_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1189" x="268" y="592" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="11_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >사업장 주소</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1190" x="348" y="592" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="12_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1191" x="268" y="610" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="11_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >대표자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1192" x="348" y="610" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="12_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1193" x="268" y="628" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="11_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >담당자</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1194" x="348" y="628" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="12_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1195" x="-1" y="646" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="13_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >전자서명</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1196" x="79" y="646" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="14_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" >미완료</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1197" x="268" y="646" width="80" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="15_0" marginleft="10" marginright="1" margintop="1" marginbottom="1" >전자서명</Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1198" x="348" y="646" width="189" height="18" compid="COMP47" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" border="16_0" marginleft="5" marginright="1" margintop="1" marginbottom="1" >미완료</Text>
+</Item>
+</Page>
+<DocProperty width="595" height="842" margintop="29" marginbottom="28" marginleft="29" marginright="28" pagesize="A4" orientation="Portrait" language="Korean" />
+<Fontobj id="0_0" name="맑은 고딕" style="0" size="5" />
+<Fontobj id="1_0" name="맑은 고딕" style="0" size="8" />
+<Fontobj id="2_0" name="맑은 고딕" style="1" size="18" />
+<Fontobj id="3_0" name="맑은 고딕" style="1" size="8" />
+<Fontobj id="4_0" name="맑은 고딕" style="0" size="7" />
+<Fontobj id="5_0" name="맑은 고딕" style="0" size="18" />
+<Fontobj id="6_0" name="맑은 고딕" style="0" size="10" />
+<Lineobj id="0_0" type="-1" thickness="1" colorid="0_0" />
+<Lineobj id="1_0" type="-1" thickness="3" colorid="0_0" />
+<Lineobj id="2_0" type="0" thickness="3" colorid="0_0" />
+<Lineobj id="3_0" type="0" thickness="1" colorid="0_0" />
+<Lineobj id="4_0" type="2" thickness="1" colorid="0_0" />
+<Lineobj id="5_0" type="0" thickness="2" colorid="0_0" />
+<Colorobj id="0_0" color="000000" />
+<Colorobj id="1_0" color="ffffff" />
+<Colorobj id="2_0" color="fce4d6" />
+<Borderobj id="0_0" top="0_0" bottom="0_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="1_0" top="2_0" bottom="2_0" left="1_0" right="1_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="2_0" top="2_0" bottom="2_0" left="3_0" right="1_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="3_0" top="2_0" bottom="2_0" left="3_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="4_0" top="0_0" bottom="3_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="5_0" top="3_0" bottom="3_0" left="3_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="6_0" top="0_0" bottom="4_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="7_0" top="4_0" bottom="0_0" left="0_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="8_0" top="2_0" bottom="5_0" left="0_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="9_0" top="2_0" bottom="5_0" left="5_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="10_0" top="3_0" bottom="3_0" left="0_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="11_0" top="3_0" bottom="3_0" left="5_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="12_0" top="3_0" bottom="3_0" left="3_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="13_0" top="3_0" bottom="2_0" left="0_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="14_0" top="3_0" bottom="2_0" left="3_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="15_0" top="3_0" bottom="2_0" left="5_0" right="3_0" diagonaldown="0_0" diagonalup="0_0" />
+<Borderobj id="16_0" top="3_0" bottom="2_0" left="3_0" right="0_0" diagonaldown="0_0" diagonalup="0_0" />
+<Imageobj id="IMAGECOLUMN3http19211338090ubi4workcommonimagescijpg" width="0" height="0" originalsize="false" fixedrate="0" brightness="0" loadtype="2" loadsrc="http://192.1.1.33:8090/ubi4/work/commonimages/ci.jpg" />
+<Imageobj id="IMAGECOLUMN5http19211338090ubi4workcommonimagescijpg" width="0" height="0" originalsize="false" fixedrate="0" brightness="0" loadtype="2" loadsrc="http://192.1.1.33:8090/ubi4/work/commonimages/ci.jpg" />
+<Page pagenum="2" masterflag="0" mastertitle="" width="595" height="842" iwidth="538" iheight="785" x="29" y="29" pagesize="A4" orientation="Portrait">
+<Fontid>0_0</Fontid>
+<Fontid>5_0</Fontid>
+<Fontid>6_0</Fontid>
+<Fontid>1_0</Fontid>
+<Lineid>0_0</Lineid>
+<Colorid>0_0</Colorid>
+<Colorid>1_0</Colorid>
+<Borderid>0_0</Borderid>
+<Objectid>IMAGECOLUMN5http19211338090ubi4workcommonimagescijpg</Objectid>
+<Item classname="UbiImageItem" id="IMAGECOLUMN5" x="0" y="0" width="80" height="40" compid="COMP1" forecolorid="" backcolorid="" transparent="0" >
+<Image imageid="IMAGECOLUMN5http19211338090ubi4workcommonimagescijpg" halign="0" valign="1" borderid="0_0" />
+</Item>
+<Item classname="UbiTextItem" id="USERCOLUMN7" x="420" y="0" width="118" height="40" compid="COMP1" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="0_0" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >본사 : 서울특별시 영등포구 국제금융로8길 11(여의도동, 대영빌딩) 731호</Text>
+</Item>
+<Item classname="UbiTextItem" id="TEXT4" x="0" y="41" width="538" height="39" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="5_0" halign="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >
+<ItemValue>위험성정보 제공확인서</ItemValue>
+<TextStyle>
+<Style id="0" startindex="0" endindex="10" fontstyle="1" fontsize="18" />
+</TextStyle>
+</Text>
+</Item>
+<Item classname="UbiTextItem" id="USERCOLUMN4" x="0" y="88" width="538" height="80" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="6_0" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >1.(이하 “협력업체”라 한다)는 (주)청어람시스템 (이하 “CORS”라 한다)로부터 다음과 같은 정보(이하 해당 정보를 일괄하여 “위험성정보”라 한다)를 제공받았음을 확인합니다.</Text>
+</Item>
+<Item classname="UbiTextItem" id="TEXT5" x="0" y="136" width="538" height="236" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="6_0" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >
+<ItemValue>가. 공정위험성정보
+나. 작업위험성정보
+다. 최악 및 대안의 사고 시나리오를 포함한 비상조치계획
+라. “CORS”는 “위험성정보”를 출력물 또는 컴퓨터로 작성된 FILE로 제공합니다.
+FILE 제공시 협력업체 대표 전자메일 발송이나 (주)청어람시스템 전자구매시스템(CORS) 내 DOWNLOAD LINK 제공과 같은 방법을 사용할 수 있습니다.
+
+2.“협력업체”는 제공받은 “위험성정보”의 내용을 정확히 숙지하고, 이에 대응하여 필요한 안전조치를 철저히 이행하여야 합니다.
+
+3.“협력업체”는 계약의 이행과 관련한 모든 임직원 및 관련 인원에게 “위험성정보”에 대한 교육을 실시하여야 합니다.
+
+4.“협력업체”는 계약의 이행 과정에서 “CORS”가 제공한 “위험성정보”를 정확히 숙지하지 못하여 사고가 발생할 경우, 이에 따른 민•형사상 및 관련 법규에 따른 문제의 책임은 전적으로 “협력업체”에 있습니다.
+</ItemValue>
+<TextStyle>
+<Style id="0" startindex="3" endindex="9" fontstyle="1" fontsize="10" />
+<Style id="1" startindex="14" endindex="19" fontstyle="1" fontsize="10" />
+<Style id="2" startindex="20" endindex="20" fontstyle="1" fontsize="10" />
+<Style id="3" startindex="25" endindex="52" fontstyle="1" fontsize="10" />
+</TextStyle>
+</Text>
+</Item>
+<Item classname="UbiTextItem" id="TEXT6" x="0" y="357" width="538" height="37" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="6_0" halign="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >“협력업체”는 상기 사항이 자신의 의사와 일치됨을 확인하며, 이에 서명(인증)합니다.</Text>
+</Item>
+<Item classname="UbiTextItem" id="USERCOLUMN5" x="0" y="385" width="538" height="48" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="6_0" halign="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >년 월 일</Text>
+</Item>
+<Item classname="UbiTextItem" id="USERCOLUMN6" x="198" y="471" width="340" height="122" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="6_0" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" >“협력업체”
+주  소 : 
+업체명: 
+대표자: </Text>
+</Item>
+<Item classname="UbiTextItem" id="CELL1202" x="0" y="761" width="538" height="24" compid="COMP55" forecolorid="0_0" backcolorid="1_0" >
+<Text fontid="1_0" iswordwrap="1" border="0_0" marginleft="1" marginright="1" margintop="1" marginbottom="1" ></Text>
+</Item>
+</Page>
+<DocInfo startindex="1" pagecount="2" docname="" />
+</Doc>

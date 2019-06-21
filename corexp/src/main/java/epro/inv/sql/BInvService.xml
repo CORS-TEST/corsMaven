@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BInvService">
+<!-- 건별송장작성을 위한 LIST를 조회한다 -->
+	<select id="ivEachSrch" parameterType="hashmap" resultType="hashmap" >
+		--BInv.ivEachSrch
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="MPD.DLV_NO DESC,MAX(MPD.PO_NO) DESC"/>
+		</include>
+			SELECT
+                      '0' AS CHECKED
+                    , MPD.DLV_NO
+                    , MPD.DLV_NO AS DLV_COREXP_KIDS
+                    , MAX(MPD.PO_NO) AS PO_NO
+                    , MAX(MPD.PO_NO) AS PO_COREXP_KIDS
+                    , MAX(MPD.TTL) AS TTL
+                    , MAX(PTNR.BIZ_NO) AS BIZ_NO
+                    , MAX(PTNR.PTNR_ID) AS PTNR_ID
+                    , MAX(PTNR.PTNR_NM) AS PTNR_NM
+                    , MAX(MPD.INSP_CHRGR_ID) AS INSP_CHRGR_ID
+                    , GET_USERNM(MAX(MPD.INSP_CHRGR_ID), #{BRANCH_CD},'CM34KR') AS INSP_CHRGR_NM
+                    , TO_CHAR(MAX(MPD.INSP_CMPLT_DT), 'YYYYMMDDHH24MISS') AS INSP_CMPLT_DT
+                    , MPDI.ALT_ASSET
+                    , DECODE(MPDI.ALT_ASSET, 'Y' ,'자산' ,'N', '비용') AS ALT_ASSET_NM
+                    , MP.CD_PYMT_CNDTN
+                    , MM.INT_NTAX
+                    , DECODE(MM.INT_NTAX, 'T', '과세', 'N', '비과세') AS INT_NTAX_NM
+                    , MPA.CD_TAX_KIND
+                    , MPA.CD_TAX_CD
+              FROM    MM_PO_DLV        	MPD
+              		, MM_PO_DLV_ITEM    MPDI
+                	, MM_MTRL       	MM
+                    , MM_PO            	MP
+                    , MM_PO_ADD        	MPA
+                    , MM_PTNR         	PTNR
+             WHERE  MPD.BRANCH_CD 		= MPDI.BRANCH_CD
+               AND  MPD.DLV_NO 			= MPDI.DLV_NO
+               AND  MPDI.MTRL_CD 		= MM.MTRL_CD
+               AND  MPD.BRANCH_CD       = MP.BRANCH_CD
+               AND  MPD.PO_NO           = MP.PO_NO               
+               AND  MP.BRANCH_CD        = MPA.BRANCH_CD
+               AND  MP.PO_NO            = MPA.PO_NO
+               AND  MP.PTNR_ID          = PTNR.PTNR_ID
+               AND  MPDI.SLIP_PRCS_YN 	= 'N'
+               AND  MPD.CD_DLV_STTS     = 'DL10CLO'               
+               AND  MPD.BRANCH_CD       = #{BRANCH_CD}
+        
+       	<!-- 협력회사 -->
+       	<choose>
+			<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+				AND MP.PTNR_ID = #{PTNR_ID}
+			</when>
+			<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+				AND PTNR.PTNR_NM LIKE '%'||#{PTNR_NM}||'%'
+			</when>
+		</choose>
+				
+		<!-- 검수일자 -->
+		<if test="INSP_DAY_STR != null and INSP_DAY_STR != 'undefined' and INSP_DAY_STR != ''">
+			AND MPD.INSP_DAY <![CDATA[>=]]> #{INSP_DAY_STR}
+		</if>		
+		<if test="INSP_DAY_END != null and INSP_DAY_END != 'undefined' and INSP_DAY_END != ''">
+			AND MPD.INSP_DAY <![CDATA[<=]]> #{INSP_DAY_END}
+		</if>
+		
+		<!-- 전표구분 -->
+		<if test="ALT_ASSET != null and ALT_ASSET != 'undefined' and ALT_ASSET != ''">
+			AND	MPDI.ALT_ASSET = #{ALT_ASSET}
+		</if>
+		
+		<!-- 발주번호 -->
+		<if test="PO_NO_ARR != null and PO_NO_ARR != 'undefined' and PO_NO_ARR != ''">
+			AND MPD.PO_NO IN ( ${PO_NO_ARR} ) 
+		</if>
+	
+		<!-- 지급계정 -->
+		<if test="CD_PYMT_CNDTN != null and CD_PYMT_CNDTN != 'undefined' and CD_PYMT_CNDTN != ''">
+			AND MP.CD_PYMT_CNDTN	=	#{CD_PYMT_CNDTN} 
+		</if>
+		
+		<!-- 발주일자 -->
+		<if test="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND MP.PO_DAY  <![CDATA[>=]]> #{PO_DAY_STR}
+		</if>
+		<if test="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND MP.PO_DAY  <![CDATA[<=]]> #{PO_DAY_END}
+		</if>
+		
+		<!-- 입고번호 -->
+		<if test="DLV_NO_ARR != null and DLV_NO_ARR != 'undefined' and DLV_NO_ARR != ''">
+			AND MPD.DLV_NO IN ( ${DLV_NO_ARR} ) 
+		</if>
+		
+		<!-- 공제구분 -->
+		<if test="INT_NTAX != null and INT_NTAX != 'undefined' and INT_NTAX != ''">
+			AND MM.INT_NTAX	=	#{INT_NTAX} 
+		</if>
+		
+		<!-- 발주유형 -->
+		<if test="CD_PO_CTGR != null and CD_PO_CTGR != 'undefined' and CD_PO_CTGR != ''">
+			AND MP.CD_PO_CTGR	=	#{CD_PO_CTGR} 
+		</if>	
+		
+		<!-- 품목코드(명) -->
+		<choose>
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+				AND EXISTS (  SELECT	'O'
+               				FROM	MM_PO_DLV_ITEM 	MPDI
+                           WHERE	MPDI.BRANCH_CD = MPD.BRANCH_CD
+                             AND	MPDI.DLV_NO = MPD.DLV_NO
+                             AND	MPDI.MTRL_CD = #{MTRL_CD} 
+               			)
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND EXISTS (  SELECT	'O'
+               				FROM	MM_PO_DLV_ITEM 	MPDI
+                           WHERE	MPDI.BRANCH_CD = MPD.BRANCH_CD
+                             AND	MPDI.DLV_NO = MPD.DLV_NO 
+                             AND	REGEXP_LIKE (MPDI.MTRL_NM, REPLACE(#{MTRL_NM},' ','|'),'i')
+               			)
+			</when>
+		</choose>
+		
+		<!-- 계산서종류 -->
+		<if test="CD_TAX_KIND != null and CD_TAX_KIND != 'undefined' and CD_TAX_KIND != ''">
+			AND MPA.CD_TAX_KIND	=	#{CD_TAX_KIND} 
+		</if>
+		<!-- 계산서구분 -->
+		<if test="CD_TAX_CD != null and CD_TAX_CD != 'undefined' and CD_TAX_CD != ''">
+			AND MPA.CD_TAX_CD	=	#{CD_TAX_CD} 
+		</if>
+		
+		GROUP BY	MPD.DLV_NO
+					, MPDI.ALT_ASSET
+					, MP.CD_PYMT_CNDTN
+               		, MM.INT_NTAX
+                	, MPA.CD_TAX_KIND
+                    , MPA.CD_TAX_CD
+		    
+	  	
+		<!-- 정렬조건 -->
+		<if test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+			,${SORT_ITEM1} ${SORT_TYPE1}
+		</if>
+		<if test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+			,${SORT_ITEM2} ${SORT_TYPE2}
+		</if>
+		<if test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+			,${SORT_ITEM3} ${SORT_TYPE3}
+		</if>
+		<if test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+			,${SORT_ITEM4} ${SORT_TYPE4}
+		</if>
+		
+        <include refid="commonService.list-after" />
+  	</select>	 
+  	
+	<!-- 납품완료된 품목을 조회한다. (건별송장작성) 기본 정보 -->
+  	<select id="dlvRead" parameterType="hashmap" resultType="hashmap" >
+		--BInv.dlvRead
+		SELECT  
+				  MAX(MPD.CD_DOC_CTGR) AS CD_DOC_CTGR
+                , '' AS INV_NO
+                , '' AS INV_COREXP_KIDS
+                , MAX(MPD.DLV_NO) AS DLV_NO
+                , MAX(MPD.DLV_NO) AS COREXP_KIDS
+                , '' AS TTL
+                , 'IV10WRI' AS CD_INV_STTS
+                , MAX(MP.PTNR_ID) AS PTNR_ID
+                , GET_PTNRNM(MAX(MP.PTNR_ID)) AS PTNR_NM
+                , MAX(MP.CD_PYMT_CNDTN) AS CD_PYMT_CNDTN
+                , '' AS TAX_BILL
+                , MAX(MPD.INSP_DAY) AS ISSUE_DAY
+                , TO_CHAR(SYSDATE, 'YYYYMMDD') AS WRITE_DAY
+                , SUM(MPDI.AMT) AS SPLY_VL
+                , MAX(MP.CD_PO_CRNC) AS CD_INV_CRNC
+                , SUM(NVL(MPDI.VAT, 0)) AS VAT
+                , SUM(MPDI.AMT + NVL(MPDI.VAT, 0)) AS TOT_AMT
+                , '' AS CMPUTE_DAY
+                , MAX(MMU.USER_ID) AS CHRGR_ID
+                , MAX(MMU.USER_NM) AS CHRGR_NM
+                , MAX(MMU.TEL) AS TEL
+                , MAX(MMU.EMAIL) AS EMAIL
+                , MAX(MMU.FAX) AS FAX
+                , '' AS RMARK
+                , '' AS CNCL_RSN
+                , '' AS USER_ID
+                , '' AS TKEY
+                , MAX(MPA.CD_TAX_KIND) AS CD_TAX_KIND
+                , MAX(MPA.CD_TAX_CD) AS CD_TAX_CD
+                , MAX(MPA.CARD_NO) AS CARD_NO
+                , MAX(MPA.CARD_APRV_NO) AS CARD_APRV_NO
+                , MAX(MMSC.APPND_SET_CHR_2) AS APPND_SET_CHR_2
+                , MAX(MMSC.APPND_SET_CHR_1) AS APPND_SET_CHR_1
+                , MAX(MPDI.ALT_ASSET) AS INT_INV_TYPE
+                , DECODE(MAX(MPDI.ALT_ASSET), 'Y', '자산', 'N', '비용') AS INT_INV_TYPE_NM
+		  FROM	MM_PO_DLV			MPD
+		  		, MM_PO_DLV_ITEM	MPDI
+		  		, MM_MTRL           MTRL
+		  		, MM_PO				MP
+		  		, MM_PO_ADD			MPA
+		  		, MM_MT_SYS_CD		MMSC
+		  		, MM_MT_USER		MMU
+         WHERE  MPD.BRANCH_CD 		= MPDI.BRANCH_CD
+           AND	MPD.DLV_NO 			= MPDI.DLV_NO
+           AND  MPDI.MTRL_CD        = MTRL.MTRL_CD
+           AND  MPD.BRANCH_CD		= MP.BRANCH_CD
+           AND  MPD.PO_NO			= MP.PO_NO           
+           AND  MP.BRANCH_CD		= MPA.BRANCH_CD
+           AND  MP.PO_NO			= MPA.PO_NO  
+           AND 	MPA.CD_TAX_CD		= MMSC.CD_ID(+)
+           AND  MPA.BRANCH_CD       = MMSC.BRANCH_CD(+)      
+           AND  MPD.BRANCH_CD		= MMU.BRANCH_CD
+           AND  MPD.INSP_CHRGR_ID	= MMU.USER_ID
+           AND  MPD.CD_DLV_STTS		= 'DL10CLO'
+           AND  MPDI.SLIP_PRCS_YN 	= 'N'
+           AND  MPDI.ALT_ASSET 		= #{ALT_ASSET}
+           AND  MTRL.INT_NTAX 		= #{INT_NTAX}
+		   AND 	MPD.BRANCH_CD		= #{BRANCH_CD}
+		   AND 	MPD.DLV_NO			= #{DLV_NO}
+  	</select>
+  	
+  	<!-- 납품완료된 품목을 조회한다. (건별송장작성) 품목 정보 -->
+  	<select id="dlvReadItem" parameterType="hashmap" resultType="hashmap" >
+		--BInv.dlvReadItem
+		SELECT  
+                  '0' AS CHECKED
+                , MPDI.DLV_NO
+                , MPDI.DLV_NO AS DLV_COREXP_KIDS
+                , MPDI.DLV_ITEM_ID
+                , MPOI.PO_NO
+                , MPOI.PO_NO AS PO_COREXP_KIDS
+                , MPDI.PO_ITEM_ID
+                , MPDI.ITM_NO
+                , MPDI.STR_CD
+                , MMS.SL_NM
+                , MPDI.ALT_ASSET
+                , MPDI.AST_NO                
+                , MPOIA.GR_ACNT_CD
+                , MMA.ACNT_NM
+                , MPDI.MTRL_CD
+                , MPDI.MTRL_NM                                
+                , MPDI.DLV_QTY AS QTY
+                , MPDI.CD_UNIT                
+                , MPDI.UNT_PRICE
+                , MPDI.AMT
+                , MPDI.VAT
+                , (MPDI.AMT + MPDI.VAT) AS ITM_TOT_AMT
+                , MPDI.RMARK
+                , MPRI.PR_NO
+                , MPRI.PR_ITEM_ID
+                , MPDI.MTRL_GRP_ID
+                , MPDI.MTRL_GRP_NM   
+                , MTRL.INT_NTAX
+                , DECODE(MTRL.INT_NTAX, 'T', '과세', 'N', '비과세', '') AS INT_NTAX_NM
+                , MPOI.DLV_REQ_DAY
+                , '' AS INV_NO
+                , '' AS INV_ITEM_ID
+          FROM    MM_PO_DLV_ITEM       MPDI
+          		  , MM_MT_SL		   MMS
+                  , MM_PO_ITEM         MPOI
+                  , MM_PO_ITEM_ADD     MPOIA
+                  , MM_MT_ACCOUNT 	   MMA
+                  , MM_PR_ITEM         MPRI
+                  , MM_MTRL            MTRL
+         WHERE  MPDI.BRANCH_CD      = MMS.BRANCH_CD
+           AND	MPDI.STR_CD      	= MMS.STR_CD
+           AND  MPDI.BRANCH_CD      = MPOI.BRANCH_CD
+           AND  MPDI.PO_ITEM_ID     = MPOI.PO_ITEM_ID           
+           AND  MPOI.PO_ITEM_ID     = MPOIA.PO_ITEM_ID
+           AND	MPOIA.GR_ACNT_CD	= MMA.ACNT_CD		   
+		   AND	MMA.BRANCH_CD		= #{BRANCH_CD}
+           AND  MPOI.BRANCH_CD      = MPRI.BRANCH_CD(+)
+           AND  MPOI.PR_ITEM_ID     = MPRI.PR_ITEM_ID(+)
+           AND  MPDI.MTRL_CD        = MTRL.MTRL_CD
+           AND  MTRL.INT_NTAX 		= #{INT_NTAX}
+           AND  MPDI.BRANCH_CD      = #{BRANCH_CD}
+           AND  MPDI.ALT_ASSET      = #{ALT_ASSET}
+           AND  MPDI.DLV_NO         = #{DLV_NO}
+           AND  MPDI.SLIP_PRCS_YN 	= 'N'
+  	</select>  	
+</mapper>

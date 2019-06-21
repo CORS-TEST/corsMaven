@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="1840" id="BPtnrDetail" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="협력사 상세" top="0" width="1220">
+    <Layouts>
+      <Layout screenid="Screen0" stepcount="" stepindex="">
+        <PopupDiv height="196" id="PopupDiv00" left="1286" text="PopupDiv00" top="49" width="458">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsEvlTmplList" bottom="0" id="Grid00" left="0%" oncellclick="fnEvalGrdOnclick" right="0%" taborder="0" top="0" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="349"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="평가서명"/>
+                      <Cell col="1"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left;" text="bind:TTL"/>
+                      <Cell col="1" displaytype="button" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_01113&quot;)" text="bind:BTN"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Static id="Static01" taborder="1" text="15" visible="false" top="0" right="0" bottom="0" width="15" style="background:coral;align:center middle;"/>
+        <Edit id="edDeptCd" taborder="2" enable="false" left="148" top="12" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="구매요청자ID"/>
+        <Edit id="edDeptNm" taborder="3" lengthunit="utf8" onkeydown="fnKeydown" left="272" top="12" width="181" height="24" objNm="구매요청자명"/>
+        <Button id="btnSinglePop00" taborder="4" onclick="fnSlPop" cssclass="btn_WF_SearchSmall" left="452" top="13" width="24" height="24" objNm="구매요청자 검색 버튼"/>
+        <Static id="staPtnrChgDt00" taborder="5" text="부서검색" cssclass="sta_WF_SearchLabel" left="-30" top="12" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+        <Edit id="edAcntCd" taborder="6" enable="false" left="148" top="44" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="구매요청자ID"/>
+        <Edit id="edAcntNm" taborder="7" lengthunit="utf8" onkeydown="fnKeydown" left="272" top="44" width="181" height="24" objNm="구매요청자명"/>
+        <Button id="btnAcnt" taborder="8" cssclass="btn_WF_SearchSmall" left="452" top="44" width="24" height="24" objNm="구매요청자 검색 버튼" onclick="btnAcnt_onclick"/>
+        <Static id="staPtnrChgDt01" taborder="9" text="계정검색" cssclass="sta_WF_SearchLabel" left="-30" top="44" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+        <Edit id="edMtrlCd" taborder="10" enable="false" left="148" top="76" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="구매요청자ID"/>
+        <Edit id="edMtrlNm" taborder="11" lengthunit="utf8" onkeydown="fnKeydown" left="272" top="76" width="181" height="24" objNm="구매요청자명"/>
+        <Button id="btnMtrl" taborder="12" cssclass="btn_WF_SearchSmall" left="452" top="76" width="24" height="24" objNm="구매요청자 검색 버튼" onclick="btnMtrl_onclick"/>
+        <Static id="staPtnrChgDt02" taborder="13" text="품목검색" cssclass="sta_WF_SearchLabel" left="-30" top="76" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+        <Edit id="edUserId" taborder="14" enable="false" left="148" top="108" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="구매요청자ID"/>
+        <Edit id="edUserNm" taborder="15" lengthunit="utf8" onkeydown="fnKeydown" left="272" top="108" width="181" height="24" objNm="구매요청자명"/>
+        <Button id="btnUser" taborder="16" cssclass="btn_WF_SearchSmall" left="452" top="108" width="24" height="24" objNm="구매요청자 검색 버튼" onclick="btnUser_onclick"/>
+        <Static id="staPtnrChgDt03" taborder="17" text="사용자검색" cssclass="sta_WF_SearchLabel" left="-30" top="108" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+        <Edit id="edPtnrCd" taborder="18" enable="false" left="148" top="140" width="121" height="24" style=":disabled {color:black;align:center middle;}" objNm="구매요청자ID"/>
+        <Edit id="edPtnrNm" taborder="19" lengthunit="utf8" onkeydown="fnKeydown" left="272" top="140" width="181" height="24" objNm="구매요청자명"/>
+        <Button id="btnPtnr" taborder="20" cssclass="btn_WF_SearchSmall" left="452" top="140" width="24" height="24" objNm="구매요청자 검색 버튼" onclick="btnPtnr_onclick"/>
+        <Static id="staPtnrChgDt04" taborder="21" text="협력업체검색" cssclass="sta_WF_SearchLabel" left="-30" top="140" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsData">
+        <ColumnInfo>
+          <Column id="STR_CD" type="STRING" size="256"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="ACNT_CD" type="STRING" size="256"/>
+          <Column id="ACNT_NM" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="PTNR_ID" type="STRING" size="256"/>
+          <Column id="PTNR_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="btnRemote_0" compid="PGM000000037_divRemote.btnRemote_0" datasetid="dsObjBindVi" id="btnRemote_0Vi" propid="visible"/>
+      <BindItem columnid="btnRemote_0" compid="PGM000000037_divRemote.btnRemote_0" datasetid="dsObjBindEn" id="btnRemote_0En" propid="enable"/>
+      <BindItem columnid="btnRemote_1" compid="PGM000000037_divRemote.btnRemote_1" datasetid="dsObjBindVi" id="btnRemote_1Vi" propid="visible"/>
+      <BindItem columnid="btnRemote_1" compid="PGM000000037_divRemote.btnRemote_1" datasetid="dsObjBindEn" id="btnRemote_1En" propid="enable"/>
+      <BindItem columnid="PopupDiv00" compid="PopupDiv00" datasetid="dsObjBindVi" id="PopupDiv00Vi" propid="visible"/>
+      <BindItem columnid="PopupDiv00" compid="PopupDiv00" datasetid="dsObjBindEn" id="PopupDiv00En" propid="enable"/>
+      <BindItem id="item10" compid="edDeptCd" propid="value" datasetid="dsData" columnid="STR_CD"/>
+      <BindItem id="item11" compid="edDeptNm" propid="value" datasetid="dsData" columnid="SL_NM"/>
+      <BindItem id="item7" compid="staPtnrChgDt00" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrChgDt"/>
+      <BindItem id="item9" compid="staPtnrChgDt00" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrChgDt"/>
+      <BindItem id="item0" compid="edAcntCd" propid="value" datasetid="dsData" columnid="ACNT_CD"/>
+      <BindItem id="item1" compid="edAcntNm" propid="value" datasetid="dsData" columnid="ACNT_NM"/>
+      <BindItem id="item2" compid="staPtnrChgDt01" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrChgDt"/>
+      <BindItem id="item3" compid="staPtnrChgDt01" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrChgDt"/>
+      <BindItem id="item4" compid="edMtrlCd" propid="value" datasetid="dsData" columnid="MTRL_CD"/>
+      <BindItem id="item5" compid="edMtrlNm" propid="value" datasetid="dsData" columnid="MTRL_NM"/>
+      <BindItem id="item6" compid="staPtnrChgDt02" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrChgDt"/>
+      <BindItem id="item8" compid="staPtnrChgDt02" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrChgDt"/>
+      <BindItem id="item12" compid="edUserId" propid="value" datasetid="dsData" columnid="USER_ID"/>
+      <BindItem id="item13" compid="edUserNm" propid="value" datasetid="dsData" columnid="USER_NM"/>
+      <BindItem id="item14" compid="staPtnrChgDt03" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrChgDt"/>
+      <BindItem id="item15" compid="staPtnrChgDt03" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrChgDt"/>
+      <BindItem id="item16" compid="edPtnrCd" propid="value" datasetid="dsData" columnid="PTNR_ID"/>
+      <BindItem id="item17" compid="edPtnrNm" propid="value" datasetid="dsData" columnid="PTNR_NM"/>
+      <BindItem id="item18" compid="staPtnrChgDt04" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrChgDt"/>
+      <BindItem id="item19" compid="staPtnrChgDt04" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrChgDt"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrDetail.xfdl
+ * @생성자       	: 한의봉
+ * @생성일자     	: 2017. 9. 05
+ * @설명			: 협력사상세
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 16.
+*/  
+
+this.isUserChk = false;
+this.ptnrSel = false;
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					{code:"SR13", sSelectType:"S"} //벤더타입
+					,{code:"CM16", sSelectType:"S"} //국가
+					,{code:"CM15", sSelectType:"S"} //거래통화
+					,{code:"CM13", sSelectType:"S"} //지급조건
+					,{code:"CM22", sSelectType:"S"} //incoterms
+					,{code:"SR14", sSelectType:"S"} //내/외자
+					,{code:"CM99"}
+				];
+
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnRemote
+  * @desc     	: 잠재업체지정, 등록거부 리모콘 버튼 생성
+  */
+this.fnRemote = function()
+{
+		var sArg = [ 
+					{btnName:"승인", clickEventFunc:"fnPtnrSel"}
+					,{btnName:"반려", clickEventFunc:"fnRtnRsn"}
+			];	
+	gfnRemote(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+//	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @return   : 
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+ 
+
+/**
+  * @함수명  : fnTrCallBack
+  * @input    : strSvcID ,strErrCd ,strErrMsg
+  * @return   : 
+  * @desc     : 트랜잭션 콜백
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;	
+	
+	switch(strSvcID){		
+		case "readPtnr" : //조회		
+			break;
+		default:
+			break;	
+	}
+}
+
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+	
+	this.dsReturn.loadXML(rtn);
+	
+	trace(this.dsReturn.saveXML());
+	
+	switch(sPopupId){
+		
+			case "searchDept" :
+				this.dsData.setColumn(0,"STR_CD",this.dsReturn.getColumn(0,"STR_CD"));
+				this.dsData.setColumn(0,"SL_NM",this.dsReturn.getColumn(0,"SL_NM"));
+			break;
+			case "searchAcnt" :
+				this.dsData.setColumn(0,"ACNT_CD",this.dsReturn.getColumn(0,"ACNT_CD"));
+				this.dsData.setColumn(0,"ACNT_NM",this.dsReturn.getColumn(0,"ACNT_NM"));			
+			break;
+			case "searchMtrl" :
+				this.dsData.setColumn(0,"MTRL_CD",this.dsReturn.getColumn(0,"MTRL_CD"));
+				this.dsData.setColumn(0,"MTRL_NM",this.dsReturn.getColumn(0,"MTRL_NM"));
+			break;
+			case "searchUser" :
+				this.dsData.setColumn(0,"USER_ID",this.dsReturn.getColumn(0,"USER_ID"));
+				this.dsData.setColumn(0,"USER_NM",this.dsReturn.getColumn(0,"USER_NM"));
+			break;
+			case "searchPtnr" :
+				this.dsData.setColumn(0,"PTNR_ID",this.dsReturn.getColumn(0,"PTNR_ID"));
+				this.dsData.setColumn(0,"PTNR_NM",this.dsReturn.getColumn(0,"PTNR_NM"));
+			break;
+		default:
+			break;	
+	}
+}
+this.fnSlPop = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+				agv_id 	: this.dsData.getColumn(0,"STR_CD")
+				,agv_nm : this.dsData.getColumn(0,"SL_NM")
+				};
+	gfnModalPop(this, "searchDept", "CPOP::BSlSrchPopup.xfdl", sArg, "fnPopCallBack", 800, 600);
+}
+
+this.btnAcnt_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+				agv_id 	: this.dsData.getColumn(0,"ACNT_CD")
+				,agv_nm : this.dsData.getColumn(0,"ACNT_NM")
+				};
+	gfnModalPop(this, "searchAcnt", "CPOP::BAcntSrchPopup.xfdl", sArg, "fnPopCallBack", 800, 600);
+}
+
+this.btnMtrl_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+				agv_id 	: this.dsData.getColumn(0,"MTRL_CD")
+				,agv_nm : this.dsData.getColumn(0,"MTRL_NM")
+				};
+	gfnModalPop(this, "searchMtrl", "CPOP::BMtrlSrchPopup.xfdl", sArg, "fnPopCallBack", 800, 600);
+}
+
+this.btnUser_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+				agv_id 	: this.dsData.getColumn(0,"USER_ID")
+				,agv_nm : this.dsData.getColumn(0,"USER_NM")
+				};
+	gfnModalPop(this, "searchUser", "CPOP::BUserSrchPopup.xfdl", sArg, "fnPopCallBack", 800, 600);
+}
+
+this.btnPtnr_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+				agv_id 	: this.dsData.getColumn(0,"PTNR_ID")
+				,agv_nm : this.dsData.getColumn(0,"PTNR_NM")
+				};
+	gfnModalPop(this, "searchPtnr", "CPOP::BPtnrSrchPopup.xfdl", sArg, "fnPopCallBack", 800, 600);
+}
+]]></Script>
+  </Form>
+</FDL>

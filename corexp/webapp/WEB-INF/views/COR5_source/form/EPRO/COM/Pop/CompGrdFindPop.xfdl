@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="GridFindPop" height="95" id="GridFindPop" left="0" style="background:white;" titletext="그리드 문자열 찾기" top="0" width="315">
+    <Layouts>
+      <Layout>
+        <Static height="18" id="Static00" left="8" taborder="1" text="찾기" top="9" width="87"/>
+        <Edit height="20" id="edtFind" left="85" onkeydown="fnEdtFindOnkeydown" right="10" taborder="2" top="8"/>
+        <Radio codecolumn="codecolumn" columncount="2" datacolumn="datacolumn" height="18" id="rdCondition" index="1" left="85" rowcount="0" taborder="6" top="36" value="like" width="117">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">equal</Col>
+                <Col id="datacolumn">일치</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">like</Col>
+                <Col id="datacolumn">포함</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+        <Static height="18" id="Static04" left="8" taborder="16" text="찾을 조건" top="36" width="66"/>
+        <Button bottom="10" height="24" id="btnFind" onclick="fnBtnFindOnclick" right="78" style="color:#7b8494ff;gradation:linear 0,0 white 0,100 #f0f2f5ff;" taborder="17" text="찾기" width="64"/>
+        <Button bottom="10" height="24" id="btnInit" onclick="fnBtnInitOnclick" right="10" style="color:#7b8494ff;gradation:linear 0,0 white 0,100 #f0f2f5ff;" taborder="18" text="초기화" width="64"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsScope" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="code" size="256" type="STRING"/>
+          <Column id="data" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">all</Col>
+            <Col id="data">전체</Col>
+          </Row>
+          <Row>
+            <Col id="code">row</Col>
+            <Col id="data">행</Col>
+          </Row>
+          <Row>
+            <Col id="code">col</Col>
+            <Col id="data">열</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsDirection" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="code" size="256" type="STRING"/>
+          <Column id="data" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="code">prev</Col>
+            <Col id="data">이전</Col>
+          </Row>
+          <Row>
+            <Col id="code">next</Col>
+            <Col id="data">다음</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompGrdFindPop.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 4.
+ * @설명			: 문자열 찾기
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 4.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_01414");
+
+/**
+  * @함수명	: fnEdtFindOnkeydown
+  * @input    	: obj:Edit(에디트 오브젝트), e:nexacro.KeyEventInfo(이벤트변수)
+  * @desc     	: 엔터 이벤트
+  */  
+this.fnEdtFindOnkeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		this.fnBtnFindOnclick();
+	}
+}
+ 
+/**
+  * @함수명	: fnBtnFindOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 찾기 버튼 Onclick 이벤트
+  */
+this.fnBtnFindOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();	
+	var grid = ownFrame.arg_grid;
+	var ds = grid.getBindDataset();	
+	grid.set_enableevent(false);
+	ds.set_enableevent(false);
+	
+	var openId = application.gdsOpenMenu.getColumn(application.gdsOpenMenu.rowposition, "OPEN_ID");
+	var framesInfo = application.gv_workFrameSet.frames;	
+	var edtVal = this.edtFind.value;
+
+	for(i=0; i<grid.getCellCount("body"); i++){
+		var nVal = "";		
+		var sInnerDsId = grid.getCellProperty("body", i, "combodataset");
+		var oInnerDs = framesInfo[openId].form.divWork.lookup(sInnerDsId)
+		var arrBind = grid.getCellProperty("body", i, "text").split("bind:");
+		var findOption = this.rdCondition.value;
+		var temp;
+		
+		if(gfnIsNull(oInnerDs)){
+			if(findOption == "equal"){
+				temp = arrBind[1] + "=='" + edtVal +"' ? 'yellow' : ''";
+			}else if(findOption == "like"){
+				temp = "String(" + arrBind[1] + ").indexOf('" + edtVal + "') >= 0 ? 'yellow' : ''";
+			}
+		}else{		
+			if(findOption == "equal"){
+				temp = arrBind[1] + "==" + this.fnFindCdId(oInnerDs, edtVal, findOption) +" ? 'yellow' : ''";
+			}else if(findOption == "like"){
+				temp = "String(" + arrBind[1] + ").indexOf('" + this.fnFindCdId(oInnerDs, edtVal, findOption) + "') >= 0 ? 'yellow' : ''";
+			}
+		}
+		
+		nVal = "EXPR("+ temp +")";
+				
+		grid.setCellProperty("Body", i, "background", nVal); 
+		grid.setCellProperty("Body", i, "background2", nVal); 
+	}
+	
+	ds.set_enableevent(true);
+	grid.set_enableevent(true);	
+}
+
+/**
+  * @함수명	: fnFindCdId
+  * @input    	: oInnerDs {dataset} 문자를 찾을 데이터셋
+				  edtVal {String} 찾는 문자
+				  findOption {String} 찾을 조건
+  * @return		: rtnCdId {String} 코드 아이디
+  * @desc     	: 코드값 일때 코드명으로 검색한다.
+  */
+this.fnFindCdId = function(oInnerDs, edtVal, findOption)
+{			
+	var rtnCdId = "x";
+	var rowIdx;
+	
+	if(findOption == "equal"){
+		rowIdx = oInnerDs.findRowExpr("CD_NM_LO == '" + edtVal + "'");
+	}else if(findOption == "like"){
+		rowIdx = oInnerDs.findRowExpr("CD_NM_LO.indexOf('" + edtVal + "')>=0");
+	}
+	
+	if(rowIdx > -1){
+		rtnCdId = oInnerDs.getColumn(rowIdx , "CD_ID");
+	}
+	
+	return rtnCdId;
+}
+
+/**
+  * @함수명	: fnBtnInitOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 초기화 버튼 Onclick 이벤트
+  */
+this.fnBtnInitOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	var grid = ownFrame.arg_grid;
+	
+	grid.set_enableevent(false);
+	grid.set_formats(grid.orgFormatBak);
+	grid.set_enableevent(true);
+	
+	var ds = grid.getBindDataset();
+	ds.filter("");
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mailSmsService">
+
+	<select id="readFindUserId" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.readFindUserId][사용자 아이디 찾기][2017.11.14][한민희] */
+		SELECT
+			MMU.ALT_USE AS ALT_USE
+			, MMU.USER_ID AS USER_ID
+			, REPLACE(MMU.USER_ID, 'S_', '') AS LOGIN_USER_ID
+			, MMU.USER_NM AS USER_NM
+			, MMU.EMAIL AS EMAIL
+			, MMU.HP AS HP
+			, MP.PTNR_NM AS PTNR_NM
+			, '' AS SMSID
+			, '' AS SNDR_TEL
+			, '' AS RCVR_TEL
+			, '' AS SND_CNTNT
+			, '' AS BRANCH_CD
+			, '' AS EMAIL_ID
+			, '' AS EMAIL_TTL
+			, '' AS EMAIL_CNTNT
+			, '' AS RCVR_EMAIL_ID
+			, '' AS SNDR_EMAIL_ID
+			, '' AS SNDR_SYS_TEL
+			, '' AS SNDR_SYS_EMAIL_ID
+			, 'SYSTEM' AS AD_ID
+			, TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISS') AS WRT_DTTM
+		FROM MM_MT_USER MMU
+			,MM_PTNR MP
+		WHERE MMU.PTNR_ID = MP.PTNR_ID
+		AND MMU.USER_NM = #{ID_USER_NM}
+		AND MMU.EMAIL = #{ID_EMAIL}
+	</select>
+
+	<select id="readFindUserPw" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.readFindUserPw][사용자 비밀번호 찾기][2017.11.14][한민희] */
+		SELECT
+			MMU.ALT_USE AS ALT_USE
+			, MMU.USER_ID AS USER_ID
+			, REPLACE(MMU.USER_ID, 'S_', '') AS LOGIN_USER_ID
+			, MMU.USER_NM AS USER_NM
+			, MMU.EMAIL AS EMAIL
+			, MMU.HP AS HP
+			, MP.PTNR_NM AS PTNR_NM
+			, '' AS SMSID
+			, '' AS SNDR_TEL
+			, '' AS RCVR_TEL
+			, '' AS SND_CNTNT
+			, '' AS BRANCH_CD
+			, '' AS EMAIL_ID
+			, '' AS EMAIL_TTL
+			, '' AS EMAIL_CNTNT
+			, '' AS RCVR_EMAIL_ID
+			, '' AS SNDR_EMAIL_ID
+			, '' AS PWD
+			, 'SYSTEM' AS AD_ID
+			, '' AS SNDR_SYS_TEL
+			, '' AS SNDR_SYS_EMAIL_ID
+			, TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISS') AS WRT_DTTM
+		FROM MM_MT_USER MMU
+			,MM_PTNR MP
+		WHERE MMU.PTNR_ID = MP.PTNR_ID
+		AND MMU.USER_ID = 'S_' || REPLACE(#{PW_USER_ID}, 'S_', '')
+		AND MMU.USER_NM = #{PW_USER_NM}
+		AND MMU.EMAIL = #{PW_EMAIL}
+	</select>
+
+	<select id="searchPtnrReq" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.searchPtnrReq][업체등록요청시 구매담당자에게 MAIL SMS 전송][2017.09.06][배열] */
+		SELECT
+			'' AS SMSID
+			,'' AS EMAIL_ID
+			,'' AS SNDR_EMAIL_ID
+			,MMU.HP AS RCVR_TEL
+			,MMU.EMAIL AS RCVR_EMAIL_ID
+			,'' AS SND_CNTNT
+			,'' AS BRANCH_CD
+			,MMU.USER_ID
+			,MMU.ALT_SMS_RCV
+			,MMU.ALT_MAIL_RCV
+			,'' AS EMAIL_TTL
+			,'' AS EMAIL_CNTNT
+			,MP.PTNR_NM
+			,SNDR.USER_ID AS AD_ID
+			,SNDR.TEL AS SNDR_TEL
+			,SNDR.USER_NM AS SNDR_USER_NM
+			,SNDR.EMAIL AS SNDR_EMAIL
+			,TO_CHAR(MP.PTNR_CHT_DT,'YYYYMMDD HH24:MI:SS') AS PTNR_CHT_DT
+			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISS') AS WRT_DTTM
+			, '' AS SNDR_SYS_TEL
+			, '' AS SNDR_SYS_EMAIL_ID
+		FROM MM_PTNR MP
+			,MM_MT_SRC_GRP MMSG
+			,MM_MT_SRC_GRP_PUR MMSGP
+			,MM_MT_USER MMU
+			,MM_MT_USER SNDR
+		WHERE MP.RPTST_SRC_GRP_ID = MMSG.SRC_GRP_ID
+		AND MMSG.SRC_GRP_ID = MMSGP.SRC_GRP_ID
+		AND MMSGP.USER_ID = MMU.USER_ID
+		AND MP.PTNR_ID = SNDR.PTNR_ID
+		AND MP.PTNR_ID = #{PTNR_ID}
+		AND MMSGP.ALT_RPTST_YN = 'Y'
+	</select>
+
+	<select id="searchAprvUser" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.searchAprvUser][결재요청시 결재자에게 MAIL SMS
+		전송][2017.11.20][한의봉] */
+		SELECT
+		'' AS SMSID
+		, '' AS EMAIL_ID
+		, '' AS SNDR_EMAIL_ID
+		, MMU.HP AS RCVR_TEL
+		, MMU.USER_ID AS RCVR_ID
+		, MMU.EMAIL AS RCVR_EMAIL_ID
+		, MMU.AD_ID AS RCVR_AD_ID
+		, MMU.ALT_SMS_RCV
+		, MMU.ALT_MAIL_RCV
+		, '' AS SND_CNTNT
+		, '' AS BRANCH_CD
+		, '' AS EMAIL_TTL
+		, '' AS EMAIL_CNTNT
+		, MA.TTL
+		, MA.APP_DOC_ID
+		, MA.CD_APRV_DOC_CTGR
+		, SNDR.AD_ID
+		, SNDR.TEL AS SNDR_TEL
+		, SNDR.USER_NM AS SNDR_USER_NM
+		, SNDR.EMAIL AS SNDR_EMAIL
+		, TO_CHAR(MA.REQ_DT,'YYYYMMDD HH24:MI:SS') AS REQ_DT
+		, '' AS ALT_SINGLE_PTNR
+		, TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISS') AS WRT_DTTM
+		, '' AS SNDR_SYS_TEL
+		, '' AS SNDR_SYS_EMAIL_ID
+		FROM MM_APRV MA
+		,MM_APRV_APRVR MAA
+		,MM_MT_USER MMU
+		,MM_MT_USER SNDR
+		WHERE MA.APP_DOC_ID = MAA.APP_DOC_ID
+		AND MA.WAIT_SEQ = MAA.APRV_ORDR
+		AND MAA.APRVR_ID = MMU.USER_ID
+		AND MA.CRTR_ID = SNDR.USER_ID
+		AND MA.APP_DOC_ID = #{APP_DOC_ID}
+	</select>
+
+	<select id="searchRfqPtnr" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.searchRfqPtnr][입찰 업체 사용자에게 MAIL SMS
+		전송][2017.11.20][한의봉] */
+		SELECT
+		'' AS SMSID
+		, '' AS EMAIL_ID
+		, SNDR.EMAIL AS SNDR_EMAIL_ID
+		, '' AS SND_CNTNT
+		, '' AS EMAIL_TTL
+		, '' AS EMAIL_CNTNT
+		, MMU.HP AS RCVR_TEL
+		, MMU.EMAIL AS RCVR_EMAIL_ID
+		, MMU.USER_ID
+		, MMU.PTNR_ID
+		, MMU.ALT_SMS_RCV
+		, MMU.ALT_MAIL_RCV
+		, MM.BRANCH_CD
+		, SNDR.TEL AS SNDR_TEL
+		, SNDR.USER_NM AS SNDR_USER_NM
+		, SNDR.EMAIL AS SNDR_EMAIL
+		, SNDR.AD_ID
+		, MM.EMAIL
+		, MM.CHRGR_NM
+		, MM.TTL
+		, MRP.RFQ_EXPLN_DAY
+		, CASE WHEN MRP.RFQ_EXPLN_TIME !='' THEN SUBSTR(MRP.RFQ_EXPLN_TIME,0,3)
+		|| ':' || SUBSTR(MRP.RFQ_EXPLN_TIME,3,2)
+		ELSE ''
+		END AS RFQ_EXPLN_TIME
+		, MRP.RFQ_EXPLN_AREA
+		, RFQ_CLOSE_DAY
+		, CASE WHEN MM.RFQ_CLOSE_TIME !='' THEN SUBSTR(MM.RFQ_CLOSE_TIME,0,3)
+		|| ':' || SUBSTR(MM.RFQ_CLOSE_TIME,3,2)
+		ELSE ''
+		END AS RFQ_CLOSE_TIME
+		, TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISS') AS WRT_DTTM
+		, '' AS SNDR_SYS_TEL
+		, '' AS SNDR_SYS_EMAIL_ID
+		, '' AS MAIL_TYPE
+		FROM MM_RFQ MM
+		,MM_RFQ_PTNR MRP
+		,MM_MT_USER MMU
+		,MM_MT_USER SNDR
+		WHERE MM.BRANCH_CD = MRP.BRANCH_CD
+		AND MM.RFQ_REQ_NO =
+		MRP.RFQ_REQ_NO
+		AND MM.RFQ_ODR = MRP.RFQ_ODR
+		AND MRP.PTNR_ID =
+		MMU.PTNR_ID
+		AND MM.CRTR_ID = SNDR.USER_ID
+		AND MMU.ALT_USE = 'Y'
+		AND
+		MM.BRANCH_CD = #{BRANCH_CD}
+		AND MM.RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND
+		MM.RFQ_ODR = #{RFQ_ODR}
+	</select>
+
+	<select id="searchRfqCloPtnr" parameterType="hashmap"
+		resultType="hashmap">
+		/* [mailSmsService.searchRfqCloPtnr][입찰 완료 후 업체 사용자에게 MAIL SMS
+		전송][2017.11.20][한의봉] */
+		SELECT
+		'' AS SMSID
+		, '' AS EMAIL_ID
+		, SNDR.EMAIL AS SNDR_EMAIL_ID
+		, '' AS SND_CNTNT
+		, '' AS EMAIL_TTL
+		, '' AS EMAIL_CNTNT
+		, MMU.HP AS RCVR_TEL
+		, MMU.EMAIL AS RCVR_EMAIL_ID
+		, MMU.USER_ID
+		, MMU.PTNR_ID
+		, MMU.ALT_SMS_RCV
+		, MMU.ALT_MAIL_RCV
+		, MM.BRANCH_CD
+		, SNDR.AD_ID
+		, SNDR.TEL AS SNDR_TEL
+		, SNDR.USER_NM AS SNDR_USER_NM
+		, SNDR.EMAIL AS SNDR_EMAIL
+		, MM.EMAIL
+		, MM.CHRGR_NM
+		, MM.TTL
+		, MRP.RFQ_EXPLN_DAY
+		, MRP.RFQ_EXPLN_TIME
+		, MRP.RFQ_EXPLN_AREA
+		, MRP.ALT_PWIN_PTNR
+		, TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISS') AS WRT_DTTM
+		, '' AS SNDR_SYS_TEL
+		, '' AS SNDR_SYS_EMAIL_ID
+		FROM MM_RFQ MM
+		,MM_RFQ_PTNR MRP
+		,MM_MT_USER MMU
+		,MM_MT_USER SNDR
+		WHERE MM.BRANCH_CD = MRP.BRANCH_CD
+		AND MM.RFQ_REQ_NO =
+		MRP.RFQ_REQ_NO
+		AND MM.RFQ_ODR = MRP.RFQ_ODR
+		AND MRP.PTNR_ID =
+		MMU.PTNR_ID
+		AND MM.CRTR_ID = SNDR.USER_ID
+		AND MMU.ALT_USE = 'Y'
+		AND
+		MRP.CD_RFQ_SUBM_STTS = 'ET11SND'
+		AND MM.BRANCH_CD = #{BRANCH_CD}
+		AND
+		MM.RFQ_REQ_NO = #{RFQ_REQ_NO}
+		AND MM.RFQ_ODR = #{RFQ_ODR}
+	</select>
+
+
+
+	<update id="updatePwd" parameterType="hashmap">
+		/* [mailSmsService.updatePwd][초기화 된 비밀번호로 업데이트][2017.11.14][한민희] */
+		UPDATE MM_MT_USER
+		SET PWD = #{PWD}
+		, LAST_CHGR_ID = 'SYSTEM'
+		, LAST_CHG_DT = SYSDATE
+		WHERE USER_ID = #{USER_ID}
+	</update>
+
+	<update id="insertSms" parameterType="hashmap">
+		INSERT INTO MM_SYS_SMS(
+		SMSID
+		,INT_TRSMT_STTS
+		,SNDR_TEL
+		,RCVR_TEL
+		,SND_CNTNT
+		,BRANCH_CD
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		) VALUES (
+		#{SMSID}
+		,'W'
+		,#{SNDR_SYS_TEL}
+		,#{RCVR_TEL}
+		,#{SND_CNTNT}
+		,#{BRANCH_CD}
+		,'SYSTEM'
+		,SYSDATE
+		,'SYSTEM'
+		,SYSDATE
+		)
+	</update>
+
+
+	<insert id="insertEmail" parameterType="hashmap">
+		/* [mailSmsService.insertEmail][메일발송][2017.12.14][정준화] */
+		INSERT INTO
+		MM_SYS_EMAIL(
+		EMAIL_ID
+		,INT_TRSMT_STTS
+		,RCVR_EMAIL_ID
+		,SNDR_EMAIL_ID
+		,EMAIL_TTL
+		,EMAIL_CNTNT
+		,BRANCH_CD
+		,CRTR_ID
+		,CRT_DT
+		,LAST_CHGR_ID
+		,LAST_CHG_DT
+		) VALUES (
+		MM_SYS_EMAIL_SEQ.NEXTVAL
+		,'WAIT'
+		,#{RCVR_EMAIL_ID}
+		,#{SNDR_SYS_EMAIL_ID}
+		,#{EMAIL_TTL}
+		,#{EMAIL_CNTNT}
+		,#{BRANCH_CD}
+		,'SYSTEM'
+		,SYSDATE
+		,'SYSTEM'
+		,SYSDATE
+		)
+	</insert>
+
+	<select id="chargePtnrRead" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.chargePtnrRead][협력사 정보변경 메일발송][2018.01.04][안성민] */
+		SELECT PTNR_NM /* 업체명 */
+			   , CASE WHEN NVL(PTNR.RPTST_USER_ID,'')='' THEN ''
+					  ELSE MU.USER_NM || ' / ' || MU.TEL || ' / ' || MU.EMAIL
+			     END AS USER_NM /* 업체의 대표사요자 정보 */
+			   , TO_CHAR(PTNR.PTNR_CHT_DT,'YYYY-MM-DD HH24:MI:SS') AS PTNR_CHT_DT /*변경일자 */
+			   , (SELECT MMU.EMAIL
+			        FROM MM_MT_SRC_GRP_PUR PUR
+			        	 ,MM_MT_USER MMU
+			       WHERE PUR.USER_ID = MMU.USER_ID
+			         AND PUR.SRC_GRP_ID = PTNR.RPTST_SRC_GRP_ID
+			         AND PUR.BRANCH_CD = #{BRANCH_CD}
+			         AND PUR.ALT_RPTST_YN = 'Y') AS B_EMAIL /* 내부 담당자 email */
+		  FROM MM_PTNR PTNR
+			   ,MM_MT_USER MU
+		 WHERE PTNR.RPTST_USER_ID = MU.USER_ID(+)
+		   AND PTNR.PTNR_ID = #{PTNR_ID}
+	</select>
+
+	<select id="ptnrSelRead" parameterType="hashmap" resultType="hashmap">
+		/* [mailSmsService.ptnrSelRead][협력사 잠재업체지정 메일,SMS][2018.01.04][안성민] */
+		SELECT PTNR.PTNR_NM
+		, TO_CHAR(PTNR.LAST_CHG_DT,'YYYY-MM-DD HH24:MI:SS') AS LAST_CHG_DT
+		, NVL((SELECT MMU.USER_NM || ' / ' || MMU.TEL || ' / ' || MMU.EMAIL
+		FROM MM_MT_SRC_GRP_PUR PUR
+		,MM_MT_USER MMU
+		WHERE PUR.USER_ID = MMU.USER_ID
+		AND PUR.SRC_GRP_ID = PTNR.RPTST_SRC_GRP_ID
+		AND PUR.BRANCH_CD = #{BRANCH_CD}
+		AND PUR.ALT_RPTST_YN = 'Y'),'') AS USER_NM
+		, MU.EMAIL
+		, MU.ALT_SMS_RCV
+		, MU.ALT_MAIL_RCV
+		, MU.HP
+		, TO_CHAR(SYSDATE, 'YYYYMMDD HH24MISS') AS WRT_DTTM
+		FROM MM_PTNR PTNR
+		,MM_MT_USER MU
+		WHERE PTNR.RPTST_USER_ID = MU.USER_ID
+		AND PTNR.PTNR_ID = #{PTNR_ID}
+	</select>
+	
+	<select id="readUserInfo" parameterType="hashmap" resultType="hashmap">
+  		/* [mailSmsService.readUserInfo][sms를 수신할 사원정보 조회][2019.05.07][김승일] */
+	  		SELECT 
+					MM_SYS_SMS_SEQ.NEXTVAL AS SEQ
+				,	HP AS SNDR_TEL
+			FROM	MM_MT_USER
+			WHERE	USER_ID = #{USER_ID}
+			AND		BRANCH_CD = #{BRANCH_CD}
+  	</select>
+</mapper>

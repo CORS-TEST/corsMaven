@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BCntrTemplateDeteail" classname="FrmTemplate100" left="0" top="0" width="1220" height="2269" titletext="계약서템플릿작성" onload="FormOnload" oninit="FormOninit" scrollbars="none">
+    <Layouts>
+      <Layout>
+        <Static id="Static02" taborder="48" visible="false" left="98.58%" top="0" height="937" style="background:#ff7272ff;" width="15" text="w15"/>
+        <Div id="divViewCompBody01" taborder="2" left="3" top="264" right="12" url="CCOMP::ComEditor.xfdl" scrollbars="none" visible="false" bottom="10"/>
+        <Div id="divViewCompCond00" taborder="0" left="0" top="0" right="15" height="44" cssclass="div_WF_SearchBg" objNm="컨트롤 박스">
+          <Layouts>
+            <Layout>
+              <Combo id="cboCntrCtgr" taborder="0" innerdataset="dsCdCT11" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="20" top="10" height="24" objNm="계약유형" width="150" index="-1" readonly="true"/>
+              <Edit id="edtDocNo" taborder="1" left="172" top="10" height="24" objNm="문서번호" width="240" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static01" taborder="77" text="h10" visible="false" left="0.66%" top="45" right="4.43%" height="10" style="background:#ff7272ff;"/>
+        <Static id="Static03" taborder="78" text="h5" visible="false" left="0.82%" top="81" right="4.26%" height="5" style="background:#ff7272ff;"/>
+        <Static id="Static00" taborder="79" text="h10" visible="false" left="1.31%" top="218" right="3.77%" height="10" style="background:#ff7272ff;"/>
+        <Static id="Static04" taborder="80" text="h5" visible="false" left="1.48%" top="257" right="3.61%" height="5" style="background:#ff7272ff;"/>
+        <Div id="divViewCompBody00" taborder="83" left="0" top="81" right="15" height="142" scrollbars="none" objNm="DIV-헤더 상세">
+          <Layouts>
+            <Layout>
+              <Static id="sta_WFDA_Label05" taborder="103" cssclass="sta_WF_DetailLabel02" left="0%" top="5" right="0%" height="132"/>
+              <Static id="st_cdCntrType" taborder="106" text="계약구분" cssclass="sta_WF_DetailLabel01" left="600" top="44" width="124" height="24" objNm="계약구분" lbcd=""/>
+              <Combo id="cb_cdCntrType" taborder="107" innerdataset="ds_cdCT19" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="724" top="44" width="180" height="24" objNm="계약구분"/>
+              <Static id="staViewCompLine00" taborder="118" cssclass="sta_WF_Labelbg" left="0" top="5" right="0" height="33"/>
+              <Static id="staCntrTmplTtl" taborder="119" text="계약서명" cssclass="sta_WF_Label_P" left="0" top="5" width="171" height="33" positionstep="1"/>
+              <Edit id="edtCntrTmplTtl" taborder="120" lengthunit="utf8" left="176" top="9" width="438" height="24" positionstep="1" objNm="업태"/>
+              <Static id="staViewCompLine01" taborder="121" cssclass="sta_WF_Labelbg" left="0" top="37" right="0" height="33"/>
+              <Static id="staViewCompLine02" taborder="122" cssclass="sta_WF_Labelbg" left="0" top="69" right="0" height="33"/>
+              <Static id="staViewCompLine03" taborder="123" cssclass="sta_WF_Labelbg" left="0" top="101" right="0" height="33"/>
+              <Static id="staCntrtmplAltUse" taborder="124" text="사용여부" cssclass="sta_WF_Label" left="0" top="37" width="171" height="33" positionstep="1"/>
+              <Static id="staCntrTmplCrtr" taborder="125" text="작성자" cssclass="sta_WF_Label" left="0" top="69" width="171" height="33" positionstep="1"/>
+              <Static id="staCntrTmplChgr" taborder="126" text="수정자" cssclass="sta_WF_Label" left="0" top="101" width="171" height="33" positionstep="1"/>
+              <Static id="staCntrTmplCrtrDt" taborder="127" text="작성일시" cssclass="sta_WF_Label" left="618" top="69" width="171" height="33" positionstep="1"/>
+              <Combo id="cboAltUse" taborder="129" codecolumn="codecolumn" datacolumn="datacolumn" left="176" top="42" width="150" height="24" objNm="계약유형">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Edit id="edtCntrTmplCrtr" taborder="130" lengthunit="utf8" left="176" top="73" width="150" height="24" positionstep="1" objNm="업태" style="color:black;" readonly="true"/>
+              <Edit id="edtCntrTmplChgr" taborder="131" lengthunit="utf8" left="176" top="106" width="150" height="24" positionstep="1" objNm="업태" enable="true" style="color:black;" readonly="true"/>
+              <Calendar id="calCntrTmplCrtrDt" taborder="132" left="796" top="73" height="24" value="null" dateformat="yyyy-MM-dd ddd HH:mm:ss" enable="true" style="color:black; :disabled {color:black;}" editformat="yyyy-MM-dd HH:mm:ss" readonly="true" width="180"/>
+              <Calendar id="calCntrTmplChgrDt" taborder="133" left="796" top="106" height="24" enable="true" style="color:black; :disabled {color:black;}" dateformat="yyyy-MM-dd ddd HH:mm:ss" value="null" editformat="yyyy-MM-dd HH:mm:ss" readonly="true" width="180"/>
+              <Static id="staCntrTmplChgrDt" taborder="134" text="수정일시" cssclass="sta_WF_Label" left="618" top="101" width="171" height="33" positionstep="1"/>
+              <Edit id="edtReportNm" taborder="135" readonly="false" lengthunit="utf8" left="618" top="9" width="171" height="24" positionstep="1" style="color:black;" objNm="업태" onkeyup="fnOnKeyup" inputmode="upper" inputtype="number,english,symbol,digit,alpha"/>
+              <Button id="btnReportApply" taborder="136" text="리포트 적용" left="787" top="9" height="24" onclick="btnReportApplyOnClick" width="77"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Div id="divViewCompTitle00" taborder="84" left="0" top="57" right="10" height="24" objNm="DIV-품목정보 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="계약정보" cssclass="sta_WF_Subtitle" left="0" top="0" width="255" height="24" objNm="품목정보타이틀"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle01" taborder="85" left="0" top="238" right="10" height="24" objNm="DIV-품목정보 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle01" taborder="0" text="계약내용" cssclass="sta_WF_Subtitle" left="0" top="0" width="255" height="24" objNm="품목정보타이틀"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody02" taborder="86" url="CCOMP::ComUbiReport.xfdl" text="Div00" left="0" top="890" right="0%" visible="false" style="border:1 none #808080ff ;" bottom="10" scrollbars="none"/>
+        <Div id="divViewCompBody03" taborder="87" text="Div00" left="0" top="1808" right="12" height="208" url="CCOMP::CompNFileUpDown.xfdl" visible="false"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="dsCntrTmpl" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="ALT_USE" size="1" type="string"/>
+          <Column id="CONTENT" size="4000" type="string"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="CRTR_NM" size="90" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="CD_CNTR_TYPE_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE" size="40" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="LAST_CHGR_NM" size="90" type="string"/>
+          <Column id="CD_CNTR_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="CNTR_TMPLT_NO" size="40" type="string"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="LANG_CD" type="STRING" size="256"/>
+          <Column id="REPORT_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCT19"/>
+      <Dataset id="dsCdCT11"/>
+      <Dataset id="dsReport">
+        <ColumnInfo>
+          <Column id="REPORT_FILE" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="REF_KEY_1" type="STRING" size="256"/>
+          <Column id="REF_KEY_2" type="STRING" size="256"/>
+          <Column id="COL_NM1" type="STRING" size="256"/>
+          <Column id="COL_NM2" type="STRING" size="256"/>
+          <Column id="TBL_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompCond00.cboCntrCtgr" propid="value" datasetid="dsCntrTmpl" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item1" compid="divViewCompCond00.edtDocNo" propid="value" datasetid="dsCntrTmpl" columnid="CNTR_TMPLT_NO"/>
+      <BindItem id="item2" compid="divViewCompBody00.edtCntrTmplTtl" propid="value" datasetid="dsCntrTmpl" columnid="TTL"/>
+      <BindItem id="item3" compid="divViewCompBody00.cboAltUse" propid="value" datasetid="dsCntrTmpl" columnid="ALT_USE"/>
+      <BindItem id="item4" compid="divViewCompBody00.edtCntrTmplCrtr" propid="value" datasetid="dsCntrTmpl" columnid="CRTR_NM"/>
+      <BindItem id="item5" compid="divViewCompBody00.edtCntrTmplChgr" propid="value" datasetid="dsCntrTmpl" columnid="LAST_CHGR_NM"/>
+      <BindItem id="item6" compid="divViewCompBody00.calCntrTmplCrtrDt" propid="value" datasetid="dsCntrTmpl" columnid="CRT_DT"/>
+      <BindItem id="item7" compid="divViewCompBody00.calCntrTmplChgrDt" propid="value" datasetid="dsCntrTmpl" columnid="LAST_CHG_DT"/>
+      <BindItem id="item8" compid="divViewCompBody00.edtReportNm" propid="value" datasetid="dsCntrTmpl" columnid="REPORT_NM"/>
+      <BindItem id="edtReportNmVi" compid="divViewCompBody00.edtReportNm" propid="visible" datasetid="dsObjBindVi" columnid="edtReportNm"/>
+      <BindItem id="edtReportNmEn" compid="divViewCompBody00.edtReportNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtReportNm"/>
+      <BindItem id="btnReportApplyVi" compid="divViewCompBody00.btnReportApply" propid="visible" datasetid="dsObjBindVi" columnid="btnReportApply"/>
+      <BindItem id="btnReportApplyEn" compid="divViewCompBody00.btnReportApply" propid="enable" datasetid="dsObjBindEn" columnid="btnReportApply"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       BCntrTemplateDetail.xfdl
+   @desc       계약서 템플릿
+   @author     안성민
+   @makedate   2019.03.05
+   @history    
+*/
+
+/**
+	@function	FormOninit()
+	@desc   	폼 oninit이벤트
+*/
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{	
+	this.fnSetCode();
+}
+
+this.fnSetCode = function()
+{
+	
+	//콤보박스 생성시 S:선택, A:전체
+	var param = [
+					{code:"CT11", sSelectType:"S"} // 계약유형
+					,{code:"CT19", sSelectType:"S"} // 계약구분
+				];
+
+	//공통코드 데이터셋 생성
+	gfnGetCode(this, param);
+}
+
+/**
+	@function	FormOnload()
+	@desc   	폼 onload이벤트
+*/
+this.FormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	this.dsCntrTmpl.addRow();
+	
+	//이전화면에서 넘어오는 파라미터를 받는다.
+	var cntrTmplId = gfnGetTmprData("CNTR_TMPLT_NO");
+	var branchCd   = gfnGetTmprData("BRANCH_CD");
+	
+	//파라미터를 받은 이후에는 파라미터를 를 초기화 해준다.
+	gfnClearTmprData();
+	gfnMakeFileDs(this);
+
+	if(gfnIsNull(cntrTmplId)){		
+		this.dsCntrTmpl.setColumn(0,"CRTR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+		this.dsCntrTmpl.setColumn(0,"CRTR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+		this.dsCntrTmpl.setColumn(0,"CRT_DT",gfnToday());
+		this.dsCntrTmpl.setColumn(0,"LAST_CHGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+		this.dsCntrTmpl.setColumn(0,"LAST_CHGR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+		this.dsCntrTmpl.setColumn(0,"LAST_CHG_DT",gfnToday());
+		this.newCntrTemplate();
+	}
+
+	//파라미터가 존재하면 조회 
+	if(!gfnIsNull(cntrTmplId)){
+		this.dsCntrTmpl.setColumn(0,"CNTR_TMPLT_NO", cntrTmplId);
+		this.dsCntrTmpl.setColumn(0,"BRANCH_CD", branchCd);
+		this.fnSearch();
+	}
+	
+}
+
+/**
+	@function	newCntrTemplate()
+	@desc   	템플릿 계약유형선택 팝업
+*/
+this.newCntrTemplate = function()
+{
+	var sArg = {};
+	gfnModalPop(this, "newCntrTemplate", "BCNTR::BCntrTemplateTypePop.xfdl", sArg, "fnPopCallBack", 445, 150);
+}
+
+/**
+	@function	fnPreSearch()
+	@desc   	조회 전 처리
+*/
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fnSearch()
+	@desc   	조회 프로세스
+*/
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+	
+	var sSvcID = "search";
+	var sController = "epro.cntr.service.BCntrService.searchCntrTmplDetail";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sOutDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+	
+}
+
+/**
+	@함수명	fnDelete
+	@desc   	(공통버튼)삭제 전처리
+*/
+this.fnProDelete = function()
+{
+	return true;
+}
+
+/**
+	@function	fnDelete()
+	@desc   	(공통버튼)삭제 프로세스
+*/
+this.fnDelete = function()
+{
+	if(!this.fnProDelete()) return;
+	if(!gfnConfirm("삭제하시겠습니까?")) return;
+
+	var sSvcID = "delete";
+	var sController = "epro.cntr.service.BCntrService.deleteCntrTmplDetail";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl:A";
+	var sOutDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnPreSave()
+	@desc   	저장 전 처리
+*/
+this.fnPreSave = function()
+{	
+	var arr = [];
+	if(gfnIsNull(this.dsCntrTmpl.getColumn(0,"TTL"))){
+		var msg = "계약서 템플릿명을 입력해주세요."
+		var type = "누락"
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	
+	if("CT12T15" == this.dsCntrTmpl.getColumn(0,"CD_CNTR_TYPE")) {
+		if(gfnIsNull(this.dsCntrTmpl.getColumn(0,"REPORT_NM"))){
+			var msg = "리포트명을 입력해주세요."
+			var type = "누락"
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+		} else if(this.dsCntrTmpl.getColumn(0,"REPORT_NM") != this.divViewCompBody02.gettReportFileName().substring(0, this.divViewCompBody02.gettReportFileName().indexOf(".jrf"))) {
+			var msg = "리포트명이 다릅니다. 리포트를 적용해주세요."
+			var type = "누락"
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+		}
+	}
+	return gfnValidate(this, false, arr); 
+}
+
+/**
+	@function	fnSave()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fnSave = function()
+{
+	if (!this.fnPreSave()) return false;
+	if(!gfnConfirm("저장하시겠습니까?")) return;
+	
+	if("CT11B03" == this.dsCntrTmpl.getColumn(0, "CD_CNTR_CTGR")) {
+		this.fnSave2();
+	} else if("CT12T15" == this.dsCntrTmpl.getColumn(0,"CD_CNTR_TYPE")) {
+		this.fnSave2();
+	} else {
+		this.divViewCompBody01.getContent(this.dsCntrTmpl, 0, "CONTENT", "fnSave2");
+	}
+}
+
+/**
+	@function	fnSave2()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fnSave2 = function()
+{		
+	var sSvcID = "save";
+	var sController = "epro.cntr.service.BCntrService.saveCntrTmplDetail";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl:A";
+	var sOutDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;	
+	switch(strSvcID){
+		case "search" : 
+			this.divViewCompBody01.set_visible(false);
+			this.divViewCompBody02.set_visible(false);
+			this.divViewCompBody03.set_visible(false);
+	
+			if("CT11B03" == this.dsCntrTmpl.getColumn(0, "CD_CNTR_CTGR")) {
+				gfnSetObj("B");
+				this.divViewCompBody03.set_top(this.divViewCompBody01.top);
+				this.divViewCompBody03.set_visible(true);
+				this.fnFileload("N");
+			} else if("CT12T15" == this.dsCntrTmpl.getColumn(0, "CD_CNTR_TYPE")) {
+				gfnSetObj("C");
+				this.divViewCompBody02.set_top(this.divViewCompBody01.top);
+				this.divViewCompBody02.set_visible(true);
+				var reportFile = this.dsCntrTmpl.getColumn(0, "REPORT_NM");
+				
+				this.dsReport.setColumn(0, "REPORT_FILE", reportFile + ".jrf");
+				this.dsReport.setColumn(0, "BRANCH_CD"	, this.dsCntrTmpl.getColumn(0, "BRANCH_CD"));
+				this.divViewCompBody02.UbiReportInit(this.dsReport);
+				this.resetScroll()
+			} else {
+				gfnSetObj("A");
+				this.divViewCompBody01.set_visible(true);
+				this.divViewCompBody01.fnEditorInit(this.dsCntrTmpl.getColumn(0, "CONTENT"));
+				this.resetScroll()
+			}
+		break;
+		
+		case "save" :
+			gfnAlert("저장되었습니다.");
+			this.fnSearch(); 
+		break;
+		
+		case "delete":
+			gfnAlert("삭제되었습니다.");	
+			this.parent.divComBtns.btnComClose.click()
+			break;		
+		break;
+		
+		case "searchReprotFile" :			
+			//리포트로 변경시 에디터 콘텐츠 내용을 전부 삭제
+				this.dsReport.setColumn(0, "CONTENT", "");
+				//리포트
+				this.divViewCompBody01.set_visible(false);
+				this.divViewCompBody02.set_top(this.divViewCompBody01.top);
+				this.divViewCompBody02.set_visible(true);
+				this.dsReport.setColumn(0, "REPORT_FILE", this.dsCntrTmpl.getColumn(0, "REPORT_NM") + ".jrf");
+				this.dsReport.setColumn(0, "BRANCH_CD"	, this.dsCntrTmpl.getColumn(0, "BRANCH_CD"));
+				this.divViewCompBody02.fnReSize();
+				this.divViewCompBody02.UbiReportInit(this.dsReport);
+				this.resetScroll()
+			break;
+			if(strErrCd == 1) {
+				gfnAlert("리포트 파일이 존재하지 않습니다.");
+				return;
+			} else {  
+				//리포트로 변경시 에디터 콘텐츠 내용을 전부 삭제
+				this.dsReport.setColumn(0, "CONTENT", "");
+				//리포트
+				this.divViewCompBody01.set_visible(false);
+				this.divViewCompBody02.set_top(this.divViewCompBody01.top);
+				this.divViewCompBody02.set_visible(true);
+				this.dsReport.setColumn(0, "REPORT_FILE", this.dsCntrTmpl.getColumn(0, "REPORT_NM") + ".jrf");
+				this.dsReport.setColumn(0, "BRANCH_CD"	, this.dsCntrTmpl.getColumn(0, "BRANCH_CD"));
+				this.divViewCompBody02.fnReSize();
+				this.divViewCompBody02.UbiReportInit(this.dsReport);
+				this.resetScroll()
+			}
+			break;
+			
+		default:
+		break;	
+	}
+}
+
+/**
+  *	@function	fnPopCallBack()
+  *	@desc   	팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	switch(sPopupId){
+		case "newCntrTemplate":
+			if(gfnIsNull(this.dsReturn.getColumn(0,"CD_CNTR_CTGR"))) {
+				this.parent.divComBtns.btnComClose.click();
+				return
+			}
+			
+			this.dsCntrTmpl.setColumn(0, "CD_CNTR_CTGR", this.dsReturn.getColumn(0,"CD_CNTR_CTGR"));
+			this.dsCntrTmpl.setColumn(0, "CD_CNTR_TYPE", this.dsReturn.getColumn(0,"CD_CNTR_TYPE"));
+			this.dsCntrTmpl.setColumn(0, "ALT_USE", "Y"); //사용여부
+			
+			//갑지
+			if("CT11B03" == this.dsReturn.getColumn(0,"CD_CNTR_CTGR")) {
+				gfnSetObj("B");
+				this.fnFileload("N");
+				this.divViewCompBody03.set_top(this.divViewCompBody01.top)
+				this.divViewCompBody03.set_visible(true);
+			} else {
+				//정형
+				if("CT12T15" == this.dsReturn.getColumn(0,"CD_CNTR_TYPE")) {
+					gfnSetObj("C");
+					//this.divViewCompBody01.fnEditorInit();
+					this.divViewCompBody01.set_visible(false);
+				}
+				//비정형
+				else {
+					gfnSetObj("A");
+					this.divViewCompBody01.fnEditorInit();
+					this.divViewCompBody01.set_visible(true);
+				}
+			}
+		break;
+	}
+}
+
+/**
+  * @함수명	: fnFileload
+  * @desc     	: 첨부파일 셋팅
+  */
+this.fnFileload = function(fUse)
+{
+	var sTableNm = "MM_CNTR_TMPLT";
+	var arrFileKey = [this.dsCntrTmpl.getColumn(0, "CNTR_TMPLT_NO")];
+	this.divViewCompBody03.fnFileInit(this, sTableNm, this.dsCntrTmpl, arrFileKey, fUse);
+}
+
+/**
+  *	@function	btnReportApplyOnClick()
+  *	@desc   	템플릿 리포트 적용
+  */
+this.btnReportApplyOnClick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.dsCntrTmpl.getColumn(0, "REPORT_NM"))) {
+		gfnAlert("리포트명을 입력해주세요.");
+		return;
+	}
+	
+	var sSvcID = "searchReprotFile";
+	var sController = "epro.cntr.service.BCntrService.searchReprotFile";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl:A";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnOnKeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{	
+	if(13 == e.keycode) {
+		if("edtReportNm" == obj.id) {
+			this.btnReportApplyOnClick();
+		}
+	} else if(8 == e.keycode) {
+		if("edtReportNm" == obj.id) {
+			
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

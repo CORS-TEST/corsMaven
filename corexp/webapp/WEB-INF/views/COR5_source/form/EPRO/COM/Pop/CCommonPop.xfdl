@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" cssclass="frm_pop_Bg" height="129" id="CCommonPop" inheritanceid="" left="0" onload="CCommonPopOnload" position="absolute" titletext="팝업 틀" top="0" width="196">
+    <Layouts>
+      <Layout>
+        <Button cssclass="btn_pop_close" height="40" id="btnClose" onclick="btnCloseOnclick" right="5" taborder="1" top="0" width="30"/>
+        <Div cssclass="div_PopTitle" height="35" id="divPopTitle" left="0" right="39" taborder="9" top="0"/>
+        <Div async="false" bottom="1" id="divPopBody" left="0" right="0" taborder="10" top="37">
+          <Layouts>
+            <Layout height="70" width="196"/>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Bind>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CCommonPop.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 8. 28.
+ * @설명			: 팝업 틀
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 8. 28.
+*/  
+
+/**
+  * @함수명	: CCommonPopOnload
+  * @desc     	: 폼 onload이벤트
+*/
+this.CCommonPopOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	
+	if(gfnIsNull(ownFrame.agv_url)){
+		gfnAlert("아규먼트 agv_url 은(는) 필수입력입니다.");
+		return;
+	}
+	
+	if(!gfnIsNull(ownFrame.agv_remote) && ownFrame.agv_remote == "Y") {
+		this.fnPopRemote(ownFrame);
+	}
+	
+	this.divPopBody.set_url(ownFrame.agv_url);
+	this.divPopBody.resetScroll();
+	var title = ownFrame.popTitle ? ownFrame.popTitle : this.divPopBody.popTitle;	
+	this.divPopTitle.set_text(title);
+}
+
+/**
+  * @함수명	: fnPopRemote
+  * @desc     	: 팝업 리모콘
+*/
+this.btnPram;
+this.remoteBtnDiv;
+this.fnPopRemote = function(ownFrame)
+{
+	var divName = ownFrame.id.split("_")[0] + "_remoteDiv";
+	if(this.components[divName]) this.components[divName].destroy();
+
+	this.btnPram = ownFrame.remote_btn;
+	var objDiv = new Div(divName, "absolute", null, 37, 150, 30, 10, null);
+	this.addChild(divName, objDiv);
+	this.remoteBtnDiv = objDiv;
+	objDiv.set_url("CPOP::CompRemotePop.xfdl");
+	objDiv.set_scrollbars("none");
+	objDiv.show();	
+}
+
+/**
+  * @함수명	: fnBtnPram
+  * @desc     	: 팝업 리모콘
+*/
+this.fnBtnPram = function()
+{
+	this.remoteBtnDiv.fnSetBtn(this.btnPram);
+	this.btnPram = null;
+	
+}
+
+/**
+  * @함수명	: btnCloseOnclick
+  * @desc     	: 팝업닫기
+  */
+this.btnCloseOnclick = function(obj:Button,  e:nexacro.ClickEventInfo){
+	var ownFrame = this.getOwnerFrame();
+	if(ownFrame.agv_url == 'CPOP::CompFileUpDownPopup.xfdl'){
+		var rtnDs = new Dataset;
+		rtnDs.load();
+		rtnDs.addColumn("FILE_COUNT");
+		rtnDs.addRow();
+		rtnDs.setColumn(0,"FILE_COUNT",this.divPopBody.Div00.Grid00.rowcount);
+		this.close(rtnDs.saveXML());
+	}
+	this.close();
+}
+
+]]></Script>
+  </Form>
+</FDL>

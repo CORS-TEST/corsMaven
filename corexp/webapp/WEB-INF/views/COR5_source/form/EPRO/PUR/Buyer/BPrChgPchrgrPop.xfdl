@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="118" id="BUserInfoPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="구매요청취소및완료사유" top="0" width="470">
+    <Layouts>
+      <Layout>
+        <Button id="btnChange" taborder="8" text="변경" cssclass="btn_WF_Ssign" top="8" right="10" width="60" height="24" objNm="구매담당자변경버튼" positionstep="-1" onclick="btnChange_onclick"/>
+        <Static id="staViewCompLine01" taborder="9" cssclass="sta_WF_Labelbg" left="10" top="37" right="10" height="33"/>
+        <Static id="staTtl" taborder="12" text="기존담당자" cssclass="sta_WF_Label" left="10" top="37" width="97" height="33" positionstep="0" objNm="기존담당자"/>
+        <Static id="staViewCompLine00" taborder="13" cssclass="sta_WF_Labelbg" left="10" top="69" right="10" height="33"/>
+        <Static id="staTtl00" taborder="14" text="변경담당자" cssclass="sta_WF_Label" left="10" top="69" width="97" height="33" objNm="변경담당자"/>
+        <Edit id="edtPchrgrNmBefore" taborder="15" lengthunit="utf8" left="262" top="41" width="145" height="24" objNm="기존담당자명" readonly="true"/>
+        <Edit id="edtPchrgrIdBefore" taborder="16" lengthunit="utf8" left="112" top="41" width="145" height="24" objNm="기존담당자ID" readonly="true"/>
+        <Edit id="edtPchrgrIdAfter" taborder="17" readonly="true" lengthunit="utf8" left="112" top="73" width="145" height="24" objNm="변경될담당자ID"/>
+        <Edit id="edtPchrgrNmAfter" taborder="18" readonly="false" lengthunit="utf8" left="262" top="73" width="145" height="24" objNm="변경될담당자명"/>
+        <Button id="btnPchrgr" taborder="19" cssclass="btn_WF_SearchSmall" left="407" top="73" width="24" height="21" objNm="구매요청자 검색 버튼" onclick="btnPchrgr_onclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn">
+        <ColumnInfo>
+          <Column id="OPNN" size="256" type="STRING"/>
+          <Column id="PR_ITEM_ID" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="LOGIN_USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPchrgr">
+        <ColumnInfo>
+          <Column id="PCHRGR_ID" type="STRING" size="256"/>
+          <Column id="PCHRGR_ID_BEFORE" type="STRING" size="256"/>
+          <Column id="PCHRGR_NM" type="STRING" size="256"/>
+          <Column id="PCHRGR_NM_BEFORE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item104" compid="edtPchrgrNmBefore" propid="value" datasetid="dsIv" columnid="TTL"/>
+      <BindItem id="item0" compid="edtPchrgrIdBefore" propid="value" datasetid="dsIv" columnid="TTL"/>
+      <BindItem id="item1" compid="edtPchrgrIdAfter" propid="value" datasetid="dsIv" columnid="TTL"/>
+      <BindItem id="item2" compid="edtPchrgrNmAfter" propid="value" datasetid="dsIv" columnid="TTL"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPrClosePop.xfdl
+ * @생성자       	: 배열
+ * @생성일자     	: 2019.05.27
+ * @설명			: 구매요청 취소 및 구매완료 사유 팝업
+ * @최종수정자		: 배열
+ * @최종수정일자	: 2019.05.27
+*/
+
+this.popTitle = "구매담당자변경"
+ 
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsPchrgr.addRow();
+	this.dsPchrgr.setColumn(0,"PCHRGR_ID_BEFORE",ownFrame.agv_id);
+	this.dsPchrgr.setColumn(0,"PCHRGR_NM_BEFORE",ownFrame.agv_nm);
+	
+}
+  
+this.btnChange_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if("" == this.dsPchrgr.getColumn(0,"PCHRGR_ID")){
+		gfnAlert("변경담당자를 입력해주셔야 합니다."); 
+		return;
+	}
+	if(this.dsPchrgr.getColumn(0,"PCHRGR_ID_BEFORE") == this.dsPchrgr.getColumn(0,"PCHRGR_ID")){
+		gfnAlert("기존담당자와 변경담당자가 동일 합니다."); 
+		return;
+	}
+	
+	if(!gfnConfirm("구매담당자를 변경 하시겠습니까?")) return;
+	
+	var rtn = this.dsPchrgr.saveXML();
+	if(rtn){
+		this.close(rtn);
+	}		
+}
+
+this.btnPchrgr_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+				agv_id:""
+				,agv_nm:this.ds_pghrgr.getColumn(0,"PCHRGR_NM")
+				,agv_mode:"" 
+			   };
+	this.gfn_CPop_ComUser
+	Srch(sArg,"fn_popCallBack","PopupComUserSrch");
+}
+]]></Script>
+  </Form>
+</FDL>

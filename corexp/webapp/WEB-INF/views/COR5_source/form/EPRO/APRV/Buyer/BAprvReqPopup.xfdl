@@ -1,0 +1,509 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="647" id="BUserSrchPopup" inheritanceid="" left="0" oninit="fnOninit" onload="fnOnLoad" position="absolute" titletext="승인요청팝업" top="0" width="900">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond00" left="10" right="10" taborder="10" top="44"/>
+        <Static cssclass="sta_WF_Label_P" height="34" id="staTitle" left="10" taborder="11" text="승인명" top="44" width="85"/>
+        <Edit height="24" id="edTitle" left="99" onkeyup="fnOnkeyup" right="15" taborder="19" top="49"/>
+        <Static cssclass="sta_WF_Labelbg" height="110" id="staViewCompCond01" left="10" right="10" taborder="20" top="77"/>
+        <Static cssclass="sta_WF_Label" height="110" id="staBody" left="10" taborder="21" text="승인의견" top="77" width="85" wordwrap="english"/>
+        <TextArea height="100" id="TextArea00" left="99" right="15" taborder="22" top="82"/>
+        <Button height="24" id="btnAdd" onclick="fnAprvrLineAdd" right="82" taborder="23" text="추가" top="405" width="70"/>
+        <Button height="24" id="btnDel" onclick="fnAprvrLineDel" right="10" taborder="24" text="삭제" top="405" width="70"/>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="10" taborder="26" text="승인자" top="405" width="255"/>
+        <Grid autoenter="select" autofittype="col" binddataset="dsAprvLine" cellclickbound="cell" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" height="180" id="grdList" left="10" onexpanddown="grdOnexpanddown" onkeydown="grdListOnkeydown" ontextchanged="grdOntextchanged" right="10" taborder="28" top="439" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="25"/>
+                <Column size="80"/>
+                <Column size="150"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="130"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell/>
+                <Cell col="1" text="순번"/>
+                <Cell col="2" text="승인자명"/>
+                <Cell col="3" text="직책"/>
+                <Cell col="4" text="부서"/>
+                <Cell col="5" text="전화번호"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="expr:UP_YN == 'N'  ? 'none' : 'checkbox'" edittype="expr:UP_YN == 'N'  ? 'none' : 'checkbox'" text="bind:CHECKED"/>
+                <Cell col="1" text="bind:APRV_ORDR"/>
+                <Cell col="2" edittype="expr:UP_YN == 'N'  ? 'none' : 'text'" style="align:left;" text="bind:APRVR_NM" expandshow="expr:UP_YN == 'N'  ? 'hide' : 'show'" expandsize="28" expandimage="URL('img::grd_WF_Expand.png')"/>
+                <Cell col="3" style="align:left;" text="bind:PSTN"/>
+                <Cell col="4" style="align:left;" text="bind:DEPT_NM"/>
+                <Cell col="5" text="bind:TEL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle03" left="10" taborder="37" text="승인정보" top="10" width="255"/>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle04" left="10" taborder="38" text="승인파일" top="200" width="255"/>
+        <Div height="210" id="divFile" left="10" right="10" taborder="39" top="200" url="CCOMP::CompNFileUpDown.xfdl"/>
+        <Button height="24" id="btnUp" onclick="fnMove" right="196" taborder="40" text="▲" top="405" width="40"/>
+        <Button height="24" id="btnDown" onclick="fnMove" right="154" taborder="41" text="▼" top="405" width="40"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsAprvInfo">
+        <ColumnInfo>
+          <Column id="APP_DOC_ID" size="256" type="STRING"/>
+          <Column id="TTL" size="256" type="STRING"/>
+          <Column id="APRV_OPNN" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="CD_APRV_MTHD" size="256" type="STRING"/>
+          <Column id="CD_APRV_DOC_CTGR" size="256" type="STRING"/>
+          <Column id="APP_DOC" size="256" type="STRING"/>
+          <Column id="APRV_CNT" size="256" type="STRING"/>
+          <Column id="REQR_ID" size="256" type="STRING"/>
+          <Column id="REF_KEY_1" size="256" type="STRING"/>
+          <Column id="REF_KEY_2" size="256" type="STRING"/>
+          <Column id="REF_KEY_3" size="256" type="STRING"/>
+          <Column id="REF_KEY_4" size="256" type="STRING"/>
+          <Column id="CD_HEADER_STTS" size="256" type="STRING"/>
+          <Column id="CD_DETAIL_STTS" size="256" type="STRING"/>
+          <Column id="CD_APRV_STTS" size="256" type="STRING"/>
+          <Column id="WAIT_SEQ" type="STRING" size="256"/>
+          <Column id="LOGIN_USER" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsAprvLine">
+        <ColumnInfo>
+          <Column id="CHECKED" size="256" type="STRING"/>
+          <Column id="APRV_ORDR" size="256" type="STRING"/>
+          <Column id="APRVR_ID" size="256" type="STRING"/>
+          <Column id="APRVR_NM" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="APP_DOC_ID" size="256" type="STRING"/>
+          <Column id="CD_APP_TYPE" size="256" type="STRING"/>
+          <Column id="CD_APRV_LN_STTS" size="256" type="STRING"/>
+          <Column id="CRTR_ID" size="256" type="STRING"/>
+          <Column id="UP_YN" size="256" type="STRING"/>
+          <Column id="PSTN" size="256" type="STRING"/>
+          <Column id="DEPT_NM" size="256" type="STRING"/>
+          <Column id="TEL" size="256" type="STRING"/>
+          <Column id="LOGIN_USER" size="256" type="STRING"/>
+          <Column id="OPNN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsHeader"/>
+      <Dataset id="dsDetail"/>
+      <Dataset id="dsCdAP12"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="TTL" compid="edTitle" datasetid="dsAprvInfo" id="item0" propid="value"/>
+      <BindItem columnid="APRV_OPNN" compid="TextArea00" datasetid="dsAprvInfo" id="item1" propid="value"/>
+      <BindItem columnid="EPRO_LABEL_00016" compid="staViewCompTitle03" datasetid="gdsLabel" id="staViewCompTitle03LangBind201711031718424142" propid="text"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BAprvReqPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 8. 31.
+ * @설명			    : 승인요청팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 8. 31.
+*/ 
+
+/*
+호출하는 화면에서 이렇게 호출해야됨.
+
+	var sArg = {
+					agv_doc:"AP11RFQ"
+					,agv_mthd:"AP12SEQ" 
+					,agv_html:this.dsRfq.getColumn(0,"FILESTRING")
+					,agv_appdoc : this.dsRfq.saveXML()+ "▩"
+					,agv_ttl:this.dsRfq.getColumn(0,"TTL")
+					,agv_ref1:this.dsRfq.getColumn(0,"RFQ_REQ_NO")
+					,agv_ref2:this.dsRfq.getColumn(0,"RFQ_ODR")
+					,agv_ref3:this.dsRfq.getColumn(0,"ALT_SINGLE_PTNR")
+					,agv_ref4:altOver
+					,agv_remote:"Y"													팝업에 버튼이 있으면 Y , 없으면 N
+					,remote_btn: [{btnName:gfnMultiLabel("EPRO_LABEL_00456"), clickEventFunc:"fnReq"}]   팝업에서 사용할 버튼들 이름. 
+				};
+	gfnModalPop(this, "BAprvReqPopup", "BAPRV::BAprvReqPopup.xfdl", sArg, "fnPopCallBack", 900, 800);
+
+*/
+
+
+
+
+this.popTitle = gfnMultiLabel("승인요청");
+
+/**
+  * @함수명	: fnSetCode
+  * @desc   : 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"AP12", sSelectType:"S"}
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.grdList, null, this);
+
+	var ownFrame = this.getOwnerFrame();
+	this.dsAprvInfo.addRow();
+	this.dsAprvInfo.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	this.dsAprvInfo.setColumn(0,"REQR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+	this.dsAprvInfo.setColumn(0,"CD_APRV_DOC_CTGR",ownFrame.agv_doc);
+	this.dsAprvInfo.setColumn(0,"REF_KEY_1",ownFrame.agv_ref1);
+	this.dsAprvInfo.setColumn(0,"REF_KEY_2",ownFrame.agv_ref2);
+	this.dsAprvInfo.setColumn(0,"REF_KEY_3",ownFrame.agv_ref3);
+	this.dsAprvInfo.setColumn(0,"REF_KEY_4",ownFrame.agv_ref4);
+	this.dsAprvInfo.setColumn(0,"APP_DOC",ownFrame.agv_appdoc);
+	this.dsAprvInfo.setColumn(0,"TTL",ownFrame.agv_ttl);
+	this.dsAprvInfo.setColumn(0,"CD_APRV_MTHD","AP12SEQ");
+	this.dsAprvInfo.setColumn(0,"CD_APRV_STTS","AP10ING");
+	//var doc = this.webBrowser.getProperty("document");
+	//doc.callMethod("write",this.dsAprvInfo.getColumn(0,"APP_DOC"));
+
+	this.dsAprvLine.addRow();
+	this.dsAprvLine.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	this.dsAprvLine.setColumn(0,"APRVR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+	this.dsAprvLine.setColumn(0,"APRVR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+	this.dsAprvLine.setColumn(0,"APRV_ORDR",1);
+	this.dsAprvLine.setColumn(0,"CD_APP_TYPE","AP14REQ");
+	this.dsAprvLine.setColumn(0,"CD_APRV_LN_STTS","AP13CFM");
+	this.dsAprvLine.setColumn(0,"UP_YN","N");
+	this.dsAprvLine.setColumn(0,"PSTN",application.gdsUserInfo.getColumn(0,"PSTN"));
+	this.dsAprvLine.setColumn(0,"DEPT_NM",application.gdsUserInfo.getColumn(0,"DEPT_NM"));
+	this.dsAprvLine.setColumn(0,"TEL",application.gdsUserInfo.getColumn(0,"TEL"));
+	
+	//this.fnReadLeader();
+	
+	gfnMakeFileDs(this);
+	var sTableNm = "MM_APRV";
+	var arrFileKey = [this.dsAprvInfo.getColumn(0, "APP_DOC_ID")];
+	this.divFile.fnFileInit(this, sTableNm, this.dsAprvInfo, arrFileKey, "N");
+}
+
+this.fnReadLeader = function()
+{
+	var sSvcID = "readLeader";
+	var sController = "epro.aprv.service.BAprvService.readLeader";
+	var sInDatasets = "dsAprvInfo=dsAprvInfo";
+	var sOutDatasets = "dsReturn=dsReturn";
+	var sCallbackFunc = "fnTrCallBack";	
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnSearchUser
+  * @desc   : 유저검색
+  */
+this.fnSearchUser = function(objNm)
+{
+	var sAgvNm = "";
+	var sPopupId = "";
+	
+	if(objNm == "grdList"){
+		if(!gfnIsNull(this.dsAprvLine.getColumn(this.dsAprvLine.rowposition,"APRVR_ID"))) return;
+	
+		sPopupId = "BUserSrchPopup";
+		sAgvNm = this.dsAprvLine.getColumn(this.dsAprvLine.rowposition,"APRVR_NM")
+		
+	}
+	
+	var sArg = { 
+				agv_nm:sAgvNm
+			   };
+
+	gfnSearchComUser(this, sPopupId, "fnPopCallBack", sArg)
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){			
+		case "BUserSrchPopup":
+				if(!gfnIsNull(this.dsReturn.getColumn(0,"USER_ID"))){
+					if(-1 == this.dsAprvLine.findRow("APRVR_ID",this.dsReturn.getColumn(0,"USER_ID"))){
+						var nRow = this.dsAprvLine.rowposition;
+						this.dsAprvLine.setColumn(nRow,"APRVR_ID", this.dsReturn.getColumn(0,"USER_ID"));
+						this.dsAprvLine.setColumn(nRow,"APRVR_NM", this.dsReturn.getColumn(0,"USER_NM"));
+						this.dsAprvLine.setColumn(nRow,"PSTN", this.dsReturn.getColumn(0,"PSTN"));
+						this.dsAprvLine.setColumn(nRow,"DEPT_NM", this.dsReturn.getColumn(0,"DEPT_NM"));
+						this.dsAprvLine.setColumn(nRow,"TEL", this.dsReturn.getColumn(0,"TEL"));
+						
+					} else{
+						gfnAlert("EPRO_LABEL_00874");
+					}
+				}
+			break;
+		
+		default:
+			break;	
+	}
+}
+
+/**
+	@function	fnAprvrLineAdd()
+	@desc   	승인라인추가
+*/
+this.fnAprvrLineAdd = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsAprvLine.addRow();
+	this.dsAprvLine.setColumn(nRow,"UP_YN","Y");
+	this.dsAprvLine.setColumn(nRow,"CHECKED","0");
+	this.dsAprvLine.setColumn(nRow,"APRV_ORDR" ,nRow+1);
+	this.dsAprvLine.setColumn(nRow,"CD_APP_TYPE","AP14CFM");
+	this.dsAprvLine.setColumn(nRow,"CD_APRV_LN_STTS","AP13WAT");
+	this.dsAprvLine.setColumn(nRow,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+}
+
+/**
+	@function	fnAprvrLineDel()
+	@desc   	승인라인삭제
+*/
+this.fnAprvrLineDel = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var check = gfnDsChkDel(this.dsAprvLine);
+	
+	if(check){
+		for(var i = 0 ; i < this.dsAprvLine.rowcount ; i++){
+			this.dsAprvLine.setColumn(i ,"APRV_ORDR" ,i+1);
+		}
+	}
+}
+
+/**
+	@function	grdOnexpanddown()
+	@desc   	expanddown 이벤트
+*/
+this.grdOnexpanddown = function(obj:Grid, e:nexacro.GridMouseEventInfo)
+{
+	obj.updateToDataset();
+	this.fnSearchUser(obj.name);
+}
+
+/**
+	@function	grdListOnkeydown()
+	@desc   	그리드 키다운 이벤트
+*/
+this.grdListOnkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		if(gfnGrdBindColId(obj,obj.getCellPos()) == "APRVR_NM"){
+			obj.updateToDataset();
+			this.fnSearchUser(obj.name);
+		}
+	}
+}
+
+/**
+	@function	grdOntextchanged()
+	@desc   	그리드 텍스트변경 이벤트
+*/
+this.grdOntextchanged = function(obj:Grid, e:nexacro.GridEditTextChangedEventInfo)
+{
+	if(gfnGrdBindColId(obj,obj.getCellPos()) == "APRVR_NM"){
+		this.dsAprvLine.setColumn(this.dsAprvLine.rowposition,"APRVR_ID","");
+		this.dsAprvLine.setColumn(this.dsAprvLine.rowposition,"PSTN","");
+		this.dsAprvLine.setColumn(this.dsAprvLine.rowposition,"DEPT_NM","");
+		this.dsAprvLine.setColumn(this.dsAprvLine.rowposition,"TEL","");
+	}
+}
+
+/**
+	@function	fnPreReq()
+	@desc   	요청전 이벤트
+*/
+this.fnPreReq = function(type)
+{
+	if(type =="REQ"){
+		if(this.dsAprvLine.rowcount < 2){
+		gfnAlert("승인자를 추가 하시기 바랍니다.");
+		return false;
+		} 
+	}
+	
+	if(gfnIsNull(this.dsAprvInfo.getColumn(0,"TTL"))){
+		gfnAlert("승인명을 입력하시기 바랍니다.");
+		return false;
+		
+	}
+	
+	for(var i = 0 ; i < this.dsAprvLine.rowcount ; i++){
+		if(gfnIsNull(this.dsAprvLine.getColumn(i,"APRVR_ID"))){
+			gfnAlert((i + 1) + gfnMultiLabel("행의 승인자의 정보를 찾을 수 없습니다."));
+			return false;
+		}
+	}
+	
+	this.dsAprvInfo.setColumn(0,"APRV_CNT", this.dsAprvLine.getMax("APRV_ORDR"));
+	
+	return true;
+}
+
+/**
+	@function	fnReq()
+	@desc   	요청 이벤트
+*/
+this.fnReq = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fnPreReq("REQ")) return;
+	
+	if(!gfnConfirm("승인요청 하시겠습니까?")) return;
+	
+	var sSvcID = "saveAprvReq";
+	var sController = "epro.aprv.service.BAprvService.saveAprvReq";
+	var sInDatasets = "dsAprvInfo=dsAprvInfo dsAprvLine=dsAprvLine";
+	var sOutDatasets = "dsAprvInfo=dsAprvInfo";
+	var sCallbackFunc = "fnTrCallBack";	
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnCfm = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fnPreReq("CFM")) return;
+	
+	if(!gfnConfirm("전결 하시겠습니까?")) return;
+
+	
+	var sSvcID = "saveAprvCfm";
+	var sController = "epro.aprv.service.BAprvService.saveAprvCfm";
+	var sInDatasets = "dsAprvInfo=dsAprvInfo dsAprvLine=dsAprvLine";
+	var sOutDatasets = "dsAprvInfo=dsAprvInfo";
+	var sCallbackFunc = "fnTrCallBack";	
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "saveAprvReq" :
+				gfnAlert(strErrMsg);
+				this.parent.close(this.dsAprvInfo.saveXML());
+		break;
+		
+		case "saveAprvCfm" :
+				gfnAlert(strErrMsg);
+				this.parent.close(this.dsAprvInfo.saveXML());
+		break;
+		
+		case "readLeader" :
+			for(var i = 0 ; i < this.dsReturn.rowcount ; i++){
+				var nRow = this.dsAprvLine.addRow();
+				this.dsAprvLine.setColumn(nRow,"BRANCH_CD",this.dsReturn.getColumn(i,"BRANCH_CD"));
+				this.dsAprvLine.setColumn(nRow,"APRVR_ID",this.dsReturn.getColumn(i,"USER_ID"));
+				this.dsAprvLine.setColumn(nRow,"APRVR_NM",this.dsReturn.getColumn(i,"USER_NM"));
+				this.dsAprvLine.setColumn(nRow,"APRV_ORDR",i+2);
+				this.dsAprvLine.setColumn(nRow,"CD_APP_TYPE","AP14CFM");
+				this.dsAprvLine.setColumn(nRow,"CD_APRV_LN_STTS","AP13WAT");
+				this.dsAprvLine.setColumn(nRow,"UP_YN","Y");
+				this.dsAprvLine.setColumn(nRow,"PSTN",this.dsReturn.getColumn(i,"PSTN"));
+				this.dsAprvLine.setColumn(nRow,"DEPT_NM",this.dsReturn.getColumn(i,"DEPT_NM"));
+				this.dsAprvLine.setColumn(nRow,"TEL",this.dsReturn.getColumn(i,"TEL"));
+			}
+		
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+this.fnMove = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var ordr = "";
+	var nRow = this.dsAprvLine.rowposition;
+	
+	if(this.dsAprvLine.getColumn(nRow,"APRVR_ID") == application.gdsUserInfo.getColumn(0,"USER_ID")){
+		gfnAlert("EPRO_LABEL_00890");
+		return;
+	}
+	
+	if(obj.name == "btnUp"){
+		if(this.dsAprvLine.getColumn(nRow,"UP_YN") == "Y" && this.dsAprvLine.getColumn(nRow - 1, "UP_YN") == "Y"){
+			if(gfnIsNull(this.dsAprvLine.getColumn(nRow,"APRVR_ID"))){
+				gfnAlert("EPRO_LABEL_00891");
+				return;
+				
+			} else if(gfnIsNull(this.dsAprvLine.getColumn(nRow -1,"APRVR_ID"))){
+				gfnAlert("EPRO_LABEL_00892");
+				return;
+			}
+			
+			ordr = this.dsAprvLine.getColumn(nRow,"APRV_ORDR");
+			this.dsAprvLine.setColumn(nRow,"APRV_ORDR",parseInt(ordr) - 1);
+			this.dsAprvLine.setColumn(nRow -1 ,"APRV_ORDR",ordr);
+			
+			this.dsAprvLine.moveRow(nRow,nRow-1);
+			
+		} else{
+			gfnAlert("EPRO_LABEL_00893");
+		}
+		
+	} else{
+		if(this.dsAprvLine.getColumn(nRow,"UP_YN") == "Y" && this.dsAprvLine.getColumn(nRow + 1, "UP_YN") == "Y"){
+			if(gfnIsNull(this.dsAprvLine.getColumn(nRow,"APRVR_ID"))){
+				gfnAlert("EPRO_LABEL_00891");
+				return;
+				
+			} else if(gfnIsNull(this.dsAprvLine.getColumn(nRow +1,"APRVR_ID"))){
+				gfnAlert("EPRO_LABEL_00892");
+				return;
+			}
+			
+			ordr = this.dsAprvLine.getColumn(nRow,"APRV_ORDR");
+			this.dsAprvLine.setColumn(nRow,"APRV_ORDR",parseInt(ordr) + 1);
+			this.dsAprvLine.setColumn(nRow +1 ,"APRV_ORDR",ordr);
+			
+			this.dsAprvLine.moveRow(nRow,nRow+1);
+		
+		} else{
+			gfnAlert("EPRO_LABEL_00894");
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

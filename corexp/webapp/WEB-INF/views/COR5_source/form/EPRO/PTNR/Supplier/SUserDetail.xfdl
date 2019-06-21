@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="1067" id="SUserDetail" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="업체사용자정보" top="0" width="1220">
+    <Layouts>
+      <Layout screenid="Screen0" stepcount="" stepindex="">
+        <Div height="24" id="divViewCompTitle00" left="0" objNm="DIV-평가서 타이틀" positionstep="0" right="0" taborder="1" top="0">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" objNm="기본정보" onclick="div_2_staSubTitle01_onclick" taborder="21" text="기본정보" top="0" width="255"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_DetailBg" height="375" id="divViewCompBody00" left="0" objNm="DIV-평가서 상세" positionstep="0" right="10" taborder="101" top="29">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="58" top="0"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="60" top="32"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="61" top="64"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staUserNm" left="0" objNm="사용자명" positionstep="1" taborder="5" text="사용자명" top="32" width="171"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staUserId" left="0" objNm="사용자 ID" positionstep="1" taborder="0" text="사용자ID" top="0" width="171"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staDeptNm" left="629" objNm="부서명" positionstep="1" taborder="7" text="부서명" top="32" width="171"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staPwd" left="0" objNm="비밀번호" positionstep="1" taborder="9" text="패스워드" top="64" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staChckPwd" left="629" objNm="비밀번호확인" positionstep="1" taborder="11" text="패스워드확인" top="64" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" right="0" taborder="62" top="96"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staPstn" left="0" objNm="직급" positionstep="1" taborder="13" text="직급" top="96" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staEmail" left="629" objNm="EMAIL" positionstep="1" taborder="15" text="E-MAIL" top="96" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="0" right="0" taborder="64" top="128"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staHp" left="0" objNm="HP" positionstep="1" taborder="17" text="휴대전화" top="128" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="0" right="0" taborder="65" top="160"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staFax" left="0" objNm="팩스" positionstep="1" taborder="21" text="FAX" top="160" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Labelbg" height="119" id="staViewCompLine06" left="0" right="0" taborder="67" top="224"/>
+              <Static cssclass="sta_WF_Label" height="119" id="staMjrJob" left="0" objNm="주요업무" positionstep="1" taborder="29" text="주요업무" top="224" width="171" wordwrap="char"/>
+              <Edit enable="true" height="24" id="edtUserNm" left="177" lengthunit="ascii" objNm="사용자명" positionstep="1" taborder="6" top="36" width="166"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staTel" left="629" objNm="전화번호" positionstep="1" taborder="19" text="연락처" top="128" width="171" wordwrap="char"/>
+              <Edit height="24" id="edtPstn" left="177" lengthunit="utf8" objNm="직급" positionstep="1" taborder="14" top="100" width="166"/>
+              <Edit height="24" id="edtEmail1" left="806" lengthunit="ascii" objNm="EMAIL" positionstep="1" taborder="16" top="101" width="166"/>
+              <Edit height="24" id="edtDeptNm" imemode="none" left="806" lengthunit="ascii" objNm="부서명" positionstep="1" taborder="8" top="36" width="166"/>
+              <Edit height="24" id="edtUserId" inputtype="number,english,sign,symbol" left="177" lengthunit="ascii" objNm="사용자ID" onchanged="fnUserIdOnchanged" positionstep="1" taborder="1" top="4" width="166"/>
+              <Edit height="24" id="edtFax" inputfilter="sign,symbol" inputtype="number" left="177" lengthunit="utf8" objNm="FAX" positionstep="1" taborder="22" top="164" width="166"/>
+              <Edit height="24" id="edtHp" inputfilter="sign,symbol" inputtype="number" left="177" lengthunit="utf8" objNm="HP" positionstep="1" taborder="18" top="132" width="166"/>
+              <Edit height="24" id="edtTel" inputfilter="sign,symbol" inputtype="number" left="806" lengthunit="utf8" objNm="Tel" positionstep="1" taborder="20" top="132" width="166"/>
+              <TextArea height="107" id="txtMjrJob" left="177" lengthunit="ascii" objNm="주요업무" taborder="30" top="230" width="1018"/>
+              <Edit height="24" id="edtPwd" left="177" lengthunit="utf8" objNm="비밀번호" password="true" positionstep="1" taborder="10" top="68" width="166"/>
+              <Edit height="24" id="edtChckPwd" left="806" lengthunit="utf8" objNm="비밀번호확인" password="true" positionstep="1" taborder="12" top="68" width="166"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staRptst" left="629" objNm="대표사용자여부" positionstep="1" taborder="3" text="대표사용자여부" top="0" width="171"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltUse" left="629" objNm="사용자여부" positionstep="1" taborder="23" text="사용여부" top="160" width="171"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltMailRcv" left="0" objNm="메일수신여부" positionstep="1" taborder="25" text="메일수신여부" top="192" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staAltSmsRcv" left="629" objNm="SMS수신여부" positionstep="1" taborder="27" text="SMS수신여부" top="192" width="171"/>
+              <CheckBox canchange="fnChkRptstOnchange" falsevalue="N" height="25" id="chkRptst" left="806" objNm="대표사용자여부" taborder="4" top="4" truevalue="Y" width="168"/>
+              <CheckBox falsevalue="N" height="25" id="chkAltUse" left="806" objNm="사용자여부" taborder="24" top="164" truevalue="Y" value="N" width="168"/>
+              <CheckBox falsevalue="N" height="25" id="chkAltSmsRcv" left="806" objNm="SMS수신여부" taborder="28" top="196" truevalue="Y" value="N" width="168"/>
+              <CheckBox falsevalue="N" height="25" id="chkAltMailRcv" left="177" objNm="메일수신여부" taborder="26" top="196" truevalue="Y" value="N" width="167"/>
+              <Button height="24" id="btn_chkId" left="349" objNm="아이디중복체크" onclick="fnUserIdChk" taborder="2" text="아이디중복체크" top="4" visible="false" width="124"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsDetail">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="USER_NM" size="256" type="STRING"/>
+          <Column id="PWD" size="256" type="STRING"/>
+          <Column id="PSTN" size="256" type="STRING"/>
+          <Column id="HP" size="256" type="STRING"/>
+          <Column id="FAX" size="256" type="STRING"/>
+          <Column id="ALT_MAIL_RCV" size="256" type="STRING"/>
+          <Column id="ALT_RPTST" size="256" type="STRING"/>
+          <Column id="DEPT_NM" size="256" type="STRING"/>
+          <Column id="CHECK_PW" size="256" type="STRING"/>
+          <Column id="EMAIL" size="256" type="STRING"/>
+          <Column id="TEL" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+          <Column id="ALT_SMS_RCV" size="256" type="STRING"/>
+          <Column id="MJR_JOB" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="P_USER_ID" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="COUNT" size="256" type="STRING"/>
+          <Column id="ROLE_ID" size="256" type="STRING"/>
+          <Column id="LDRCHECK" size="256" type="STRING"/>
+          <Column id="CD_PTNR_CTGR" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsUserInfo">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsUserChk"/>
+    </Objects>
+    <InitValue/>
+    <Bind>
+      <BindItem columnid="USER_ID" compid="divViewCompBody00.edtUserId" datasetid="dsDetail" id="item0" propid="value"/>
+      <BindItem columnid="USER_NM" compid="divViewCompBody00.edtUserNm" datasetid="dsDetail" id="item1" propid="value"/>
+      <BindItem columnid="PWD" compid="divViewCompBody00.edtPwd" datasetid="dsDetail" id="item2" propid="value"/>
+      <BindItem columnid="PSTN" compid="divViewCompBody00.edtPstn" datasetid="dsDetail" id="item3" propid="value"/>
+      <BindItem columnid="HP" compid="divViewCompBody00.edtHp" datasetid="dsDetail" id="item4" propid="value"/>
+      <BindItem columnid="FAX" compid="divViewCompBody00.edtFax" datasetid="dsDetail" id="item5" propid="value"/>
+      <BindItem columnid="DEPT_NM" compid="divViewCompBody00.edtDeptNm" datasetid="dsDetail" id="item8" propid="value"/>
+      <BindItem columnid="EMAIL" compid="divViewCompBody00.edtEmail1" datasetid="dsDetail" id="item9" propid="value"/>
+      <BindItem columnid="TEL" compid="divViewCompBody00.edtTel" datasetid="dsDetail" id="item11" propid="value"/>
+      <BindItem columnid="MJR_JOB" compid="divViewCompBody00.txtMjrJob" datasetid="dsDetail" id="item13" propid="value"/>
+      <BindItem columnid="CHECK_PW" compid="divViewCompBody00.edtChckPwd" datasetid="dsDetail" id="item14" propid="value"/>
+      <BindItem columnid="staUserNm" compid="divViewCompBody00.staUserNm" datasetid="dsObjBindVi" id="staUserNmVi" propid="visible"/>
+      <BindItem columnid="staUserNm" compid="divViewCompBody00.staUserNm" datasetid="dsObjBindEn" id="staUserNmEn" propid="enable"/>
+      <BindItem columnid="staUserId" compid="divViewCompBody00.staUserId" datasetid="dsObjBindVi" id="staUserIdVi" propid="visible"/>
+      <BindItem columnid="staUserId" compid="divViewCompBody00.staUserId" datasetid="dsObjBindEn" id="staUserIdEn" propid="enable"/>
+      <BindItem columnid="staDeptNm" compid="divViewCompBody00.staDeptNm" datasetid="dsObjBindVi" id="staDeptNmVi" propid="visible"/>
+      <BindItem columnid="staDeptNm" compid="divViewCompBody00.staDeptNm" datasetid="dsObjBindEn" id="staDeptNmEn" propid="enable"/>
+      <BindItem columnid="staPwd" compid="divViewCompBody00.staPwd" datasetid="dsObjBindVi" id="staPwdVi" propid="visible"/>
+      <BindItem columnid="staPwd" compid="divViewCompBody00.staPwd" datasetid="dsObjBindEn" id="staPwdEn" propid="enable"/>
+      <BindItem columnid="staChckPwd" compid="divViewCompBody00.staChckPwd" datasetid="dsObjBindVi" id="staChckPwdVi" propid="visible"/>
+      <BindItem columnid="staChckPwd" compid="divViewCompBody00.staChckPwd" datasetid="dsObjBindEn" id="staChckPwdEn" propid="enable"/>
+      <BindItem columnid="staPstn" compid="divViewCompBody00.staPstn" datasetid="dsObjBindVi" id="staPstnVi" propid="visible"/>
+      <BindItem columnid="staPstn" compid="divViewCompBody00.staPstn" datasetid="dsObjBindEn" id="staPstnEn" propid="enable"/>
+      <BindItem columnid="staEmail" compid="divViewCompBody00.staEmail" datasetid="dsObjBindVi" id="staEmailVi" propid="visible"/>
+      <BindItem columnid="staEmail" compid="divViewCompBody00.staEmail" datasetid="dsObjBindEn" id="staEmailEn" propid="enable"/>
+      <BindItem columnid="staHp" compid="divViewCompBody00.staHp" datasetid="dsObjBindVi" id="staHpVi" propid="visible"/>
+      <BindItem columnid="staHp" compid="divViewCompBody00.staHp" datasetid="dsObjBindEn" id="staHpEn" propid="enable"/>
+      <BindItem columnid="staFax" compid="divViewCompBody00.staFax" datasetid="dsObjBindVi" id="staFaxVi" propid="visible"/>
+      <BindItem columnid="staFax" compid="divViewCompBody00.staFax" datasetid="dsObjBindEn" id="staFaxEn" propid="enable"/>
+      <BindItem columnid="staMjrJob" compid="divViewCompBody00.staMjrJob" datasetid="dsObjBindVi" id="staMjrJobVi" propid="visible"/>
+      <BindItem columnid="staMjrJob" compid="divViewCompBody00.staMjrJob" datasetid="dsObjBindEn" id="staMjrJobEn" propid="enable"/>
+      <BindItem columnid="edtUserNm" compid="divViewCompBody00.edtUserNm" datasetid="dsObjBindVi" id="edtUserNmVi" propid="visible"/>
+      <BindItem columnid="edtUserNm" compid="divViewCompBody00.edtUserNm" datasetid="dsObjBindEn" id="edtUserNmEn" propid="readonly"/>
+      <BindItem columnid="staTel" compid="divViewCompBody00.staTel" datasetid="dsObjBindVi" id="staTelVi" propid="visible"/>
+      <BindItem columnid="staTel" compid="divViewCompBody00.staTel" datasetid="dsObjBindEn" id="staTelEn" propid="enable"/>
+      <BindItem columnid="edtPstn" compid="divViewCompBody00.edtPstn" datasetid="dsObjBindVi" id="edtPstnVi" propid="visible"/>
+      <BindItem columnid="edtPstn" compid="divViewCompBody00.edtPstn" datasetid="dsObjBindEn" id="edtPstnEn" propid="readonly"/>
+      <BindItem columnid="edtEmail1" compid="divViewCompBody00.edtEmail1" datasetid="dsObjBindVi" id="edtEmail1Vi" propid="visible"/>
+      <BindItem columnid="edtEmail1" compid="divViewCompBody00.edtEmail1" datasetid="dsObjBindEn" id="edtEmail1En" propid="readonly"/>
+      <BindItem columnid="edtDeptNm" compid="divViewCompBody00.edtDeptNm" datasetid="dsObjBindVi" id="edtDeptNmVi" propid="visible"/>
+      <BindItem columnid="edtDeptNm" compid="divViewCompBody00.edtDeptNm" datasetid="dsObjBindEn" id="edtDeptNmEn" propid="readonly"/>
+      <BindItem columnid="edtUserId" compid="divViewCompBody00.edtUserId" datasetid="dsObjBindVi" id="edtUserIdVi" propid="visible"/>
+      <BindItem columnid="edtUserId" compid="divViewCompBody00.edtUserId" datasetid="dsObjBindEn" id="edtUserIdEn" propid="readonly"/>
+      <BindItem columnid="txtMjrJob" compid="divViewCompBody00.txtMjrJob" datasetid="dsObjBindVi" id="txtMjrJobVi" propid="visible"/>
+      <BindItem columnid="txtMjrJob" compid="divViewCompBody00.txtMjrJob" datasetid="dsObjBindEn" id="txtMjrJobEn" propid="readonly"/>
+      <BindItem columnid="edtPwd" compid="divViewCompBody00.edtPwd" datasetid="dsObjBindVi" id="edtPwdVi" propid="visible"/>
+      <BindItem columnid="edtPwd" compid="divViewCompBody00.edtPwd" datasetid="dsObjBindEn" id="edtPwdEn" propid="readonly"/>
+      <BindItem columnid="edtChckPwd" compid="divViewCompBody00.edtChckPwd" datasetid="dsObjBindVi" id="edtChckPwdVi" propid="visible"/>
+      <BindItem columnid="edtChckPwd" compid="divViewCompBody00.edtChckPwd" datasetid="dsObjBindEn" id="edtChckPwdEn" propid="readonly"/>
+      <BindItem columnid="staRptst" compid="divViewCompBody00.staRptst" datasetid="dsObjBindVi" id="staRptstVi" propid="visible"/>
+      <BindItem columnid="staRptst" compid="divViewCompBody00.staRptst" datasetid="dsObjBindEn" id="staRptstEn" propid="enable"/>
+      <BindItem columnid="staAltUse" compid="divViewCompBody00.staAltUse" datasetid="dsObjBindVi" id="staAltUseVi" propid="visible"/>
+      <BindItem columnid="staAltUse" compid="divViewCompBody00.staAltUse" datasetid="dsObjBindEn" id="staAltUseEn" propid="enable"/>
+      <BindItem columnid="staAltMailRcv" compid="divViewCompBody00.staAltMailRcv" datasetid="dsObjBindVi" id="staAltMailRcvVi" propid="visible"/>
+      <BindItem columnid="staAltMailRcv" compid="divViewCompBody00.staAltMailRcv" datasetid="dsObjBindEn" id="staAltMailRcvEn" propid="enable"/>
+      <BindItem columnid="staAltSmsRcv" compid="divViewCompBody00.staAltSmsRcv" datasetid="dsObjBindVi" id="staAltSmsRcvVi" propid="visible"/>
+      <BindItem columnid="staAltSmsRcv" compid="divViewCompBody00.staAltSmsRcv" datasetid="dsObjBindEn" id="staAltSmsRcvEn" propid="enable"/>
+      <BindItem columnid="edtFax" compid="divViewCompBody00.edtFax" datasetid="dsObjBindVi" id="edtFaxVi" propid="visible"/>
+      <BindItem columnid="edtFax" compid="divViewCompBody00.edtFax" datasetid="dsObjBindEn" id="edtFaxEn" propid="readonly"/>
+      <BindItem columnid="edtHp" compid="divViewCompBody00.edtHp" datasetid="dsObjBindVi" id="edtHpVi" propid="visible"/>
+      <BindItem columnid="edtHp" compid="divViewCompBody00.edtHp" datasetid="dsObjBindEn" id="edtHpEn" propid="readonly"/>
+      <BindItem columnid="edtTel" compid="divViewCompBody00.edtTel" datasetid="dsObjBindVi" id="edtTelVi" propid="visible"/>
+      <BindItem columnid="edtTel" compid="divViewCompBody00.edtTel" datasetid="dsObjBindEn" id="edtTelEn" propid="readonly"/>
+      <BindItem columnid="ALT_RPTST" compid="divViewCompBody00.chkRptst" datasetid="dsDetail" id="item19" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="divViewCompBody00.chkAltUse" datasetid="dsDetail" id="item20" propid="value"/>
+      <BindItem columnid="ALT_SMS_RCV" compid="divViewCompBody00.chkAltSmsRcv" datasetid="dsDetail" id="item21" propid="value"/>
+      <BindItem columnid="ALT_MAIL_RCV" compid="divViewCompBody00.chkAltMailRcv" datasetid="dsDetail" id="item22" propid="value"/>
+      <BindItem columnid="chkRptst" compid="divViewCompBody00.chkRptst" datasetid="dsObjBindVi" id="chkRptstVi" propid="visible"/>
+      <BindItem columnid="chkRptst" compid="divViewCompBody00.chkRptst" datasetid="dsObjBindEn" id="chkRptstEn" propid="readonly"/>
+      <BindItem columnid="chkAltUse" compid="divViewCompBody00.chkAltUse" datasetid="dsObjBindVi" id="chkAltUseVi" propid="visible"/>
+      <BindItem columnid="chkAltUse" compid="divViewCompBody00.chkAltUse" datasetid="dsObjBindEn" id="chkAltUseEn" propid="readonly"/>
+      <BindItem columnid="chkAltSmsRcv" compid="divViewCompBody00.chkAltSmsRcv" datasetid="dsObjBindVi" id="chkAltSmsRcvVi" propid="visible"/>
+      <BindItem columnid="chkAltSmsRcv" compid="divViewCompBody00.chkAltSmsRcv" datasetid="dsObjBindEn" id="chkAltSmsRcvEn" propid="readonly"/>
+      <BindItem columnid="chkAltMailRcv" compid="divViewCompBody00.chkAltMailRcv" datasetid="dsObjBindVi" id="chkAltMailRcvVi" propid="visible"/>
+      <BindItem columnid="chkAltMailRcv" compid="divViewCompBody00.chkAltMailRcv" datasetid="dsObjBindEn" id="chkAltMailRcvEn" propid="readonly"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00069" compid="divViewCompBody00.staPstn" datasetid="gdsLabel" id="item12" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00492" compid="divViewCompBody00.staMjrJob" datasetid="gdsLabel" id="item18" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00089" compid="divViewCompBody00.staEmail" datasetid="gdsLabel" id="item26" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00107" compid="divViewCompBody00.btn_chkId" datasetid="gdsLabel" id="LabelLang29" propid="text"/>
+      <BindItem columnid="btn_chkId" compid="divViewCompBody00.btn_chkId" datasetid="dsObjBindVi" id="btn_chkIdVi" propid="visible"/>
+      <BindItem columnid="btn_chkId" compid="divViewCompBody00.btn_chkId" datasetid="dsObjBindEn" id="btn_chkIdEn" propid="enable"/>
+      
+      
+      
+      <BindItem columnid="" compid="divViewCompBody00.chkAltUse" datasetid="gdsLabel" id="item33" propid="text"/>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SUserDetail.xfdl
+ * @생성자       	: 배열
+ * @생성일자     	: 2017. 11. 08
+ * @설명			: 업체사용자정보상세
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 12. 04.
+*/
+
+//중복체크여부
+this.isUserChk = false;
+//대표사용자 변경 로그아웃여부
+this.boolLogout = false;
+this.isPwdChk = false;
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+ 
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @return   : 
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	this.dsUserInfo.addRow();
+	var id = gfnGetTmprData("USER_ID");
+	
+	if(gfnIsNull(id)){
+		this.fnTrCallBack("newForm");
+		this.ptnrCtgrChk();
+	}else{
+		this.dsUserInfo.setColumn(0, "USER_ID", id);
+		this.fnSearch();
+	}
+	gfnClearTmprData();
+}
+
+this.ptnrCtgrChk = function()
+{
+	var sSvcID = "readPtnrCtgrChk";
+ 	var sController = "epro.ptnr.service.SPtnrService.readPtnrCtgrChk";
+ 	var sInDatasets = "";
+ 	var sOutDatasets = "";
+ 	var sCallbackFunc = "fnTrCallBack";
+ 
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+	
+ 	var sSvcID = "readUserDetail";
+ 	var sController = "epro.ptnr.service.SPtnrService.readUserDetail";
+ 	var sInDatasets = "dsUserInfo=dsUserInfo";
+ 	var sOutDatasets = "dsDetail=dsDetail";
+ 	var sCallbackFunc = "fnTrCallBack";
+ 
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명  : fnSave
+  * @input    : obj:Button,  e:nexacro.ClickEventInfo
+  * @return   : 
+  * @desc     : 저장
+  */
+this.fnSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fnPreSave()) return false;
+	
+	if(this.boolLogout) {
+		if(!gfnConfirm("EPRO_LABEL_01355")) return false; 
+	} else {
+		if(!gfnConfirm("EPRO_LABEL_00001")) return false; 
+	}
+	
+ 	var sSvcID = "savePtnrUser";
+ 	var sController = "epro.ptnr.service.SPtnrService.savePtnrUser";
+ 	var sInDatasets = "dsDetail=dsDetail:A";
+ 	var sOutDatasets = "dsDetail=dsDetail";
+ 	var sCallbackFunc = "fnTrCallBack";
+ 
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+
+/**
+  * @함수명  : fnTrCallBack
+  * @input    : strSvcID ,strErrCd ,strErrMsg
+  * @return   : 
+  * @desc     : 트랜잭션 콜백
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}	
+	
+	switch(strSvcID){				
+		case "readUserDetail" :	//조회
+			this.isUserChk = true;
+			this.isPwdChk = true;
+			if("Y" == this.dsDetail.getColumn(0, "ALT_RPTST")) {
+				gfnSetObj("A");
+			} else {
+				gfnSetObj("C");
+			}
+		break;		
+		case "savePtnr" :	//저장
+			gfnAlert(strErrMsg);
+			this.fnSearch();
+		break;
+		case "newForm" : 	//신규
+			this.isUserChk = false;
+			this.fnUserIdEditColor(this.isUserChk)
+			this.dsDetail.addRow();
+			this.dsDetail.setColumn(0, "ALT_RPTST"	, "N");
+			this.dsDetail.setColumn(0, "ALT_USE"		, "Y");
+			this.dsDetail.setColumn(0, "ALT_SMS_RCV"	, "Y");
+			this.dsDetail.setColumn(0, "ALT_MAIL_RCV"	, "Y");
+
+			gfnSetObj("B");
+		break;
+		case "savePtnrUser" : // 사용자 정보 저장
+			gfnAlert(strErrMsg);
+			
+			if(strErrCd != 1){
+				if(this.boolLogout) { //로그아웃
+					application.gdsUserInfo.clearData();
+					application.gdsMenu.clear();
+					application.gdsUserRole.clear();
+					application.gdsOpenMenu.clearData();
+					
+					application.gv_topFrame.set_formurl("");
+					application.gv_bottomFrame.set_formurl("");
+					application.gv_leftFrame.set_formurl("");
+					application.gv_tabFrame.set_formurl("");
+					application.gv_mainForm.set_formurl("");
+					application.gv_vFrameSet.set_separatesize("0,0,0,*");
+					
+					var framesInfo = application.gv_workFrameSet.frames;
+					for(var i=framesInfo.length-1; i>=0; i--){		
+						framesInfo[i].destroy();
+					}
+				} else {
+					this.dsUserInfo.setColumn(0, "USER_ID", this.dsDetail.getColumn(0, "USER_ID"));
+					this.fnSearch();
+				}
+				
+			} else if(strErrCd == 1){
+				this.dsDetail.set_updatecontrol(false);
+				this.dsDetail.setRowType(0, Dataset.ROWTYPE_INSERT);
+				this.dsDetail.set_updatecontrol(true);
+				this.isUserChk = false;
+				this.fnUserIdEditColor(this.isUserChk)
+			}
+			//사용자 유저 권한도 넣어준다.
+		break;
+		
+		case "readPtnrCtgrChk" : // 사용자업체유형
+			this.dsDetail.setColumn(0, "CD_PTNR_CTGR", strErrMsg);
+		break;
+		
+		case "checkPtnrUserId" : //아이디중복체크
+			if(this.dsUserChk.getRowCount()>0){
+				gfnAlert("EPRO_LABEL_01125");
+				this.isUserChk = false;
+				this.fnUserIdEditColor(this.isUserChk)
+			}else{
+				gfnAlert("EPRO_LABEL_01126");
+				this.isUserChk = true;
+				this.fnUserIdEditColor(this.isUserChk)
+			}
+			break;
+		break;
+		
+		default:
+		
+		
+		
+		
+		break;		
+	}
+}	
+/**
+  * @함수명	: fnAdd
+  * @desc     	: (공통버튼)신규
+  */
+this.fnAdd = function(){
+	gfnOpenMenuUrl("SPTNR::SUserDetail");
+}
+/**
+  * @함수명  : fnPreSave
+  * @input    : 
+  * @return   : 
+  * @desc     : 저장전 유효성체크
+  */
+this.fnPreSave = function()
+{	
+	var arr = [];
+	
+	if(!this.isUserChk) {
+		gfnAlert("EPRO_LABEL_01081");
+		return; 
+	}
+	
+    var telCheckBool = true;//해외면 false
+	if("SR12AB" == this.dsDetail.getColumn(0, "CD_PTNR_CTGR")) { 
+		telCheckBool = false;
+	}
+	
+	// 사용자 ID 체크
+	if(gfnIsNull(this.dsDetail.getColumn(0, "USER_ID"))){
+		var msg = gfnMultiLabel("EPRO_LABEL_00995");
+		var type = gfnMultiLabel("EPRO_LABEL_00935"); 
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	// 사용자명 체크
+	if(gfnIsNull(this.dsDetail.getColumn(0, "USER_NM"))){
+		var msg = gfnMultiLabel("EPRO_LABEL_00996");
+		var type = gfnMultiLabel("EPRO_LABEL_00935");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	// 휴대전화 체크
+	if(gfnIsNull(this.dsDetail.getColumn(0, "HP"))){	
+		var msg = gfnMultiLabel("EPRO_LABEL_00998");
+		var type = gfnMultiLabel("EPRO_LABEL_00935");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	} else {
+		if(!gfnIsTel(this.dsDetail.getColumn(0, "HP")) && telCheckBool) {
+			var msg = gfnMultiLabel("EPRO_LABEL_00992");
+			var type = gfnMultiLabel("EPRO_LABEL_00935");
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+		}
+	}
+	//TEL
+	if(!gfnIsNull(this.dsDetail.getColumn(0, "TEL"))) {
+		if(!gfnIsTel(this.dsDetail.getColumn(0, "TEL")) && telCheckBool) {
+			var msg = gfnMultiLabel("EPRO_LABEL_00991");
+			var type = gfnMultiLabel("EPRO_LABEL_01194");
+			var objParam = {agv_msg:msg, agv_type:type};
+			arr.push(objParam);
+		} 
+	}
+	//FAX
+	if(!gfnIsNull(this.dsDetail.getColumn(0, "FAX"))) {
+		if(!gfnIsTel(this.dsDetail.getColumn(0, "FAX"), "T") && telCheckBool) {
+			var msg = gfnMultiLabel("EPRO_LABEL_01216");
+			var type = gfnMultiLabel("EPRO_LABEL_01194");
+			var objParam = {agv_msg:msg, agv_type:type};
+			arr.push(objParam);
+		} 
+	}
+	// EMAIL
+	if(gfnIsNull(this.dsDetail.getColumn(0, "EMAIL"))) {
+		var msg = gfnMultiLabel("EPRO_LABEL_01068");
+		var type = gfnMultiLabel("EPRO_LABEL_00935");
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	} else {
+		if(!gfnChkEmail(this.dsDetail.getColumn(0, "EMAIL"))) {
+			var msg = gfnMultiLabel("EPRO_LABEL_01140");
+			var type = gfnMultiLabel("EPRO_LABEL_01194");
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+		}
+	}
+
+	var ldr = this.dsDetail.getColumn(0, "ALT_RPTST");
+	var use = this.dsDetail.getColumn(0, "ALT_USE");
+	
+	if((ldr == "Y" && use == "N")){
+		var msg = gfnMultiLabel("EPRO_LABEL_01006");
+		var type = gfnMultiLabel("EPRO_LABEL_00577");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	if((this.dsDetail.getColumn(0,"LDRCHECK") == "Y" && ldr == "N")){
+		var msg = gfnMultiLabel("EPRO_LABEL_01005");
+		var type = gfnMultiLabel("EPRO_LABEL_00577");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	
+	if(this.isPwdChk){
+		return gfnValidate(this, true, arr);
+	}else{
+		return this.fnPwdCheck(arr);
+	}
+	
+}
+
+/**
+  * @함수명	: fnAltUseCanitemchange
+  * @desc     	: 대표사용자는 사용여부 'N'으로 설정할수없음
+  */
+this.fnAltUseCanitemchange = function(obj:Radio, e:nexacro.ItemChangeEventInfo)
+{
+	if("N"==e.postvalue && "Y" == this.dsDetail.getColumn(0, "ALT_RPTST")) {
+		gfnAlert("EPRO_LABEL_01196");
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+  * @함수명	: fnRptstOnitemchanged
+  * @desc     	: 대표사용자 선택시 사용여부 'Y' 설정
+  */
+this.fnRptstOnitemchanged = function(obj:Radio, e:nexacro.ItemChangeEventInfo)
+{
+	if("Y"==e.postvalue) {
+		this.divViewCompBody00.rdoAltUse.set_value("Y");
+		return true;
+	}
+}
+
+/**
+  * @함수명  : fnPwdCheck
+  * @input    :
+  * @return   :
+  * @desc     : 비밀번호 유효성체크
+  */
+this.fnPwdCheck = function(arr)
+{
+	var pwd = this.dsDetail.getColumn(0,"PWD");
+	var repwd = this.dsDetail.getColumn(0,"CHECK_PW");
+	var SamePass_0 = 0; //동일문자 카운트
+	var SamePass_1 = 0; //연속성(+) 카운드
+	var SamePass_2 = 0; //연속성(-) 카운드
+
+	if(gfnIsNull(pwd)){
+		var msg = gfnMultiLabel("EPRO_LABEL_00934");
+		var type = gfnMultiLabel("EPRO_LABEL_00935");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+		
+		return gfnValidate(this, true, arr);
+	}
+
+	if(gfnIsNull(repwd)){
+		var msg = gfnMultiLabel("EPRO_LABEL_01128");
+		var type = gfnMultiLabel("EPRO_LABEL_01139");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+		
+		return gfnValidate(this, true, arr);
+	}
+
+	if(pwd != repwd){
+		var msg = gfnMultiLabel("EPRO_LABEL_00927");
+		var type = gfnMultiLabel("EPRO_LABEL_01139");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);		
+	}
+	
+	if(pwd.length < 6 || pwd.length > 16){
+		var msg = gfnMultiLabel("EPRO_LABEL_01129");
+		var type = gfnMultiLabel("EPRO_LABEL_01194");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+
+	if(!pwd.match(/([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/)){
+		var msg = gfnMultiLabel("EPRO_LABEL_01130");
+		var type = gfnMultiLabel("EPRO_LABEL_01194");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+
+	if(this.dsDetail.getColumn(0,"USER_ID").indexOf(pwd) > -1){
+		var msg = gfnMultiLabel("EPRO_LABEL_01131");
+		var type = gfnMultiLabel("EPRO_LABEL_01194");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+
+	for(var i = 0 ; i < pwd.length; i++){
+		var chrPass_0 = pwd.charAt(i);
+		var chrPass_1 = pwd.charAt(i+1);
+		var chrPass_2 = pwd.charAt(i+2);
+
+		if(chrPass_0 == chrPass_1){
+			SamePass_0 = SamePass_0 + 1;
+		}
+
+		if(chrPass_0.charCodeAt(0) - chrPass_1.charCodeAt(0) == 1 && chrPass_1.charCodeAt(0) - chrPass_2.charCodeAt(0) == 1){
+			SamePass_1 = SamePass_1 + 1;
+		}
+
+		if(chrPass_0.charCodeAt(0) - chrPass_1.charCodeAt(0) == -1 && chrPass_1.charCodeAt(0) - chrPass_2.charCodeAt(0) == -1){
+			SamePass_2 = SamePass_2 + 1;
+		}
+	}
+
+	if(SamePass_0 > 1){
+		var msg = gfnMultiLabel("EPRO_LABEL_01132");
+		var type = gfnMultiLabel("EPRO_LABEL_01194");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+
+	if(SamePass_1 > 1 || SamePass_2 > 1){
+		var msg = gfnMultiLabel("EPRO_LABEL_01133");
+		var type = gfnMultiLabel("EPRO_LABEL_01194");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	
+	
+	return gfnValidate(this, true, arr);
+}
+
+/**
+  * @함수명  : fnChkRptstOnchanged
+  * @input    :
+  * @return   :
+  * @desc     : 대표사용자 변경
+  */
+this.fnChkRptstOnchange = function(obj:CheckBox, e:nexacro.CheckBoxChangeEventInfo)
+{
+	if("Y" == e.postvalue) {
+		if(gfnConfirm("EPRO_LABEL_01354")) {
+			this.divViewCompBody00.chkAltUse.set_value("Y");
+			this.divViewCompBody00.chkAltUse.set_readonly(true);
+			this.boolLogout = true;
+			return true;
+		} else {
+			this.divViewCompBody00.chkRptst.canchange
+			this.divViewCompBody00.chkAltUse.set_readonly(false);
+			this.boolLogout = false;
+			return false;	
+		}
+	} else {
+		this.divViewCompBody00.chkAltUse.set_readonly(false);
+		return true;
+	}
+}
+
+/**
+  * @함수명  : fnUserIdChk
+  * @input    : obj:Button,  e:nexacro.ClickEventInfo
+  * @return   :
+  * @desc     : 아이디 중복체크
+  */
+this.fnUserIdChk = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.divViewCompBody00.edtUserId.updateToDataset();
+	if(gfnIsNull(this.dsDetail.getColumn(0,"USER_ID"))){
+		gfnAlert("EPRO_LABEL_01124");
+		return;
+	 }
+	
+	 this.dsUserChk.clearData();
+	 var nRow = this.dsUserChk.addRow();
+	 this.dsUserChk.setColumn(nRow,"USER_ID",this.dsDetail.getColumn(0,"USER_ID"));
+
+	var sSvcID = "checkPtnrUserId";
+	var sController = "epro.ptnr.service.SPtnrService.checkPtnrUserId";
+	var sInDatasets = "dsUserChk=dsUserChk";
+	var sOutDatasets = "dsUserChk=dsUserChk";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnUserIdEditColor = function(bool)
+{
+	if(bool) {
+		this.divViewCompBody00.edtUserId.style.set_background("#ffffffff")
+	} else {
+		this.divViewCompBody00.edtUserId.style.set_background("bisque")
+	}
+}
+
+/**
+   @function   fnUserIdOnchanged()
+   @desc       Id 변경시 다시 중복체크
+*/
+this.fnUserIdOnchanged = function(obj:Edit, e:nexacro.ChangeEventInfo)
+{
+	this.isUserChk = false;
+	this.fnUserIdEditColor(this.isUserChk);
+}]]></Script>
+  </Form>
+</FDL>

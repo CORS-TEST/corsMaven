@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form classname="MainPotal_01" height="698" id="MainPotal_03" left="0" oninit="MainPotal_03_oninit" onload="MainPotal_onload" titletext="외부 메인화면" top="0" width="1262">
+    <Layouts>
+      <Layout>
+        <Div height="658" id="Div01" left="20" scrollbars="none" taborder="110" top="20" width="460">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_MainPortlet3" height="154" id="Static10" left="0" objNm="공지사항" onclick="Static10_onclick" right="0" style="shadow:outer 1,1 2 #e1e1e1ff;" taborder="0" top="236"/>
+              <Button cssclass="btn_LOGIN_More" enable="true" height="18" id="Button04" objNm="" onclick="Div01_Button04_onclick" right="0" style="background:#ffffffff URL('img::btn_move3.png') center;border:1 none #d5d5d5ff ;" taborder="1" top="139" visible="true" width="21"/>
+              <Static height="27" id="Static54" left="11" objNm="" style="font:bold 10 Gulim;" taborder="77" text="홍 길동 과장" top="546" width="428"/>
+              <Static cssclass="sta_WF_Renewal3" height="107" id="sta_ptnrChtDt" left="0" objNm="" right="0%" style="shadow:outer 1,1 2 #e1e1e1ff;" taborder="81" top="0"/>
+              <Button cssclass="btn_WF_Com_G" height="30" id="btn_corpInfo" objNm="정보변경" onclick="Div01_btn_corpInfo_onclick" right="0" style="border:1 solid #808080ff ;" taborder="82" text="정보변경" top="15" width="108"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static00" left="0" taborder="83" text="회사정보갱신 : " top="12" width="156"/>
+              <Edit cssclass="txt_main2" height="30" id="edt_001" left="164" objNm="발주명" readonly="true" style="align:center middle;" taborder="85" top="15" width="180"/>
+              <Grid autofittype="col" binddataset="dsNotice" cssclass="grd_LOGIN_Notice" height="201" id="Grid00" left="0" objNm="공지사항 그리드" oncellclick="Div01_Grid00_oncellclick" right="0" style="background:#f7f7f7ff;cursor:auto;" taborder="92" top="172" useinputpanel="false" useselcolor="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="261"/>
+                      <Column size="80"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="35"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" style="align:left;" text="bind:DOC_NM"/>
+                      <Cell col="1" mask="####-##-##" text="bind:CRT_DT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static03" left="0%" taborder="93" text="시스템 사용 문의" top="509" width="40.43%"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static05" left="0%" taborder="95" text="공지사항" top="130" width="40.43%"/>
+              <Static cssclass="sta_LOGIN_Line" height="1" id="Static06" left="18" objNm="" taborder="96" top="556" width="180"/>
+              <Static height="27" id="Static08" left="2.39%" objNm="" style="font:bold 10 Gulim;" taborder="98" text="010-9999-0976" top="573" width="428"/>
+              <Static height="27" id="Static09" left="2.39%" objNm="" style="font:bold 10 Gulim;" taborder="99" text="admin@cors.com" top="600" width="428"/>
+              <Static height="56" id="Static04" left="2.39%" objNm="" right="0" style="align:left top;font:bold 10 Gulim;" taborder="100" text="각 입찰 담당자에게 문의하시기 바랍니다." top="448"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static07" left="0%" taborder="101" text="입찰관련 문의" top="405" width="40.43%"/>
+              <Static cssclass="sta_LOGIN_Line" height="1" id="Static11" left="23" objNm="" taborder="102" top="532" width="180"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static01" left="0" taborder="106" text="회사평가등급 : " top="60" width="156"/>
+              <Static height="20" id="sta_baseDay1" left="61.52%" right="21.96%" style="font:bold 10 Gulim;" taborder="108" text="평가일자 :" top="68"/>
+              <Static height="35" id="Static02" left="35.65%" objNm="" style="color:gray;font:9 BOLD 14 Dotum;" taborder="109" text="99" top="60" width="94"/>
+              <Static cssclass="sta_WF_MainDate2" height="20" id="edt_baseDay" left="81.74%" taborder="110" top="68" width="70"/>
+              <Static height="20" id="sta_baseDay00" left="56.52%" right="38.91%" style="font:bold 10 Gulim;" taborder="111" text="(" top="68"/>
+              <Static height="20" id="sta_baseDay02" right="-8" style="font:bold 10 Gulim;" taborder="112" text=")" top="67" width="17"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="660" id="Div00" left="512" right="20" scrollbars="none" taborder="109" text="Div00" top="20">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsEndRfq" bottom="0" cssclass="Maingrid1" id="Grid01" left="0%" objNm="오픈견적현황 그리드" oncelldblclick="Div00_Grid01_oncelldblclick" right="0%" taborder="48" top="482" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="318"/>
+                      <Column size="97"/>
+                      <Column size="85"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="37"/>
+                      <Row size="36"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="입찰명"/>
+                      <Cell col="1" expr="" text="완료일자"/>
+                      <Cell col="2" expr="" text="상태"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" style="align:left;" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell calendardisplay="edit" col="1" edittype="none" mask="####-##-##" maskchar=" " style="align:center;" text="bind:RFQ_END_DT" tooltiptext="bind:RFQ_END_DT"/>
+                      <Cell col="2" style="color:EXPR(CD_ALT_PWIN_PTNR =='ET15AWD'?'blue':'');color2:EXPR(CD_ALT_PWIN_PTNR =='ET15AWD'?'blue':'');font:bold 9 arial;" text="bind:CD_ALT_PWIN_PTNR_NM" tooltiptext="bind:CD_ALT_PWIN_PTNR_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button cssclass="btn_LOGIN_More" height="18" id="btn_CLO" objNm="" onclick="fnRfqList" right="0%" style="background:#ffffffff URL('img::btn_move3.png') center;border:1 none #d5d5d5ff ;" taborder="49" top="450" width="18"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static00" left="0%" taborder="80" text="종료된 입찰" top="440" width="19.95%"/>
+              <Static height="20" id="sta_endCnt" left="209" onclick="fnRfqList" style="color:navy;align:right middle;font:bold 10 Gulim;" taborder="81" text="000" top="67.88%" usedecorate="true" width="32"/>
+              <Static height="20" id="sta_grdStatus00" left="250" style="font:bold 10 Gulim;" taborder="88" text="건" top="67.88%" usedecorate="true" width="50"/>
+              <Grid autofittype="col" binddataset="dsIngRfq" bottom="231" cssclass="Maingrid1" id="Grid00" left="0%" objNm="오픈견적현황 그리드" oncelldblclick="Div00_Grid00_oncelldblclick" right="0%" taborder="89" top="267" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="318"/>
+                      <Column size="104"/>
+                      <Column size="109"/>
+                      <Column size="86"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="37"/>
+                      <Row size="36"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="입찰명"/>
+                      <Cell col="1" expr="" text="담당자"/>
+                      <Cell col="2" expr="" text="마감일시"/>
+                      <Cell col="3" expr="" text="상태"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" style="align:left;" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="1" style="align: ;" text="bind:CHRGR_NM" tooltiptext="bind:CHRGR_NM"/>
+                      <Cell calendardisplay="edit" col="2" edittype="none" mask="####-##-##" maskchar=" " text="bind:RFQ_CLOSE" tooltiptext="bind:RFQ_CLOSE"/>
+                      <Cell col="3" style="color:EXPR(CD_SUBM_STTS=='ET12TALM'?'red':'');color2:EXPR(CD_SUBM_STTS=='ET12TALM'?'red':'');font:bold 9 arial;" text="bind:CD_SUBM_STTS_NM" tooltiptext="bind:CD_SUBM_STTS_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button cssclass="btn_LOGIN_More" height="18" id="btn_VIW" objNm="" onclick="fnRfqList" right="0%" style="background:#ffffffff URL('img::btn_move3.png') center;border:1 none #d5d5d5ff ;" taborder="90" top="235" width="18"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static01" left="0%" taborder="91" text="진행중인 입찰" top="225" width="23.32%"/>
+              <Static height="20" id="sta_ingCnt" left="209" style="color:navy;align:right middle;font:bold 10 Gulim;" taborder="92" top="35.3%" usedecorate="true" width="32"/>
+              <Static height="20" id="sta_grdStatus02" left="250" style="font:bold 10 Gulim;" taborder="93" text="건" top="35.3%" usedecorate="true" width="50"/>
+              <Grid autofittype="col" binddataset="dsNewRfq" bottom="448" cssclass="Maingrid1" id="Grid02" left="0%" objNm="오픈견적현황 그리드" oncelldblclick="Div00_Grid02_oncelldblclick" right="0%" taborder="95" top="50" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="318"/>
+                      <Column size="104"/>
+                      <Column size="97"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="37"/>
+                      <Row size="36"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="입찰명"/>
+                      <Cell col="1" expr="" text="담당자"/>
+                      <Cell col="2" expr="" text="공고일자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" style="align:left;" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="1" style="align: ;" text="bind:CHRGR_NM" tooltiptext="bind:CHRGR_NM"/>
+                      <Cell calendardisplay="edit" col="2" edittype="none" text="bind:APP_CMPLT_DT" tooltiptext="bind:APP_CMPLT_DT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button height="18" id="btn_REQ" objNm="" onclick="fnRfqList" right="0%" style="background:#ffffffff URL('img::btn_move3.png') center;border:1 none #d5d5d5ff ;" taborder="96" top="16" width="18"/>
+              <Static cssclass="sta_WF_maintit1" height="36" id="Static03" left="0%" taborder="97" text="신규요청 입찰" top="6" width="23.32%"/>
+              <Static height="20" id="sta_newCnt" left="209" style="color:navy;align:right middle;font:bold 10 Gulim;" taborder="98" top="2.12%" usedecorate="true" width="32"/>
+              <Static height="20" id="sta_grdStatus04" left="250" style="font:bold 10 Gulim;" taborder="99" text="건" top="2.12%" usedecorate="true" width="50"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsNewRfq"/>
+      <Dataset id="dsIngRfq"/>
+      <Dataset id="dsEndRfq"/>
+      <Dataset id="dsNotice">
+        <ColumnInfo>
+          <Column id="DOC_NO" size="256" type="STRING"/>
+          <Column id="DENY" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="DENY">B</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsPtnr"/>
+      <Dataset id="dsCdET15"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="PTNR_CHT_DT" compid="Div01.edt_001" datasetid="dsPtnr" id="item8" propid="value"/>
+      <BindItem columnid="EPRO_LABEL_00070" compid="Div00.sta_grdStatus02" datasetid="gdsLabel" id="item7" propid="text"/>
+      <BindItem columnid="EVAL_GRADE" compid="Div01.Static02" datasetid="dsPtnr" id="item11" propid="text"/>
+      <BindItem columnid="EVAL_DT" compid="Div01.edt_baseDay" datasetid="dsPtnr" id="item15" propid="text"/>
+      <BindItem columnid="EVAL_COLOR" compid="Div01.Static02" datasetid="dsPtnr" id="item19" propid="color"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       MainPotal_SBID.xfdl
+   @desc       Supplier 메인화면
+   @author     한민희
+   @makedate   2016.07.18
+   @history    
+*/
+ /**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+	
+					{code:"ET15", sSelectType:"S"}
+				];
+	gfnGetCode(this, param);
+}
+
+this.MainPotal_03_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+this.MainPotal_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//this.fnMainSearch();
+	//this.fnNotice();
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnNotice = function()
+{	
+	var sSvcID = "readNoticePop";
+	var sController = "epro.com.service.BMainService.readNoticePop";
+	var sInDatasets = "dsNotice=dsNotice";
+	var sOutDatasets = "dsNotice=dsNotice";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+
+/**
+  * @함수명	: fnMainSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnMainSearch = function()
+{
+	
+ 	var sSvcID = "searchSMain";
+ 	var sController = "epro.com.service.SMainService.searchSMain";
+ 	var sInDatasets = "";
+ 	var sOutDatasets = "dsPtnr=dsPtnr dsNotice=dsNotice dsNewRfq=dsNewRfq dsIngRfq=dsIngRfq dsEndRfq=dsEndRfq";
+ 	var sCallbackFunc = "fnTrCallBack";
+	
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+	
+		case "searchSMain" :
+			this.Div00.sta_newCnt.set_text(this.dsNewRfq.getRowCount());			
+			this.Div00.sta_ingCnt.set_text(this.dsIngRfq.getRowCount());			
+			this.Div00.sta_endCnt.set_text(this.dsEndRfq.getRowCount());			
+		break;
+		
+		case "readNoticePop" :
+			var today = "";
+			for(var i=0; i<this.dsNotice.rowcount; i++)
+			{	
+				today = this.dsNotice.getColumn(i,"TODAY");
+				if(gfnIsNull(application.getPrivateProfile(today))){
+					var sArg = {
+										agv_id:this.dsNotice.getColumn(i,"DOC_NO")
+										};
+
+					var xLeft = i*100;
+					var yTop  = i*100;
+					
+					if(application.popupframes["modeless_"+ i]){
+						continue;
+					}
+					
+					var strOpenStyle = "showtitlebar=true showstatusbar=false";
+					application.open("modeless_" + i,"CPOP::BComNoticePopup.xfdl",this.parent,sArg,strOpenStyle,xLeft,yTop,700,800,this);
+				}
+			}
+		
+		break;
+		
+		default:
+		break;	
+	}
+}
+this.fnRfqList = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rfqStts = obj.name.substr(4) ;
+	gfnSetTmprData("RFQ_STTS","ET11"+rfqStts);
+
+	if(rfqStts =="REQ"||rfqStts =="VIW"){
+		gfnOpenMenuUrl("SRFQ::SRfqPrgList.xfdl");
+	}else{
+		gfnOpenMenuUrl("SRFQ::SRfqRstList.xfdl");
+	}
+}
+
+this.Div01_Button04_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	gfnOpenMenuUrl("SCMM::SCmmNoticeList.xfdl");
+}
+
+this.Div01_btn_corpInfo_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	gfnOpenMenuUrl("SPTNR::SPtnDetail.xfdl");
+}
+
+/**
+  * @함수명	: Div00_Grid02_oncelldblclick
+  * @desc     	: 신규리스트 상세이동
+  */
+this.Div00_Grid02_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "TTL"){
+		gfnSetTmprData("RFQ_REQ_NO"	,this.dsNewRfq.getColumn(e.row, "RFQ_REQ_NO"));
+		gfnSetTmprData("RFQ_ODR"	,this.dsNewRfq.getColumn(e.row, "RFQ_ODR"));
+		gfnSetTmprData("BRANCH_CD"	,this.dsNewRfq.getColumn(e.row, "BRANCH_CD"));
+		gfnSetTmprData("RFQ_PTNR_ID"	,this.dsNewRfq.getColumn(e.row, "RFQ_PTNR_ID"));			 
+		gfnOpenMenuUrl("SRFQ::SRfqPrgDetail.xfdl");	
+	}
+}
+
+/**
+  * @함수명	: Div00_Grid00_oncelldblclick
+  * @desc     	: 진행리스트 상세이동
+  */
+this.Div00_Grid00_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "TTL"){
+		gfnSetTmprData("RFQ_REQ_NO"	,this.dsIngRfq.getColumn(e.row, "RFQ_REQ_NO"));
+		gfnSetTmprData("RFQ_ODR"	,this.dsIngRfq.getColumn(e.row, "RFQ_ODR"));
+		gfnSetTmprData("BRANCH_CD"	,this.dsIngRfq.getColumn(e.row, "BRANCH_CD"));
+		gfnSetTmprData("RFQ_PTNR_ID"	,this.dsIngRfq.getColumn(e.row, "RFQ_PTNR_ID"));
+		gfnSetTmprData("TCO_BGN_YR"	,this.dsIngRfq.getColumn(e.row, "TCO_BGN_YR"));
+		
+		if(this.dsIngRfq.getColumn(e.row,"CD_RFQ_AIM")=="ET27TCO"){
+			gfnOpenMenuUrl("SRFQ::SRfqSmtTco.xfdl");
+		}else if(this.dsIngRfq.getColumn(e.row,"CD_RFQ_AIM")=="ET27DSG"){
+			gfnOpenMenuUrl("SRFQ::SRfqSmtExp.xfdl");
+		}else{
+			gfnOpenMenuUrl("SRFQ::SRfqSmt.xfdl");
+		}
+	}
+}
+
+/**
+  * @함수명	: Div00_Grid01_oncelldblclick
+  * @desc     	: 결과리스트 상세이동
+  */
+this.Div00_Grid01_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "TTL"){
+		gfnSetTmprData("RFQ_STTS","ET11CLO");
+		gfnOpenMenuUrl("SRFQ::SRfqRstList.xfdl");
+	}
+}
+
+
+
+this.Div01_Grid00_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "DOC_NM"){
+		gfnOpenMenuUrl("SCMM::SCmmNoticeList.xfdl");
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

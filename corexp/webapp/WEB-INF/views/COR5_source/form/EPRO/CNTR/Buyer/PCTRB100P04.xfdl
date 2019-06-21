@@ -1,0 +1,447 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="pop_mtrlSrch" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="계약품목검색(멀티)" left="0" width="1077" top="0" height="600" cssclass="frm_POP_Search" onload="pop_MatGroupSearch_onload">
+    <Layouts>
+      <Layout>
+        <Static id="sta_title" text="품목검색" position="absolute" left="0" top="0" height="30" cssclass="sta_POP_PopTitle" right="640"/>
+        <Button id="btn_close" taborder="1" top="0" height="30" cssclass="btn_POP_CloseBtn" width="30" right="8" onclick="btn_close_onclick"/>
+        <Div id="div_condition" taborder="2" left="5" top="40" right="5" height="46" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Static id="sta_WFSA_LabelP" taborder="20" text="품목분류" cssclass="sta_WF_SearchLabel" left="0" top="10" width="100" height="24"/>
+              <Button id="btn_search" taborder="21" text="조회" onclick="fn_search" cssclass="btn_WF_Search" top="10" right="11" width="60" height="24"/>
+              <Edit id="edt_mtrlNm" taborder="23" onkeydown="onkeydown" left="638" top="10" width="250" height="24" objNm="품목명"/>
+              <Static id="sta_WFSA_PointLabel00" taborder="24" text="품목" cssclass="sta_WF_SearchLabel" left="436" top="10" width="100" height="24"/>
+              <Edit id="edt_mtrlCd" taborder="25" onkeydown="onkeydown" oneditclick="Div00_edMtrlGrpNm_oneditclick" left="536" top="10" width="100" height="24" objNm="품목코드"/>
+              <Div id="Div00" taborder="26" url="commComp::commMtrlType.xfdl" text="Div00" left="100" top="10" width="336" height="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="Div21" taborder="4" text="Div00" left="5" top="92" right="5" height="243">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list00" taborder="2" binddataset="ds_mtrl" autoenter="select" useinputpanel="false" autofittype="col" cellclickbound="cell" oncellclick="Tab00_tabpage1_grd_list_oncellclick" oncelldblclick="Tab00_tabpage1_grd_list_oncelldblclick" left="0" top="10" right="0" bottom="27" f_filter="N" f_excel="Y" f_hide="N" f_find="N" f_sort="Y" f_fix="N" f_height="N" f_save="N" f_mode="Y" f_init="N" f_colSize="N" f_version="20151023" onkeyup="Div21_grd_list00_onkeyup">
+                <Formats>
+                  <Format id="SMODE">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="300"/>
+                      <Column size="44"/>
+                      <Column size="90"/>
+                      <Column size="300"/>
+                      <Column size="100"/>
+                      <Column size="40"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="31" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드"/>
+                      <Cell col="1" text="품목명"/>
+                      <Cell col="2" text="단위"/>
+                      <Cell col="3" text="단가"/>
+                      <Cell col="4" text="품목분류명"/>
+                      <Cell col="5" text="품목계정명"/>
+                      <Cell col="6" displaytype="image" style="background2: ;"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center;" cssclass="cell_link" text="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" cssclass="cell_link" text="bind:MTRL_NM2"/>
+                      <Cell col="2" displaytype="normal" text="bind:CD_PUR_UNIT_NM"/>
+                      <Cell col="3" displaytype="number" style="align:right;" text="bind:CNTR_PRICE"/>
+                      <Cell col="4" style="align:left;" text="bind:MTRL_GRP_NM2"/>
+                      <Cell col="5" style="align:left;" text="bind:GR_ACNT_NM"/>
+                      <Cell col="6" displaytype="button" style="align:center;backgroundimage: ;" text="bind:BTN_STATUS_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_paing" taborder="3" url="commComp::commPaging.xfdl" left="0" right="0" bottom="0" height="28" scrollbars="none"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid id="grd_list" taborder="5" binddataset="ds_Select" autoenter="select" useinputpanel="false" cellclickbound="cell" oncellclick="grd_list_oncellclick" left="5" top="380" right="5" bottom="10" oncelldblclick="grd_list_oncelldblclick" autofittype="col">
+          <Formats>
+            <Format id="SMODE">
+              <Columns>
+                <Column size="100"/>
+                <Column size="300"/>
+                <Column size="50"/>
+              </Columns>
+              <Rows>
+                <Row size="31" band="head"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell text="품목코드"/>
+                <Cell col="1" text="품목명"/>
+                <Cell col="2"/>
+              </Band>
+              <Band id="body">
+                <Cell style="align:center;" cssclass="cell_link" text="bind:MTRL_CD"/>
+                <Cell col="1" style="align:left;" cssclass="cell_link" text="bind:MTRL_NM2"/>
+                <Cell col="2" displaytype="button" edittype="button" text="bind:BTN_STATUS_NM"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button id="btn_ptnrReq" taborder="6" text="품목 적용" onclick="btn_rtn_onclick" cssclass="btn_WF_Custom" top="345" right="14" width="79" height="24" objNm="선택된 품목 적용" lbcd=""/>
+        <Button id="btn_OP_Head" taborder="7" text="선택한  품목" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0.84%" top="344" right="86.63%" height="24" objNm="접기펼치기 버튼" lbcd=""/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_srchOpt" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="LRG_CLS_ID" type="STRING" size="20"/>
+          <Column id="MDL_CLS_ID" type="STRING" size="20"/>
+          <Column id="SML_CLS_ID" type="STRING" size="20"/>
+          <Column id="MTRL_CD" type="STRING" size="20"/>
+          <Column id="MTRL_NM" type="STRING" size="500"/>
+          <Column id="SRCH_STR_CD" type="STRING" size="40"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_mtrl" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column type="string" id="SRC_GRP_NM" size="300"/>
+          <Column type="int" id="LVL" size="22"/>
+          <Column type="string" id="MTRL_GRP_ID" size="20"/>
+          <Column type="string" id="MTRL_NM" size="500"/>
+          <Column type="string" id="CHECKED" size="0"/>
+          <Column type="string" id="MTRL_CD" size="20"/>
+          <Column type="string" id="MTRL_GRP_NM" size="500"/>
+          <Column type="string" id="SRC_GRP_ID" size="20"/>
+          <Column id="BTN_STATUS" type="STRING" size="256"/>
+          <Column id="BTN_STATUS_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_Select" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="ds_retun"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="div_condition.edt_mtrlCd" propid="value" datasetid="ds_srchOpt" columnid="MTRL_CD"/>
+      <BindItem id="item1" compid="div_condition.edt_mtrlNm" propid="value" datasetid="ds_srchOpt" columnid="MTRL_NM"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       PCTRB100P04.xfdl
+   @desc       계약품목검색(멀티)
+   @author     송태봉
+   @makedate   2017.01.19
+   @history    
+*/  
+
+include "lib::lib_all.xjs"
+
+/**
+	@var  this.fv_mtrlgrpcd
+	@desc 전역변수
+*/
+this.fv_mtrlgrpcd = "";
+this.fv_mtrlname = "";
+
+/**
+	@function	pop_MatGroupSearch_onload()
+	@desc   	폼 onload 이벤트
+*/
+this.pop_MatGroupSearch_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//시스템 공통함수 호출 : 팝업
+	this.gfn_popOnLoad(this);
+    		
+	//그리드 공통버튼 설정
+	this.Div21.div_paing.fn_initGridInfo(obj, this.Div21.grd_list00);
+		
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	this.gfn_setGrdFunc(this.Div21.grd_list00);
+	
+	// 소싱그룹 서치 데이터셋에 매핑
+	this.div_condition.Div00.fn_setMtrlGrp(this.ds_srchOpt,"LRG_CLS_ID","MDL_CLS_ID","SML_CLS_ID");
+	
+	this.ds_srchOpt.addRow();	
+	this.ds_srchOpt.setColumn(0,"STR_CD",application.gds_userInfo.getColumn(0,"STR_CD"));
+ 
+	//부모창으로 부터 전달받은 값	
+	var ownFrame = this.getOwnerFrame();
+
+	//부모창으로 부터 전달받은 값을 NULL 이 아니면 검색조건 DataSet에 담는다.
+	if(!this.gfn_isNull(ownFrame.agv_id)){
+		fv_mtrlgrpcd = ownFrame.agv_id.substring(4,5)+"0";
+		this.ds_srchOpt.setColumn(0,"LRG_CLS_ID",fv_mtrlgrpcd);
+	} else if(!this.gfn_isNull(ownFrame.agv_nm)){
+		this.ds_srchOpt.setColumn(0,"MTRL_NM",ownFrame.agv_nm);
+		this.fn_search();
+	}
+}
+
+/**
+	@function	div_condition_btn_search_onclick()
+	@desc   	조회
+*/
+this.div_condition_btn_search_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fn_search();
+}
+
+/**
+	@function	fn_preSearch()
+	@desc   	조회 전 처리
+*/
+this.fn_preSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_search()
+	@desc   	조회 프로세스
+*/
+this.fn_search = function()
+{
+	if(!this.fn_preSearch()) return false;
+	
+	var sSvcID = "Ctr_MtrlSrch";
+	var sController = "Ctr_MtrlSrch.do";
+	var sInDatasets = "in_ds=ds_srchOpt";
+	var sOutDatasets = "ds_mtrl=out_list";
+	var sCallbackFunc = "fn_trCallBack";
+	
+    this.Div21.div_paing.gfn_pagingTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+    
+}
+
+/**
+	@function	fn_callBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "Ctr_MtrlSrch" :
+			this.Div21.grd_list00.setFocus();
+			
+			var rtnMsg="";
+			var rtnChk="";
+			for(var i=0; i<this.ds_mtrl.getRowCount(); i++)
+			{
+				var nRow = this.ds_Select.findRow("MTRL_CD", this.ds_mtrl.getColumn(i, "MTRL_CD"));
+	
+				if(nRow > -1)
+				{
+					rtnMsg = "삭제";
+					rtnChk = 0;
+				}
+				else
+				{
+					rtnMsg = "추가";
+					rtnChk = 1;
+				}
+				
+				this.ds_mtrl.setColumn(i, "BTN_STATUS_NM", rtnMsg);
+				this.ds_mtrl.setColumn(i, "BTN_STATUS", rtnChk);				
+			}
+			
+			//컬럼 정보 복사
+			for(var i=0; i<this.ds_mtrl.colcount; i++)
+			{
+				var colInfo = this.ds_mtrl.getColumnInfo(i);
+				this.ds_Select.addColumnInfo(colInfo.name, colInfo);
+			}
+			
+			
+			break;
+		
+		default:
+			break;	
+	}
+}
+
+/**
+	@function	btn_close_onclick()
+	@desc   	팝업닫기
+*/
+this.btn_close_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+/**
+	@function	btn_rtn_onclick()
+	@desc   	적용버튼 클릭
+*/
+this.btn_rtn_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{		
+	this.close(this.ds_Select.saveXML());
+}
+
+/**
+	@function	btn_ptnr_Add_onclick()
+	@desc       품목추가버튼	
+*/
+this.btn_ptnr_Add_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_mtrl.set_enableevent(false);
+	this.ds_mtrl.filter("CHECKED==1");
+	for(var i=0;i<this.ds_mtrl.rowcount;i++){
+		var row = this.ds_Select.addRow();
+		this.ds_Select.copyRow(row,this.ds_mtrl,i);
+		this.ds_mtrl.setColumn(i,"CHECKED",0);
+		this.ds_Select.setColumn(row,"CHECKED",0);
+	}
+	this.ds_mtrl.filter("");
+	this.ds_mtrl.set_enableevent(true);
+}
+
+/**
+	@function	Tab00_tabpage1_grd_list_oncelldblclick()
+	@desc       품목추가
+*/
+this.Tab00_tabpage1_grd_list_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if("MTRL_CD" == this.gfn_grdBindColName(obj, obj.getCellPos())) //품목
+	{	
+		var sArg = {
+					mtrl_cd:this.ds_mtrl.getColumn(e.row, "MTRL_CD")
+					};
+		this.gfn_dialog("PopupComMtrlView", "commPop::PPOPC700P01.xfdl", sArg, "fn_popCallBack");
+	}else if("MTRL_NM2" == this.gfn_grdBindColName(obj, obj.getCellPos())) //품목
+	{	
+		var sArg = {
+					mtrl_cd:this.ds_mtrl.getColumn(e.row, "MTRL_CD")
+					};
+		this.gfn_dialog("PopupComMtrlView", "commPop::PPOPC700P01.xfdl", sArg, "fn_popCallBack");
+	}
+	else{
+		this.fn_BtnAddDel();
+	}
+}
+
+this.Tab00_tabpage1_grd_list_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.gfn_grdBindColName(obj, e.cell)=="BTN_STATUS_NM")
+	{
+		this.fn_BtnAddDel();
+	}
+}
+
+/**
+	@function	fn_BtnAddDel()
+	@desc       품목 추가 삭제
+*/
+this.fn_BtnAddDel = function(mtrlCd)
+{
+	this.ds_mtrl.set_enableevent(false);
+
+	if(!this.gfn_isNull(mtrlCd))
+	{
+		var ridx = this.ds_mtrl.findRow("MTRL_CD", mtrlCd);
+	}
+	else
+	{
+		var ridx = this.ds_mtrl.rowposition;
+	}
+
+	if(this.ds_mtrl.getColumn(ridx, "BTN_STATUS") == "1")
+	{
+		for(var i=0; i<=this.ds_Select.rowcount; i++)
+		{
+			if(this.ds_Select.getColumn(i,"MTRL_CD")==this.ds_mtrl.getColumn(ridx, "MTRL_CD")){
+				this.alert("같은 품목을 추가하실 수 없습니다.");
+				return;
+			}
+		}
+		
+		this.ds_mtrl.setColumn(ridx, "BTN_STATUS", "0");
+		this.ds_mtrl.setColumn(ridx, "BTN_STATUS_NM", "삭제");
+		var nRow = this.ds_Select.addRow();	
+		this.ds_Select.copyRow(nRow, this.ds_mtrl, ridx);
+		
+	}
+	else
+	{
+		var nRow = 0;
+		
+		if(ridx > -1){
+			nRow = this.ds_Select.findRow("MTRL_CD", this.ds_mtrl.getColumn(ridx, "MTRL_CD"));
+		}else{
+			nRow = this.ds_Select.rowposition;
+		}
+		
+		if(nRow > -1)
+		{
+			if(ridx > -1){
+				this.ds_mtrl.setColumn(ridx, "BTN_STATUS", "1");
+				this.ds_mtrl.setColumn(ridx, "BTN_STATUS_NM", "추가");
+			}
+			this.ds_Select.deleteRow(nRow);
+		}		
+	}
+	
+	this.ds_mtrl.set_enableevent(true);
+}
+
+this.btn_ptnrDel_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_retun.copyData(this.ds_Select);
+	
+	for(var i=0; i<this.ds_retun.getRowCount(); i++)
+	{
+		if(this.ds_retun.getColumn(i, "CHECKED") == "1")
+		{
+			this.fn_BtnAddDel(this.ds_retun.getColumn(i, "MTRL_CD"));
+		}
+	}
+}
+
+this.grd_list_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.gfn_grdBindColName(obj, e.cell)=="BTN_STATUS_NM")
+	{
+		this.fn_BtnAddDel(this.ds_Select.getColumn(this.ds_Select.rowposition, "MTRL_CD"));
+	}
+}
+
+this.Tab00_tabpage2_grd_list_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.gfn_grdBindColName(obj, e.cell)=="BTN_STATUS_NM")
+	{
+		this.fn_BtnAddDel();
+	}
+}
+
+this.onkeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		
+		if(obj.name == "edt_mtrlCd" || obj.name == "edt_mtrlNm"){
+			this.fn_search();
+		}
+	}
+}
+
+this.grd_list_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if("MTRL_CD" == this.gfn_grdBindColName(obj, obj.getCellPos()) || "MTRL_NM2" == this.gfn_grdBindColName(obj, obj.getCellPos())) //품목
+	{	
+		var sArg = {
+					mtrl_cd:this.ds_Select.getColumn(e.row, "MTRL_CD")
+					};
+		this.gfn_dialog("PopupComMtrlView", "commPop::PPOPC700P01.xfdl", sArg, "fn_popCallBack");
+	}
+}
+
+this.Div21_grd_list00_onkeyup = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		this.fn_BtnAddDel();
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

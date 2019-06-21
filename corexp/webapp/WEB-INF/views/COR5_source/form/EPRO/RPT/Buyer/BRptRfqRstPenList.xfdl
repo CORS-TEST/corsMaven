@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="768" id="BRfqRstList" left="0" oninit="fnBRfqRstListOninit" onload="fnBRfqRstListOnload" titletext="입찰실적( 지연 )" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div cssclass="div_WF_SearchBg" height="84" id="divViewCompCond01" left="0" objNm="" right="15" taborder="0" top="35">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staRfqSrc" left="0" objNm="소싱그룹" style="padding:0 10 0 6;align:right middle;" taborder="6" text="소싱그룹" top="34" width="170"/>
+              <Div height="24" id="divComp01" left="170" taborder="7" top="34" url="CCOMP::CompSrcType.xfdl" width="250"/>
+              <Static cssclass="sta_WF_SearchText" height="19" id="staWarning" left="0" right="0" taborder="8" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." top="63"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staTtl" left="0" objNm="입찰요청명" style="padding:0 10 0 6;align:right middle;" taborder="9" text="입찰요청명" top="5" width="170"/>
+              <Edit height="24" id="edtTtl" left="170" objNm="입찰요청명" onkeydown="fnKeydown" style="padding:0 10 0 6;align:left middle;" taborder="10" top="5" width="250"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="1" text="Div00" top="136">
+          <Layouts>
+            <Layout>
+              <Div bottom="10" height="28" id="divPaging" left="0" objNm="페이징" right="0" scrollbars="none" taborder="2" url="CCOMP::CompPaging.xfdl"/>
+              <Grid binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="3" top="10" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="130"/>
+                      <Column size="50"/>
+                      <Column size="350"/>
+                      <Column size="140"/>
+                      <Column size="100"/>
+                      <Column size="100"/>
+                      <Column size="92"/>
+                      <Column size="100"/>
+                      <Column size="90"/>
+                      <Column size="150"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="입찰번호" tooltiptext=""/>
+                      <Cell col="1" expr="" text="차수" tooltiptext=""/>
+                      <Cell col="2" expr="" text="입찰요청명" tooltiptext=""/>
+                      <Cell col="3" expr="" text="소싱그룹" tooltiptext=""/>
+                      <Cell col="4" expr="" text="입찰상태"/>
+                      <Cell col="5" expr="" text="담당자명" tooltiptext=""/>
+                      <Cell col="6" expr="" text="요청일자"/>
+                      <Cell col="7" expr="" text="입찰종료일" tooltiptext=""/>
+                      <Cell col="8" expr="" text="구분"/>
+                      <Cell col="9" expr="" style="align: ;" text="입찰목적"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell combodisplay="edit" style="selectcolor:#004db7ff;controlcolor: ;" text="bind:RFQ_REQ_NO" tooltiptext="bind:RFQ_REQ_NO"/>
+                      <Cell col="1" style="align:center;" text="bind:RFQ_ODR" tooltiptext="bind:RFQ_ODR"/>
+                      <Cell col="2" style="align:left;" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="3" style="align:left;" text="bind:SRC_GRP_NM2" tooltiptext="bind:SRC_GRP_NM2"/>
+                      <Cell col="4" text="bind:CD_RFQ_STTS_NM" tooltiptext="bind:CD_RFQ_STTS_NM"/>
+                      <Cell col="5" style="align:center;" text="bind:CRTR_NM" tooltiptext="bind:CRTR_NM"/>
+                      <Cell col="6" displaytype="date" mask="yyyy-MM-dd" text="bind:REQ_DT" tooltiptext="bind:REQ_DT"/>
+                      <Cell calendardisplaynulltype="none" col="7" displaytype="date" mask="yyyy-MM-dd" style="align:center;" text="bind:RFQ_CLOSE_DAY" tooltiptext="bind:RFQ_CLOSE_DAY"/>
+                      <Cell col="8" text="bind:CD_RFQ_TYPE_NM" tooltiptext="bind:CD_RFQ_TYPE_NM"/>
+                      <Cell col="9" text="bind:CD_RFQ_AIM_NM" tooltiptext="bind:CD_RFQ_AIM_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" style="align:center;" taborder="3" top="0">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staRfqCloseDt" left="0" objNm="입찰마감일자" onclick="Div_SOption_sta_WFDA_Label04_onclick" style="padding:0 10 0 6;align:right middle;" taborder="0" text="입찰종료일자" top="5" width="170"/>
+              <Div height="24" id="divRfqCloseDt" left="170" objNm="입찰마감일자" taborder="1" text="Div01" top="5" url="CCOMP::CompCalFromTo.xfdl" width="250"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staChrgr" left="473" objNm="입찰담당자" style="padding:0 10 0 6;align:right middle;" taborder="2" text="입찰담당자" top="5" width="170"/>
+              <Edit cssclass="readonly" height="24" id="edtChrgrId" left="643" lengthunit="utf8" maxlength="10" objNm="입찰담당자ID" taborder="3" top="5" width="85"/>
+              <Button cssclass="btn_WF_SearchSmall" height="24" id="btnEvalReqr" left="871" objNm="평가담당자 검색 버튼" onclick="fnUserSearch" taborder="4" top="5" width="21"/>
+              <Edit height="24" id="edtChrgrNm" left="733" lengthunit="utf8" objNm="입찰담당자명" onkeydown="fnKeydown" ontextchanged="fnOnTextChanged" taborder="5" top="5" width="135"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button cssclass="btn_Fold_Close" height="17" id="btnFold" left="45.66%" onclick="btnFold_onclick" taborder="5" top="119" width="56"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsSortItem" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_NM_LO" size="256" type="STRING"/>
+          <Column id="CD_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CD_NM_LO">--선택--</Col>
+            <Col id="CD_ID"/>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">입찰요청번호</Col>
+            <Col id="CD_ID">RFQ_REQ_NO</Col>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">입찰마감일</Col>
+            <Col id="CD_ID">RFQ_CLOSE_DAY</Col>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">종료시간</Col>
+            <Col id="CD_ID">RFQ_CLOSE_TIME</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">REQ_DT</Col>
+            <Col id="CD_NM_LO">요청일자</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_NO" size="20" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="INT"/>
+          <Column id="CD_RFQ_STTS" size="40" type="STRING"/>
+          <Column id="CD_DOC_CTGR" size="40" type="STRING"/>
+          <Column id="TTL" size="100" type="STRING"/>
+          <Column id="RFQ_CLOSE_DAY" size="8" type="STRING"/>
+          <Column id="RFQ_CLOSE_TIME" size="6" type="STRING"/>
+          <Column id="GOALAMT" size="15" type="INT"/>
+          <Column id="CHRGR_NM" size="50" type="STRING"/>
+          <Column id="REQ_DT" size="256" type="DATE"/>
+          <Column id="ITEM_CNT" size="20" type="STRING"/>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="TNDR_NO" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsCondition" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_NO" size="20" type="STRING"/>
+          <Column id="TTL" size="100" type="STRING"/>
+          <Column id="CD_RFQ_STTS" size="40" type="STRING"/>
+          <Column id="CD_DOC_CTGR" size="40" type="STRING"/>
+          <Column id="REQ_DT_FROM" size="256" type="STRING"/>
+          <Column id="REQ_DT_TO" size="256" type="STRING"/>
+          <Column id="RFQ_CLOSE_DAY_FROM" size="256" type="STRING"/>
+          <Column id="RFQ_CLOSE_DAY_TO" size="256" type="STRING"/>
+          <Column id="RFQ_REQ_ITEM_ID" size="20" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="MTRL_CD" size="256" type="STRING"/>
+          <Column id="MTRL_NM" size="256" type="STRING"/>
+          <Column id="SRC_LVL_1" size="256" type="STRING"/>
+          <Column id="SRC_LVL_2" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+          <Column id="USER_NM" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRRfq">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_NO" size="256" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="TKEY" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindVi" id="divPagingVi" propid="visible"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindEn" id="divPagingEn" propid="enable"/>
+      
+      <BindItem columnid="btnFold" compid="btnFold" datasetid="dsObjBindVi" id="item8" propid="visible"/>
+      <BindItem columnid="btnFold" compid="btnFold" datasetid="dsObjBindEn" id="item13" propid="enable"/>
+      <BindItem columnid="staRfqCloseDt" compid="divViewCompCond00.staRfqCloseDt" datasetid="dsObjBindVi" id="staRfqCloseDtVi" propid="visible"/>
+      <BindItem columnid="staRfqCloseDt" compid="divViewCompCond00.staRfqCloseDt" datasetid="dsObjBindEn" id="staRfqCloseDtEn" propid="enable"/>
+      
+      <BindItem columnid="divRfqCloseDt" compid="divViewCompCond00.divRfqCloseDt" datasetid="dsObjBindVi" id="divRfqCloseDtVi" propid="visible"/>
+      <BindItem columnid="divRfqCloseDt" compid="divViewCompCond00.divRfqCloseDt" datasetid="dsObjBindEn" id="divRfqCloseDtEn" propid="enable"/>
+      
+      
+      <BindItem columnid="staRfqSrc" compid="divViewCompCond01.staRfqSrc" datasetid="dsObjBindVi" id="staRfqSrcVi" propid="visible"/>
+      <BindItem columnid="staRfqSrc" compid="divViewCompCond01.staRfqSrc" datasetid="dsObjBindEn" id="staRfqSrcEn" propid="enable"/>
+      
+      <BindItem columnid="staChrgr" compid="divViewCompCond00.staChrgr" datasetid="dsObjBindVi" id="staChrgrVi" propid="visible"/>
+      <BindItem columnid="staChrgr" compid="divViewCompCond00.staChrgr" datasetid="dsObjBindEn" id="staChrgrEn" propid="enable"/>
+      
+      <BindItem columnid="USER_ID" compid="divViewCompCond00.edtChrgrId" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="edtChrgrId" compid="divViewCompCond00.edtChrgrId" datasetid="dsObjBindVi" id="edtChrgrIdVi" propid="visible"/>
+      <BindItem columnid="edtChrgrId" compid="divViewCompCond00.edtChrgrId" datasetid="dsObjBindEn" id="edtChrgrIdEn" propid="readonly"/>
+      <BindItem columnid="btnEvalReqr" compid="divViewCompCond00.btnEvalReqr" datasetid="dsObjBindVi" id="btnEvalReqrVi" propid="visible"/>
+      <BindItem columnid="btnEvalReqr" compid="divViewCompCond00.btnEvalReqr" datasetid="dsObjBindEn" id="btnEvalReqrEn" propid="enable"/>
+      <BindItem columnid="USER_NM" compid="divViewCompCond00.edtChrgrNm" datasetid="dsCondition" id="item4" propid="value"/>
+      <BindItem columnid="edtChrgrNm" compid="divViewCompCond00.edtChrgrNm" datasetid="dsObjBindVi" id="edtChrgrNmVi" propid="visible"/>
+      <BindItem columnid="edtChrgrNm" compid="divViewCompCond00.edtChrgrNm" datasetid="dsObjBindEn" id="edtChrgrNmEn" propid="readonly"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond01.staTtl" datasetid="dsObjBindVi" id="staTtlVi" propid="visible"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond01.staTtl" datasetid="dsObjBindEn" id="staTtlEn" propid="enable"/>
+      
+      <BindItem columnid="TTL" compid="divViewCompCond01.edtTtl" datasetid="dsCondition" id="item1" propid="value"/>
+      <BindItem columnid="edtTtl" compid="divViewCompCond01.edtTtl" datasetid="dsObjBindVi" id="edtTtlVi" propid="visible"/>
+      <BindItem columnid="edtTtl" compid="divViewCompCond01.edtTtl" datasetid="dsObjBindEn" id="edtTtlEn" propid="readonly"/>
+      <BindItem columnid="grdList" compid="divViewCompBody00.grdList" datasetid="dsObjBindGrid" id="grdListFormatId" propid="formatid"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BRfqRfqRstPenList.xfdl
+ * @생성자			: 입찰실적( pending )
+ * @생성일시		: 2018.01.19.
+ * @설명			: 입찰실적( pending )
+ * @최종수정자		: 한의봉	
+ * @최종수정일시	: 2018.01.19.
+*/  
+
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+	var param = [
+			
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnBRfqRstListOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01,initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnBRfqRstListOnload = function(obj:Form, e:LoadEventInfo)
+{
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this,{isTran:"Y", tranNm:"BRptService.searchRptRfqPenRst", dsParam:this.dsCondition});
+ 	
+ 	//조회조건 Div 접기/펼치기 세팅
+ 	this.fnFold();
+ 	
+	this.dsCondition.addRow();
+	this.divViewCompCond00.divRfqCloseDt.fnSetDate(this.dsCondition, "RFQ_CLOSE_DAY_FROM", "RFQ_CLOSE_DAY_TO");
+	this.dsCondition.setColumn(0, "RFQ_CLOSE_DAY_FROM", gfnAddMonth(gfnToday(), -12));//오늘일자-1month
+    this.dsCondition.setColumn(0, "RFQ_CLOSE_DAY_TO", gfnToday());//오늘날짜
+	
+	this.divViewCompCond01.divComp01.fnSetBind(this.dsCondition,"SRC_LVL_1","SRC_LVL_2");
+
+	gfnSetObj("A");
+ 	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function(svcId)
+{
+	if(!this.fnPreSearch()) return false;
+	
+ 	var sSvcID = "searchRptRfqPenRst";
+ 	var sController = "epro.rpt.service.BRptService.searchRptRfqPenRst";
+ 	var sInDatasets = "dsCondition=dsCondition";
+ 	var sOutDatasets = "dsList=dsList";
+ 	var sCallbackFunc = "fnTrCallBack";
+	
+ 	var	oPaging = [      
+                    {inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+                ];
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+	
+		case "searchRptRfqPenRst" :
+		break;
+
+		default:
+		break;	
+	}
+}
+
+this.fnUserSearch = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_id:""
+					,agv_nm:this.dsCondition.getColumn(0,"USER_NM")
+			   };
+			   
+	gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "BUserSrchPopup":
+			if(!gfnIsNull(this.dsReturn.getColumn(0,"USER_ID"))){
+					this.dsCondition.setColumn(0,"USER_ID",this.dsReturn.getColumn(0,"USER_ID"));
+					this.dsCondition.setColumn(0,"USER_NM",this.dsReturn.getColumn(0,"USER_NM"));
+				}
+			break;
+			
+		default:
+			break;	
+	}
+}
+
+this.fnKeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		if(obj.name == "edtChrgrNm"){
+			var sArg = { 
+					agv_id:""
+					,agv_nm:this.divViewCompCond00.edtChrgrNm.value
+					,agv_dept:""
+			   };
+
+			gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg)
+			
+		}else if(obj.name == "edtTtl"){
+			this.fnSearch();
+		}
+	}
+}
+
+this.fnOnTextChanged = function(obj:Edit,  e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name == "edtChrgrNm") this.dsCondition.setColumn(0,"USER_ID","");
+}
+]]></Script>
+  </Form>
+</FDL>

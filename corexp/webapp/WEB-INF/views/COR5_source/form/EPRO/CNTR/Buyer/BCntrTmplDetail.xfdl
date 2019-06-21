@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BCntrTmplDetail" classname="FrmTemplate100" left="0" top="0" width="1220" height="711" titletext="계약서템플릿상세" onload="fnFormOnload" oninit="fnFormOninit">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompBody00" taborder="1" left="0" top="78" height="130" scrollbars="none" objNm="DIV-헤더 상세" right="15">
+          <Layouts>
+            <Layout>
+              <Static id="sta_WFDA_Label05" taborder="80" cssclass="sta_WF_DetailLabel02" left="0%" top="5" right="0%" height="132"/>
+              <Static id="staViewCompLine09" taborder="103" cssclass="sta_WF_Labelbg" left="0" top="0" right="0" height="33"/>
+              <Static id="staTtl" taborder="104" text="계약서명" onclick="div_21_Tab01_tabp01_st_Ttl_onclick" cssclass="sta_WF_Label" left="0" top="0" width="117" height="33" lbcd=""/>
+              <Edit id="edtTtl" taborder="105" lengthunit="utf8" left="122" top="4" width="400" height="24" objNm="계약서명"/>
+              <Static id="staViewCompLine00" taborder="118" cssclass="sta_WF_Labelbg" left="0" top="32" right="0" height="33"/>
+              <Static id="staCdCntrType" taborder="119" text="계약구분" cssclass="sta_WF_Label" left="600" top="32" width="124" height="33" objNm="계약구분" lbcd=""/>
+              <Combo id="cbCdCntrType" taborder="120" innerdataset="dsCdCT19" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="729" top="36" width="180" height="24" objNm="계약구분"/>
+              <Static id="staAltUse" taborder="121" text="사용여부" cssclass="sta_WF_Label" left="0" top="32" width="117" height="33" objNm="계약구분" lbcd=""/>
+              <Combo id="cboAltUse" taborder="122" codecolumn="codecolumn" datacolumn="datacolumn" left="122" top="36" width="100" height="24" objNm="사용여부">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static id="staViewCompLine01" taborder="123" cssclass="sta_WF_Labelbg" left="0" top="64" right="0" height="33"/>
+              <Static id="staCrtrNm" taborder="124" text="작성자" cssclass="sta_WF_Label" left="0" top="64" width="117" height="33" objNm="계약유형" lbcd=""/>
+              <Edit id="edtCrtrNm" taborder="125" left="122" top="68" width="250" height="24" objNm="작성자" readonly="true"/>
+              <Static id="staCrtDt" taborder="126" text="작성일자" cssclass="sta_WF_Label" left="600" top="64" width="124" height="33" objNm="계약구분" lbcd=""/>
+              <Calendar id="calCrtDt" taborder="127" dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" left="729" top="68" width="120" height="24" objNm="작성일자" readonly="true"/>
+              <Static id="staViewCompLine02" taborder="128" cssclass="sta_WF_Labelbg" left="0" top="96" right="0" height="33"/>
+              <Edit id="edtLastChgrNm" taborder="129" left="122" top="100" width="250" height="24" objNm="수정자" readonly="true"/>
+              <Static id="staLastChgrNm" taborder="130" text="수정자" cssclass="sta_WF_Label" left="0" top="96" width="117" height="33" objNm="수정자" lbcd=""/>
+              <Static id="staLastChgDt" taborder="131" text="수정일자" cssclass="sta_WF_Label" left="600" top="96" width="124" height="33" objNm="계약구분" lbcd=""/>
+              <Calendar id="calLastChgDt" taborder="132" dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" left="729" top="100" width="120" height="24" objNm="수정일자" readonly="true"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Static id="Static02" taborder="48" visible="false" left="98.58%" top="0" height="937" style="background:#ff7272ff;" width="15" text="w15"/>
+        <Div id="divViewCompBody01" taborder="2" text="div_71" left="0" top="247" right="15" scrollbars="none" bottom="10">
+          <Layouts>
+            <Layout width="1042" height="500">
+              <WebBrowser id="webEditor" left="0" top="0" taborder="0" objNm="에디터" right="0" bottom="0" onusernotify="fnWebEditorOnusernotify"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompCond00" taborder="0" left="0" top="0" right="15" height="44" cssclass="div_WF_SearchBg" objNm="컨트롤 박스">
+          <Layouts>
+            <Layout>
+              <Combo id="cboCntrCtgr" taborder="0" innerdataset="dsCdCT11" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="20" top="10" height="24" objNm="계약유형" width="150" readonly="false"/>
+              <Edit id="maeDocNo" taborder="1" left="172" top="10" height="24" objNm="문서번호" width="240" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle00" taborder="81" left="0" top="49" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="계약서" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle01" taborder="82" left="0" top="218" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="계약내용" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="dsCntrTmpl" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TKEY" size="40" type="string"/>
+          <Column id="ALT_USE" size="1" type="string"/>
+          <Column id="CNTR_CNTNT" size="4000" type="STRING"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="CRTR_NM" size="90" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="CD_CNTR_TYPE_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE" size="40" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="LAST_CHGR_NM" size="90" type="string"/>
+          <Column id="CD_CNTR_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="PORG_ID" size="20" type="string"/>
+          <Column id="CNTR_TMPL_ID" size="40" type="string"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="LANG_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCT19"/>
+      <Dataset id="dsCdCT11"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item9" compid="divViewCompCond00.cboCntrCtgr" propid="value" datasetid="dsCntrTmpl" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item0" compid="divViewCompCond00.maeDocNo" propid="value" datasetid="dsCntrTmpl" columnid="CNTR_TMPL_ID"/>
+      <BindItem id="item1" compid="divViewCompBody00.edtTtl" propid="value" datasetid="dsCntrTmpl" columnid="TTL"/>
+      <BindItem id="item2" compid="divViewCompBody00.cboAltUse" propid="value" datasetid="dsCntrTmpl" columnid="ALT_USE"/>
+      <BindItem id="item3" compid="divViewCompBody00.edtCrtrNm" propid="value" datasetid="dsCntrTmpl" columnid="CRTR_NM"/>
+      <BindItem id="item4" compid="divViewCompBody00.edtLastChgrNm" propid="value" datasetid="dsCntrTmpl" columnid="LAST_CHGR_NM"/>
+      <BindItem id="item5" compid="divViewCompBody00.cbCdCntrType" propid="value" datasetid="dsCntrTmpl" columnid="CD_CNTR_TYPE"/>
+      <BindItem id="item6" compid="divViewCompBody00.calCrtDt" propid="value" datasetid="dsCntrTmpl" columnid="CRT_DT"/>
+      <BindItem id="item7" compid="divViewCompBody00.calLastChgDt" propid="value" datasetid="dsCntrTmpl" columnid="LAST_CHG_DT"/>
+      <BindItem id="sta_WFDA_Label05Vi" compid="divViewCompBody00.sta_WFDA_Label05" propid="visible" datasetid="dsObjBindVi" columnid="sta_WFDA_Label05"/>
+      <BindItem id="sta_WFDA_Label05En" compid="divViewCompBody00.sta_WFDA_Label05" propid="enable" datasetid="dsObjBindEn" columnid="sta_WFDA_Label05"/>
+      <BindItem id="staTtlVi" compid="divViewCompBody00.staTtl" propid="visible" datasetid="dsObjBindVi" columnid="staTtl"/>
+      <BindItem id="staTtlEn" compid="divViewCompBody00.staTtl" propid="enable" datasetid="dsObjBindEn" columnid="staTtl"/>
+      <BindItem id="edtTtlVi" compid="divViewCompBody00.edtTtl" propid="visible" datasetid="dsObjBindVi" columnid="edtTtl"/>
+      <BindItem id="edtTtlEn" compid="divViewCompBody00.edtTtl" propid="readonly" datasetid="dsObjBindEn" columnid="edtTtl"/>
+      <BindItem id="staCdCntrTypeVi" compid="divViewCompBody00.staCdCntrType" propid="visible" datasetid="dsObjBindVi" columnid="staCdCntrType"/>
+      <BindItem id="staCdCntrTypeEn" compid="divViewCompBody00.staCdCntrType" propid="enable" datasetid="dsObjBindEn" columnid="staCdCntrType"/>
+      <BindItem id="cbCdCntrTypeVi" compid="divViewCompBody00.cbCdCntrType" propid="visible" datasetid="dsObjBindVi" columnid="cbCdCntrType"/>
+      <BindItem id="cbCdCntrTypeEn" compid="divViewCompBody00.cbCdCntrType" propid="readonly" datasetid="dsObjBindEn" columnid="cbCdCntrType"/>
+      <BindItem id="staAltUseVi" compid="divViewCompBody00.staAltUse" propid="visible" datasetid="dsObjBindVi" columnid="staAltUse"/>
+      <BindItem id="staAltUseEn" compid="divViewCompBody00.staAltUse" propid="enable" datasetid="dsObjBindEn" columnid="staAltUse"/>
+      <BindItem id="cboAltUseVi" compid="divViewCompBody00.cboAltUse" propid="visible" datasetid="dsObjBindVi" columnid="cboAltUse"/>
+      <BindItem id="cboAltUseEn" compid="divViewCompBody00.cboAltUse" propid="readonly" datasetid="dsObjBindEn" columnid="cboAltUse"/>
+      <BindItem id="staCrtrNmVi" compid="divViewCompBody00.staCrtrNm" propid="visible" datasetid="dsObjBindVi" columnid="staCrtrNm"/>
+      <BindItem id="staCrtrNmEn" compid="divViewCompBody00.staCrtrNm" propid="enable" datasetid="dsObjBindEn" columnid="staCrtrNm"/>
+      <BindItem id="edtCrtrNmVi" compid="divViewCompBody00.edtCrtrNm" propid="visible" datasetid="dsObjBindVi" columnid="edtCrtrNm"/>
+      <BindItem id="edtCrtrNmEn" compid="divViewCompBody00.edtCrtrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtCrtrNm"/>
+      <BindItem id="staCrtDtVi" compid="divViewCompBody00.staCrtDt" propid="visible" datasetid="dsObjBindVi" columnid="staCrtDt"/>
+      <BindItem id="staCrtDtEn" compid="divViewCompBody00.staCrtDt" propid="enable" datasetid="dsObjBindEn" columnid="staCrtDt"/>
+      <BindItem id="calCrtDtVi" compid="divViewCompBody00.calCrtDt" propid="visible" datasetid="dsObjBindVi" columnid="calCrtDt"/>
+      <BindItem id="calCrtDtEn" compid="divViewCompBody00.calCrtDt" propid="readonly" datasetid="dsObjBindEn" columnid="calCrtDt"/>
+      <BindItem id="edtLastChgrNmVi" compid="divViewCompBody00.edtLastChgrNm" propid="visible" datasetid="dsObjBindVi" columnid="edtLastChgrNm"/>
+      <BindItem id="edtLastChgrNmEn" compid="divViewCompBody00.edtLastChgrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtLastChgrNm"/>
+      <BindItem id="staLastChgrNmVi" compid="divViewCompBody00.staLastChgrNm" propid="visible" datasetid="dsObjBindVi" columnid="staLastChgrNm"/>
+      <BindItem id="staLastChgrNmEn" compid="divViewCompBody00.staLastChgrNm" propid="enable" datasetid="dsObjBindEn" columnid="staLastChgrNm"/>
+      <BindItem id="staLastChgDtVi" compid="divViewCompBody00.staLastChgDt" propid="visible" datasetid="dsObjBindVi" columnid="staLastChgDt"/>
+      <BindItem id="staLastChgDtEn" compid="divViewCompBody00.staLastChgDt" propid="enable" datasetid="dsObjBindEn" columnid="staLastChgDt"/>
+      <BindItem id="calLastChgDtVi" compid="divViewCompBody00.calLastChgDt" propid="visible" datasetid="dsObjBindVi" columnid="calLastChgDt"/>
+      <BindItem id="calLastChgDtEn" compid="divViewCompBody00.calLastChgDt" propid="readonly" datasetid="dsObjBindEn" columnid="calLastChgDt"/>
+      <BindItem id="Static02Vi" compid="Static02" propid="visible" datasetid="dsObjBindVi" columnid="Static02"/>
+      <BindItem id="Static02En" compid="Static02" propid="enable" datasetid="dsObjBindEn" columnid="Static02"/>
+      <BindItem id="webEditorVi" compid="divViewCompBody01.webEditor" propid="visible" datasetid="dsObjBindVi" columnid="webEditor"/>
+      <BindItem id="webEditorEn" compid="divViewCompBody01.webEditor" propid="enable" datasetid="dsObjBindEn" columnid="webEditor"/>
+      <BindItem id="cboCntrCtgrVi" compid="divViewCompCond00.cboCntrCtgr" propid="visible" datasetid="dsObjBindVi" columnid="cboCntrCtgr"/>
+      <BindItem id="cboCntrCtgrEn" compid="divViewCompCond00.cboCntrCtgr" propid="readonly" datasetid="dsObjBindEn" columnid="cboCntrCtgr"/>
+      <BindItem id="maeDocNoVi" compid="divViewCompCond00.maeDocNo" propid="visible" datasetid="dsObjBindVi" columnid="maeDocNo"/>
+      <BindItem id="maeDocNoEn" compid="divViewCompCond00.maeDocNo" propid="readonly" datasetid="dsObjBindEn" columnid="maeDocNo"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BCntrTmplDetail
+ * @생성자			: 안성민
+ * @생성일시		: 2019. 05. 21.
+ * @설명			: 계약템플릿상세
+ * @최종수정자		: 안성민
+ * @최종수정일시	: 2019. 05. 21.
+*/ 
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					{code:"CT11", sSelectType:"S"} // 계약유형
+					,{code:"CT19", sSelectType:"S"} // 계약구분
+				];
+												
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnRemote
+  * @desc     	: 리모콘 버튼 생성
+  */
+this.fnRemote = function()
+{
+	var sArg = [ ];	
+	gfnRemote(this, sArg);
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacr o.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	this.dsCntrTmpl.addRow();
+	
+	//이전화면에서 넘어오는 파라미터를 받는다.
+	var cntrTmplId = gfnGetTmprData("CNTR_TMPL_ID");
+	var branchCd   = gfnGetTmprData("BRANCH_CD");
+	//파라미터를 받은 이후에는 파라미터를 를 초기화 해준다.
+	gfnClearTmprData(); 
+	gfnSetObj("A");
+	if(gfnIsNull(cntrTmplId)){
+		this.dsCntrTmpl.setColumn(0,"CRTR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+		this.dsCntrTmpl.setColumn(0,"CRT_DT",gfnToday());
+		this.dsCntrTmpl.setColumn(0,"LAST_CHGR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+		this.dsCntrTmpl.setColumn(0,"LAST_CHG_DT",gfnToday());
+		this.dsCntrTmpl.setColumn(0, "ALT_USE", "Y"); //사용여부
+		this.dsCntrTmpl.setColumn(0, "CD_CNTR_TYPE", ""); //계약구분
+		
+		gfnModalPop(this, "CntrCtgrPop", "BCNTR::BCntrCtgrPop.xfdl", {}, "fnPopCallBack", 300, 500);
+		this.divViewCompBody01.webEditor.set_url(application.services["url"].url+"daumeditor/editor.jsp");
+	} else {
+		this.dsCntrTmpl.setColumn(0,"BRANCH_CD", branchCd);
+		this.dsCntrTmpl.setColumn(0,"CNTR_TMPL_ID", cntrTmplId);
+		this.fnSearch();
+	}
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return;
+	
+	var sSvcID = "readCntrTmpl";
+	var sController = "epro.cntr.service.BCntrService.readCntrTmpl";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sOutDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sCallbackFunc = "fnTrCallBack";
+				
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);	
+}
+
+/**
+	@function	fnPreDelete()
+	@desc   	삭제 전처리
+*/
+this.fnPreDelete = function()
+{
+	return true;
+}
+
+/**
+	@function	fnDelete()
+	@desc   	(공통버튼)삭제 프로세스
+*/
+this.fnDelete = function()
+{
+	if(!this.fnPreDelete()) return;
+	
+	if(!gfnConfirm("삭제하시겠습니까?")) return;
+	
+	var sSvcID = "deleteCntrTmpl";
+	var sController = "epro.cntr.service.BCntrService.deleteCntrTmpl";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl"; 
+	var sOutDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);	
+}
+
+/**
+	@function	fn_preSave()
+	@desc   	저장 전 처리
+*/
+this.fnPreSave = function()
+{	
+	var arr = [];
+	
+	if(gfnIsNull(this.dsCntrTmpl.getColumn(0, "TTL"))){
+		var msg = "계약서명을 입력해주세요"
+		var type = "필수입력"
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	return gfnValidate(this, false, arr);
+}
+
+/**
+	@function	fn_commSave()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fnSave = function()
+{
+	if (!this.fnPreSave()) return false;
+	
+	this.divViewCompBody01.webEditor.callMethod("saveContent");
+}
+
+/**
+	@function	fnSave2()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fnSave2 = function()
+{
+	var sSvcID = "saveCntrTmpl";
+	var sController = "epro.cntr.service.BCntrService.saveCntrTmpl";
+	var sInDatasets = "dsCntrTmpl=dsCntrTmpl"; 
+	var sOutDatasets = "dsCntrTmpl=dsCntrTmpl";
+	var sCallbackFunc = "fnTrCallBack";
+
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);	
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{	
+	switch(strSvcID)
+	{
+		case "readCntrTmpl" : 
+			this.divViewCompBody01.webEditor.set_url(application.services["url"].url+"daumeditor/editor.jsp");	
+			break;
+		
+		case "saveCntrTmpl" : 
+			this.fnSearch();
+			break;
+		
+		case "deleteCntrTmpl":
+			gfnAlert("삭제되었습니다.");
+			this.parent.fnBtnComCloseOnclick();
+			break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) {
+		if(sPopupId == "CntrCtgrPop") this.parent.fnBtnComCloseOnclick();
+		return;
+	}
+		
+	switch(sPopupId) {
+		//승인요청
+		case "CntrCtgrPop" :
+			this.dsCntrTmpl.setColumn(0, "CD_CNTR_CTGR", rtn);
+			break;
+		default:
+			break;	
+			
+	}
+}
+
+/**
+	@function	div_71_wb_daumEditor_onusernotify()
+	@desc   	KSPARK - Daum editor
+*/
+this.fnWebEditorOnusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{
+	//런타임
+	if(obj.getProperty("document").getProperty("title").indexOf("▩") == 0){
+		//read
+		if (gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "true"){
+			this.divViewCompBody01.webEditor.callMethod("setEditor",this.dsCntrTmpl.getColumn(0,"CNTR_CNTNT"));
+		//save
+		} else {
+			this.dsCntrTmpl.setColumn(0,"CNTR_CNTNT",gfnReplace(obj.getProperty("document").getProperty("title"),"▩",""));
+			this.fnSave2();
+		}
+
+	//웹
+	} else if (e.userdata.indexOf("▦") == 0){
+		//read
+		if (gfnReplace(e.userdata,"▦","") == "true"){			
+			this.divViewCompBody01.webEditor.callMethod("setEditor",this.dsCntrTmpl.getColumn(0,"CNTR_CNTNT"));
+		//save
+		} else {
+			this.dsCntrTmpl.setColumn(0,"CNTR_CNTNT",gfnReplace(e.userdata,"▦",""));
+			this.fnSave2();
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

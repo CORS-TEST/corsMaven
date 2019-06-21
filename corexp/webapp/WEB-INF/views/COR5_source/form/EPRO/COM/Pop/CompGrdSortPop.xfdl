@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form _name="" classname="GridSortPop" height="237" id="CompGrdSortPop" left="0" mmm="" onload="fnFormOnload" titletext="그리드 소트 팝업" top="0" width="325">
+    <Layouts>
+      <Layout>
+        <Grid autoenter="select" autofittype="col" autoupdatetype="itemselect" binddataset="dsList" cellclickbound="cell" height="171" id="grd" left="10" right="10" taborder="0" top="31" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="150"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="24"/>
+                <Row size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkbox" edittype="checkbox"/>
+                <Cell col="1" expr="" text="항목"/>
+                <Cell col="2" expr="" text="정렬"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                <Cell col="1" combocodecol="COL_ID" combodatacol="COL_NM" combodataset="dsParentGrid" combodisplay="display" displaytype="combo" edittype="combo" text="bind:COLUMN"/>
+                <Cell col="2" combocodecol="CODE" combodatacol="DATA" combodataset="dsSort" combodisplay="display" displaytype="combo" edittype="combo" text="bind:SORT"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button height="20" id="btnAdd" onclick="fnBtnAddOnclick" right="56" taborder="1" text="추가" top="5" width="40"/>
+        <Button height="20" id="btnDel" onclick="fnBtnDelOnclick" right="14" taborder="2" text="삭제" top="5" width="40"/>
+        <Button height="20" id="btnApply" onclick="fnBtnApplyOnclick" right="10" taborder="5" text="적용" top="210" width="40"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsParentGrid">
+        <ColumnInfo>
+          <Column id="COL_ID" size="256" type="STRING"/>
+          <Column id="COL_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="CHECKED" size="256" type="STRING"/>
+          <Column id="COLUMN" size="256" type="STRING"/>
+          <Column id="SORT" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSort">
+        <ColumnInfo>
+          <Column id="CODE" size="256" type="STRING"/>
+          <Column id="DATA" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CODE">ASC</Col>
+            <Col id="DATA">오름차순</Col>
+          </Row>
+          <Row>
+            <Col id="CODE">DESC</Col>
+            <Col id="DATA">내림차순</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsTemp"/>
+    </Objects>
+    <Bind>
+      
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompGrdSortPop.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 22.
+ * @설명			: 정렬
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 22.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00620");
+this.fvGrid;	//대상 그리드
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();	
+	this.fvGrid = ownFrame.arg_grid;
+	
+	for(i=0; i<this.fvGrid.getCellCount("Head"); i++){	
+		var sHeadText = this.fvGrid.getCellProperty("head", i, "text");		
+		if(gfnIsNull(sHeadText)) continue;
+		
+		var nRow = this.dsParentGrid.addRow();
+		
+		var arrBind = this.fvGrid.getCellProperty("body", i, "text").split("bind:");
+		this.dsParentGrid.setColumn(nRow, "COL_ID", arrBind[1]);
+		
+		this.dsParentGrid.setColumn(nRow, "COL_NM", sHeadText);
+	}
+	
+	this.dsParentGrid.set_rowposition(-1);
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	//gfnSetGrdFunc(this.grd, null, this);
+	
+	this.grd.dropdownCombo();
+}
+
+/**
+  * @함수명	: fnBtnAddOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 추가
+  */
+this.fnBtnAddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsList.addRow();	
+	this.dsList.setColumn(nRow, "COLUMN", this.dsParentGrid.getColumn(0, "COL_ID"));
+	this.dsList.setColumn(nRow, "SORT", "ASC");
+	this.dsList.setColumn(nRow, "CHECKED", "");
+}
+
+/**
+  * @함수명	: fnBtnDelOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 삭제
+  */
+this.fnBtnDelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	gfnDsChkDel(this.dsList);
+}
+
+/**
+  * @함수명	: fnBtnApplyOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 적용
+  */
+this.fnBtnApplyOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var ds = this.fvGrid.getBindDataset();
+	
+	this.fvGrid.set_enableevent(false);
+	ds.set_enableevent(false);	
+	
+	for(var i=0, x=this.fvGrid.getCellCount("body"); i<x; i++){
+		var sHeadText = this.fvGrid.getCellText(-1, i);		
+		if(sHeadText.indexOf("▲") > -1 || sHeadText.indexOf("▼") > -1){
+			sHeadText = sHeadText.substr(0, sHeadText.length -1);
+			this.fvGrid.setCellProperty( "head", i, "text", sHeadText);	
+		}
+	}
+	
+	var expr = "S:";
+	for(var i=0, x=this.dsList.rowcount; i<x; i++){	
+		var sort = ("ASC" == this.dsList.getColumn(i, "SORT")) ? "+" : "-";
+		expr += sort + this.dsList.getColumn(i, "COLUMN");
+
+		for(var j=0, y=this.fvGrid.getCellCount("body"); j<y; j++){		 
+			var bindColId = this.fvGrid.getCellProperty("body", j, "text").split("bind:").join("");
+			if(bindColId == this.dsList.getColumn(i, "COLUMN")){
+				var sHeadText = this.fvGrid.getCellText(-1, j);
+				var nLen = sHeadText.length - 1;  
+				
+				if(sHeadText.indexOf("▲") > -1 || sHeadText.indexOf("▼") > -1){
+					sHeadText = sHeadText.substr(0, nLen);
+				}else{
+					sHeadText = sHeadText;
+				}
+				
+				if(sort == "+"){
+					this.fvGrid.setCellProperty( "head", j, "text", sHeadText+ "▲");				
+				}else if(sort == "-"){
+					this.fvGrid.setCellProperty( "head", j, "text", sHeadText+ "▼");				
+				}
+					
+				break;
+			}
+		}
+	}	
+	
+	ds.set_keystring(expr);
+	
+	this.fvGrid.set_enableevent(true);
+	ds.set_enableevent(true);	
+}
+]]></Script>
+  </Form>
+</FDL>

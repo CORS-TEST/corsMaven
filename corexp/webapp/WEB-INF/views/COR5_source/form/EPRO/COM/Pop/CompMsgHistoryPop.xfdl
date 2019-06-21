@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmPopCheckScreen" height="800" id="CompMultiMsgPop" left="0" onactivate="CompMultiMsgPop_onactivate" ondeactivate="CompMultiMsgPop_ondeactivate" oninit="CompMultiMsgPop_oninit" onload="CompMultiMsgPop_onload" titletext="화면정보, 메시지 내역 팝업" top="0" visible="true" width="1000">
+    <Layouts>
+      <Layout>
+        <Button height="30" id="btn_close" onclick="btn_popClose_onclick" right="8" taborder="13" top="0" width="30"/>
+        <Static height="30" id="sta_title" left="0" right="640" taborder="14" text="화면정보" top="0"/>
+        <Tab bottom="10" id="Tab00" left="10" right="10" scrollbars="autoboth" tabindex="0" taborder="30" top="48">
+          <Tabpages>
+            <Tabpage id="tabpage2" text=" 화면 변경요청 ">
+              <Layouts>
+                <Layout>
+                  <Grid autofittype="none" binddataset="ds_chgPgm" bottom="1" id="grd_reqApp" left="0" oncelldblclick="grd_page_oncelldblclick" onexpandup="grd_page_onexpandup" right="0" taborder="0" top="256" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="33"/>
+                          <Column size="74"/>
+                          <Column size="308"/>
+                          <Column size="80"/>
+                          <Column size="80"/>
+                          <Column size="80"/>
+                          <Column size="80"/>
+                          <Column size="80"/>
+                          <Column size="81"/>
+                          <Column size="381"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="31"/>
+                          <Row size="31"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell displaytype="checkbox" edittype="checkbox"/>
+                          <Cell col="1" expr="" text="변경구분"/>
+                          <Cell col="2" expr="" text="내용"/>
+                          <Cell col="3" expr="" text="처리상태"/>
+                          <Cell col="4" expr="" text="요청자"/>
+                          <Cell col="5" expr="" text="요청일자"/>
+                          <Cell col="6" expr="" text="처리자"/>
+                          <Cell col="7" expr="" text="처리일자"/>
+                          <Cell col="8" expr="" text="문서번호"/>
+                          <Cell col="9" expr="" text="처리결과"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                          <Cell col="1" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodataset="ds_cdSY31" displaytype="combo" edittype="none" text="bind:CD_CHG_REQ"/>
+                          <Cell col="2" displaytype="normal" edittype="none" style="align:left;" text="expr:REQ_CNTNT.split(&quot;\n&quot;)[0]" tooltiptext="bind:내용"/>
+                          <Cell col="3" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodataset="ds_cdSY32" displaytype="combo" edittype="none" text="bind:CD_PRCS_STTS"/>
+                          <Cell col="4" text="bind:REQR_NM"/>
+                          <Cell col="5" mask="@@@@.@@.@@" text="bind:REQ_DT"/>
+                          <Cell col="6" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodataset="ds_prcsruser" displaytype="combo" edittype="combo" text="bind:PRCSR_NM"/>
+                          <Cell col="7" mask="@@@@.@@.@@" text="bind:PRCS_DT"/>
+                          <Cell col="8" text="bind:DOC_NO"/>
+                          <Cell col="9" text="bind:PRCS_CNTNT"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Button height="25" id="btn_popClose" left="93.27%" onclick="btn_popClose_onclick" taborder="2" text="닫기" top="2" width="65"/>
+                  <Button height="25" id="btn_Itm_Del" lbcd="" objNm="품목삭제버튼" onclick="Div3_btn_Itm_Del_onclick" right="68" taborder="4" text="요청" top="2" width="65"/>
+                  <Radio codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" height="27" id="Radio00" left="1.02%" onitemchanged="Tab00_tabpage2_Radio00_onitemchanged" right="81.33%" taborder="27" top="226">
+                    <Dataset id="innerdataset">
+                      <ColumnInfo>
+                        <Column id="codecolumn" size="256"/>
+                        <Column id="datacolumn" size="256"/>
+                      </ColumnInfo>
+                      <Rows>
+                        <Row>
+                          <Col id="codecolumn">R</Col>
+                          <Col id="datacolumn">요청</Col>
+                        </Row>
+                        <Row>
+                          <Col id="codecolumn">C</Col>
+                          <Col id="datacolumn">완료</Col>
+                        </Row>
+                      </Rows>
+                    </Dataset>
+                  </Radio>
+                  <Static height="191" id="sta_WFDA_Label01" left="0" right="0" taborder="31" top="32"/>
+                  <Static height="29" id="edt_default_r" lbcd="" left="0" objNm="총금액" taborder="32" text="변경구분" top="36" width="90"/>
+                  <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="Combo01" index="-1" innerdataset="ds_cdSY31" left="9.18%" right="73.57%" taborder="33" top="39"/>
+                  <Static height="73" id="ed_RfqAmt05" lbcd="" left="46" objNm="총금액" taborder="34" text="요청&#13;&#10;&#13;&#10;내용" top="80" width="44"/>
+                  <TextArea bottom="558" enable="true" id="TextArea00" left="90" taborder="35" top="69" width="876"/>
+                  <Button height="24" id="btn_Itm_Add" lbcd="" left="27.45%" objNm="품목추가 버튼" onclick="Div3_btn_Itm_Add_onclick" taborder="36" text="요청추가" top="39" width="65"/>
+                  <Static height="40" id="ed_RfqAmt00" lbcd="" left="46" objNm="총금액" taborder="37" text="결과" top="168" width="44"/>
+                  <TextArea bottom="502" id="TextArea01" left="90" readonly="true" taborder="38" top="157" width="876"/>
+                  <Button height="25" id="btn_Itm_Del00" lbcd="" left="71.33%" objNm="품목삭제버튼" onclick="Tab00_tabpage2_btn_Itm_Del00_onclick" taborder="39" text="선택항목 확인완료" top="2" width="145"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabpage1" scrollbars="none" text=" 화면정보 ">
+              <Layouts>
+                <Layout>
+                  <Static height="75" id="sta_WFDA_Label01" left="0" right="0" taborder="0" top="39"/>
+                  <Edit height="24" id="edt_userId" left="83" taborder="1" top="50" width="116"/>
+                  <Edit height="24" id="edt_userNm" left="301" taborder="2" top="50" width="116"/>
+                  <Static height="24" id="ed_RfqAmt" lbcd="" left="0" objNm="총금액" taborder="3" text="사용자ID" top="50" width="80"/>
+                  <Static height="24" id="st_CrDt02" left="218" objNm="예산번호" taborder="4" text="사용자명" top="50" width="80"/>
+                  <Static height="24" id="st_CrDt00" left="218" objNm="예산번호" taborder="6" text="TCODE" top="79" width="80"/>
+                  <Static height="24" id="ed_RfqAmt00" lbcd="" left="0" objNm="총금액" taborder="7" text="화면ID" top="79" width="80"/>
+                  <Edit height="24" id="edt_pgmId" left="83" taborder="8" top="79" width="116"/>
+                  <Edit height="24" id="edt_tcode" left="301" taborder="9" top="79" width="116"/>
+                  <Static height="24" id="st_CrDt01" left="429" objNm="예산번호" taborder="10" text="경로" top="79" width="88"/>
+                  <Edit height="24" id="edt_url" left="520" taborder="11" top="79" width="257"/>
+                  <Static height="24" id="st_CrDt03" left="429" objNm="예산번호" taborder="12" text="최종 로그인" top="50" width="88"/>
+                  <MaskEdit height="24" id="mae_lastLogin" left="520" taborder="13" top="50" width="257"/>
+                  <Button height="24" id="btn_popClose" onclick="btn_popClose_onclick" right="0" taborder="15" text="닫기" top="9" width="65"/>
+                  <Button height="24" id="btn_delMsg" left="816" onclick="btn_delMsg_onclick" taborder="16" text="메시지 삭제" top="9" width="89"/>
+                  <Grid autofittype="col" bottom="0" id="grd_msg" left="0" oncelldblclick="grd_page_oncelldblclick" onexpandup="grd_page_onexpandup" right="0" taborder="17" top="136" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="35"/>
+                          <Column size="343"/>
+                          <Column size="185"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="31"/>
+                          <Row size="27"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="상태"/>
+                          <Cell col="1" expr="" text="메세지"/>
+                          <Cell col="2" expr="" text="일시"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="image" text="expr:&quot;img::img_WF_&quot;+MSG_TYPE+&quot;.png&quot;"/>
+                          <Cell col="1" edittype="none" style="align:left;" text="bind:MSG_CONTENTS"/>
+                          <Cell col="2" displaytype="normal" mask="####-##-## ##:##:##" text="bind:MSG_DT"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Static height="10" id="Static05" left="87.53%" right="1.44%" style="background:#ff7272ff;" taborder="18" text="h19" top="0" visible="false"/>
+                  <Static height="5" id="Static00" left="88.35%" right="0.62%" style="background:#ff7272ff;" taborder="19" text="h19" top="34" visible="false"/>
+                  <Static height="10" id="Static01" left="73.51%" right="15.67%" style="background:#ff7272ff;" taborder="20" text="h19" top="40" visible="false"/>
+                  <Static height="5" id="Static02" left="71.03%" right="18.14%" style="background:#ff7272ff;" taborder="21" text="h19" top="74" visible="false"/>
+                  <Static height="10" id="Static03" left="74.33%" right="14.85%" style="background:#ff7272ff;" taborder="22" text="h19" top="103" visible="false"/>
+                  <Static height="23" id="Static04" left="80.1%" right="9.07%" style="background:#ff7272ff;" taborder="23" text="h19" top="114" visible="false"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabpage3" text="화면정의서">
+              <Layouts>
+                <Layout>
+                  <WebBrowser bottom="10" id="wb_daumEditor" left="10" objNm="에디터" onusernotify="div_11_wb_daumEditor_onusernotify" right="10" taborder="0" top="49"/>
+                  <Button height="25" id="btn_popClose00" left="92.45%" onclick="btn_popClose00_onclick" taborder="1" text="저장" top="10" width="65"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_chgPgm">
+        <ColumnInfo>
+          <Column id="CHECKED" size="40" type="string"/>
+          <Column id="CD_PRCS_STTS_NM" size="40" type="string"/>
+          <Column id="CD_PRCS_STTS" size="40" type="string"/>
+          <Column id="REQR_NM" size="30" type="string"/>
+          <Column id="SN" size="40" type="string"/>
+          <Column id="PRCS_CNTNT" size="2000" type="string"/>
+          <Column id="CD_CHG_REQ_NM" size="40" type="string"/>
+          <Column id="CD_CHG_REQ" size="40" type="string"/>
+          <Column id="PRCS_DT" size="7" type="string"/>
+          <Column id="DOC_NO" size="40" type="string"/>
+          <Column id="PRCSR_NM" size="30" type="string"/>
+          <Column id="REQ_DT" size="7" type="string"/>
+          <Column id="REQ_CNTNT" size="2000" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="PGM_ID" size="40" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="BRANCH_CD" size="20" type="string"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_condition">
+        <ColumnInfo>
+          <Column id="LAST_LOGIN_DT" size="256" type="string"/>
+          <Column id="USER_NM" size="256" type="string"/>
+          <Column id="USER_ID" size="256" type="string"/>
+          <Column id="URL" size="256" type="string"/>
+          <Column id="PGM_ID" size="256" type="string"/>
+          <Column id="TCODE" size="256" type="string"/>
+          <Column id="RD_MODE" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_prcsruser">
+        <ColumnInfo>
+          <Column id="CD_ID" size="256" type="STRING"/>
+          <Column id="CD_NM_LO" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CD_ID"/>
+            <Col id="CD_NM_LO">[선택]</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">배열</Col>
+            <Col id="CD_NM_LO">배열</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">정준화</Col>
+            <Col id="CD_NM_LO">정준화</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">김민성</Col>
+            <Col id="CD_NM_LO">김민성</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">한민희</Col>
+            <Col id="CD_NM_LO">한민희</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">윤영호</Col>
+            <Col id="CD_NM_LO">윤영호</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">한희규</Col>
+            <Col id="CD_NM_LO">한희규</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">송태봉</Col>
+            <Col id="CD_NM_LO">송태봉</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_help">
+        <ColumnInfo>
+          <Column id="PGM_ID" size="256" type="STRING"/>
+          <Column id="CNTNT" size="256" type="STRING"/>
+          <Column id="CRTR_ID" size="256" type="STRING"/>
+          <Column id="CRT_DT" size="256" type="STRING"/>
+          <Column id="lAST_CHGR_ID" size="256" type="STRING"/>
+          <Column id="LAST_CHG_DT" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="PGM_ID" compid="Tab00.tabpage1.edt_pgmId" datasetid="ds_condition" id="item8" propid="value"/>
+      <BindItem columnid="USER_ID" compid="Tab00.tabpage1.edt_userId" datasetid="ds_condition" id="item9" propid="value"/>
+      <BindItem columnid="USER_NM" compid="Tab00.tabpage1.edt_userNm" datasetid="ds_condition" id="item10" propid="value"/>
+      <BindItem columnid="TCODE" compid="Tab00.tabpage1.edt_tcode" datasetid="ds_condition" id="item11" propid="value"/>
+      <BindItem columnid="URL" compid="Tab00.tabpage1.edt_url" datasetid="ds_condition" id="item12" propid="value"/>
+      <BindItem columnid="LAST_LOGIN_DT" compid="Tab00.tabpage1.mae_lastLogin" datasetid="ds_condition" id="item13" propid="value"/>
+      <BindItem columnid="RD_MODE" compid="Tab00.tabpage2.Radio00" datasetid="ds_condition" id="item14" propid="value"/>
+      <BindItem columnid="CD_CHG_REQ" compid="Tab00.tabpage2.Combo01" datasetid="ds_chgPgm" id="item0" propid="value"/>
+      <BindItem columnid="REQ_CNTNT" compid="Tab00.tabpage2.TextArea00" datasetid="ds_chgPgm" id="item6" propid="value"/>
+      <BindItem columnid="PRCS_CNTNT" compid="Tab00.tabpage2.TextArea01" datasetid="ds_chgPgm" id="item1" propid="value"/>
+    
+
+
+<BindItem columnid="EPRO_LABEL_00342" compid="Tab00.tabpage2.ed_RfqAmt00" datasetid="gdsLabel" id="ed_RfqAmt00LangBind2017110317184218925" propid="text"/>
+
+
+
+<BindItem columnid="EPRO_LABEL_00504" compid="Tab00.tabpage1.ed_RfqAmt00" datasetid="gdsLabel" id="ed_RfqAmt00LangBind2017110317184232432" propid="text"/>
+
+
+
+<BindItem columnid="EPRO_LABEL_00093" compid="Tab00.tabpage1.Static00" datasetid="gdsLabel" id="Static00LangBind2017110317184241403" propid="text"/>
+
+
+
+<BindItem columnid="EPRO_LABEL_00093" compid="Tab00.tabpage1.Static04" datasetid="gdsLabel" id="Static04LangBind2017110317184250659" propid="text"/>
+
+
+
+<BindItem columnid="EPRO_LABEL_00165" compid="Tab00.tabpage2.btn_Itm_Del00" datasetid="gdsLabel" id="btn_Itm_Del00LangBind2017110317184299682" propid="text"/>
+
+
+
+</Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompMsgHistoryPop.xfdl
+   @desc       화면정보, 메시지 내역 팝업
+   @author     김현욱
+   @makedate   2015.09.08
+   @history    
+*/
+
+
+
+
+var fv_oldUrl = "";
+var fv_frmae  = "";
+
+/**
+ 	@function	CompMultiMsgPop_oninit()
+ 	@desc		폼 oninit 이벤트
+ */  
+this.CompMultiMsgPop_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fn_setCode();
+}
+
+/**
+ 	@function	fn_setCode()
+ 	@desc		코드생성
+ */  
+this.fn_setCode = function(){
+	var param = [
+					 {code:"SY31", sSelectType:"S"} // 변경요청코드
+					,{code:"SY32", sSelectType:"S"} // 처리상태코드
+				];
+
+	//공통코드 데이터셋 생성 : "ds_cd" + code + sfx
+	gfnGetCode(this, param);
+}
+
+
+/**
+ 	@function	CompMultiMsgPop_onload()
+ 	@desc		폼 onload 이벤트
+ */  
+this.CompMultiMsgPop_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//시스템 공통함수 호출 : 팝업
+	this.gfn_popOnLoad(this);
+	
+	if(!this.gfn_isRole("B_WEBMASTER")){
+		this.Tab00.removeTabpage(2);
+		this.Tab00.removeTabpage(0);
+		
+	} else{
+		this.ds_help.addRow();
+		this.Tab00.tabpage3.wb_daumEditor.set_url(application.services["svcurl"].url+"daumeditor/editor.jsp");
+	}
+
+	fv_frmae = application.gv_workFrame.getActiveFrame();
+	var objDsHistory = fv_frmae.form.ds_msgHistory;
+		
+	this.Tab00.tabpage1.grd_msg.setBindDataset(objDsHistory);
+	
+	this.ds_condition.addRow();
+	this.ds_condition.setColumn(0,"USER_ID",application.gdsUserInfo.getColumn(0, "EMP_NO"))
+	this.ds_condition.setColumn(0,"USER_NM",application.gdsUserInfo.getColumn(0, "USER_NM"))
+	this.ds_condition.setColumn(0,"LAST_LOGIN_DT",application.gdsUserInfo.getColumn(0, "LAST_LOGIN_DT"))
+	
+	this.ds_condition.setColumn(0,"PGM_ID",fv_frmae.form.fv_menuId) //PGM_ID
+	this.ds_condition.setColumn(0,"TCODE",fv_frmae.form.fv_tCode)  //TCODE 	
+	this.ds_condition.setColumn(0,"URL",fv_frmae.form.fv_url)	   //URL
+	this.ds_condition.setColumn(0,"RD_MODE","R")	   //URL
+	
+	this.fn_search();
+}
+
+
+/**
+	@function	btn_popClose00_onclick
+	@param
+	@desc		저장
+*/
+this.fn_search = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	
+	var sSvcID = "Sys_ChgPgmSrch";
+	var sController = "Sys_ChgPgmSrch.do";
+	var sInDatasets = "in_condition=ds_condition";
+	var sOutDatasets = "ds_chgPgm=in_chgPgm ds_help=in_help";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+
+/**
+ 	@function	btn_delMsg_onclick()
+ 	@desc		 
+ */  
+this.btn_delMsg_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var objDs = this.grd_msg.getBindDataset();
+	objDs.clearData();
+}
+
+/**
+	@function	btn_popClose_onclick()
+	@param
+	@desc		화면정변경 팝업 닫기
+*/
+this.btn_popClose_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+/**
+	@function	Div3_btn_Itm_Add_onclick()
+	@param
+	@desc		요청사항 추가버튼 클릭이벤트
+*/
+this.Div3_btn_Itm_Add_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rowCnt = this.ds_chgPgm.addRow();
+	this.ds_chgPgm.setColumn(rowCnt,"CD_CHG_REQ","");	//변경구분
+	this.ds_chgPgm.setColumn(rowCnt,"CD_PRCS_STTS","SY32REQ");	//처리상태는 요청중으로 셋팅
+	this.ds_chgPgm.setColumn(rowCnt,"PGM_ID",this.ds_condition.getColumn(0,"PGM_ID"));
+	this.ds_chgPgm.setColumn(rowCnt,"REQR_NM",application.gdsUserInfo.getColumn(0, "USER_NM"));
+	this.ds_chgPgm.setColumn(rowCnt,"REQ_DT",gfnToday());
+	this.ds_chgPgm.setColumn(rowCnt,"PRCSR_NM","배열");
+	
+	this.ds_chgPgm.setColumn(rowCnt,"CD_CHG_REQ","SY31UPC");
+	
+
+}
+
+/**
+	@function	Div3_btn_Itm_Del_onclick()
+	@param
+	@desc		요청삭제버튼 클릭이벤트
+*/
+this.Div3_btn_Itm_Del_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	
+	for(var i=this.ds_chgPgm.rowcount;i>=0;i--){
+		if(this.ds_chgPgm.getColumn(i,"CHECKED")==1){
+			this.ds_chgPgm.deleteRow(i);
+		}
+	}
+	
+	var sSvcID = "Sys_ChgPgmDel";
+	var sController = "Sys_ChgPgmSave.do";
+	var sInDatasets = "in_chgPgm=ds_chgPgm:A";
+	var sOutDatasets = "ds_chgPgm=in_chgPgm";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+	@function	btn_delMsg00_onclick
+	@param
+	@desc		삭제
+*/
+this.btn_delMsg00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Div00.set_visible(true);
+	this.grd_msg.set_visible(false);
+}
+
+/**
+	@function	btn_popClose00_onclick
+	@param
+	@desc		저장
+*/
+this.btn_popClose00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.Tab00.tabpage3.wb_daumEditor.callMethod("saveContent");
+}
+
+this.fn_commSave_data = function()
+{	
+	var sSvcID = "Sys_ChgPgmSaveHelp";
+	var sController = "Sys_ChgPgmSaveHelp.do";
+	var sInDatasets = "in_ds=ds_help:A";
+	var sOutDatasets = "ds_help=in_ds";
+	var sCallbackFunc = "fn_trCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fn_trCallBack
+	@param
+	@desc		콜백 함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "Sys_ChgPgmSrch" :
+			if(this.ds_help.getRowCount() == 0) 
+			{
+				this.ds_help.addRow();
+				this.ds_help.setColumn(0,"PGM_ID",this.ds_condition.getColumn(0,"PGM_ID"));
+			}
+			
+// 			var rowCnt = this.ds_chgPgm.addRow();
+// 			this.ds_chgPgm.setColumn(rowCnt,"CD_CHG_REQ","");	//변경구분
+// 			this.ds_chgPgm.setColumn(rowCnt,"CD_PRCS_STTS","SY32REQ");	//처리상태는 요청중으로 셋팅
+// 			this.ds_chgPgm.setColumn(rowCnt,"PGM_ID",this.ds_condition.getColumn(0,"PGM_ID"));
+// 			this.ds_chgPgm.setColumn(rowCnt,"REQR_NM",application.gdsUserInfo.getColumn(0, "USER_NM"));
+// 			this.ds_chgPgm.setColumn(rowCnt,"REQ_DT",gfnToday());
+// 			this.ds_chgPgm.setColumn(rowCnt,"PRCSR_NM","배열");
+// 			
+// 			this.ds_chgPgm.setColumn(rowCnt,"CD_CHG_REQ","SY31UPC");
+			
+			
+		break;
+		case "Sys_ChgPgmSave" :	
+			alert(strErrMsg);
+			this.fn_search();
+		break;
+		
+		case "Sys_ChgPgmDel" :	
+			
+			this.fn_search();
+		break;
+		case "Sys_ChgPgmCmplHelp" :	
+			
+			this.fn_search();
+		break;
+		
+		
+		
+		
+		default:
+		break;	
+	}
+}
+/**
+	@function	Tab00_tabpage2_Radio00_onitemchanged
+	@param
+	@desc		함수 재호출
+*/
+this.Tab00_tabpage2_Radio00_onitemchanged = function(obj:Radio, e:nexacro.ItemChangeEventInfo)
+{
+	this.fn_search();
+}
+
+this.div_11_wb_daumEditor_onusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{
+	//런타임
+	if(obj.getProperty("document").getProperty("title").indexOf("▩") == 0){
+		//read
+		if (gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "true"){
+			this.Tab00.tabpage3.wb_daumEditor.callMethod("setEditor",this.ds_help.getColumn(0,"CNTNT"));
+		//save
+		} else {
+			this.ds_help.setColumn(0,"CNTNT",gfnReplace(obj.getProperty("document").getProperty("title"),"▩",""));
+			this.fn_commSave_data();
+		}
+
+	//웹
+	} else if (e.userdata.indexOf("▦") == 0){
+		//read
+		if (gfnReplace(e.userdata,"▦","") == "true"){			
+			this.Tab00.tabpage3.wb_daumEditor.callMethod("setEditor",this.ds_help.getColumn(0,"CNTNT"));
+		//save
+		} else {
+			this.ds_help.setColumn(0,"CNTNT",gfnReplace(e.userdata,"▦",""));
+			this.fn_commSave_data();
+		}
+	}
+}
+
+this.Tab00_tabpage2_btn_Itm_Del00_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//선택된 아이템의 유무를 리턴한다.
+	if(!this.gfn_isGrdChk(this.ds_chgPgm)){
+		gfnAlert("선택된 아이템이 존재하지 않습니다."); 
+		return false;
+	}
+	
+	if(!this.gfnConfirm("완료처리 하시겠습니까?")) return false;
+	
+	var sSvcID = "Sys_ChgPgmCmplHelp";
+	var sController = "Sys_ChgPgmCmplHelp.do";
+	var sInDatasets = "in_ds=ds_chgPgm:A";
+	var sOutDatasets = "ds_help=in_ds";
+	var sCallbackFunc = "fn_trCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+	
+	
+}
+
+this.CompMultiMsgPop_ondeactivate = function(obj:Form, e:nexacro.ActivateEventInfo)
+{
+	fv_oldUrl = this.ds_condition.getColumn(0,"URL");
+}
+
+this.CompMultiMsgPop_onactivate = function(obj:Form, e:nexacro.ActivateEventInfo)
+{	
+	fv_frmae = application.gv_workFrame.getActiveFrame();
+	
+	if(fv_oldUrl != fv_frmae.form.fv_url && fv_oldUrl != ""){
+		fv_oldUrl ="";
+		this.ds_condition.setColumn(0,"URL",fv_frmae.form.fv_url)	   //URL
+		this.ds_condition.setColumn(0,"PGM_ID",fv_frmae.form.fv_menuId) //PGM_ID
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SCmmService">
+
+	<select id="searchCmmNotice" parameterType="hashmap" resultType="hashmap">
+	/* [SCmmService.searchCmmNotice][공지사항 현황 조회][2018.02.06][김동호] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="ALT_TOP_DISP DESC, DOC_NO DESC"/>
+		</include>
+		SELECT	BRANCH_CD AS DOC_BRANCH_CD
+				, BBS_CTGR
+				, DOC_NO
+				, DOC_NM
+				, LVL
+				, NVL(READ_CNT, 0) AS READ_CNT
+				, ALT_POPUP_WIN
+				, ALT_TOP_DISP
+				, BGN_DT
+				, END_DT
+				, CONTENT
+				, WRTR_ID
+				, GET_USERNM(WRTR_ID, BRANCH_CD,#{LANG_CD})  AS WRTR_NM
+				, PWD
+				, ATTCH_FILE_CNT
+				, CRTR_ID
+				, TO_CHAR(CRT_DT, 'yyyymmdd') AS CRT_DT
+				, LAST_CHGR_ID
+				, GET_USERNM(LAST_CHGR_ID, BRANCH_CD,#{LANG_CD}) AS LAST_CHGR_NM
+				, TO_CHAR(LAST_CHG_DT, 'yyyymmdd') AS LAST_CHG_DT
+		FROM	MM_CM_BBS CB
+		WHERE	BBS_CTGR = #{BBS_CTGR}
+		AND		INT_OPEN_SITE IN ('A','S')
+		AND		EXISTS (SELECT	'1'
+						  FROM	MM_PTNR_PORG
+						 WHERE	BRANCH_CD = CB.BRANCH_CD
+						   AND	PTNR_ID = #{PTNR_ID}
+						)
+		AND TO_CHAR( SYSDATE , 'yyyymmdd')  <![CDATA[>= ]]>   TO_CHAR(BGN_DT, 'yyyymmdd')
+		AND TO_CHAR( SYSDATE , 'yyyymmdd')   <![CDATA[<=]]>   TO_CHAR(END_DT, 'yyyymmdd')	
+		<if test="DOC_NM != null and DOC_NM != 'undefined' and DOC_NM != ''">
+			AND	DOC_NM   LIKE '%' || #{DOC_NM} || '%'
+		</if>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<resultMap id="RM_readCmmNotice" type="HMap">
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>   
+	<select id="readCmmNotice" resultType="HMap" resultMap="RM_readCmmNotice">
+	/* [SCmmService.readCmmNotice][공지사항 상세 조회][2017.02.06][김동호] */
+		SELECT	BRANCH_CD
+				, BBS_CTGR
+				, DOC_NO
+				, UPR_DOC_NO
+				, DOC_NM
+				, LVL
+				, READ_CNT
+				, INT_OPEN_SITE
+				, ALT_POPUP_WIN
+				, ALT_TOP_DISP
+				, BGN_DT
+				, END_DT
+				, CONTENT
+				, WRTR_ID
+				, GET_USERNM(WRTR_ID, BRANCH_CD,#{LANG_CD}) AS WRTR_NM
+				, '' AS PWD
+				, PWD AS OLD_PWD
+				, 'N' AS RELOAD
+				, ATTCH_FILE_CNT
+				, CRTR_ID
+				, TO_CHAR( CRT_DT, 'yyyymmdd') AS CRT_DT
+				, LAST_CHGR_ID
+				, GET_USERNM(LAST_CHGR_ID, BRANCH_CD,#{LANG_CD}) AS LAST_CHGR_NM
+				, TO_CHAR( LAST_CHG_DT, 'yyyymmdd') AS LAST_CHG_DT
+				, GET_USERNM(WRTR_ID, BRANCH_CD,#{LANG_CD}) || ' / ' || REPLACE(TO_CHAR( CRT_DT, 'yyyy.mm.dd'), '.', '-') AS WRTR_INFO
+				, GET_USERNM(LAST_CHGR_ID,BRANCH_CD,#{LANG_CD}) || ' / ' || REPLACE(TO_CHAR( LAST_CHG_DT, 'yyyy.mm.dd'), '.', '-') AS LAST_WRTR_INFO
+		FROM	MM_CM_BBS
+		WHERE	BRANCH_CD = #{DOC_BRANCH_CD}
+		AND		DOC_NO = #{DOC_NO}
+	</select>
+	
+	<update id="updateReadCnt" parameterType="hashmap" >
+	/* [SCmmService.updateReadCnt][조회수 업데이트][2017.11.07][한민희] */
+		UPDATE	MM_CM_BBS
+		   SET	READ_CNT	=	NVL(READ_CNT, 0)+1
+		 WHERE	BRANCH_CD 	= 	#{DOC_BRANCH_CD}
+		   AND	DOC_NO		=	#{DOC_NO}
+	</update>
+</mapper>

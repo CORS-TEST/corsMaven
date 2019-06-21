@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="220" id="BPtnrRtnRsnPop" left="0" titletext="등록거부사유" top="0" width="400">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="160" id="staViewCompCond01" left="10" right="10" taborder="0" top="5"/>
+        <Static cssclass="sta_WF_Label" height="160" id="staBody" left="10" taborder="1" text="거부사유" top="5" width="85"/>
+        <TextArea height="150" id="txtOpnn" left="99" lengthunit="ascii" maxlength="1000" right="15" taborder="2" top="10"/>
+        <Button height="24" id="btnSave" onclick="fnSave" right="15" taborder="3" text="확인" top="178" width="70"/>
+        <Button height="24" id="btnClose" onclick="fnClose" right="90" taborder="4" text="취소" top="178" width="70"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="MSG" compid="txtOpnn" datasetid="dsReturn" id="item0" propid="value"/>
+      
+      
+      
+    </Bind>
+    <Objects>
+      <Dataset id="dsReturn">
+        <ColumnInfo>
+          <Column id="MSG" size="256" type="STRING"/>
+          <Column id="Confirm" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+  * @함수명  : fnSave
+  * @input    : obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     : 거부 확인 이벤트
+  */
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00335");
+
+this.fnSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.txtOpnn.value)){ this.alert("거부사유를 입력하시요"); return;}
+	this.dsReturn.setColumn(0, "MSG",this.txtOpnn.value);
+	this.parent.close(this.dsReturn.saveXML());
+}
+
+/**
+  * @함수명  : fnClose
+  * @input    : obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     : 팝업 취소 이벤트
+  */
+this.fnClose = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.parent.close();
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="220" id="BAprOpnnPopup" inheritanceid="" left="0" oninit="fnOninit" onload="fnOnLoad" position="absolute" titletext="의견팝업" top="0" width="400">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="160" id="staViewCompCond01" left="10" right="10" taborder="20" top="45"/>
+        <Static cssclass="sta_WF_Label" height="160" id="staBody" left="10" taborder="21" top="45" width="85" wordwrap="english" text="결재의견"/>
+        <TextArea height="150" id="txtOpnn" left="99" right="15" taborder="22" top="50"/>
+        <Button height="24" id="btnReq" onclick="fnSave" right="10" taborder="25" text="확인" top="10" width="70"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn">
+        <ColumnInfo>
+          <Column id="MSG" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="MSG" compid="txtOpnn" datasetid="dsReturn" id="item0" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BAprOpnnPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 12.
+ * @설명			    : 의견팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 9. 12.
+*/ 
+
+this.fvGubun = "";
+this.popTitle = "";
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	
+	if(ownFrame.agv_gubun == "APP"){
+		this.fvGubun = ownFrame.agv_gubun;
+		this.popTitle = "승인";
+		//this.dsReturn.setColumn(0,"MSG",gfnMultiLabel("EPRO_LABEL_00899"));
+		
+	} else{
+		this.fvGubun = ownFrame.agv_gubun;
+		this.popTitle = "반려";
+		//this.dsReturn.setColumn(0,"MSG",gfnMultiLabel("EPRO_LABEL_00900"));
+	}
+	
+// 	var txt = "";
+// 	if(this.popTitle == "승인"){
+// 		txt = "승인의견";
+// 	} else{
+// 		txt = "반려의견";
+// 	}
+// 	
+// 	var objBindItem = new BindItem("Bind00","staBody","text","gdsLabel",txt);
+// 	this.addChild("Bind00",objBindItem);
+}
+
+this.fnPreSave = function()
+{
+	if(gfnIsNull(this.dsReturn.getColumn(0,"MSG"))){
+		gfnAlert("의견을 입력하시기 바랍니다.");
+		return false;
+	}
+	
+	var msg = "";
+	
+	if(this.fvGubun == "APP") msg = "승인 하시겠습니까?"
+	else msg = "반려 하시겠습니까?"
+	
+	if(!gfnConfirm(msg)) return false;
+	
+	return true
+}
+
+this.fnSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fnPreSave()) return;
+	
+	this.parent.close(this.dsReturn.saveXML())
+}
+]]></Script>
+  </Form>
+</FDL>

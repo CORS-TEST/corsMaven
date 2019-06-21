@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="576" id="BUserSrchPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="담당자검색팝업" top="0" width="1100">
+    <Layouts>
+      <Layout>
+        <Button height="24" id="btnRtn" objNm="적용" onclick="fnRtnData" right="10" taborder="4" text="적용" top="57" width="65"/>
+        <Grid autoenter="select" autofittype="col" binddataset="dsList" bottom="37" cellclickbound="cell" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" id="grdList" left="10" oncelldblclick="fnRtnData" onkeydown="grdListOnkeydown" right="10" taborder="5" top="86" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+                <Column size="120"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="부서명"/>
+                <Cell col="1" expr="" text="사용자 ID"/>
+                <Cell col="2" expr="" text="사용자명"/>
+                <Cell col="3" expr="" text="직책"/>
+                <Cell col="4" expr="" text="핸드폰"/>
+                <Cell col="5" expr="" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell text="bind:DEPT_NM"/>
+                <Cell col="1" text="bind:USER_ID"/>
+                <Cell col="2" style="align:left;" text="bind:USER_NM"/>
+                <Cell col="3" text="bind:PSTN"/>
+                <Cell col="4" text="bind:HP"/>
+                <Cell col="5" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Div bottom="10" height="28" id="divPaging" left="5" right="5" scrollbars="none" taborder="8" url="CCOMP::CompPaging.xfdl"/>
+        <Div id="divViewCompCond00" taborder="16" left="10" top="7" right="10" height="36" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Static id="staUserId" taborder="61" text="사용자ID" onclick="Tab00_tabpage1_div_condition_sta_WFSA_LabelP_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="110" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Button id="btnSearch" taborder="62" text="조회" onclick="fnSearch" cssclass="btn_WF_Search" top="5" right="5" width="60" height="24" style="imagealign:left middle;"/>
+              <Edit id="edtUserNm" taborder="63" onkeyup="fnOnkeyup" left="560" top="5" width="200" height="24" objNm="품목명"/>
+              <Edit id="edtUserId" taborder="64" onkeyup="fnOnkeyup" left="110" top="5" width="120" height="24" objNm="품목코드"/>
+              <Static id="staUserNm" taborder="65" text="사용자명" onclick="Tab00_tabpage1_div_condition_sta_WFSA_LabelP_onclick" left="450" top="5" width="110" height="24" style="padding:0 10 0 6;align:right middle;" cssclass="sta_WF_SearchLabel"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsSrchOpt" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="USER_NM" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item12" compid="divViewCompCond00.edtUserId" propid="value" datasetid="dsSrchOpt" columnid="USER_ID"/>
+      <BindItem id="item13" compid="divViewCompCond00.edtUserNm" propid="value" datasetid="dsSrchOpt" columnid="USER_NM"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BUserSrchPopup.xfdl
+ * @생성자       	: 김민성
+ * @생성일자     	: 2019. 05. 03.
+ * @설명			: 담당자검색팝업
+ * @최종수정자		: 김민성
+ * @최종수정일자	: 2019. 05. 03.
+*/ 
+
+this.popTitle = "담당자 검색"
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.grdList, this.divPaging, this);
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsSrchOpt.addRow();
+	this.dsSrchOpt.setColumn(0,"USER_ID",ownFrame.agv_id);
+	this.dsSrchOpt.setColumn(0,"USER_NM",ownFrame.agv_nm);
+	this.dsSrchOpt.setColumn(0,"BRANCH_CD", application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	
+	if(!gfnIsNull(this.dsSrchOpt.getColumn(0,"USER_NM"))){
+		this.fnSearch();	
+	}
+}
+ 
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchComUser";
+	var sController = "epro.com.service.BComService.searchComUser";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+			
+	var	oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.grdList, divPaging:this.divPaging}
+				];					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+	
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchComUser" :	
+			this.grdList.setFocus();
+		break;
+ 
+		default:
+		break;	
+	}
+}
+   
+/**
+  * @함수명		: fnRtnData
+  * @desc     	: 그리드 cell 더블클릭
+  */   
+this.fnRtnData = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rtn = gfnGetSelRowString(this.dsList);
+			
+	if(rtn){
+		this.parent.close(rtn);
+	}	
+}
+
+/**
+  * @함수명	: grdListOnkeyup
+  * @desc     	: 그리드 Onkeyup 이벤트
+  */ 
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		this.fnSearch();		
+	}
+}
+
+/**
+  * @함수명	: grdListOnkeydown
+  * @desc     	: 그리드 Onkeydown 이벤트
+  */
+this.grdListOnkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		var rtn = gfnGetSelRowString(this.dsList);
+
+		if(rtn){
+			this.parent.close(rtn);
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

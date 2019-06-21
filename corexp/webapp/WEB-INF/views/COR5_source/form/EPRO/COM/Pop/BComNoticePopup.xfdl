@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="800" id="BCmmNoticePopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="공지사항 팝업" top="0" width="700">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="10" right="10" taborder="0" top="10"/>
+        <Static cssclass="sta_WF_Label" height="33" id="stattlWf" lbcd="TTL_TOT_AMT" left="10" taborder="3" text="제목" top="10" width="130"/>
+        <Static height="24" id="staTtl" lbcd="TTL_TOT_AMT" left="150" taborder="5" top="15" width="530"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="10" right="10" taborder="6" top="42"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staWrtrInfoWf" lbcd="TTL_TOT_AMT" left="10" taborder="7" text="작성자 / 작성일자" top="42" width="130"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staLastChgrInfoWf" lbcd="TTL_TOT_AMT" left="350" taborder="8" text="수정자 / 수정일자" top="42" width="130"/>
+        <Static height="24" id="staWrtrInfo" lbcd="TTL_TOT_AMT" left="150" taborder="9" top="47" width="192"/>
+        <Static height="24" id="staLastChgrInfo" lbcd="TTL_TOT_AMT" left="490" taborder="10" top="47" width="192"/>
+        <WebBrowser bottom="260" id="webBrowser" left="10" right="10" taborder="11" top="91"/>
+        <Div bottom="10" height="230" id="divViewCompBody00" left="10" right="10" taborder="12" url="CCOMP::CompNFileUpDown.xfdl"/>
+        <CheckBox bottom="10" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00915&quot;)" height="25" id="chkToday" left="10" onclick="fnOnclick" right="10" taborder="13" text="오늘하루 그만보기"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsBbs">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="DOC_NO" size="256" type="STRING"/>
+          <Column id="RELOAD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="DOC_NM" compid="staTtl" datasetid="dsBbs" id="item0" propid="text"/>
+      <BindItem columnid="WRTR_INFO" compid="staWrtrInfo" datasetid="dsBbs" id="item1" propid="text"/>
+      <BindItem columnid="LAST_WRTR_INFO" compid="staLastChgrInfo" datasetid="dsBbs" id="item2" propid="text"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BCmmNoticePopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 20.
+ * @설명			    : 공지사항 팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 9. 21.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00948");
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnMakeFileDs(this);
+	
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsBbs.addRow();
+	this.dsBbs.setColumn(0,"DOC_NO",ownFrame.agv_id);
+	
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{	
+	var sSvcID = "readComNoticePop";
+	var sController = "epro.com.service.BComService.readComNoticePop";
+	var sInDatasets = "dsBbs=dsBbs:A";
+	var sOutDatasets = "dsBbs=dsBbs";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "readComNoticePop" :	
+			var doc = this.webBrowser.getProperty("document");
+			doc.callMethod("write",this.dsBbs.getColumn(0,"CONTENT"));
+			
+			var sTableNm = "MM_CM_BBS";
+			var arrFileKey = [this.dsBbs.getColumn(0, "DOC_NO")];
+			this.divViewCompBody00.fnFileInit(this, sTableNm, this.dsBbs, arrFileKey, "Y");
+			
+		break;
+ 
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnOnclick
+  * @desc   : 
+  */
+this.fnOnclick = function(obj:CheckBox,  e:nexacro.ClickEventInfo)
+{
+	var today = this.dsBbs.getColumn(0,"TODAY");
+	
+	if(this.chkToday.value){
+		if(gfnIsNull(application.getPrivateProfile(today))){
+			application.setPrivateProfile(today,"N");
+		}
+	}
+	
+	this.close();
+}
+]]></Script>
+  </Form>
+</FDL>

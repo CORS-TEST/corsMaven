@@ -1,0 +1,438 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="PCTRS100L00" classname="frmSearchCond" left="0" top="0" width="1220" height="711" onload="form_onload" oninit="form_oninit" titletext="계약현황">
+    <Layouts>
+      <Layout>
+        <Div id="div_body" taborder="36" text="Div00" top="61" right="15" bottom="0" left="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_list" taborder="8" binddataset="ds_list" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" left="0%" top="10" right="0%" bottom="37" objNm="검색결과 그리드" cssclass="grd_default" autoupdatetype="comboselect" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y" f_version="20151023" oncelldblclick="div_body_grd_list_oncelldblclick" autofittype="none">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="70"/>
+                      <Column size="300"/>
+                      <Column size="90"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="100"/>
+                      <Column size="90"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="운영단위"/>
+                      <Cell col="1" text="계약번호"/>
+                      <Cell col="2" text="상태"/>
+                      <Cell col="3" text="계약명"/>
+                      <Cell col="4" text="계약유형"/>
+                      <Cell col="5" text="계약시작일자"/>
+                      <Cell col="6" text="계약종료일자"/>
+                      <Cell col="7" text="총계약금액"/>
+                      <Cell col="8" text="작성일자"/>
+                      <Cell col="9" text="담당자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:BRANCH_NM" tooltiptext="bind:BRANCH_NM"/>
+                      <Cell col="1" style="color:blue;color2:blue;" cssclass="cell_link" text="bind:CNTR_NO" maskchar=" " tooltiptext="bind:CNTR_NO"/>
+                      <Cell col="2" text="bind:CD_CNTR_STTS_NM" tooltiptext="bind:CD_CNTR_STTS_NM"/>
+                      <Cell col="3" style="align:left;" cssclass="cell_link" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="4" text="bind:CD_CNTR_CTGR_NM" tooltiptext="bind:CD_CNTR_CTGR_NM"/>
+                      <Cell col="5" displaytype="date" text="bind:CNTR_BGN_DAY" mask="yyyy.MM.dd" maskchar=" " calendardisplaynulltype="none" tooltiptext="bind:CNTR_BGN_DAY"/>
+                      <Cell col="6" displaytype="date" text="bind:CNTR_END_DAY" mask="yyyy.MM.dd" maskchar=" " calendardisplaynulltype="none" tooltiptext="bind:CNTR_END_DAY"/>
+                      <Cell col="7" displaytype="number" style="align:right;" text="bind:CNTR_AMT" mask="#,##0.00" tooltiptext="bind:CNTR_AMT"/>
+                      <Cell col="8" displaytype="date" edittype="none" text="bind:CRT_DT" mask="yyyy.MM.dd" maskchar=" " calendardisplaynulltype="none" tooltiptext="bind:CRT_DT"/>
+                      <Cell col="9" cssclass="cell_link" text="bind:CNTR_REQR_NM" tooltiptext="bind:CNTR_REQR_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_paing" taborder="9" url="commComp::commPaging.xfdl" left="0%" right="0%" bottom="10" height="28" scrollbars="none"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_condition" taborder="45" left="0" top="0" right="15" height="45" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout width="1042" height="43">
+              <Static id="sta_WFDA_Label" taborder="1" text="계약번호" cssclass="sta_WF_SearchLabel" left="0" top="10" height="24" lbcd="" width="117"/>
+              <Edit id="edt_cntrNoArr" taborder="2" left="117" top="10" height="24" onkeyup="fn_onkeyup_event" cssclass="edt_default" objNm="계약번호" width="200"/>
+              <Static id="sta_WFDA_Label00" taborder="3" text="계약서상태" cssclass="sta_WF_SearchLabel" left="327" top="10" height="24" lbcd="" width="91"/>
+              <Combo id="cbo_cdCntrStts" taborder="4" cssclass="cbo_default" left="418" top="10" height="24" onitemchanged="div_condition_CD_RFQ_STTS_onitemchanged" codecolumn="CD_ID" datacolumn="CD_NM_LO" innerdataset="ds_cdCT10" objNm="계약서상태" width="150"/>
+              <Button id="btn_multiSelect" taborder="7" cssclass="btn_WF_MultiSmall" left="293" top="10" height="24" objNm="계약번호 멀티선택 버튼" onclick="div_condition_btn_multiSelect_onclick" width="24"/>
+              <Static id="sta_WFDA_Label01" taborder="8" text="계약요청일자" cssclass="sta_WF_SearchLabel" left="552" top="10" width="117" height="24" lbcd=""/>
+              <Div id="div_crtDt" taborder="9" url="commComp::commCalFromTo.xfdl" text="Div01" left="661" top="10" width="220" height="24" objNm="계약작성일자"/>
+              <Static id="sta_WFDA_Label04" taborder="10" text="계약명" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="893" top="10" width="65" height="24" lbcd=""/>
+              <Edit id="edt_ttl" taborder="11" onkeyup="fn_onkeyup_event" cssclass="edt_default" left="966" top="10" width="200" height="24" objNm="계약명"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="div_condition.edt_cntrNoArr" propid="value" datasetid="ds_condition" columnid="CNTR_NO_ARR"/>
+      <BindItem id="item1" compid="div_condition.cbo_cdCntrStts" propid="value" datasetid="ds_condition" columnid="CD_CNTR_STTS"/>
+      <BindItem id="item3" compid="div_condition.edt_ttl" propid="value" datasetid="ds_condition" columnid="TTL"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_condition" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="CD_DOC_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_DOC_CTGR" size="40" type="string"/>
+          <Column id="CNTR_REQR_ID" size="50" type="string"/>
+          <Column id="CNTR_REQR_NM" size="90" type="string"/>
+          <Column id="CD_CNTR_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="PTNR_ID" size="40" type="string"/>
+          <Column id="PTNR_NM" size="200" type="string"/>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="CD_CNTR_STTS_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_STTS" size="40" type="string"/>
+          <Column id="CRT_DAY_STR" size="8" type="string"/>
+          <Column id="CRT_DAY_END" size="8" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="CRT_DT_STR" size="7" type="string"/>
+          <Column id="CRT_DT_END" size="7" type="string"/>
+          <Column id="MTRL_NM" size="500" type="string"/>
+          <Column id="MTRL_CD" size="20" type="string"/>
+          <Column id="CNTR_CFM_DT" size="7" type="string"/>
+          <Column id="CNTR_REQ_DT_STR" size="7" type="string"/>
+          <Column id="CNTR_REQ_DT_END" size="7" type="string"/>
+          <Column id="SORT_ITEM1" type="STRING" size="256"/>
+          <Column id="SORT_ITEM2" type="STRING" size="256"/>
+          <Column id="SORT_ITEM3" type="STRING" size="256"/>
+          <Column id="SORT_ITEM4" type="STRING" size="256"/>
+          <Column id="SORT_TYPE1" type="STRING" size="256"/>
+          <Column id="SORT_TYPE2" type="STRING" size="256"/>
+          <Column id="SORT_TYPE3" type="STRING" size="256"/>
+          <Column id="SORT_TYPE4" type="STRING" size="256"/>
+          <Column id="CNTR_NO_ARR" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_list" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CD_DFCT_GRNT_PRID_NM" size="60" type="string"/>
+          <Column id="CD_DFCT_GRNT_PRID" size="60" type="string"/>
+          <Column id="LNK_CNTR_NO" size="40" type="string"/>
+          <Column id="TKEY" size="40" type="string"/>
+          <Column id="CNTR_AMT" size="22" type="bigdecimal"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="CD_CNTR_CNDTN_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_CNDTN" size="40" type="string"/>
+          <Column id="CD_CRNC_NM" size="40" type="string"/>
+          <Column id="CD_CRNC" size="40" type="string"/>
+          <Column id="CD_DOC_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_DOC_CTGR" size="40" type="string"/>
+          <Column id="CNTR_REQR_ID" size="50" type="string"/>
+          <Column id="CNTR_REQR_NM" size="90" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="CD_CNTR_CTGR_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="PTNR_ID" size="40" type="string"/>
+          <Column id="PTNR_NM" size="200" type="string"/>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="CNTR_END_DAY" size="8" type="string"/>
+          <Column id="CNTR_CFM_DT" size="7" type="string"/>
+          <Column id="ATTCH_FILE_CNT" size="22" type="bigdecimal"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="CNTR_PTNR_ID" size="50" type="string"/>
+          <Column id="CNTR_REQ_DT" size="7" type="string"/>
+          <Column id="ALT_INTL_CFM" size="1" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="CD_CNTR_STTS_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_STTS" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE_NM" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE" size="40" type="string"/>
+          <Column id="CNTR_BGN_DAY" size="8" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="APP_DOC_ID" size="40" type="string"/>
+          <Column id="CNTR_TMPL_ID" size="40" type="string"/>
+          <Column id="PORG_ID" size="20" type="string"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_sortItem" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CD_NM_LO" type="STRING" size="256"/>
+          <Column id="CD_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CD_NM_LO">선택</Col>
+            <Col id="CD_ID"/>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">계약번호</Col>
+            <Col id="CD_ID">C.CNTR_NO</Col>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">상태</Col>
+            <Col id="CD_ID">C.CD_CNTR_STTS</Col>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">계약명</Col>
+            <Col id="CD_ID">C.TTL</Col>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">계약유형</Col>
+            <Col id="CD_ID">C.CD_CNTR_CTGR</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_return" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       PCTRS100L00.xfdl
+   @desc       계약현황
+   @author     박기승
+   @makedate   2016.01.28
+   @history    2016.04.08  정준화 주석 작업및 추가사항 정리
+   @history    2016.09.09  한민희 DB변경에 따라 쿼리 수정.
+*/  
+
+include "lib::lib_all.xjs";
+
+/**
+	@function	form_oninit()
+	@desc   	폼 oninit이벤트
+*/
+this.form_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fn_setCode();
+}
+
+/**
+	@function   fn_setCode()
+	@desc       공통코드 데이터셋 생성
+*/
+this.fn_setCode = function()
+{
+	var param = [
+					  {code:"CM10", sSelectType:"A"} // 문서유형
+					 ,{code:"CT10", sSelectType:"A", sFiltered:"&& CD_ID != 'CT10WRI' && CD_ID != 'CT10CXL' && CD_ID != 'CT10WAT'"} // 계약상태
+				];
+
+	//공통코드 데이터셋 생성
+	this.gfn_getCommonCode(param);	
+}
+
+/**
+	@function	form_onload()
+	@desc   	폼 onload이벤트
+*/
+this.form_onload = function(obj:Form, e:LoadEventInfo)
+{	
+	// 시스템 공통함수 호출
+	this.gfn_formOnLoad(obj);
+    	
+	//그리드 공통버튼 설정
+	this.div_body.div_paing.fn_initGridInfo(obj, this.div_body.grd_list);
+		
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	this.gfn_setGrdFunc(this.div_body.grd_list);
+	
+	
+	this.div_condition.div_crtDt.fn_setDate(this.ds_condition, "CNTR_REQ_DT_STR", "CNTR_REQ_DT_END");
+	
+	//검색조건 DataSet Row추가
+	this.ds_condition.addRow();
+		
+	//공통코드 콤보 index 처리
+	this.ds_condition.setColumn(0, "CD_CNTR_STTS", "CT10SREQ");
+	this.ds_condition.setColumn(0, "PTNR_ID", application.gds_userInfo.getColumn(0, "PTNR_ID"));
+	
+	this.ds_condition.setColumn(0,"CRT_DAY_STR",this.gfn_addMonth(this.gfn_today(),-1));
+	this.ds_condition.setColumn(0,"CRT_DAY_END",this.gfn_today());
+	
+	//정렬 기본값 셋팅
+	this.ds_condition.setColumn(0,"SORT_ITEM1","");
+	this.ds_condition.setColumn(0,"SORT_TYPE1","");
+	this.ds_condition.setColumn(0,"SORT_ITEM2","");
+	this.ds_condition.setColumn(0,"SORT_TYPE2","");
+	this.ds_condition.setColumn(0,"SORT_ITEM3","");
+	this.ds_condition.setColumn(0,"SORT_TYPE3","");
+	this.ds_condition.setColumn(0,"SORT_ITEM4","");
+	this.ds_condition.setColumn(0,"SORT_TYPE4","");
+		
+	this.fn_commSrch();
+}
+
+/**
+	@function	fn_preSearch()
+	@desc   	조회 전 처리
+*/
+this.fn_preSearch = function()
+{
+	
+	return true;
+}
+
+/**
+	@function	fn_commSrch()
+	@desc   	조회 프로세스
+*/
+this.fn_commSrch = function()
+{
+	if(!this.fn_preSearch()) return false;
+	
+	var sSvcID = "search";
+	var sController = "SCntr_Srch.do";
+	var sInDatasets = "in_ds=ds_condition";
+	var sOutDatasets = "ds_list=ds_srch";
+	var sCallbackFunc = "fn_trCallBack";
+	
+    this.div_body.div_paing.gfn_pagingTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fn_commAdd()
+	@desc   	(공통버튼)신규 프로세스
+*/
+this.fn_commAdd = function()
+{
+
+}
+
+/**
+	@function	fn_commDelete()
+	@desc   	(공통버튼)삭제 프로세스
+*/
+this.fn_commDelete = function()
+{
+
+}
+
+/**
+	@function	fn_preSave()
+	@desc   	저장 전 처리
+*/
+this.fn_preSave = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_commSave()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fn_commSave = function()
+{
+	return true;
+}
+
+/**
+	@function	btn_commCancel()
+	@desc   	(공통버튼)취소 프로세스
+*/
+this.btn_commCancel = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_trCallBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	
+	if(strErrCd < 0)
+	{
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "search" : 
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fn_commClose()
+	@desc   	(공통버튼)닫기 : form 닫기 전 공통에서 체크함
+*/
+this.fn_commClose = function()
+{	
+	return true;
+}
+
+/**
+	@function	div_condition_btn_multiSelect_onclick()
+	@desc   	멀티입력 팝업을 호출
+*/
+this.div_condition_btn_multiSelect_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//멀티입력 컴포넌트 호출
+	this.gfn_popMultiInput(this.div_condition.edt_cntrNoArr);
+}
+
+/**
+	@function	fn_onkeyup_event()
+	@desc   	검색조건에서 ENTER(keycode::13) 입력시 이벤트
+*/
+this.fn_onkeyup_event = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	//Enter 입력시
+	if(e.keycode == "13")
+	{
+		this.fn_commSrch();
+	}
+}
+
+/**
+	@function	div_body_grd_list_oncelldblclick()
+	@desc   	그리드 더블클릭 이벤트
+*/
+this.div_body_grd_list_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.ds_list.rowcount==0) return;
+	if(this.gfn_isNull(this.ds_list.getColumn(e.row, this.gfn_grdBindColName(obj, e.cell)))) return false;
+	
+	if(this.gfn_grdBindColName(obj, e.cell)=="CNTR_NO")
+	{
+		if(system.navigatorname != "IE" && system.navigatorname != "nexacro"){
+			this.gfn_alert("계약은 IE 또는 넥사크로 전용브라우저에서만 실행 가능합니다.");
+			return;
+		}
+		
+		this.gfn_setTmprData("CNTR_NO"		, this.ds_list.getColumn(e.row,"CNTR_NO"));
+		this.gfn_setTmprData("COREXP_KIDS"	, this.ds_list.getColumn(e.row,"COREXP_KIDS"));
+		this.gfn_setTmprData("BRANCH_CD"	, this.ds_list.getColumn(e.row,"BRANCH_CD"));
+		this.gfn_setTmprData("CD_CNTR_STTS"	, this.ds_list.getColumn(e.row,"CD_CNTR_STTS"));
+		this.gfn_openMenuUrl("CTRS::PCTRS100N00.xfdl");
+	}
+	else if(this.gfn_grdBindColName(obj, e.cell)=="TTL")
+	{
+		if(system.navigatorname != "IE" && system.navigatorname != "nexacro"){
+			this.gfn_alert("계약은 IE 또는 넥사크로 전용브라우저에서만 실행 가능합니다.");
+			return;
+		}
+		this.gfn_setTmprData("CNTR_NO"		, this.ds_list.getColumn(e.row,"CNTR_NO"));
+		this.gfn_setTmprData("COREXP_KIDS"	, this.ds_list.getColumn(e.row,"COREXP_KIDS"));
+		this.gfn_setTmprData("BRANCH_CD"	, this.ds_list.getColumn(e.row,"BRANCH_CD"));
+		this.gfn_setTmprData("CD_CNTR_STTS"	, this.ds_list.getColumn(e.row,"CD_CNTR_STTS"));
+		this.gfn_openMenuUrl("CTRS::PCTRS100N00.xfdl");
+	}
+	else if("CNTR_REQR_NM" == this.gfn_grdBindColName(obj, obj.getCellPos())) // 협력사 유저검색
+	{
+		var sArg = {	 branch_cd : this.ds_list.getColumn(e.row, "BRANCH_CD")
+						,  user_id : this.ds_list.getColumn(e.row, "CNTR_REQR_ID")
+					};
+		this.gfn_dialog("PopupUserInfo", "commPop::PPOPC000P07.xfdl", sArg, "fn_popCallBack");
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

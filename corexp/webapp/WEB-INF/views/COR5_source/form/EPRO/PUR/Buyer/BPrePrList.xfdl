@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="768" id="BCntrWriList" left="0" oninit="FormOninit" onload="FormOnload" titletext="사전요청현황" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div cssclass="div_WF_SearchBg" height="110" id="divViewCompCond01" left="0" objNm="" right="15" taborder="0" top="35">
+          <Layouts>
+            <Layout>
+              <Static id="staWarning" taborder="49" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="-1" top="89" right="0" height="19"/>
+              <Static id="staPrNo" taborder="66" text="구매요청번호" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-구매요청번호"/>
+              <Static id="staPrNm" taborder="67" text="구매요청명" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="0" top="34" width="170" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-구매요청명"/>
+              <Static id="staMtrl" taborder="70" text="품목" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="476" top="5" width="118" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-품목"/>
+              <Static id="staPchrgrId" taborder="71" text="요청자" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="476" top="34" width="118" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-요청자"/>
+              <Div id="divPrNo" taborder="72" url="CCOMP::ComSrchInput.xfdl" text="Div00" left="170" top="5" width="220" height="24" objNm="검색조건-구매요청번호"/>
+              <Div id="divPrTtl" taborder="73" url="CCOMP::ComSrchInput.xfdl" text="Div00" left="170" top="34" width="220" height="24" objNm="검색조건-구매요청명"/>
+              <Div id="divMtrl" taborder="74" url="CCOMP::ComSrchMtrl.xfdl" text="Div00" left="594" top="5" width="350" height="24" objNm="검색조건-품목"/>
+              <Div id="divReqr" taborder="75" url="CCOMP::ComSrchUser.xfdl" text="Div00" left="594" top="34" width="250" height="24" objNm="검색조건-요청자"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="1" text="Div00" top="161">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="none" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="1" top="29" useinputpanel="false" oncelldblclick="grdListOnCelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="387"/>
+                      <Column size="110"/>
+                      <Column size="80"/>
+                      <Column size="110"/>
+                      <Column size="99"/>
+                      <Column size="80"/>
+                      <Column size="110"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="요청번호"/>
+                      <Cell col="1" text="상태명"/>
+                      <Cell col="2" text="요청구분"/>
+                      <Cell col="3" text="요청명"/>
+                      <Cell col="4" text="요청일자"/>
+                      <Cell col="5" text="요청자명"/>
+                      <Cell col="6" text="회신희망일자"/>
+                      <Cell col="7" text="구매담당자"/>
+                      <Cell col="8" text="접수일자"/>
+                      <Cell col="9" text="작성일자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" text="bind:PR_NO"/>
+                      <Cell col="1" text="bind:CD_PR_STTS_NM"/>
+                      <Cell col="2" text="bind:CD_PRE_PR_DIST_NM"/>
+                      <Cell col="3" style="align:left;" text="bind:TTL"/>
+                      <Cell col="4" displaytype="date" text="bind:REQ_DT" mask="yyyy.MM.dd" calendardisplaynulltype="none" tooltiptext="bind:REQ_DT"/>
+                      <Cell col="5" cssclass="cell_link" text="bind:REQR_NM"/>
+                      <Cell col="6" displaytype="date" text="bind:HOPE_REPLY_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none"/>
+                      <Cell col="7" cssclass="cell_link" text="bind:PCHRGR_NM"/>
+                      <Cell col="8" displaytype="date" text="bind:RCV_DT" mask="yyyy.MM.dd" calendardisplaynulltype="none"/>
+                      <Cell col="9" displaytype="date" text="bind:CRT_DT" mask="yyyy.MM.dd" calendardisplaynulltype="none"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="9" height="28" id="divPaging" left="0" objNm="페이징" right="0" scrollbars="none" taborder="2" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" style="align:center;" taborder="3" top="0">
+          <Layouts>
+            <Layout>
+              <Div id="divCntrDt" taborder="1" url="CCOMP::CompCalFromTo.xfdl" text="Div01" left="170" top="6" height="24" objNm="검색조건-작성일자" width="301"/>
+              <Combo id="cboPrStts" taborder="3" innerdataset="@dsCdPR15" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="594" top="6" height="24" objNm="검색조건-요청분류" width="148">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows/>
+                </Dataset>
+              </Combo>
+              <Combo id="cboPrCtgr" taborder="4" innerdataset="@dsCdPR14" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="892" top="6" height="24" objNm="검색조건-상태" width="185"/>
+              <Static id="staPtnrNm" taborder="6" text="작성일자" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-작성일자"/>
+              <Static id="staPtnrNm00" taborder="7" text="요청분류" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="476" top="5" width="118" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-요청분류"/>
+              <Static id="staPtnrNm01" taborder="8" text="상태" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="774" top="5" width="118" height="24" style="padding:0 10 0 6;align:right middle;" objNm="검색어-상태"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnFold" taborder="5" cssclass="btn_Fold_Close" left="45.66%" top="145" width="56" height="17" onclick="btnFold_onclick" objNm="버튼-접고펼치기"/>
+        <Static id="Static01" taborder="7" text="15" visible="false" top="0" style="background:coral;align:center middle;" right="0" width="15" bottom="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="PR_NO" size="256" type="STRING"/>
+          <Column id="CD_PR_STTS" type="STRING" size="256"/>
+          <Column id="CD_PR_STTS_NM" type="STRING" size="256"/>
+          <Column id="CD_PRE_PR_DIST" type="STRING" size="256"/>
+          <Column id="CD_PRE_PR_DIST_NM" type="STRING" size="256"/>
+          <Column id="REQR_ID" type="STRING" size="256"/>
+          <Column id="REQR_NM" type="STRING" size="256"/>
+          <Column id="SRC_GRP_ID" type="STRING" size="256"/>
+          <Column id="TTL" type="STRING" size="256"/>
+          <Column id="REQ_DT" type="STRING" size="256"/>
+          <Column id="HOPE_REPLY_DAY" type="STRING" size="256"/>
+          <Column id="REQ_CNTNT" type="STRING" size="256"/>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="ATTCH_FILE_CNT" type="STRING" size="256"/>
+          <Column id="PCHRGR_ID" type="STRING" size="256"/>
+          <Column id="PCHRGR_NM" type="STRING" size="256"/>
+          <Column id="RTN_CNTNT" type="STRING" size="256"/>
+          <Column id="RCV_DT" type="STRING" size="256"/>
+          <Column id="RTN_DT" type="STRING" size="256"/>
+          <Column id="TKEY" type="STRING" size="256"/>
+          <Column id="LINK_URL" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="DUMMY" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="CRT_DT_START" type="STRING" size="256"/>
+          <Column id="CRT_DT_END" type="STRING" size="256"/>
+          <Column id="CD_PR_STTS" type="STRING" size="40"/>
+          <Column id="CD_PRE_PR_DIST" type="STRING" size="40"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="400"/>
+          <Column id="REQR_ID" type="STRING" size="40"/>
+          <Column id="REQR_NM" type="STRING" size="40"/>
+          <Column id="ORDERBY" type="STRING" size="256"/>
+          <Column id="SORT_ITEM1" type="STRING" size="256"/>
+          <Column id="SORT_ITEM2" type="STRING" size="256"/>
+          <Column id="SORT_ITEM3" type="STRING" size="256"/>
+          <Column id="SORT_ITEM4" type="STRING" size="256"/>
+          <Column id="SORT_TYPE1" type="STRING" size="256"/>
+          <Column id="SORT_TYPE2" type="STRING" size="256"/>
+          <Column id="SORT_TYPE3" type="STRING" size="256"/>
+          <Column id="SORT_TYPE4" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCdPR14"/>
+      <Dataset id="dsCdPR15"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompCond00.cboPrStts" propid="value" datasetid="dsCondition" columnid="CD_PRE_PR_DIST"/>
+      <BindItem id="item8" compid="divViewCompCond00.cboPrCtgr" propid="value" datasetid="dsCondition" columnid="CD_PR_STTS"/>
+      <BindItem id="staPrNoVi" compid="divViewCompCond01.staPrNo" propid="visible" datasetid="dsObjBindVi" columnid="staPrNo"/>
+      <BindItem id="staPrNoEn" compid="divViewCompCond01.staPrNo" propid="enable" datasetid="dsObjBindEn" columnid="staPrNo"/>
+      <BindItem id="staPrNmVi" compid="divViewCompCond01.staPrNm" propid="visible" datasetid="dsObjBindVi" columnid="staPrNm"/>
+      <BindItem id="staPrNmEn" compid="divViewCompCond01.staPrNm" propid="enable" datasetid="dsObjBindEn" columnid="staPrNm"/>
+      <BindItem id="staMtrlVi" compid="divViewCompCond01.staMtrl" propid="visible" datasetid="dsObjBindVi" columnid="staMtrl"/>
+      <BindItem id="staMtrlEn" compid="divViewCompCond01.staMtrl" propid="enable" datasetid="dsObjBindEn" columnid="staMtrl"/>
+      <BindItem id="staPchrgrIdVi" compid="divViewCompCond01.staPchrgrId" propid="visible" datasetid="dsObjBindVi" columnid="staPchrgrId"/>
+      <BindItem id="staPchrgrIdEn" compid="divViewCompCond01.staPchrgrId" propid="enable" datasetid="dsObjBindEn" columnid="staPchrgrId"/>
+      <BindItem id="divPrNoVi" compid="divViewCompCond01.divPrNo" propid="visible" datasetid="dsObjBindVi" columnid="divPrNo"/>
+      <BindItem id="divPrNoEn" compid="divViewCompCond01.divPrNo" propid="enable" datasetid="dsObjBindEn" columnid="divPrNo"/>
+      <BindItem id="divPrTtlVi" compid="divViewCompCond01.divPrTtl" propid="visible" datasetid="dsObjBindVi" columnid="divPrTtl"/>
+      <BindItem id="divPrTtlEn" compid="divViewCompCond01.divPrTtl" propid="enable" datasetid="dsObjBindEn" columnid="divPrTtl"/>
+      <BindItem id="divMtrlVi" compid="divViewCompCond01.divMtrl" propid="visible" datasetid="dsObjBindVi" columnid="divMtrl"/>
+      <BindItem id="divMtrlEn" compid="divViewCompCond01.divMtrl" propid="enable" datasetid="dsObjBindEn" columnid="divMtrl"/>
+      <BindItem id="divReqrVi" compid="divViewCompCond01.divReqr" propid="visible" datasetid="dsObjBindVi" columnid="divReqr"/>
+      <BindItem id="divReqrEn" compid="divViewCompCond01.divReqr" propid="enable" datasetid="dsObjBindEn" columnid="divReqr"/>
+      <BindItem id="divPagingVi" compid="divViewCompBody00.divPaging" propid="visible" datasetid="dsObjBindVi" columnid="divPaging"/>
+      <BindItem id="divPagingEn" compid="divViewCompBody00.divPaging" propid="enable" datasetid="dsObjBindEn" columnid="divPaging"/>
+      <BindItem id="divCntrDtVi" compid="divViewCompCond00.divCntrDt" propid="visible" datasetid="dsObjBindVi" columnid="divCntrDt"/>
+      <BindItem id="divCntrDtEn" compid="divViewCompCond00.divCntrDt" propid="enable" datasetid="dsObjBindEn" columnid="divCntrDt"/>
+      <BindItem id="cboPrSttsVi" compid="divViewCompCond00.cboPrStts" propid="visible" datasetid="dsObjBindVi" columnid="cboPrStts"/>
+      <BindItem id="cboPrSttsEn" compid="divViewCompCond00.cboPrStts" propid="readonly" datasetid="dsObjBindEn" columnid="cboPrStts"/>
+      <BindItem id="cboPrCtgrVi" compid="divViewCompCond00.cboPrCtgr" propid="visible" datasetid="dsObjBindVi" columnid="cboPrCtgr"/>
+      <BindItem id="cboPrCtgrEn" compid="divViewCompCond00.cboPrCtgr" propid="readonly" datasetid="dsObjBindEn" columnid="cboPrCtgr"/>
+      <BindItem id="staPtnrNmVi" compid="divViewCompCond00.staPtnrNm" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrNm"/>
+      <BindItem id="staPtnrNmEn" compid="divViewCompCond00.staPtnrNm" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrNm"/>
+      <BindItem id="staPtnrNm00Vi" compid="divViewCompCond00.staPtnrNm00" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrNm00"/>
+      <BindItem id="staPtnrNm00En" compid="divViewCompCond00.staPtnrNm00" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrNm00"/>
+      <BindItem id="staPtnrNm01Vi" compid="divViewCompCond00.staPtnrNm01" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrNm01"/>
+      <BindItem id="staPtnrNm01En" compid="divViewCompCond00.staPtnrNm01" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrNm01"/>
+      <BindItem id="btnFoldVi" compid="btnFold" propid="visible" datasetid="dsObjBindVi" columnid="btnFold"/>
+      <BindItem id="btnFoldEn" compid="btnFold" propid="enable" datasetid="dsObjBindEn" columnid="btnFold"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BPrePrList
+ * @생성자			: 배열
+ * @생성일시		: 2019. 05. 22.
+ * @설명			: 사전요청현황
+ * @최종수정자		: 배열
+ * @최종수정일시	: 2019. 05. 22.
+*/  
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"PR14", sSelectType:"A"}
+					 , {code:"PR15", sSelectType:"A"}
+				];				
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01,initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacr o.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.FormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	gfnSetObj("A");
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this,{isTran:"Y", tranNm:"BPrePrService.prePrSrch", dsParam:this.dsCondition});
+ 	
+ 	//조회조건 Div 접기/펼치기 세팅
+ 	this.fnFold();
+ 		
+	//요청일자 셋팅
+	this.divViewCompCond00.divCntrDt.fnSetDate(this.dsCondition, "DAY_STR", "DAY_END");	
+	this.divViewCompCond01.divMtrl.fnSet(this.dsCondition, "MTRL_CD", "MTRL_NM");	
+	this.divViewCompCond01.divReqr.fnSet(this.dsCondition, "REQR_ID", "REQR_NM");	
+	this.divViewCompCond01.divPrNo.fnSet(this.dsCondition, "PR_NO", "fnSearch");	
+	this.divViewCompCond01.divPrTtl.fnSet(this.dsCondition, "TTL", "fnSearch");	
+	this.dsCondition.setColumn(0,"CD_PRE_PR_DIST","");
+	this.dsCondition.setColumn(0,"CD_PR_STTS","");
+	
+	this.dsCondition.setColumn(0,"CD_CNTR_STTS","");
+ 	//로그인정보에 담겨져 있는 개인정보를 검색조건에 셋팅한다.
+	if(application.gdsUserRole.findRow("ROLE_ID","B_MANAGER")< 0 ){
+		this.dsCondition.setColumn(0,"CNTR_CHRGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+		this.dsCondition.setColumn(0,"CNTR_CHRGR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+	}
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function(svcId)
+{
+	if(!this.fnPreSearch()) return false;
+		
+	var sSvcID = "prePrSrch";
+	var sController = "epro.pur.service.BPrePrService.prePrSrch";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+		
+ 	var	oPaging = [      
+                    {inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+                ];
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "prePrSrch" :
+		break;
+				
+		default:
+		break;	
+	}
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.grdListOnCelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnIsNull(this.dsList.getColumn(e.row,gfnGrdBindColId(obj, e.cell)))) return false;
+
+	if(gfnGrdBindColId(obj, e.cell)=="PR_NO")	//요청번호
+	{
+		gfnSetTmprData("PR_NO" ,this.dsList.getColumn(e.row, "PR_NO"));
+		gfnSetTmprData("CD_PR_STTS" ,this.dsList.getColumn(e.row, "CD_PR_STTS"));
+		gfnOpenMenuUrl("BPUR::BPrePrDetail");
+	}else if(gfnGrdBindColId(obj, e.cell)=="REQR_NM")	//요청자명
+	{
+		var sArg = {
+				agv_id 		: this.dsList.getColumn(e.row,"REQR_ID")
+				,branch_cd 	: application.gdsUserInfo.getColumn(0,"BRANCH_CD")
+				};
+		gfnModalPop(this, "", "CPOP::BUserInfoPopup.xfdl", sArg, "fnPopCallBack", 400, 230);
+	}else if(gfnGrdBindColId(obj, e.cell)=="PCHRGR_NM")	//구매담당자명
+	{
+		var sArg = {
+				agv_id 		: this.dsList.getColumn(e.row,"PCHRGR_ID")
+				,branch_cd 	: application.gdsUserInfo.getColumn(0,"BRANCH_CD")
+				};
+		gfnModalPop(this, "", "CPOP::BUserInfoPopup.xfdl", sArg, "fnPopCallBack", 400, 230);
+	}
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnAdd = function() 
+{
+	gfnOpenMenuUrl("BPUR::BPrePrDetail");
+}
+ 
+]]></Script>
+  </Form>
+</FDL>

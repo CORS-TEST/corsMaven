@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SDlvService">
+
+	<select id="searchDlvList" parameterType="hashmap" resultType="hashmap">
+	/* [SDlvService.searchDlvList][납품서 작성 리스트 조회]][2019.04.26][이준호] */
+		<include refid="commonService.list-before" >
+			<property name="ORDERS" value="PO_NO DESC"/>
+		</include>
+					SELECT
+					'0' AS CHECKED
+					, MP.BRANCH_CD
+					, MMP.BRANCH_NM
+					, MP.PO_NO
+					, MP.PO_NO AS COREXP_KIDS
+					, MP.TTL
+					, MP.CD_DOC_CTGR
+					, ( SELECT    COUNT(MPI.PO_ITEM_ID)
+                          FROM    MM_PO_ITEM    MPI
+                         WHERE    MP.PO_NO      = MPI.PO_NO
+                           AND    MP.BRANCH_CD  = MPI.BRANCH_CD
+                    )  AS ITM_CNT
+					, (MP.PO_AMT + MP.VAT) AS TOT_AMT    /* 발주 금액+부가세 */
+					, MP.CD_PO_CRNC						/* 발주 통화 */
+					, MP.PO_DAY
+					, MP.WRTR_ID
+					, MP.WRTR_NM
+			FROM	MM_PO 				MP					
+					, MM_MT_PORG 		MMP
+			WHERE 	MP.BRANCH_CD   		= MMP.BRANCH_CD
+			AND 	MP.CD_PO_STTS 		= 'PO10ING'    
+			AND 	MP.PTNR_ID			= #{PTNR_ID}	
+			<!-- 발주번호 -->
+		<if test="PO_NO_ARR != null and PO_NO_ARR != 'undefined' and PO_NO_ARR != ''">
+			AND MP.PO_NO IN (	${PO_NO_ARR}	)
+		</if>
+		
+		<!-- 구매유형 -->
+		<if test="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+			AND MP.CD_DOC_CTGR = #{CD_DOC_CTGR}
+		</if>
+		
+		<!-- 운영단위 -->
+		<if test="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+			AND MP.BRANCH_CD = #{BRANCH_CD}
+		</if>
+		
+		<!-- 발주일자 -->
+		<if test="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND MP.PO_DAY  <![CDATA[>=]]> #{PO_DAY_STR}
+		</if>
+		<if test="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND MP.PO_DAY  <![CDATA[<=]]> #{PO_DAY_END}
+		</if>
+		
+		<!-- 납품방법 -->
+		<if test="CD_DLV_MTHD != null and CD_DLV_MTHD != 'undefined' and CD_DLV_MTHD != ''">
+			AND MP.CD_DLV_MTHD = #{CD_DLV_MTHD}
+		</if>
+		
+		<!-- 발주명 -->
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND MP.TTL LIKE '%'|| #{TTL} ||'%'
+		</if>
+		
+		<!-- 납품요청일자 -->
+		<if test="DLV_REQ_DAY_STR != null and DLV_REQ_DAY_STR != 'undefined' and DLV_REQ_DAY_STR != ''">
+			AND MPI.DLV_REQ_DAY  <![CDATA[>=]]> #{DLV_REQ_DAY_STR}
+		</if>
+		<if test="DLV_REQ_DAY_END != null and DLV_REQ_DAY_END != 'undefined' and DLV_REQ_DAY_END != ''">
+			AND MPI.DLV_REQ_DAY  <![CDATA[<=]]> #{DLV_REQ_DAY_END}
+		</if>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<!-- 납품서를 생성하기 전 이미 진행중인 검수가 있으면 못하도록 막는다. -->
+  	<select id="readDlvIngChk" parameterType="hashmap" resultType="hashmap" >
+  	/* [SDlvService.readDlvIngChk][작성중인 납품서 체크]][2019.05.07][이준호] */
+		SELECT  COUNT(MPD.CD_DLV_STTS) AS DL10SND_CNT
+		  FROM	MM_PTNR			PTNR
+		  		, MM_PO			MP
+		  		, MM_PO_DLV		MPD
+		 WHERE	PTNR.PTNR_ID	= MP.PTNR_ID		
+		   AND	MP.BRANCH_CD	= MPD.BRANCH_CD
+		   AND  MP.PO_NO		= MPD.PO_NO		   
+		   AND	MPD.CD_DLV_STTS	= 'DL10SND'
+		   AND 	MPD.BRANCH_CD	= #{BRANCH_CD}
+		   AND	PTNR.PTNR_ID    = #{PTNR_ID}
+		   AND	MP.PO_NO    	= #{PO_NO}
+	</select>
+	
+	<select id="readDlv" parameterType="hashmap" resultType="hashmap" >
+	/* [SDlvService.readDlv][납품서 작성 팝업 조회 - 헤더]][2019.04.26][이준호] */
+		SELECT
+				MP.PO_NO
+				, MAX(MP.BRANCH_CD) AS BRANCH_CD
+				, MAX(MP.CD_DOC_CTGR) AS CD_DOC_CTGR
+				, MAX(MP.TTL) AS TTL
+				, SUM((MPI.QTY - NVL(MPDI.DLV_QTY, 0)) * MPI.PO_PRICE) AS DLV_AMT
+				, SUM(MPI.VAT - NVL(MPDI.VAT, 0)) AS VAT
+				, (SUM((MPI.QTY - NVL(MPDI.DLV_QTY, 0)) * MPI.PO_PRICE) + SUM(MPI.VAT - NVL(MPDI.VAT, 0))) AS TOT_AMT
+				, MAX(MP.ALT_GR_PYMT) AS ALT_GR_PYMT
+				, MAX(MP.ALT_PARTIAL_DLV) AS ALT_PARTIAL_DLV
+				, MAX(MP.CD_PO_CRNC) AS CD_PO_CRNC
+				, MIN(MPI.DLV_REQ_DAY) AS DLV_PLAN_DAY
+				, MAX(MP.CD_PO_CTGR) AS CD_PO_CTGR
+				, '' AS DLV_NO
+          FROM	MM_PO				MP
+          		, MM_PO_ITEM		MPI
+          		, MM_PO_DLV_ITEM	MPDI
+         WHERE  MP.BRANCH_CD 		= MPI.BRANCH_CD
+           AND	MP.PO_NO 			= MPI.PO_NO
+           AND	MPI.PO_ITEM_ID 		= MPDI.PO_ITEM_ID(+)
+           AND  MPI.CD_PO_ITM_STTS <![CDATA[<>]]> 'PO12CLO'
+           AND	MP.BRANCH_CD		= #{BRANCH_CD}
+           AND	MP.PO_NO 			= #{PO_NO}           
+	  GROUP BY 	MP.PO_NO
+	</select>
+	
+	<select id="readDlvItem" parameterType="hashmap" resultType="hashmap" >
+	/* [SDlvService.readDlvItem][납품서 작성 팝업 조회 - 아이템]][2019.04.29][이준호] 일단 MMS 삭제 시킴 ASIS랑 다름.. MM_MT_SL이 어디 테이블이지?*/
+		SELECT
+             DECODE(NVL(MPDI.ALT_DLV_CMPLT, 'N'), 'Y', 0, 1)  AS CHECKED
+            , MPI.BRANCH_CD
+            , MPI.PO_NO
+            , MP.CD_PO_CTGR
+               , MPI.PO_ITEM_ID
+            , MPI.ITM_NO
+            , MPI.STR_CD
+           --     , MMS.SL_NM
+            , MPI.PO_AMT
+            , MPI.VAT
+            , (MPI.PO_AMT + MPI.VAT) AS TOT_AMT
+            , MPI.CD_UNIT
+            , TO_NUMBER(MPI.PO_PRICE) AS PO_PRICE
+               , MPI.MTRL_CD
+            , MM.MTRL_NM2 AS MTRL_NM
+               , MPI.DLV_REQ_DAY
+               , MPI.QTY                                       --발주수량
+             , NVL(MPDI.DLV_QTY, 0) AS TOT_DLV_QTY                  --발행수량
+                , MPI.QTY - NVL(MPDI.DLV_QTY, 0) AS DLV_PLAN_QTY         --납품예정수량                
+                , NVL(MPIA.DLV_OVR_RT, '100') AS DLV_OVR_RT                --납품허용율
+                , MPI.QTY * NVL(MPIA.DLV_OVR_RT, '100') / 100 AS MAX_QTY   --최대납품가능수량
+                , NVL(MPDI.ALT_DLV_CMPLT, 'N') AS ALT_DLV_CMPLT            --Y이면 납품할 품목이 없음. N이면 납품할 품목이 존재. 납품이 완료(CoMPLeT)됐느냐 체크
+                , MPIA.INSP_CHRGR_ID
+                , DECODE(NVL(MPDI.ALT_DLV_CMPLT, 'N'), 'Y', MPDI.DLV_NO, '') AS DLV_NO
+               , DECODE(NVL(MPDI.ALT_DLV_CMPLT, 'N'), 'Y', MPDI.DLV_ITEM_ID, '') AS DLV_ITEM_ID
+               , '' AS USER_ID        
+               , NVL(MMP.ALT_DDATE_MGT, 'N') AS ALT_DDATE_MGT
+               , MPI.PR_ITEM_ID
+               , MPI.RMARK
+          FROM   MM_PO               MP
+                , MM_PO_ITEM       MPI
+                , MM_PO_ITEM_ADD    MPIA
+             --   , MM_MT_SL          MMS
+                ,(   SELECT      ITM.BRANCH_CD
+                                 , ITM.PO_ITEM_ID
+                                 , MAX(ITM.DLV_NO) AS DLV_NO
+                                 , MAX(ITM.DLV_ITEM_ID) AS DLV_ITEM_ID
+                                 , SUM(ITM.DLV_QTY) AS DLV_QTY
+                               , MAX(ITM.ALT_DLV_CMPLT) AS ALT_DLV_CMPLT
+                      FROM       MM_PO_DLV_ITEM ITM
+                        , MM_PO_DLV HEAD
+                     WHERE      ITM.BRANCH_CD       = HEAD.BRANCH_CD
+                       AND      ITM.DLV_NO         = HEAD.DLV_NO
+                       AND       ITM.BRANCH_CD       = #{BRANCH_CD}
+                       AND      ITM.PO_ITEM_ID      IN (    SELECT   PO_ITEM_ID
+                                                             FROM  MM_PO_ITEM
+                                                            WHERE  BRANCH_CD   = #{BRANCH_CD}
+                                                              AND  PO_NO       = #{PO_NO}     
+                                        )
+                       AND       HEAD.CD_DLV_STTS   = 'DL10CLO'
+                  GROUP BY      ITM.BRANCH_CD , ITM.PO_ITEM_ID
+                 ) MPDI
+                 , MM_MTRL          MM
+                 , MM_MTRL_PURC      MMP
+         WHERE   MP.BRANCH_CD          = MPI.BRANCH_CD
+           AND  MP.PO_NO             = MPI.PO_NO
+           AND  MPI.PO_ITEM_ID         = MPIA.PO_ITEM_ID
+         --  AND  MPI.BRANCH_CD         = MMS.BRANCH_CD
+         --  AND  MPI.STR_CD            = MMS.STR_CD   
+           AND  MPI.BRANCH_CD          = MPDI.BRANCH_CD(+)
+           AND  MPI.PO_ITEM_ID         = MPDI.PO_ITEM_ID(+)
+           AND  MPI.MTRL_CD            = MM.MTRL_CD 
+           AND  MPI.BRANCH_CD           = MMP.BRANCH_CD
+         AND  MM.MTRL_CD              = MMP.MTRL_CD
+          AND   MPI.BRANCH_CD         = #{BRANCH_CD}
+          AND   MPI.PO_NO            = #{PO_NO}
+     ORDER BY   TO_NUMBER(MPI.ITM_NO) ASC
+	</select>
+	<!-- 납품서 작성 팝업 조회 - 유효기간관리 -->
+	<select id="readDlvExp" parameterType="hashmap" resultType="hashmap" >
+	/* [SDlvService.readDlvExp][납품서 작성 팝업 조회 - 유효기간관리]][2019.05.07][이준호] */
+		SELECT
+                '' AS CHECKED
+                , MPDI.BRANCH_CD
+                , MPDI.STR_CD
+                , MPDI.MTRL_CD                
+                , MPDIE.DLV_ITEM_ID
+                , MPDIE.EFF_DAY
+                , TO_NUMBER(MPDIE.DLV_QTY) AS DLV_QTY
+                , NVL(MPDI.PO_ITEM_ID, '') AS PO_ITEM_ID
+                , '' AS USER_ID		    
+          FROM	MM_PO_DLV_ITEM_EXP		MPDIE
+          		, MM_PO_DLV_ITEM 		MPDI 
+         WHERE	MPDIE.DLV_ITEM_ID 	= MPDI.DLV_ITEM_ID         
+           AND	MPDI.BRANCH_CD 		= #{BRANCH_CD}
+           AND	MPDI.DLV_NO 		= #{DLV_NO}
+	  ORDER BY	TO_NUMBER(MPDIE.EFF_DAY) ASC
+	</select>
+	
+	<select id="searchDlvMgmtList" parameterType="hashmap" resultType="hashmap" >
+	/* [SDlvService.searchDlvMgmtList][납풉서 관리 조회]][2019.04.29][이준호] */
+		SELECT
+					'0' AS CHECKED
+					,MPD.BRANCH_CD
+					,MMP.BRANCH_NM					
+					,MPD.PO_NO
+					,MPD.PO_NO AS PO_COREXP_KIDS
+					,MPD.DLV_NO
+					,MPD.DLV_NO AS COREXP_KIDS
+					,MPD.CD_DLV_STTS
+					,MPD.TTL
+					,MP.PO_DAY
+					,MP.CD_PO_CTGR
+					,MPD.DLV_PLAN_DAY
+					,'' AS USER_ID
+			  FROM	MM_PO_DLV MPD
+					,MM_PO MP		
+					,MM_MT_PORG MMP
+			 WHERE 	MPD.BRANCH_CD   	= MP.BRANCH_CD
+			   AND 	MPD.PO_NO   		= MP.PO_NO			   
+			   AND  MPD.BRANCH_CD   	= MMP.BRANCH_CD			   			
+			   AND 	MP.PTNR_ID			= #{PTNR_ID}
+	</select>
+	
+	<!-- 납품서 생성 -->
+	<insert id="insertDlv" parameterType="hashmap">
+	/* [SDlvService.insertDlv][납풉서 생성]][2019.04.30][이준호] */
+		INSERT	INTO MM_PO_DLV (
+				BRANCH_CD
+				,DLV_NO
+				,TTL
+				,INT_DLV_TYPE
+				,CD_DOC_CTGR
+				,CD_DLV_STTS
+				,WRTR_ID
+				,WRTR_NM
+				,DLV_PLAN_DAY
+				,PO_NO
+				,INSP_CHRGR_ID
+				,CD_CRNC				
+				,DLV_AMT
+				,VAT
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+		)
+		SELECT
+				#{BRANCH_CD}
+				,#{DLV_NO}
+				,#{TTL}
+				,DECODE(ALT_GR_PYMT, 'Y', 'DLV', 'N', 'PAY')
+				,CD_DOC_CTGR
+				,#{CD_DLV_STTS}
+				,#{USER_ID}
+				,#{USER_NM}
+				,#{DLV_PLAN_DAY}
+				,#{PO_NO}
+				,#{INSP_CHRGR_ID}
+				,CD_PO_CRNC				
+				,(SELECT	SUM(DLV_PLAN_AMT)
+				    FROM	MM_PO_DLV_ITEM
+				   WHERE	BRANCH_CD	= #{BRANCH_CD}
+		  			 AND 	DLV_NO		= #{DLV_NO}
+				)
+				,(SELECT	SUM(VAT)
+				    FROM	MM_PO_DLV_ITEM
+				   WHERE	BRANCH_CD	= #{BRANCH_CD}
+		  			 AND 	DLV_NO		= #{DLV_NO}
+				)
+				,#{USER_ID}
+				,SYSDATE
+				,#{USER_ID}
+				,SYSDATE				
+		  FROM	MM_PO
+		 WHERE	BRANCH_CD	= #{BRANCH_CD}
+		   AND 	PO_NO		= #{PO_NO}
+	</insert>
+	<update id="updateDlvItemCd" parameterType="hashmap">
+	--SDlv.poDlvIng	
+		UPDATE	MM_PO_ITEM
+		   SET	CD_PO_ITM_STTS	= 'PO12ING'
+		        ,LAST_CHGR_ID   = #{USER_ID}
+		        ,LAST_CHG_DT    = SYSDATE
+		 WHERE	BRANCH_CD       = #{BRANCH_CD}
+		   AND  PO_ITEM_ID      = #{PO_ITEM_ID}
+	</update>
+	
+	<!-- 납품서 품목 생성 -->
+	<insert id="insertDlvItem" parameterType="hashmap">
+	--SDlv.dlvInsertItm
+			INSERT INTO MM_PO_DLV_ITEM	(
+					DLV_ITEM_ID
+					, ITM_NO
+				   	, BRANCH_CD
+				   	, PO_ITEM_ID
+				   	, DLV_NO
+					, MTRL_GRP_ID
+					, MTRL_GRP_NM
+					, MTRL_CD
+					, MTRL_NM
+					, STR_CD
+				   	, CD_UNIT
+				   	, UNT_PRICE
+				   	, VAT
+				   	, RMARK
+				   	, ALT_DLV_CMPLT
+				   	, DLV_PLAN_QTY
+				   	, DLV_PLAN_AMT
+				   	, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT					
+					, STD_SUGAR
+					, SLIP_PRCS_YN
+					, ALT_ASSET					
+			)
+			SELECT
+					  #{DLV_ITEM_ID}
+					, MPI.ITM_NO
+				   	, MPI.BRANCH_CD
+				   	, MPI.PO_ITEM_ID
+				   	, #{DLV_NO}
+					, MPI.MTRL_GRP_ID
+					, MPI.MTRL_GRP_NM
+					, MPI.MTRL_CD
+					, MPI.MTRL_NM
+					, MPI.STR_CD
+				   	, MPI.CD_UNIT
+				   	, MPI.PO_PRICE				   	
+				   	, DECODE(MM.INT_NTAX, 'T', FLOOR( MPI.PO_PRICE * NVL(${DLV_PLAN_QTY}, 0) * 0.1), 'N', 0 )
+				   	, MPI.RMARK
+				   	, 'N'
+				   	, ROUND( #{DLV_PLAN_QTY}, 2)
+				   	, FLOOR( MPI.PO_PRICE * NVL(${DLV_PLAN_QTY}, 0) )
+				   	, #{USER_ID}
+					, SYSDATE
+					, #{USER_ID}
+					, SYSDATE
+					, MMP.STD_SUGAR
+					, 'N'
+					, MMP.ALT_FASSET
+			  FROM	MM_PO_ITEM 			MPI
+			        , MM_MTRL 			MM
+			        , MM_MTRL_PURC 		MMP
+			        , MM_PO_ITEM_ADD 	MPIA
+			 WHERE	MPI.MTRL_CD 		= MM.MTRL_CD
+			   AND	MM.MTRL_CD 			= MMP.MTRL_CD
+			   AND	MMP.BRANCH_CD 		= #{BRANCH_CD}			   
+			   AND	MPI.PO_ITEM_ID 		= MPIA.PO_ITEM_ID			   
+			   AND	MPI.BRANCH_CD		= #{BRANCH_CD}
+			   AND 	MPI.PO_ITEM_ID		= #{PO_ITEM_ID}
+	</insert>
+	<!-- 구매요청품목 상태 변경 -->
+	<update  id="prItemProcess" parameterType="hashmap">
+	--SDlv.prItemProcess
+		UPDATE	MM_PR_ITEM
+		   SET	CD_PR_ITEM_STTS	= #{CD_PR_ITEM_STTS}
+	    		,LAST_CHGR_ID	= #{USER_ID}
+	    		,LAST_CHG_DT	= SYSDATE
+	     WHERE	1 = 1
+	     
+		<!-- 납품서 삭제하면 발주로 상태변경. -->
+	    <if test='CD_PR_ITEM_STTS == "PR13POR"'>
+	     	AND	PR_ITEM_ID		IN (	SELECT	MPI.PR_ITEM_ID
+	     								  FROM	MM_PO_DLV			MPD
+	     								  		, MM_PO_DLV_ITEM	MPDI
+	     								  		,MM_PO_ITEM			MPI
+	     								 WHERE	MPD.BRANCH_CD		= MPDI.BRANCH_CD
+	     								   AND	MPD.DLV_NO			= MPDI.DLV_NO
+	     								   AND	MPDI.PO_ITEM_ID		= MPI.PO_ITEM_ID
+	     								   AND  MPD.DLV_NO			= #{DLV_NO}
+	     						)
+	    </if>
+	    
+	    <!-- 납품서 생성하면 납품으로 상태변경. --> 
+		<if test='CD_PR_ITEM_STTS == "PR13DLV"'>
+	     	AND	PR_ITEM_ID		= #{PR_ITEM_ID}
+	    </if>
+  	</update>
+	<!-- 납품서삭제시 발주품목상태 변경. -->
+	<update  id="deleteDlvPoItmSttsChg" parameterType="hashmap">
+	--SDlv.sDlvDeletePoItmSttsChg
+		UPDATE	MM_PO_ITEM
+		   SET	CD_PO_ITM_STTS	= 'PO12RCT'	
+		    	,LAST_CHGR_ID   = #{USER_ID}
+		        ,LAST_CHG_DT    = SYSDATE
+	     WHERE	BRANCH_CD	= #{BRANCH_CD}
+		   AND	PO_ITEM_ID	IN (SELECT	PO_ITEM_ID
+	     						  FROM	MM_PO_DLV_ITEM
+	     						 WHERE	BRANCH_CD	= #{BRANCH_CD}
+	       						   AND	DLV_NO		= #{DLV_NO}
+	     						)
+  	</update>
+  	
+  	<!-- 납품서품목 유효기간삭제 -->
+	<delete  id="deleteDlvItmExp" parameterType="hashmap">
+	--SDlv.sDlvDeleteItmExp
+		DELETE	MM_PO_DLV_ITEM_EXP
+	     WHERE	DLV_ITEM_ID IN (SELECT	DLV_ITEM_ID
+	     						  FROM	MM_PO_DLV_ITEM
+	     						 WHERE	BRANCH_CD	= #{BRANCH_CD}
+	       						   AND	DLV_NO		= #{DLV_NO}
+	     						)
+  	</delete>
+  	
+  	<!-- 납품서품목삭제 -->
+	<delete  id="deleteDlvItm" parameterType="hashmap">
+	--SDlv.sDlvDeleteItm
+		DELETE	MM_PO_DLV_ITEM
+	     WHERE	BRANCH_CD	= #{BRANCH_CD}
+	       AND	DLV_NO		= #{DLV_NO}
+  	</delete>
+  	
+  	<!-- 납품서삭제 -->
+	<delete  id="deleteDlv" parameterType="hashmap">
+	--SDlv.sDlvDelete
+		DELETE	MM_PO_DLV
+	     WHERE	BRANCH_CD	= #{BRANCH_CD}
+	       AND	DLV_NO		= #{DLV_NO}
+  	</delete>
+  	<!-- 납품서 상세 팝업 조회 - 헤더 -->
+	<select id="readDlvMgmt" parameterType="hashmap" resultType="hashmap" >
+	--SDlv.sDlvSrch
+		SELECT
+				MPD.DLV_NO
+				--,MPD.PO_NO
+				,MPD.DLV_NO AS PO_NO
+				,MPD.BRANCH_CD				
+				,MPD.CD_DOC_CTGR
+				,MPD.CD_DLV_STTS
+				,MPD.TTL
+				,MPD.DLV_AMT
+				,MPD.INT_DLV_TYPE
+				,MP.ALT_PARTIAL_DLV
+				,MP.ALT_GR_PYMT
+				,MPD.DLV_PLAN_DAY
+				,MPD.INSP_RTN_RMARK
+          FROM	MM_PO_DLV MPD
+          		, MM_PO MP	
+         WHERE	MPD.BRANCH_CD	= MP.BRANCH_CD
+           AND	MPD.PO_NO		= MP.PO_NO
+           AND	MPD.BRANCH_CD	= #{BRANCH_CD}
+           AND	MPD.DLV_NO 		= #{DLV_NO}
+	</select>
+
+	<!-- 납품서 상세 팝업 조회 - 아이템 -->
+	<select id="readDlvMgmtItem" parameterType="hashmap" resultType="hashmap" >
+	--SDlv.sDlvSrchItm
+		SELECT
+				'1' AS CHECKED
+				,MPDI.BRANCH_CD
+				,MPI.PO_ITEM_ID
+				,MPDI.DLV_ITEM_ID
+				,MPDI.DLV_NO
+				,MPDI.ITM_NO
+				,MPDI.MTRL_NM
+				,MPDI.STR_CD
+				--,MMS.SL_NM
+				,MPDI.CD_UNIT
+				,TO_NUMBER(MPDI.UNT_PRICE) AS PO_PRICE 
+				,MPI.QTY
+				,NVL(TDQ.TOT_DLV_QTY, 0) AS TOT_DLV_QTY
+				,NVL(MPDI.DLV_PLAN_QTY, 0) AS DLV_PLAN_QTY
+	            ,MPI.DLV_REQ_DAY	            
+	            ,MPDI.RMARK
+	            ,'' AS USER_ID
+          FROM	MM_PO_DLV_ITEM MPDI
+          		, MM_PO_ITEM MPI
+          		--, MM_MT_SL MMS
+          		, ( SELECT		  ITM.PO_ITEM_ID
+                            	, SUM(ITM.DLV_QTY) AS TOT_DLV_QTY
+                      FROM		MM_PO_DLV_ITEM	ITM
+                                , MM_PO_DLV		HEAD
+                     WHERE    	ITM.BRANCH_CD   	= HEAD.BRANCH_CD
+                       AND		ITM.DLV_NO      	= HEAD.DLV_NO
+                       AND  	ITM.BRANCH_CD  	 	= #{BRANCH_CD}
+                       AND		ITM.PO_ITEM_ID      IN (    SELECT	PO_ITEM_ID
+                                                           	  FROM  MM_PO_DLV_ITEM
+                                                             WHERE	BRANCH_CD	= #{BRANCH_CD}
+                                                               AND	DLV_NO      = #{DLV_NO}     
+                                                 	)
+                       AND    	HEAD.CD_DLV_STTS   	= 'DL10CLO'
+                  GROUP BY 		ITM.PO_ITEM_ID
+                 ) TDQ
+         WHERE	MPDI.BRANCH_CD   	= MPI.BRANCH_CD
+           AND  MPDI.PO_ITEM_ID  	= MPI.PO_ITEM_ID
+         --  AND  MPDI.BRANCH_CD   	= MMS.BRANCH_CD
+         --  AND  MPDI.STR_CD      	= MMS.STR_CD
+		   AND  MPDI.PO_ITEM_ID     = TDQ.PO_ITEM_ID(+)
+           AND	MPI.CD_PO_ITM_STTS	IN ( 'PO12CLO', 'PO12ING', 'PO12RCT' ) 
+	       AND	MPDI.BRANCH_CD	 	= #{BRANCH_CD}
+	       AND	MPDI.DLV_NO		 	= #{DLV_NO}
+	  ORDER BY	TO_NUMBER(MPDI.ITM_NO) ASC
+	</select>
+  	
+  	<!-- 납품진행현황 LIST를 조회한다 -->
+  	<select id="searchDlvIngList" parameterType="hashmap" resultType="hashmap" >
+			SELECT
+					MPD.BRANCH_CD
+					, MMP.BRANCH_NM
+					, MPD.PO_NO
+					, MPD.PO_NO  AS PO_COREXP_KIDS
+					, MPD.DLV_NO
+					, MPD.DLV_NO AS COREXP_KIDS
+					, MPD.CD_DLV_STTS
+					, MPDI.ITM_NO
+					, MPDI.MTRL_CD
+	               	, MPDI.MTRL_NM
+	               	, MPDI.STR_CD
+	              -- 	, MMS.SL_NM
+	               	, MPDI.CD_UNIT
+	               	, MPDI.UNT_PRICE
+	               	, DECODE(MPD.CD_DLV_STTS, 'DL10SND', MPDI.DLV_PLAN_QTY, MPDI.DLV_QTY) AS DLV_QTY
+                    , DECODE(MPD.CD_DLV_STTS, 'DL10SND', MPDI.DLV_PLAN_AMT, MPDI.AMT) AS AMT
+	               	, MPD.DLV_PLAN_DAY
+	               	, MPI.DLV_REQ_DAY	               	
+              FROM	MM_PO_DLV_ITEM MPDI
+		            , MM_PO_DLV MPD
+		            , MM_PO_ITEM MPI
+		            , MM_PO MP
+		            , MM_MT_PORG MMP
+					--, MM_MT_SL MMS
+             WHERE	MPDI.BRANCH_CD	= MPD.BRANCH_CD
+               AND	MPDI.DLV_NO		= MPD.DLV_NO
+               AND	MPDI.BRANCH_CD	= MPI.BRANCH_CD
+               AND	MPDI.PO_ITEM_ID	= MPI.PO_ITEM_ID
+               AND	MPI.BRANCH_CD	= MP.BRANCH_CD
+               AND	MPI.PO_NO		= MP.PO_NO               
+               AND	MPDI.BRANCH_CD  = MMP.BRANCH_CD
+			  -- AND  MPDI.BRANCH_CD  = MMS.BRANCH_CD
+              -- AND  MPDI.STR_CD     = MMS.STR_CD
+               AND	MP.PTNR_ID 		= #{PTNR_ID}   
+ 		<!-- 발주번호 -->
+		<if test="PO_NO_ARR != null and PO_NO_ARR != 'undefined' and PO_NO_ARR != ''">
+			AND MPD.PO_NO IN (	${PO_NO_ARR}	)
+		</if>
+		
+		<!-- 운영단위 -->
+		<if test="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+			AND MPD.BRANCH_CD = #{BRANCH_CD}
+		</if>
+		
+		<!-- 발주일자 -->
+		<if test="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND MP.PO_DAY  <![CDATA[>=]]> #{PO_DAY_STR}
+		</if>
+		<if test="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND MP.PO_DAY  <![CDATA[<=]]> #{PO_DAY_END}
+		</if>
+		
+		<!-- 납품요청일자 -->
+		<if test="DLV_REQ_DAY_STR != null and DLV_REQ_DAY_STR != 'undefined' and DLV_REQ_DAY_STR != ''">
+			AND MPI.DLV_REQ_DAY  <![CDATA[>=]]> #{DLV_REQ_DAY_STR}
+		</if>
+		<if test="DLV_REQ_DAY_END != null and DLV_REQ_DAY_END != 'undefined' and DLV_REQ_DAY_END != ''">
+			AND MPI.DLV_REQ_DAY  <![CDATA[<=]]> #{DLV_REQ_DAY_END}
+		</if>
+		
+		<!-- 납품예정일자 -->
+		<if test="DLV_PLAN_DAY_STR != null and DLV_PLAN_DAY_STR != 'undefined' and DLV_PLAN_DAY_STR != ''">
+			AND MPD.DLV_PLAN_DAY  <![CDATA[>=]]> #{DLV_PLAN_DAY_STR}
+		</if>
+		<if test="DLV_PLAN_DAY_END != null and DLV_PLAN_DAY_END != 'undefined' and DLV_PLAN_DAY_END != ''">
+			AND MPD.DLV_PLAN_DAY  <![CDATA[<=]]> #{DLV_PLAN_DAY_END}
+		</if>
+		
+		<!-- 품목코드(명) -->
+		<choose>
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+				AND MPDI.MTRL_CD = #{MTRL_CD}
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND	REGEXP_LIKE (MPDI.MTRL_NM, REPLACE(#{MTRL_NM},' ','|'),'i')
+			</when>
+		</choose>
+				
+		<!-- 납품서번호 -->
+		<if test="DLV_NO_ARR != null and DLV_NO_ARR != 'undefined' and DLV_NO_ARR != ''">
+			AND MPD.DLV_NO IN (	${DLV_NO_ARR}	)
+		</if>		
+		
+		<!-- 상태 -->
+		<if test="CD_DLV_STTS != null and CD_DLV_STTS != 'undefined' and CD_DLV_STTS != ''">
+			AND MPD.CD_DLV_STTS = #{CD_DLV_STTS}
+		</if>
+		
+		<!-- 창고 -->
+		<choose>
+			<when test="STR_CD != null and STR_CD != 'undefined' and STR_CD != ''">
+				AND MPDI.STR_CD = #{STR_CD}
+			</when>
+			<when test="SL_NM != null and SL_NM != 'undefined' and SL_NM != ''">
+				AND MMS.SL_NM LIKE '%'|| #{SL_NM} || '%'
+			</when>
+		</choose>
+						
+		ORDER BY ''
+			<!-- 정렬조건 -->
+			<if test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+				,${SORT_ITEM1} ${SORT_TYPE1}
+			</if>
+			<if test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+				,${SORT_ITEM2} ${SORT_TYPE2}
+			</if>
+			<if test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+				,${SORT_ITEM3} ${SORT_TYPE3}
+			</if>
+			<if test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+				,${SORT_ITEM4} ${SORT_TYPE4}
+			</if>
+  	</select>
+  	
+	
+</mapper>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BPrePrService">
+
+	<select id="prePrSrch" parameterType="hashmap" resultType="hashmap">
+	/* [BPrePrService.prePrSrch][사전요청현황 list 조회][2019.05.22][배열] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="PR_NO DESC"/>
+		</include>	
+		SELECT
+			BRANCH_CD      
+			,PR_NO          
+			,CD_PR_STTS     
+			,CD_PRE_PR_DIST 
+			,REQR_ID        
+			,REQR_NM        
+			,SRC_GRP_ID     
+			,TTL            
+			,REQ_DT         
+			,HOPE_REPLY_DAY 
+			,REQ_CNTNT      
+			,APP_DOC_ID     
+			,ATTCH_FILE_CNT 
+			,PCHRGR_ID      
+			,PCHRGR_NM      
+			,RTN_CNTNT      
+			,TO_CHAR(RCV_DT, 'YYYYMMDDHH24MISS') AS RCV_DT         
+			,TO_CHAR(RTN_DT, 'YYYYMMDDHH24MISS') AS RTN_DT         
+			,TKEY           
+			,LINK_URL       
+			,CRTR_ID        
+			,DUMMY          
+			,TO_CHAR(CRT_DT, 'YYYYMMDDHH24MISS') AS CRT_DT         
+			,LAST_CHGR_ID   
+			,TO_CHAR(LAST_CHG_DT, 'YYYYMMDDHH24MISS') AS LAST_CHG_DT  
+		FROM MM_PRE_PR
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="prePrRead" parameterType="hashmap" resultType="hashmap">
+	/* [BPrePrService.prePrRead][사전요청현황 상세 조회][2019.05.22][배열] */
+		SELECT
+  			MPP.PR_NO
+  			,MPP.BRANCH_CD
+  			,MPP.CD_PR_STTS
+  			,MPP.REQR_ID
+  			,MPP.REQR_NM
+  			,MPP.TTL
+  			,MPP.CD_PRE_PR_DIST
+  			,MPP.PCHRGR_ID
+  			,MPP.PCHRGR_NM
+  			,MPP.REQ_CNTNT
+  			,MPP.RTN_CNTNT
+  			,MPP.APP_DOC_ID
+  			,MPP.ATTCH_FILE_CNT
+  			,MPP.CRTR_ID
+  			,TO_CHAR(MPP.CRT_DT,'YYYYMMDD HH24MISS') AS CRT_DT
+  			,MPP.LAST_CHGR_ID
+  			,MPP.LAST_CHG_DT
+  			,MPP.LINK_URL
+  			,DECODE(MPP.SRC_GRP_ID,NULL,'',(SELECT (SELECT SRC_GRP_NM FROM MM_MT_SRC_GRP WHERE SRC_GRP_ID = SUBSTR(MPP.SRC_GRP_ID,0,3)) || ' 》' || SRC_GRP_NM
+											FROM MM_MT_SRC_GRP
+											WHERE SRC_GRP_ID = MPP.SRC_GRP_ID)) AS SRC_GRP_NM
+  			,DECODE(MPP.SRC_GRP_ID,NULL,'',(SELECT SRC_GRP_ID
+  											FROM   MM_MT_SRC_GRP
+  											WHERE  SRC_GRP_ID = SUBSTR(MPP.SRC_GRP_ID,0,3))) AS LRG_SRC_ID
+  		 	,DECODE(MPP.SRC_GRP_ID,NULL,'',MPP.SRC_GRP_ID) AS MDL_SRC_ID
+		    ,MPP.HOPE_REPLY_DAY 
+  		FROM MM_PRE_PR MPP
+  		WHERE PR_NO = #{PR_NO}
+  		AND   BRANCH_CD = #{BRANCH_CD}
+	</select>	
+	
+  	<!--  -->
+  	<select id="prePrPchrgrUserSrch" parameterType="hashmap" resultType="hashmap">
+	/* [BPrePrService.prePrPchrgrUserSrch][사전요청 구매담당자 ID 조회][2019.05.22][배열] */
+		SELECT USER_ID
+            ,GET_USERNM(USER_ID,#{BRANCH_CD},'') AS USER_NM
+		FROM MM_MT_SRC_GRP_PUR
+		WHERE BRANCH_CD = #{BRANCH_CD}
+	      AND SRC_GRP_ID = #{MDL_SRC_ID}
+	      AND ALT_RPTST_YN = 'Y'
+  	
+  	</select>	
+	
+	<insert id="insertPrePr" parameterType="hashmap">
+	/* [BPrePrService.insertPrePr][사전요청저장][2019.05.22][배열] */
+		INSERT INTO MM_PRE_PR(
+  			BRANCH_CD
+  			,PR_NO
+  			,CD_PR_STTS
+  			,CD_PRE_PR_DIST
+  			,REQR_ID
+  			,REQR_NM
+  			,TTL
+  			,REQ_CNTNT
+  			,PCHRGR_ID
+  			,PCHRGR_NM
+  			,TKEY
+  			,CRTR_ID
+  			,CRT_DT
+  			,LAST_CHGR_ID
+			,LAST_CHG_DT
+			,LINK_URL
+			,SRC_GRP_ID
+			,HOPE_REPLY_DAY
+  		)VALUES(
+  			#{BRANCH_CD}
+  			,#{PR_NO}
+  			,#{CD_PR_STTS}
+  			,#{CD_PRE_PR_DIST}
+  			,#{LOGIN_USER_ID}
+  			,#{LOGIN_USER_NM}
+  			,#{TTL}
+  			,#{REQ_CNTNT}
+  			,#{PCHRGR_ID}
+  			,#{PCHRGR_NM}
+  			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+  			,#{LOGIN_USER_ID}
+  			,SYSDATE
+  			,#{LOGIN_USER_ID}
+  			,SYSDATE
+  			,#{LINK_URL}
+  			,#{MDL_SRC_ID}
+  			,#{HOPE_REPLY_DAY}
+  		)  		
+	</insert>	
+	
+	<update id="updatePrePr" parameterType="hashmap">
+	/* [BPrePrService.updatePrePr][사전요청저장][2019.05.22][배열] */
+   		UPDATE MM_PRE_PR
+		SET CD_PRE_PR_DIST 	= #{CD_PRE_PR_DIST}
+			,TTL 			= #{TTL}
+			,REQ_CNTNT 		= #{REQ_CNTNT}
+			,PCHRGR_ID 		= #{PCHRGR_ID}
+			,PCHRGR_NM 		= #{PCHRGR_NM}
+			,LAST_CHGR_ID 	= #{LOGIN_USER_ID}
+			,LAST_CHG_DT 	= SYSDATE
+			,LINK_URL  		= #{LINK_URL}
+			,SRC_GRP_ID 	= #{MDL_SRC_ID}
+			,HOPE_REPLY_DAY = #{HOPE_REPLY_DAY}
+		WHERE PR_NO 		= #{PR_NO}
+  		AND   BRANCH_CD 	= #{BRANCH_CD}
+  	</update>	
+  	
+	<delete id="deletePrePur" parameterType="hashmap">
+	/* [BPrePrService.deletePrePur][사전요청 삭제][2019.05.22][배열] */
+		DELETE MM_PRE_PR
+		WHERE PR_NO = #{PR_NO}
+		AND   BRANCH_CD = #{BRANCH_CD}
+  	</delete>  	
+	 
+	<select id="prePrRcvSrch" parameterType="hashmap" resultType="hashmap">
+	/* [BPrePrService.prePrRcvSrch][사전요청현황 list 조회][2019.05.22][배열] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="PR_NO DESC"/>
+		</include>	
+		SELECT
+			'0' AS CHECKED
+			,PR.BRANCH_CD
+			,PR.PR_NO
+			,PR.CD_PR_STTS
+			,PR.CD_PRE_PR_DIST
+			,PR.REQR_ID
+			,PR.REQR_NM
+			,PR.TTL
+			,TO_CHAR(PR.REQ_DT,'YYYYMMDD') AS REQ_DT
+			,PR.REQ_CNTNT
+			,PR.APP_DOC_ID
+			,PR.ATTCH_FILE_CNT
+			,PR.PCHRGR_ID
+			,PR.PCHRGR_NM
+			,PR.RTN_CNTNT
+			,TO_CHAR(PR.RCV_DT,'YYYYMMDD') AS RCV_DT
+			,TO_CHAR(PR.RTN_DT,'YYYYMMDD') AS RTN_DT
+			,PR.TKEY
+			,PR.CRTR_ID
+			,PR.CRT_DT
+			,PR.LAST_CHGR_ID
+			,PR.LAST_CHG_DT
+			,PR.HOPE_REPLY_DAY
+  		FROM MM_PRE_PR PR
+  		WHERE PR.CD_PR_STTS NOT IN ('PR14APP','PR14WAT','PR14WRI')
+  		  AND PR.BRANCH_CD = #{BRANCH_CD}
+		<!-- 상태 -->
+       <if test="CD_PR_STTS != null and CD_PR_STTS  != 'undefined' and CD_PR_STTS  != ''">
+       		AND   PR.CD_PR_STTS  = #{CD_PR_STTS}
+       </if>
+       
+       <!-- 요청분류 -->
+       <if test="CD_PRE_PR_DIST != null and CD_PRE_PR_DIST  != 'undefined' and CD_PRE_PR_DIST  != ''">
+       		AND   PR.CD_PRE_PR_DIST  = #{CD_PRE_PR_DIST}
+       </if>
+       <!--  구매담당자  -->
+		<choose>
+	    	<when test="PCHRGR_ID != null and PCHRGR_ID != 'undefined' and PCHRGR_ID != ''" >
+				AND   PR.PCHRGR_ID  = #{PCHRGR_ID}
+			</when>
+			<when test="PCHRGR_NM != null and PCHRGR_NM != 'undefined' and PCHRGR_NM != ''">
+				AND   PR.PCHRGR_NM LIKE '%' || #{PCHRGR_NM} || '%'
+			</when>
+		</choose>
+       <choose>
+	    	<when test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''" >
+				AND   PR.REQR_ID  = #{REQR_ID}
+			</when>
+			<when test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+				AND   PR.REQR_NM LIKE '%' || #{REQR_NM} || '%'
+			</when>
+		</choose>
+	   <!-- 요청 시작일 -->
+	   <if test="PR_REQ_DT_START != null and PR_REQ_DT_START != 'undefined' and PR_REQ_DT_START != ''">
+			AND   PR.REQ_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{PR_REQ_DT_START},'YYYYMMDD'))
+	   </if>
+		
+	   <!-- 요청 종료일 -->
+	   <if test="PR_REQ_DT_END != null and PR_REQ_DT_END != 'undefined' and PR_REQ_DT_END != ''">
+			AND   PR.REQ_DT <![CDATA[<]]> TRUNC(TO_DATE(#{PR_REQ_DT_END},'YYYYMMDD')+1)
+	   </if>  		  
+		<include refid="commonService.list-after" />
+	</select>	 
+	
+	<update id="savePreRcv" parameterType="hashmap">
+	/* [BPrePrService.savePreRcv][사전요청 접수][2019.05.22][배열] */
+		UPDATE MM_PRE_PR
+		SET CD_PR_STTS 		= #{CD_PR_STTS}
+			,RCV_DT 		= SYSDATE
+			,LAST_CHGR_ID 	= #{LAST_CHGR_ID}
+			,LAST_CHG_DT 	= SYSDATE
+		WHERE PR_NO 		= #{PR_NO}
+  		AND   BRANCH_CD 	= #{BRANCH_CD}
+  	</update>	
+  	
+	<update id="savePreAnswer" parameterType="hashmap">
+	/* [BPrePrService.savePreAnswer][사전요청 답변][2019.05.22][배열] */
+   		UPDATE MM_PRE_PR
+		SET CD_PR_STTS 		= #{CD_PR_STTS}
+			,RTN_CNTNT 		= #{RTN_CNTNT}
+			,RTN_DT 		= SYSDATE
+			,LAST_CHGR_ID 	= #{LAST_CHGR_ID}
+			,LAST_CHG_DT 	= SYSDATE
+		WHERE PR_NO 		= #{PR_NO}
+  		AND   BRANCH_CD 	= #{BRANCH_CD}
+  	</update>  	
+	 
+</mapper>

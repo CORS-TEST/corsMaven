@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="popDocType" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="견적마감일 변경" left="0" width="400" top="0" height="100" onload="pop_docType_onload" cssclass="frm_POP_Search">
+    <Layouts>
+      <Layout>
+        <Button id="btnRtn" taborder="2" text="적용" cssclass="btn_WF_CRUD" top="38" height="24" width="65" onclick="btnRtnOnclick" left="300" objNm="적용"/>
+        <Calendar id="calRfqCloseDay" taborder="3" left="40" top="38" height="24" objNm="견적마감일자" width="120" dateformat="yyyy.MM.dd ddd" value="null" editformat="yyyy.MM.dd"/>
+        <Static id="Static01" taborder="4" text="일" top="38" height="24" width="24" left="160"/>
+        <Spin id="spnRfqCloseTime" taborder="6" value="0" max="23" left="189" top="38" height="24" objNm="견적마감시간" width="65" cssclass="cal_default" enableevent="true"/>
+        <Static id="Static00" taborder="5" text="시" left="254" top="38" height="24" width="29"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="RFQ_CLOSE_DAY" type="STRING" size="22"/>
+          <Column id="RFQ_CLOSE_TIME" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item2" compid="calRfqCloseDay" propid="value" datasetid="dsReturn" columnid="RFQ_CLOSE_DAY"/>
+      <BindItem id="item3" compid="spnRfqCloseTime" propid="value" datasetid="dsReturn" columnid="RFQ_CLOSE_TIME"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       BRfqClsDtChgPop.xfdl
+   @desc       견적마감일 변경
+   @author     정현근
+   @makedate   2019.05.02
+   @history    
+*/  
+
+this.popTitle = "견적마감일 변경";
+
+/**
+	@function	popDocTypeOnload()
+	@desc   	(팝업)폼 onload이벤트
+*/
+this.popDocTypeOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//시스템 공통함수 호출 : 팝업
+	this.gfnPopOnLoad(this);
+	//부모창으로 부터 전달받은 값		
+	this.dsReturn.addRow();
+	this.dsReturn.setColumn(0,"RFQ_CLOSE_DAY",this.gfnToday());
+	this.dsReturn.setColumn(0,"RFQ_CLOSE_TIME","23");
+}
+
+/**
+	@function	btnRtnOnclick()
+	@desc   	(팝업)적용 버튼 클릭 이벤트
+*/
+this.btnRtnOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+ 	this.close(this.dsReturn.saveXML());
+}
+
+/**
+	@function	btnCloseOnclick()
+	@desc   	(팝업)닫기 버튼 클릭 이벤트
+*/
+this.btnCloseOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+
+]]></Script>
+  </Form>
+</FDL>

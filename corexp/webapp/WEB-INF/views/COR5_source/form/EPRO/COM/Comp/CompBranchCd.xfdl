@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="21" id="CompBranchCd" left="0" onload="fnFormOnload" titletext="구매조직" top="0" width="198">
+    <Layouts>
+      <Layout>
+        <Combo autoselect="true" bottom="0" codecolumn="BRANCH_CD" datacolumn="BRANCH_NM" id="cboBranchCd" innerdataset="@dsBranchCd" left="0" objNm="구매조직" right="0" taborder="0" top="0"/>
+      </Layout>
+    </Layouts>
+    <Bind/>
+    <Objects>
+      <Dataset id="dsBranchCd">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="BRANCH_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="BRANCH_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompBranchCd.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 10. 12.
+ * @설명			: 구매조직 공통 컴포넌트(콤보)
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 10. 12.
+*/  
+
+/**
+  * @함수명	: fnSetBind
+  * @input    	: objDs:Dataset(데이터셋 오브젝트), bindColumn(바인딩 할 컬럼), type(A:--전체--, S:--선택--)
+  * @desc     	: 구매조직 데이터셋 바인딩
+  */
+this.fnSetBind = function(objDs:Dataset, bindColumn, type)
+{
+ 	this.removeChild("Bind01");
+ 	
+ 	var objBindItem = new BindItem("Bind01", "cboBranchCd", "value", objDs.name, bindColumn); 	
+ 	this.addChild("Bind01", objBindItem);
+ 	objBindItem.bind();
+ 	
+ 	this.cboBranchCd.type = type;
+ 	this.cboBranchCd.set_index(0);
+}
+
+/**
+	@함수명	fnFormOnload
+	@desc   	폼 onLoad 이벤트
+*/
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fnSearch();
+}
+
+/**
+	@함수명	fnSearch
+	@desc   	조회 프로세스
+*/
+this.fnSearch = function()
+{
+	var sSvcID = "readCompBranchCd";
+	var sController = "epro.com.service.BComService.readCompBranchCd";
+	var sInDatasets = ""
+	var sOutDatasets = "dsBranchCd=dsBranchCd";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null, null, null, false);
+}
+
+/**
+	@함수명	fnTrCallBack
+	@desc   	Transaction Callback함수
+*/
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "readCompBranchCd" :			
+			var type;
+			
+			if(this.cboBranchCd.type == "A"){		
+				type = GV_COMBO_A_K;
+			}else if(this.cboBranchCd.type == "S"){
+				type = GV_COMBO_S_K;
+			}
+			
+			var nRow = this.dsBranchCd.insertRow();				
+			if(nRow > -1){
+				this.dsBranchCd.setColumn(nRow, "BRANCH_CD", "");
+				this.dsBranchCd.setColumn(nRow, "BRANCH_NM", type);
+				this.cboBranchCd.set_index(nRow);
+			}
+		break;
+		
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

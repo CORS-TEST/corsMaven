@@ -1,0 +1,16 @@
+﻿{
+"name": "UbiViewer",
+"version": "1.0.0.0",
+"description": "nexacro platform Common Component Library",
+"license": "",
+"scripts": [
+"UbiReport4/UbiReport4.js",
+"UbiReport4/ubihtml.js",
+"UbiReport4/ubiexcanvas.js",
+"UbiReport4/ubinonax.js",
+"UbiReport4/msg.js"
+],
+"objInfo": [
+"UbiReport4/UbiReport4.info",
+]
+}

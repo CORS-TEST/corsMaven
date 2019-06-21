@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UbiService port="16996">
+	<!-- TaskInfo property value : MINUTE,HOUR,DAY,WEEK,MONTH,YEAR -->
+	<TaskInfo taskResId="UBIHTML" taskPeriod="1" taskPeriodType="DAY" delPeriod="1" delPeriodType="DAY" />
+	<TaskInfo taskResId="UBIHTML_DEV" taskPeriod="1" taskPeriodType="DAY" delPeriod="1" delPeriodType="DAY" />
+	<LogInfo logPath=""
+		backupStyle="date"
+		backupPattern="yyyy-MM-dd"
+		backupSize="30" />
+	<S3Info useS3="false"
+		bucketName=""
+		accessKey=""
+		secretKey="" />
+	<!-- For Redbc
+	<Redbc configXml="/webapp/redbc/config/config.xml" 
+		drmCopyProtectFileName="/webapp/redbc/config/rlarnjsduq.bmp" 
+		drmBarcodeType="HTML"/>-->
+	<Resources> 
+		<Resource id="UBIHTML"
+			isLocalFile="true"
+			jrfDir="/webapp/myapp/ubi4/work_dev/"
+			resultDir="/webapp/myapp/UbiService/results/"
+			ubiserverUrl="http://ip:port/myapp/UbiServer"
+			servletRoot="http://ip:port/myapp"
+			fileUrl="http://ip:port/myapp/ubi4"
+			resource="true"
+			dataSource="Tutorial"
+			useLog="true" 
+			voiceyeClassName="" />
+		<Resource id="UBIHTML_DEV"
+			isLocalFile="true"
+			jrfDir="/ubi4/work_dev/"
+			resultDir="/UbiService/results/"
+			ubiserverUrl="http://localhost:8080/UbiServer"
+			servletRoot="hhttp://localhost:8080"
+			fileUrl="hhttp://localhost:8080/ubi4"
+			resource="true"
+			dataSource="DEV"
+			useLog="true" 
+			voiceyeClassName="" />
+	</Resources>
+</UbiService>

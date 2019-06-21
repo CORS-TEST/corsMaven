@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="183" id="BUserInfoPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="구매요청취소및완료사유" top="0" width="371">
+    <Layouts>
+      <Layout>
+        <Button id="btnAccept" taborder="8" text="적용" cssclass="btn_WF_Ssign" top="8" right="73" width="60" height="24" objNm="구매종료" positionstep="-1" onclick="btnAccept_onclick"/>
+        <Button id="btnCancle" taborder="9" text="취소" cssclass="btn_WF_Ssign" top="8" right="10" width="60" height="24" positionstep="-1" objNm="구매종료" onclick="btnCancle_onclick"/>
+        <TextArea id="TextArea00" taborder="10" left="10" top="40" right="10" bottom="10"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn">
+        <ColumnInfo>
+          <Column id="OPNN" size="256" type="STRING"/>
+          <Column id="PR_ITEM_ID" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="LOGIN_USER_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="TextArea00" propid="value" datasetid="dsReturn" columnid="OPNN"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPrClosePop.xfdl
+ * @생성자       	: 배열
+ * @생성일자     	: 2019.05.27
+ * @설명			: 구매요청 취소 및 구매완료 사유 팝업
+ * @최종수정자		: 배열
+ * @최종수정일자	: 2019.05.27
+*/
+
+this.popTitle = "답변입력팝업"
+ 
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsReturn.addRow();
+	this.dsReturn.setColumn(0,"OPNN","");
+	
+}
+ 
+/**
+  * @함수명	: btnAccept_onclick
+  * @desc   	: 구매종료처리 
+  */ 
+this.btnAccept_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	trace(this.dsReturn.saveXML());
+	if(this.dsReturn.getColumn(0,"OPNN")==""){
+		gfnAlert("답변을 입력해주세요");    
+		return;
+		
+	}
+	
+	if(!gfnConfirm("적용 하시겠습니까?")) return;
+	
+	this.parent.close(this.dsReturn.saveXML());
+}
+/**
+  * @함수명	: btnCancle_onclick
+  * @desc   	: 구매종료취소
+  */ 
+this.btnCancle_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("취소하시겠습니까?")) return;
+	this.parent.close();
+}
+]]></Script>
+  </Form>
+</FDL>

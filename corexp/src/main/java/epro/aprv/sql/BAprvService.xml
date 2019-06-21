@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BAprvService">
+	
+	<insert id="insertReqAprvInfo" parameterType="hashmap" >
+		/*[BAprvService.insertReqAprvInfo][결재요청][2017.09.07][] */
+		INSERT INTO MM_APRV(
+			BRANCH_CD /* 구매조직 */
+			,APP_DOC_ID /*결재ID*/
+			,CD_APRV_STTS /*결재상태*/
+			,CD_APRV_MTHD /*결재방법*/
+			,CD_APRV_DOC_CTGR /*결재문서유형*/
+			,TTL /*제목*/
+			,WAIT_SEQ /*대기순서*/
+			,APRV_OPNN  /*결재의견*/
+			,APP_DOC /*결재문서*/
+			,APRV_CNT /*결재자수*/
+			,REQR_ID /*요청자 ID*/
+			,REQ_DT /*요청일*/
+			,TKEY /*TKEY*/
+			,REF_KEY_1 /*참조키1*/
+			,REF_KEY_2 /*참조키2*/
+			,REF_KEY_3 /*참조키3*/
+			,CRTR_ID /*생성자ID*/
+			,CRT_DT /*생성일*/
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+		) VALUES(
+			#{BRANCH_CD}
+			,#{APP_DOC_ID}
+			,#{CD_APRV_STTS}
+			,#{CD_APRV_MTHD}
+			,#{CD_APRV_DOC_CTGR}
+			,#{TTL}
+			,2
+			,#{APRV_OPNN}
+			,#{APP_DOC}
+			,#{APRV_CNT}
+			,#{REQR_ID}
+			,SYSDATE
+			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			,#{REF_KEY_1}
+			,#{REF_KEY_2}
+			,#{REF_KEY_3}
+			,#{REQR_ID}
+			,SYSDATE
+			,#{REQR_ID}
+			,SYSDATE
+		)
+	</insert>
+	
+	<update id="saveAprvCplt" parameterType="Hmap">
+	/*[BAprvService.saveAprvCplt][결재 결과 저장][2017.09.12][] */
+		UPDATE MM_APRV
+		SET TKEY = TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			,CD_APRV_STTS = #{CD_APRV_STTS}
+			
+			<if test="CD_APRV_STTS != 'AP10ING'">
+				,APRV_CMPLT_DT = SYSDATE
+			</if>
+			
+			,WAIT_SEQ = #{WAIT_SEQ}
+			,APRV_CNT = #{APRV_CNT}
+			,APRV_OPNN = #{APRV_OPNN}
+			,LAST_CHGR_ID = #{LOGIN_USER}
+			,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		  AND APP_DOC_ID = #{APP_DOC_ID}
+	</update>
+	
+	<update id="saveAprvCpltLine" parameterType="Hmap">
+	/*[BAprvService.saveAprvCpltLine][결재라인 결과 저장][2017.09.12][] */
+		UPDATE MM_APRV_APRVR
+		SET	CD_APRV_LN_STTS = #{CD_APRV_LN_STTS}
+		    ,OPNN = #{OPNN}
+		    ,APRV_DT = SYSDATE
+		    ,LAST_CHGR_ID = #{LOGIN_USER}
+		    ,LAST_CHG_DT = SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		  AND APP_DOC_ID = #{APP_DOC_ID}
+		  AND APRV_ORDR = #{APRV_ORDR}
+	</update>
+	
+	<insert id="insertReqAprvLine" parameterType="hashmap" >
+		/*[BAprvService.insertReqAprvLine][결재라인저장][2017.09.07][] */
+		INSERT INTO MM_APRV_APRVR(
+			BRANCH_CD /*구매조직*/
+			,APP_DOC_ID /*결재문서ID*/
+			,APRV_ORDR /*결재순서*/
+			,APRVR_ID /*결재자ID*/
+			,CD_APP_TYPE /*결재유형*/
+			,CD_APRV_LN_STTS /*결재라인상태*/
+			,OPNN
+			,REQ_DT /*요청일*/
+			
+			<if test="APRV_DT != null and APRV_DT  != 'undefined' and APRV_DT != ''">
+				,APRV_DT
+			</if>
+			
+			,CRTR_ID /*생성자ID*/
+			,CRT_DT /*생성일*/
+			,LAST_CHGR_ID /*최종수정자ID*/
+			,LAST_CHG_DT /*최종수정일*/
+		) VALUES(
+			#{BRANCH_CD}
+			,#{APP_DOC_ID}
+			,#{APRV_ORDR}
+			,#{APRVR_ID}
+			,#{CD_APP_TYPE}
+			,#{CD_APRV_LN_STTS}
+			,#{OPNN}
+			,SYSDATE
+
+			<if test="APRV_DT != null and APRV_DT  != 'undefined' and APRV_DT != ''">
+				,SYSDATE
+			</if>
+			
+			,#{CRTR_ID}
+			,SYSDATE
+			,NVL(#{LOGIN_USER},#{CRTR_ID})
+			,SYSDATE
+		)
+	</insert>
+		
+	<select id="searchAprvReq" parameterType="Hmap" resultType="Hmap">
+	/* [BAprvService.searchAprvReq][요청문서 조회][2017.09.08][] */	
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="REQR_DT DESC"/>
+		</include>
+			SELECT MA.APP_DOC_ID
+			       ,MA.CD_APRV_DOC_CTGR
+			       ,MA.TTL,MA.APRV_CNT - MA.WAIT_SEQ +1 AS WAIT_CNT
+			       ,GET_USERNM(AA.APRVR_ID,AA.BRANCH_CD,#{LANG_CD}) AS WAIT_NM
+			       ,AA.APRVR_ID
+			       ,GET_USERNM(MA.REQR_ID,MA.BRANCH_CD,#{LANG_CD}) AS REQR_NM
+			       ,MA.REQR_ID
+			       ,TO_CHAR(MA.REQ_DT, 'YYYYMMDD') AS REQR_DT
+			FROM MM_APRV MA
+				,MM_APRV_APRVR AA 
+			WHERE	MA.BRANCH_CD = AA.BRANCH_CD
+			AND		MA.APP_DOC_ID = AA.APP_DOC_ID
+			AND		MA.WAIT_SEQ = AA.APRV_ORDR
+			AND		MA.CD_APRV_STTS = 'AP10ING'
+			AND		MA.BRANCH_CD = #{BRANCH_CD}
+			AND		AA.APRVR_ID IN (<include refid="commonService.getAbsUser"/>)
+			  
+			  <if test="TTL != null and TTL  != 'undefined' and TTL != ''">
+			  		AND MA.TTL LIKE '%' + #{TTL} + '%'
+			  </if>
+			  
+			  <if test="CD_APRV_DOC_CTGR != null and CD_APRV_DOC_CTGR  != 'undefined' and CD_APRV_DOC_CTGR != ''">
+			  		AND MA.CD_APRV_DOC_CTGR = #{CD_APRV_DOC_CTGR}
+			  </if>
+			  
+			  <if test="START_REQ_DT != null and START_REQ_DT  != 'undefined' and START_REQ_DT != ''">
+			  		AND MA.REQ_DT <![CDATA[>=]]> TO_DATE(#{START_REQ_DT})
+			  </if>
+			  
+			  <if test="END_REQ_DT != null and END_REQ_DT  != 'undefined' and END_REQ_DT != ''">
+			  		AND MA.REQ_DT <![CDATA[<=]]> TO_DATE(#{END_REQ_DT})+1
+			  </if>
+			  
+			  <choose>
+			  	<when test="REQR_ID != null and REQR_ID  != 'undefined' and REQR_ID != ''">
+			  		AND MA.REQR_ID = #{REQR_ID}
+			  	</when>
+			  	
+			  	<when test="REQR_NM != null and REQR_NM  != 'undefined' and REQR_NM != ''">
+			  		AND EXISTS (SELECT '1'
+			                          FROM MM_MT_USER
+			                          WHERE USER_ID = MA.REQR_ID 
+			                            AND (USER_NM LIKE '%' + #{REQR_NM} + '%' OR USER_NM_GB LIKE '%' + #{REQR_NM} + '%' ))
+			  	</when>
+			  </choose> 
+			  
+			  <if test="APP_DOC_ID != null and APP_DOC_ID  != 'undefined' and APP_DOC_ID != ''">
+			  		AND MA.APP_DOC_ID = #{APP_DOC_ID}
+			  </if>
+        <include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchAprvRst" parameterType="Hmap" resultType="Hmap">
+	/* [BAprvService.searchAprvRst][완료문서 조회][2017.09.08][] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="APRV_CMPLT_DT DESC"/>
+		</include>
+			SELECT MA.APP_DOC_ID
+			       ,MA.CD_APRV_DOC_CTGR
+			       ,MA.CD_APRV_STTS
+			       ,MA.TTL
+			       ,GET_USERNM(MA.REQR_ID,MA.BRANCH_CD,#{LANG_CD}) AS REQR_NM
+			       ,MA.REQR_ID
+			       ,TO_CHAR(MA.REQ_DT,'YYYYMMDD') AS REQ_DT
+			       ,GET_USERNM(AA.APRVR_ID,AA.BRANCH_CD,#{LANG_CD}) AS APRVR_NM
+			       ,AA.APRVR_ID
+			       ,TO_CHAR(APRV_CMPLT_DT,'YYYYMMDD') AS APRV_CMPLT_DT
+			FROM MM_APRV MA
+				,MM_APRV_APRVR AA
+			WHERE MA.BRANCH_CD = AA.BRANCH_CD
+			AND MA.APP_DOC_ID = AA.APP_DOC_ID
+			AND MA.APRV_CNT = AA.APRV_ORDR 
+			AND MA.CD_APRV_STTS IN ('AP10CLO','AP10RTN')
+			AND MA.BRANCH_CD = #{BRANCH_CD}
+			AND EXISTS ( SELECT '1'
+			               FROM MM_APRV_APRVR
+			               WHERE BRANCH_CD = MA.BRANCH_CD
+			                 AND APP_DOC_ID = MA.APP_DOC_ID
+			                 AND APRVR_ID = #{USER_ID})
+			                 
+			  <if test="TTL != null and TTL  != 'undefined' and TTL != ''">
+			  		AND MA.TTL LIKE '%' + #{TTL} + '%'
+			  </if>
+			  
+			  <if test="APP_DOC_ID != null and APP_DOC_ID  != 'undefined' and APP_DOC_ID != ''">
+			  		AND MA.APP_DOC_ID = #{APP_DOC_ID}
+			  </if>
+			  
+			  <if test="CD_APRV_DOC_CTGR != null and CD_APRV_DOC_CTGR  != 'undefined' and CD_APRV_DOC_CTGR != ''">
+			  		AND MA.CD_APRV_DOC_CTGR = #{CD_APRV_DOC_CTGR}
+			  </if>
+			  
+			  <if test="START_REQ_DT != null and START_REQ_DT  != 'undefined' and START_REQ_DT != ''">
+			  		AND MA.REQ_DT <![CDATA[>=]]> TO_DATE(#{START_REQ_DT})
+			  </if>
+			  
+			  <if test="END_REQ_DT != null and END_REQ_DT  != 'undefined' and END_REQ_DT != ''">
+			  		AND MA.REQ_DT <![CDATA[<=]]> TO_DATE(#{END_REQ_DT})+1
+			  </if>
+			  
+			  <choose>
+			  	<when test="REQR_ID != null and REQR_ID  != 'undefined' and REQR_ID != ''">
+			  		AND MA.REQR_ID = #{REQR_ID}
+			  	</when>
+			  	
+			  	<when test="REQR_NM != null and REQR_NM  != 'undefined' and REQR_NM != ''">
+			  		AND EXISTS (SELECT '1'
+			                          FROM MM_MT_USER
+			                          WHERE USER_ID = MA.REQR_ID 
+			                            AND (USER_NM LIKE '%' + #{REQR_NM} + '%' OR USER_NM_GB LIKE '%' + #{REQR_NM} + '%'))
+			  	</when>
+			  </choose> 
+			  
+			  <if test="START_CMPLT_DT != null and START_CMPLT_DT  != 'undefined' and START_CMPLT_DT != ''">
+			  		AND MA.APRV_CMPLT_DT <![CDATA[>=]]> TO_DATE(#{START_CMPLT_DT})
+			  </if>
+			  
+			  <if test="END_CMPLT_DT != null and END_CMPLT_DT  != 'undefined' and END_CMPLT_DT != ''">
+			  		AND MA.APRV_CMPLT_DT <![CDATA[<=]]> TO_DATE(#{END_CMPLT_DT})+1
+			  </if>
+			  
+			  <choose>
+			  	<when test="APRVR_ID != null and APRVR_ID  != 'undefined' and APRVR_ID != ''">
+			  		AND AA.APRVR_ID = #{APRVR_ID}
+			  	</when>
+			  	
+			  	<when test="APRVR_NM != null and APRVR_NM  != 'undefined' and APRVR_NM != ''">
+			  		AND EXISTS (SELECT '1'
+			                          FROM MM_MT_USER
+			                          WHERE USER_ID = AA.APRVR_ID 
+			                            AND (USER_NM LIKE '%' + #{APRVR_NM} + '%' OR USER_NM_GB LIKE '%' + #{APRVR_NM} + '%'))
+			  	</when>
+			  </choose>
+		<include refid="commonService.list-after" />
+	</select>
+		
+	<resultMap id="aprvMap" type="hashmap">
+		<result property="APRV_OPNN" column="APRV_OPNN" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="APP_DOC" column="APP_DOC" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>		
+	<select id="readAprv" parameterType="Hmap" resultMap="aprvMap">
+	/* [BAprvService.readAprv][결재상세 조회][2017.09.12][] */
+		SELECT BRANCH_CD
+		       ,APP_DOC_ID
+		       ,CD_APRV_STTS
+		       ,CD_APRV_MTHD
+		       ,CD_APRV_DOC_CTGR
+		       ,TTL
+		       ,WAIT_SEQ
+		       ,APRV_CNT
+		       ,APRV_OPNN
+		       ,APP_DOC
+		       ,REQR_ID
+		       ,TKEY
+		       ,REF_KEY_1
+		       ,REF_KEY_2
+		       ,REF_KEY_3
+		       ,LAST_CHGR_ID
+		       ,#{LOGIN_USER} AS LOGIN_USER
+		       ,'' AS TARGET_ID
+		       ,REF_KEY_1 AS RFQ_REQ_NO
+		       ,REF_KEY_2 AS RFQ_ODR
+		       ,REF_KEY_1 AS SCJD_EVAL_ID
+		FROM MM_APRV
+		WHERE	BRANCH_CD = #{BRANCH_CD}
+		AND		APP_DOC_ID = #{APP_DOC_ID}
+	</select>
+	
+	<select id="readAprvLine" parameterType="Hmap" resultType="Hmap">
+	/* [BAprvService.readAprvLine][결재라인 조회][2017.09.12][] */
+		SELECT 
+				'0' AS CHECKED
+				,AA.APRV_ORDR
+				,AA.APRVR_ID
+				,GET_USERNM(AA.APRVR_ID,AA.BRANCH_CD,#{LANG_CD}) AS APRVR_NM
+				,AA.CD_APRV_LN_STTS
+				,AA.CD_APP_TYPE
+				,TO_CHAR(AA.APRV_DT,'YYYYMMDDHH24MISS') AS APRV_DT
+				,AA.OPNN
+				,TO_CHAR(AA.REQ_DT,'YYYYMMDDHH24MISS') AS REQ_DT
+				,MA.REQR_ID
+				,MA.BRANCH_CD
+				,MA.APP_DOC_ID
+				,AA.CRTR_ID
+				,AA.LAST_CHGR_ID
+				,CASE AA.CD_APRV_LN_STTS
+					WHEN 'AP13WAT' THEN DECODE(MA.WAIT_SEQ,AA.APRV_ORDR,'N','Y')
+					ELSE 'N'
+				 END UP_YN
+		      -- ,MU.ALT_TEAM_LDR
+				,MU.PSTN
+				,MU.DEPT_NM
+				,MU.TEL
+		FROM	MM_APRV MA
+				,MM_APRV_APRVR AA 
+				,MM_MT_USER MU 
+		WHERE MA.BRANCH_CD = AA.BRANCH_CD
+		AND MA.APP_DOC_ID = AA.APP_DOC_ID
+		AND AA.BRANCH_CD = MU.BRANCH_CD
+		AND AA.APRVR_ID = MU.USER_ID
+		AND MA.BRANCH_CD = #{BRANCH_CD}
+		AND MA.APP_DOC_ID = #{APP_DOC_ID}
+
+		ORDER BY AA.APRV_ORDR
+	</select>
+	
+	<delete id="deleteAprvr" parameterType="Hmap">
+	/* [BAprvService.deleteAprvr][결재라인 삭제][2017.09.12][] */
+		DELETE 
+		FROM MM_APRV_APRVR
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND APP_DOC_ID = #{APP_DOC_ID}
+	</delete>
+
+	<update id="updatePtnr" parameterType="Hmap">
+	/* [BEvalService.updatePtnr][협력사 업데이트][2017.11.10][] */
+		UPDATE MM_PTNR_PORG
+		SET SCJD_EVAL_ID = #{SCJD_EVAL_ID}
+		    ,SCJD_EVAL_SCORE = #{EVAL_SCORE}
+		    ,SCJD_CMPLT_DT = SYSDATE
+		    ,LAST_CHGR_ID = 'SYSTEM'
+		    ,LAST_CHG_DT = SYSDATE
+		    <if test="CD_TRD_LIMIT == 'EV2210' and TRD_LIMIT_SCORE gte EVAL_SCORE">
+		    	,CD_PORG_UNIT_STTS = 'SR20REJ'
+		    </if>
+		    
+		    <if test="CD_TRD_LIMIT == 'EV2220' and GUBUN == 'REJ'">
+		    	,CD_PORG_UNIT_STTS = 'SR20REJ'
+		    </if>
+		    
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PTNR_ID = #{PTNR_ID}
+	</update>
+	
+	<select id="readLeader" parameterType="Hmap" resultType="Hmap">
+	/* [BEvalService.readLeader][팀장조회][2017.11.13][] */
+		SELECT 
+			BRANCH_CD
+			,USER_ID
+			,CASE WHEN #{LANG_CD} = 'CM34EN' THEN USER_NM_GB
+				  ELSE USER_NM
+			 END USER_NM
+			,PSTN
+			,DEPT_NM
+			,TEL
+		FROM MM_MT_USER
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND DEPT_CD = #{DEPT_CD}
+		AND USER_ID <![CDATA[<>]]> #{REQR_ID} 
+	--AND ALT_TEAM_LDR = 'Y'
+	 <if test='REF_KEY_4=="Y"'>
+	 	UNION ALL
+	 	SELECT
+	 		MU.BRANCH_CD
+			,MU.USER_ID
+			,MU.USER_NM
+			,MU.PSTN
+			,MU.DEPT_NM
+			,MU.TEL
+		FROM  MM_MT_USER MU
+			 ,MM_SYS_USER_ROLE SUR
+		WHERE MU.USER_ID = SUR.USER_ID
+		AND MU.BRANCH_CD = #{BRANCH_CD}
+		AND MU.USER_ID <![CDATA[<>]]> #{REQR_ID} 
+		AND SUR.ROLE_ID ='B_PUR_TL'
+	 </if>
+	</select>
+	
+	<select id="searchAprvDraft" parameterType="Hmap" resultType="Hmap">
+	/* [BAprvService.searchAprvDraft][기안문서 조회][2017.11.28][] */	
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="REQ_DT DESC"/>
+		</include>
+			SELECT MA.BRANCH_CD
+				   ,MA.APP_DOC_ID
+				   ,MA.CD_APRV_STTS
+				   ,MA.CD_APRV_DOC_CTGR
+				   ,MA.TTL
+		           ,CASE MA.CD_APRV_STTS 
+						WHEN 'AP10ING' THEN (TO_NUMBER(MA.APRV_CNT) - TO_NUMBER(MA.WAIT_SEQ)+1)
+						ELSE 0
+		            END WAIT_CNT
+		           ,CASE MA.CD_APRV_STTS
+		            	WHEN 'AP10ING' THEN GET_USERNM(AA.APRVR_ID,AA.BRANCH_CD,#{LANG_CD})
+						ELSE ''
+		            END WAIT_NM
+		           ,CASE MA.CD_APRV_STTS
+						WHEN 'AP10ING' THEN AA.APRVR_ID
+						ELSE ''
+		            END WAIT_ID
+		           ,TO_CHAR(MA.REQ_DT,'YYYYMMDD') AS REQ_DT
+		           ,TO_CHAR(MA.APRV_CMPLT_DT,'YYYYMMDD') AS APRV_CMPLT_DT
+				   ,GET_USERNM(FIN.APRVR_ID,FIN.BRANCH_CD,#{LANG_CD}) AS FIN_NM
+				   ,FIN.APRVR_ID AS FIN_ID
+			FROM MM_APRV MA
+				,MM_APRV_APRVR AA 
+				,MM_APRV_APRVR FIN 
+			WHERE MA.BRANCH_CD = AA.BRANCH_CD
+			AND MA.APP_DOC_ID = AA.APP_DOC_ID
+			AND MA.WAIT_SEQ = AA.APRV_ORDR
+			AND MA.BRANCH_CD = FIN.BRANCH_CD
+			AND MA.APP_DOC_ID = FIN.APP_DOC_ID
+			AND MA.APRV_CNT = FIN.APRV_ORDR
+			AND MA.BRANCH_CD = #{BRANCH_CD}
+			AND MA.CD_APRV_STTS = 'AP10ING'
+			AND MA.REQR_ID IN (<include refid="commonService.getAbsUser"/>)
+			
+			  <if test="TTL != null and TTL  != 'undefined' and TTL != ''">
+		      		AND MA.TTL LIKE '%' + #{TTL} + '%'
+		      </if>
+		      
+		      <if test="CD_APRV_DOC_CTGR != null and CD_APRV_DOC_CTGR  != 'undefined' and CD_APRV_DOC_CTGR != ''">
+		      		AND MA.CD_APRV_DOC_CTGR = #{CD_APRV_DOC_CTGR}
+		      </if>
+
+		      <if test="START_REQ_DT != null and START_REQ_DT  != 'undefined' and START_REQ_DT != ''">
+		      		AND MA.REQ_DT <![CDATA[>=]]> TO_DATE(#{START_REQ_DT})
+		      </if>
+		      
+		      <if test="END_REQ_DT != null and END_REQ_DT  != 'undefined' and END_REQ_DT != ''">
+		      		AND MA.REQ_DT <![CDATA[<=]]> TO_DATE(#{END_REQ_DT})+1
+		      </if>
+		      
+		      <if test="START_CMPLT_DT != null and START_CMPLT_DT  != 'undefined' and START_CMPLT_DT != ''">
+		      		AND MA.APRV_CMPLT_DT <![CDATA[>=]]> TO_DATE(#{START_CMPLT_DT})
+		      </if>
+		      
+		      <if test="END_CMPLT_DT != null and END_CMPLT_DT  != 'undefined' and END_CMPLT_DT != ''">
+		      		AND MA.APRV_CMPLT_DT <![CDATA[<=]]> TO_DATE(#{END_CMPLT_DT})+1
+		      </if>
+		      
+		      <if test="APP_DOC_ID != null and APP_DOC_ID  != 'undefined' and APP_DOC_ID != ''">
+		      		AND MA.APP_DOC_ID = #{APP_DOC_ID}
+		      </if>	
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<update id="saveAprvCxl" parameterType="Hmap">
+	/*[BAprvService.saveAprvCxl][결재 취소][2017.09.12][] */
+		UPDATE MM_APRV
+		SET CD_APRV_STTS	= #{CD_APRV_STTS}
+			,TKEY			= TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			,APRV_CMPLT_DT	= SYSDATE
+		    ,LAST_CHGR_ID	= #{LOGIN_USER}
+		    ,LAST_CHG_DT	= SYSDATE
+		WHERE BRANCH_CD		= #{BRANCH_CD}
+		AND APP_DOC_ID	= #{APP_DOC_ID}
+	</update>
+	
+	<select id="checkAbsUser" parameterType="Hmap" resultType="Hmap">
+	/*[BAprvService.checkAbsUser][부재자정보 체크][2017.12.05][] */
+		SELECT CASE USER_ID
+		       WHEN #{TARGET_ID} THEN 'Y'
+			   				   ELSE 'N'
+			   END CHK_YN
+	    FROM MM_MT_USER
+		WHERE ABS_USER_ID = #{LOGIN_USER}
+		AND USER_ID = #{TARGET_ID}
+		AND ABS_ST_DAY <![CDATA[<=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+		AND ABS_ED_DAY <![CDATA[>=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+	</select>
+	
+	<select id="readFile" parameterType="hashmap" resultType="hashmap">
+	/* [BAprvService.readFile][승인요청시 복사할 파일 조회][2017.12.05][한의봉] */
+		SELECT 
+				FILE_ID
+				, BRANCH_CD
+				, REF_TBL_NM
+				, REF_KEY_1
+				, REF_KEY_3 AS REF_KEY_2
+				, CRTR_ID
+		FROM    MM_SYS_FILE_REF
+		WHERE   REF_TBL_NM IN (${REF_TBL_NM})
+		AND		BRANCH_CD 			=	#{BRANCH_CD}
+		AND		REF_KEY_1 			=	#{REF_KEY_1}
+		<if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+			AND		REF_KEY_2 			=	#{REF_KEY_2}
+		</if>
+	</select>
+
+	<update id="updateCntrCntnt" parameterType="hashmap">
+	/* [BAprvService.updateCntrCntnt][결재 로직 후 계약본문내용 업데이트] */	
+		UPDATE MM_CNTR
+		   SET 
+				CONTENT = #{CONTENT}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND CNTR_NO		= #{CNTR_NO}
+		AND CNTR_ORDR	= #{CNTR_ORDR}
+	</update>
+	
+	<update id="updatePrStts" parameterType="hashmap">
+	/* [BAprvService.updatePrStts][결재 로직 후 구매요청 업데이트] */	
+		UPDATE MM_PR
+		   SET CD_PR_STTS		= #{CD_HEADER_STTS}
+			   , APP_DOC_ID		= #{APP_DOC_ID}
+			<if test="CD_HEADER_STTS == 'PR11CLO'">				   
+			   ,APRV_CMPLT_DT	= SYSDATE
+			   ,REQ_DT			= SYSDATE
+			</if>			   
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PR_NO		= #{REF_KEY_1}
+	</update>
+	
+	<update id="updatePrItemStts" parameterType="hashmap">
+	/* [BAprvService.updatePrItemStts][결재 로직 후 구매요청 품목 업데이트] */	
+		UPDATE MM_PR_ITEM PI
+		   SET CD_PR_ITEM_STTS	= #{CD_DETAIL_STTS}
+			<if test="CD_DETAIL_STTS == 'PR13RCV'">				   
+			   ,PCHRGR_ID		= (
+			   						SELECT 
+			   							SGP.USER_ID
+									FROM MM_MTRL_GRP MG
+										,MM_MT_SRC_GRP SG
+										,MM_MT_SRC_GRP_PUR SGP
+									WHERE MG.SRC_GRP_ID = SG.SRC_GRP_ID
+									AND SG.SRC_GRP_ID = SGP.SRC_GRP_ID(+)
+									AND MG.MTRL_GRP_ID = PI.MTRL_GRP_ID
+									AND ALT_RPTST_YN='Y'
+									)
+			   ,RCV_DT			= SYSDATE
+			</if>			   
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PR_NO		= #{REF_KEY_1}
+	</update>
+	
+	<update id="updateCntrStts" parameterType="hashmap">
+	/* [BAprvService.updateCntrStts][결재 로직 후 계약 업데이트] */	
+		UPDATE MM_CNTR
+		   SET CD_CNTR_STTS = #{CD_HEADER_STTS}
+			   , APP_DOC_ID = #{APP_DOC_ID}
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND CNTR_NO		= #{REF_KEY_1}
+	</update>
+
+	<insert id="insertCntrHistory" parameterType="hashmap">
+	/* [BCntrService.insertCntrHistory][계약 이력저장] */
+			INSERT INTO MM_CNTR_HSTY (
+				SN  
+				, BRANCH_CD
+				, CNTR_NO
+				, TYPE
+				, CHRGR_ID 
+				, CHRGR_NM
+				, DT
+				, CNTNT
+			)
+			VALUES (
+				MM_CNTR_HSTY_SEQ.NEXTVAL
+				, #{BRANCH_CD}
+				, #{REF_KEY_1}
+				, '합의요청'
+				, #{REQR_ID}
+				, GET_USERNM(#{REQR_ID},#{BRANCH_CD},'')
+				, SYSDATE
+				<if test="CD_HEADER_STTS == 'CT10APP'">
+					, '승인요청' 
+				</if>
+				<if test="CD_HEADER_STTS == 'CT10SREQ'">
+					, (SELECT GET_PTNRNM(PTNR_ID) || '(' || PTNR_ID || ')'
+					 	 FROM MM_CNTR 
+						WHERE BRANCH_CD = #{BRANCH_CD}
+					  	  AND CNTR_NO = #{REF_KEY_1}) || ' 합의요청'
+				</if>
+				<if test="CD_HEADER_STTS == 'CT10WRI'">
+					, '승인반려'
+				</if>
+			)
+	</insert>
+
+	<update id="updatePoStts" parameterType="hashmap">
+	/* [BAprvService.updatePoStts][결재 로직 후 발주 업데이트] */	
+		UPDATE MM_PO
+		SET 
+			CD_PO_STTS		= #{CD_HEADER_STTS}
+			, APP_DOC_ID	= #{APP_DOC_ID}
+			, LAST_CHG_DT		= SYSDATE
+		<if test="CD_HEADER_STTS == 'PO10SND'">				   
+		   , PO_ISSUE_DT	= SYSDATE
+		</if>			   
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND PO_NO		= #{REF_KEY_1}
+	</update>
+	
+	<update id="updatePoItemStts" parameterType="hashmap">
+	/* [BAprvService.updatePoItemStts][결재 로직 후 발주 품목 업데이트] */	
+		UPDATE MM_PO_ITEM PI
+		SET 
+			CD_PO_ITM_STTS		= #{CD_DETAIL_STTS}
+			, LAST_CHG_DT		= SYSDATE		   
+		WHERE PO_NO		= #{REF_KEY_1}
+	</update>
+
+	<resultMap id="contentobj" type="hashmap">
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	<select id="readCntrInfo" parameterType="hashmap" resultMap="contentobj">
+	/* [BAprvService.readCntrInfo][계약데이터조회] */
+		SELECT MC.CNTR_NO            
+               , MC.CNTR_ORDR          
+               , MC.BRANCH_CD                  
+               , MC.CD_CNTR_STTS       
+               , MC.CD_CNTR_TMPLT    
+               , MC.CD_FCTRY           
+               , MC.PTNR_ID            
+               , MC.PTNR_NM            
+               , MC.TTL                
+               , MC.ALT_SIGN           
+               , MC.CNTR_AMT           
+               , MC.CNTR_AMT_TXT       
+               , MC.CNTR_BGN_DAY       
+               , MC.CNTR_END_DAY       
+               , MC.CNTR_DAY           
+               , MC.CNTR_DAY_TXT       
+               , MC.ALT_TSTAMP         
+               , MC.TSTAMP_AMT                 
+               , MC.CNTR_PTNR_ID       
+               , MC.WORK_PLCE          
+               , MC.ALT_BASIC_PYMT     
+               , MC.BASIC_PYMT_TXT     
+               , MC.ALT_SPYMT          
+               , MC.ALT_MPYMT          
+               , MC.ALT_CPYMT          
+               , MC.SPYMT_TXT          
+               , MC.MPYMT_TXT          
+               , MC.CPYMT_TXT          
+               , MC.DFR_CMPNSN_AMT_RATE
+               , MC.CPAY_GRNT_DATE     
+               , MC.ALT_NO_GRNT        
+               , MC.ALT_CNTR_GRNT      
+               , MC.ALT_PPAY_GRNT      
+               , MC.ALT_CPAY_GRNT      
+               , MC.SPAY_GRNT_TXT1     
+               , MC.PPAY_GRNT_TXT1     
+               , MC.CPAY_GRNT_TXT1     
+               , MC.SPAY_GRNT_TXT2     
+               , MC.PPAY_GRNT_TXT2     
+               , MC.CPAY_GRNT_TXT2     
+               , MC.CNTR_PAPER         
+               , MC.ETC_CNTNT          
+               , MC.CNTR_CNTNT         
+               , MC.CNTR_CHRGR_ID                 
+               , MC.CRTR_ID            
+               , MC.CRT_DT             
+               , MC.LAST_CHGR_ID       
+               , MC.LAST_CHG_DT
+               , MC.CD_CNST_TYPE
+               , MC.CD_CNTR_CTGR
+               , MC.YU_ASSET_YN
+               , MCT.REPORT_NM
+               , MC.CONTENT
+		  FROM MM_CNTR MC
+          	   , MM_CNTR_TMPLT MCT
+         WHERE MC.BRANCH_CD = MCT.BRANCH_CD
+           AND MC.CD_CNTR_TMPLT = MCT.CNTR_TMPLT_NO
+		   AND MC.BRANCH_CD = #{BRANCH_CD}
+		   AND MC.CNTR_NO = #{REF_KEY_1}
+		   AND MC.CNTR_ORDR = #{REF_KEY_2}
+	</select>
+</mapper>

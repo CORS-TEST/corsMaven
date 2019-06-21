@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+
+
+<definition name="index" template="/jsp/frame/indexframe.jsp">
+	<put-attribute name="body"  value="/jsp/frame/indexbody.jsp" />
+	<put-attribute name="footer" value="/jsp/frame/indexfooter.jsp" />
+</definition>
+
+<!-- default : 템플릿에 설정된 페이지의 구성 요소에 대한 실제 파일을 지정합니다.  -->
+<definition name="default" template="/jsp/frame/default_frame.jsp">
+	<put-attribute name="header" value="/jsp/frame/header.jsp" />
+	<put-attribute name="mditab" value="/jsp/frame/mditab.jsp" />
+	<put-attribute name="menu"  value="/jsp/frame/menu.jsp" />
+	<put-attribute name="body"  value="/jsp/frame/body.jsp" />
+	<put-attribute name="footer" value="/jsp/frame/footer.jsp" />
+</definition>
+
+
+<definition name="work" template="/jsp/frame/work_frame.jsp">
+	<put-attribute name="body"  value="/jsp/frame/workbody.jsp" />
+</definition>
+
+<definition name="login1" extends="work">
+	<put-attribute name="body" value="/jsp/com/Login.jsp" />
+</definition>
+
+
+
+<definition name="PPURB300N00" extends="work">
+	<put-attribute name="body" value="/jsp/pur/PPURB300N00.jsp" />
+</definition>
+<definition name="PPURB300N01" extends="work">
+	<put-attribute name="body" value="/jsp/pur/PPURB300N01.jsp" />
+</definition>
+<definition name="PPURB300N02" extends="work">
+	<put-attribute name="body" value="/jsp/pur/PPURB300N02.jsp" />
+</definition>
+
+<definition name="test1" extends="work">
+	<put-attribute name="body" value="/jsp/test/test1.jsp" />
+</definition>
+<definition name="test2" extends="work">
+	<put-attribute name="body" value="/jsp/test/test2.jsp" />
+</definition>
+<definition name="test3" extends="work">
+	<put-attribute name="body" value="/jsp/test/test3.jsp" />
+</definition>
+<definition name="test4" extends="work">
+	<put-attribute name="body" value="/jsp/test/test4.jsp" />
+</definition>
+<definition name="test5" extends="work">
+	<put-attribute name="body" value="/jsp/test/test5.jsp" />
+</definition>
+<definition name="test6" extends="work">
+	<put-attribute name="body" value="/jsp/test/test6.jsp" />
+</definition>
+<definition name="test7" extends="work">
+	<put-attribute name="body" value="/jsp/test/test7.jsp" />
+</definition>
+
+</tiles-definitions>

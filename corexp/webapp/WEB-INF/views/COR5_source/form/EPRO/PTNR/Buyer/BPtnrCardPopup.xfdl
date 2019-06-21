@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="600" id="BPtnrCardPopup" left="0" oninit="fnFormOninit" onload="fnOnLoad" titletext="관리카드 팝업" top="0" width="640">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="5" onclick="div_2_staSubTitle01_onclick" taborder="0" text="관리카드" top="5" width="87"/>
+        <Button cssclass="btn_WF_Custom" height="24" id="btn_addCard" lbcd="" objNm="추가버튼" onclick="fnBtnAddCardClick" right="10" taborder="1" text="저장" top="5" width="70"/>
+        <Static cssclass="sta_WF_Labelbg" height="29" id="Static00" left="5" right="10" taborder="2" top="34"/>
+        <Static cssclass="sta_WF_DetailLabel01" height="29" id="sta_Ttl" lbcd="" left="5" style="linespace:3;background:#f6f7f9ff URL('theme://images/sta_WF_Label_P1.png') left middle;border:1 solid #ced0d7ff,1 solid #e6e6e6ff;padding:1 0 0 17;" taborder="3" text="제목" top="34" width="171"/>
+        <Edit autoselect="true" cssclass="edt_defalut" height="21" id="edt_bizNo" left="28.28%" lengthunit="ascii" maxlength="50" objNm="관리카드 제목" right="2.97%" taborder="8" top="38"/>
+        <TextArea height="243" id="TextArea00" left="5" lengthunit="ascii" maxlength="1000" objNm="관리카드 내용" right="10" taborder="11" top="129"/>
+        <Div bottom="20" id="divFile" left="5" right="10" taborder="12" top="383" url="CCOMP::CompNFileUpDown.xfdl"/>
+        <Static cssclass="sta_WF_Labelbg" height="29" id="Static01" left="5" right="10" taborder="13" top="62"/>
+        <Static cssclass="sta_WF_DetailLabel01" height="29" id="sta_CrtrNm" lbcd="" left="5" objNm="작성자" right="72.5%" style="background:#f6f7f9ff URL('theme://images/sta_WF_Label_P1.png') left middle;border:1 solid #ced0d7ff,1 solid #e6e6e6ff;padding:1 0 0 17;" taborder="14" text="관리유형" top="62"/>
+        <Combo codecolumn="CD_ID" cssclass="cbo_default" datacolumn="CD_NM_LO" height="21" id="cbo_cdBdgtType" innerdataset="@dsCdSR30" left="180" objNm="관리유형" taborder="15" top="66" width="129"/>
+        <Static cssclass="sta_WF_Labelbg" height="29" id="Static02" left="5" right="10" taborder="16" top="90"/>
+        <Static cssclass="sta_WF_DetailLabel01" height="29" id="sta_cdPrStts01" lbcd="" left="49.22%" right="24.06%" style="background:#f6f7f9ff left middle;border:1 solid #ced0d7ff,1 solid #e6e6e6ff;padding:1 0 0 17;" taborder="17" text="작성일자" top="90"/>
+        <Calendar dateformat="yyyy-MM-dd" height="21" id="calCrtDt" left="76.72%" locale="en_US" objNm="관리카드 작성일자" readonly="true" right="3.13%" taborder="18" top="94"/>
+        <Edit height="21" id="edCrtrNm" left="28.28%" objNm="관리카드 작성자명" readonly="true" right="51.56%" taborder="19" top="94"/>
+        <Static cssclass="sta_WF_DetailLabel01" height="29" id="sta_cdPrStts00" lbcd="" left="5" right="72.5%" style="background:#f6f7f9ff left middle;border:1 solid #ced0d7ff,1 solid #e6e6e6ff;padding:1 0 0 17;" taborder="20" text="작성자" top="90"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="TTL" compid="edt_bizNo" datasetid="dsCard" id="item0" propid="value"/>
+      <BindItem columnid="MGMT_MEMO" compid="TextArea00" datasetid="dsCard" id="item3" propid="value"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00523" compid="btn_addCard" datasetid="gdsLabel" id="btn_addCardLangBind201711031718431693" propid="text"/>
+      
+      <BindItem columnid="CD_MGMT_TYPE" compid="cbo_cdBdgtType" datasetid="dsCard" id="item1" propid="value"/>
+      
+      <BindItem columnid="CRT_DT" compid="calCrtDt" datasetid="dsCard" id="item2" propid="value"/>
+      <BindItem columnid="CRTR_NM" compid="edCrtrNm" datasetid="dsCard" id="item4" propid="value"/>
+      
+    </Bind>
+    <Objects>
+      <Dataset id="dsCard">
+        <ColumnInfo>
+          <Column id="CRTR_NM" size="256" type="STRING"/>
+          <Column id="CRTR_ID" size="256" type="STRING"/>
+          <Column id="LAST_CHG_DT" size="256" type="STRING"/>
+          <Column id="MGMT_MEMO" size="256" type="STRING"/>
+          <Column id="LAST_CHGR_ID" size="256" type="STRING"/>
+          <Column id="CD_MGMT_TYPE_NM" size="256" type="STRING"/>
+          <Column id="CD_MGMT_TYPE" size="256" type="STRING"/>
+          <Column id="CRT_DT" size="256" type="STRING"/>
+          <Column id="TTL" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="MGMT_HSTR_NO" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdSR30"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BRfqCtrPopup.xfdl
+ * @생성자       	: 김승일
+ * @생성일자     	: 2017. 11. 09.
+ * @설명			: 관리카드 추가 팝업
+ * @최종수정자		: 
+ * @최종수정일자	: 
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00844");
+var mgmtHstrNo = "";//관리이력번호
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"SR30", sSelectType:"S"} //상태
+				];
+
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	//gfnSetGrdFunc(this.grd_list, this.divPaging, this);
+	
+	var ownFrame = this.getOwnerFrame();
+	this.dsCard.addRow();
+	
+	mgmtHstrNo = ownFrame.agv_id;
+	
+	this.cbo_cdBdgtType.set_index(0);
+	
+	gfnMakeFileDs(this);
+	if(!gfnIsNull(mgmtHstrNo)){
+		this.dsCard.setColumn(0,"MGMT_HSTR_NO",mgmtHstrNo);
+		this.dsCard.setColumn(0,"PTNR_ID",ownFrame.agv_ptnr);
+		
+		this.edt_bizNo.set_readonly(true);
+		this.cbo_cdBdgtType.set_readonly(true);
+		this.TextArea00.set_readonly(true);
+		this.btn_addCard.set_visible(false);
+			
+		this.fnSearch();
+		
+	}else{
+		
+		this.dsCard.setColumn(0,"CRTR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+		this.dsCard.setColumn(0,"CRTR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+		this.dsCard.setColumn(0,"PTNR_ID",ownFrame.agv_ptnr);
+		this.dsCard.setColumn(0,"CD_MGMT_TYPE","");
+		this.dsCard.setColumn(0,"CRT_DT", gfnToday());
+		
+		this.dsCdSR30.filter("CD_ID!='SR30SYS'");
+		
+		this.fnFile("N");
+	}
+}
+
+this.fnFile = function(mode)
+{
+	var sTableNm = "MM_PTNR_MGMT";
+	var arrFileKey = [this.dsCard.getColumn(0, "MGMT_HSTR_NO"), this.dsCard.getColumn(0, "PTNR_ID")];
+	this.divFile.fnFileInit(this, sTableNm, this.dsCard, arrFileKey, mode);
+}
+
+
+ 
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "readMgmtCard";
+	var sController = "epro.ptnr.service.BPtnrService.readMgmtCard";
+	var sInDatasets = "dsCard=dsCard";
+	var sOutDatasets = "dsCard=dsCard";
+	var sCallbackFunc = "fnTrCallBack";	
+						
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "savePtnrMgmt" :
+			gfnAlert(strErrMsg);
+			this.parent.close(this.dsCard.saveXML());
+		break;
+		
+		case "readMgmtCard" :
+			this.fnFile("Y");
+			if("SR30SYS" == this.dsCard.getColumn(0, "CD_MGMT_TYPE")) {
+				this.dsCdSR30.filter("");
+			} else {
+				this.dsCdSR30.filter("CD_ID!='SR30SYS'");
+			}
+		break;
+ 
+		default:
+		break;		
+	}
+}
+   
+
+/**
+  * @함수명	: fnBtnAddCardClick
+  * @desc   : 관리카드 저장
+  */
+this.fnBtnAddCardClick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var arr = [];
+	if(gfnIsNull(this.dsCard.getColumn(0,"TTL"))){
+		var msg = gfnMultiLabel("EPRO_LABEL_00831"); //"코드그룹을 입력 해 주세요.";
+		var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	} 
+	if(gfnIsNull(this.dsCard.getColumn(0,"CD_MGMT_TYPE"))){
+		var msg = gfnMultiLabel("EPRO_LABEL_00830");
+		var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	} 
+	if(gfnIsNull(this.dsCard.getColumn(0,"MGMT_MEMO"))){
+		var msg = gfnMultiLabel("EPRO_LABEL_00832");
+		var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	
+	if(!gfnValidate(this, false, arr)) return;
+	
+	if(!gfnConfirm("EPRO_LABEL_00001")) return;
+	
+	var sSvcID = "savePtnrMgmt";
+	var sController = "epro.ptnr.service.BPtnrService.savePtnrMgmt";
+	var sInDatasets = "dsCard=dsCard";
+	var sOutDatasets = "dsCard=dsCard";
+	var sCallbackFunc = "fnTrCallBack";
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+]]></Script>
+  </Form>
+</FDL>

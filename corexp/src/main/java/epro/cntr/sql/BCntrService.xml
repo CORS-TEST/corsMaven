@@ -1,0 +1,1182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BCntrService">
+			
+	<select id="searchCntrPrgList" parameterType="hashmap" resultType="hashmap">
+	/* [BCntrService.searchCntrPrgList][계약진행현황][2019.04.30][안성민] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="CNTR_NO DESC"/>
+		</include>
+			SELECT C.BRANCH_CD
+	  			   , C.CNTR_NO
+	  			   , C.LNK_CNTR_NO
+	  			   , C.CNTR_TMPL_ID
+	  			   , C.PTNR_ID
+	  			   , P.PTNR_NM
+	  			   , C.CD_CNTR_STTS
+	  			   , C.CD_DOC_CTGR
+	  			   , C.CD_CNTR_CTGR
+	  			   , C.CD_CNTR_TYPE
+	  			   , C.CD_PYMT_CNDTN
+	  			   ,  C.CNTR_AMT
+				   ,  C.VAT
+				   ,  NVL(C.CNTR_AMT,0)+NVL(C.VAT,0) CNTR_SUM
+	  			   , C.CD_CRNC
+	  			   , CASE 
+	  			   		WHEN SYSDATE <![CDATA[>=]]>  TO_DATE(C.CNTR_BGN_DAY,'YYYYMMDD') AND SYSDATE <![CDATA[<=]]> TO_DATE(C.CNTR_END_DAY,'YYYYMMDD') THEN 'Y'
+		              	ELSE 'N'
+		           	 END END_YN 
+	  			   , C.CNTR_BGN_DAY
+	  			   , C.CNTR_END_DAY
+	  			   , C.TTL
+	  			   , C.RMARK
+	  			   , C.CNTR_REQR_ID
+				   , GET_USERNM(C.CNTR_REQR_ID, C.BRANCH_CD, #{LANG_CD}) AS CNTR_REQR_NM
+	  			   , TO_CHAR(C.CNTR_REQ_DT,'YYYYMMDD') AS CNTR_REQ_DT
+	  			   , TO_CHAR(C.CNTR_CFM_DT,'YYYYMMDD') AS CNTR_CFM_DT
+	  			   , C.APP_DOC_ID
+	  			   , C.TKEY
+	  			   , C.ATTCH_FILE_CNT
+	  			   , C.DFCT_GRNT_PRID
+	  			   , C.ALT_INTL_CFM
+	  			   , C.CRTR_ID
+	  			   , TO_CHAR(C.CRT_DT,'YYYYMMDD') AS CRT_DT
+	  			   , C.LAST_CHGR_ID
+	  			   , C.LAST_CHG_DT
+  		FROM MM_CNTR C
+  			 ,MM_CNTR_ADD CA
+  			 ,MM_PTNR P
+  		WHERE C.CNTR_NO = CA.CNTR_NO(+)
+  		AND   C.BRANCH_CD = CA.BRANCH_CD(+)
+  		AND   C.CD_CNTR_CTGR IN ('CT11DAN','CT11ONE')
+  		AND   C.PTNR_ID = P.PTNR_ID(+)
+  		AND   C.BRANCH_CD = #{BRANCH_CD}
+  		AND   C.CD_CNTR_STTS NOT IN ('CT10SCLO')
+		
+		<if test="CNTR_NO != null and CNTR_NO != 'undefined' and CNTR_NO != ''">
+			AND   C.CNTR_NO IN (#{CNTR_NO})
+		</if>
+		
+		<if test="CD_CNTR_STTS != null and CD_CNTR_STTS != 'undefined' and CD_CNTR_STTS != ''">
+			AND   C.CD_CNTR_STTS = #{CD_CNTR_STTS}
+		</if>
+		
+		<if test="CD_CNTR_CTGR != null and CD_CNTR_CTGR != 'undefined' and CD_CNTR_CTGR != ''">
+			AND   C.CD_CNTR_CTGR = #{CD_CNTR_CTGR}
+		</if>	
+		
+		<if test="CRT_DT_STR != null and CRT_DT_STR != 'undefined' and CRT_DT_STR != ''">
+			AND   C.CRT_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{CRT_DT_STR},'YYYYMMDD'))
+		</if>
+		
+		<if test="CRT_DT_END != null and CRT_DT_END != 'undefined' and CRT_DT_END != ''">
+			AND   C.CRT_DT <![CDATA[<]]> TRUNC(TO_DATE(#{CRT_DT_END},'YYYYMMDD')+1)
+		</if>
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND   C.TTL LIKE '%'||#{TTL}||'%'
+		</if>	
+		<choose>
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+				AND   EXISTS(
+							SELECT 'EXISTS'
+							FROM MM_CNTR_ITEM CI
+							WHERE C.CNTR_NO = CI.CNTR_NO
+							AND   CI.MTRL_CD = #{MTRL_CD}
+						)
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''" >
+				AND   EXISTS(
+							SELECT 'EXISTS'
+							FROM MM_CNTR_ITEM CI
+							WHERE C.CNTR_NO = CI.CNTR_NO
+							AND   CI.MTRL_NM LIKE '%' || #{MTRL_NM} || '%'
+						)
+			</when>
+		</choose>
+		<choose>
+			<when test="CNTR_REQR_ID != null and CNTR_REQR_ID != 'undefined' and CNTR_REQR_ID != ''">
+				AND   C.CNTR_REQR_ID = #{CNTR_REQR_ID}
+			</when>
+			<when test="CNTR_REQR_NM != null and CNTR_REQR_NM != 'undefined' and CNTR_REQR_NM != ''">
+				AND   GET_USERNM(C.CNTR_REQR_ID, #{BRANCH_CD}, #{LANG_CD}) LIKE '%'|| #{CNTR_REQR_NM} ||'%'
+			</when>
+		</choose>
+		<choose>
+			<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+				AND   C.PTNR_ID = #{PTNR_ID}
+			</when>
+			<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+				AND   P.PTNR_NM LIKE '%'||#{PTNR_NM}||'%'
+			</when>
+		</choose>
+		<if test="CNTR_DT_STR != null and CNTR_DT_STR != 'undefined' and CNTR_DT_STR != ''">
+			AND   C.CNTR_BGN_DAY <![CDATA[>=]]> #{CNTR_DT_STR}
+		</if>
+		<if test="CNTR_DT_END != null and CNTR_DT_END != 'undefined' and CNTR_DT_END != ''">
+			AND   C.CNTR_BGN_DAY <![CDATA[<]]> #{CNTR_DT_END}
+		</if>	
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchCntrList" parameterType="hashmap" resultType="hashmap">
+	/* [BCntrService.searchCntrList][계약현황][2019.04.30][안성민] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="CNTR_NO DESC"/>
+		</include>
+			SELECT
+					'' AS CHECKED
+					, C.BRANCH_CD            
+					, C.CNTR_NO           
+					, C.LNK_CNTR_NO 
+					, C.CNTR_TMPL_ID
+					, C.PTNR_ID
+					, GET_PTNRNM(C.PTNR_ID) AS PTNR_NM
+					, CASE	WHEN SYSDATE <![CDATA[<=]]> TO_DATE(C.CNTR_END_DAY,'YYYYMMDD')
+			            	THEN 'Y'
+			           		ELSE 'N'
+			          END END_YN 
+					, C.CD_CNTR_STTS
+					, C.CD_DOC_CTGR
+					, C.CD_CNTR_CTGR
+					, C.CD_CNTR_TYPE
+					, C.CD_PYMT_CNDTN
+					, NVL(C.CNTR_AMT,0)+ NVL(C.VAT,0) AS CNTR_AMT          
+					, C.CD_CRNC
+					, C.CNTR_BGN_DAY
+					, C.CNTR_END_DAY
+					, C.TTL
+					, C.RMARK
+					, C.CNTR_REQR_ID
+					, GET_USERNM(C.CNTR_REQR_ID, C.BRANCH_CD, #{LANG_CD}) AS CNTR_REQR_NM
+					, TO_CHAR(C.CNTR_REQ_DT, 'YYYYMMDD') AS CNTR_REQ_DT      
+					, TO_CHAR(C.CNTR_CFM_DT, 'YYYYMMDD') AS CNTR_CFM_DT      
+					, C.APP_DOC_ID
+					, C.TKEY       
+					, C.ATTCH_FILE_CNT
+					, C.DFCT_GRNT_PRID
+					, C.ALT_INTL_CFM
+					, C.CRTR_ID
+					, TO_CHAR(C.CRT_DT,'YYYYMMDD') AS CRT_DT            
+					, C.LAST_CHGR_ID
+					, C.LAST_CHG_DT
+			  FROM  MM_CNTR 		C
+			  		, MM_CNTR_ADD   CA 
+			 WHERE	C.BRANCH_CD 	= CA.BRANCH_CD(+)
+			   AND	C.CNTR_NO 		= CA.CNTR_NO(+)
+			   AND	C.CD_CNTR_STTS 	= 'CT10CLO'	
+			   AND	C.CD_CNTR_CTGR IN ('CT11DAN','CT11ONE')
+			   AND	C.BRANCH_CD 	= #{BRANCH_CD}
+
+			<!-- 계약번호 -->
+			<if test="CNTR_NO != null and CNTR_NO != 'undefined' and CNTR_NO != ''">
+				AND   C.CNTR_NO IN (#{CNTR_NO})
+  			</if> 
+  			
+			<!-- 계약상태 -->
+			<choose>
+				<when test='CD_CNTR_STTS == "Y"'>
+					AND	 SYSDATE <![CDATA[<=]]> TO_DATE(C.CNTR_END_DAY,'YYYYMMDD')
+				</when>
+				<when test='CD_CNTR_STTS == "N"'>
+					AND	 SYSDATE <![CDATA[>]]> TO_DATE(C.CNTR_END_DAY,'YYYYMMDD')
+				</when>
+			</choose>
+				
+			<!-- 구매유형 -->
+			<if test="CD_DOC_CTGR != null and CD_DOC_CTGR != 'undefined' and CD_DOC_CTGR != ''">
+				AND  C.CD_DOC_CTGR = #{CD_DOC_CTGR}
+			</if>	
+
+			<!-- 계약확정일자 -->
+			<if test="CFM_DT_STR != null and CFM_DT_STR != 'undefined' and CFM_DT_STR != ''">
+				AND   C.CNTR_CFM_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{CFM_DT_STR},'YYYYMMDD'))
+			</if>
+			<if test="CFM_DT_END != null and CFM_DT_END != 'undefined' and CFM_DT_END != ''">
+				AND   C.CNTR_CFM_DT <![CDATA[<=]]> TRUNC(TO_DATE(#{CFM_DT_END},'YYYYMMDD')+1)
+			</if>			
+				
+			<!-- 품목 -->
+			<choose>
+				<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+					AND C.CNTR_NO IN ( SELECT	C.CNTR_NO 
+										 FROM	MM_CNTR 		C
+										 		, MM_CNTR_ITEM 	CI
+							    		WHERE	C.BRANCH_CD 	= CI.BRANCH_CD
+							    		  AND	C.CNTR_NO 		= CI.CNTR_NO
+										  AND	CI.MTRL_CD 		= #{MTRL_CD}
+									)
+				</when>
+				<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+					AND C.CNTR_NO IN ( SELECT	C.CNTR_NO 
+										 FROM	MM_CNTR 		C
+										 		, MM_CNTR_ITEM 	CI
+							    		WHERE	C.BRANCH_CD 	= CI.BRANCH_CD
+							    		  AND	C.CNTR_NO 		= CI.CNTR_NO
+										  AND	CI.MTRL_NM LIKE '%'||#{MTRL_NM}||'%'
+									)
+				</when>
+			</choose>
+				
+			<!-- 계약담당자 -->
+			<choose>
+				<when test="CNTR_REQR_ID != null and CNTR_REQR_ID != 'undefined' and CNTR_REQR_ID != ''">
+					AND  C.CNTR_REQR_ID = #{CNTR_REQR_ID}  
+				</when>
+				<when test="CNTR_REQR_NM != null and CNTR_REQR_NM != 'undefined' and CNTR_REQR_NM != ''">
+					AND	 C.CNTR_REQR_ID IN ( SELECT	USER_ID
+				                			   FROM	MM_MT_USER
+				                			  WHERE	USER_NM LIKE '%'||#{CNTR_REQR_NM}||'%'
+				            	)
+				</when>
+			</choose>
+				
+			<!-- 계약일자 -->
+			<if test="CNTR_DT_STR != null and CNTR_DT_STR != 'undefined' and CNTR_DT_STR != ''">
+				AND   C.CNTR_BGN_DAY <![CDATA[>=]]> #{CNTR_DT_STR}
+			</if>
+			<if test="CNTR_DT_END != null and CNTR_DT_END != 'undefined' and CNTR_DT_END != ''">
+				AND   C.CNTR_BGN_DAY <![CDATA[<=]]> #{CNTR_DT_END}
+			</if>
+			
+			<!-- 협력사 -->
+			<choose>		
+				<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+					AND	 C.PTNR_ID = #{PTNR_ID}
+				</when>
+				<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+					AND  C.PTNR_ID IN ( SELECT	 	PTNR_ID
+				                		  FROM		MM_PTNR
+				                		 WHERE		PTNR_NM LIKE '%'||#{PTNR_NM}||'%'
+				            		)
+				</when>
+			</choose>
+		
+			<!-- 계약명 -->
+			<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+				AND C.TTL LIKE '%'||#{TTL}||'%'
+			</if>
+						
+			ORDER BY ''
+		<include refid="commonService.list-after" />
+	</select>
+	
+  	<select id="searchTmplList" parameterType="hashmap" resultType="hashmap" >
+  	/* [BCntrService.searchTmplList][계약템플릿현황][2019.05.13][안성민] */
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="CNTR_TMPL_ID DESC"/>
+		</include>
+  			SELECT
+  				TKEY
+  				,ALT_USE
+  				,TTL
+  				,CRTR_ID
+  				,GET_USERNM(CRTR_ID, #{BRANCH_CD}, #{LANT_CD}) AS CRTR_NM
+  				,RMARK
+  				,TO_CHAR(LAST_CHG_DT,'YYYYMMDD') AS LAST_CHG_DT
+  				,CD_CNTR_TYPE
+  				,LAST_CHGR_ID
+  				,CD_CNTR_CTGR
+  				,TO_CHAR(CRT_DT,'YYYYMMDD') AS CRT_DT
+  				,BRANCH_CD
+  				,CNTR_TMPL_ID
+  			FROM MM_CNTR_TMPL
+  			WHERE BRANCH_CD = #{BRANCH_CD}
+			
+			<if test="CD_CNTR_CTGR != null and CD_CNTR_CTGR != 'undefined' and CD_CNTR_CTGR != ''">
+				AND   CD_CNTR_CTGR = #{CD_CNTR_CTGR}
+			</if>
+			<if test="CD_CNTR_TYPE != null and CD_CNTR_TYPE != 'undefined' and CD_CNTR_TYPE != ''">
+				AND   CD_CNTR_TYPE = #{CD_CNTR_TYPE}
+			</if>
+			<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+				AND   TTL LIKE '%'||#{TTL}||'%'
+			</if>
+			<if test="ALT_USE != null and ALT_USE != 'undefined' and ALT_USE != ''">
+				AND   ALT_USE = #{ALT_USE}
+			</if>
+			ORDER BY ''
+       <include refid="commonService.list-after" />
+  	</select>
+  	
+	<select id="searchCntrNormalList" parameterType="hashmap" resultType="hashmap" >
+  	/* [BCntrService.searchCntrNormalList][일반계약현황][2019.05.13][안성민] */
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="CNTR_NO DESC"/>
+		</include>
+  			SELECT
+					0 CHECKED
+					,C.BRANCH_CD            
+					,C.CNTR_NO           
+					,C.LNK_CNTR_NO       
+					,C.CNTR_TMPL_ID      
+					,C.PTNR_ID
+					,NVL(GET_PTNRNM(C.PTNR_ID), MCA.UL_CNTR_USER_NM) AS PTNR_NM
+					,C.CD_CNTR_STTS      
+					,C.CD_DOC_CTGR       
+					,C.CD_CNTR_CTGR      
+					,C.CD_CNTR_TYPE      
+					,C.CD_PYMT_CNDTN     
+					,NVL(C.CNTR_AMT,0)+NVL(C.VAT,0) AS CNTR_AMT           
+					,C.CD_CRNC                 
+					,C.CNTR_BGN_DAY     
+					,C.CNTR_END_DAY     
+					,C.TTL               
+					,C.RMARK             
+					,C.CNTR_REQR_ID      
+					,GET_USERNM(C.CNTR_REQR_ID, C.BRANCH_CD, #{LANG_CD}) AS CNTR_REQR_NM
+					,TO_CHAR(C.CNTR_REQ_DT,'YYYYMMDD') AS CNTR_REQ_DT      
+					,TO_CHAR(C.CNTR_CFM_DT,'YYYYMMDD') AS CNTR_CFM_DT      
+					,C.APP_DOC_ID        
+					,C.TKEY              
+					,C.ATTCH_FILE_CNT    
+					,C.DFCT_GRNT_PRID 
+					,C.ALT_INTL_CFM      
+					,C.CRTR_ID
+					,TO_CHAR(C.CRT_DT,'YYYYMMDD') AS CRT_DT            
+					,C.LAST_CHGR_ID      
+					,C.LAST_CHG_DT
+				FROM MM_CNTR C
+				     ,MM_CNTR_ADD MCA
+			    WHERE C.BRANCH_CD = MCA.BRANCH_CD(+)
+			      AND C.CNTR_NO   = MCA.CNTR_NO(+)
+			      AND C.CD_CNTR_STTS = 'CT11GEN'
+			      AND C.BRANCH_CD = #{BRANCH_CD}			
+				
+				<if test="CRT_DAY_STR != null and CRT_DAY_STR != 'undefined' and CRT_DAY_STR != ''">
+						AND   C.CNTR_BGN_DAY <![CDATA[>=]]> #{CRT_DAY_STR}
+				</if>
+				<if test="CRT_DAY_END != null and CRT_DAY_END != 'undefined' and CRT_DAY_END != ''">
+						AND   C.CNTR_BGN_DAY <![CDATA[<=]]> #{CRT_DAY_END}
+				</if>
+			
+				<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+					AND C.TTL LIKE '%'||#{TTL}||'%'
+				</if>
+	
+				<if test="CNTR_NO != null and CNTR_NO != 'undefined' and CNTR_NO != ''">
+					AND   C.CNTR_NO IN (${CNTR_NO})
+			   </if>  
+				<if test="CD_CNTR_STTS != null and CD_CNTR_STTS != 'undefined' and CD_CNTR_STTS != ''">
+					AND   C.CD_CNTR_STTS = #{CD_CNTR_STTS}
+				</if>
+				
+				<choose>		
+					<when test="CNTR_REQR_ID != null and CNTR_REQR_ID != 'undefined' and CNTR_REQR_ID != '' and CNTR_REQR_NM != null and CNTR_REQR_NM != 'undefined' and CNTR_REQR_NM != ''">
+					        AND C.CNTR_REQR_ID = #{CNTR_REQR_ID}    	
+					</when>					
+					<when test="CNTR_REQR_NM != null and CNTR_REQR_NM != 'undefined' and CNTR_REQR_NM != ''">
+							AND C.CNTR_REQR_ID IN (
+					                SELECT USER_ID
+					                FROM MM_MT_USER
+					                WHERE USER_NM LIKE '%'||#{CNTR_REQR_NM}||'%'
+					            	)
+					</when>
+					<when test="TMP != null and TMP != 'undefined' and TMP != ''">
+						AND C.CNTR_REQR_ID IN (SELECT USER_ID
+                                                         FROM MM_MT_USER
+                                                         WHERE DEPT_CD = (SELECT DEPT_CD
+                                                                                            FROM MM_MT_USER
+                                                                                            WHERE USER_ID = #{USER_ID}
+                                                                                                 AND BRANCH_CD = #{BRANCH_CD}))
+					</when>
+				</choose>
+				
+				<choose>		
+					<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != '' and PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+							AND C.PTNR_ID IN (
+					                SELECT PTNR_ID
+					                FROM MM_PTNR
+					                WHERE PTNR_NM LIKE '%'||#{PTNR_NM}||'%'
+					            	)
+					       AND C.PTNR_ID = #{PTNR_ID}
+					</when>
+					<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+							 AND C.PTNR_ID = #{PTNR_ID}
+					</when>
+					<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+							AND C.PTNR_ID IN (
+					                SELECT PTNR_ID
+					                FROM MM_PTNR
+					                WHERE PTNR_NM LIKE '%'||#{PTNR_NM}||'%'
+					            	)
+					</when>
+				</choose>
+				
+				ORDER BY ''
+        <include refid="commonService.list-after" />
+  	</select>
+  	
+  	<resultMap type="hashmap" id="objCntnt">
+  		<result property="CNTR_CNTNT" column="CNTR_CNTNT" jdbcType="CLOB" javaType="java.lang.String" />
+  	</resultMap>
+  	<select id="searchCntrTmpl" parameterType="hashmap" resultMap="objCntnt" >
+  		/* [BCntrService.searchCntrNormalList][계약템틀릿리스트][2019.05.16][안성민] */
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="CNTR_TMPL_ID DESC"/>
+		</include>
+  			SELECT
+  				TKEY
+  				,ALT_USE
+  				,CNTR_CNTNT
+  				,TTL
+  				,CRTR_ID
+  				,GET_USERNM(CRTR_ID, #{BRANCH_CD}, #{LANG_CD}) AS CRTR_NM
+  				,RMARK
+  				,TO_CHAR(LAST_CHG_DT,'YYYYMMDD') AS LAST_CHG_DT
+  				,CD_CNTR_TYPE
+  				,LAST_CHGR_ID
+  				,CD_CNTR_CTGR
+  				,TO_CHAR(CRT_DT,'YYYYMMDD') AS CRT_DT
+  				,BRANCH_CD
+  				,CNTR_TMPL_ID
+  			FROM MM_CNTR_TMPL CT
+  			WHERE BRANCH_CD = #{BRANCH_CD}
+			
+			<if test="CD_CNTR_CTGR != null and CD_CNTR_CTGR != 'undefined' and CD_CNTR_CTGR != ''">
+				AND   CT.CD_CNTR_CTGR = #{CD_CNTR_CTGR}
+			</if>
+			<if test="CD_CNTR_TYPE != null and CD_CNTR_TYPE != 'undefined' and CD_CNTR_TYPE != ''">
+				AND   CT.CD_CNTR_TYPE = #{CD_CNTR_TYPE}
+			</if>
+			<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+				AND   CT.TTL LIKE '%'||#{TTL}||'%'
+			</if>
+			<if test="ALT_USE != null and ALT_USE != 'undefined' and ALT_USE != ''">
+				AND   CT.ALT_USE = #{ALT_USE}
+			</if>
+         <include refid="commonService.list-after" />
+  	</select>
+  	
+  	<resultMap type="hashmap" id="objsignOrgnl">
+  		<result property="SIGN_ORGNL" column="SIGN_ORGNL" jdbcType="CLOB" javaType="java.lang.String" />
+  	</resultMap>
+	<select id="readCntr" parameterType="hashmap" resultMap="objsignOrgnl">
+  	/* [BCntrService.readCntr][계약상세 헤더][2019.05.16][안성민] */
+		SELECT
+			'' AS LANG_CD
+			,C.DFCT_GRNT_PRID
+			,C.LNK_CNTR_NO
+			,LC.TTL AS LNK_CNTR_TTL
+			,C.TKEY
+			,NVL(C.CNTR_AMT,0) AS CNTR_AMT
+			,NVL(C.VAT,0) AS VAT
+			,NVL(C.CNTR_AMT,0)+NVL(C.VAT,0) CNTR_SUM
+			,C.TTL
+			,C.CRTR_ID
+			,C.CD_CRNC
+			,C.CD_DOC_CTGR
+			,C.CD_PYMT_CNDTN
+			,C.CNTR_REQR_ID
+			,C.LAST_CHGR_ID
+			,C.CD_CNTR_CTGR
+			,C.PTNR_ID
+			,GET_PTNRNM(C.PTNR_ID) AS PTNR_NM
+			,C.CNTR_NO
+			,C.CNTR_END_DAY
+			,C.CNTR_CFM_DT
+			,C.ATTCH_FILE_CNT
+			,C.RMARK
+			,C.CNTR_REQ_DT
+			,C.ALT_INTL_CFM
+			,C.CD_CNTR_STTS
+			,C.CD_CNTR_TYPE
+			,C.CNTR_BGN_DAY
+			,C.CRT_DT
+			,C.APP_DOC_ID
+			,C.CNTR_TMPL_ID
+			,C.BRANCH_CD
+			,CA.CHRGR_ID
+			,CA.CHRGR_NM
+			,CA.EMAIL
+			,CA.TEL
+			,CA.FAX
+			,CA.PTNR_CNTR_DT
+			,CA.SIGN_DATA
+			,CA.SIGN_ORGNL
+			,MP.ADDR
+            ,SUBSTR(MP.BIZ_NO, 1,3)  || '-' ||SUBSTR(MP.BIZ_NO, 4, 2) || '-' ||SUBSTR(MP.BIZ_NO,6) AS BIZ_NO
+            ,MP.RPRSTV_NM
+            ,CASE
+	            WHEN SYSDATE <![CDATA[<=]]> TO_DATE(C.CNTR_END_DAY,'YYYYMMDD')
+	            THEN 'Y'
+	            ELSE 'N'
+	        END END_YN
+	         , 'SIGNDATA_' || C.BRANCH_CD || '_' || C.CNTR_NO AS SIGNDATA_FILE_NM --계약내용을 HTML으로 변환할 리포트파일의 파일명을 담아놓을 컬럼	            
+	         , '' AS SIGNDATA_FILE_EXPORTURL --계약서 HTML OR PDF 파일 저장 경로. 
+		FROM MM_CNTR C
+			 ,MM_CNTR LC
+			 ,MM_CNTR_ADD CA
+			 ,MM_PTNR MP
+		WHERE C.CNTR_NO = CA.CNTR_NO(+)
+		AND   C.LNK_CNTR_NO = LC.CNTR_NO(+)
+		AND   C.PTNR_ID = MP.PTNR_ID(+)
+		AND   C.CNTR_NO = #{CNTR_NO}
+		AND   C.BRANCH_CD = #{BRANCH_CD}
+  	</select>
+  	
+	<select id="readCntrItem" parameterType="hashmap" resultType="hashmap">
+  	/* [BCntrService.readCntrItem][계약상세 품목][2019.05.16][안성민] */
+		SELECT
+			'0' AS CHECKED
+            ,CI.CNTR_ITEM_ID 
+            ,CI.BRANCH_CD     
+            ,CI.CNTR_NO     
+            ,CI.PR_ITEM_ID  
+            ,CI.ITM_NO      
+            ,CI.MTRL_GRP_ID 
+            ,CI.MTRL_GRP_NM 
+            ,CI.MTRL_CD     
+            ,CI.MTRL_NM     
+            ,CI.CD_FCTRY    
+            ,CI.STR_CD 
+            ,MMS.SL_NM   
+            ,CI.QTY         
+            ,CI.CD_UNIT     
+            ,NVL(CI.UNT_PRICE,0) UNT_PRICE   
+            ,NVL(CI.AMT,0) AMT
+			,NVL(CI.VAT,0) VAT                     
+            ,CI.DLV_REQ_DAY 
+            ,CI.RMARK
+            ,CI.ATTCH_FILE_CNT
+            ,CI.CRTR_ID     
+            ,CI.LAST_CHGR_ID
+            ,(SELECT TKEY FROM MM_PR_ITEM WHERE PR_ITEM_ID = CI.PR_ITEM_ID AND BRANCH_CD = CI.BRANCH_CD) AS TKEY
+            ,MM.INT_NTAX
+            ,CIA.TNDR_ITEM_ID
+            ,CIA.RFQ_REQ_ITEM_ID
+            ,CIA.PO_ITEM_ID
+		FROM MM_CNTR C
+			 ,MM_CNTR_ITEM CI
+			 ,MM_CNTR_ITEM_ADD CIA
+			 ,MM_MTRL_PURC MMP
+			 ,MM_MTRL MM
+			 ,MM_MT_SL MMS
+       WHERE C.CNTR_NO = CI.CNTR_NO
+       AND   C.BRANCH_CD = CI.BRANCH_CD
+       AND   CI.CNTR_ITEM_ID = CIA.CNTR_ITEM_ID(+)
+       AND   CI.MTRL_CD = MMP.MTRL_CD(+)
+       AND   CI.BRANCH_CD = MMP.BRANCH_CD(+)
+       AND   MMP.MTRL_CD = MM.MTRL_CD(+)
+       AND   CI.BRANCH_CD = MMS.BRANCH_CD(+)
+       AND   CI.STR_CD = MMS.STR_CD(+)
+       AND   CI.CNTR_NO = #{CNTR_NO}
+       AND   CI.BRANCH_CD = #{BRANCH_CD}
+       ORDER BY TO_NUMBER(CI.ITM_NO) ASC
+  	</select>
+
+	<select id="readCntrPay" parameterType="hashmap" resultType="hashmap">
+  	/* [BCntrService.readCntrPay][계약상세 지급계획][2019.05.16][안성민] */
+		SELECT
+			'0' AS CHECKED
+			,CP.CNTR_PAY_PLAN_ID
+			,CP.PYMT_ORDR       
+			,CP.BRANCH_CD         
+			,CP.CNTR_NO         
+			,CP.PYMT_PLN_DAY    
+			,CP.PYMT_RT         
+			,CP.PYMT_AMT
+			,CP.RMARK
+		FROM MM_CNTR C
+			 ,MM_CNTR_PAY CP
+		WHERE C.CNTR_NO = CP.CNTR_NO
+		AND   C.BRANCH_CD = CP.BRANCH_CD
+		AND   C.CNTR_NO = #{CNTR_NO}
+		AND   C.BRANCH_CD = #{BRANCH_CD}
+		ORDER BY TO_NUMBER(CP.PYMT_ORDR) ASC
+  	</select>
+
+	<select id="readCntrInsrnc" parameterType="hashmap" resultType="hashmap">
+  	/* [BCntrService.readCntr][계약상세 보증보험][2019.05.16][안성민] */
+		SELECT
+			'0' AS CHECKED
+			,CINS.CNTR_GRNT_ID       
+			,CINS.BRANCH_CD            
+			,CINS.CNTR_NO            
+			,CINS.CD_GRNT_INSRNC_TYPE
+			,CINS.CD_GRNT_MTHD       
+			,CINS.GRNT_RT            
+			,CINS.GRNT_AMT           
+			,CINS.CD_GRNT_STTS       
+			,CINS.GRNT_INSRNC_CORP   
+			,CINS.GRNT_BGN_DAY       
+			,CINS.GRNT_END_DAY       
+			,CINS.GRNT_REQ_DT        
+			,CINS.GRNT_INSRNC_NO     
+			,CINS.SIGNCNTNT          
+			,CINS.REQR_ID            
+			,CINS.REQR_NM            
+			,CINS.ATTCH_FILE_CNT     
+			,CINS.CNTR_PAY_PLAN_ID   
+			,CINS.PCHRGR_ID          
+			,CINS.PCHRGR_NM          
+			,CINS.GRNT_CFM_DT        
+			,CINS.RJT_RSN            
+			,CINS.CRTR_ID            
+			,CINS.CRT_DT             
+			,CINS.LAST_CHGR_ID       
+			,CINS.LAST_CHG_DT
+			,CP.PYMT_ORDR
+		FROM MM_CNTR C
+			 ,MM_CNTR_PAY CP
+			 ,MM_CNTR_INSRNC CINS
+		WHERE C.CNTR_NO = CINS.CNTR_NO
+		AND   C.BRANCH_CD = CINS.BRANCH_CD
+		AND   CINS.CNTR_PAY_PLAN_ID = CP.CNTR_PAY_PLAN_ID(+) 
+		AND   C.CNTR_NO = #{CNTR_NO}
+		AND   C.BRANCH_CD = #{BRANCH_CD}
+		ORDER BY TO_NUMBER(CP.PYMT_ORDR) ASC, CINS.LAST_CHG_DT ASC
+  	</select>
+  	
+  	<insert id="insertCntr" parameterType="hashmap">
+  	/* [BCntrService.insertCntr][계약저장][2019.05.16][안성민] */
+   		INSERT INTO MM_CNTR(
+   			BRANCH_CD            
+			,CNTR_NO           
+			,LNK_CNTR_NO       
+			,CNTR_TMPL_ID      
+			,PTNR_ID   
+			,CNTR_AMT
+			,VAT        
+			,CD_CNTR_STTS      
+			,CD_DOC_CTGR       
+			,CD_CNTR_CTGR      
+			,CD_CNTR_TYPE      
+			,CD_PYMT_CNDTN       
+			,CD_CRNC                 
+			,CNTR_BGN_DAY      
+			,CNTR_END_DAY      
+			,TTL               
+			,RMARK             
+			,CNTR_REQR_ID
+			<if test='CD_CNTR_STTS == "CT10SREQ" or CD_CNTR_STTS == "CT10SCLO" or CD_CNTR_STTS == "CT10CLO"'>
+				,CNTR_REQ_DT
+			</if>
+			<if test='CD_CNTR_STTS == "CT10CLO"'>
+				,CNTR_CFM_DT
+			</if>
+			,TKEY              
+			,DFCT_GRNT_PRID   
+			,ALT_INTL_CFM
+			,CRTR_ID           
+			,CRT_DT            
+			,LAST_CHGR_ID      
+			,LAST_CHG_DT       
+   		)VALUES(
+   			#{BRANCH_CD}          
+			,#{CNTR_NO}          
+			,#{LNK_CNTR_NO}      
+			,#{CNTR_TMPL_ID}     
+			,#{PTNR_ID}          
+			,#{CNTR_AMT}
+			,#{VAT}
+			,#{CD_CNTR_STTS}     
+			,#{CD_DOC_CTGR}      
+			,#{CD_CNTR_CTGR}     
+			,#{CD_CNTR_TYPE}     
+			,#{CD_PYMT_CNDTN}    
+			,#{CD_CRNC}               
+			,#{CNTR_BGN_DAY}     
+			,#{CNTR_END_DAY}     
+			,#{TTL}              
+			,#{RMARK}
+			,#{CRTR_ID}
+			<if test='CD_CNTR_STTS == "CT10SREQ" or CD_CNTR_STTS == "CT10SCLO" or CD_CNTR_STTS == "CT10CLO"'>
+				,SYSDATE
+			</if>
+			<if test='CD_CNTR_STTS == "CT10CLO"'>
+				,SYSDATE
+			</if>
+			,TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')             
+			,#{DFCT_GRNT_PRID}
+			,#{ALT_INTL_CFM}
+			,#{CRTR_ID}          
+			,SYSDATE           
+			,#{CRTR_ID}     
+			,SYSDATE      
+   		)
+  	</insert>
+  	
+	<insert id="insertCntrAdd" parameterType="hashmap">
+	/* [BCntrService.insertCntrAdd][계약추가정보 저장][2019.05.16][안성민] */
+   		INSERT INTO MM_CNTR_ADD(
+   			BRANCH_CD     
+			,CNTR_NO     
+			,SIGN_ORGNL  
+			,CHRGR_ID
+			,CHRGR_NM
+			,EMAIL
+			,TEL
+			,FAX
+   		)VALUES(
+   			#{BRANCH_CD}     
+			,#{CNTR_NO}     
+			,#{SIGN_ORGNL, jdbcType=CLOB}
+			,#{CHRGR_ID}
+			,#{CHRGR_NM}
+			,#{EMAIL}
+			,#{TEL}
+			,#{FAX}
+   		)
+  	</insert>
+  	
+  	<insert id="insertCntrItem" parameterType="hashmap">
+  	/* [BCntrService.insertCntrItem][계약품목 저장][2019.05.16][안성민] */
+   		INSERT INTO MM_CNTR_ITEM(
+   			CNTR_ITEM_ID 
+			,BRANCH_CD     
+			,CNTR_NO     
+			,PR_ITEM_ID  
+			,ITM_NO      
+			,MTRL_GRP_ID 
+			,MTRL_GRP_NM 
+			,MTRL_CD     
+			,MTRL_NM     
+			,QTY         
+			,CD_UNIT     
+			,UNT_PRICE   
+			,AMT
+			,VAT         
+			,DLV_REQ_DAY 
+			,STR_CD 
+			,RMARK       
+			,CRTR_ID     
+			,CRT_DT      
+			,LAST_CHGR_ID
+			,LAST_CHG_DT 
+   		)VALUES(
+	   		#{CNTR_ITEM_ID}
+			,#{BRANCH_CD}
+			,#{CNTR_NO}
+			,#{PR_ITEM_ID}
+			,#{ITM_NO}
+			,#{MTRL_GRP_ID}
+			,#{MTRL_GRP_NM}
+			,#{MTRL_CD}
+			,#{MTRL_NM}
+			,#{QTY}
+			,#{CD_UNIT}
+			,#{UNT_PRICE}
+			,NVL(#{QTY},0) * NVL(#{UNT_PRICE},0)
+			,DECODE(#{INT_NTAX},'T',NVL(#{QTY},0) * NVL(#{UNT_PRICE},0)*0.1,0)
+			,#{DLV_REQ_DAY}
+			,#{STR_CD}
+			,#{RMARK}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+   		)
+  	</insert>
+	
+  	<insert id="insertCntrItemAdd" parameterType="hashmap">
+  	/* [BCntrService.insertCntrItemAdd][계약품목추가정보 저장][2019.05.16][안성민] */
+   		INSERT INTO MM_CNTR_ITEM_ADD(
+			CNTR_ITEM_ID 
+   		) VALUES (
+			#{CNTR_ITEM_ID} 
+   		)
+  	</insert>
+  	
+	<insert id="insertCntrPay" parameterType="hashmap">
+  	/* [BCntrService.insertCntrItemAdd][계약지급계획 저장][2019.05.16][안성민] */
+   		INSERT INTO MM_CNTR_PAY(
+   			CNTR_PAY_PLAN_ID
+			,PYMT_ORDR       
+			,BRANCH_CD         
+			,CNTR_NO         
+			,PYMT_PLN_DAY    
+			,PYMT_RT         
+			,PYMT_AMT        
+			,RMARK           
+   		) VALUES (
+			 #{CNTR_PAY_PLAN_ID}
+			,#{PYMT_ORDR}
+			,#{BRANCH_CD}
+			,#{CNTR_NO}
+			,#{PYMT_PLN_DAY}
+			,#{PYMT_RT}
+			,#{PYMT_AMT}
+			,#{RMARK}
+   		)
+  	</insert>
+  	
+  	<insert id="insertCntrInsrnc" parameterType="hashmap">
+  	/* [BCntrService.insertCntrInsrnc][계약보증보험 저장][2019.05.16][안성민] */
+   		INSERT INTO MM_CNTR_INSRNC(
+   			CNTR_GRNT_ID       
+			,BRANCH_CD            
+			,CNTR_NO            
+			,CD_GRNT_INSRNC_TYPE
+			,CD_GRNT_MTHD       
+			,GRNT_RT            
+			,GRNT_AMT           
+			,CNTR_PAY_PLAN_ID
+			,CRTR_ID            
+			,CRT_DT             
+			,LAST_CHGR_ID       
+			,LAST_CHG_DT        
+   		) VALUES (
+			MM_CNTR_INSRNC_SEQ.NEXTVAL
+			,#{BRANCH_CD}
+			,#{CNTR_NO}
+			,#{CD_GRNT_INSRNC_TYPE}
+			,#{CD_GRNT_MTHD}
+			,#{GRNT_RT}
+			,#{GRNT_AMT}
+			,#{CNTR_PAY_PLAN_ID}
+			,#{CRTR_ID}
+			,SYSDATE
+			,#{CRTR_ID}
+			,SYSDATE
+   		)
+  	</insert>
+  	
+  	<insert id="insertPrHist" parameterType="hashmap">
+  	/* [BCntrService.insertPrHist][구매요청 품목 히스토리 저장][2019.05.16][안성민] */
+  		INSERT INTO MM_PR_ITEM_HIST(
+  			VOC_NO                  		-- MM_PR_ITEM_HIST_SEQ.NEXTVAL
+  			,PR_ITEM_ID            			-- 구매요청아이템번호
+  			,DT                        		-- 일시
+  			,DOC_NO                  		-- 문서번호
+  			,TYPE                     		-- 구분
+  			,PRGRS_STEP						-- 진행단계
+  			,RMARK                  		-- 비고
+  			,CRT_DT                  		-- 생성일시
+  		)VALUES(
+  			MM_PR_ITEM_HIST_SEQ.NEXTVAL
+  			,#{PR_ITEM_ID}      			-- 구매요청아이템번호
+  			,SYSDATE               			-- 일시
+  			,#{DOC_NO}            			-- 문서번호
+  			,#{TYPE}               			-- 구분
+  			,#{PRGRS_STEP}					-- 진행단계
+  			,#{RMARK}               		-- 비고
+  			,SYSDATE         	 			-- 생성일시
+  		)
+  	</insert>
+  	  	
+  	<update id="updatePrItemStts" parameterType="hashmap">
+  	/* [BCntrService.updatePrItemStts][구매요청품목 상태를 업데이트][2019.05.16][안성민] */
+   		UPDATE MM_PR_ITEM
+   		SET CD_PR_ITEM_STTS = #{CD_PR_ITEM_STTS}
+   			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+   			,LAST_CHG_DT = SYSDATE
+   		WHERE PR_ITEM_ID IN (
+								SELECT PR_ITEM_ID
+								FROM MM_CNTR_ITEM
+								WHERE CNTR_NO = #{CNTR_NO}
+								AND   BRANCH_CD = #{BRANCH_CD}   							 
+   							)
+  	</update>
+  	
+  	<update id="updateCntr" parameterType="hashmap">
+  	/* [BCntrService.updateCntr][계약헤더 수정][2019.05.16][안성민] */
+   		UPDATE MM_CNTR
+   		   SET LNK_CNTR_NO         = #{LNK_CNTR_NO}       
+			   , CNTR_TMPL_ID       = #{CNTR_TMPL_ID}      
+			   , PTNR_ID            = #{PTNR_ID}           
+			   , CD_CNTR_STTS       = #{CD_CNTR_STTS} 
+			   , CNTR_AMT     		= #{CNTR_AMT}
+  		       , VAT     					= #{VAT}           
+			   , CD_DOC_CTGR        = #{CD_DOC_CTGR}       
+			   , CD_CNTR_CTGR       = #{CD_CNTR_CTGR}      
+			   , CD_CNTR_TYPE       = #{CD_CNTR_TYPE}      
+			   , CD_PYMT_CNDTN      = #{CD_PYMT_CNDTN}     
+			   , CD_CRNC            = #{CD_CRNC}                 
+			   , CNTR_BGN_DAY       = #{CNTR_BGN_DAY}      
+			   , CNTR_END_DAY       = #{CNTR_END_DAY}      
+			   , TTL                = #{TTL}               
+			   , RMARK              = #{RMARK}    
+			   , TKEY               = TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+			   <if test='CD_CNTR_STTS == "CT10CLO"'>
+			   	, CNTR_CFM_DT = SYSDATE
+			   </if>
+			   <if test='CD_CNTR_STTS == "CT10SREQ" or CD_CNTR_STTS == "CT10SCLO"'>
+			   	,CNTR_REQ_DT = SYSDATE
+			   </if>       
+			   , ATTCH_FILE_CNT     = #{ATTCH_FILE_CNT}    
+			   , DFCT_GRNT_PRID  	= #{DFCT_GRNT_PRID} 
+			   , ALT_INTL_CFM       = #{ALT_INTL_CFM}      
+			   , LAST_CHGR_ID       = #{LAST_CHGR_ID}      
+			   , LAST_CHG_DT        = SYSDATE      
+   		WHERE CNTR_NO 			= #{CNTR_NO}
+   		AND   BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+	<update id="updateCntrAdd" parameterType="hashmap">
+  	/* [BCntrService.updateCntrAdd][계약 추가정보 수정][2019.05.16][안성민] */
+   		UPDATE MM_CNTR_ADD
+   		   SET SIGN_ORGNL		= #{SIGN_ORGNL, jdbcType=CLOB}
+			   , CHRGR_ID		= #{CHRGR_ID}    
+			   , CHRGR_NM		= #{CHRGR_NM}
+			   , EMAIL			= #{EMAIL}
+			   , TEL			= #{TEL}
+			   , FAX 			= #{FAX}
+		 WHERE CNTR_NO 			= #{CNTR_NO}
+		   AND BRANCH_CD     	= #{BRANCH_CD}
+  	</update>
+  	
+  	<!-- 계약서 아이템 수정 -->
+  	<update id="updateCntrItem" parameterType="hashmap">
+  	/* [BCntrService.updateCntrItem][계약품목 수정][2019.05.16][안성민] */
+   		UPDATE MM_CNTR_ITEM
+   		   SET BRANCH_CD           	= #{BRANCH_CD}     
+			   , ITM_NO             = #{ITM_NO}      
+			   , MTRL_GRP_ID        = #{MTRL_GRP_ID} 
+			   , MTRL_GRP_NM        = #{MTRL_GRP_NM} 
+			   , MTRL_CD            = #{MTRL_CD}     
+			   , MTRL_NM            = #{MTRL_NM}     
+			   , QTY                = #{QTY}         
+			   , CD_UNIT            = #{CD_UNIT}     
+			   , UNT_PRICE          = #{UNT_PRICE}
+			   , PR_ITEM_ID         = #{PR_ITEM_ID}     
+			   , AMT                = NVL(${QTY},0) * NVL(${UNT_PRICE},0)      
+			   , VAT                = DECODE(#{INT_NTAX},'T',NVL(#{QTY},0) * NVL(#{UNT_PRICE},0)*0.1,0)         
+			   , DLV_REQ_DAY        = #{DLV_REQ_DAY}
+			   , STR_CD        		= #{STR_CD} 
+			   , RMARK              = #{RMARK}       
+			   , LAST_CHGR_ID       = #{LAST_CHGR_ID}
+			   , LAST_CHG_DT        = SYSDATE
+   		 WHERE CNTR_ITEM_ID 		= #{CNTR_ITEM_ID}
+  	</update>
+  	
+	<update id="updateCntrPay" parameterType="hashmap">
+  	/* [BCntrService.updateCntrPay][계약지급계획 수정][2019.05.16][안성민] */
+   		UPDATE MM_CNTR_PAY
+   		   SET PYMT_ORDR			= #{PYMT_ORDR}         
+			   , PYMT_PLN_DAY		= #{PYMT_PLN_DAY}    
+			   , PYMT_RT			= #{PYMT_RT}         
+			   , PYMT_AMT			= #{PYMT_AMT}        
+			   , RMARK				= #{RMARK}
+		 WHERE CNTR_PAY_PLAN_ID		= #{CNTR_PAY_PLAN_ID}
+		   AND BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="updateCntrInsrnc" parameterType="hashmap">
+  	/* [BCntrService.updateCntrPay][계약보증보험 수정][2019.05.16][안성민] */
+   		UPDATE MM_CNTR_INSRNC
+   		   SET CD_GRNT_INSRNC_TYPE		= #{CD_GRNT_INSRNC_TYPE}
+			   , CD_GRNT_MTHD           = #{CD_GRNT_MTHD}       
+			   , GRNT_RT                = #{GRNT_RT}            
+			   , GRNT_AMT               = #{GRNT_AMT}           
+			   , CNTR_PAY_PLAN_ID       = #{CNTR_PAY_PLAN_ID}               
+			   , LAST_CHGR_ID           = #{LAST_CHGR_ID}       
+			   , LAST_CHG_DT            = SYSDATE
+		 WHERE CNTR_GRNT_ID				= #{CNTR_GRNT_ID}
+		   AND   BRANCH_CD				= #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="UpdatePrStts" parameterType="hashmap">
+  	/* [BCntrService.UpdatePrStts][계약삭제시 구매요청품목의 상태를 업데이트 한다][2019.05.16][안성민] */
+   		UPDATE MM_PR_ITEM
+   		SET CD_PR_ITEM_STTS = #{CD_PR_ITEM_STTS}
+   			,LAST_CHGR_ID = #{LAST_CHGR_ID}
+   			,LAST_CHG_DT = SYSDATE
+   		WHERE PR_ITEM_ID IN (
+								SELECT PR_ITEM_ID
+								FROM MM_CNTR_ITEM
+								WHERE CNTR_NO = #{CNTR_NO}
+								AND   BRANCH_CD = #{BRANCH_CD}   							 
+   							)
+  	</update>
+  	
+  	<update id="UpdateRfqStts" parameterType="hashmap">
+  	/* [BCntrService.UpdateRfqStts][계약삭제시 견적의 상태를 업데이트 한다][2019.05.16][안성민] */
+			UPDATE MM_RFQ SET
+				CD_RFQ_STTS = 'ET10ANI'
+			WHERE (RFQ_REQ_NO,RFQ_ODR,BRANCH_CD) 
+						=  	(
+								SELECT 
+                                    RFQ_REQ_NO,RFQ_ODR,BRANCH_CD 
+                                FROM MM_RFQ_ITEM
+                                WHERE RFQ_REQ_ITEM_ID IN(
+                                    SELECT  RFQ_REQ_ITEM_ID
+                                    FROM MM_CNTR_ITEM MCI
+                                             ,MM_CNTR_ITEM_ADD MCIA
+                                    WHERE MCI.CNTR_ITEM_ID = MCIA.CNTR_ITEM_ID
+                                        AND  MCI.CNTR_NO = #{CNTR_NO}  
+                                        AND MCI.BRANCH_CD = #{BRANCH_CD}
+                                    )
+                                GROUP BY RFQ_REQ_NO,RFQ_ODR,BRANCH_CD 
+								)
+  	</update>
+  	
+  	<update id="UpdateTndrStts" parameterType="hashmap">
+  	/* [BCntrService.UpdateTndrStts][계약삭제시 입찰의 상태를 업데이트 한다][2019.05.16][안성민] */
+			UPDATE MM_TNDR SET
+				CD_TNDR_STTS = 'ET20ANI'
+			WHERE (TNDR_NO,TNDR_ODR,BRANCH_CD) 
+						=  	(
+								SELECT 
+									TNDR_NO,TNDR_ODR,BRANCH_CD 
+								FROM MM_TNDR_ITEM
+								WHERE TNDR_ITEM_ID IN(
+									SELECT TNDR_ITEM_ID
+									FROM MM_CNTR_ITEM
+									WHERE CNTR_NO = #{CNTR_NO}
+									AND   BRANCH_CD = #{BRANCH_CD}   		
+									)
+								GROUP BY TNDR_NO,TNDR_ODR,BRANCH_CD 
+								)
+  	</update> 	
+  	
+  	<update id="deleteCntrItem" parameterType="hashmap">
+	/* [BCntrService.deleteCntrItem][계약서 아이템 삭제][2019.05.16][안성민] */
+   		DELETE MM_CNTR_ITEM 
+   		WHERE CNTR_ITEM_ID = #{CNTR_ITEM_ID}
+  	</update>
+  	
+  	<update id="deleteCntrItemAdd" parameterType="hashmap">
+	/* [BCntrService.deleteCntrItmAdd][계약서 아이템 추가정보 삭제][2019.05.16][안성민] */
+   		DELETE MM_CNTR_ITEM_ADD
+   		WHERE CNTR_ITEM_ID = #{CNTR_ITEM_ID}
+  	</update>
+  	
+  	<update id="deleteCntrPay" parameterType="hashmap">
+	/* [BCntrService.deleteCntrPay][지급계획 삭제][2019.05.16][안성민] */
+   		DELETE MM_CNTR_PAY
+   		WHERE CNTR_PAY_PLAN_ID = #{CNTR_PAY_PLAN_ID}
+  	</update>
+  	
+  	<update id="deleteCntrInsrnc" parameterType="hashmap">
+	/* [BCntrService.deleteCntrInsrnc][보증보험 삭제][2019.05.16][안성민] */
+   		DELETE MM_CNTR_INSRNC
+		WHERE CNTR_GRNT_ID = #{CNTR_GRNT_ID}
+  	</update>
+  	
+  	<update id="updateCntrAmt" parameterType="hashmap">
+  	/* [BCntrService.updateCntrAmt][계약 금액계산][2019.05.16][안성민] */
+   		UPDATE MM_CNTR
+   		SET CNTR_AMT = (SELECT SUM(AMT) FROM MM_CNTR_ITEM WHERE CNTR_NO = #{CNTR_NO} AND BRANCH_CD = #{BRANCH_CD})
+   		WHERE CNTR_NO 			= #{CNTR_NO}
+   		AND   BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="updateCntrReq" parameterType="hashmap">
+  	/* [BCntrService.updateCntrReq][합의요청 계약헤더 변경][2019.05.17][안성민] */
+   		UPDATE MM_CNTR
+   		   SET CD_CNTR_STTS 	= #{CD_CNTR_STTS}
+   		   	   , CNTR_REQR_ID 	= #{CNTR_REQR_ID}
+   		   	   , CNTR_REQ_DT 	= SYSDATE
+   		   	   , LAST_CHGR_ID 	= #{LAST_CHGR_ID}
+   		   	   , LAST_CHG_DT	= SYSDATE
+   		   	   , TKEY			= TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+   		WHERE CNTR_NO 			= #{CNTR_NO}
+   		AND   BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="updateCntrAddReq" parameterType="hashmap">
+  	/* [BCntrService.updateCntrAddReq][합의요청 계약추가정보 변경][2019.05.17][안성민] */
+   		UPDATE MM_CNTR_ADD
+   		   SET CHRGR_ID = #{CNTR_REQR_ID}
+   		   	   , CHRGR_NM = GET_USERNM(#{CNTR_REQR_ID}, #{BRANCH_CD}, #{LANG_CD})
+   		WHERE CNTR_NO 			= #{CNTR_NO}
+   		AND   BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="updateCntrIntCfm" parameterType="hashmap">
+  	/* [BCntrService.updateCntrIntCfm][내부확정 계약헤더 변경][2019.05.17][안성민] */
+   		UPDATE MM_CNTR
+   		   SET CD_CNTR_STTS 	= #{CD_CNTR_STTS}
+   		   	   , ALT_INTL_CFM 	= #{ALT_INTL_CFM}
+   		   	   , CNTR_CFM_DT	= SYSDATE
+   		   	   , LAST_CHGR_ID 	= #{LAST_CHGR_ID}
+   		   	   , LAST_CHG_DT	= SYSDATE
+   		   	   , TKEY			= TO_CHAR(SYSTIMESTAMP,'YYYYMMDDHH24MISSFF3')
+   		WHERE CNTR_NO 			= #{CNTR_NO}
+   		AND   BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+  	<update id="updateCntrAddIntCfm" parameterType="hashmap">
+  	/* [BCntrService.updateCntrAddIntCfm][내부확정 계약추가정보 변경][2019.05.17][안성민] */
+   		UPDATE MM_CNTR_ADD
+   		   SET CHRGR_ID = #{LAST_CHGR_ID}
+   		   	   , CHRGR_NM = GET_USERNM(#{LAST_CHGR_ID}, #{BRANCH_CD}, #{LANG_CD})
+   		WHERE CNTR_NO 			= #{CNTR_NO}
+   		AND   BRANCH_CD			= #{BRANCH_CD}
+  	</update>
+  	
+  	<!--  -->
+  	<select id="readCntrTmpl" parameterType="hashmap" resultType="hashmap">
+ 	/* [BCntrService.readCntrTmpl][계약서 템플릿 상세 조회][2019.05.22][안성민] */
+		SELECT
+			TKEY
+			,ALT_USE
+			,CNTR_CNTNT
+			,TTL
+			,CRTR_ID
+			,GET_USERNM(CRTR_ID, #{BRANCH_CD}, #{LANG_CD}) AS CRTR_NM
+			,RMARK
+			,TO_CHAR(LAST_CHG_DT,'YYYYMMDD') AS LAST_CHG_DT
+			,CD_CNTR_TYPE
+			,LAST_CHGR_ID
+			,GET_USERNM(LAST_CHGR_ID, #{BRANCH_CD}, #{LANG_CD}) AS LAST_CHGR_NM		
+			,CD_CNTR_CTGR
+			,TO_CHAR(CRT_DT,'YYYYMMDD') AS CRT_DT
+			,BRANCH_CD
+			,CNTR_TMPL_ID
+			,'' AS LANG_CD
+		FROM MM_CNTR_TMPL
+		WHERE CNTR_TMPL_ID = #{CNTR_TMPL_ID}
+		AND   BRANCH_CD    = #{BRANCH_CD}
+  	</select>
+
+  	<insert id="insertCntrTmpl" parameterType="hashmap">
+  	/* [BCntrService.insertCntrTmpl][계약서 템플릿 저장][2019.05.22][안성민] */
+   		INSERT INTO MM_CNTR_TMPL(
+   			CNTR_TMPL_ID
+   			,BRANCH_CD
+   			,TKEY
+   			,TTL
+			,ALT_USE
+			,CNTR_CNTNT
+			,RMARK
+			,CD_CNTR_TYPE
+			,CD_CNTR_CTGR
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+			,CRTR_ID  
+			,CRT_DT
+   		) VALUES (
+	   		 #{CNTR_TMPL_ID}
+   			,#{BRANCH_CD}
+   			,#{TKEY}
+   			,#{TTL}
+			,#{ALT_USE}
+			,#{CNTR_CNTNT, jdbcType=CLOB}
+			,#{RMARK}
+			,#{CD_CNTR_TYPE}
+			,#{CD_CNTR_CTGR}
+			,#{LAST_CHGR_ID}
+			,SYSDATE           
+			,#{CRTR_ID}
+			,SYSDATE      
+   		)
+  	</insert>
+  	
+  	<update id="updateCntrTmpl" parameterType="hashmap">
+  	/* [BCntrService.updateCntrTmpl][계약서 템플릿 수정][2019.05.22][안성민] */
+   		UPDATE MM_CNTR_TMPL
+   		SET
+			 	 TKEY               = #{TKEY}        
+				,TTL                = #{TTL}         
+				,ALT_USE            = #{ALT_USE}     
+				,CNTR_CNTNT         = #{CNTR_CNTNT, jdbcType=CLOB}  
+				,RMARK              = #{RMARK}       
+				,CD_CNTR_TYPE       = #{CD_CNTR_TYPE}
+				,CD_CNTR_CTGR       = #{CD_CNTR_CTGR}
+				,LAST_CHGR_ID       = #{LAST_CHGR_ID}
+				,LAST_CHG_DT        = SYSDATE
+   		WHERE 	 CNTR_TMPL_ID 		= #{CNTR_TMPL_ID}
+   		  AND    BRANCH_CD          = #{BRANCH_CD}
+  	</update>
+  	
+	<delete id="deleteCntrTmpl" parameterType="hashmap">
+	/* [BCntrService.deleteCntrTmpl][계약서 템플릿 삭제][2019.05.22][안성민] */
+		DELETE MM_CNTR_TMPL
+   		WHERE CNTR_TMPL_ID	= #{CNTR_TMPL_ID}
+   		AND   BRANCH_CD		= #{BRANCH_CD}
+	</delete>
+  	
+  	
+
+</mapper>

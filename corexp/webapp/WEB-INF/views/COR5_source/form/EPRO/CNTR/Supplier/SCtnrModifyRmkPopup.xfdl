@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="pop_docType" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="취소사유" left="0" width="382" top="0" height="195" cssclass="frm_POP_Search" oninit="pop_docType_oninit" onload="pop_docType_onload">
+    <Layouts>
+      <Layout>
+        <TextArea id="txt_reason" taborder="5" scrollbars="none" left="4.19%" top="39" right="3.14%" height="148" objNm="자재텍스트" oneditclick="txt_reason_oneditclick" style="font:10 Dotum;"/>
+        <Button id="btn_rtn00" taborder="6" text="확인" onclick="btn_rtn_onclick" cssclass="btn_WF_CRUD" left="79.58%" top="10" right="3.4%" height="25"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_reason" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="REASON" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item2" compid="txt_reason" propid="value" datasetid="ds_reason" columnid="REASON"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/***************************************************************************
+ * Program ID    : SCtnrModifyRmkPopup.xfdl
+ * Program Name  : 변경사유팝업
+ * Author        : 안성민
+ * Created On    : 2019.03.07
+ * 개    요 	 :
+ *
+ * =========================================================================
+ * 변경일자     수정자    내    용
+ * =========================================================================
+   
+**************************************************************************/
+
+this.popTitle = '변경사유'
+
+/***************************************************************************
+ * 함  수  명		: btn_rtn_onclick()
+ * 기      능		: 적용버튼 클릭 이벤트
+ ***************************************************************************/
+this.btn_rtn_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rtn = this.ds_reason.getColumn(0,"REASON");
+	if(gfnIsNull(rtn)) {
+		gfnAlert("사유를 입력해주세요.")
+		return;
+	}
+	this.parent.close(this.ds_reason.saveXML());
+
+}
+]]></Script>
+  </Form>
+</FDL>

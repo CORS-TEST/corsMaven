@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form classname="bottom" height="30" id="bottomFrame" left="0" scrollbars="none" style="background:#ebeef5ff;border:1 solid #a3a7b4ff,0 none #808080ff,0 none #808080,0 none #808080;" titletext="bottomFrame" top="0" width="1280">
+    <Layouts>
+      <Layout>
+        <Button cssclass="btn_BF_AlertMessage" height="30" id="btn_msgHistory" left="0%" objNm="" onclick="btn_msgHistory_onclick" taborder="14" top="0" width="30"/>
+        <Static height="30" id="Static00" right="30" style="align:right middle;font:10 malgun gothic;" taborder="15" text="Copyright  Cheong O Ram System. All rights reserved." top="0" width="776"/>
+      </Layout>
+    </Layouts>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: bottomFrame.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 7.
+ * @설명			: bottom Frame
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 7.
+*/  
+ ]]></Script>
+  </Form>
+</FDL>

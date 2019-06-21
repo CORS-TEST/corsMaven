@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="291" id="BMtrlInfoPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="품목정보 팝업" top="0" width="674">
+    <Layouts>
+      <Layout>
+        <Tab height="274" id="tabMtrl" left="0.74%" right="0.74%" scrollbars="autoboth" tabindex="0" taborder="0" top="8">
+          <Tabpages>
+            <Tabpage id="tabpMtrlInfo" text="품목정보">
+              <Layouts>
+                <Layout height="506" width="934">
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond03" left="8" right="10" taborder="0" top="172"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond00" left="8" right="10" taborder="2" top="10"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond01" left="8" right="10" taborder="3" top="42"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond02" left="8" right="10" taborder="5" top="74"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staMtrlCd" left="8" taborder="7" text="자재코드" top="10" width="171"/>
+                  <Edit height="24" id="edtMtrlCd" left="184" readonly="true" taborder="8" top="15" right="17"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staMtrlNm" left="8" taborder="9" text="자재명" top="42" width="171"/>
+                  <Edit height="24" id="edtMtrlNm" left="184" readonly="true" taborder="10" top="47" right="17"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staGrp" left="8" taborder="13" text="소싱그룹" top="74" width="171"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staUnit00" left="8" taborder="17" text="단위" top="172" width="171"/>
+                  <Edit height="24" id="edtPoUnit" left="184" readonly="true" taborder="28" top="176" right="341"/>
+                  <Edit height="24" id="edtSrcGrpId" left="184" readonly="true" taborder="29" top="79" width="137"/>
+                  <Edit height="24" id="edtSrcGrpNm2" left="326" readonly="true" taborder="30" top="79" right="17"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond04" left="8" right="10" taborder="33" top="106"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staSubMtrlGrpNm" left="8" taborder="34" text="자재그룹명" top="106" width="171"/>
+                  <Edit height="24" id="edtMtrlGrpNm" left="326" readonly="true" taborder="35" top="111" right="17"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond06" left="8" right="10" taborder="36" top="139"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staSubMtrlGrpNm00" left="8" taborder="37" text="서브자재그룹" top="139" width="171"/>
+                  <Edit height="24" id="edtSubMtrlGrpNm" left="326" readonly="true" taborder="38" top="144" right="17"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond05" left="8" right="10" taborder="40" top="204"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staUnit01" left="8" taborder="39" text="최종발주일자/최종입고일자" top="204" width="171"/>
+                  <Edit height="24" id="edtMtrlGrpId" left="184" readonly="true" taborder="42" top="111" width="137"/>
+                  <Edit height="24" id="edtSubMtrlGrpId" left="184" readonly="true" taborder="43" top="144" width="137"/>
+                  <Static height="22" id="Static00" left="323" taborder="44" text="/" top="208" width="10"/>
+                  <MaskEdit displaynulltext=" " height="24" id="maeLstPoDay" left="183" limitbymask="decimal" mask="####-##-##" maskchar=" " readonly="true" taborder="46" top="208" type="string" width="138"/>
+                  <MaskEdit displaynulltext=" " height="24" id="maeLstGrDay" left="331" mask="####-##-##" maskchar=" " readonly="true" taborder="47" top="208" type="string" right="193"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsMtrl">
+        <ColumnInfo>
+          <Column id="MTRL_CD" size="256" type="STRING"/>
+          <Column id="MTRL_NM" size="256" type="STRING"/>
+          <Column id="UP_SRC_GRP_NM" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM" size="256" type="STRING"/>
+          <Column id="SUB_MTRL_GRP_NM" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_NM" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="MTRL_CD" compid="Tab00.tabpage1.edtMtrlCd" datasetid="dsMtrl" id="item28" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="Tab00.tabpage1.edtMtrlNm" datasetid="dsMtrl" id="item26" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="Tab00.tabpage1.edtMtrlNm02" datasetid="dsMtrl" id="item4" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="Tab00.tabpage1.edtMtrlNm03" datasetid="dsMtrl" id="item5" propid="value"/>
+      <BindItem columnid="PO_UNIT" compid="Tab00.tabpage1.edtMtrlNm04" datasetid="dsMtrl" id="item6" propid="value"/>
+      <BindItem columnid="RPTST_SRC_GRP_ID" compid="Tab00.tabpage1.cboSrclvl2" datasetid="dsPtnr" id="item61" propid="value"/>
+      <BindItem columnid="LRG_GRP_ID" compid="Tab00.tabpage1.cboSrclvl1" datasetid="dsPtnr" id="item60" propid="value"/>
+      <BindItem columnid="UP_SRC_GRP_NM" compid="tabMtrl.tabpage1.edtLvl1" datasetid="dsMtrl" id="item1" propid="value"/>
+      <BindItem columnid="MTRL_CD" compid="tabMtrl.tabpage1.edtMtrlCd" datasetid="dsMtrl" id="item3" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="tabMtrl.tabpage1.edtMtrlNm" datasetid="dsMtrl" id="item7" propid="value"/>
+      <BindItem columnid="SRC_GRP_NM" compid="tabMtrl.tabpage1.edtLvl2" datasetid="dsMtrl" id="item8" propid="value"/>
+      <BindItem columnid="SUB_MTRL_GRP_NM" compid="tabMtrl.tabpage1.edtSubMtrlGrpNm" datasetid="dsMtrl" id="item9" propid="value"/>
+      <BindItem columnid="EPRO_LABEL_00778" compid="tabMtrl.tabpMtrlInfo.staGrp" datasetid="gdsLabel" id="item13" propid="text"/>
+      <BindItem columnid="MTRL_CD" compid="tabMtrl.tabpMtrlInfo.edtMtrlCd" datasetid="dsMtrl" id="item17" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="tabMtrl.tabpMtrlInfo.edtMtrlNm" datasetid="dsMtrl" id="item18" propid="value"/>
+      <BindItem columnid="SRC_GRP_ID" compid="tabMtrl.tabpMtrlInfo.edtSrcGrpId" datasetid="dsMtrl" id="item20" propid="value"/>
+      <BindItem columnid="SRC_GRP_NM2" compid="tabMtrl.tabpMtrlInfo.edtSrcGrpNm2" datasetid="dsMtrl" id="item21" propid="value"/>
+      <BindItem columnid="MTRL_GRP_NM" compid="tabMtrl.tabpMtrlInfo.edtMtrlGrpNm" datasetid="dsMtrl" id="item22" propid="value"/>
+      <BindItem columnid="BASIC_UNIT" compid="tabMtrl.tabpMtrlInfo.edtPoUnit" datasetid="dsMtrl" id="item25" propid="value"/>
+      <BindItem columnid="SUB_MTRL_GRP_NM" compid="tabMtrl.tabpMtrlInfo.edtSubMtrlGrpNm" datasetid="dsMtrl" id="item31" propid="value"/>
+      <BindItem columnid="MTRL_GRP_ID" compid="tabMtrl.tabpMtrlInfo.edtMtrlGrpId" datasetid="dsMtrl" id="item24" propid="value"/>
+      <BindItem columnid="SUB_MTRL_GRP_ID" compid="tabMtrl.tabpMtrlInfo.edtSubMtrlGrpId" datasetid="dsMtrl" id="item32" propid="value"/>
+      <BindItem columnid="LST_PO_DAY" compid="tabMtrl.tabpMtrlInfo.maeLstPoDay" datasetid="dsMtrl" id="item23" propid="value"/>
+      <BindItem columnid="LST_GR_DAY" compid="tabMtrl.tabpMtrlInfo.maeLstGrDay" datasetid="dsMtrl" id="item33" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMtrlInfoPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 26.
+ * @설명			    : 품목정보 팝업
+ * @최종수정자		: 김동호
+ * @최종수정일자	: 2017. 11. 30.
+*/
+
+//this.popTitle = gfnMultiLabel("EPRO_LABEL_00947");
+this.popTitle = "품목정보";
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnMakeFileDs(this);
+
+	var ownFrame = this.getOwnerFrame();
+
+	this.dsMtrl.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+
+	this.dsMtrl.addRow();
+	this.dsMtrl.setColumn(0,"MTRL_CD",ownFrame.agv_id);
+	
+	this.fnSearch();
+}
+
+this.fnSearch = function()
+{
+	var sSvcID = "readComMtrlInfo";
+	var sController = "epro.com.service.BComService.readComMtrlInfo";
+	var sInDatasets = "dsMtrl=dsMtrl";
+	var sOutDatasets = "dsMtrl=dsMtrl";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "readComMtrlInfo" :	
+			/*var sTableNm = "MM_MTRL";
+			var arrFileKey = [this.dsMtrl.getColumn(0, "MTRL_CD")];
+			this.divFile.fnFileInit(this, sTableNm, this.dsMtrl, arrFileKey, "Y");*/
+			
+		break;
+ 
+		default:
+		break;	
+	}
+}]]></Script>
+  </Form>
+</FDL>

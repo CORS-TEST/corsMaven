@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BMstService">
+	<select id="searchMstSrcGrpUser" parameterType="hashmap" resultType="hashmap" >
+  	/* [BMstService.searchMstSrcGrpUser][기준정보 품목관리 소핑그룹별담당자][2018.02.06][김동호] */
+        SELECT '0' CHECKED
+             , T0.BRANCH_CD                                              /* 구매조직ID */
+             , T0.USER_ID                                                /* 사용자ID */
+             , GET_USERNM(T0.USER_ID, T0.BRANCH_CD,#{LANG_CD}) USER_NM /* 사용자명 */
+             , T1.DEPT_CD                                                /* 부서코드 */
+             , T1.DEPT_NM                                                /* 부서명 */
+             , T0.SRC_GRP_ID                                             /* 소싱그룹ID */
+             , T0.CRTR_ID                                                /* 생성자ID */
+             , T0.CRT_DT                                                 /* 생성일시 */
+             , T0.LAST_CHGR_ID                                           /* 수정자ID */
+             , T0.LAST_CHG_DT                                            /* 수정일시 */
+             , CASE WHEN T0.ALT_RPTST_YN = 'Y' 
+             			THEN '1'
+                    WHEN T0.ALT_RPTST_YN = 'N' 
+                    	THEN '0'
+                    END ALT_RPTST_YN  									/* [A]대표여부 */
+         FROM	MM_MT_SRC_GRP_PUR T0
+              	, MM_MT_USER T1
+         WHERE	T0.BRANCH_CD	= T1.BRANCH_CD
+         AND 	T0.USER_ID   	= T1.USER_ID
+         AND	T0.BRANCH_CD 	= #{BRANCH_CD}
+         <if test="SRC_GRP_ID != null and SRC_GRP_ID != 'undefined' and SRC_GRP_ID != ''">
+		  AND T0.SRC_GRP_ID =	#{SRC_GRP_ID}
+		</if>
+  	</select>
+  	
+  	
+	<delete id="deleteMstSrcGrpUser" parameterType="hashmap">
+	/* [BMstService.deleteMstSrcGrpUser][기준정보 품목관리 소핑그룹별담당자][2017.09.05][정준화]  */
+		DELETE FROM MM_MT_SRC_GRP_PUR
+		 WHERE USER_ID		= #{USER_ID}
+		   AND SRC_GRP_ID	= #{SRC_GRP_ID}
+		   AND BRANCH_CD	= #{BRANCH_CD}
+	</delete>	
+		
+  	<insert id="insertMstSrcGrpUser" parameterType="hashmap">
+  	/* [BMstService.insertMstSrcGrpUser][기준정보 품목관리 소핑그룹별담당자][2018.02.06][김동호] */
+   		INSERT INTO MM_MT_SRC_GRP_PUR(
+              BRANCH_CD               		                     /* 구매조직ID */
+             , USER_ID                                           /* 사용자ID */
+             , SRC_GRP_ID                                        /* 소싱그룹ID */
+             , CRTR_ID                                           /* 생성자ID */
+             , CRT_DT                                            /* 생성일시 */
+             , LAST_CHGR_ID                                      /* 수정자ID */
+             , LAST_CHG_DT                                       /* 수정일시 */
+             , ALT_RPTST_YN                                      /* [A]대표여부 */
+   		) VALUES (
+               #{BRANCH_CD}                                      /* 구매조직ID */
+             , #{USER_ID}                                        /* 사용자ID */
+             , #{SRC_GRP_ID}                                     /* 소싱그룹ID */
+             , #{LAST_CHGR_ID}                                   /* 생성자ID */
+             , SYSDATE                                         	 /* 생성일시 */
+             , #{LAST_CHGR_ID}                                   /* 수정자ID */
+             , SYSDATE                                           /* 수정일시 */
+             , #{ALT_RPTST_YN}							         /* [A]대표여부 */  
+   		)
+  	</insert>	
+  	
+ 	<update id="updateMstSrcGrpUser" parameterType="hashmap">
+ 	/* [BMstService.updateMstSrcGrpUser][기준정보 품목관리 소핑그룹별담당자][2018.02.06][정준화] */
+   		UPDATE MM_MT_SRC_GRP_PUR
+   		   SET ALT_RPTST_YN      = #{ALT_RPTST_YN}   			 /* [A]대표여부 */
+   		     , LAST_CHGR_ID      = #{LAST_CHGR_ID}               /* 수정자ID */
+   		     , LAST_CHG_DT       = SYSDATE                      /* 수정일시 */
+   		 WHERE USER_ID 			 = #{USER_ID}
+   		   AND SRC_GRP_ID		 = #{SRC_GRP_ID}
+   		   AND BRANCH_CD		 = #{BRANCH_CD}
+  	</update>
+
+	<select id="searchMstSrcGrpMapp" parameterType="hashmap" resultType="hashmap">
+	/* [BMstService.searchSrcGrpMapp][기준정보 품목관리 소핑그룹매핑][2018.02.06][김동호]  */
+	<include refid="commonService.list-before" >
+		<property name="ORDERS" value="ARY_ORDR"/>
+	</include>
+		SELECT '0' AS CHECKED
+		       	, MG.MTRL_GRP_ID
+		       	, MG.MTRL_GRP_NM
+		       	, MG.ARY_ORDR
+		       	, SG.SRC_GRP_ID
+		       	, SG.SRC_GRP_NM2
+		FROM 	MM_MTRL_GRP MG
+     	        , MM_MT_SRC_GRP SG
+        WHERE	MG.SRC_GRP_ID = SG.SRC_GRP_ID(+)
+		<choose>
+			<when test="MDL_SRC_ID != null and MDL_SRC_ID != 'undefined' and MDL_SRC_ID != ''">
+				AND SG.SRC_GRP_ID = #{MDL_SRC_ID}
+			</when>
+			
+			<when test="LRG_SRC_ID != null and LRG_SRC_ID != 'undefined' and LRG_SRC_ID != ''">
+				AND SG.UP_SRC_GRP_ID = #{LRG_SRC_ID}
+			</when>
+		</choose>
+		<if test="MTRL_GRP_ID != null and MTRL_GRP_ID != 'undefined' and MTRL_GRP_ID != ''">
+			AND MG.MTRL_GRP_ID = #{MTRL_GRP_ID}
+		</if>
+		
+		<if test="MTRL_GRP_NM != null and MTRL_GRP_NM != 'undefined' and MTRL_GRP_NM != ''">
+			AND MG.MTRL_GRP_NM LIKE '%' || #{MTRL_GRP_NM} || '%'
+		</if>
+		
+		<include refid="commonService.list-after" />         
+	</select>
+	
+	<select id="searchMstSrcGrpLrg" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.searchSrcGrpLrg][기준정보 품목관리 소핑그룹매핑 대분류][2017.12.05][김동호] */
+  	 	SELECT	SRC_GRP_ID				/* 소싱그룹ID */
+             	, UP_SRC_GRP_ID			/* 상위소싱그룹ID */
+             	, LVL					/* 레벨 */
+             	, SRC_GRP_NM			/* 소싱그룹명 */
+             	, SRC_GRP_NM2			/* 소싱그룹명2*/
+             	, CASE WHEN  ALT_USE = 'Y'  
+						THEN 1
+						ELSE 0
+						END ALT_USE		/* 사용여부  */
+             	, '' AS USER_ID
+             	, RMARK
+             	, SRC_GRP_ID AS O_RGI
+        FROM 	MM_MT_SRC_GRP 
+        WHERE	LVL = 1
+        ORDER BY ARY_ORDR ASC
+    </select>
+  	
+  	<select id="searchMstSrcGrpMdl" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.searchSrcGrpMdl][기준정보 품목관리 소핑그룹매핑 중분류][2018.02.06][김동호] */
+  	 	SELECT SUBSTR(SRC_GRP_ID, LENGTH(UP_SRC_GRP_ID)+1, LENGTH(SRC_GRP_ID))	 AS	SRC_GRP_ID	/* 소싱그룹ID */
+               , UP_SRC_GRP_ID				/* 상위소싱그룹ID */
+               , LVL						/* 레벨 */
+               , SRC_GRP_NM					/* 소싱그룹명 */
+               , SRC_GRP_NM2				/* 소싱그룹명2*/
+			   , CASE WHEN  ALT_USE = 'Y'  
+						THEN 1
+						ELSE 0
+						END ALT_USE		/* 사용여부  */
+             	, '' AS USER_ID
+             	, RMARK
+             	, SRC_GRP_ID AS O_RGI
+        FROM 	MM_MT_SRC_GRP 
+        WHERE  	LVL = 2
+        <if test="UP_SRC_GRP_ID != null and UP_SRC_GRP_ID != 'undefined' and UP_SRC_GRP_ID != ''">
+		  AND UP_SRC_GRP_ID =	#{UP_SRC_GRP_ID}
+		</if>
+        ORDER BY ARY_ORDR  ASC
+  	</select>
+  	<select id="searchMstMtrl" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.searchMstMtrl][기준정보 품목관리 자재그룹매핑 대분류][2017.12.06][김동호] */
+		SELECT 	SUBSTR(MTRL_GRP_ID, NVL2(UP_MTRL_GRP_ID,LENGTH(UP_MTRL_GRP_ID)+1,0), LENGTH(MTRL_GRP_ID))	AS	MTRL_GRP_ID		/* 자재그룹ID */
+             	, MTRL_GRP_NM				/* 자재그룹NM */
+             	, UP_MTRL_GRP_ID			/* 상위소싱그룹ID */
+             	, LVL						/* 레벨 */
+             	, CASE WHEN  ALT_USE = 'Y'  
+						THEN 1
+						ELSE 0
+						END ALT_USE			/* 사용여부  */
+             	, '' AS USER_ID
+             	, MTRL_GRP_ID AS O_RGI		/* 추가 시 비교 ID*/
+        FROM 	MM_MTRL_GRP
+        WHERE  	LVL = #{LVL}
+        ORDER BY ARY_ORDR ASC
+  	</select>
+
+	<select id="searchMstMtrlExcelMdl" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.searchMstMtrlExcelMdl][기준정보 품목관리 자재그룹매핑 대분류][2018.02.06][김동호] */
+		SELECT 	SUBSTR(MTRL_GRP_ID, LENGTH(UP_MTRL_GRP_ID)+1, LENGTH(MTRL_GRP_ID))	 AS	MTRL_GRP_ID		/* 자재그룹ID */
+             	, MTRL_GRP_NM				/* 자재그룹NM */
+             	, UP_MTRL_GRP_ID			/* 상위소싱그룹ID */
+             	, LVL						/* 레벨 */
+             	, CASE WHEN  ALT_USE = 'Y'  
+						THEN 1
+						ELSE 0
+						END ALT_USE			/* 사용여부  */
+             	, '' AS USER_ID
+             	, MTRL_GRP_ID AS O_RGI		/* 추가 시 비교 ID*/
+        FROM 	MM_MTRL_GRP
+        WHERE  	LVL = '2'
+        AND 	UP_MTRL_GRP_ID = #{UP_MTRL_GRP_ID_MDL}
+		ORDER BY ARY_ORDR ASC
+  	</select>
+  	
+  	<select id="searchMstMtrlExcelLow" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.searchMstMtrlExcelLow][기준정보 품목관리 자재그룹매핑 대분류][2018.02.06][김동호] */
+		SELECT 	SUBSTR(MTRL_GRP_ID, LENGTH(UP_MTRL_GRP_ID)+1, LENGTH(MTRL_GRP_ID))	 AS	MTRL_GRP_ID		/* 자재그룹ID */
+             	, MTRL_GRP_NM				/* 자재그룹NM */
+             	, UP_MTRL_GRP_ID			/* 상위소싱그룹ID */
+             	, LVL						/* 레벨 */
+             	, CASE WHEN  ALT_USE = 'Y'  
+						THEN 1
+						ELSE 0
+						END ALT_USE			/* 사용여부  */
+             	, '' AS USER_ID
+             	, MTRL_GRP_ID AS O_RGI		/* 추가 시 비교 ID*/
+        FROM 	MM_MTRL_GRP
+        WHERE  	LVL = '3'
+        AND UP_MTRL_GRP_ID =	#{UP_MTRL_GRP_ID_LOW}
+		ORDER BY ARY_ORDR ASC
+  	</select>
+  	
+  	<update id="updateMstSrcGrpMapp" parameterType="hashmap">
+	/* [BMstService.saveMstSrcGrpMapp][기준정보 품목관리 소핑그룹매핑 ID 변경][2018.02.06][김동호]*/
+	 	UPDATE MM_MTRL_GRP SET
+              LAST_CHGR_ID  =  #{LAST_CHGR_ID}  /* 최종수정자ID */
+            , LAST_CHG_DT   =  SYSDATE          /* 최종수정일시 */
+            , SRC_GRP_ID    =  #{SRC_GRP_ID}    /* 소싱그룹ID */
+		WHERE MTRL_GRP_ID 	=  #{MTRL_GRP_ID}
+	</update>
+	
+	<select id="readCheckSrcGrp" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.readCheckSrcGrp][소싱그룹 코드 중복체크][2017.12.05][김동호]*/
+		SELECT CASE WHEN COUNT(*) = 0
+			        THEN 'Y'
+			        ELSE 'N'
+	       		END CHECK_SRC
+		FROM MM_MT_SRC_GRP
+		WHERE SRC_GRP_ID = #{SRC_GRP_ID}
+		AND		LVL = #{LVL}
+	</select>
+	
+	<select id="readCheckMtrlGrp" parameterType="hashmap" resultType="hashmap" >
+	/* [BMstService.readCheckMtrlGrp][자재그룹 코드 중복체크][2017.12.05][김동호]*/
+		SELECT CASE WHEN COUNT(*) = 0
+			        THEN 'Y'
+			        ELSE 'N'
+	       		END CHECK_MTRL
+		FROM 	MM_MTRL_GRP
+		WHERE 	MTRL_GRP_ID = #{MTRL_GRP_ID}
+		AND		LVL = #{LVL}
+	</select>
+	<insert id="inserSrcGrp" parameterType="hashmap" >
+	/* [BMstService.inserSrcGrp][소싱그룹 insert][2018.02.06][김동호]*/	
+		INSERT INTO MM_MT_SRC_GRP(	
+				SRC_GRP_ID
+				, UP_SRC_GRP_ID
+				, LVL
+				, SRC_GRP_NM
+				, SRC_GRP_NM2
+				, RMARK
+				, ARY_ORDR
+				, ALT_USE
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+		)VALUES(
+				NVL(#{UP_SRC_GRP_ID},'')||#{SRC_GRP_ID}
+				, NVL(#{UP_SRC_GRP_ID},'')
+				, #{LVL}
+				, #{SRC_GRP_NM}
+				, #{SRC_GRP_NM2}
+				, NVL(#{RMARK},'')
+				, CASE WHEN #{LVL} = 1 
+						THEN #{SRC_GRP_ID}
+				 	  	ELSE  NVL(#{UP_SRC_GRP_ID},'')||#{SRC_GRP_ID}
+				  		END
+				, CASE WHEN #{ALT_USE} = 1 
+						THEN 'Y'
+						ELSE 'N'
+				  		END
+				, #{USER_ID}
+				, SYSDATE
+				, #{USER_ID}
+				, SYSDATE
+		)
+	</insert>
+	<insert id="inserMtrlGrp" parameterType="hashmap" >
+	/* [BMstService.inserMtrlGrp][자재그룹 insert][2018.02.06][김동호]*/	
+		INSERT INTO MM_MTRL_GRP(	
+				MTRL_GRP_ID
+				, UP_MTRL_GRP_ID
+				, MTRL_GRP_NM
+				, LVL
+				, ALT_USE
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+				, ARY_ORDR
+		)VALUES(
+				NVL(#{UP_MTRL_GRP_ID},'')||#{MTRL_GRP_ID}
+				, NVL(#{UP_MTRL_GRP_ID},'')
+				, #{MTRL_GRP_NM}
+				, #{LVL}
+				, CASE WHEN #{ALT_USE} = 1 
+						THEN 'Y'
+						ELSE 'N'
+						END
+				, #{USER_ID}
+				, SYSDATE
+				, #{USER_ID}
+				, SYSDATE
+				, #{MTRL_GRP_ID}
+		)
+	</insert>
+	<update id="updateSrcGrp"  parameterType="hashmap" >
+	/* [BMstService.updateSrcGrp][소싱그룹 update][2018.02.06][김동호]*/	
+		UPDATE MM_MT_SRC_GRP
+		SET		SRC_GRP_NM = #{SRC_GRP_NM}
+				,SRC_GRP_NM2 = #{SRC_GRP_NM2}
+				,ALT_USE = (CASE WHEN #{ALT_USE} = 0 
+							THEN 'N'
+							ELSE 'Y'
+							END)
+				,ARY_ORDR =  CASE WHEN #{LVL} = 1 THEN #{SRC_GRP_ID}
+								  ELSE  NVL(#{UP_SRC_GRP_ID},'')||#{SRC_GRP_ID}
+							 END
+				,LAST_CHGR_ID = #{USER_ID}
+				,LAST_CHG_DT =  SYSDATE
+		WHERE	SRC_GRP_ID = #{O_RGI}
+		AND		LVL = #{LVL}
+	</update>
+	<update id="updateMtrlGrp"  parameterType="hashmap" >
+	/* [BMstService.updateMtrlGrp][자재그룹 update][2018.02.06][김동호]*/	
+		UPDATE  MM_MTRL_GRP
+		SET		MTRL_GRP_NM = #{MTRL_GRP_NM}
+				,ALT_USE = (CASE WHEN #{ALT_USE} = 0 
+							THEN 'N'
+							ELSE 'Y'
+							END)
+				,LAST_CHGR_ID = #{USER_ID}
+				,LAST_CHG_DT =  SYSDATE
+		WHERE	MTRL_GRP_ID = #{O_RGI}
+		AND		LVL = #{LVL}
+	</update>
+</mapper>

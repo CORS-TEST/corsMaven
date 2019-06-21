@@ -1,0 +1,12 @@
+﻿{
+	"name": "SignNew",
+	"version": "14.0.0.240",
+	"description": "SignNew",
+	"license": "",
+	"scripts": [
+			"SignNew/ObjectInstall.js"
+			,"SignNew/unisignwebclient.js"
+			,"SignNew/UniSignWeb_Multi_Init_Nim.js"
+	]
+}
+//@ sourceURL=SignNew.json

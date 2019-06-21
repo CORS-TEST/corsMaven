@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GlobalVariables>
+  <Dataset id="gdsUserInfo" useclientlayout="false"/>
+  <Dataset id="gdsMenu"/>
+  <Dataset id="gdsMyMenu"/>
+  <Dataset id="gdsCommCd">
+    <ColumnInfo>
+      <ConstColumn id="VERSION" type="STRING" size="30" value="2019030601"/>
+      <Column id="CD_ID" type="STRING" size="256"/>
+      <Column id="CD_ID_NM" type="STRING" size="256"/>
+      <Column id="LABEL_STR" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="gdsUserRole"/>
+  <Dataset id="gdsOpenMenu">
+    <ColumnInfo>
+      <Column id="CHECKED" type="STRING" size="256"/>
+      <Column id="OPEN_ID" type="STRING" size="256"/>
+      <Column id="PGM_ID" type="STRING" size="256"/>
+      <Column id="PGM_NM" type="STRING" size="256"/>
+      <Column id="LINK_URL" type="STRING" size="256"/>
+      <Column id="MENU_NM" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="gdsGrdPopMenu">
+    <ColumnInfo>
+      <Column id="menuLvl" type="STRING" size="256" description="levelcolumn" sumtext="그리드 우클릭 메뉴"/>
+      <Column id="menuId" type="STRING" size="256" description="idcolumn"/>
+      <Column id="menuNm" type="STRING" size="256" description="captioncolumn"/>
+      <Column id="enable" type="STRING" size="256" description="enablecolumn"/>
+      <Column id="hotkey" type="STRING" size="256" description="hotkeycolumn"/>
+      <Column id="visible" type="STRING" size="256" description="사용여부"/>
+      <Column id="menuGrp" type="STRING" size="256" description="메뉴 그룹"/>
+    </ColumnInfo>
+    <Rows>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">filter</Col>
+        <Col id="menuNm">필터</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">filter</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">filtercancel</Col>
+        <Col id="menuNm">필터 취소</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">filter</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId"/>
+        <Col id="menuNm">-</Col>
+        <Col id="enable">0</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">filter</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">fix</Col>
+        <Col id="menuNm">틀고정</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">fix</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">fixcancel</Col>
+        <Col id="menuNm">틀고정 취소</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">fix</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId"/>
+        <Col id="menuNm">-</Col>
+        <Col id="enable">0</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">fix</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">find</Col>
+        <Col id="menuNm">검색</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">find</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId"/>
+        <Col id="menuNm">-</Col>
+        <Col id="enable">0</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">find</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">hide</Col>
+        <Col id="menuNm">숨기기</Col>
+        <Col id="hotkey"/>
+        <Col id="enable">1</Col>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">hide</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">show</Col>
+        <Col id="menuNm">숨기기 취소</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">hide</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId"/>
+        <Col id="menuNm">-</Col>
+        <Col id="enable">0</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">hide</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId">allcancel</Col>
+        <Col id="menuNm">전체 초기화</Col>
+        <Col id="enable">1</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">init</Col>
+      </Row>
+      <Row>
+        <Col id="menuLvl">0</Col>
+        <Col id="menuId"/>
+        <Col id="menuNm">-</Col>
+        <Col id="enable">0</Col>
+        <Col id="hotkey"/>
+        <Col id="visible">true</Col>
+        <Col id="menuGrp">init</Col>
+      </Row>
+    </Rows>
+  </Dataset>
+  <Dataset id="gdsTmprData">
+    <ColumnInfo>
+      <Column id="key" type="STRING" size="256"/>
+      <Column id="value" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Dataset id="gdsValidScreen">
+    <ColumnInfo>
+      <Column id="OPEN_ID" type="STRING" size="256"/>
+      <Column id="MSG" type="STRING" size="256"/>
+      <Column id="VALID_TYPE" type="STRING" size="256"/>
+      <Column id="IS_ESSENTIAL" type="STRING" size="256"/>
+      <Column id="ERR_LVL" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Variable id="gvDomain"/>
+  <Dataset id="gdsMessage"/>
+  <Dataset id="gdsLabel">
+    <ColumnInfo>
+      <ConstColumn id="VERSION" type="STRING" size="30" value="2019030601"/>
+      <Column id="EPRO_LABEL_00001" type="STRING" size="256"/>
+    </ColumnInfo>
+  </Dataset>
+  <Variable id="gv_UserId"/>
+  <Variable id="gv_portalPage"/>
+  <Variable id="gv_No"/>
+  <Variable id="gv_Odr"/>
+  <Variable id="gv_BranchCd"/>
+  <Variable id="gv_Type"/>
+  <Variable id="gv_Ad"/>
+  <Variable id="gv_FName"/>
+</GlobalVariables>

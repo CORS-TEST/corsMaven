@@ -1,0 +1,1477 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="1486" id="BRfqAlsDetail" left="0" oninit="BRfqPrgDetail_oninit" onload="BRfqPrgDetail_onload" titletext="입찰진행상세" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div height="334" id="divViewCompBody00" left="0" objNm="DIV-헤더 상세" right="15" scrollbars="none" taborder="5" top="92">
+          <Layouts>
+            <Layout>
+              <Tab id="tabRfqInfo" left="0%" objNm="입찰요청서 TAB" onchanged="div_21_Tab01_onchanged" right="0%" scrollbars="autoboth" tabindex="0" taborder="0" top="0" bottom="0">
+                <Tabpages>
+                  <Tabpage height="274" id="tabRfq" lbcd="" left="1" objNm="기본정보" scrollbars="none" style="background:white;" text="기본정보" top="165" width="1203">
+                    <Layouts>
+                      <Layout height="156" width="1042">
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="57" top="37"/>
+                        <Edit height="24" id="edtCdRfqStts" left="805" objNm="상태" readonly="true" taborder="12" top="42" width="184"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="staCdRfqStts" left="629" objNm="상태" taborder="11" text="상태" top="37" width="171"/>
+                        <Calendar dateformat="HH" editformat="HH" height="24" id="calRfqCloseTime" left="342" objNm="입찰마감시" taborder="7" top="42" type="spin" width="60" value="null" locale="en_US"/>
+                        <Calendar cssclass="cal_default" height="24" id="cldRfqCloseDay" left="176" objNm="입찰마감일" oneditclick="div_21_Tab01_tabp01_cal_rfqCloseDay_oneditclick" taborder="5" top="42" width="131" locale="en_US"/>
+                        <Static cssclass="sta_WF_Label_P" height="33" id="staRfqCloseDT" left="0" objNm="입찰마감일시" onclick="div_21_Tab01_tabp01_st_CrtrNm_onclick" taborder="4" text="입찰마감일시" top="37" usedecorate="true" width="171"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="58" top="69"/>
+                        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cboCdBidUnit" innerdataset="@dsCdET23" left="805" objNm="응찰단위" onitemchanged="div_21_Tab01_tabp01_cb_cdRfqCrnc_onitemchanged" taborder="16" top="74" width="184"/>
+                        <Static cssclass="sta_WF_Label_P" height="33" id="staCdBidUnit" left="629" objNm="응찰단위" taborder="15" text="응찰단위" top="69" usedecorate="true" width="171"/>
+                        <Combo codecolumn="CD_ID" cssclass="cbo_default" datacolumn="CD_NM_LO" height="24" id="cboCdRfqAim" innerdataset="@dsCdET27" left="176" objNm="입찰목적" taborder="14" top="74" width="250"/>
+                        <Static cssclass="sta_WF_Label_P" height="33" id="staCdRfqAim" left="0" objNm="입찰목적" taborder="13" text="입찰목적" top="69" usedecorate="true" width="171"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" right="0" taborder="59" top="101"/>
+                        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cboCdRfqCrnc" innerdataset="@dsCdCM15" left="805" objNm="입찰통화" onitemchanged="div_21_Tab01_tabp01_cb_cdRfqCrnc_onitemchanged" taborder="20" top="105" width="184"/>
+                        <Static cssclass="sta_WF_Label_P" height="33" id="staCdRfqCrnc" left="629" objNm="입찰통화" taborder="19" text="제출통화" top="101" usedecorate="true" width="171"/>
+                        <MaskEdit autoselect="true" height="24" id="edtGoalamt" left="176" mask="#,##0" objNm="구매예상가" readonly="true" style="color:blue;align:left middle;font:bold 10 Dotum;" taborder="18" top="105" width="249"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="staGoalamt" left="0%" objNm="총금액" taborder="17" text="구매예상가" top="101" usedecorate="true" width="171"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="0" right="0" taborder="60" top="133"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="0" right="0" taborder="61" top="165"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine07" left="0" right="0" taborder="62" top="229"/>
+                        <Radio codecolumn="CD_ID" datacolumn="CD_NM_LO" direction="vertical" height="24" id="cboEvalType" left="176" objNm="평가구분" taborder="39" top="233" width="331" onitemchanged="fnCboEvalType_onitemchanged" innerdataset="dsCdET14" rowcount="1" columncount="3">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">Y</Col>
+                                <Col id="datacolumn">가격평가</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">N</Col>
+                                <Col id="datacolumn">종합평가</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <Static cssclass="sta_WF_Label" height="33" id="staEvalType" left="0" objNm="평가구분" taborder="38" text="평가구분" top="229" width="171"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine08" left="0" right="0" taborder="41" top="261"/>
+                        <Edit height="24" id="edtRtF" left="928" objNm="재무" style=":disabled {align:right middle;font:bold 9 Dotum;}" taborder="55" top="266" width="40"/>
+                        <Edit height="24" id="edtRtD" left="768" objNm="납기" style=":disabled {align:right middle;font:bold 9 Dotum;}" taborder="52" top="266" width="40"/>
+                        <Edit height="24" id="edtRtT" left="635" objNm="기술" style=":disabled {align:right middle;font:bold 9 Dotum;}" taborder="49" top="266" width="40"/>
+                        <Edit height="24" id="edtRtC" left="486" objNm="원가절감" style=":disabled {align:right middle;font:bold 9 Dotum;}" taborder="46" top="266" width="40"/>
+                        <Edit height="24" id="edtRtQ" left="229" objNm="품질" style=":disabled {align:right middle;font:bold 9 Dotum;}" taborder="43" top="266" width="40"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="staEvalRate" left="0" objNm="평가비율" taborder="40" text="평가비율" top="261" usedecorate="true" width="171"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="63" top="5"/>
+                        <Static cssclass="sta_WF_Label_P" height="33" id="staTtl" left="0%" objNm="입찰요청명" taborder="0" text="입찰요청명" top="5" usedecorate="true" width="171"/>
+                        <Edit height="24" id="edtTtl" left="176" lengthunit="utf8" objNm="입찰요청명" taborder="1" top="9" width="624"/>
+                        <Edit height="24" id="edtRrqOdr" left="805" objNm="입찰차수" style=":disabled {align:right middle;font:bold 9 Dotum;}" taborder="2" top="9" width="40"/>
+                        <Static height="24" id="staRfqOdr" left="851" objNm="입찰차수" taborder="3" text="회차" top="9" width="175"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="staOption" left="0%" objNm="입찰옵션" taborder="21" text="입찰옵션" top="133" width="171"/>
+                        <CheckBox cssclass="chk_default" falsevalue="N" height="24" id="chkAltBdgtOpen" left="176" objNm="예가공개 여부" taborder="22" text="예가공개" top="137" truevalue="Y" value="N" width="182"/>
+                        <CheckBox cssclass="chk_default" falsevalue="N" height="24" id="chkAltTargCorpOpen" left="358" objNm="대상업체공개 여부" taborder="23" text="대상업체공개" top="137" truevalue="Y" value="N" width="204"/>
+                        <Static id="staViewCompLine04" taborder="35" cssclass="sta_WF_Labelbg" left="0" top="197" right="0" height="33"/>
+                        <Static id="staIncoterms" taborder="24" text="Incoterms" usedecorate="true" cssclass="sta_WF_Label" left="629" top="133" width="171" height="33" objNm="Incoerms"/>
+                        <Combo id="cboIncoterms" taborder="25" innerdataset="@dsCdCM22" codecolumn="CD_ID" datacolumn="CD_NM_LO" onitemchanged="div_21_Tab01_tabp01_cb_RfqOpen_onitemchanged" visible="true" left="805" top="137" width="184" height="24" objNm="Incoterms">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">A</Col>
+                                <Col id="datacolumn">전체공개</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">Y</Col>
+                                <Col id="datacolumn">제한공개</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">N</Col>
+                                <Col id="datacolumn">미공개</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Combo>
+                        <Static id="staAltLowFailAply" taborder="26" text="하한유찰가" cssclass="sta_WF_Label" left="0" top="165" width="171" height="33" objNm="하한유찰가"/>
+                        <CheckBox id="chkAltLowFailAply" taborder="27" text="하한유찰가" value="N" truevalue="Y" falsevalue="N" cssclass="chk_default" left="176" top="169" width="92" height="24" objNm="하한유찰가" onchanged="fnChkAltLowFailAply_onchanged"/>
+                        <Static id="staRfqOdr10" taborder="28" text="원" left="408" top="170" width="21" height="24" objNm="하한유찰가원"/>
+                        <Static id="staAltRfqPriceSbmt" taborder="29" text="가격제출" usedecorate="true" cssclass="sta_WF_Label" left="0" top="197" width="171" height="33" objNm="입찰가제출"/>
+                        <Static id="staTcoBgnYr" taborder="32" text="시작년도" usedecorate="true" cssclass="sta_WF_Label" left="629" top="197" width="171" height="33" objNm="시작년도"/>
+                        <Edit id="edtTcoBgnYr" taborder="33" left="805" top="202" width="133" height="24" style="align:right middle; :disabled {align:right middle;font:bold 9 Dotum;}" objNm="하한유찰가"/>
+                        <Edit id="edtTcoYr" taborder="34" left="943" top="202" width="46" height="24" style="align:right middle; :disabled {align:right middle;font:bold 9 Dotum;}" objNm="하한유찰가"/>
+                        <Static id="staRfqOdr00" taborder="36" text="회" left="995" top="202" width="21" height="24" objNm="시작년도 횟수"/>
+                        <CheckBox id="chkAltRfqPriceSbmt" taborder="30" text="가격 미제출" value="N" truevalue="Y" falsevalue="N" cssclass="chk_default" left="176" top="202" width="204" height="24" objNm="가격미제출 여부" onchanged="fnChkAltRfqPriceSbmt_onchanged"/>
+                        <MaskEdit id="mskRfqLowAmt" taborder="65" left="285" top="169" height="24" width="117" mask="9,999" objNm="하한유찰가격" readonly="false"/>
+                        <MaskEdit id="mskRfqCloseTimeMIN" taborder="66" left="440" top="42" height="24" objNm="입찰마감 분" width="61" type="string" maskchar=" " style="align:left middle;" mask="##"/>
+                        <Static id="staRfqCloseDay" taborder="77" text="일" left="312" top="42" width="24" height="24" objNm="입찰마감일"/>
+                        <Static id="staRfqCloseTime" taborder="78" text="시" left="407" top="42" width="28" height="24" objNm="입찰마감시"/>
+                        <Static id="staRfqCloseTimeMin" taborder="79" text="분" left="507" top="42" width="28" height="24" objNm="입찰마감시"/>
+                        <Static id="staRtQ" taborder="80" text="품질" left="172" top="261" width="52" height="33" style="align:right middle;" objNm="품질"/>
+                        <Static id="staRfqOdr05" taborder="81" text="%" left="275" top="266" width="21" height="24" objNm="평가비율품질%"/>
+                        <Static id="staRtP" taborder="82" text="가격" left="292" top="261" width="41" height="33" style="align:right middle;" objNm="가격"/>
+                        <Static id="staRfqOdr06" taborder="83" text="%" left="384" top="266" width="21" height="24" objNm="평가비율가격%"/>
+                        <Static id="staRtT" taborder="84" text="기술" left="554" top="261" width="76" height="33" style="align:right middle;" objNm="기술"/>
+                        <Static id="staRfqOdr07" taborder="85" text="%" onclick="divViewCompBody00_tabRfqInfo_tabRfq_staRfqOdr07_onclick" left="681" top="266" width="21" height="24" objNm="평가비율기술%"/>
+                        <Static id="staRtD" taborder="86" text="납기" left="703" top="261" width="60" height="33" style="align:right middle;" objNm="납기"/>
+                        <Static id="staRfqOdr08" taborder="87" text="%" left="814" top="266" width="21" height="24" objNm="평가비율납기%"/>
+                        <Static id="staRtF" taborder="88" text="재무" left="831" top="261" width="92" height="33" style="align:right middle;" objNm="재무" wordwrap="english"/>
+                        <Static id="staRfqOdr09" taborder="89" text="%" left="973" top="266" width="21" height="24" objNm="평가비율재무%"/>
+                        <Static id="staRtC" taborder="90" text="원가절감" left="400" top="261" width="80" height="33" style="align:right;" objNm="원가절감" wordwrap="english"/>
+                        <Static id="staPer01" taborder="91" text="%" left="532" top="261" width="20" height="33" objNm="평가비율원가절감%"/>
+                        <Edit id="edtRtP" taborder="92" maxlength="3" left="338" top="266" width="40" height="24" style=":disabled {align:right middle;font:bold 9 Dotum;}" objNm="가격"/>
+                        <Edit id="edtIncoterms2" taborder="93" left="995" top="137" width="202" height="24" style="align:left middle; :disabled {align:right middle;font:bold 9 Dotum;}" objNm="incoterms2"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabRfqRmark" objNm="특기사항" scrollbars="none" style="background:white;" text="특이사항">
+                    <Layouts>
+                      <Layout>
+                        <TextArea bottom="17" id="txaRmark" left="0" objNm="특이사항" right="0" scrollbars="autovert" taborder="0" top="5"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp03" text="첨부파일">
+                    <Layouts>
+                      <Layout>
+                        <Div id="divFile" taborder="0" url="CCOMP::CompNFileUpDown.xfdl" left="3" top="10" right="7" height="250" objNm="첨부파일"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp04" objNm="공개설명회" style="background:white;" text="공개설명회">
+                    <Layouts>
+                      <Layout>
+                        <Radio codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" enableevent="false" height="24" id="rdo_AltRfqOpen" left="436" objNm="공개설명회실시 여부" taborder="96" top="-37" width="251">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">Y</Col>
+                                <Col id="datacolumn">실시</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">N</Col>
+                                <Col id="datacolumn">미실시</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Radio>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="99" top="5"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="100" top="37"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="101" top="69"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_Ttl01" left="0%" objNm="발주서명" taborder="102" text="공개설명회" top="5" width="171"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_Ttl" left="0%" objNm="발주서명" taborder="103" text="설명회 일시" top="37" width="171"/>
+                        <Calendar dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" height="24" id="cal_openExplnDay" left="176" objNm="공객설명회일자" taborder="104" top="41" width="120" locale="en_US"/>
+                        <Static height="24" id="Static02" left="302" taborder="105" text="일" top="41" width="24"/>
+                        <MaskEdit clipmode="excludespace" displaynulltext="00:00" height="24" id="mae_openExplnTime" left="331" mask="##:##" objNm="공개설명회 마감시각" taborder="106" top="41" type="string" width="104"/>
+                        <Static height="24" id="Static03" left="440" taborder="107" text="시" top="41" width="62"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_CrtrNm" left="0%" objNm="구매조직" taborder="110" text="장소" top="69" width="171"/>
+                        <Edit autoselect="true" height="24" id="edt_openExplnArea" left="176" lengthunit="utf8" objNm="설명회 장소" taborder="111" top="74" width="1021"/>
+                        <Static cssclass="sta_WF_Labelbg" height="80" id="staViewCompLine03" left="0" right="0" taborder="112" top="101"/>
+                        <Static cssclass="sta_WF_Label" height="80" id="ed_PoAmt" left="0%" objNm="총금액" taborder="113" text="참여조건" top="101" width="171"/>
+                        <TextArea height="70" id="txt_openExplnAttnCndtn" left="176" objNm="공개설명회 참여조건" scrollbars="none" taborder="114" top="106" width="1021"/>
+                        <CheckBox id="chkAltOpenExpln" taborder="115" text="공개설명회 실시" value="N" truevalue="Y" falsevalue="N" onchanged="fnChkAltRfqPriceSbmt_onchanged" cssclass="chk_default" left="176" top="10" width="204" height="24" objNm="공개설명회실시여부"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp05" objNm="입찰 담당자" style="background:white;" text="입찰 담당자  ">
+                    <Layouts>
+                      <Layout>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="64" top="5"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="65" top="37"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="66" top="69"/>
+                        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" right="0" taborder="67" top="101"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_MtrlCd" left="0" taborder="68" text="담당자" top="5" width="171"/>
+                        <Edit cssclass="edt_default" enable="false" height="24" id="edt_ChrgrId" left="176" objNm="입찰담당자ID" style=":disabled {align:center middle;}" taborder="69" top="9" width="100"/>
+                        <Edit cssclass="edt_default" height="24" id="edt_chrgrNm" left="281" lengthunit="utf8" objNm="입찰담당자명" onkeydown="div_21_Tab01_tabpage6_edt_chrgrNm_onkeydown" ontextchanged="div_21_Tab01_tabpage6_edt_chrgrNm_ontextchanged" taborder="70" top="9" width="272"/>
+                        <Button cssclass="btn_WF_SearchSmall" height="24" id="btn_chrgr" left="553" objNm="입찰담당자 검색 버튼" taborder="71" top="9" width="24" onclick="fnChrgr_onclick"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_MtrlCd00" left="0" taborder="72" text="전화번호" top="37" width="171"/>
+                        <Edit cssclass="edt_default" height="24" id="edt_tel" left="176" objNm="전화번호" taborder="73" top="41" width="400"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_MtrlCd01" left="0" taborder="74" text="e-Mail" top="69" width="171"/>
+                        <Edit cssclass="edt_default" height="24" id="edt_email" left="176" objNm="이메일" taborder="75" top="74" width="400"/>
+                        <Static cssclass="sta_WF_Label" height="33" id="st_MtrlCd02" left="0" taborder="76" text="Fax" top="101" width="171"/>
+                        <Edit cssclass="edt_default" height="24" id="edt_fax" left="176" objNm="팩스" taborder="77" top="105" width="400"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Div id="divViewCompBody02" left="0" objNm="DIV-대상업체 상세" right="15" scrollbars="none" taborder="10" top="734" height="234">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsRfqPtnr" bottom="27" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="Y" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdRfqPtnr" left="0" objNm="대상협력사" right="0" taborder="0" top="0" useinputpanel="false" oncelldblclick="divViewCompBody02_grdRfqPtnr_oncelldblclick" locale="en_US">
+                <Formats>
+                  <Format id="Bmode">
+                    <Columns>
+                      <Column size="103"/>
+                      <Column size="100"/>
+                      <Column size="120"/>
+                      <Column size="150"/>
+                      <Column size="150"/>
+                      <Column size="185"/>
+                      <Column size="185"/>
+                      <Column size="185"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="협력사구분" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00703&quot;)"/>
+                      <Cell col="1" text="VENDOR" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_01151&quot;)"/>
+                      <Cell col="2" text="사업자번호" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00149&quot;)"/>
+                      <Cell col="3" text="협력사명" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00376&quot;)"/>
+                      <Cell col="4" text="대표자명" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00530&quot;)"/>
+                      <Cell col="5" cssclass="Cellgrd_edit" text="제안설명회일자" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00622&quot;)"/>
+                      <Cell col="6" cssclass="Cellgrd_edit" text="제안설명회시간" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00668&quot;)"/>
+                      <Cell col="7" cssclass="Cellgrd_edit" text="제안설명회장소" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00706&quot;)"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center middle;" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                      <Cell col="1" text="bind:SAP_VENDOR"/>
+                      <Cell col="2" text="bind:BIZ_NO"/>
+                      <Cell col="3" style="align:left;" cssclass="cell_link" text="bind:PTNR_NM"/>
+                      <Cell col="4" style="align:left;" text="bind:RPRSTV_NM"/>
+                      <Cell col="5" displaytype="date" edittype="date" style="align:center;" text="bind:RFQ_EXPLN_DAY" mask="yyyy-MM-dd" calendardisplaynulltype="none"/>
+                      <Cell col="6" displaytype="date" edittype="date" style="align:center;" text="bind:RFQ_EXPLN_TIME" mask="HH:mm" calendardisplaynulltype="none"/>
+                      <Cell col="7" edittype="text" style="align:left;" text="bind:RFQ_EXPLN_AREA" editlimit="100" editlengthunit="utf8"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="divPaging" taborder="1" url="CCOMP::CompPaging.xfdl" left="0" right="0" bottom="0" height="28" scrollbars="none" objNm="페이징"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="164" id="divViewCompBody03" left="0" objNm="DIV-입찰요청파일 상세" right="15" scrollbars="none" taborder="12" top="1017">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsRfqReqFile" bottom="0" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" id="grdRfqReqFile" left="0" objNm="품목 그리드" right="0" taborder="0" top="0" useinputpanel="false" autoenter="none">
+                <Formats>
+                  <Format id="Amode">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="382"/>
+                      <Column size="188"/>
+                      <Column size="146"/>
+                      <Column size="454"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" cssclass="Cellgrd_edit" text="요청파일" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00171&quot;)"/>
+                      <Cell col="2" cssclass="Cellgrd_edit" text="파일유형" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00575&quot;)"/>
+                      <Cell col="3" cssclass="Cellgrd_edit" text="필수여부" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00601&quot;)"/>
+                      <Cell col="4" cssclass="Cellgrd_edit" text="비고" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00444&quot;)"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                      <Cell col="1" displaytype="text" edittype="text" style="align:left;" text="bind:REQ_FILE_NM"/>
+                      <Cell col="2" displaytype="combo" edittype="combo" text="bind:CD_FILE_TYPE" expandshow="show" combodataset="dsCdCM32" combocodecol="CD_ID" combodatacol="CD_NM_LO" calendardisplay="display" calendardisplaynulltype="nullmask"/>
+                      <Cell col="3" displaytype="checkbox" edittype="checkbox" text="bind:ALT_MDT"/>
+                      <Cell col="4" displaytype="text" edittype="text" style="align:left;" text="bind:RMARK"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="210" id="divViewCompBody01" left="0%" objNm="DIV-품목 상세" right="15" taborder="13" top="475">
+          <Layouts>
+            <Layout height="187" width="1205">
+              <Grid autoenter="none" autofittype="col" binddataset="dsRfqItemList" bottom="27" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="Y" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdRfqItem" left="0" objNm="품목정보" oncellclick="fnRfqItemClick" onexpanddown="fnRfqItem_ExpandDown" ontextchange="fnItemListChange" right="0" taborder="0" top="0" useinputpanel="false" oncelldblclick="fnRfqItem_oncelldblclick">
+                <Formats>
+                  <Format id="Amode">
+                    <Columns>
+                      <Column size="96"/>
+                      <Column size="296"/>
+                      <Column size="140"/>
+                      <Column size="80"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00232&quot;)"/>
+                      <Cell col="1" text="품목명" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00104&quot;)"/>
+                      <Cell col="2" text="수량" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00617&quot;)"/>
+                      <Cell col="3" text="단위" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00153&quot;)"/>
+                      <Cell col="4" text="단가" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00572&quot;)"/>
+                      <Cell col="5" text="구매목표가" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00715&quot;)"/>
+                      <Cell col="6" text="납품요청일자" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00629&quot;)"/>
+                      <Cell col="7" cssclass="Cellgrd_edit" text="품목특이사항" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00679&quot;)"/>
+                      <Cell col="8" cssclass="Cellgrd_edit" text="파일" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00284&quot;)"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center;" cssclass="cell_link" text="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" text="bind:MTRL_NM"/>
+                      <Cell col="2" edittype="none" style="align:right;" text="bind:QTY" expandshow="show" expandsize="20" expandimage="URL('img::gridBtn__read.png')"/>
+                      <Cell col="3" displaytype="normal" style="align:left;" text="bind:CD_UNIT_NM"/>
+                      <Cell col="4" displaytype="number" style="align:right;" text="bind:GOALUNT_PRICE" mask="#,##0.####"/>
+                      <Cell col="5" displaytype="number" style="align:right;" text="bind:GOALAMT" mask="#,###.###"/>
+                      <Cell col="6" displaytype="date" edittype="none" style="align:center;" text="bind:DLV_REQ_DAY" mask="yyyy-MM-dd" calendardisplaynulltype="none"/>
+                      <Cell col="7" displaytype="button" edittype="button" style="align:center middle;controlbackground:URL('img::gridBtn_input.png') center middle;controlborder:1 none #808080 ;" text=" "/>
+                      <Cell col="8" displaytype="button" edittype="button" style="controlbackground:URL('img::grdBtn_file.png') center middle;controlborder:1 none #808080ff ;" text=" "/>
+                    </Band>
+                  </Format>
+                  <Format id="Bmode">
+                    <Columns>
+                      <Column size="96"/>
+                      <Column size="296"/>
+                      <Column size="130"/>
+                      <Column size="80"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="110"/>
+                      <Column size="70"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00232&quot;)"/>
+                      <Cell col="1" text="품목명" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00104&quot;)"/>
+                      <Cell col="2" text="수량" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00617&quot;)"/>
+                      <Cell col="3" text="단위" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00153&quot;)"/>
+                      <Cell col="4" text="단가" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00572&quot;)"/>
+                      <Cell col="5" text="구매목표가" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00715&quot;)"/>
+                      <Cell col="6" text="납품요청일자" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00629&quot;)"/>
+                      <Cell col="7" cssclass="Cellgrd_edit" text="품목특이사항" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00679&quot;)"/>
+                      <Cell col="8" cssclass="Cellgrd_edit" text="파일" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00284&quot;)"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center;" cssclass="cell_link" text="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" text="bind:MTRL_NM"/>
+                      <Cell col="2" edittype="none" style="align:right;" text="bind:QTY"/>
+                      <Cell col="3" displaytype="normal" style="align:left;" text="bind:CD_UNIT_NM"/>
+                      <Cell col="4" displaytype="number" style="align:right;" text="bind:GOALUNT_PRICE" mask="#,##0.####"/>
+                      <Cell col="5" displaytype="number" style="align:right;" text="bind:GOALAMT" mask="#,###.###"/>
+                      <Cell col="6" displaytype="date" edittype="none" style="align:center;" text="bind:DLV_REQ_DAY" mask="yyyy-MM-dd" calendardisplaynulltype="none"/>
+                      <Cell col="7" displaytype="button" edittype="button" style="align:center middle;controlbackground:URL('img::gridBtn_input.png') center middle;controlborder:1 none #808080ff ;" text=" "/>
+                      <Cell col="8" displaytype="button" edittype="button" style="controlbackground:URL('img::grdBtn_file.png') center middle;controlborder:1 none #808080ff ;" text=" "/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="divPaging" taborder="1" url="CCOMP::CompPaging.xfdl" left="0" right="0" bottom="0" height="28" scrollbars="none" objNm="페이징"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle00" left="0" objNm="DIV-기본정보 타이틀" right="10" taborder="14" top="63">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" objNm="기본정보타이틀" onclick="div_2_staSubTitle01_onclick" taborder="0" text="기본정보" top="0" width="255"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="43" id="divViewCompCond00" left="0" objNm="DIV-입찰 진행 상세 " right="15" taborder="15" top="0">
+          <Layouts>
+            <Layout>
+              <Edit height="24" id="edtRfqReqNo" left="6" objNm="입찰요청번호" taborder="1" top="10" width="171"/>
+              <Edit id="edtRfqReqNo01" taborder="3" left="181" top="10" width="306" height="24" objNm="소싱그룹2"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle01" left="0" objNm="DIV-품목정보 타이틀" right="10" taborder="16" top="446">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle01" left="0" objNm="품목정보타이틀" taborder="26" text="품목정보" top="0" width="255"/>
+              <Button cssclass="btn_WF_Module" height="24" id="Undefined_13" objNm="납품일자 일괄설정" onclick="div_3_btn_dlvBatSet_onclick" right="6" taborder="29" text="납품일자 일괄설정" top="0" width="120"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle02" left="0" objNm="DIV-대상 협력사 타이틀" right="10" taborder="17" top="705">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static bottom="0" cssclass="sta_WF_Subtitle" id="staViewCompTitle02" left="0" objNm="대상협력사타이틀" taborder="4" text="대상협력사" top="0" width="255"/>
+              <Button id="btnRfqExplnMail" taborder="5" text="제안설명회메일발송" onclick="btnScjdCorpAddOnclick" cssclass="btn_WF_Module" visible="false" top="0" right="6" width="132" height="24" positionstep="1" objNm="제안설명회메일발송"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle03" left="0" objNm="DIV-입찰요청파일 타이틀" right="10" taborder="18" top="988">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle03" left="0" objNm="입찰요청파일타이틀" taborder="3" text="입찰요청파일" top="0" width="255"/>
+              <Button cssclass="btn_WF_Module" height="24" id="btnRfqFileDel" objNm="입찰요청파일삭제" onclick="fnFileDel" positionstep="1" right="6" taborder="5" text="삭제" top="0" visible="true" width="61"/>
+              <Button id="btnRfqFileAdd" taborder="6" text="추가" onclick="fnFileAdd" cssclass="btn_WF_Module" top="0" right="72" width="61" height="24" positionstep="1" objNm="입찰요청파일추가"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody04" taborder="19" left="0" top="1187" right="16" height="83" scrollbars="none" objNm="DIV-입찰요청파일 상세"/>
+        <PopupDiv id="PopupDiv01" text="PopupDiv01" left="1227" top="449" width="125" height="28">
+          <Layouts>
+            <Layout>
+              <Calendar id="cal_dlvDayBat" taborder="0" autoselect="true" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd" onchanged="PopupDiv00_cal_dlvDayBat_onchanged" position="fixed" left="0" top="-1" width="120" height="24" objNm="납품일자 일괄설정 달력" locale="en_US"/>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="btnRfqFileAddVi" compid="divViewCompTitle03.btnRfqFileAdd" propid="visible" datasetid="dsObjBindVi" columnid="btnRfqFileAdd"/>
+      <BindItem id="btnRfqFileAddEn" compid="divViewCompTitle03.btnRfqFileAdd" propid="enable" datasetid="dsObjBindEn" columnid="btnRfqFileAdd"/>
+      <BindItem id="btnRfqFileAddLangBind2017110317184316455" compid="divViewCompTitle03.btnRfqFileAdd" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00144"/>
+      <BindItem columnid="RFQ_REQ_NO" compid="divViewCompCond00.edtRfqReqNo" datasetid="dsRfq" id="item12" propid="value"/>
+      <BindItem columnid="RMARK" compid="divViewCompBody00.tabRfqInfo.tabRfqRmark.txaRmark" datasetid="dsRfq" id="item13" propid="value"/>
+      <BindItem columnid="tabRfqInfo" compid="divViewCompBody00.tabRfqInfo" datasetid="dsObjBindVi" id="tabRfqInfoVi" propid="visible"/>
+      <BindItem columnid="tabRfqInfo" compid="divViewCompBody00.tabRfqInfo" datasetid="dsObjBindEn" id="tabRfqInfoEn" propid="enable"/>
+      <BindItem columnid="tabRfq" compid="divViewCompBody00.tabRfqInfo.tabRfq" datasetid="dsObjBindVi" id="tabRfqVi" propid="visible"/>
+      <BindItem columnid="tabRfq" compid="divViewCompBody00.tabRfqInfo.tabRfq" datasetid="dsObjBindEn" id="tabRfqEn" propid="enable"/>
+      <BindItem columnid="sta_WFDA_Label05" compid="divViewCompBody00.tabRfqInfo.tabRfq.sta_WFDA_Label05" datasetid="dsObjBindVi" id="sta_WFDA_Label05Vi" propid="visible"/>
+      <BindItem columnid="sta_WFDA_Label05" compid="divViewCompBody00.tabRfqInfo.tabRfq.sta_WFDA_Label05" datasetid="dsObjBindEn" id="sta_WFDA_Label05En" propid="enable"/>
+      <BindItem columnid="mae_goalamt" compid="divViewCompBody00.tabRfqInfo.tabRfq.mae_goalamt" datasetid="dsObjBindVi" id="mae_goalamtVi" propid="visible"/>
+      <BindItem columnid="mae_goalamt" compid="divViewCompBody00.tabRfqInfo.tabRfq.mae_goalamt" datasetid="dsObjBindEn" id="mae_goalamtEn" propid="readonly"/>
+      <BindItem columnid="tabRfqRmark" compid="divViewCompBody00.tabRfqInfo.tabRfqRmark" datasetid="dsObjBindVi" id="tabRfqRmarkVi" propid="visible"/>
+      <BindItem columnid="tabRfqRmark" compid="divViewCompBody00.tabRfqInfo.tabRfqRmark" datasetid="dsObjBindEn" id="tabRfqRmarkEn" propid="enable"/>
+      <BindItem columnid="tabp04" compid="divViewCompBody00.tabRfqInfo.tabp04" datasetid="dsObjBindVi" id="tabp04Vi" propid="visible"/>
+      <BindItem columnid="tabp04" compid="divViewCompBody00.tabRfqInfo.tabp04" datasetid="dsObjBindEn" id="tabp04En" propid="enable"/>
+      <BindItem columnid="rdo_AltRfqOpen" compid="divViewCompBody00.tabRfqInfo.tabp04.rdo_AltRfqOpen" datasetid="dsObjBindVi" id="rdo_AltRfqOpenVi" propid="visible"/>
+      <BindItem columnid="rdo_AltRfqOpen" compid="divViewCompBody00.tabRfqInfo.tabp04.rdo_AltRfqOpen" datasetid="dsObjBindEn" id="rdo_AltRfqOpenEn" propid="readonly"/>
+      <BindItem columnid="tabpage6" compid="divViewCompBody00.tabRfqInfo.tabp05" datasetid="dsObjBindVi" id="tabpage6Vi" propid="visible"/>
+      <BindItem columnid="tabpage6" compid="divViewCompBody00.tabRfqInfo.tabp05" datasetid="dsObjBindEn" id="tabpage6En" propid="enable"/>
+      <BindItem columnid="Undefined_13" compid="divViewCompTitle01.Undefined_13" datasetid="dsObjBindVi" id="Undefined_13Vi" propid="visible"/>
+      <BindItem columnid="Undefined_13" compid="divViewCompTitle01.Undefined_13" datasetid="dsObjBindEn" id="Undefined_13En" propid="enable"/>
+      <BindItem columnid="btnRfqFileDel" compid="divViewCompTitle03.btnRfqFileDel" datasetid="dsObjBindVi" id="btnRfqFileDelVi" propid="visible"/>
+      <BindItem columnid="btnRfqFileDel" compid="divViewCompTitle03.btnRfqFileDel" datasetid="dsObjBindEn" id="btnRfqFileDelEn" propid="enable"/>
+      <BindItem columnid="btnRemote_0" compid="1500641_201710231358109_divRemote.btnRemote_0" datasetid="dsObjBindVi" id="btnRemote_0Vi" propid="visible"/>
+      <BindItem columnid="btnRemote_0" compid="1500641_201710231358109_divRemote.btnRemote_0" datasetid="dsObjBindEn" id="btnRemote_0En" propid="enable"/>
+      <BindItem columnid="grdRfqPtnr" compid="divViewCompBody02.grdRfqPtnr" datasetid="dsObjBindGrid" id="grdRfqPtnrFormatId" propid="formatid"/>
+      <BindItem columnid="grdRfqReqFile" compid="divViewCompBody03.grdRfqReqFile" datasetid="dsObjBindGrid" id="grdRfqReqFileFormatId" propid="formatid"/>
+      <BindItem columnid="grdRfqItem" compid="divViewCompBody01.grdRfqItem" datasetid="dsObjBindGrid" id="grdRfqItemFormatId" propid="formatid"/>
+      <BindItem columnid="CD_RFQ_STTS_NM" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtCdRfqStts" datasetid="dsRfq" id="item2" propid="value"/>
+      <BindItem columnid="staCdRfqStts" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqStts" datasetid="dsObjBindVi" id="staCdRfqSttsVi" propid="visible"/>
+      <BindItem columnid="staCdRfqStts" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqStts" datasetid="dsObjBindEn" id="staCdRfqSttsEn" propid="enable"/>
+      <BindItem columnid="RFQ_CLOSE_TIME_HR" compid="divViewCompBody00.tabRfqInfo.tabRfq.calRfqCloseTime" datasetid="dsRfq" id="item4" propid="value"/>
+      <BindItem columnid="RFQ_CLOSE_DAY" compid="divViewCompBody00.tabRfqInfo.tabRfq.cldRfqCloseDay" datasetid="dsRfq" id="item3" propid="value"/>
+      <BindItem columnid="staRfqCloseDT" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseDT" datasetid="dsObjBindVi" id="staRfqCloseDTVi" propid="visible"/>
+      <BindItem columnid="staRfqCloseDT" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseDT" datasetid="dsObjBindEn" id="staRfqCloseDTEn" propid="enable"/>
+      <BindItem columnid="CD_BID_UNIT" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdBidUnit" datasetid="dsRfq" id="item18" propid="value"/>
+      <BindItem columnid="staCdRfqCrnc" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdBidUnit" datasetid="dsObjBindVi" id="item16" propid="visible"/>
+      <BindItem columnid="staCdRfqCrnc" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdBidUnit" datasetid="dsObjBindEn" id="item17" propid="enable"/>
+      <BindItem columnid="CD_RFQ_AIM" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdRfqAim" datasetid="dsRfq" id="item5" propid="value"/>
+      <BindItem columnid="staCdRfqAim" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqAim" datasetid="dsObjBindVi" id="staCdRfqAimVi" propid="visible"/>
+      <BindItem columnid="staCdRfqAim" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqAim" datasetid="dsObjBindEn" id="staCdRfqAimEn" propid="enable"/>
+      <BindItem columnid="CD_RFQ_CRNC" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdRfqCrnc" datasetid="dsRfq" id="item9" propid="value"/>
+      <BindItem columnid="staCdRfqCrnc" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqCrnc" datasetid="dsObjBindVi" id="staCdRfqCrncVi" propid="visible"/>
+      <BindItem columnid="staCdRfqCrnc" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqCrnc" datasetid="dsObjBindEn" id="staCdRfqCrncEn" propid="enable"/>
+      <BindItem columnid="GOALAMT" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtGoalamt" datasetid="dsRfq" id="item10" propid="value"/>
+      <BindItem columnid="Undefined_8" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" datasetid="dsObjBindVi" id="item26" propid="visible"/>
+      <BindItem columnid="Undefined_8" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" datasetid="dsObjBindEn" id="item27" propid="enable"/>
+      <BindItem columnid="staAltBdgtOpen" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" datasetid="dsObjBindVi" id="item30" propid="visible"/>
+      <BindItem columnid="staAltBdgtOpen" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" datasetid="dsObjBindEn" id="item31" propid="enable"/>
+      <BindItem columnid="staTtl" compid="divViewCompBody00.tabRfqInfo.tabRfq.staTtl" datasetid="dsObjBindVi" id="staTtlVi" propid="visible"/>
+      <BindItem columnid="staTtl" compid="divViewCompBody00.tabRfqInfo.tabRfq.staTtl" datasetid="dsObjBindEn" id="staTtlEn" propid="enable"/>
+      <BindItem columnid="TTL" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTtl" datasetid="dsRfq" id="item0" propid="value"/>
+      <BindItem columnid="RFQ_ODR" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRrqOdr" datasetid="dsRfq" id="item1" propid="value"/>
+      <BindItem columnid="staRfqOdr" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr" datasetid="dsObjBindVi" id="staRfqOdrVi" propid="visible"/>
+      <BindItem columnid="staRfqOdr" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr" datasetid="dsObjBindEn" id="staRfqOdrEn" propid="enable"/>
+      <BindItem columnid="Undefined_1" compid="divViewCompBody00.tabRfqInfo.tabRfq.staOption" datasetid="dsObjBindVi" id="Undefined_1Vi" propid="visible"/>
+      <BindItem columnid="Undefined_1" compid="divViewCompBody00.tabRfqInfo.tabRfq.staOption" datasetid="dsObjBindEn" id="Undefined_1En" propid="enable"/>
+      <BindItem columnid="ALT_BDGT_OPEN" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltBdgtOpen" datasetid="dsRfq" id="item67" propid="value"/>
+      <BindItem columnid="ALT_TARG_CORP_OPEN" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltTargCorpOpen" datasetid="dsRfq" id="item6" propid="value"/>
+      <BindItem columnid="staCdBidUnit" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdBidUnit" datasetid="dsObjBindVi" id="staCdBidUnitVi" propid="visible"/>
+      <BindItem columnid="staCdBidUnit" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdBidUnit" datasetid="dsObjBindEn" id="staCdBidUnitEn" propid="enable"/>
+      <BindItem columnid="staGoalamt" compid="divViewCompBody00.tabRfqInfo.tabRfq.staGoalamt" datasetid="dsObjBindVi" id="staGoalamtVi" propid="visible"/>
+      <BindItem columnid="staGoalamt" compid="divViewCompBody00.tabRfqInfo.tabRfq.staGoalamt" datasetid="dsObjBindEn" id="staGoalamtEn" propid="enable"/>
+      <BindItem columnid="Undefined_00" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" datasetid="dsObjBindVi" id="Undefined_00Vi" propid="visible"/>
+      <BindItem columnid="Undefined_00" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" datasetid="dsObjBindEn" id="Undefined_00En" propid="enable"/>
+      <BindItem columnid="staAltBdgtOpen01" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" datasetid="dsObjBindVi" id="staAltBdgtOpen01Vi" propid="visible"/>
+      <BindItem columnid="staAltBdgtOpen01" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" datasetid="dsObjBindEn" id="staAltBdgtOpen01En" propid="enable"/>
+      <BindItem columnid="staOption" compid="divViewCompBody00.tabRfqInfo.tabRfq.staOption" datasetid="dsObjBindVi" id="staOptionVi" propid="visible"/>
+      <BindItem columnid="staOption" compid="divViewCompBody00.tabRfqInfo.tabRfq.staOption" datasetid="dsObjBindEn" id="staOptionEn" propid="enable"/>
+      <BindItem columnid="st_Ttl01" compid="divViewCompBody00.tabRfqInfo.tabp04.st_Ttl01" datasetid="dsObjBindVi" id="st_Ttl01Vi" propid="visible"/>
+      <BindItem columnid="st_Ttl01" compid="divViewCompBody00.tabRfqInfo.tabp04.st_Ttl01" datasetid="dsObjBindEn" id="st_Ttl01En" propid="enable"/>
+      <BindItem columnid="st_Ttl" compid="divViewCompBody00.tabRfqInfo.tabp04.st_Ttl" datasetid="dsObjBindVi" id="st_TtlVi" propid="visible"/>
+      <BindItem columnid="st_Ttl" compid="divViewCompBody00.tabRfqInfo.tabp04.st_Ttl" datasetid="dsObjBindEn" id="st_TtlEn" propid="enable"/>
+      <BindItem columnid="cal_openExplnDay" compid="divViewCompBody00.tabRfqInfo.tabp04.cal_openExplnDay" datasetid="dsObjBindVi" id="cal_openExplnDayVi" propid="visible"/>
+      <BindItem columnid="cal_openExplnDay" compid="divViewCompBody00.tabRfqInfo.tabp04.cal_openExplnDay" datasetid="dsObjBindEn" id="cal_openExplnDayEn" propid="readonly"/>
+      <BindItem columnid="Static02" compid="divViewCompBody00.tabRfqInfo.tabp04.Static02" datasetid="dsObjBindVi" id="Static02Vi" propid="visible"/>
+      <BindItem columnid="Static02" compid="divViewCompBody00.tabRfqInfo.tabp04.Static02" datasetid="dsObjBindEn" id="Static02En" propid="enable"/>
+      <BindItem columnid="mae_openExplnTime" compid="divViewCompBody00.tabRfqInfo.tabp04.mae_openExplnTime" datasetid="dsObjBindVi" id="mae_openExplnTimeVi" propid="visible"/>
+      <BindItem columnid="mae_openExplnTime" compid="divViewCompBody00.tabRfqInfo.tabp04.mae_openExplnTime" datasetid="dsObjBindEn" id="mae_openExplnTimeEn" propid="readonly"/>
+      <BindItem columnid="Static03" compid="divViewCompBody00.tabRfqInfo.tabp04.Static03" datasetid="dsObjBindVi" id="Static03Vi" propid="visible"/>
+      <BindItem columnid="Static03" compid="divViewCompBody00.tabRfqInfo.tabp04.Static03" datasetid="dsObjBindEn" id="Static03En" propid="enable"/>
+      <BindItem columnid="st_CrtrNm" compid="divViewCompBody00.tabRfqInfo.tabp04.st_CrtrNm" datasetid="dsObjBindVi" id="st_CrtrNmVi" propid="visible"/>
+      <BindItem columnid="st_CrtrNm" compid="divViewCompBody00.tabRfqInfo.tabp04.st_CrtrNm" datasetid="dsObjBindEn" id="st_CrtrNmEn" propid="enable"/>
+      <BindItem columnid="edt_openExplnArea" compid="divViewCompBody00.tabRfqInfo.tabp04.edt_openExplnArea" datasetid="dsObjBindVi" id="edt_openExplnAreaVi" propid="visible"/>
+      <BindItem columnid="edt_openExplnArea" compid="divViewCompBody00.tabRfqInfo.tabp04.edt_openExplnArea" datasetid="dsObjBindEn" id="edt_openExplnAreaEn" propid="readonly"/>
+      <BindItem columnid="ed_PoAmt" compid="divViewCompBody00.tabRfqInfo.tabp04.ed_PoAmt" datasetid="dsObjBindVi" id="ed_PoAmtVi" propid="visible"/>
+      <BindItem columnid="ed_PoAmt" compid="divViewCompBody00.tabRfqInfo.tabp04.ed_PoAmt" datasetid="dsObjBindEn" id="ed_PoAmtEn" propid="enable"/>
+      <BindItem columnid="txt_openExplnAttnCndtn" compid="divViewCompBody00.tabRfqInfo.tabp04.txt_openExplnAttnCndtn" datasetid="dsObjBindVi" id="txt_openExplnAttnCndtnVi" propid="visible"/>
+      <BindItem columnid="txt_openExplnAttnCndtn" compid="divViewCompBody00.tabRfqInfo.tabp04.txt_openExplnAttnCndtn" datasetid="dsObjBindEn" id="txt_openExplnAttnCndtnEn" propid="readonly"/>
+      <BindItem columnid="EPRO_LABEL_00021" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqStts" datasetid="gdsLabel" id="staCdRfqSttsLangBind2017110317184356760" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00036" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseDT" datasetid="gdsLabel" id="staRfqCloseDTLangBind2017110317184351790" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00288" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdBidUnit" datasetid="gdsLabel" id="staCdBidUnitLangBind2017110317184315466" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00126" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqAim" datasetid="gdsLabel" id="staCdRfqAimLangBind2017110317184311084" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00323" compid="divViewCompBody00.tabRfqInfo.tabRfq.staCdRfqCrnc" datasetid="gdsLabel" id="staCdRfqCrncLangBind201711031718439081" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00187" compid="divViewCompBody00.tabRfqInfo.tabRfq.staGoalamt" datasetid="gdsLabel" id="staGoalamtLangBind2017110317184334333" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00535" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" datasetid="gdsLabel" id="Undefined_00LangBind2017110317184393897" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00309" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" datasetid="gdsLabel" id="staAltBdgtOpen01LangBind2017110317184373774" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00085" compid="divViewCompBody00.tabRfqInfo.tabRfq.staTtl" datasetid="gdsLabel" id="staTtlLangBind2017110317184347696" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00440" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr" datasetid="gdsLabel" id="staRfqOdrLangBind2017110317184346874" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00218" compid="divViewCompBody00.tabRfqInfo.tabRfq.staOption" datasetid="gdsLabel" id="staOptionLangBind2017110317184352941" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00538" compid="divViewCompBody00.tabRfqInfo.tabp04.st_Ttl01" datasetid="gdsLabel" id="st_Ttl01LangBind2017110317184384842" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00094" compid="divViewCompBody00.tabRfqInfo.tabp04.st_Ttl" datasetid="gdsLabel" id="st_TtlLangBind2017110317184348965" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00493" compid="divViewCompBody00.tabRfqInfo.tabp04.Static02" datasetid="gdsLabel" id="Static02LangBind2017110317184310595" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00416" compid="divViewCompBody00.tabRfqInfo.tabp04.Static03" datasetid="gdsLabel" id="Static03LangBind2017110317184384135" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00383" compid="divViewCompBody00.tabRfqInfo.tabp04.st_CrtrNm" datasetid="gdsLabel" id="st_CrtrNmLangBind2017110317184372752" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00355" compid="divViewCompBody00.tabRfqInfo.tabp04.ed_PoAmt" datasetid="gdsLabel" id="ed_PoAmtLangBind2017110317184341754" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00451" compid="divViewCompBody00.tabRfqInfo.tabpage6.st_MtrlCd" datasetid="gdsLabel" id="st_MtrlCdLangBind2017110317184329309" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00510" compid="divViewCompBody00.tabRfqInfo.tabpage6.st_MtrlCd00" datasetid="gdsLabel" id="st_MtrlCd00LangBind201711031718437421" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00124" compid="divViewCompBody00.tabRfqInfo.tabpage6.st_MtrlCd01" datasetid="gdsLabel" id="st_MtrlCd01LangBind2017110317184345111" propid="text"/>
+      <BindItem columnid="" compid="divViewCompBody00.tabRfqInfo.tabpage6.st_MtrlCd02" datasetid="gdsLabel" id="st_MtrlCd02LangBind2017110317184310324" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00047" compid="divViewCompTitle00.staViewCompTitle00" datasetid="gdsLabel" id="staViewCompTitle00LangBind2017110317184325914" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00161" compid="divViewCompTitle01.staViewCompTitle01" datasetid="gdsLabel" id="staViewCompTitle01LangBind2017110317184344207" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00135" compid="divViewCompTitle02.staViewCompTitle02" datasetid="gdsLabel" id="staViewCompTitle02LangBind2017110317184324288" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00295" compid="divViewCompTitle03.staViewCompTitle03" datasetid="gdsLabel" id="staViewCompTitle03LangBind2017110317184368491" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00390" compid="divViewCompTitle01.Undefined_13" datasetid="gdsLabel" id="Undefined_13LangBind2017110317184391454" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00172" compid="divViewCompTitle03.btnRfqFileDel" datasetid="gdsLabel" id="btnRfqFileDelLangBind2017110317184310479" propid="text"/>
+      <BindItem id="item7" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboIncoterms" propid="value" datasetid="dsRfq" columnid="CD_INCOTERMS"/>
+      <BindItem id="item11" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtF" propid="value" datasetid="dsRfq" columnid="RT_F"/>
+      <BindItem id="item19" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtD" propid="value" datasetid="dsRfq" columnid="RT_D"/>
+      <BindItem id="item20" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtT" propid="value" datasetid="dsRfq" columnid="RT_T"/>
+      <BindItem id="item21" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtC" propid="value" datasetid="dsRfq" columnid="RT_C"/>
+      <BindItem id="item22" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtQ" propid="value" datasetid="dsRfq" columnid="RT_Q"/>
+      <BindItem id="item23" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboEvalType" propid="value" datasetid="dsRfq" columnid="CD_EVAL_TYPE"/>
+      <BindItem id="item25" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTcoBgnYr" propid="value" datasetid="dsRfq" columnid="TCO_BGN_YR"/>
+      <BindItem id="item28" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTcoYr" propid="value" datasetid="dsRfq" columnid="TCO_YR"/>
+      <BindItem id="item33" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltLowFailAply" propid="value" datasetid="dsRfq" columnid="ALT_LOW_FAIL_APLY"/>
+      <BindItem id="item34" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_ChrgrId" propid="value" datasetid="dsRfq" columnid="CHRGR_ID"/>
+      <BindItem id="item37" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_chrgrNm" propid="value" datasetid="dsRfq" columnid="CHRGR_NM"/>
+      <BindItem id="item38" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_tel" propid="value" datasetid="dsRfq" columnid="TEL"/>
+      <BindItem id="item39" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_email" propid="value" datasetid="dsRfq" columnid="EMAIL"/>
+      <BindItem id="item42" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_fax" propid="value" datasetid="dsRfq" columnid="FAX"/>
+      <BindItem id="item44" compid="divViewCompCond00.edtRfqReqNo01" propid="value" datasetid="dsRfq" columnid="SRC_GRP_NM"/>
+      <BindItem id="item24" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltRfqPriceSbmt" propid="value" datasetid="dsRfq" columnid="ALT_RFQ_PRICE_SBMT"/>
+      <BindItem id="edtCdRfqSttsVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtCdRfqStts" propid="visible" datasetid="dsObjBindVi" columnid="edtCdRfqStts"/>
+      <BindItem id="edtCdRfqSttsEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtCdRfqStts" propid="readonly" datasetid="dsObjBindEn" columnid="edtCdRfqStts"/>
+      <BindItem id="calRfqCloseTimeVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.calRfqCloseTime" propid="visible" datasetid="dsObjBindVi" columnid="calRfqCloseTime"/>
+      <BindItem id="calRfqCloseTimeEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.calRfqCloseTime" propid="readonly" datasetid="dsObjBindEn" columnid="calRfqCloseTime"/>
+      <BindItem id="cldRfqCloseDayVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.cldRfqCloseDay" propid="visible" datasetid="dsObjBindVi" columnid="cldRfqCloseDay"/>
+      <BindItem id="cldRfqCloseDayEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.cldRfqCloseDay" propid="readonly" datasetid="dsObjBindEn" columnid="cldRfqCloseDay"/>
+      <BindItem id="cboCdBidUnitVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdBidUnit" propid="visible" datasetid="dsObjBindVi" columnid="cboCdBidUnit"/>
+      <BindItem id="cboCdRfqAimVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdRfqAim" propid="visible" datasetid="dsObjBindVi" columnid="cboCdRfqAim"/>
+      <BindItem id="cboCdRfqAimEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdRfqAim" propid="readonly" datasetid="dsObjBindEn" columnid="cboCdRfqAim"/>
+      <BindItem id="cboCdRfqCrncVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdRfqCrnc" propid="visible" datasetid="dsObjBindVi" columnid="cboCdRfqCrnc"/>
+      <BindItem id="cboCdRfqCrncEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdRfqCrnc" propid="readonly" datasetid="dsObjBindEn" columnid="cboCdRfqCrnc"/>
+      <BindItem id="edtGoalamtVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtGoalamt" propid="visible" datasetid="dsObjBindVi" columnid="edtGoalamt"/>
+      <BindItem id="edtGoalamtEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtGoalamt" propid="readonly" datasetid="dsObjBindEn" columnid="edtGoalamt"/>
+      <BindItem id="cboEvalTypeVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboEvalType" propid="visible" datasetid="dsObjBindVi" columnid="cboEvalType"/>
+      <BindItem id="cboEvalTypeEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboEvalType" propid="readonly" datasetid="dsObjBindEn" columnid="cboEvalType"/>
+      <BindItem id="staEvalTypeVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" propid="visible" datasetid="dsObjBindVi" columnid="staEvalType"/>
+      <BindItem id="staEvalTypeEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalType" propid="enable" datasetid="dsObjBindEn" columnid="staEvalType"/>
+      <BindItem id="edtRtFVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtF" propid="visible" datasetid="dsObjBindVi" columnid="edtRtF"/>
+      <BindItem id="edtRtFEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtF" propid="readonly" datasetid="dsObjBindEn" columnid="edtRtF"/>
+      <BindItem id="edtRtDVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtD" propid="visible" datasetid="dsObjBindVi" columnid="edtRtD"/>
+      <BindItem id="edtRtDEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtD" propid="readonly" datasetid="dsObjBindEn" columnid="edtRtD"/>
+      <BindItem id="edtRtTVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtT" propid="visible" datasetid="dsObjBindVi" columnid="edtRtT"/>
+      <BindItem id="edtRtTEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtT" propid="readonly" datasetid="dsObjBindEn" columnid="edtRtT"/>
+      <BindItem id="edtRtCVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtC" propid="visible" datasetid="dsObjBindVi" columnid="edtRtC"/>
+      <BindItem id="edtRtCEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtC" propid="readonly" datasetid="dsObjBindEn" columnid="edtRtC"/>
+      <BindItem id="edtRtQVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtQ" propid="visible" datasetid="dsObjBindVi" columnid="edtRtQ"/>
+      <BindItem id="edtRtQEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtQ" propid="readonly" datasetid="dsObjBindEn" columnid="edtRtQ"/>
+      <BindItem id="staEvalRateVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" propid="visible" datasetid="dsObjBindVi" columnid="staEvalRate"/>
+      <BindItem id="staEvalRateEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staEvalRate" propid="enable" datasetid="dsObjBindEn" columnid="staEvalRate"/>
+      <BindItem id="edtTtlVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTtl" propid="visible" datasetid="dsObjBindVi" columnid="edtTtl"/>
+      <BindItem id="edtTtlEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTtl" propid="readonly" datasetid="dsObjBindEn" columnid="edtTtl"/>
+      <BindItem id="edtRrqOdrVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRrqOdr" propid="visible" datasetid="dsObjBindVi" columnid="edtRrqOdr"/>
+      <BindItem id="edtRrqOdrEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRrqOdr" propid="readonly" datasetid="dsObjBindEn" columnid="edtRrqOdr"/>
+      <BindItem id="chkAltBdgtOpenVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltBdgtOpen" propid="visible" datasetid="dsObjBindVi" columnid="chkAltBdgtOpen"/>
+      <BindItem id="chkAltBdgtOpenEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltBdgtOpen" propid="readonly" datasetid="dsObjBindEn" columnid="chkAltBdgtOpen"/>
+      <BindItem id="chkAltTargCorpOpenVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltTargCorpOpen" propid="visible" datasetid="dsObjBindVi" columnid="chkAltTargCorpOpen"/>
+      <BindItem id="chkAltTargCorpOpenEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltTargCorpOpen" propid="readonly" datasetid="dsObjBindEn" columnid="chkAltTargCorpOpen"/>
+      <BindItem id="staIncotermsVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staIncoterms" propid="visible" datasetid="dsObjBindVi" columnid="staIncoterms"/>
+      <BindItem id="staIncotermsEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staIncoterms" propid="enable" datasetid="dsObjBindEn" columnid="staIncoterms"/>
+      <BindItem id="cboIncotermsVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboIncoterms" propid="visible" datasetid="dsObjBindVi" columnid="cboIncoterms"/>
+      <BindItem id="cboIncotermsEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboIncoterms" propid="readonly" datasetid="dsObjBindEn" columnid="cboIncoterms"/>
+      <BindItem id="staAltLowFailAplyVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staAltLowFailAply" propid="visible" datasetid="dsObjBindVi" columnid="staAltLowFailAply"/>
+      <BindItem id="staAltLowFailAplyEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staAltLowFailAply" propid="enable" datasetid="dsObjBindEn" columnid="staAltLowFailAply"/>
+      <BindItem id="chkAltLowFailAplyVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltLowFailAply" propid="visible" datasetid="dsObjBindVi" columnid="chkAltLowFailAply"/>
+      <BindItem id="chkAltLowFailAplyEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltLowFailAply" propid="readonly" datasetid="dsObjBindEn" columnid="chkAltLowFailAply"/>
+      <BindItem id="staRfqOdr10Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr10" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr10"/>
+      <BindItem id="staRfqOdr10En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr10" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr10"/>
+      <BindItem id="staAltRfqPriceSbmtVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staAltRfqPriceSbmt" propid="visible" datasetid="dsObjBindVi" columnid="staAltRfqPriceSbmt"/>
+      <BindItem id="staAltRfqPriceSbmtEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staAltRfqPriceSbmt" propid="enable" datasetid="dsObjBindEn" columnid="staAltRfqPriceSbmt"/>
+      <BindItem id="staTcoBgnYrVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staTcoBgnYr" propid="visible" datasetid="dsObjBindVi" columnid="staTcoBgnYr"/>
+      <BindItem id="staTcoBgnYrEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staTcoBgnYr" propid="enable" datasetid="dsObjBindEn" columnid="staTcoBgnYr"/>
+      <BindItem id="edtTcoBgnYrVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTcoBgnYr" propid="visible" datasetid="dsObjBindVi" columnid="edtTcoBgnYr"/>
+      <BindItem id="edtTcoBgnYrEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTcoBgnYr" propid="readonly" datasetid="dsObjBindEn" columnid="edtTcoBgnYr"/>
+      <BindItem id="edtTcoYrVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTcoYr" propid="visible" datasetid="dsObjBindVi" columnid="edtTcoYr"/>
+      <BindItem id="edtTcoYrEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtTcoYr" propid="readonly" datasetid="dsObjBindEn" columnid="edtTcoYr"/>
+      <BindItem id="chkAltRfqPriceSbmtVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltRfqPriceSbmt" propid="visible" datasetid="dsObjBindVi" columnid="chkAltRfqPriceSbmt"/>
+      <BindItem id="chkAltRfqPriceSbmtEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltRfqPriceSbmt" propid="readonly" datasetid="dsObjBindEn" columnid="chkAltRfqPriceSbmt"/>
+      <BindItem id="txaRmarkVi" compid="divViewCompBody00.tabRfqInfo.tabRfqRmark.txaRmark" propid="visible" datasetid="dsObjBindVi" columnid="txaRmark"/>
+      <BindItem id="txaRmarkEn" compid="divViewCompBody00.tabRfqInfo.tabRfqRmark.txaRmark" propid="readonly" datasetid="dsObjBindEn" columnid="txaRmark"/>
+      <BindItem id="tabp03Vi" compid="divViewCompBody00.tabRfqInfo.tabp03" propid="visible" datasetid="dsObjBindVi" columnid="tabp03"/>
+      <BindItem id="tabp03En" compid="divViewCompBody00.tabRfqInfo.tabp03" propid="enable" datasetid="dsObjBindEn" columnid="tabp03"/>
+      <BindItem id="tabp05Vi" compid="divViewCompBody00.tabRfqInfo.tabp05" propid="visible" datasetid="dsObjBindVi" columnid="tabp05"/>
+      <BindItem id="tabp05En" compid="divViewCompBody00.tabRfqInfo.tabp05" propid="enable" datasetid="dsObjBindEn" columnid="tabp05"/>
+      <BindItem id="divPagingVi" compid="divViewCompBody02.divPaging" propid="visible" datasetid="dsObjBindVi" columnid="divPaging"/>
+      <BindItem id="divPagingEn" compid="divViewCompBody02.divPaging" propid="enable" datasetid="dsObjBindEn" columnid="divPaging"/>
+      <BindItem id="divPaging_88Vi" compid="divViewCompBody01.divPaging" propid="visible" datasetid="dsObjBindVi" columnid="divPaging_87"/>
+      <BindItem id="divPaging_88En" compid="divViewCompBody01.divPaging" propid="enable" datasetid="dsObjBindEn" columnid="divPaging_87"/>
+      <BindItem id="edtRfqReqNoVi" compid="divViewCompCond00.edtRfqReqNo" propid="visible" datasetid="dsObjBindVi" columnid="edtRfqReqNo"/>
+      <BindItem id="edtRfqReqNoEn" compid="divViewCompCond00.edtRfqReqNo" propid="readonly" datasetid="dsObjBindEn" columnid="edtRfqReqNo"/>
+      <BindItem id="edtRfqReqNo01Vi" compid="divViewCompCond00.edtRfqReqNo01" propid="visible" datasetid="dsObjBindVi" columnid="edtRfqReqNo01"/>
+      <BindItem id="edtRfqReqNo01En" compid="divViewCompCond00.edtRfqReqNo01" propid="readonly" datasetid="dsObjBindEn" columnid="edtRfqReqNo01"/>
+      <BindItem id="item29" compid="divViewCompBody00.tabRfqInfo.tabRfq.mskRfqLowAmt" propid="value" datasetid="dsRfq" columnid="RFQ_LOW_AMT"/>
+      <BindItem id="item48" compid="divViewCompBody00.tabRfqInfo.tabRfq.mskRfqLowAmt" propid="visible" datasetid="dsObjBindVi" columnid="mskRfqLowAmt"/>
+      <BindItem id="item49" compid="divViewCompBody00.tabRfqInfo.tabRfq.mskRfqLowAmt" propid="readonly" datasetid="dsObjBindEn" columnid="mskRfqLowAmt"/>
+      <BindItem id="edt_ChrgrIdVi" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_ChrgrId" propid="visible" datasetid="dsObjBindVi" columnid="edt_ChrgrId"/>
+      <BindItem id="edt_ChrgrIdEn" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_ChrgrId" propid="readonly" datasetid="dsObjBindEn" columnid="edt_ChrgrId"/>
+      <BindItem id="edt_chrgrNmVi" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_chrgrNm" propid="visible" datasetid="dsObjBindVi" columnid="edt_chrgrNm"/>
+      <BindItem id="edt_chrgrNmEn" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_chrgrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edt_chrgrNm"/>
+      <BindItem id="btn_chrgrVi" compid="divViewCompBody00.tabRfqInfo.tabp05.btn_chrgr" propid="visible" datasetid="dsObjBindVi" columnid="btn_chrgr"/>
+      <BindItem id="btn_chrgrEn" compid="divViewCompBody00.tabRfqInfo.tabp05.btn_chrgr" propid="enable" datasetid="dsObjBindEn" columnid="btn_chrgr"/>
+      <BindItem id="st_MtrlCd00Vi" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd00" propid="visible" datasetid="dsObjBindVi" columnid="st_MtrlCd00"/>
+      <BindItem id="st_MtrlCd00En" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd00" propid="enable" datasetid="dsObjBindEn" columnid="st_MtrlCd00"/>
+      <BindItem id="edt_telVi" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_tel" propid="visible" datasetid="dsObjBindVi" columnid="edt_tel"/>
+      <BindItem id="edt_telEn" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_tel" propid="readonly" datasetid="dsObjBindEn" columnid="edt_tel"/>
+      <BindItem id="st_MtrlCd01Vi" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd01" propid="visible" datasetid="dsObjBindVi" columnid="st_MtrlCd01"/>
+      <BindItem id="st_MtrlCd01En" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd01" propid="enable" datasetid="dsObjBindEn" columnid="st_MtrlCd01"/>
+      <BindItem id="edt_emailVi" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_email" propid="visible" datasetid="dsObjBindVi" columnid="edt_email"/>
+      <BindItem id="edt_emailEn" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_email" propid="readonly" datasetid="dsObjBindEn" columnid="edt_email"/>
+      <BindItem id="edt_faxVi" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_fax" propid="visible" datasetid="dsObjBindVi" columnid="edt_fax"/>
+      <BindItem id="edt_faxEn" compid="divViewCompBody00.tabRfqInfo.tabp05.edt_fax" propid="readonly" datasetid="dsObjBindEn" columnid="edt_fax"/>
+      <BindItem id="st_MtrlCdVi" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd" propid="visible" datasetid="dsObjBindVi" columnid="st_MtrlCd"/>
+      <BindItem id="st_MtrlCdEn" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd" propid="enable" datasetid="dsObjBindEn" columnid="st_MtrlCd"/>
+      <BindItem id="st_MtrlCd02Vi" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd02" propid="visible" datasetid="dsObjBindVi" columnid="st_MtrlCd02"/>
+      <BindItem id="st_MtrlCd02En" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd02" propid="enable" datasetid="dsObjBindEn" columnid="st_MtrlCd02"/>
+      <BindItem id="cboCdBidUnitEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.cboCdBidUnit" propid="readonly" datasetid="dsObjBindEn" columnid="cboCdBidUnit"/>
+      <BindItem id="item32" compid="divViewCompBody00.tabRfqInfo.tabp04.chkAltOpenExpln" propid="value" datasetid="dsRfq" columnid="ALT_OPEN_EXPLN"/>
+      <BindItem id="item14" compid="divViewCompBody00.tabRfqInfo.tabp04.cal_openExplnDay" propid="value" datasetid="dsRfq" columnid="OPEN_EXPLN_DAY"/>
+      <BindItem id="item15" compid="divViewCompBody00.tabRfqInfo.tabp04.mae_openExplnTime" propid="value" datasetid="dsRfq" columnid="OPEN_EXPLN_TIME"/>
+      <BindItem id="item47" compid="divViewCompBody00.tabRfqInfo.tabp04.edt_openExplnArea" propid="value" datasetid="dsRfq" columnid="OPEN_EXPLN_AREA"/>
+      <BindItem id="item52" compid="divViewCompBody00.tabRfqInfo.tabp04.txt_openExplnAttnCndtn" propid="value" datasetid="dsRfq" columnid="OPEN_EXPLN_ATTN_CNDTN"/>
+      <BindItem id="item53" compid="divViewCompBody00.tabRfqInfo.tabp04.chkAltOpenExpln" propid="visible" datasetid="dsObjBindVi" columnid="rdo_AltRfqOpen"/>
+      <BindItem id="item54" compid="divViewCompBody00.tabRfqInfo.tabp04.chkAltOpenExpln" propid="readonly" datasetid="dsObjBindEn" columnid="rdo_AltRfqOpen"/>
+      <BindItem id="item70" compid="divViewCompBody00.tabRfqInfo.tabRfq.mskRfqCloseTimeMIN" propid="visible" datasetid="dsObjBindVi" columnid="calRfqCloseTimeMIN"/>
+      <BindItem id="item71" compid="divViewCompBody00.tabRfqInfo.tabRfq.mskRfqCloseTimeMIN" propid="readonly" datasetid="dsObjBindEn" columnid="calRfqCloseTimeMIN"/>
+      <BindItem id="item72" compid="divViewCompBody00.tabRfqInfo.tabRfq.mskRfqCloseTimeMIN" propid="value" datasetid="dsRfq" columnid="RFQ_CLOSE_TIME_MIN"/>
+      <BindItem id="btnRfqExplnMailVi" compid="divViewCompTitle02.btnRfqExplnMail" propid="visible" datasetid="dsObjBindVi" columnid="btnRfqExplnMail"/>
+      <BindItem id="btnRfqExplnMailEn" compid="divViewCompTitle02.btnRfqExplnMail" propid="enable" datasetid="dsObjBindEn" columnid="btnRfqExplnMail"/>
+      <BindItem id="btnRfqExplnMailLangBind2017110317184345513" compid="divViewCompTitle02.btnRfqExplnMail" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00048"/>
+      <BindItem id="item8" compid="divViewCompBody00.tabRfqInfo.tabRfq" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00047"/>
+      <BindItem id="item43" compid="divViewCompBody00.tabRfqInfo.tabRfqRmark" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00227"/>
+      <BindItem id="item68" compid="divViewCompBody00.tabRfqInfo.tabp03" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00314"/>
+      <BindItem id="item69" compid="divViewCompBody00.tabRfqInfo.tabp04" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00538"/>
+      <BindItem id="item73" compid="divViewCompBody00.tabRfqInfo.tabp05" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00509"/>
+      <BindItem id="item74" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00451"/>
+      <BindItem id="item75" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd00" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00510"/>
+      <BindItem id="item76" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd01" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00124"/>
+      <BindItem id="item77" compid="divViewCompBody00.tabRfqInfo.tabp05.st_MtrlCd02" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00437"/>
+      <BindItem id="item79" compid="divViewCompBody00.tabRfqInfo.tabRfq.staAltLowFailAply" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00151"/>
+      <BindItem id="item80" compid="divViewCompBody00.tabRfqInfo.tabRfq.staAltRfqPriceSbmt" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00519"/>
+      <BindItem id="item81" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltRfqPriceSbmt" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01186"/>
+      <BindItem id="item82" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltLowFailAply" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00151"/>
+      <BindItem id="item83" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr10" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00411"/>
+      <BindItem id="item84" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltBdgtOpen" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01184"/>
+      <BindItem id="item85" compid="divViewCompBody00.tabRfqInfo.tabRfq.chkAltTargCorpOpen" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01185"/>
+      <BindItem id="item86" compid="divViewCompBody00.tabRfqInfo.tabRfq.staIncoterms" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00301"/>
+      <BindItem id="item87" compid="divViewCompBody00.tabRfqInfo.tabRfq.staTcoBgnYr" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01160"/>
+      <BindItem id="item88" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr00" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01161"/>
+      <BindItem id="staRfqCloseDayVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseDay" propid="visible" datasetid="dsObjBindVi" columnid="staRfqCloseDay"/>
+      <BindItem id="staRfqCloseDayEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseDay" propid="enable" datasetid="dsObjBindEn" columnid="staRfqCloseDay"/>
+      <BindItem id="staRfqCloseDayLangBind2017110317184366182" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseDay" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00493"/>
+      <BindItem id="staRfqCloseTimeVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseTime" propid="visible" datasetid="dsObjBindVi" columnid="staRfqCloseTime"/>
+      <BindItem id="staRfqCloseTimeEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseTime" propid="enable" datasetid="dsObjBindEn" columnid="staRfqCloseTime"/>
+      <BindItem id="staRfqCloseTimeLangBind2017110317184397021" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseTime" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00416"/>
+      <BindItem id="item78" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseTimeMin" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01167"/>
+      <BindItem id="staRfqCloseTimeMinVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseTimeMin" propid="visible" datasetid="dsObjBindVi" columnid="staRfqCloseTimeMin"/>
+      <BindItem id="staRfqCloseTimeMinEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqCloseTimeMin" propid="enable" datasetid="dsObjBindEn" columnid="staRfqCloseTimeMin"/>
+      <BindItem id="item35" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item36" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr00Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr00"/>
+      <BindItem id="staRfqOdr00En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr00"/>
+      <BindItem id="staRfqOdr00LangBind2017110317184384067" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00343"/>
+      <BindItem id="staRtQVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="visible" datasetid="dsObjBindVi" columnid="staRtQ"/>
+      <BindItem id="staRtQEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtQ" propid="enable" datasetid="dsObjBindEn" columnid="staRtQ"/>
+      <BindItem id="item57" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr05" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item58" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr05" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr05Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr05" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr05"/>
+      <BindItem id="staRfqOdr05En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr05" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr05"/>
+      <BindItem id="staRfqOdr05LangBind2017110317184328281" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr05" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00023"/>
+      <BindItem id="item40" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item41" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr01Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr01"/>
+      <BindItem id="staRfqOdr01En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr01"/>
+      <BindItem id="staRfqOdr01LangBind2017110317184338318" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00110"/>
+      <BindItem id="staRtCVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="visible" datasetid="dsObjBindVi" columnid="staRtC"/>
+      <BindItem id="staRtCEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtP" propid="enable" datasetid="dsObjBindEn" columnid="staRtC"/>
+      <BindItem id="item59" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr06" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item60" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr06" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr06Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr06" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr06"/>
+      <BindItem id="staRfqOdr06En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr06" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr06"/>
+      <BindItem id="staRfqOdr06LangBind2017110317184394979" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr06" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00023"/>
+      <BindItem id="item45" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item46" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr02Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr02"/>
+      <BindItem id="staRfqOdr02En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr02"/>
+      <BindItem id="staRfqOdr02LangBind2017110317184332154" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00278"/>
+      <BindItem id="staRtTVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="visible" datasetid="dsObjBindVi" columnid="staRtT"/>
+      <BindItem id="staRtTEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtT" propid="enable" datasetid="dsObjBindEn" columnid="staRtT"/>
+      <BindItem id="item61" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr07" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item62" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr07" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr07Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr07" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr07"/>
+      <BindItem id="staRfqOdr07En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr07" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr07"/>
+      <BindItem id="staRfqOdr07LangBind2017110317184345047" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr07" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00023"/>
+      <BindItem id="item50" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item51" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr03Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr03"/>
+      <BindItem id="staRfqOdr03En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr03"/>
+      <BindItem id="staRfqOdr03LangBind2017110317184333755" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00393"/>
+      <BindItem id="staRtDVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="visible" datasetid="dsObjBindVi" columnid="staRtD"/>
+      <BindItem id="staRtDEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtD" propid="enable" datasetid="dsObjBindEn" columnid="staRtD"/>
+      <BindItem id="item63" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr08" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item64" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr08" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr08Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr08" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr08"/>
+      <BindItem id="staRfqOdr08En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr08" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr08"/>
+      <BindItem id="staRfqOdr08LangBind2017110317184374535" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr08" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00023"/>
+      <BindItem id="item55" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item56" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr04Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr04"/>
+      <BindItem id="staRfqOdr04En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr04"/>
+      <BindItem id="staRfqOdr04LangBind2017110317184398408" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00157"/>
+      <BindItem id="staRtFVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="visible" datasetid="dsObjBindVi" columnid="staRtF"/>
+      <BindItem id="staRtFEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtF" propid="enable" datasetid="dsObjBindEn" columnid="staRtF"/>
+      <BindItem id="item65" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr09" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="item66" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr09" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staRfqOdr09Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr09" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr09"/>
+      <BindItem id="staRfqOdr09En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr09" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr09"/>
+      <BindItem id="staRfqOdr09LangBind2017110317184342860" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRfqOdr09" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00023"/>
+      <BindItem id="staCostLangBind2017110317184234514" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtC" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00122"/>
+      <BindItem id="staCostVi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtC" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="staCostEn" compid="divViewCompBody00.tabRfqInfo.tabRfq.staRtC" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="staPer01LangBind2017110317184287850" compid="divViewCompBody00.tabRfqInfo.tabRfq.staPer01" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_00023"/>
+      <BindItem id="staPer01Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.staPer01" propid="visible" datasetid="dsObjBindVi" columnid="staRfqOdr"/>
+      <BindItem id="staPer01En" compid="divViewCompBody00.tabRfqInfo.tabRfq.staPer01" propid="enable" datasetid="dsObjBindEn" columnid="staRfqOdr"/>
+      <BindItem id="item91" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtP" propid="value" datasetid="dsRfq" columnid="RT_P"/>
+      <BindItem id="item92" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtP" propid="visible" datasetid="dsObjBindVi" columnid="edtRtP"/>
+      <BindItem id="item93" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtRtP" propid="readonly" datasetid="dsObjBindEn" columnid="edtRtP"/>
+      <BindItem id="item95" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtIncoterms2" propid="value" datasetid="dsRfq" columnid="INCOTERMS2"/>
+      <BindItem id="edtIncoterms2Vi" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtIncoterms2" propid="visible" datasetid="dsObjBindVi" columnid="edtIncoterms2"/>
+      <BindItem id="edtIncoterms2En" compid="divViewCompBody00.tabRfqInfo.tabRfq.edtIncoterms2" propid="readonly" datasetid="dsObjBindEn" columnid="edtIncoterms2"/>
+      <BindItem id="item89" compid="divViewCompBody00.tabRfqInfo.tabp04.chkAltOpenExpln" propid="text" datasetid="gdsLabel" columnid="EPRO_LABEL_01370"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsAltRfqExplnNxtNtc">
+        <ColumnInfo>
+          <Column id="key" size="256" type="STRING"/>
+          <Column id="value" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="key">미실시</Col>
+            <Col id="value"/>
+          </Row>
+          <Row>
+            <Col id="key">선공개</Col>
+            <Col id="value">Y</Col>
+          </Row>
+          <Row>
+            <Col id="key">후공개</Col>
+            <Col id="value">N</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsAltBdgtOpen">
+        <ColumnInfo>
+          <Column id="key" size="256" type="STRING"/>
+          <Column id="value" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="key">--선택--</Col>
+          </Row>
+          <Row>
+            <Col id="key">공개</Col>
+            <Col id="value">Y</Col>
+          </Row>
+          <Row>
+            <Col id="key">미공개</Col>
+            <Col id="value">N</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsRfqQuoteFile">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_FILE_ID" size="20" type="STRING"/>
+          <Column id="RFQ_PTNR_ID" size="20" type="STRING"/>
+          <Column id="ATTCH_FILE_CNT" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRfqItemList" oncolumnchanged="fnChangeCell">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="PR_ITEM_ID" size="20" type="STRING"/>
+          <Column id="MTRL_CD" size="20" type="STRING"/>
+          <Column id="MTRL_NM" size="100" type="STRING"/>
+          <Column id="QTY" size="256" type="INT"/>
+          <Column id="CD_UNIT" size="40" type="STRING"/>
+          <Column id="GOALUNT_PRICE" size="256" type="INT"/>
+          <Column id="GOALAMT" size="256" type="INT"/>
+          <Column id="DLV_REQ_DAY" size="8" type="STRING"/>
+          <Column id="SL_NM" size="50" type="STRING"/>
+          <Column id="RMARK" size="2000" type="STRING"/>
+          <Column id="PR_NO" size="20" type="STRING"/>
+          <Column id="RFQ_REQ_ITEM_ID" size="20" type="STRING"/>
+          <Column id="RFQ_REQ_NO" size="256" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="STRING"/>
+          <Column id="CD_DOC_CTGR" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="CD_UNIT_NM" size="256" type="STRING"/>
+          <Column id="USER_NM" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="ATTCH_FILE_CNT" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM" size="256" type="STRING"/>
+          <Column id="SRC_GRP_ID" size="256" type="STRING"/>
+          <Column id="STR_CD" size="256" type="STRING"/>
+          <Column id="CHECKED" size="256" type="STRING"/>
+          <Column id="CD_RFQ_SUBM_STTS" size="256" type="STRING"/>
+          <Column id="ROWNUM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRfqPtnr">
+        <ColumnInfo>
+          <Column id="CHECKED" size="1" type="STRING"/>
+          <Column id="RFQ_PTNR_ID" size="20" type="STRING"/>
+          <Column id="BIZ_NO" size="20" type="STRING"/>
+          <Column id="PTNR_NM" size="50" type="STRING"/>
+          <Column id="RPRSTV_NM" size="20" type="STRING"/>
+          <Column id="RFQ_EXPLN_DAY" size="8" type="STRING"/>
+          <Column id="RFQ_EXPLN_TIME" size="4" type="STRING"/>
+          <Column id="RFQ_EXPLN_AREA" size="100" type="STRING"/>
+          <Column id="RFQ_REQ_NO" size="20" type="STRING"/>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="INT"/>
+          <Column id="PTNR_ID" size="20" type="STRING"/>
+          <Column id="USER_ID" size="20" type="STRING"/>
+          <Column id="CD_RFQ_SUBM_STTS" size="40" type="STRING"/>
+          <Column id="CD_RFQ_CRNC" size="256" type="STRING"/>
+          <Column id="CD_PORG_UNIT_STTS" type="STRING" size="256"/>
+          <Column id="CD_PORG_UNIT_STTS_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRfqReqFile">
+        <ColumnInfo>
+          <Column id="CHECKED" size="1" type="STRING"/>
+          <Column id="RFQ_REQ_FILE_ID" size="256" type="STRING"/>
+          <Column id="RFQ_REQ_NO" size="256" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="STRING"/>
+          <Column id="REQ_FILE_NM" size="100" type="STRING"/>
+          <Column id="CD_FILE_TYPE" size="40" type="STRING"/>
+          <Column id="ALT_MDT" size="1" type="STRING"/>
+          <Column id="RMARK" size="50" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset dsDescription="팝업에서 전달받은 데이터를 담아놓는 데이터셋" enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsAltRfqExplnAct">
+        <ColumnInfo>
+          <Column id="key" size="256" type="STRING"/>
+          <Column id="value" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="key">실시</Col>
+            <Col id="value">Y</Col>
+          </Row>
+          <Row>
+            <Col id="key">미실시</Col>
+            <Col id="value">N</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsRfq" oncolumnchanged="fnDateChange">
+        <ColumnInfo>
+          <Column id="TTL" size="100" type="STRING"/>
+          <Column id="CD_RFQ_STTS" size="40" type="STRING"/>
+          <Column id="RFQ_CLOSE_DAY" size="8" type="STRING"/>
+          <Column id="RFQ_CLOSE_TIME" size="4" type="STRING"/>
+          <Column id="CD_RFQ_AIM" size="40" type="STRING"/>
+          <Column id="CD_DOC_CTGR" size="40" type="STRING"/>
+          <Column id="CD_RFQ_CRNC" size="40" type="STRING"/>
+          <Column id="ALT_RFQ_EXPLN_ACT" size="1" type="STRING"/>
+          <Column id="ALT_RFQ_EXPLN_NXT_NTC" size="1" type="STRING"/>
+          <Column id="ALT_BDGT_OPEN" size="1" type="STRING"/>
+          <Column id="RMARK" size="1000" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="STRING"/>
+          <Column id="USER_ID" size="20" type="STRING"/>
+          <Column id="RFQ_REQ_NO" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="GOALAMT" size="256" type="STRING"/>
+          <Column id="CD_RFQ_STTS_NM" size="256" type="STRING"/>
+          <Column id="FILESTRING" size="256" type="STRING"/>
+          <Column id="CD_BID_UNIT" size="256" type="STRING"/>
+          <Column id="ALT_TARG_CORP_OPEN" size="256" type="STRING"/>
+          <Column id="ALT_QTY_OPEN" size="256" type="STRING"/>
+          <Column id="ALT_RFQ_PRICE_SBMT" size="256" type="STRING"/>
+          <Column id="ALT_LOW_FAIL_APLY" size="256" type="STRING"/>
+          <Column id="RFQ_LOW_AMT" size="256" type="STRING"/>
+          <Column id="GRP_NM" type="STRING" size="256"/>
+          <Column id="SRC_GRP_NM" type="STRING" size="256"/>
+          <Column id="SRC_GRP_ID" type="STRING" size="256"/>
+          <Column id="CFM_AMT" type="STRING" size="256"/>
+          <Column id="REQ_DT" type="STRING" size="256"/>
+          <Column id="ATTCH_FILE_CNT" type="STRING" size="256"/>
+          <Column id="RFQ_END_DT" type="STRING" size="256"/>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="APP_CMPLT_DT" type="STRING" size="256"/>
+          <Column id="APP_REQ_DT" type="STRING" size="256"/>
+          <Column id="NTC_APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="NTC_APP_CMPLT_DT" type="STRING" size="256"/>
+          <Column id="NTC_APP_REQ_DT" type="STRING" size="256"/>
+          <Column id="TKEY" type="STRING" size="256"/>
+          <Column id="CD_INCOTERMS" type="STRING" size="256"/>
+          <Column id="CD_EVAL_TYPE" type="STRING" size="256"/>
+          <Column id="RT_Q" type="STRING" size="256"/>
+          <Column id="RT_C" type="STRING" size="256"/>
+          <Column id="RT_T" type="STRING" size="256"/>
+          <Column id="RT_D" type="STRING" size="256"/>
+          <Column id="RT_F" type="STRING" size="256"/>
+          <Column id="CHRGR_ID" type="STRING" size="256"/>
+          <Column id="CHRGR_NM" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="TEL" type="STRING" size="256"/>
+          <Column id="FAX" type="STRING" size="256"/>
+          <Column id="CNCL_RSN" type="STRING" size="256"/>
+          <Column id="CLOSED_RMK" type="STRING" size="256"/>
+          <Column id="TCO_BGN_YR" type="STRING" size="256"/>
+          <Column id="TCO_YR" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+          <Column id="LAST_CHG_DT" type="STRING" size="256"/>
+          <Column id="RFQ_CLOSE_TIME_HR" type="STRING" size="256"/>
+          <Column id="RFQ_CLOSE_TIME_MIN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsRfqInfo">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_NO" size="20" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="INT"/>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="RESTTS" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsTemp">
+        <ColumnInfo>
+          <Column id="Column0" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdET23"/>
+      <Dataset id="dsCdCM32"/>
+      <Dataset id="dsCdCM15"/>
+      <Dataset id="dsCdET27"/>
+      <Dataset id="dsCdCM11"/>
+      <Dataset id="dsCdCM10"/>
+      <Dataset id="dsRfqTco">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_ITEM_ID" type="STRING" size="256"/>
+          <Column id="TCO_YR" type="STRING" size="256"/>
+          <Column id="QTY" type="BIGDECIMAL" size="256"/>
+          <Column id="ROWNUM" type="BIGDECIMAL" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCM22"/>
+      <Dataset id="dsCdET14"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BRfqReqDetail.xfdl
+ * @생성자			: 한의봉
+ * @생성일시		: 2017. 9. 1.
+ * @설명			: 입찰진행상세
+ * @최종수정자		: 한의봉	
+ * @최종수정일시	: 2017. 11. 07.
+*/  
+var ItemListRow = 0;
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+	var param = [
+					{code:"CM10", sSelectType:"A"}								// 문서유형
+					,{code:"ET27", sSelectType:"S"}								// 입찰목적
+					,{code:"ET23", sSelectType:"S"}								// 응찰단위
+					,{code:"CM15", sSelectType:"S"} 							// 입찰통화
+					,{code:"CM11", sSelectType:"A"} 							// 단위
+					,{code:"CM32", sSelectType:"S"} 							// 파일유형
+					,{code:"CM22", sSelectType:"S"} 							// incoterms
+					,{code:"ET14"} 							// 평가구분
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgDetail_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.BRfqPrgDetail_oninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: BRfqPrgDetail_onload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.BRfqPrgDetail_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetObj("A");
+	gfnSetGrdFunc(this.divViewCompBody01.grdRfqItem, this.divViewCompBody01.divPaging, this,{isTran:"N", tranNm:"BRfqService.readRfq", dsParam:this.dsRfq});
+	gfnSetGrdFunc(this.divViewCompBody02.grdRfqPtnr, this.divViewCompBody02.divPaging, this,{isTran:"N", tranNm:"BRfqService.readRfq", dsParam:this.dsRfq});
+	gfnSetGrdFunc(this.divViewCompBody03.grdRfqReqFile, '', this);
+	gfnMakeFileDs(this);
+	
+	var sArg = [
+                      {ttl:this.divViewCompTitle00.staViewCompTitle00, body:this.divViewCompBody00}      //서브타이틀0
+                      ,{ttl:this.divViewCompTitle01.staViewCompTitle01, body:this.divViewCompBody01}   	 //서브타이틀1
+                      ,{ttl:this.divViewCompTitle02.staViewCompTitle02, body:this.divViewCompBody02}     //서브타이틀2
+                      ,{ttl:this.divViewCompTitle03.staViewCompTitle03, body:this.divViewCompBody03}	 //서브타이틀3
+   ];                   
+	gfnDivFold(this, sArg);
+	
+	this.dsRfq.addRow();
+
+	this.dsRfq.setColumn(0, "RFQ_REQ_NO", gfnGetTmprData("RFQ_REQ_NO"));
+	this.dsRfq.setColumn(0, "RFQ_ODR", gfnGetTmprData("RFQ_ODR"));
+	this.dsRfq.setColumn(0, "BRANCH_CD", gfnGetTmprData("BRANCH_CD"));
+	gfnClearTmprData();
+	
+	this.fnReadRfq();
+
+}
+
+
+/**
+  * @함수명	: fnRemote
+  * @desc     	: 리모콘 버튼 생성
+  */
+this.fnRemote = function()
+{
+	var sArg = [ 
+				{btnName:gfnMultiLabel("EPRO_LABEL_01158"), clickEventFunc:"fnRfqCxl"}
+		   ];		   
+	gfnRemote(this, sArg);
+}
+
+/**
+  * @함수명	: fnReadRfq
+  * @desc     	: 데이터를 불러오는 이벤트
+  */
+this.fnReadRfq = function()
+{
+	var sSvcID = "readRfq";
+ 	var sController = "epro.rfq.service.BRfqService.readRfq";
+ 	var sInDatasets = "dsRfq=dsRfq";
+ 	var sOutDatasets = "dsRfq=dsRfq dsRfqItemList=dsRfqItemList dsRfqPtnr=dsRfqPtnr dsRfqReqFile=dsRfqReqFile dsRfqTco=dsRfqTco";
+ 	var sCallbackFunc = "fnTrCallBack";
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnSaveCheck
+  * @desc     	: 저장하기전 체크 
+  */
+this.fnSaveCheck = function(){
+	var arr = [];
+
+	var closeHr = nexacro.trim(this.dsRfq.getColumn(0, "RFQ_CLOSE_TIME_HR"));
+	var closeMin = nexacro.trim(this.dsRfq.getColumn(0, "RFQ_CLOSE_TIME_MIN"));
+	
+	if(closeHr.toString().length == 1){
+		closeHr = "0" + closeHr;
+	}else if(closeHr.toString().length >2){
+		closeHr = closeHr.substr(0,2)
+	}else if(gfnIsNull(closeHr)){
+		closeHr = '00';
+	}
+	
+	if(closeMin.toString().length == 1){
+		closeMin = "0" + closeMin;
+	}else if(closeMin.toString().length >2){
+		closeMin = closeMin.substr(0,2)
+	}else if(gfnIsNull(closeMin)){
+		closeMin = '00';
+	}
+	
+	var time = closeHr+""+closeMin;
+	var day = this.dsRfq.getColumn(0, "RFQ_CLOSE_DAY");
+
+	if(this.fnDateCheck(time,day)||closeMin>59){
+		var msg = gfnMultiLabel("EPRO_LABEL_01270");
+		var type = gfnMultiLabel("EPRO_LABEL_01139");
+		var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+		arr.push(objParam);
+	}else{
+		this.dsRfq.setColumn(0,"RFQ_CLOSE_TIME_HR",closeHr);
+		this.dsRfq.setColumn(0,"RFQ_CLOSE_TIME_MIN",closeMin);
+	}
+
+	return gfnValidate(this, false, arr);
+}
+
+/**
+ * @함수명	: fnSave
+ * @desc     	: (공통버튼)저장
+ */
+this.fnSave = function()
+{
+	if(!this.fnSaveCheck()) return false;
+	
+	if(!gfnConfirm(gfnMultiLabel("EPRO_LABEL_00748"))) return ; 
+
+	var sSvcID = "saveRfqReq";
+	var sController = "epro.rfq.service.BRfqService.saveRfqReq";
+	var sInDatasets = "dsRfq=dsRfq:A dsRfqItemList=dsRfqItemList:A dsRfqPtnr=dsRfqPtnr:A dsRfqReqFile=dsRfqReqFile:A";
+	var sOutDatasets = "dsRfq=dsRfq";
+	var sCallbackFunc = "fnTrCallBack";
+		
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);  
+}
+
+/**
+  * @함수명	: fnAltMailCheck
+  * @desc     	: 메일보내기 전 체크
+  */
+this.fnAltMailCheck = function()
+{
+	var msg ="";
+
+	for(var i=0;i<this.dsRfqPtnr.getRowCount();i++){
+		if(gfnIsNull(this.dsRfqPtnr.getColumn(i,"RFQ_EXPLN_DAY"))||gfnIsNull(this.dsRfqPtnr.getColumn(i,"RFQ_EXPLN_TIME"))||gfnIsNull(this.dsRfqPtnr.getColumn(i,"RFQ_EXPLN_AREA"))){
+			msg = gfnMultiLabel("EPRO_LABEL_01314");
+			break;
+		}
+	}
+	return msg;
+}
+
+/**
+  *	@함수명	: btnScjdCorpAddOnclick
+  * @desc     	: 제안설명회 메일발송
+  */
+this.btnScjdCorpAddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var msg = this.fnAltMailCheck();
+	if(gfnIsNull(msg)){
+		msg = gfnMultiLabel("EPRO_LABEL_01315");
+	}
+
+	if(!gfnConfirm(msg)) return false; 
+
+	var sSvcID = "saveRfqMailSnd";
+	var sController = "epro.rfq.service.BRfqService.saveRfqMailSnd";
+	var sInDatasets = "dsRfq=dsRfq:A dsRfqPtnr=dsRfqPtnr:A"; 
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+		
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);  
+}
+
+/**
+  * @함수명	: fnRfqCxl
+  * @desc     	: 입찰 취소 이벤트
+  */
+this.fnRfqCxl = function()
+{
+	if(!gfnConfirm(gfnMultiLabel("EPRO_LABEL_01263"))) return false; 
+		
+ 	var sSvcID = "saveRfqAlsCxl";
+ 	var sController = "epro.rfq.service.BRfqService.saveRfqAlsCxl";
+ 	var sInDatasets = "dsRfq=dsRfq";
+ 	var sOutDatasets = "dsRfq=dsRfq";
+ 	var sCallbackFunc = "fnTrCallBack";
+    
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;	
+	switch(strSvcID){
+		case "readRfq":
+			if(this.dsRfq.getColumn(0,"CD_RFQ_AIM")=="ET27TCO"){
+				gfnSetObj("A"); 
+			}else{
+				gfnSetObj("B");
+			}
+			this.fnFileload();
+
+		break;	
+
+		case "saveRfqReq":
+			gfnAlert(strErrMsg);
+			this.fnReadRfq();
+		break;
+		
+		case "saveRfqMailSnd":
+			gfnAlert(strErrMsg);
+			this.fnReadRfq();
+		break;
+		
+		case "saveRfqAlsCxl":
+			gfnAlert(strErrMsg);
+			gfnOpenMenuUrl("BRFQ::BRfqPrgList.xfdl");
+			gfnTabOnClose("PGM000000063"); //난중에 바꿔야됨 동적으로 폼 id
+		return;
+		
+		break;
+		default:
+		break;	
+	}
+}
+/**
+  *	@function	fnPopCallBack()
+  *	@desc   	팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	switch(sPopupId){
+
+		case "BRfqRmkPopup":
+			if(this.dsReturn.rowcount != 0 ){
+				this.dsRfqItemList.setColumn(ItemListRow,"RMARK",this.dsReturn.getColumn(0,"RMARK"));
+			}
+		break;
+
+		case "BUserSrchPopup":
+			if(!gfnIsNull(this.dsReturn.getColumn(0,"USER_ID"))){
+				this.dsRfq.setColumn(0,"CHRGR_ID",this.dsReturn.getColumn(0,"USER_ID"));
+				this.dsRfq.setColumn(0,"CHRGR_NM",this.dsReturn.getColumn(0,"USER_NM"));
+				this.dsRfq.setColumn(0,"TEL",this.dsReturn.getColumn(0,"TEL"));
+				this.dsRfq.setColumn(0,"EMAIL",this.dsReturn.getColumn(0,"EMAIL"));
+				this.dsRfq.setColumn(0,"FAX",this.dsReturn.getColumn(0,"FAX"));
+			}
+		break;
+
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnRfqItemClick
+  * @desc     	: 품목그리드 클릭이벤트
+  */
+this.fnRfqItemClick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(obj.getCurEditType() == "button"){
+		if(e.col=="7"){
+			ItemListRow = e.row;
+			var sArg = {
+							agv_rmk:this.dsRfqItemList.getColumn(e.row,"RMARK")
+							,agv_Yn:"N"
+							,agv_title:""
+						};
+			
+			gfnModalPop(this, "BRfqRmkPopup", "BRFQ::BRfqRmkPop.xfdl", sArg, "fnPopCallBack", 500, 300);
+		}else if(e.col=="8"){
+			var row = obj.currentrow;
+			this.fnBtnFileUpDownOnclick(row);
+		}
+	}
+}
+
+
+/**
+  * @함수명	: fnBtnFileUpDownOnclick
+  * @desc     	: 파일 팝업 업로드
+  */
+this.fnBtnFileUpDownOnclick = function(row)
+{
+	var sArg = {
+					agv_sTableNm:"MM_RFQ_ITEM"
+					,gv_arrFileKey:[this.dsRfqItemList.getColumn(row, "RFQ_REQ_NO")
+									,this.dsRfqItemList.getColumn(row, "RFQ_ODR")
+									,this.dsRfqItemList.getColumn(row,"RFQ_REQ_ITEM_ID")]
+					,agv_data:this.dsRfqItemList
+					,agv_form:this
+					,agv_view:"N"
+				};
+	
+	gfnModalPop(this, "CompFileUpDownPopup", "CPOP::CompFileUpDownPopup.xfdl", sArg, "fnPopCallBack", 900, 350);
+}
+
+
+/**
+  * @함수명	: fnFileload
+  * @desc     	: 탭페이지 첨부파일 셋팅
+  */
+this.fnFileload= function()
+{
+	var sTableNm = "MM_RFQ";
+	var arrFileKey = [this.dsRfq.getColumn(0, "RFQ_REQ_NO")
+ 					 ,this.dsRfq.getColumn(0, "RFQ_ODR")];
+	this.divViewCompBody00.tabRfqInfo.tabp03.divFile.fnFileInit(this, sTableNm, this.dsRfq, arrFileKey,"N");
+}
+
+/**
+  *	@함수명	: fnDateCheck
+  * @desc     	: 현재시간 체크
+  */
+this.fnDateCheck = function(time , day)
+{
+	// 현재 시간
+	var objDate = gfnTodayTime().substr(0,12);
+	var date = day+""+time.substr(0,4);
+	if(objDate >= date){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/**
+  * @함수명	: fnFileAdd
+  * @desc     	: 입찰요청 파일 DataSet row 추가
+  */
+this.fnFileAdd = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.dsRfqReqFile.addRow();
+	this.dsRfqReqFile.setColumn(this.dsRfqReqFile.getRowCount()-1, "CD_FILE_TYPE", "");
+}
+/**
+  * @함수명	: fnFileDel
+  * @desc     	: 입찰요청 파일 DataSet row 삭제
+  */
+this.fnFileDel = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//체크된 품목 삭제
+	gfnDsChkDel(this.dsRfqReqFile);
+}
+
+/**
+  *	@function	fnChkAltRfqPriceSbmt_onchanged()
+  *	@desc   	하한가 변경 이벤트
+  */
+this.fnChkAltLowFailAply_onchanged = function(obj:CheckBox, e:nexacro.CheckBoxChangeEventInfo)
+{
+	if(e.postvalue =="Y"){
+		this.divViewCompBody00.tabRfqInfo.tabRfq.mskRfqLowAmt.set_readonly(false);
+	}else{
+		this.dsRfq.setColumn(0,"RFQ_LOW_AMT",0);
+		this.divViewCompBody00.tabRfqInfo.tabRfq.mskRfqLowAmt.set_readonly(true);
+	}
+}
+
+/**
+  *	@function	fnChrgr_onclick()
+  *	@desc   	담당자검색
+  */
+this.fnChrgr_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_id:""
+					,agv_nm:this.dsRfq.getColumn(0,"CHRGR_NM")
+			   };
+	gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  *	@함수명	: fnDateCheck
+  * @desc     	: 현재시간 체크
+  */
+this.fnDateCheck = function(time , day)
+{
+	// 현재 시간
+	var objDate = gfnTodayTime().substr(0,12);
+	var date = day+""+time.substr(0,4);
+	if(objDate >= date){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+/**
+  *	@함수명	: fnMtrlSearch
+  * @desc     	: 품목 검색
+  */
+this.fnRfqItem_ExpandDown = function(obj:Grid, e:nexacro.GridMouseEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "QTY"&& this.dsRfq.getColumn(0,"CD_RFQ_AIM")=="ET27TCO"){
+		
+		var sArg = { agv_data : this.dsRfqTco
+					,agv_Yn:"Y"
+					,agv_rfq_id : this.dsRfqItemList.getColumn(e.row,"RFQ_REQ_ITEM_ID")
+					,agv_row : this.dsRfqItemList.getColumn(e.row,"ROWNUM")
+					};
+		gfnModalPop(this, "BRfqTcoPopup", "BRFQ::BRfqTcoPopup.xfdl", sArg, "fnPopCallBack", 500, 400);
+	}	
+}
+
+/**
+  *	@function	PopupDiv00_cal_dlvDayBat_onchanged()
+  *	@desc   	품목에 납품일자 설정
+  */
+this.div_3_btn_dlvBatSet_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.PopupDiv01.trackPopupByComponent(obj,0,27);	
+	this.PopupDiv01.cal_dlvDayBat.set_value("");
+}
+
+/**
+  *	@function	PopupDiv00_cal_dlvDayBat_onchanged()
+  *	@desc   	품목에 납품일자 설정
+  */
+this.PopupDiv00_cal_dlvDayBat_onchanged = function(obj:Calendar, e:nexacro.ChangeEventInfo)
+{
+	this.dsRfqItemList.set_enableevent(false);
+	for(var i=0; i<this.dsRfqItemList.rowcount; i++){
+		this.dsRfqItemList.setColumn(i,"DLV_REQ_DAY", obj.value);
+	}	
+	this.dsRfqItemList.set_enableevent(true);
+}
+
+this.divViewCompBody02_grdRfqPtnr_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "PTNR_NM"){
+		var sArg = {
+						agv_id:this.dsRfqPtnr.getColumn(e.row,"PTNR_ID")
+					};
+		gfnModalPop(this, "BPtnrInfoPopup", "CPOP::BPtnrInfoPopup.xfdl", sArg, "fnPopCallBack", 550, 500);
+	}
+}
+
+this.fnRfqItem_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "MTRL_CD"&&!gfnIsNull(this.dsRfqItemList.getColumn(e.row,"MTRL_CD"))){
+		var sArg = {
+						agv_id:this.dsRfqItemList.getColumn(e.row,"MTRL_CD")
+					};
+		gfnModalPop(this, "BMtrlInfoPopup", "CPOP::BMtrlInfoPopup.xfdl", sArg, "fnPopCallBack", 700, 350);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

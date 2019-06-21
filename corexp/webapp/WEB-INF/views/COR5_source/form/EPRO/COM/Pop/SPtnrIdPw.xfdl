@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="316" id="SPtnrIdPw" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="아이디/패스워드 찾기" top="0" width="460">
+    <Layouts>
+      <Layout>
+        <Button cssclass="btn_WF_Custom" height="24" id="btnFind00" lbcd="" onclick="fnBtnFindId" right="10" taborder="4" text="찾기" top="107" width="60"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="10" right="10" taborder="12" top="37"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staUserNm00" left="10" taborder="0" text="사용자명" top="37" width="170" wordwrap="char"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="10" right="10" taborder="13" top="69"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staEmail00" left="10" taborder="2" text="E-Mail" top="69" width="170" wordwrap="char"/>
+        <Edit height="24" id="edtIdEmail" left="190" lengthunit="utf8" taborder="3" top="73" width="248"/>
+        <Edit height="24" id="edtIdUserNm" left="190" lengthunit="utf8" taborder="1" top="41" width="248"/>
+        <Button cssclass="btn_WF_Custom" height="24" id="btnFind01" lbcd="" onclick="fnBtnFindPw" right="10" taborder="11" text="찾기" top="277" width="60"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="10" right="10" taborder="23" top="175"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staUserNm01" left="10" taborder="5" text="사용자명" top="175" width="170" wordwrap="char"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="10" right="10" taborder="25" top="239"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staEmail01" left="10" taborder="9" text="E-Mail" top="239" width="170" wordwrap="char"/>
+        <Edit height="24" id="edtPwEmail" left="190" lengthunit="utf8" taborder="10" top="243" width="248"/>
+        <Edit height="24" id="edtPwUserNm" left="190" lengthunit="utf8" taborder="6" top="179" width="248"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="10" right="10" taborder="38" top="207"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staUserId" left="10" taborder="7" text="아이디" top="207" width="170" wordwrap="char"/>
+        <Edit height="24" id="edtPwUserId" left="190" lengthunit="utf8" taborder="8" top="211" width="248"/>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="10" taborder="41" text="ID 찾기" top="8" width="255"/>
+        <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle01" left="10" taborder="42" text="패스워드찾기" top="146" width="255"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="TYPE" size="256" type="STRING"/>
+          <Column id="ID_USER_NM" size="256" type="STRING"/>
+          <Column id="ID_EMAIL" size="256" type="STRING"/>
+          <Column id="PW_USER_ID" size="256" type="STRING"/>
+          <Column id="PW_USER_NM" size="256" type="STRING"/>
+          <Column id="PW_EMAIL" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="ID_USER_NM" compid="edtIdUserNm" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="ID_EMAIL" compid="edtIdEmail" datasetid="dsCondition" id="item4" propid="value"/>
+      <BindItem columnid="PW_USER_ID" compid="edtPwUserId" datasetid="dsCondition" id="item10" propid="value"/>
+      <BindItem columnid="PW_USER_NM" compid="edtPwUserNm" datasetid="dsCondition" id="item11" propid="value"/>
+      <BindItem columnid="PW_EMAIL" compid="edtPwEmail" datasetid="dsCondition" id="item12" propid="value"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00089" compid="staEmail01" datasetid="gdsLabel" id="item5" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_01408" compid="staViewCompTitle00" datasetid="gdsLabel" id="item9" propid="text"/>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SPtnrIdPw.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 11. 14.
+ * @설명			: 사용자 아이디/패스워드 찾기
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 12. 26.
+*/
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00783");
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc     	: 폼 onload 이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.dsCondition.addRow();
+}
+
+/**
+  * @함수명	: fnBtnFindId
+  * @desc     	: 아이디 찾기
+  */
+this.fnBtnFindId = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fnBtnFindOnclick("FIND_USER_ID");
+}
+
+/**
+  * @함수명	: fnBtnFindPw
+  * @desc     	: 비밀번호 찾기
+  */
+this.fnBtnFindPw = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fnBtnFindOnclick("FIND_USER_PW");
+}
+
+/**
+  * @함수명	: fnBtnFindOnclick
+  * @input    	: type:String(아이디/비밀번호찾기 구분자) [ID:아이디 찾기], [pw:비밀번호 찾기]
+  * @desc     	: 아이디 또는 임시비밀번호를 발송하는 메일을 보낸다.
+  */
+this.fnBtnFindOnclick = function(type)
+{	
+	this.dsCondition.setColumn(0, "TYPE", type);
+
+	if(type == "FIND_USER_ID"){				
+		if(gfnIsNull(this.dsCondition.getColumn(0, "ID_USER_NM"))){
+			gfnAlert("EPRO_LABEL_00996");
+			return;
+		}
+		
+		if(gfnIsNull(this.dsCondition.getColumn(0, "ID_EMAIL"))) {
+			gfnAlert("EPRO_LABEL_01380");
+			return;			
+		}else{ 		
+			if(!gfnChkEmail(this.dsCondition.getColumn(0, "ID_EMAIL"))){
+				gfnAlert("EPRO_LABEL_00994");
+				return;
+			}
+		}
+	}else if(type == "FIND_USER_PW"){
+		
+		if(gfnIsNull(this.dsCondition.getColumn(0, "PW_USER_NM"))){
+			gfnAlert("EPRO_LABEL_00996");
+			return;
+		}
+		
+		if(gfnIsNull(this.dsCondition.getColumn(0, "PW_USER_ID"))){
+			gfnAlert("EPRO_LABEL_00995");
+			return;
+		}
+		
+		if(gfnIsNull(this.dsCondition.getColumn(0, "PW_EMAIL"))) {
+			gfnAlert("EPRO_LABEL_01380");
+			return;		
+		}else{	
+			if(!gfnChkEmail(this.dsCondition.getColumn(0, "PW_EMAIL"))){
+				gfnAlert("EPRO_LABEL_00994");
+				return;
+			}
+		}
+	}
+		
+	var sSvcID = "findIdPw";
+	var sController = "epro.com.service.CLoginService.findIdPw";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "findIdPw" :
+			if(!gfnIsNull(strErrMsg)) gfnAlert(strErrMsg);
+			if(strErrCd == 0){
+				this.parent.close();
+			}
+		break;
+		
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

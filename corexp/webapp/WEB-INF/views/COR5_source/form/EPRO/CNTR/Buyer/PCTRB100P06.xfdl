@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="pop_mtrlSrch" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="계약회람(작성)" left="0" width="920" top="0" height="327" cssclass="frm_POP_Search" onload="pop_MatGroupSearch_onload">
+    <Layouts>
+      <Layout>
+        <Static id="sta_title" text="계약회람" position="absolute" left="0" top="4" height="30" cssclass="sta_POP_PopTitle" right="940"/>
+        <Button id="btn_close" taborder="1" top="0" height="30" cssclass="btn_POP_CloseBtn" width="30" right="8" onclick="btn_close_onclick"/>
+        <Grid id="grd_list" taborder="3" binddataset="ds_list" autoenter="select" useinputpanel="false" autofittype="col" cellclickbound="cell" left="10" top="124" right="10" bottom="10" f_filter="N" f_excel="Y" f_hide="N" f_find="N" f_sort="Y" f_fix="N" f_height="N" f_save="N" f_mode="Y" f_init="N" f_colSize="N" onexpandup="grd_list_onexpandup" onkeydown="grd_list_onkeydown" ontextchanged="grd_list_ontextchanged">
+          <Formats>
+            <Format id="MMODE">
+              <Columns>
+                <Column size="40"/>
+                <Column size="117"/>
+                <Column size="100"/>
+                <Column size="100"/>
+                <Column size="110"/>
+                <Column size="110"/>
+                <Column size="102"/>
+                <Column size="208"/>
+              </Columns>
+              <Rows>
+                <Row size="32" band="head"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell displaytype="checkbox" edittype="checkbox"/>
+                <Cell col="1" text="부서"/>
+                <Cell col="2" text="사용자명"/>
+                <Cell col="3" text="직책"/>
+                <Cell col="4" text="회람시작일자"/>
+                <Cell col="5" text="회람종료일자"/>
+                <Cell col="6" text="메일수신여부"/>
+                <Cell col="7" text="이메일"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                <Cell col="1" style="align:left;" text="bind:DEPT_NM"/>
+                <Cell col="2" edittype="text" style="align: ;" text="bind:USER_NM" expandshow="show" expandsize="24" expandimage="URL('img::grd_WF_Expand.png')"/>
+                <Cell col="3" style="align:left;" text="bind:POST_NM"/>
+                <Cell col="4" displaytype="date" edittype="date" text="bind:TRNR_BGN_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none"/>
+                <Cell col="5" displaytype="date" edittype="date" text="bind:TRNR_END_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none"/>
+                <Cell col="6" text="bind:ALT_MAIL_RCV"/>
+                <Cell col="7" style="align:left;" text="bind:EMAIL"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static id="sta_title00" taborder="5" text="계약회람" cssclass="sta_POP_PopTitle" left="0" top="4" right="580" height="30"/>
+        <Static id="sta_title01" taborder="7" text="계약회람" cssclass="sta_POP_PopTitle" left="0" top="4" right="837" height="30"/>
+        <Div id="div_condition" taborder="8" left="10" top="42" right="10" height="43" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Button id="btn_CtrMailSend" taborder="0" text="계약회람" onclick="div_condition_btn_CtrMailSend_onclick" cssclass="btn_WF_SearchBtn" top="10" right="10" width="77" height="24"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btn_Del" taborder="9" text=" 삭제" cssclass="btn_WF_Delete" top="96" right="10" width="55" height="24" lbcd="" objNm="품목 그리드 행삭제" onclick="btn_Del_onclick"/>
+        <Button id="btn_Add" taborder="10" text=" 추가" cssclass="btn_WF_Add" top="96" right="67" width="55" height="24" lbcd="" objNm="품목검색" onclick="btn_Add_onclick"/>
+        <Button id="btn_Set_Day" taborder="11" text="일괄적용" top="95" width="70" height="24" lbcd="" objNm="납품요청일자 일괄적용" onclick="btn_Set_Day_onclick" left="270"/>
+        <Calendar id="cal_trnrToFrom" taborder="12" top="95" width="127" height="24" objNm="납품일자 일괄설정 달력" left="141"/>
+        <Combo id="cbo_trnrToFrom" taborder="14" left="10" top="95" width="125" height="24" objNm="" codecolumn="codecolumn" datacolumn="datacolumn" index="0" value="TRNR_BGN_DAY" text="회람시작일자">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">TRNR_BGN_DAY</Col>
+                <Col id="datacolumn">회람시작일자</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">TRNR_END_DAY</Col>
+                <Col id="datacolumn">회람종료일자</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Combo>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="ds_condition" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="TRNR_BGN_DAY" type="STRING" size="256"/>
+          <Column id="TRNR_END_DAY" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="ds_return" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="ds_list">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="DEPT_NM" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="PSTN" type="STRING" size="256"/>
+          <Column id="ALT_MAIL_RCV" type="STRING" size="256"/>
+          <Column id="POST_NM" type="STRING" size="256"/>
+          <Column id="TRNR_BGN_DAY" type="STRING" size="256"/>
+          <Column id="TRNR_END_DAY" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="ALT_CHK" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       PCTRB100P06.xfdl
+   @desc       계약회람
+   @author     한민희
+   @makedate   2017.02.20
+   @history    
+*/  
+include "lib::lib_all.xjs"
+
+this.fv_cntr_no;
+this.fv_branch_cd;
+
+/**
+	@function	pop_MatGroupSearch_onload()
+	@desc   	폼 onload 이벤트
+*/
+this.pop_MatGroupSearch_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//시스템 공통함수 호출 : 팝업
+	this.gfn_popOnLoad(this);
+	
+	//부모창으로 부터 전달받은 값	
+	var ownFrame = this.getOwnerFrame();
+	
+	this.fv_cntr_no = ownFrame.cntr_no;
+	this.fv_branch_cd = application.gds_userInfo.getColumn(0, "BRANCH_CD");
+	
+ 	this.ds_condition.setColumn(0, "CNTR_NO", this.fv_cntr_no);
+ 	this.ds_condition.setColumn(0, "BRANCH_CD", this.fv_branch_cd);
+ 	
+	//this.fn_trnrUserSrch();
+}
+ 
+/**
+	@function	fn_preSearch()
+	@desc   	조회 전 처리
+*/
+this.fn_preSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_ptnrUserSrch()
+	@desc   	계약회람 메일 보낼 협력업체 사용자 조회
+*/
+this.fn_trnrUserSrch = function()
+{
+	if(!this.fn_preSearch()) return false;
+	
+	var sSvcID = "Ctr_trnrUserSrch";
+	var sController = "Ctr_trnrUserSrch.do";
+	var sInDatasets = "in_ds=ds_condition";
+	var sOutDatasets = "ds_list=ds_srch";
+	var sCallbackFunc = "fn_trCallBack";
+	
+    this.gfn_tran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fn_callBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0)
+	{
+		return;
+	}
+	
+	switch(strSvcID)
+	{		
+		case "Ctr_MailSend" :	
+			if(!this.gfn_isNull(strErrMsg)) this.gfn_alert(strErrMsg);
+		break;
+				
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	btn_close_onclick()
+	@desc   	팝업닫기
+*/
+this.btn_close_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+/**
+	@function	div_condition_btn_CtrMailSend_onclick()
+	@desc   	메일 보내기
+*/
+this.div_condition_btn_CtrMailSend_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.ds_list.rowcount == 0) return;
+	
+	this.ds_list.set_enableevent(false);
+	for(var i=0; i<this.ds_list.getRowCount(); i++)
+	{
+		if(this.ds_list.getColumn(i, "TRNR_BGN_DAY") > this.ds_list.getColumn(i, "TRNR_END_DAY"))
+		{
+			this.ds_list.set_rowposition(i);
+			this.gfn_alert((i+1) + "번째 라인의 회람시작일이 회람종료일보다 이후입니다.");
+			this.ds_list.set_enableevent(true);
+			return;
+		}
+		
+		if(this.gfn_today() > this.ds_list.getColumn(i, "TRNR_END_DAY"))
+		{
+			this.ds_list.set_rowposition(i);
+			this.gfn_alert((i+1) + "번째 라인의 회람종료일이 과거입니다.");			
+			this.ds_list.set_enableevent(true);
+			return;
+		}
+		
+		if(this.ds_list.getColumn(i, "ALT_MAIL_RCV") == "N")
+		{
+			this.ds_list.set_rowposition(i);
+			this.gfn_alert((i+1) + "번째 라인 사용자에게는 메일을 보낼 수 없습니다.");			
+			this.ds_list.set_enableevent(true);
+			return;
+		}
+	}
+	this.ds_list.set_enableevent(true);
+	
+	if(!this.gfn_confirm("계약서를 회람 하시겠습니까?")) return false;
+	
+	var sSvcID = "Ctr_MailSend";
+	var sController = "Ctr_MailSend.do";
+	var sInDatasets = "in_ds=ds_list";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fn_trCallBack";
+	
+    this.gfn_tran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	btn_Add_onclick()
+	@desc   	사용자 추가
+*/
+this.btn_Add_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.ds_list.addRow();
+	var sArg = {
+					agv_id:""
+					,agv_nm:this.ds_list.getColumn(this.ds_list.rowposition,"USER_NM")
+					,agv_mode:""
+				};
+	this.gfn_CPop_ComUserSrch(sArg,"fn_popCallBack","PopupComUserSrch");
+}
+
+/**
+	@function	btn_Del_onclick()
+	@desc   	사용자 삭제
+*/
+this.btn_Del_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.gfn_dsChkDel(this.ds_list);
+}
+
+/**
+	@function	grd_list_onexpandup()
+	@desc   	그리드 onexpandup 이벤트
+*/
+this.grd_list_onexpandup = function(obj:Grid, e:nexacro.GridMouseEventInfo)
+{
+	obj.updateToDataset();
+	if("USER_NM" == this.gfn_grdBindColName(obj, obj.getCellPos()))
+	{		
+		var sArg = {
+						agv_id:""
+						,agv_nm:this.ds_list.getColumn(this.ds_list.rowposition,"USER_NM")
+						,agv_mode:""
+					};
+		this.gfn_CPop_ComUserSrch(sArg,"fn_popCallBack","PopupComUserSrch");
+	}
+}
+
+/**
+	@function	fn_popCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fn_popCallBack = function(sPopupId, rtn)
+{
+	if(sPopupId == "PopupComUserSrch")
+	{
+		if(this.gfn_isNull(rtn))
+		{
+			this.ds_list.deleteRow(this.ds_list.rowcount -1 );
+			return;
+		}
+		
+		this.ds_return.loadXML(rtn);
+		
+		var nRow = this.ds_list.findRow("USER_ID", this.ds_return.getColumn(0, "USER_ID"));
+		if(nRow > -1)
+		{
+			this.ds_list.deleteRow(this.ds_list.rowcount -1 );
+			this.gfn_alert("이미 추가한 사용자입니다.");
+			return;
+		}
+		
+		this.ds_list.setColumn(this.ds_list.rowposition,"USER_ID",this.ds_return.getColumn(0,"USER_ID"));
+		this.ds_list.setColumn(this.ds_list.rowposition,"USER_NM",this.ds_return.getColumn(0,"USER_NM"));
+		this.ds_list.setColumn(this.ds_list.rowposition,"DEPT_NM",this.ds_return.getColumn(0,"DEPT_NM"));
+		this.ds_list.setColumn(this.ds_list.rowposition,"POST_NM",this.ds_return.getColumn(0,"POST_NM"));		
+		this.ds_list.setColumn(this.ds_list.rowposition,"TRNR_BGN_DAY",this.gfn_today());
+		this.ds_list.setColumn(this.ds_list.rowposition,"TRNR_END_DAY",this.gfn_addDay(this.gfn_today(), 7));		
+		this.ds_list.setColumn(this.ds_list.rowposition,"ALT_MAIL_RCV",this.ds_return.getColumn(0,"ALT_MAIL_RCV"));
+		this.ds_list.setColumn(this.ds_list.rowposition,"EMAIL",this.ds_return.getColumn(0,"EMAIL"));
+		this.ds_list.setColumn(this.ds_list.rowposition,"BRANCH_CD", this.fv_branch_cd);
+		this.ds_list.setColumn(this.ds_list.rowposition,"CNTR_NO", this.fv_cntr_no);
+	}
+}
+
+/**
+	@function	grd_list_onkeydown()
+	@desc   	그리드 onkeydown 이벤트
+*/
+this.grd_list_onkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13")
+	{
+		obj.updateToDataset();
+	
+		if("USER_NM" == this.gfn_grdBindColName(obj, obj.getCellPos()))
+		{
+			var sArg = {
+							agv_id:""
+							,agv_nm:this.ds_list.getColumn(this.ds_list.rowposition,"USER_NM")
+							,agv_mode:""
+						};
+			this.gfn_CPop_ComUserSrch(sArg,"fn_popCallBack","PopupComUserSrch");
+		}
+	}
+}
+
+/**
+	@function	grd_list_ontextchanged()
+	@desc   	그리드 ontextchanged 이벤트
+*/
+this.grd_list_ontextchanged = function(obj:Grid, e:nexacro.GridEditTextChangedEventInfo)
+{
+	if("USER_NM" == this.gfn_grdBindColName(obj, obj.getCellPos()))
+	{
+		this.gfn_initKey(this.ds_list, e, "USER_ID", "DEPT_NM", "POST_NM", "ALT_MAIL_RCV", "EMAIL");
+	}
+}
+
+/**
+	@function	btn_Set_Day_onclick()
+	@desc   	계약 회람기간 일괄적용
+*/
+this.btn_Set_Day_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var combo = this.cbo_trnrToFrom.value;
+	var cal = this.cal_trnrToFrom.value;
+	
+	if(this.gfn_isNull(combo) || this.gfn_isNull(cal)) return;
+	
+	this.ds_list.set_enableevent(false);
+	for(var i=0; i<this.ds_list.getRowCount(); i++)
+	{
+		this.ds_list.setColumn(i, combo, cal);
+	}
+	this.ds_list.set_enableevent(true);
+}
+]]></Script>
+  </Form>
+</FDL>

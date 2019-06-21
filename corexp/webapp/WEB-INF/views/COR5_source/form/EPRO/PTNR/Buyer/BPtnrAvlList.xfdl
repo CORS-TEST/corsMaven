@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="frmSearchCond" height="711" id="CSampleList" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="AVL등록" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div cssclass="div_WF_SearchBg" height="114" id="divViewCompCond01" left="0" objNm="" right="15" taborder="1" top="35">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staRprstvNm" left="15" onclick="Div_SOption_sta_WFDA_Label04_onclick" style="padding:0 10 0 6;align:right middle;" taborder="2" text="대표자명" top="5" width="155"/>
+              <Edit height="24" id="edtRprstvNm" left="170" objNm="대표자명" onkeyup="fnEnterOnkeyup" taborder="3" top="5" width="250"/>
+              <Static cssclass="sta_WF_SearchText" height="19" id="staWarning" left="0" right="0" taborder="14" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." top="93"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staPchrgrNm" left="47" onclick="Div_SOption_sta_WFDA_Label04_onclick" style="padding:0 10 0 6;align:right middle;" taborder="15" text="구매담당자" top="34" width="123"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staPtnrType" left="47" onclick="Div_SOption_sta_WFDA_Label04_onclick" style="padding:0 10 0 6;align:right middle;" taborder="16" text="업체유형" top="63" width="123"/>
+              <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cboPtnrType" innerdataset="@dsCdSR12" left="170" objNm="소싱그룹대분류" taborder="17" top="63" width="250"/>
+              <Edit height="24" id="edtPchrgrId" left="170" objNm="대표자명" onkeyup="fnEnterOnkeyup" readonly="true" taborder="18" top="34" width="85"/>
+              <Edit height="24" id="edtPchrgrNm" left="258" objNm="대표자명" onkeyup="fnEnterOnkeyup" ontextchange="fnOnTextChanged" taborder="19" top="34" width="137"/>
+              <Button cssclass="btn_WF_SearchSmall" height="24" id="btnSearchPchrgr" left="397" objNm="우편번호 검색 버튼" onclick="fnUserSearch" taborder="20" top="34" width="24"/>
+              <Static height="17" id="staRprstvNm01" left="428" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 0 25;" taborder="22" text="업체지정 담당자로 검색한다." top="40" width="457"/>
+              <Static height="17" id="staRprstvNm02" left="428" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 0 25;" taborder="23" text="업체유형(전체 / 국내 / 해외)로 검색한다" top="70" width="457"/>
+              <Static height="17" id="staRprstvNm03" left="428" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 0 25;" taborder="27" text="업체 대표자의 이름으로 검색한다." top="11" width="457"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="3" text="Div00" top="166">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="none" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" oncellclick="fnOnCellClick" oncelldblclick="fnListOncelldblclick" right="0" taborder="6" top="10" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="100"/>
+                      <Column size="110"/>
+                      <Column size="100"/>
+                      <Column size="361"/>
+                      <Column size="120"/>
+                      <Column size="120"/>
+                      <Column size="150"/>
+                      <Column size="300"/>
+                      <Column band="right" size="84"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="Vendor" tooltiptext=""/>
+                      <Cell col="1" expr="" text="사업자번호" tooltiptext=""/>
+                      <Cell col="2" expr="" text="업체유형" tooltiptext=""/>
+                      <Cell col="3" expr="" text="업체명" tooltiptext=""/>
+                      <Cell col="4" expr="" text="구매담당자" tooltiptext=""/>
+                      <Cell col="5" expr="" text="전화번호" tooltiptext=""/>
+                      <Cell col="6" expr="" text="대표자명" tooltiptext=""/>
+                      <Cell col="7" expr="" text="주소" tooltiptext=""/>
+                      <Cell col="8" expr="" text="Mapping" tooltiptext=""/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:SAP_VENDOR" tooltiptext="bind:SAP_VENDOR"/>
+                      <Cell col="1" maskchar=" " text="bind:BIZ_NO" tooltiptext="bind:BIZ_NO"/>
+                      <Cell col="2" style="color2: ;" text="bind:CD_PTNR_CTGR_NM" tooltiptext="bind:CD_PTNR_CTGR_NM"/>
+                      <Cell col="3" style="align:left;" text="bind:PTNR_NM" tooltiptext="bind:PTNR_NM"/>
+                      <Cell col="4" style="color2: ;" text="bind:PCHRGR_NM" tooltiptext="bind:PCHRGR_NM"/>
+                      <Cell col="5" text="bind:TEL" tooltiptext="bind:TEL"/>
+                      <Cell col="6" text="bind:RPRSTV_NM" tooltiptext="bind:RPRSTV_NM"/>
+                      <Cell col="7" style="align:left;" text="bind:ADDR" tooltiptext="bind:ADDR"/>
+                      <Cell col="8" displaytype="button" edittype="button" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_01352&quot;)" text="Mapping" tooltiptext="expr:gfnMultiLabel(&quot;EPRO_LABEL_01352&quot;)"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="11" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button cssclass="btn_Fold_Close" height="17" id="btnFold" left="45.66%" taborder="2" top="149" width="56"/>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" taborder="4" top="0">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staBizNo" left="447" style="padding:0 10 0 6;align:right middle;" taborder="2" text="사업자번호" top="5" width="123"/>
+              <Edit height="24" id="edtPtnrNm" left="170" objNm="협력사명" onkeyup="fnEnterOnkeyup" taborder="1" top="5" width="250"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staPtnrNm" left="47" onclick="divViewCompCond00_staPtnrNm_onclick" style="padding:0 10 0 6;align:right middle;" taborder="0" text="업체명" top="5" width="123"/>
+              <Edit height="24" id="edtBizNo" inputfilter="sign,symbol" inputtype="number" left="570" objNm="사업자번호" onkeyup="fnEnterOnkeyup" taborder="3" top="5" width="219"/>
+              <CheckBox cssclass="chk_default" falsevalue="N" height="24" id="chkAltRfqPriceSbmt" left="872" objNm="벤더등록 대상만조회" onchanged="fnChkAltRfqPriceSbmt_onchanged" taborder="4" text="대상업체조회" top="5" truevalue="Y" value="N" width="204"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="PTNR_NM" compid="divViewCompCond00.edtPtnrNm" datasetid="dsCondition" id="item0" propid="value"/>
+      <BindItem columnid="BIZ_NO" compid="divViewCompCond00.edtBizNo" datasetid="dsCondition" id="item1" propid="value"/>
+      <BindItem columnid="RPRSTV_NM" compid="divViewCompCond01.edtRprstvNm" datasetid="dsCondition" id="item2" propid="value"/>
+      <BindItem columnid="PCHRGR_ID" compid="divViewCompCond01.edtPchrgrId" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="PCHRGR_NM" compid="divViewCompCond01.edtPchrgrNm" datasetid="dsCondition" id="item4" propid="value"/>
+      <BindItem columnid="CD_PTNR_CTGR" compid="divViewCompCond01.cboPtnrType" datasetid="dsCondition" id="item5" propid="value"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00528" compid="divViewCompCond01.staPtnrType" datasetid="gdsLabel" id="staPtnrTypeLangBind2017110317184326098" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00321" compid="divViewCompCond00.staPtnrNm" datasetid="gdsLabel" id="staPtnrNmLangBind2017110317184339428" propid="text"/>
+      
+      
+      <BindItem columnid="ALT_VENDOR_ONLY" compid="divViewCompCond00.chkAltRfqPriceSbmt" datasetid="dsCondition" id="item24" propid="value"/>
+      
+    </Bind>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="Column0" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+          <Column id="BIZ_NO" size="256" type="STRING"/>
+          <Column id="PCHRGR_ID" size="256" type="STRING"/>
+          <Column id="PCHRGR_NM" size="256" type="STRING"/>
+          <Column id="RPRSTV_NM" size="256" type="STRING"/>
+          <Column id="SRC_GRP_01" size="256" type="STRING"/>
+          <Column id="SRC_GRP_02" size="256" type="STRING"/>
+          <Column id="PTNR_ITEM" size="256" type="STRING"/>
+          <Column id="PTNR_CHG_DT" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="CD_PORG_UNIT_STTS" size="256" type="STRING"/>
+          <Column id="CD_PTNR_CTGR" size="256" type="STRING"/>
+          <Column id="ALT_VENDOR_ONLY" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsCdSR20"/>
+      <Dataset id="dsCdSR12"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrAvlList.xfdl
+ * @생성자       	: 김승일
+ * @생성일자     	: 2017. 11. 01.
+ * @설명			: AVL 현황
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11 20.
+*/  
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function(){
+	var param = [
+					{code:"SR12", sSelectType:"A"} // 업체유형
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01, initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	var sArgEx = {
+					isTran:"Y", tranNm:"BPtnrService.searchPtnrAvl", dsParam:this.dsCondition
+				}
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this, sArgEx);
+ 	this.fnFold();
+ 	gfnSetObj("A");
+ 	
+	this.dsCondition.addRow();
+	this.divViewCompCond01.cboPtnrType.set_index(0);
+	this.dsCondition.setColumn(0, "BRANCH_CD", application.gdsUserInfo.getColumn(0, "BRANCH_CD"));
+	this.dsCondition.setColumn(0,"ALT_VENDOR_ONLY","Y");
+ 	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnClose
+  * @desc     	: (공통버튼)닫기
+  */
+this.fnClose = function()
+{	
+	return true;
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchPtnrAvl";
+	var sController = "epro.ptnr.service.BPtnrService.searchPtnrAvl";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	/*
+		페이징일 때 oPaging 선언후 사용
+		inDs:검색조건 데이터셋, outDs:리스트 데이터셋, divPaging:페이징 div
+	*/
+	var	oPaging = [
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "searchPtnrAvl" :
+			
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnPopCallBack
+  * @input    	: sPopupId(팝업ID), rtn(팝업에서 리턴하는 문자열)
+  * @desc     	: 팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+	
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "BUserSrchPopup":
+			if(!gfnIsNull(this.dsReturn.getColumn(0,"USER_ID"))){
+					this.dsCondition.setColumn(0,"PCHRGR_ID",this.dsReturn.getColumn(0,"USER_ID"));
+					this.dsCondition.setColumn(0,"PCHRGR_NM",this.dsReturn.getColumn(0,"USER_NM"));
+			}
+		break;
+		
+		case "BPtnrSapReqPop":
+			this.fnSearch();
+		break;
+			
+		default:
+		break;	
+	}
+	
+}
+
+/**
+  * @함수명	: fnEnterOnkeyup
+  * @input    	: obj:Edit(에디트 오브젝트), e:nexacro.KeyEventInfo(이벤트변수)
+  * @desc     	: 검색조건에서 ENTER(keycode::13) 입력시 이벤트를 발생시킨다. 
+  */
+this.fnEnterOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		switch(obj.name){
+			case "edtPchrgrNm": //구매담당자
+				var sArg = { 
+							agv_id:""
+							,agv_nm:this.divViewCompCond01.edtPchrgrNm.value
+							};
+				gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg);
+			break;
+			
+			case "edtPtnrNm" : //협력사명
+				this.fnSearch();
+			break;
+			
+			case "edtBizNo" : //사업자번호
+				this.fnSearch();
+			break;
+			
+			case "edtRprstvNm" ://대표자명
+				this.fnSearch();
+			break;
+			
+			
+			default:
+			
+			break;	
+		}
+	}
+}
+
+
+/**
+  * @함수명   : fnUserSearch
+  * @input    : 
+  * @return   : 
+  * @desc     :  사용자검색 팝업 이벤트
+  */
+this.fnUserSearch = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_id:""
+					,agv_nm:this.dsCondition.getColumn(0,"PCHRGR_NM")
+			   };
+	//매개변수 ::>    form, sPopupId, CallBack Function Name, arg
+	gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+	@function	fnOnTextChanged
+	@desc   	구매담당자 아이디 초기화
+*/
+this.fnOnTextChanged = function(obj:Edit,  e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name == "edtPchrgrNm") this.dsCondition.setColumn(0, "PCHRGR_ID", "");
+}
+
+this.fnOnCellClick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if("Mapping" == obj.getCellProperty("Body",e.cell,"text")){
+		var sArg = {
+						agv_biz : this.dsList.getColumn(e.row,"BIZ_NO")
+						,agv_ptnr : this.dsList.getColumn(e.row,"PTNR_ID")
+						,agv_gubun : this.dsList.getColumn(e.row,"CD_PTNR_CTGR")
+					};
+		gfnModalPop(this, "BPtnrSapReqPop", "BPTNR::BPtnrSapReqPop.xfdl", sArg, "fnPopCallBack", 1100, 600);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

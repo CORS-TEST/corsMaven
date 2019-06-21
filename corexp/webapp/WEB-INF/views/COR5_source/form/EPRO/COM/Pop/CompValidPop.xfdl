@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="288" id="CompValidPop" left="0" onload="fnFormOnload" titletext="유효성검사 팝업" top="0" width="704">
+    <Layouts>
+      <Layout>
+        <Grid autofittype="col" binddataset="dsMsg" height="236" id="grdMsg" left="10" right="10" taborder="0" top="10" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="140"/>
+                <Column size="483"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="31"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="상태"/>
+                <Cell col="1" expr="" text="분류"/>
+                <Cell col="2" expr="" text="메세지"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="image" text="expr:&quot;img::img_WF_&quot;+ERR_LVL+&quot;.png&quot;"/>
+                <Cell col="1" text="bind:VALID_TYPE"/>
+                <Cell col="2" displaytype="decoratetext" edittype="none" style="align:left;" text="bind:MSG"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Static height="21" id="staErrorSentence" left="43" taborder="5" text="필수요소누락 :" top="252" visible="false" width="87"/>
+        <Static height="21" id="staErrorCnt" left="121" style="color:red;align:right middle;" taborder="6" text="건수" top="252" visible="false" width="33"/>
+        <Static height="21" id="staCnt" left="165" taborder="7" text="건" top="252" visible="false" width="32"/>
+        <Static height="21" id="staErrorImg" left="17" style="background:transparent URL('img::img_WF_E.png');align:center middle;" taborder="15" top="254" visible="false" width="20"/>
+        <Static height="21" id="staWarningImg" left="667" style="background:transparent URL('img::img_WF_W.png');align:center middle;" taborder="19" top="254" visible="false" width="20"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMsg" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+    </Objects>
+    <Bind>
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompValidPop.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 11.
+ * @설명			: 유효성체크 팝업
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 11.
+*/  
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00817");
+
+/**
+	@function	fnFormOnload
+	@desc   	
+*/  
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	this.dsMsg.copyData(application.gdsValidScreen);	
+	
+// 	this.dsMsg.set_enableevent(false);
+// 	this.dsMsg.filter("IS_ESSENTIAL == 'Y'");	
+// 	this.staErrorCnt.set_text(this.dsMsg.rowcount);
+// 	this.dsMsg.filter("");
+// 	this.dsMsg.set_enableevent(true);
+}
+]]></Script>
+  </Form>
+</FDL>

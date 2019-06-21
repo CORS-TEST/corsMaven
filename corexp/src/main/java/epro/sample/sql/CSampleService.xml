@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CSampleService">
+	
+	<select id="cSampleSrch" parameterType="hashmap" resultType="hashmap" >
+	/* [CSampleService.cSampleSrch][SAMPLE 리스트를 조회한다.][2019.04.29][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="PR_NO DESC"/>
+		</include>
+		SELECT
+			BRANCH_CD      
+			,PR_NO          
+			,CD_PR_STTS     
+			,CD_PR_CTGR     
+			,REQR_ID        
+			,REQR_NM        
+			,CD_BDGT_TYPE   
+			,TTL            
+			,RMARK          
+			,PR_REQ_DAY              
+			,TO_CHAR(REQ_DT, 'YYYYMMDDHH24MISS') AS REQ_DT
+			,TO_CHAR(APRV_CMPLT_DT, 'YYYYMMDDHH24MISS') AS APRV_CMPLT_DT
+			,PR_AMT         
+			,APP_DOC_ID     
+			,ATTCH_FILE_CNT 
+			,TKEY           
+			,CRTR_ID                 
+			,TO_CHAR(CRT_DT, 'YYYYMMDDHH24MISS') AS CRT_DT
+			,LAST_CHGR_ID   
+			,TO_CHAR(LAST_CHG_DT, 'YYYYMMDDHH24MISS') AS LAST_CHG_DT
+		FROM MM_SAMPLE
+		WHERE BRANCH_CD = #{BRANCH_CD}       	 
+        <include refid="commonService.list-after" />
+  	</select>
+  	
+	<select id="readSample" parameterType="hashmap" resultType="hashmap">
+	/* [CSampleService.readSample][샘플데이터를 읽는다.][2019.04.29][한의봉] */
+		SELECT
+			BRANCH_CD      
+			,PR_NO          
+			,CD_PR_STTS     
+			,CD_PR_CTGR     
+			,REQR_ID        
+			,REQR_NM        
+			,CD_BDGT_TYPE   
+			,TTL            
+			,RMARK          
+			,PR_REQ_DAY              
+			,TO_CHAR(REQ_DT, 'YYYYMMDDHH24MISS') AS REQ_DT
+			,TO_CHAR(APRV_CMPLT_DT, 'YYYYMMDDHH24MISS') AS APRV_CMPLT_DT
+			,PR_AMT         
+			,APP_DOC_ID     
+			,ATTCH_FILE_CNT 
+			,TKEY           
+			,CRTR_ID                 
+			,TO_CHAR(CRT_DT, 'YYYYMMDDHH24MISS') AS CRT_DT
+			,LAST_CHGR_ID   
+			,TO_CHAR(LAST_CHG_DT, 'YYYYMMDDHH24MISS') AS LAST_CHG_DT
+		FROM MM_SAMPLE
+		WHERE BRANCH_CD = #{BRANCH_CD} 
+		AND PR_NO = #{PR_NO}	
+	
+	</select>  	
+	
+	<select id="readSampleItem" parameterType="hashmap" resultType="hashmap">
+	/* [CSampleService.readSampleItem][샘플데이터 품목을 읽는다.][2019.04.29][한의봉] */
+			SELECT
+				PR_ITEM_ID       
+				,BRANCH_CD        
+				,PR_NO            
+				,ITM_NO           
+				,CD_PR_ITEM_STTS  
+				,CD_FCTRY         
+				,MTRL_GRP_ID      
+				,MTRL_GRP_NM      
+				,MTRL_CD          
+				,MTRL_NM          
+				,QTY              
+				,CD_UNIT          
+				,REQ_PRICE        
+				,REQ_AMT          
+				,DLV_REQ_DAY      
+				,INSP_CHRGR_ID    
+				,ATTCH_FILE_CNT   
+				,RMARK            
+				,PCHRGR_ID        
+				,TO_CHAR(RCV_DT, 'YYYYMMDDHH24MISS') AS RCV_DT     
+				,REQ_DPMT_CD      
+				,REQ_DPMT_NM      
+				,CD_DOC_CTGR      
+				,REQR_ID          
+				,REQR_NM          
+				,CNCL_RSN         
+				,TKEY             
+				,MTRL_REQ_NO      
+				,STR_CD           
+				,OUT_STR_CD       
+				,DUMY1            
+				,ALT_EMGCY        
+				,CRTR_ID          
+				,TO_CHAR(CRT_DT, 'YYYYMMDDHH24MISS') AS CRT_DT
+				,LAST_CHGR_ID   
+				,TO_CHAR(LAST_CHG_DT, 'YYYYMMDDHH24MISS') AS LAST_CHG_DT
+			FROM MM_SAMPLE_ITEM
+			WHERE BRANCH_CD = #{BRANCH_CD}
+			AND PR_NO = #{PR_NO}	
+	</select>  	
+  		 
+	<insert id="saveSample" parameterType="hashmap">
+	/* [CSampleService.saveSample][SAMPLE 데이터를 저장한다.][2019.04.29][한의봉] */
+		INSERT INTO MM_SAMPLE (
+			BRANCH_CD      
+			,PR_NO          
+			,CD_PR_STTS     
+			,CD_PR_CTGR     
+			,REQR_ID        
+			,REQR_NM        
+			,CD_BDGT_TYPE   
+			,TTL            
+			,RMARK          
+			,PR_REQ_DAY              
+			,REQ_DT
+			,APRV_CMPLT_DT
+			,PR_AMT         
+			,APP_DOC_ID     
+			,ATTCH_FILE_CNT 
+			,TKEY           
+			,CRTR_ID                 
+			,CRT_DT
+			,LAST_CHGR_ID   
+			,LAST_CHG_DT
+		) VALUES (
+			 #{BRANCH_CD}      
+			,#{PR_NO}          
+			,'PR11WRI'     
+			,#{CD_PR_CTGR}    
+			,#{REQR_ID}        
+			,#{REQR_NM}        
+			,#{CD_BDGT_TYPE}   
+			,#{TTL}            
+			,#{RMARK}          
+			,#{PR_REQ_DAY}              
+			,#{REQ_DT}
+			,NULL
+			,#{PR_AMT}         
+			,NULL     
+			,NULL 
+			,#{TKEY}           
+			,#{LOGIN_USER_ID}           
+			,SYSDATE
+			,#{LOGIN_USER_ID}    
+			,SYSDATE
+		)
+ 	</insert> 
+ 	
+	<insert id="saveSampleItem" parameterType="hashmap">
+	/* [CSampleService.saveSampleItem][샘플 데이터를 저장한다.][2019.04.29][한의봉] */
+		INSERT INTO MM_SAMPLE_ITEM (
+			PR_ITEM_ID       
+			,BRANCH_CD        
+			,PR_NO            
+			,ITM_NO           
+			,CD_PR_ITEM_STTS  
+			,CD_FCTRY         
+			,MTRL_GRP_ID      
+			,MTRL_GRP_NM      
+			,MTRL_CD          
+			,MTRL_NM          
+			,QTY              
+			,CD_UNIT          
+			,REQ_PRICE        
+			,REQ_AMT          
+			,DLV_REQ_DAY      
+			,INSP_CHRGR_ID    
+			,ATTCH_FILE_CNT   
+			,RMARK            
+			,PCHRGR_ID        
+			,RCV_DT           
+			,REQ_DPMT_CD      
+			,REQ_DPMT_NM      
+			,CD_DOC_CTGR      
+			,REQR_ID          
+			,REQR_NM          
+			,CNCL_RSN         
+			,TKEY             
+			,MTRL_REQ_NO      
+			,STR_CD           
+			,OUT_STR_CD       
+			,DUMY1            
+			,ALT_EMGCY        
+			,CRTR_ID          
+			,CRT_DT           
+			,LAST_CHGR_ID     
+			,LAST_CHG_DT 
+		) VALUES (
+			MM_SAMPLE_ITEM_SEQ.NEXTVAL
+			,#{BRANCH_CD}        
+			,#{PR_NO}            
+			,#{ITM_NO}           
+			,'PR13WRI'
+			,#{CD_FCTRY}         
+			,#{MTRL_GRP_ID}      
+			,#{MTRL_GRP_NM}      
+			,#{MTRL_CD}          
+			,#{MTRL_NM}          
+			,#{QTY}              
+			,#{CD_UNIT}          
+			,#{REQ_PRICE}        
+			,ROUNC(NVL(#{REQ_PRICE},0)*NVL(#{QTY},0),3)          
+			,#{DLV_REQ_DAY}      
+			,#{INSP_CHRGR_ID}   
+			,#{ATTCH_FILE_CNT}   
+			,#{RMARK}            
+			,NULL        
+			,NULL   
+			,#{REQ_DPMT_CD}      
+			,#{REQ_DPMT_NM}     
+			,#{CD_DOC_CTGR}      
+			,#{LOGIN_USER_ID}          
+			,#{LOGIN_USER_NM}          
+			,NULL         
+			,NULL             
+			,#{MTRL_REQ_NO}      
+			,#{STR_CD}           
+			,#{OUT_STR_CD}       
+			,#{DUMY1}            
+			,#{ALT_EMGCY}        
+			,#{LOGIN_USER_ID}          
+			,SYSDATE           
+			,#{LOGIN_USER_ID}     
+			,SYSDATE 
+		)
+ 	</insert>  	 
+ 	
+	<update id="updateSample" parameterType="hashmap">
+	/* [CSampleService.updateSample][샘플 업데이트][2019.04.29][한의봉] */
+		UPDATE	MM_SAMPLE
+		SET	
+			CD_PR_CTGR     =	#{CD_PR_CTGR}    
+			,REQR_ID        =	#{REQR_ID}        
+			,REQR_NM        =	#{REQR_NM}        
+			,CD_BDGT_TYPE   =	#{CD_BDGT_TYPE}   
+			,TTL            =	#{TTL}            
+			,RMARK          =	#{RMARK}          
+			<if	test ="PO_DAY_END = 'PR11APP'">
+			,PR_REQ_DAY     =	#{PR_REQ_DAY}
+			,REQ_DT         =	SYSDATE
+			</if>                       
+			,PR_AMT         =	(SELECT SUM(REQ_AMT) FROM MM_SAMPLE_ITEM WHERE BRANCH_CD = #{BRANCH_CD} AND PR_NO = #{PR_NO} )         
+			,ATTCH_FILE_CNT =	NULL 
+			,TKEY           =	#{TKEY}           
+			,LAST_CHGR_ID   =	#{LOGIN_USER_ID}    
+			,LAST_CHG_DT    =	SYSDATE
+		WHERE BRANCH_CD = #{BRANCH_CD} 
+		AND PR_NO = #{PR_NO}			
+	</update> 	
+	
+	<update id="updateSampleItem" parameterType="hashmap">
+	/* [CSampleService.updateSampleItem][샘플아이템 업데이트][2019.04.29][한의봉] */
+		UPDATE	MM_SAMPLE_ITEM
+		SET	
+			ITM_NO          	=		#{ITM_NO}            
+			,CD_PR_ITEM_STTS 	=		#{CD_PR_ITEM_STTS} 
+			,CD_FCTRY        	=		#{CD_FCTRY}          
+			,MTRL_GRP_ID     	=		#{MTRL_GRP_ID}       
+			,MTRL_GRP_NM     	=		#{MTRL_GRP_NM}       
+			,MTRL_CD         	=		#{MTRL_CD}           
+			,MTRL_NM         	=		#{MTRL_NM}           
+			,QTY             	=		#{QTY}               
+			,CD_UNIT         	=		#{CD_UNIT}           
+			,REQ_PRICE       	=		#{REQ_PRICE}         
+			,REQ_AMT         	=		ROUND(NVL(#{REQ_PRICE},0)*NVL(#{QTY},0),3)           
+			,DLV_REQ_DAY     	=		#{DLV_REQ_DAY}       
+			,INSP_CHRGR_ID   	=		#{INSP_CHRGR_ID}    
+			,ATTCH_FILE_CNT  	=		#{ATTCH_FILE_CNT}    
+			,RMARK           	=		#{RMARK}             
+			,REQ_DPMT_CD     	=		#{REQ_DPMT_CD}       
+			,REQ_DPMT_NM     	=		#{REQ_DPMT_NM}      
+			,CD_DOC_CTGR     	=		#{CD_DOC_CTGR}       
+			,REQR_ID         	=		#{LOGIN_USER_ID}           
+			,REQR_NM         	=		#{LOGIN_USER_NM}                  
+			,MTRL_REQ_NO     	=		#{MTRL_REQ_NO}       
+			,STR_CD          	=		#{STR_CD}            
+			,OUT_STR_CD      	=		#{OUT_STR_CD}        
+			,DUMY1           	=		#{DUMY1}             
+			,ALT_EMGCY       	=		#{ALT_EMGCY}         
+			,LAST_CHGR_ID    	=		#{LOGIN_USER_ID}      
+			,LAST_CHG_DT     	=		SYSDATE 
+		WHERE BRANCH_CD = #{BRANCH_CD} 
+		AND PR_NO = #{PR_NO}	
+		AND PR_ITEM_ID = #{PR_ITEM_ID}	
+	</update> 			 
+
+ 	<delete id="deleteSampleItem" parameterType="Hmap">
+ 	/* [CSampleService.deleteSampleItem][샘플아이템 삭제][][] */
+ 		DELETE
+		FROM MM_SAMPLE_ITEM
+		WHERE BRANCH_CD = #{BRANCH_CD} 
+		AND PR_NO = #{PR_NO}	
+		AND PR_ITEM_ID = #{PR_ITEM_ID}
+ 	</delete>
+ 	
+
+ 	<update id="cancelSample" parameterType="Hmap">
+ 	/* [CSampleService.cancelSample][샘플 취소][][] */
+ 		UPDATE	MM_SAMPLE
+		SET
+			CD_PR_STTS 		= 'PR11CXL'
+			,LAST_CHGR_ID   = #{LOGIN_USER_ID}      
+			,LAST_CHG_DT    = SYSDATE
+		WHERE BRANCH_CD 	= #{BRANCH_CD} 
+		AND PR_NO 			= #{PR_NO}	
+ 	</update>
+ 	
+	<update id="cancelSampleItem" parameterType="Hmap">
+ 	/* [CSampleService.cancelSampleItem][샘플아이템 취소][][] */
+ 		UPDATE	MM_SAMPLE_ITEM
+		SET
+			CD_PR_ITEM_STTS 	= 'PR13CXL'
+			,LAST_CHGR_ID    	= #{LOGIN_USER_ID}      
+			,LAST_CHG_DT     	= SYSDATE
+		WHERE BRANCH_CD 		= #{BRANCH_CD} 
+		AND PR_NO 				= #{PR_NO}	
+ 	</update>
+
+ 
+  	 
+</mapper>

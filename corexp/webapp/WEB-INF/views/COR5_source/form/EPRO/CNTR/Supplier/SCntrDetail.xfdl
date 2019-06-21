@@ -1,0 +1,993 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BCntrDetail" classname="FrmTemplate100" left="0" top="0" width="1220" height="711" titletext="계약상세" onload="fnFormOnload" oninit="fnFormOninit" ontimer="PCTRS100N00_ontimer">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompCond00" taborder="0" left="0" top="0" height="43" objNm="컨트롤 박스" cssclass="div_WF_SearchBg" right="15">
+          <Layouts>
+            <Layout>
+              <Buttoan id="btn_NewDoc" taborder="44" text="신규" cssclass="btn_WF_crud" left="35.01%" top="13" right="59.36%" height="20" onclick="Div1_btn_NewDoc_onclick"/>
+              <Edit id="maeCntrNo" taborder="1" left="110" top="10" height="24" objNm="문서번호" width="200" readonly="true"/>
+              <Combo id="cboCdDocCtgr" taborder="0" innerdataset="@dsCdCM10" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="5" top="10" height="24" objNm="문서유형" width="100" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody00" taborder="1" left="0" top="48" scrollbars="none" objNm="DIV-헤더 상세" right="15" height="195">
+          <Layouts>
+            <Layout>
+              <Tab id="Tab01" taborder="0" left="0" top="0" right="0" tabindex="0" scrollbars="autoboth" objNm="TAB" onchanged="fnTabOnchanged" height="194">
+                <Tabpages>
+                  <Tabpage id="tabp01" text="기본정보" scrollbars="none" objNm="기본정보" lbcd="">
+                    <Layouts>
+                      <Layout>
+                        <Static id="staViewCompLine00" taborder="71" cssclass="sta_WF_Labelbg" left="0" top="34" right="0" height="33"/>
+                        <Static id="staTtl" taborder="12" cssclass="sta_WF_Label" left="0" top="34" height="33" lbcd="" onclick="div_21_Tab01_tabp01_st_Ttl_onclick" width="117" style="padding:1 0 0 17;" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계약명" usedecorate="true"/>
+                        <Div id="divViewCompTitle00" taborder="78" left="0" top="5" right="10" height="24" objNm="DIV-평가서 타이틀" style="padding:1 0 0 17;">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="2" text="기본정보" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="staViewCompLine01" taborder="79" cssclass="sta_WF_Labelbg" left="0" top="66" right="0" height="33"/>
+                        <Static id="staViewCompLine02" taborder="80" cssclass="sta_WF_Labelbg" left="0" top="98" right="0" height="33"/>
+                        <Static id="staViewCompLine03" taborder="81" cssclass="sta_WF_Labelbg" left="0" top="130" right="0" height="33" onclick="divViewCompBody00_Tab01_tabp01_sta_WFDA_Label02_onclick"/>
+                        <Static id="staPtnrNm" taborder="82" text="&lt;fc v='red'&gt;* &lt;/fc&gt;협력사" cssclass="sta_WF_Label" left="0" top="66" width="117" height="33" style="padding:1 0 0 17;" objNm="협력사" lbcd="" usedecorate="true"/>
+                        <Static id="staCntrCtgr" taborder="83" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계약유형" cssclass="sta_WF_Label" left="0" top="98" width="117" height="33" style="padding:1 0 0 17;" objNm="계약유형" lbcd="" usedecorate="true"/>
+                        <Static id="staCntrDt" taborder="84" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계약일자" cssclass="sta_WF_Label" left="0" top="130" width="117" height="33" style="padding:1 0 0 17;" objNm="계약일자" lbcd="" usedecorate="true"/>
+                        <Div id="divCntrDt" taborder="85" text="Div01" left="122" top="135" width="276" height="24" objNm="계약일자" url="CCOMP::CompCalFromTo.xfdl" enable="false"/>
+                        <Static id="staCdCrnc" taborder="86" text="&lt;fc v='red'&gt;* &lt;/fc&gt;통화단위" cssclass="sta_WF_Label" left="460" top="130" width="101" height="33" style="padding:1 0 0 17;" objNm="예산번호" usedecorate="true"/>
+                        <Static id="staPymtCndtn" taborder="87" text="&lt;fc v='red'&gt;* &lt;/fc&gt;지급조건" cssclass="sta_WF_Label" left="38.24%" top="66" width="101" height="33" style="padding:1 0 0 17;" objNm="지급계정" usedecorate="true"/>
+                        <Static id="staGrntPrid" taborder="88" text="하자보증기간" cssclass="sta_WF_Label" left="460" top="98" width="101" height="33" style="padding:1 0 0 17;" objNm="하자보증기간" lbcd=""/>
+                        <Static id="staCntrStts" taborder="89" text="상태" cssclass="sta_WF_Label" left="703" top="130" width="61" height="33" style="padding:1 0 0 17;" lbcd=""/>
+                        <Static id="staVat" taborder="90" text="부가세" cssclass="sta_WF_Label" left="902" top="130" width="117" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staCntrAmt" taborder="91" text="공급가액" cssclass="sta_WF_Label" left="902" top="98" width="117" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staCntrSum" taborder="92" text="계약금액" cssclass="sta_WF_Label" left="902" top="66" width="117" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staCntrType" taborder="93" text="&lt;fc v='red'&gt;* &lt;/fc&gt;계약구분" cssclass="sta_WF_Label" left="74.98%" top="34" width="117" height="33" style="padding:1 0 0 17;" objNm="계약구분" lbcd="" usedecorate="true"/>
+                        <Edit id="edtTtl" taborder="94" left="121" top="39" right="25.44%" height="24" readonly="true"/>
+                        <Combo id="cboCntrType" taborder="95" left="85.04%" top="39" height="24" innerdataset="@dsCdCT19" codecolumn="CD_ID" datacolumn="CD_NM_LO" value="null" right="51" readonly="true"/>
+                        <Edit id="edtPtnrId" taborder="96" left="121" top="70" height="24" readonly="true" right="958"/>
+                        <Edit id="edtPtnrNm" taborder="97" left="20.78%" top="70" height="24" right="64.84%" onchanged="divViewCompBody00_Tab01_tabp01_edtPtnrNm_onchanged" onkeydown="fnOnkeydown" readonly="true"/>
+                        <Combo id="cboCntrCtgr" taborder="98" left="121" top="102" height="24" innerdataset="@dsCdCT11" datacolumn="CD_NM_LO" codecolumn="CD_ID" width="125" readonly="true"/>
+                        <Combo id="cboPymtCndtn" taborder="99" left="47.05%" top="70" height="24" innerdataset="@dsCdCM13" codecolumn="CD_ID" datacolumn="CD_NM_LO" width="131" readonly="true"/>
+                        <Combo id="cboCdCrnc" taborder="100" left="566" top="134" height="24" innerdataset="@dsCdCM15" codecolumn="CD_ID" datacolumn="CD_NM_LO" width="131" readonly="true"/>
+                        <Combo id="cboCntrStts" taborder="101" left="769" top="134" height="24" innerdataset="@dsCdCT10" codecolumn="CD_ID" datacolumn="CD_NM_LO" readonly="true" width="128"/>
+                        <Edit id="edtGrntPrid" taborder="102" left="566" top="102" right="25.52%" height="24" readonly="true"/>
+                        <MaskEdit id="mdeCntrSum" taborder="103" left="85.12%" top="70" right="0.42%" height="24" mask="#,###" readonly="true"/>
+                        <MaskEdit id="medCntrAmt" taborder="104" left="85.12%" top="102" right="0.58%" height="24" mask="#,###" readonly="true"/>
+                        <MaskEdit id="medVat" taborder="105" left="85.12%" top="134" right="0.67%" height="24" mask="#,###" readonly="true"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp02" text="계약담당자" left="0" top="31" width="1042" height="163">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_WFDA_Label00" taborder="9" cssclass="sta_WF_DetailLabel02" left="0%" top="10" right="0%" height="75"/>
+                        <Div id="divViewCompTitle00" taborder="10" left="0" top="5" right="0" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="0" text="계약담당자" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="staViewCompLine00" taborder="14" cssclass="sta_WF_Labelbg" left="0" top="34" right="0" height="33"/>
+                        <Static id="staCntrChrgr" taborder="15" text="담당자" cssclass="sta_WF_Label" left="0" top="34" width="170" height="33"/>
+                        <Static id="staViewCompLine01" taborder="16" cssclass="sta_WF_Labelbg" left="0" top="66" right="0" height="33"/>
+                        <Static id="staTel" taborder="17" text="전화번호" cssclass="sta_WF_Label" left="0" top="66" width="170" height="33"/>
+                        <Edit id="edtCntrChrgrId" taborder="18" enable="false" left="175" top="38" width="100" height="24" style=":disabled {align:center middle;}" objNm="계약담당자ID"/>
+                        <Edit id="edtCntrChrgrNm" taborder="19" lengthunit="utf8" left="280" top="38" height="24" objNm="계약담당자명" right="55.94%"/>
+                        <Edit id="edtTel" taborder="20" left="175" top="71" height="24" objNm="계약담당자 전화번호" right="55.94%"/>
+                        <Static id="staEmail" taborder="21" text="EMail" cssclass="sta_WF_Label" left="44.47%" top="34" width="170" height="33"/>
+                        <Static id="staFax" taborder="22" text="Fax" cssclass="sta_WF_Label" left="44.47%" top="66" height="33" width="170"/>
+                        <Edit id="edtEmail" taborder="23" cssclass="edt_default_r" left="59.02%" top="38" height="23" objNm="계약담당자 EMAIL" right="7.73%"/>
+                        <Edit id="edtFax" taborder="24" cssclass="edt_default_r" left="59.02%" top="71" height="24" objNm="계약담당자 FAX" right="7.73%"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp03" text="특이사항">
+                    <Layouts>
+                      <Layout>
+                        <TextArea id="txaRmark" taborder="0" left="0" top="34" right="0" bottom="5"/>
+                        <Div id="divViewCompTitle00" taborder="1" left="0" top="5" right="10" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="0" text="특이사항" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp04" text="첨부파일" url="CCOMP::CompNFileUpDown.xfdl"/>
+                </Tabpages>
+              </Tab>
+            </Layout>
+          </Layouts>
+          <InitValue>
+            <Tab id="Tab01">
+              <Tabpages>
+                <Tabpage id="tabp03" objNm="첨부파일 텝" text="첨부파일">
+                </Tabpage>
+              </Tabpages>
+            </Tab>
+          </InitValue>
+        </Div>
+        <Div id="divViewCompBody02" taborder="4" left="0" top="891" height="200" scrollbars="none" objNm="DIV-대상업체 상세" right="15">
+          <Layouts>
+            <Layout>
+              <Grid id="grdCntrPay" taborder="0" binddataset="dsCntrPay" useinputpanel="false" left="0" top="0" right="0" bottom="0" objNm="지급계획 그리드" autofittype="col">
+                <Formats>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="86"/>
+                      <Column size="121"/>
+                      <Column size="120"/>
+                      <Column size="500"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="31" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="normal" text="회차"/>
+                      <Cell col="1" text="지급율"/>
+                      <Cell col="2" text="지급금액"/>
+                      <Cell col="3" text="지급조건"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2;">
+                      <Cell displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:PYMT_ORDR" editdisplay="edit"/>
+                      <Cell col="1" celltype="none" displaytype="normal" edittype="none" editfilter="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:PYMT_RT" mask="###" maskchar=" " editlimit="-1" editautoselect="false" editdisplay="edit" suppress="0" autosizecol="default"/>
+                      <Cell col="2" displaytype="normal" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:PYMT_AMT" mask="9,999.###" maskchar=" " editautoselect="true" editdisplay="edit"/>
+                      <Cell col="3" displaytype="normal" edittype="none" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:RMARK" editdisplay="edit"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody01" taborder="2" left="0%" top="292" right="15" height="300" objNm="DIV-품목 상세">
+          <Layouts>
+            <Layout>
+              <Grid id="grdCntrItem" taborder="2" useinputpanel="false" left="0" top="0" right="0" bottom="0" objNm="품목 그리드" binddataset="dsCntrItem" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y" cellmovingtype="col" cellsizingtype="col" onexpandup="fnGridCntrItemOnexpandup" oncellclick="fnGridCntrItemOncellclick">
+                <Formats>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="300"/>
+                      <Column size="70"/>
+                      <Column size="55"/>
+                      <Column size="70"/>
+                      <Column size="90"/>
+                      <Column size="100"/>
+                      <Column size="373"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="normal" text="품목명"/>
+                      <Cell col="1" displaytype="normal" text="수량"/>
+                      <Cell col="2" text="단위"/>
+                      <Cell col="3" displaytype="normal" text="단가"/>
+                      <Cell col="4" text="공급가"/>
+                      <Cell col="5" text="부가세"/>
+                      <Cell col="6" text="비고"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2;">
+                      <Cell edittype="none" style="align:left;" cssclass="cell_link" text="bind:MTRL_NM" editdisplay="edit" expandshow="hide" calendardisplay="edit" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="1" displaytype="number" edittype="none" style="align:right;" text="bind:QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit"/>
+                      <Cell col="2" displaytype="normal" edittype="none" text="bind:CD_UNIT_NM" combodisplay="edit" calendardisplay="edit"/>
+                      <Cell col="3" displaytype="number" edittype="none" style="align:right;" text="bind:UNT_PRICE" mask="#,##0.00" editclipmode="includespace" editautoselect="false" editdisplay="edit"/>
+                      <Cell col="4" displaytype="number" edittype="none" style="align:right;" text="bind:AMT" mask="#,##0" editautoselect="true"/>
+                      <Cell col="5" displaytype="number" style="align:right;" text="bind:VAT" mask="#,##0"/>
+                      <Cell col="6" displaytype="normal" edittype="none" style="align:left;" text="bind:RMARK" editlimit="200" editdisplay="edit"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_grdBottom" taborder="3" url="" left="0%" right="0%" bottom="10" height="28" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody03" taborder="5" left="0" top="1140" right="10" height="200" scrollbars="none" objNm="DIV-대상업체 상세">
+          <Layouts>
+            <Layout width="1042" height="164">
+              <Grid id="grdInsrnc" taborder="0" binddataset="dsCntrInsrnc" useinputpanel="false" left="0%" top="0" right="0%" bottom="0" objNm="품목 그리드" autofittype="col">
+                <Formats>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="115"/>
+                      <Column size="187"/>
+                      <Column size="304"/>
+                      <Column size="306"/>
+                      <Column size="292"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="normal" text="회차"/>
+                      <Cell col="1" text="이행보증구분"/>
+                      <Cell col="2" text="보증유형"/>
+                      <Cell col="3" text="보증금율"/>
+                      <Cell col="4" text="보증금액"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:PYMT_ORDR" combodisplay="edit"/>
+                      <Cell col="1" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_GRNT_INSRNC_TYPE_NM" combodisplay="edit"/>
+                      <Cell col="2" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_GRNT_MTHD_NM" combodisplay="edit"/>
+                      <Cell col="3" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:GRNT_RT" mask="9,999.###" maskchar=" " editdisplay="edit"/>
+                      <Cell col="4" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:GRNT_AMT" mask="9,999.###" maskchar=" " editdisplay="edit"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody04" taborder="6" left="0" top="1389" right="15" height="516" scrollbars="none">
+          <Layouts>
+            <Layout width="1042" height="500">
+              <WebBrowser id="WebBrowser00" left="0" top="3" right="0" height="506" taborder="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="WebBrowser_Sign" left="16.56%" top="11" right="40.57%" height="0" taborder="76"/>
+        <Div id="divViewCompTitle00" taborder="92" left="0" top="263" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="품목" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle01" taborder="93" left="0" top="862" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="지급계획" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle02" taborder="94" left="0" top="1111" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="이행보증" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle03" taborder="95" left="0" top="1360" right="10" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="계약내용" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody05" taborder="96" left="0" top="641" right="15" height="201" scrollbars="none" objNm="DIV-품목 상세 - 텝 입력">
+          <Layouts>
+            <Layout>
+              <Tab id="Tab01" taborder="4" left="0" top="34" right="0%" height="189" tabindex="0" scrollbars="autoboth" objNm="입력탭">
+                <Tabpages>
+                  <Tabpage id="tabp01" text="상세정보" style="background:white;" scrollbars="none">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_WFDA_Label05" taborder="65" cssclass="sta_WF_DetailLabel02" left="0%" top="10" right="0%" height="103"/>
+                        <Static id="staViewCompLine00" taborder="66" cssclass="sta_WF_Labelbg" left="0" top="34" right="0" height="33"/>
+                        <Div id="divViewCompTitle00" taborder="67" left="0" top="5" right="10" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="0" text="상세정보" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="staViewCompLine01" taborder="68" cssclass="sta_WF_Labelbg" left="0" top="66" right="0" height="33"/>
+                        <Static id="staViewCompLine02" taborder="69" cssclass="sta_WF_Labelbg" left="0" top="98" right="0" height="33"/>
+                        <Static id="staMtrlGrp" taborder="70" text="품목그룹" cssclass="sta_WF_Label" left="0" top="34" width="117" height="33" objNm="품목그룹"/>
+                        <Edit id="edtSrcGrp" taborder="71" readonly="true" autoselect="true" left="122" top="38" width="157" height="24" objNm="소싱그룹코드"/>
+                        <Edit id="edtSrcGrpNm" taborder="72" readonly="true" left="284" top="38" width="500" height="24" style=":disabled {selectbackground:transparent;}" objNm="소싱그룹명"/>
+                        <Static id="staMtrlCd" taborder="73" text="&lt;fc v='red'&gt;* &lt;/fc&gt;품목코드" usedecorate="true" cssclass="sta_WF_Label" left="0" top="66" width="117" height="33" style="font:bold 10 malgun gothic;"/>
+                        <Edit id="edtMtrlCd" taborder="74" readonly="true" autoselect="true" cssclass="edt_default_r" left="122" top="70" width="157" height="24" style=":disabled {align:center;}" objNm="품목코드"/>
+                        <Edit id="edtMtrlNm" taborder="75" autoselect="true" onkeydown="fn_onkeydown_event" ontextchanged="fn_ontextchanged_event" cssclass="edt_default" left="284" top="70" width="500" height="24" style="selectbackground:black;" objNm="품목명" readonly="true"/>
+                        <Static id="staQtyUnit" taborder="76" text="&lt;fc v='red'&gt;* &lt;/fc&gt;수량/단위" usedecorate="true" cssclass="sta_WF_Label" left="0" top="98" width="117" height="33"/>
+                        <MaskEdit id="maeQty" taborder="77" mask="9,999.###" autoselect="true" left="122" top="102" width="157" height="24" objNm="수량" readonly="true"/>
+                        <Combo id="cboCdUnit" taborder="78" innerdataset="@dsCdCM11" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="284" top="102" width="91" height="24" objNm="단위" readonly="true"/>
+                        <Static id="staPrice" taborder="79" text="&lt;fc v='red'&gt;* &lt;/fc&gt;단가" usedecorate="true" cssclass="sta_WF_Label" left="380" top="98" width="117" height="33"/>
+                        <MaskEdit id="maeUntPrice" taborder="80" mask="9,999.###" autoselect="true" left="502" top="102" width="282" height="24" objNm="단가" readonly="true"/>
+                        <Static id="staDlvReqDt" taborder="81" text="납품요청일자" cssclass="sta_WF_Label" left="790" top="66" width="117" height="33"/>
+                        <Static id="staAmt" taborder="82" text="금액" cssclass="sta_WF_Label" left="790" top="98" width="117" height="33"/>
+                        <Calendar id="calDlvReqDt" taborder="83" dateformat="yyyy.MM.dd" editformat="yyyy.MM.dd" left="912" top="70" width="125" height="24" objNm="상세 납품요청일자" readonly="true"/>
+                        <MaskEdit id="maeAmt" taborder="84" readonly="true" mask="," left="912" top="102" height="24" objNm="금액" right="5"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp04" text="비고">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_WFDA_Label05" taborder="2" cssclass="sta_WF_DetailLabel02" left="0%" top="10" right="0%" height="97"/>
+                        <Div id="divViewCompTitle00" taborder="5" left="0" top="5" right="10" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="0" text="비고" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="sta_WFDA_Label01" taborder="6" cssclass="sta_WF_Labelbg" left="0" top="34" right="0" height="97"/>
+                        <TextArea id="ta_rmark" taborder="7" scrollbars="none" left="122" top="38" height="89" objNm="비고" right="5"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+              <Edit id="edtItmNo" taborder="5" readonly="true" left="0" top="0" width="100" height="24" style=":disabled {align:center;}" objNm="품목코드"/>
+              <Combo id="cboItem" taborder="6" innerdataset="@dsCntrItem" codecolumn="ITM_NO" datacolumn="MTRL_NM" onitemchanged="div_41_cbo_itemChg_onitemchanged" left="101" top="0" width="623" height="24" objNm="계약품목변경"/>
+              <Button id="btnCntrItemRowDown" taborder="7" onclick="fnBtnCntrItemRowUpDown" cssclass="btn_WF_ListDown" left="749" top="1" width="26" height="24" objNm="Down"/>
+              <Button id="btnCntrItemRowUp" taborder="8" onclick="fnBtnCntrItemRowUpDown" cssclass="btn_WF_ListUp" left="726" top="1" width="24" height="24" objNm="Up"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle04" taborder="97" left="0" top="612" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="품목 상세정보" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCntr" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" oncolumnchanged="fnSsCntrOncolumnChanged">
+        <ColumnInfo>
+          <Column id="TKEY" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="LANG_CD" type="STRING" size="256"/>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="TTL" type="STRING" size="256"/>
+          <Column id="LNK_CNTR_NO" type="STRING" size="256"/>
+          <Column id="LNK_CNTR_TTL" type="STRING" size="256"/>
+          <Column id="CHRGR_ID" type="STRING" size="256"/>
+          <Column id="CHRGR_NM" type="STRING" size="256"/>
+          <Column id="TEL" type="STRING" size="256"/>
+          <Column id="EMAIL" type="STRING" size="256"/>
+          <Column id="ADDR" type="STRING" size="256"/>
+          <Column id="FAX" type="STRING" size="256"/>
+          <Column id="BIZ_NO" type="STRING" size="256"/>
+          <Column id="PTNR_ID" type="STRING" size="256"/>
+          <Column id="PTNR_NM" type="STRING" size="256"/>
+          <Column id="CD_PYMT_CNDTN_NM" type="STRING" size="256"/>
+          <Column id="CD_PYMT_CNDTN" type="STRING" size="256"/>
+          <Column id="CD_CNTR_CTGR_NM" type="STRING" size="256"/>
+          <Column id="CD_CNTR_CTGR" type="STRING" size="256"/>
+          <Column id="CD_CNTR_STTS_NM" type="STRING" size="256"/>
+          <Column id="CD_CNTR_STTS" type="STRING" size="256"/>
+          <Column id="CD_CNTR_TYPE_NM" type="STRING" size="256"/>
+          <Column id="CD_CNTR_TYPE" type="STRING" size="256"/>
+          <Column id="CNTR_SUM" type="STRING" size="256"/>
+          <Column id="CNTR_AMT" type="STRING" size="256"/>
+          <Column id="CD_DOC_CTGR_NM" type="STRING" size="256"/>
+          <Column id="CD_DOC_CTGR" type="STRING" size="256"/>
+          <Column id="CD_CRNC_NM" type="STRING" size="256"/>
+          <Column id="CD_CRNC" type="STRING" size="256"/>
+          <Column id="CNTR_REQ_DT" type="STRING" size="256"/>
+          <Column id="CNTR_REQR_ID" type="STRING" size="256"/>
+          <Column id="RPRSTV_NM" type="STRING" size="256"/>
+          <Column id="SIGN_DATA" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+          <Column id="CNTR_TMPL_ID" type="STRING" size="256"/>
+          <Column id="RMARK" type="STRING" size="256"/>
+          <Column id="DFCT_GRNT_PRID" type="STRING" size="256"/>
+          <Column id="CNTR_BGN_DAY" size="8" type="string"/>
+          <Column id="CNTR_END_DAY" size="8" type="string"/>
+          <Column id="CNTR_CFM_DT" type="STRING" size="256"/>
+          <Column id="PTNR_CNTR_DT" type="STRING" size="256"/>
+          <Column id="ALT_INTL_CFM" type="STRING" size="256"/>
+          <Column id="VAT" type="STRING" size="256"/>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="SIGN_ORGNL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCntrItem" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" oncolumnchanged="fnDsCntrItemOncolumnchanged">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="AMT" type="STRING" size="256"/>
+          <Column id="ITM_NO" type="STRING" size="256"/>
+          <Column id="TKEY" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="DLV_REQ_DAY" type="STRING" size="256"/>
+          <Column id="MTRL_GRP_ID" type="STRING" size="256"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+          <Column id="QTY" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+          <Column id="CD_FCTRY_NM" type="STRING" size="256"/>
+          <Column id="CD_FCTRY" type="STRING" size="256"/>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="CNTR_ITEM_ID" type="STRING" size="256"/>
+          <Column id="CD_UNIT_NM" type="STRING" size="256"/>
+          <Column id="CD_UNIT" type="STRING" size="256"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="MTRL_GRP_NM" type="STRING" size="256"/>
+          <Column id="ATTCH_FILE_CNT" type="STRING" size="256"/>
+          <Column id="INT_NTAX" type="STRING" size="256"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="PR_ITEM_ID" type="STRING" size="256"/>
+          <Column id="RMARK" type="STRING" size="256"/>
+          <Column id="VAT" type="STRING" size="256"/>
+          <Column id="UNT_PRICE" type="STRING" size="256"/>
+          <Column id="TNDR_ITEM_ID" type="STRING" size="256"/>
+          <Column id="RFQ_REQ_ITEM_ID" type="STRING" size="256"/>
+          <Column id="PO_ITEM_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="dsCntrInsrnc" oncolumnchanged="fnDsCntrInsrncOncolumnChanged">
+        <ColumnInfo>
+          <Column id="PYMT_ORDR" size="22" type="bigdecimal"/>
+          <Column id="REQR_NM" size="30" type="string"/>
+          <Column id="GRNT_BGN_DAY" size="8" type="string"/>
+          <Column id="SIGNCNTNT" size="0" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="GRNT_INSRNC_NO" size="40" type="string"/>
+          <Column id="PCHRGR_ID" size="30" type="string"/>
+          <Column id="GRNT_RT" size="22" type="bigdecimal"/>
+          <Column id="RJT_RSN" size="1500" type="string"/>
+          <Column id="REQR_ID" size="50" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="CD_GRNT_STTS_NM" size="40" type="string"/>
+          <Column id="CD_GRNT_STTS" size="40" type="string"/>
+          <Column id="PCHRGR_NM" size="50" type="string"/>
+          <Column id="GRNT_REQ_DT" size="7" type="string"/>
+          <Column id="GRNT_END_DAY" size="8" type="string"/>
+          <Column id="GRNT_INSRNC_CORP" size="40" type="string"/>
+          <Column id="CNTR_GRNT_ID" size="40" type="string"/>
+          <Column id="ATTCH_FILE_CNT" size="22" type="bigdecimal"/>
+          <Column id="GRNT_AMT" size="22" type="bigdecimal"/>
+          <Column id="CD_GRNT_MTHD_NM" size="40" type="string"/>
+          <Column id="CD_GRNT_MTHD" size="40" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="CNTR_PAY_PLAN_ID" size="40" type="string"/>
+          <Column id="GRNT_CFM_DT" size="7" type="string"/>
+          <Column id="CD_GRNT_INSRNC_TYPE_NM" size="40" type="string"/>
+          <Column id="CD_GRNT_INSRNC_TYPE" size="40" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="BRANCH_CD" size="20" type="string"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCntrPay" oncolumnchanged="fnDsCntrPayOncolumnChanged">
+        <ColumnInfo>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="RMARK" type="STRING" size="256"/>
+          <Column id="PYMT_PLN_DAY" type="STRING" size="256"/>
+          <Column id="PYMT_RT" type="STRING" size="256"/>
+          <Column id="CNTR_PAY_PLAN_ID" type="STRING" size="256"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="PYMT_ORDR" type="STRING" size="256"/>
+          <Column id="PYMT_AMT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSign">
+        <ColumnInfo>
+          <Column id="SIGN_ORGNL" type="STRING" size="256"/>
+          <Column id="SIGN_DATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCntrOrg"/>
+      <Dataset id="dsCdCM10"/>
+      <Dataset id="dsCdCT11"/>
+      <Dataset id="dsCdCM13"/>
+      <Dataset id="dsCdCT19"/>
+      <Dataset id="dsCdCM15"/>
+      <Dataset id="dsCdCT10"/>
+      <Dataset id="dsCdCM11"/>
+      <Dataset id="dsCdCT15"/>
+      <Dataset id="dsCdCT16"/>
+      <Dataset id="dsPrint">
+        <ColumnInfo>
+          <Column id="REF_KEY_1" type="STRING" size="256"/>
+          <Column id="REF_KEY_2" type="STRING" size="256"/>
+          <Column id="COL_NM1" type="STRING" size="256"/>
+          <Column id="COL_NM2" type="STRING" size="256"/>
+          <Column id="TBL_NM" type="STRING" size="256"/>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="ALT_SIGN" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompBody00.Tab01.tabp01.edtTtl" propid="value" datasetid="dsCntr" columnid="TTL"/>
+      <BindItem id="item1" compid="divViewCompBody00.Tab01.tabp01.edtPtnrNm" propid="value" datasetid="dsCntr" columnid="PTNR_NM"/>
+      <BindItem id="item2" compid="divViewCompBody00.Tab01.tabp01.edtPtnrId" propid="value" datasetid="dsCntr" columnid="PTNR_ID"/>
+      <BindItem id="item3" compid="divViewCompBody00.Tab01.tabp01.cboCntrCtgr" propid="value" datasetid="dsCntr" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item4" compid="divViewCompBody00.Tab01.tabp01.cboPymtCndtn" propid="value" datasetid="dsCntr" columnid="CD_PYMT_CNDTN"/>
+      <BindItem id="item5" compid="divViewCompBody00.Tab01.tabp01.edtGrntPrid" propid="value" datasetid="dsCntr" columnid="DFCT_GRNT_PRID"/>
+      <BindItem id="item6" compid="divViewCompBody00.Tab01.tabp01.cboCdCrnc" propid="value" datasetid="dsCntr" columnid="CD_CRNC"/>
+      <BindItem id="item7" compid="divViewCompBody00.Tab01.tabp01.cboCntrStts" propid="value" datasetid="dsCntr" columnid="CD_CNTR_STTS"/>
+      <BindItem id="item8" compid="divViewCompBody00.Tab01.tabp01.cboCntrType" propid="value" datasetid="dsCntr" columnid="CD_CNTR_TYPE"/>
+      <BindItem id="item9" compid="divViewCompBody00.Tab01.tabp01.mdeCntrSum" propid="value" datasetid="dsCntr" columnid="CNTR_SUM"/>
+      <BindItem id="item10" compid="divViewCompBody00.Tab01.tabp01.medCntrAmt" propid="value" datasetid="dsCntr" columnid="CNTR_AMT"/>
+      <BindItem id="item11" compid="divViewCompBody00.Tab01.tabp01.medVat" propid="value" datasetid="dsCntr" columnid="VAT"/>
+      <BindItem id="item12" compid="divViewCompCond00.cboCdDocCtgr" propid="value" datasetid="dsCntr" columnid="CD_DOC_CTGR"/>
+      <BindItem id="item13" compid="divViewCompCond00.maeCntrNo" propid="value" datasetid="dsCntr" columnid="CNTR_NO"/>
+      <BindItem id="item14" compid="divViewCompBody00.Tab01.tabp02.edtCntrChrgrId" propid="value" datasetid="dsCntr" columnid="CHRGR_ID"/>
+      <BindItem id="item15" compid="divViewCompBody00.Tab01.tabp02.edtCntrChrgrNm" propid="value" datasetid="dsCntr" columnid="CHRGR_NM"/>
+      <BindItem id="item16" compid="divViewCompBody00.Tab01.tabp02.edtTel" propid="value" datasetid="dsCntr" columnid="TEL"/>
+      <BindItem id="item17" compid="divViewCompBody00.Tab01.tabp02.edtEmail" propid="value" datasetid="dsCntr" columnid="EMAIL"/>
+      <BindItem id="item18" compid="divViewCompBody00.Tab01.tabp02.edtFax" propid="value" datasetid="dsCntr" columnid="FAX"/>
+      <BindItem id="item19" compid="divViewCompBody00.Tab01.tabp03.txaRmark" propid="value" datasetid="dsCntr" columnid="RMARK"/>
+      <BindItem id="item42" compid="divViewCompBody05.cboItem" propid="value" datasetid="dsCntrItem" columnid="ITM_NO"/>
+      <BindItem id="item43" compid="divViewCompBody05.edtItmNo" propid="value" datasetid="dsCntrItem" columnid="ITM_NO"/>
+      <BindItem id="item20" compid="divViewCompBody05.Tab01.tabp01.edtSrcGrp" propid="value" datasetid="dsCntrItem" columnid="MTRL_GRP_ID"/>
+      <BindItem id="item21" compid="divViewCompBody05.Tab01.tabp01.edtSrcGrpNm" propid="value" datasetid="dsCntrItem" columnid="MTRL_GRP_NM"/>
+      <BindItem id="item22" compid="divViewCompBody05.Tab01.tabp01.edtMtrlCd" propid="value" datasetid="dsCntrItem" columnid="MTRL_CD"/>
+      <BindItem id="item23" compid="divViewCompBody05.Tab01.tabp01.edtMtrlNm" propid="value" datasetid="dsCntrItem" columnid="MTRL_NM"/>
+      <BindItem id="item24" compid="divViewCompBody05.Tab01.tabp01.maeQty" propid="value" datasetid="dsCntrItem" columnid="QTY"/>
+      <BindItem id="item25" compid="divViewCompBody05.Tab01.tabp01.cboCdUnit" propid="value" datasetid="dsCntrItem" columnid="CD_UNIT"/>
+      <BindItem id="item26" compid="divViewCompBody05.Tab01.tabp01.maeUntPrice" propid="value" datasetid="dsCntrItem" columnid="UNT_PRICE"/>
+      <BindItem id="item27" compid="divViewCompBody05.Tab01.tabp01.maeAmt" propid="value" datasetid="dsCntrItem" columnid="AMT"/>
+      <BindItem id="item28" compid="divViewCompBody05.Tab01.tabp01.calDlvReqDt" propid="value" datasetid="dsCntrItem" columnid="DLV_REQ_DAY"/>
+      <BindItem id="item29" compid="divViewCompBody05.Tab01.tabp04.ta_rmark" propid="value" datasetid="dsCntrItem" columnid="RMARK"/>
+      <BindItem id="maeCntrNoVi" compid="divViewCompCond00.maeCntrNo" propid="visible" datasetid="dsObjBindVi" columnid="maeCntrNo"/>
+      <BindItem id="maeCntrNoEn" compid="divViewCompCond00.maeCntrNo" propid="readonly" datasetid="dsObjBindEn" columnid="maeCntrNo"/>
+      <BindItem id="cboCdDocCtgrVi" compid="divViewCompCond00.cboCdDocCtgr" propid="visible" datasetid="dsObjBindVi" columnid="cboCdDocCtgr"/>
+      <BindItem id="cboCdDocCtgrEn" compid="divViewCompCond00.cboCdDocCtgr" propid="readonly" datasetid="dsObjBindEn" columnid="cboCdDocCtgr"/>
+      <BindItem id="Tab01Vi" compid="divViewCompBody00.Tab01" propid="visible" datasetid="dsObjBindVi" columnid="Tab01"/>
+      <BindItem id="Tab01En" compid="divViewCompBody00.Tab01" propid="enable" datasetid="dsObjBindEn" columnid="Tab01"/>
+      <BindItem id="tabp01Vi" compid="divViewCompBody00.Tab01.tabp01" propid="visible" datasetid="dsObjBindVi" columnid="tabp01"/>
+      <BindItem id="tabp01En" compid="divViewCompBody00.Tab01.tabp01" propid="enable" datasetid="dsObjBindEn" columnid="tabp01"/>
+      <BindItem id="staTtlVi" compid="divViewCompBody00.Tab01.tabp01.staTtl" propid="visible" datasetid="dsObjBindVi" columnid="staTtl"/>
+      <BindItem id="staTtlEn" compid="divViewCompBody00.Tab01.tabp01.staTtl" propid="enable" datasetid="dsObjBindEn" columnid="staTtl"/>
+      <BindItem id="staPtnrNmVi" compid="divViewCompBody00.Tab01.tabp01.staPtnrNm" propid="visible" datasetid="dsObjBindVi" columnid="staPtnrNm"/>
+      <BindItem id="staPtnrNmEn" compid="divViewCompBody00.Tab01.tabp01.staPtnrNm" propid="enable" datasetid="dsObjBindEn" columnid="staPtnrNm"/>
+      <BindItem id="staCntrCtgrVi" compid="divViewCompBody00.Tab01.tabp01.staCntrCtgr" propid="visible" datasetid="dsObjBindVi" columnid="staCntrCtgr"/>
+      <BindItem id="staCntrCtgrEn" compid="divViewCompBody00.Tab01.tabp01.staCntrCtgr" propid="enable" datasetid="dsObjBindEn" columnid="staCntrCtgr"/>
+      <BindItem id="staCntrDtVi" compid="divViewCompBody00.Tab01.tabp01.staCntrDt" propid="visible" datasetid="dsObjBindVi" columnid="staCntrDt"/>
+      <BindItem id="staCntrDtEn" compid="divViewCompBody00.Tab01.tabp01.staCntrDt" propid="enable" datasetid="dsObjBindEn" columnid="staCntrDt"/>
+      <BindItem id="divCntrDtVi" compid="divViewCompBody00.Tab01.tabp01.divCntrDt" propid="visible" datasetid="dsObjBindVi" columnid="divCntrDt"/>
+      <BindItem id="divCntrDtEn" compid="divViewCompBody00.Tab01.tabp01.divCntrDt" propid="enable" datasetid="dsObjBindEn" columnid="divCntrDt"/>
+      <BindItem id="staCdCrncVi" compid="divViewCompBody00.Tab01.tabp01.staCdCrnc" propid="visible" datasetid="dsObjBindVi" columnid="staCdCrnc"/>
+      <BindItem id="staCdCrncEn" compid="divViewCompBody00.Tab01.tabp01.staCdCrnc" propid="enable" datasetid="dsObjBindEn" columnid="staCdCrnc"/>
+      <BindItem id="staPymtCndtnVi" compid="divViewCompBody00.Tab01.tabp01.staPymtCndtn" propid="visible" datasetid="dsObjBindVi" columnid="staPymtCndtn"/>
+      <BindItem id="staPymtCndtnEn" compid="divViewCompBody00.Tab01.tabp01.staPymtCndtn" propid="enable" datasetid="dsObjBindEn" columnid="staPymtCndtn"/>
+      <BindItem id="staGrntPridVi" compid="divViewCompBody00.Tab01.tabp01.staGrntPrid" propid="visible" datasetid="dsObjBindVi" columnid="staGrntPrid"/>
+      <BindItem id="staGrntPridEn" compid="divViewCompBody00.Tab01.tabp01.staGrntPrid" propid="enable" datasetid="dsObjBindEn" columnid="staGrntPrid"/>
+      <BindItem id="staCntrSttsVi" compid="divViewCompBody00.Tab01.tabp01.staCntrStts" propid="visible" datasetid="dsObjBindVi" columnid="staCntrStts"/>
+      <BindItem id="staCntrSttsEn" compid="divViewCompBody00.Tab01.tabp01.staCntrStts" propid="enable" datasetid="dsObjBindEn" columnid="staCntrStts"/>
+      <BindItem id="staVatVi" compid="divViewCompBody00.Tab01.tabp01.staVat" propid="visible" datasetid="dsObjBindVi" columnid="staVat"/>
+      <BindItem id="staVatEn" compid="divViewCompBody00.Tab01.tabp01.staVat" propid="enable" datasetid="dsObjBindEn" columnid="staVat"/>
+      <BindItem id="staCntrAmtVi" compid="divViewCompBody00.Tab01.tabp01.staCntrAmt" propid="visible" datasetid="dsObjBindVi" columnid="staCntrAmt"/>
+      <BindItem id="staCntrAmtEn" compid="divViewCompBody00.Tab01.tabp01.staCntrAmt" propid="enable" datasetid="dsObjBindEn" columnid="staCntrAmt"/>
+      <BindItem id="staCntrSumVi" compid="divViewCompBody00.Tab01.tabp01.staCntrSum" propid="visible" datasetid="dsObjBindVi" columnid="staCntrSum"/>
+      <BindItem id="staCntrSumEn" compid="divViewCompBody00.Tab01.tabp01.staCntrSum" propid="enable" datasetid="dsObjBindEn" columnid="staCntrSum"/>
+      <BindItem id="staCntrTypeVi" compid="divViewCompBody00.Tab01.tabp01.staCntrType" propid="visible" datasetid="dsObjBindVi" columnid="staCntrType"/>
+      <BindItem id="staCntrTypeEn" compid="divViewCompBody00.Tab01.tabp01.staCntrType" propid="enable" datasetid="dsObjBindEn" columnid="staCntrType"/>
+      <BindItem id="edtTtlVi" compid="divViewCompBody00.Tab01.tabp01.edtTtl" propid="visible" datasetid="dsObjBindVi" columnid="edtTtl"/>
+      <BindItem id="edtTtlEn" compid="divViewCompBody00.Tab01.tabp01.edtTtl" propid="readonly" datasetid="dsObjBindEn" columnid="edtTtl"/>
+      <BindItem id="cboCntrTypeVi" compid="divViewCompBody00.Tab01.tabp01.cboCntrType" propid="visible" datasetid="dsObjBindVi" columnid="cboCntrType"/>
+      <BindItem id="cboCntrTypeEn" compid="divViewCompBody00.Tab01.tabp01.cboCntrType" propid="readonly" datasetid="dsObjBindEn" columnid="cboCntrType"/>
+      <BindItem id="edtPtnrIdVi" compid="divViewCompBody00.Tab01.tabp01.edtPtnrId" propid="visible" datasetid="dsObjBindVi" columnid="edtPtnrId"/>
+      <BindItem id="edtPtnrIdEn" compid="divViewCompBody00.Tab01.tabp01.edtPtnrId" propid="readonly" datasetid="dsObjBindEn" columnid="edtPtnrId"/>
+      <BindItem id="edtPtnrNmVi" compid="divViewCompBody00.Tab01.tabp01.edtPtnrNm" propid="visible" datasetid="dsObjBindVi" columnid="edtPtnrNm"/>
+      <BindItem id="edtPtnrNmEn" compid="divViewCompBody00.Tab01.tabp01.edtPtnrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtPtnrNm"/>
+      <BindItem id="cboCntrCtgrVi" compid="divViewCompBody00.Tab01.tabp01.cboCntrCtgr" propid="visible" datasetid="dsObjBindVi" columnid="cboCntrCtgr"/>
+      <BindItem id="cboCntrCtgrEn" compid="divViewCompBody00.Tab01.tabp01.cboCntrCtgr" propid="readonly" datasetid="dsObjBindEn" columnid="cboCntrCtgr"/>
+      <BindItem id="cboPymtCndtnVi" compid="divViewCompBody00.Tab01.tabp01.cboPymtCndtn" propid="visible" datasetid="dsObjBindVi" columnid="cboPymtCndtn"/>
+      <BindItem id="cboPymtCndtnEn" compid="divViewCompBody00.Tab01.tabp01.cboPymtCndtn" propid="readonly" datasetid="dsObjBindEn" columnid="cboPymtCndtn"/>
+      <BindItem id="cboCdCrncVi" compid="divViewCompBody00.Tab01.tabp01.cboCdCrnc" propid="visible" datasetid="dsObjBindVi" columnid="cboCdCrnc"/>
+      <BindItem id="cboCdCrncEn" compid="divViewCompBody00.Tab01.tabp01.cboCdCrnc" propid="readonly" datasetid="dsObjBindEn" columnid="cboCdCrnc"/>
+      <BindItem id="cboCntrSttsVi" compid="divViewCompBody00.Tab01.tabp01.cboCntrStts" propid="visible" datasetid="dsObjBindVi" columnid="cboCntrStts"/>
+      <BindItem id="cboCntrSttsEn" compid="divViewCompBody00.Tab01.tabp01.cboCntrStts" propid="readonly" datasetid="dsObjBindEn" columnid="cboCntrStts"/>
+      <BindItem id="edtGrntPridVi" compid="divViewCompBody00.Tab01.tabp01.edtGrntPrid" propid="visible" datasetid="dsObjBindVi" columnid="edtGrntPrid"/>
+      <BindItem id="edtGrntPridEn" compid="divViewCompBody00.Tab01.tabp01.edtGrntPrid" propid="readonly" datasetid="dsObjBindEn" columnid="edtGrntPrid"/>
+      <BindItem id="mdeCntrSumVi" compid="divViewCompBody00.Tab01.tabp01.mdeCntrSum" propid="visible" datasetid="dsObjBindVi" columnid="mdeCntrSum"/>
+      <BindItem id="mdeCntrSumEn" compid="divViewCompBody00.Tab01.tabp01.mdeCntrSum" propid="readonly" datasetid="dsObjBindEn" columnid="mdeCntrSum"/>
+      <BindItem id="medCntrAmtVi" compid="divViewCompBody00.Tab01.tabp01.medCntrAmt" propid="visible" datasetid="dsObjBindVi" columnid="medCntrAmt"/>
+      <BindItem id="medCntrAmtEn" compid="divViewCompBody00.Tab01.tabp01.medCntrAmt" propid="readonly" datasetid="dsObjBindEn" columnid="medCntrAmt"/>
+      <BindItem id="medVatVi" compid="divViewCompBody00.Tab01.tabp01.medVat" propid="visible" datasetid="dsObjBindVi" columnid="medVat"/>
+      <BindItem id="medVatEn" compid="divViewCompBody00.Tab01.tabp01.medVat" propid="readonly" datasetid="dsObjBindEn" columnid="medVat"/>
+      <BindItem id="tabp02Vi" compid="divViewCompBody00.Tab01.tabp02" propid="visible" datasetid="dsObjBindVi" columnid="tabp02"/>
+      <BindItem id="tabp02En" compid="divViewCompBody00.Tab01.tabp02" propid="enable" datasetid="dsObjBindEn" columnid="tabp02"/>
+      <BindItem id="sta_WFDA_Label00Vi" compid="divViewCompBody00.Tab01.tabp02.sta_WFDA_Label00" propid="visible" datasetid="dsObjBindVi" columnid="sta_WFDA_Label00"/>
+      <BindItem id="sta_WFDA_Label00En" compid="divViewCompBody00.Tab01.tabp02.sta_WFDA_Label00" propid="enable" datasetid="dsObjBindEn" columnid="sta_WFDA_Label00"/>
+      <BindItem id="staCntrChrgrVi" compid="divViewCompBody00.Tab01.tabp02.staCntrChrgr" propid="visible" datasetid="dsObjBindVi" columnid="staCntrChrgr"/>
+      <BindItem id="staCntrChrgrEn" compid="divViewCompBody00.Tab01.tabp02.staCntrChrgr" propid="enable" datasetid="dsObjBindEn" columnid="staCntrChrgr"/>
+      <BindItem id="staTelVi" compid="divViewCompBody00.Tab01.tabp02.staTel" propid="visible" datasetid="dsObjBindVi" columnid="staTel"/>
+      <BindItem id="staTelEn" compid="divViewCompBody00.Tab01.tabp02.staTel" propid="enable" datasetid="dsObjBindEn" columnid="staTel"/>
+      <BindItem id="edtCntrChrgrIdVi" compid="divViewCompBody00.Tab01.tabp02.edtCntrChrgrId" propid="visible" datasetid="dsObjBindVi" columnid="edtCntrChrgrId"/>
+      <BindItem id="edtCntrChrgrIdEn" compid="divViewCompBody00.Tab01.tabp02.edtCntrChrgrId" propid="readonly" datasetid="dsObjBindEn" columnid="edtCntrChrgrId"/>
+      <BindItem id="edtCntrChrgrNmVi" compid="divViewCompBody00.Tab01.tabp02.edtCntrChrgrNm" propid="visible" datasetid="dsObjBindVi" columnid="edtCntrChrgrNm"/>
+      <BindItem id="edtCntrChrgrNmEn" compid="divViewCompBody00.Tab01.tabp02.edtCntrChrgrNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtCntrChrgrNm"/>
+      <BindItem id="edtTelVi" compid="divViewCompBody00.Tab01.tabp02.edtTel" propid="visible" datasetid="dsObjBindVi" columnid="edtTel"/>
+      <BindItem id="edtTelEn" compid="divViewCompBody00.Tab01.tabp02.edtTel" propid="readonly" datasetid="dsObjBindEn" columnid="edtTel"/>
+      <BindItem id="staEmailVi" compid="divViewCompBody00.Tab01.tabp02.staEmail" propid="visible" datasetid="dsObjBindVi" columnid="staEmail"/>
+      <BindItem id="staEmailEn" compid="divViewCompBody00.Tab01.tabp02.staEmail" propid="enable" datasetid="dsObjBindEn" columnid="staEmail"/>
+      <BindItem id="staFaxVi" compid="divViewCompBody00.Tab01.tabp02.staFax" propid="visible" datasetid="dsObjBindVi" columnid="staFax"/>
+      <BindItem id="staFaxEn" compid="divViewCompBody00.Tab01.tabp02.staFax" propid="enable" datasetid="dsObjBindEn" columnid="staFax"/>
+      <BindItem id="edtEmailVi" compid="divViewCompBody00.Tab01.tabp02.edtEmail" propid="visible" datasetid="dsObjBindVi" columnid="edtEmail"/>
+      <BindItem id="edtEmailEn" compid="divViewCompBody00.Tab01.tabp02.edtEmail" propid="readonly" datasetid="dsObjBindEn" columnid="edtEmail"/>
+      <BindItem id="edtFaxVi" compid="divViewCompBody00.Tab01.tabp02.edtFax" propid="visible" datasetid="dsObjBindVi" columnid="edtFax"/>
+      <BindItem id="edtFaxEn" compid="divViewCompBody00.Tab01.tabp02.edtFax" propid="readonly" datasetid="dsObjBindEn" columnid="edtFax"/>
+      <BindItem id="tabp03Vi" compid="divViewCompBody00.Tab01.tabp03" propid="visible" datasetid="dsObjBindVi" columnid="tabp03"/>
+      <BindItem id="tabp03En" compid="divViewCompBody00.Tab01.tabp03" propid="enable" datasetid="dsObjBindEn" columnid="tabp03"/>
+      <BindItem id="txaRmarkVi" compid="divViewCompBody00.Tab01.tabp03.txaRmark" propid="visible" datasetid="dsObjBindVi" columnid="txaRmark"/>
+      <BindItem id="txaRmarkEn" compid="divViewCompBody00.Tab01.tabp03.txaRmark" propid="readonly" datasetid="dsObjBindEn" columnid="txaRmark"/>
+      <BindItem id="div_grdBottomVi" compid="divViewCompBody01.div_grdBottom" propid="visible" datasetid="dsObjBindVi" columnid="div_grdBottom"/>
+      <BindItem id="div_grdBottomEn" compid="divViewCompBody01.div_grdBottom" propid="enable" datasetid="dsObjBindEn" columnid="div_grdBottom"/>
+      <BindItem id="WebBrowser00Vi" compid="divViewCompBody04.WebBrowser00" propid="visible" datasetid="dsObjBindVi" columnid="WebBrowser00"/>
+      <BindItem id="WebBrowser00En" compid="divViewCompBody04.WebBrowser00" propid="enable" datasetid="dsObjBindEn" columnid="WebBrowser00"/>
+      <BindItem id="WebBrowser_SignVi" compid="WebBrowser_Sign" propid="visible" datasetid="dsObjBindVi" columnid="WebBrowser_Sign"/>
+      <BindItem id="WebBrowser_SignEn" compid="WebBrowser_Sign" propid="enable" datasetid="dsObjBindEn" columnid="WebBrowser_Sign"/>
+      <BindItem id="Tab01_3Vi" compid="divViewCompBody05.Tab01" propid="visible" datasetid="dsObjBindVi" columnid="Tab01_3"/>
+      <BindItem id="Tab01_3En" compid="divViewCompBody05.Tab01" propid="enable" datasetid="dsObjBindEn" columnid="Tab01_3"/>
+      <BindItem id="tabp01_4Vi" compid="divViewCompBody05.Tab01.tabp01" propid="visible" datasetid="dsObjBindVi" columnid="tabp01_4"/>
+      <BindItem id="tabp01_4En" compid="divViewCompBody05.Tab01.tabp01" propid="enable" datasetid="dsObjBindEn" columnid="tabp01_4"/>
+      <BindItem id="sta_WFDA_Label05Vi" compid="divViewCompBody05.Tab01.tabp01.sta_WFDA_Label05" propid="visible" datasetid="dsObjBindVi" columnid="sta_WFDA_Label05"/>
+      <BindItem id="sta_WFDA_Label05En" compid="divViewCompBody05.Tab01.tabp01.sta_WFDA_Label05" propid="enable" datasetid="dsObjBindEn" columnid="sta_WFDA_Label05"/>
+      <BindItem id="staMtrlGrpVi" compid="divViewCompBody05.Tab01.tabp01.staMtrlGrp" propid="visible" datasetid="dsObjBindVi" columnid="staMtrlGrp"/>
+      <BindItem id="staMtrlGrpEn" compid="divViewCompBody05.Tab01.tabp01.staMtrlGrp" propid="enable" datasetid="dsObjBindEn" columnid="staMtrlGrp"/>
+      <BindItem id="edtSrcGrpVi" compid="divViewCompBody05.Tab01.tabp01.edtSrcGrp" propid="visible" datasetid="dsObjBindVi" columnid="edtSrcGrp"/>
+      <BindItem id="edtSrcGrpEn" compid="divViewCompBody05.Tab01.tabp01.edtSrcGrp" propid="readonly" datasetid="dsObjBindEn" columnid="edtSrcGrp"/>
+      <BindItem id="edtSrcGrpNmVi" compid="divViewCompBody05.Tab01.tabp01.edtSrcGrpNm" propid="visible" datasetid="dsObjBindVi" columnid="edtSrcGrpNm"/>
+      <BindItem id="edtSrcGrpNmEn" compid="divViewCompBody05.Tab01.tabp01.edtSrcGrpNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtSrcGrpNm"/>
+      <BindItem id="staMtrlCdVi" compid="divViewCompBody05.Tab01.tabp01.staMtrlCd" propid="visible" datasetid="dsObjBindVi" columnid="staMtrlCd"/>
+      <BindItem id="staMtrlCdEn" compid="divViewCompBody05.Tab01.tabp01.staMtrlCd" propid="enable" datasetid="dsObjBindEn" columnid="staMtrlCd"/>
+      <BindItem id="edtMtrlCdVi" compid="divViewCompBody05.Tab01.tabp01.edtMtrlCd" propid="visible" datasetid="dsObjBindVi" columnid="edtMtrlCd"/>
+      <BindItem id="edtMtrlCdEn" compid="divViewCompBody05.Tab01.tabp01.edtMtrlCd" propid="readonly" datasetid="dsObjBindEn" columnid="edtMtrlCd"/>
+      <BindItem id="edtMtrlNmVi" compid="divViewCompBody05.Tab01.tabp01.edtMtrlNm" propid="visible" datasetid="dsObjBindVi" columnid="edtMtrlNm"/>
+      <BindItem id="edtMtrlNmEn" compid="divViewCompBody05.Tab01.tabp01.edtMtrlNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtMtrlNm"/>
+      <BindItem id="staQtyUnitVi" compid="divViewCompBody05.Tab01.tabp01.staQtyUnit" propid="visible" datasetid="dsObjBindVi" columnid="staQtyUnit"/>
+      <BindItem id="staQtyUnitEn" compid="divViewCompBody05.Tab01.tabp01.staQtyUnit" propid="enable" datasetid="dsObjBindEn" columnid="staQtyUnit"/>
+      <BindItem id="maeQtyVi" compid="divViewCompBody05.Tab01.tabp01.maeQty" propid="visible" datasetid="dsObjBindVi" columnid="maeQty"/>
+      <BindItem id="maeQtyEn" compid="divViewCompBody05.Tab01.tabp01.maeQty" propid="readonly" datasetid="dsObjBindEn" columnid="maeQty"/>
+      <BindItem id="cboCdUnitVi" compid="divViewCompBody05.Tab01.tabp01.cboCdUnit" propid="visible" datasetid="dsObjBindVi" columnid="cboCdUnit"/>
+      <BindItem id="cboCdUnitEn" compid="divViewCompBody05.Tab01.tabp01.cboCdUnit" propid="readonly" datasetid="dsObjBindEn" columnid="cboCdUnit"/>
+      <BindItem id="staPriceVi" compid="divViewCompBody05.Tab01.tabp01.staPrice" propid="visible" datasetid="dsObjBindVi" columnid="staPrice"/>
+      <BindItem id="staPriceEn" compid="divViewCompBody05.Tab01.tabp01.staPrice" propid="enable" datasetid="dsObjBindEn" columnid="staPrice"/>
+      <BindItem id="maeUntPriceVi" compid="divViewCompBody05.Tab01.tabp01.maeUntPrice" propid="visible" datasetid="dsObjBindVi" columnid="maeUntPrice"/>
+      <BindItem id="maeUntPriceEn" compid="divViewCompBody05.Tab01.tabp01.maeUntPrice" propid="readonly" datasetid="dsObjBindEn" columnid="maeUntPrice"/>
+      <BindItem id="staDlvReqDtVi" compid="divViewCompBody05.Tab01.tabp01.staDlvReqDt" propid="visible" datasetid="dsObjBindVi" columnid="staDlvReqDt"/>
+      <BindItem id="staDlvReqDtEn" compid="divViewCompBody05.Tab01.tabp01.staDlvReqDt" propid="enable" datasetid="dsObjBindEn" columnid="staDlvReqDt"/>
+      <BindItem id="staAmtVi" compid="divViewCompBody05.Tab01.tabp01.staAmt" propid="visible" datasetid="dsObjBindVi" columnid="staAmt"/>
+      <BindItem id="staAmtEn" compid="divViewCompBody05.Tab01.tabp01.staAmt" propid="enable" datasetid="dsObjBindEn" columnid="staAmt"/>
+      <BindItem id="calDlvReqDtVi" compid="divViewCompBody05.Tab01.tabp01.calDlvReqDt" propid="visible" datasetid="dsObjBindVi" columnid="calDlvReqDt"/>
+      <BindItem id="calDlvReqDtEn" compid="divViewCompBody05.Tab01.tabp01.calDlvReqDt" propid="readonly" datasetid="dsObjBindEn" columnid="calDlvReqDt"/>
+      <BindItem id="maeAmtVi" compid="divViewCompBody05.Tab01.tabp01.maeAmt" propid="visible" datasetid="dsObjBindVi" columnid="maeAmt"/>
+      <BindItem id="maeAmtEn" compid="divViewCompBody05.Tab01.tabp01.maeAmt" propid="readonly" datasetid="dsObjBindEn" columnid="maeAmt"/>
+      <BindItem id="tabp04Vi" compid="divViewCompBody05.Tab01.tabp04" propid="visible" datasetid="dsObjBindVi" columnid="tabp04"/>
+      <BindItem id="tabp04En" compid="divViewCompBody05.Tab01.tabp04" propid="enable" datasetid="dsObjBindEn" columnid="tabp04"/>
+      <BindItem id="sta_WFDA_Label05_48Vi" compid="divViewCompBody05.Tab01.tabp04.sta_WFDA_Label05" propid="visible" datasetid="dsObjBindVi" columnid="sta_WFDA_Label05_48"/>
+      <BindItem id="sta_WFDA_Label05_48En" compid="divViewCompBody05.Tab01.tabp04.sta_WFDA_Label05" propid="enable" datasetid="dsObjBindEn" columnid="sta_WFDA_Label05_48"/>
+      <BindItem id="sta_WFDA_Label01Vi" compid="divViewCompBody05.Tab01.tabp04.sta_WFDA_Label01" propid="visible" datasetid="dsObjBindVi" columnid="sta_WFDA_Label01"/>
+      <BindItem id="sta_WFDA_Label01En" compid="divViewCompBody05.Tab01.tabp04.sta_WFDA_Label01" propid="enable" datasetid="dsObjBindEn" columnid="sta_WFDA_Label01"/>
+      <BindItem id="ta_rmarkVi" compid="divViewCompBody05.Tab01.tabp04.ta_rmark" propid="visible" datasetid="dsObjBindVi" columnid="ta_rmark"/>
+      <BindItem id="ta_rmarkEn" compid="divViewCompBody05.Tab01.tabp04.ta_rmark" propid="readonly" datasetid="dsObjBindEn" columnid="ta_rmark"/>
+      <BindItem id="edtItmNoVi" compid="divViewCompBody05.edtItmNo" propid="visible" datasetid="dsObjBindVi" columnid="edtItmNo"/>
+      <BindItem id="edtItmNoEn" compid="divViewCompBody05.edtItmNo" propid="readonly" datasetid="dsObjBindEn" columnid="edtItmNo"/>
+      <BindItem id="cboItemVi" compid="divViewCompBody05.cboItem" propid="visible" datasetid="dsObjBindVi" columnid="cboItem"/>
+      <BindItem id="cboItemEn" compid="divViewCompBody05.cboItem" propid="readonly" datasetid="dsObjBindEn" columnid="cboItem"/>
+      <BindItem id="btnCntrItemRowDownVi" compid="divViewCompBody05.btnCntrItemRowDown" propid="visible" datasetid="dsObjBindVi" columnid="btnCntrItemRowDown"/>
+      <BindItem id="btnCntrItemRowDownEn" compid="divViewCompBody05.btnCntrItemRowDown" propid="enable" datasetid="dsObjBindEn" columnid="btnCntrItemRowDown"/>
+      <BindItem id="btnCntrItemRowUpVi" compid="divViewCompBody05.btnCntrItemRowUp" propid="visible" datasetid="dsObjBindVi" columnid="btnCntrItemRowUp"/>
+      <BindItem id="btnCntrItemRowUpEn" compid="divViewCompBody05.btnCntrItemRowUp" propid="enable" datasetid="dsObjBindEn" columnid="btnCntrItemRowUp"/>
+      <BindItem id="grdCntrPayFormatId" compid="divViewCompBody02.grdCntrPay" propid="formatid" datasetid="dsObjBindGrid" columnid="grdCntrPay"/>
+      <BindItem id="grdCntrItemFormatId" compid="divViewCompBody01.grdCntrItem" propid="formatid" datasetid="dsObjBindGrid" columnid="grdCntrItem"/>
+      <BindItem id="grdInsrncFormatId" compid="divViewCompBody03.grdInsrnc" propid="formatid" datasetid="dsObjBindGrid" columnid="grdInsrnc"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: SCntrDetail
+ * @생성자			: 안성민
+ * @생성일시		: 2019. 05. 20.
+ * @설명			: 계약상세
+ * @최종수정자		: 안성민
+ * @최종수정일시	: 2019. 05. 20.
+*/ 
+ 
+this.fv_cntrNo = "";	
+this.fv_reloadCnt = true;
+this.fv_print = false;
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [	{code:"CM13", sSelectType:"S"} // 지급조건
+					,{code:"CM10", sSelectType:"S"} // 문서유형
+					,{code:"CM11", sSelectType:"S"} // 단위
+					,{code:"CT10", sSelectType:"S"} // 계약상태
+					,{code:"CT11", sSelectType:"S", sFiltered:"S:DAN,ONE"} // 계약유형
+					,{code:"CT19", sSelectType:"S"} // 계약구분
+					,{code:"CM15", sSelectType:"S", sFiltered:"S:KRW"} // 통화
+					,{code:"CT15", sSelectType:"S"} // 보증유형
+					,{code:"CT16", sSelectType:"S"} // 보증구분
+				];		
+									
+									
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnRemote
+  * @desc     	: 리모콘 버튼 생성
+  */
+this.fnRemote = function()
+{
+		var sArg = [ 
+					{btnName:"계약합의", clickEventFunc:"fnCntrSclo"}
+			];	
+	gfnRemote(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacr o.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	gfnSetObj("A")
+	gfnMakeFileDs(this);
+	
+	this.dsCntr.deleteAll();
+	var cntrNo = gfnGetTmprData("CNTR_NO");
+	var branchCd = gfnGetTmprData("BRANCH_CD");
+	gfnClearTmprData();
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.divViewCompBody01.grdCntrItem, "", this);
+ 	gfnSetGrdFunc(this.divViewCompBody02.grdCntrPay, "", this);
+ 	gfnSetGrdFunc(this.divViewCompBody03.grdInsrnc, "", this);
+	
+	//this.divViewCompBody04.webEditor.set_url(application.gvDomain+"/ckeditor/editor.jsp");
+	this.divViewCompBody00.Tab01.tabp01.divCntrDt.fnSetDate(this.dsCntr, "CNTR_BGN_DAY", "CNTR_END_DAY")	
+	
+	this.dsCntr.addRow();
+	this.dsCntr.setColumn(0, "BRANCH_CD", branchCd);
+	this.dsCntr.setColumn(0, "CNTR_NO", cntrNo);
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return;
+	
+	var sSvcID = "readCntr";
+	var sController = "epro.cntr.service.SCntrService.readCntr";
+	var sInDatasets = "dsCntr=dsCntr";
+	var sOutDatasets = "dsCntr=dsCntr dsCntrItem=dsCntrItem dsCntrPay=dsCntrPay dsCntrInsrnc=dsCntrInsrnc";
+	var sCallbackFunc = "fnTrCallBack";
+				
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);	
+}
+
+this.fnPreSave = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSave
+  * @desc     	: 저장
+  */
+this.fv_trType; //REQ(계약요청)
+this.fnSave = function(type)
+{
+	if(!this.fnPreSave()) {
+		this.fv_trType = "";
+		return;
+	}
+	
+	this.fv_trType = type;
+	if(type == "SCLO") {			
+		var exportFileNm = this.dsCntr.getColumn(0, "CNTR_NO");
+		var reportFile = "PCTRB100N00_P01_SIGNDATA_HTML" + ".jrf";
+		var datasets = [this.dsCntr, this.dsCntrItem, this.dsCntrPay, this.dsCntrInsrnc]
+
+		this.dsPrint.deleteAll();
+		var nRow = this.dsPrint.addRow();
+		this.dsPrint.setColumn(nRow, "BRANCH_CD"	, this.dsCntr.getColumn(0,"BRANCH_CD"));
+		this.dsPrint.setColumn(nRow, "REF_KEY_1"	, this.dsCntr.getColumn(0,"CNTR_NO"));
+		this.dsPrint.setColumn(nRow, "REF_KEY_2"	, "");
+		this.dsPrint.setColumn(nRow, "COL_NM1"		, "CNTR_NO");
+		this.dsPrint.setColumn(nRow, "COL_NM2"		, "");
+		this.dsPrint.setColumn(nRow, "TBL_NM"		, "MM_CNTR_ADD");
+		this.dsPrint.setColumn(nRow, "ALT_SIGN"		, "Y");
+			
+		var sArg = { arg:this.dsPrint, reportFile:reportFile, datasets:datasets, exportFileNm:exportFileNm, content:this.dsCntr.getColumn(0, "SIGN_ORGNL")};				
+		gfnModalPop(this, "HtmlReportPop", "CCOMP::ComUbiReportToHtml.xfdl", sArg, "fnPopCallBack", 1000, 1000);
+		// 2. 에디터 관련 컬럼을 삭제한 데이터셋을 이용하여 HTML로 만든다.
+		//this.Div00.ubiviewerlib_setting(sArg);
+	}
+}
+
+/**
+
+	@desc   	팝업 CallBack 함수
+*/
+this.fnTrCallBack = function(sPopupId, rtn)
+{
+	switch(sPopupId) {
+		case "readCntr" :	
+			var start = "<div style="+"color:#333333;font:20 malgun gothic;>";
+			var end   = "</div>";			
+			var doc = this.divViewCompBody04.WebBrowser00.getProperty("document");
+			doc.callMethod("write", start + this.dsCntr.getColumn(0,"SIGN_ORGNL") + end);
+			break;
+		default:
+			break;		
+	}
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{	
+	switch(sPopupId) {
+		//승인요청
+		case "fnPopCallBack" :
+			this.fnSearch();
+			break;
+		default:
+			break;		
+	}
+}
+
+this.fnDsCntrItemOncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	var nqty = 0;
+	var nprice = 0;
+	if(e.columnid == "QTY" || e.columnid == "UNT_PRICE") {
+		nqty = this.dsCntrItem.getColumn(e.row,"QTY");
+		nprice = this.dsCntrItem.getColumn(e.row,"UNT_PRICE");
+		
+		this.dsCntrItem.setColumn(e.row,"AMT",Math.round(nqty*nprice));
+		
+		if("T" == this.dsCntrItem.getColumn(e.row,"INT_NTAX")){
+			this.dsCntrItem.setColumn(e.row,"VAT",Math.round(nqty*nprice)*0.1);
+		}else{
+			this.dsCntrItem.setColumn(e.row,"VAT",0);
+		}
+		
+		var totalVat = 0;
+		var totalAmt = 0;
+		
+		for(var i = 0 ; i < this.dsCntrItem.rowcount ; i++){
+			totalVat += parseInt(this.dsCntrItem.getColumn(i,"VAT"));
+			totalAmt += parseInt(this.dsCntrItem.getColumn(i,"AMT"));
+		}
+		
+		//품목의 단가,수량 변경시 헤더의 금액,단가,부가세 변경
+		this.dsCntr.setColumn(0,"VAT",totalVat);				//부가세변경
+		this.dsCntr.setColumn(0,"CNTR_AMT",totalAmt);			//공급가변경	
+		this.dsCntr.setColumn(0,"CNTR_SUM",totalVat + totalAmt);	//부가세+공급가 변경
+	}
+}
+
+/**
+	@function	fnBtnCntrItemRowUpDown()
+	@desc   	자재를 위로 이동하여 편집
+*/
+this.fnBtnCntrItemRowUpDown= function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(obj.name == "btnCntrItemRowUp") {
+		if(this.dsCntrItem.rowposition == 0) return;
+		this.dsCntrItem.set_rowposition(this.dsCntrItem.rowposition-1);
+	} else if(obj.name == "btnCntrItemRowDown") {
+		if(this.dsCntrItem.rowposition == this.dsCntrItem.rowcount-1) return;
+		this.dsCntrItem.set_rowposition(this.dsCntrItem.rowposition+1);
+	}
+	
+}
+
+this.fnWebEditorOnuserNotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{
+	//런타임
+	if(obj.getProperty("document").getProperty("title").indexOf("▩") == 0){
+		//read
+		if (gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "true"){
+			this.divViewCompBody04.webEditor.callMethod("setEditor", this.dsCntr.getColumn(0,"SIGN_ORGNL"));
+		
+		} 
+		//readMode
+		else if(gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "MODE"){
+			this.divViewCompBody04.webEditor.callMethod("setReadMode", "N");
+		
+		} 
+		//tag
+		else if(gfnReplace(obj.getProperty("document").getProperty("title"),"▩","") == "SET_TAG"){
+			
+		
+		} 
+		//save
+		else {
+			this.dsCntr.setColumn(0,"SIGN_ORGNL",gfnReplace(obj.getProperty("document").getProperty("title"),"▩",""));
+			this.fnSave2();
+		}
+
+	//웹
+	} else if (e.userdata.indexOf("▦") == 0){
+		//read
+		if (gfnReplace(e.userdata,"▦","") == "true"){			
+			this.divViewCompBody04.webEditor.callMethod("setEditor",this.dsCntr.getColumn(0,"SIGN_ORGNL"));
+		
+		} 
+		//readMode
+		else if (gfnReplace(e.userdata,"▦","") == "MODE"){			
+			this.divViewCompBody04.webEditor.callMethod("setReadMode", "N");
+		
+		} 
+		//tag
+		else if (gfnReplace(e.userdata,"▦","") == "SET_TAG"){			
+			
+		
+		} 
+		//save
+		else {
+			this.dsCntr.setColumn(0,"SIGN_ORGNL",gfnReplace(e.userdata,"▦",""));
+			this.fnSave2();
+		}
+	}
+}
+
+/**
+	@function	fnCntrReq()
+	@desc   	계약합의
+*/
+this.fnCntrSclo = function()
+{
+	this.fnSave("SCLO");
+}
+
+/**
+	@function	fnTabOnchanged()
+	@desc   	탭 변경 이벤트
+*/
+this.fnTabOnchanged = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	if(obj.tabindex == 3) {
+		var sTableNm = "MM_CNTR";
+		var arrFileKey = [this.dsCntr.getColumn(0, "CNTR_NO")];
+		this.divViewCompBody00.Tab01.tabp04.fnFileInit(this, sTableNm, this.dsCntr, arrFileKey, "Y");
+	}
+}
+
+]]></Script>
+  </Form>
+</FDL>

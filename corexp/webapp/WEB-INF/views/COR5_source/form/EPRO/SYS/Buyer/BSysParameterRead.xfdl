@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="560" id="BSysParameterRead" inheritanceid="" left="0" oninit="fnOninit" onload="fnOnLoad" position="absolute" titletext="프로그램사용이력 파라미터팝업" top="0" width="570">
+    <Layouts>
+      <Layout>
+        <Static bottom="10" cssclass="sta_WF_Labelbg" id="staViewCompCond01" left="10" right="10" taborder="20" top="10"/>
+        <Static bottom="10" cssclass="sta_WF_Label" id="staBody" left="10" taborder="21" text="Value" top="10" width="85" wordwrap="char"/>
+        <TextArea bottom="15" id="txtOpnn" left="99" oneditclick="txtOpnn_oneditclick" readonly="true" right="15" taborder="22" top="15"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsSrchOpt">
+        <ColumnInfo>
+          <Column id="SN" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BSysParameterRead.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 26.
+ * @설명			    : 프로그램사용이력 파라미터팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 9. 26.
+*/ 
+
+this.popTitle = "PARAMETER/LOG";
+var strType = "";
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	this.dsSrchOpt.setColumn(0,"SN",ownFrame.agv_id);
+	strType = ownFrame.agv_Type;
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc   : 조회
+  */
+this.fnSearch = function()
+{
+	var sSvcID = "readSysParam";
+	var sController = "epro.sys.service.BSysService.readSysParam";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsSrchOpt=dsSrchOpt";
+	var sCallbackFunc = "fnTrCallBack";	
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "readSysParam" :
+			if(strType == "PARAMETER"){
+				this.txtOpnn.set_value(this.dsSrchOpt.getColumn(0,"PARAMETER"));
+			}else if(strType == "LOG"){
+				this.txtOpnn.set_value(this.dsSrchOpt.getColumn(0,"LOG"));
+			}
+		break;
+	
+		default:
+		break;	
+	}
+}
+this.txtOpnn_oneditclick = function(obj:TextArea,  e:nexacro.EditClickEventInfo)
+{
+	
+}
+]]></Script>
+  </Form>
+</FDL>

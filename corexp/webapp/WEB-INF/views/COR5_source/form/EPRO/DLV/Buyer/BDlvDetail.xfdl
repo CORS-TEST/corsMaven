@@ -1,0 +1,1222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BDlvDetail" left="0" top="0" width="1024" height="768" titletext="검수상세" onload="fnFormOnload" oninit="fnFormOninit">
+    <Layouts>
+      <Layout>
+        <Div id="div_1" taborder="0" left="0" top="0" right="15" height="43" cssclass="div_WF_SearchBg3" objNm="컨트롤 박스">
+          <Layouts>
+            <Layout>
+              <Combo id="cb_cdDocCtgr" taborder="6" innerdataset="ds_cdCM10" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default_r" left="10" top="10" width="150" height="24" objNm="문서유형"/>
+              <Edit id="edt_docNo" taborder="7" cssclass="edt_default_r" left="165" top="10" width="250" height="24" objNm="문서번호"/>
+              <Button id="btn_cfm" taborder="8" text="검수완료" onclick="div_1_btn_CfmDlv_onclick" cssclass="btn_WF_SearchBtn" visible="true" top="10" right="143" width="70" height="25" objNm="입고완료버튼"/>
+              <Button id="btn_rej" taborder="9" text="반려" onclick="div_1_btn_RejectDlv_onclick" cssclass="btn_WF_SearchBtn" visible="true" top="10" right="96" width="45" height="25" objNm="반려버튼"/>
+              <Button id="btn_barcode" taborder="10" text="바코드 출력" onclick="div_1_btn_barcode_onclick" cssclass="btn_WF_SearchBtn" top="10" right="8" width="86" height="25" objNm="바코드출력"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_2" taborder="1" left="0" top="63" right="15" height="24" objNm="DIV-헤더 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opHead" taborder="0" text="기본정보" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0%" top="0" width="147" height="24" objNm="접기펼치기 버튼" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_21" taborder="2" left="0" top="97" right="15" height="188" scrollbars="none" objNm="DIV-헤더 상세">
+          <Layouts>
+            <Layout width="1042" height="172">
+              <Tab id="Tab01" taborder="0" left="0" top="0" right="0" bottom="0" onchanged="div_21_Tab01_onchanged" tabindex="0" scrollbars="autoboth" cssclass="tab_default" objNm="TAB">
+                <Tabpages>
+                  <Tabpage id="tabp01" text="기본정보" scrollbars="none" objNm="기본정보" lbcd="">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_WFDA_Label05" taborder="76" cssclass="sta_WF_DetailLabel02" left="0" top="10" right="0" height="131"/>
+                        <Static id="st_RfqStates" taborder="77" text="상태" cssclass="sta_WF_DetailLabel01" left="731" top="20" width="115" height="24" lbcd=""/>
+                        <Static id="st_CrtrNm" taborder="78" text="협력사" cssclass="sta_WF_DetailLabel01" left="0" top="49" width="115" height="24" objNm="작성자" lbcd=""/>
+                        <Static id="ed_RfqAmt01" taborder="79" text="발주번호" cssclass="sta_WF_DetailLabel01" left="0" top="78" width="115" height="24" objNm="총금액" lbcd=""/>
+                        <Static id="st_RfqStates00" taborder="80" text="입고예정일자" cssclass="sta_WF_DetailLabel01" left="730" top="78" width="115" height="24" objNm="상태" lbcd=""/>
+                        <Static id="st_CrDt02" taborder="81" text="검수완료일자" cssclass="sta_WF_DetailLabel01" left="730" top="107" width="115" height="24" objNm="예산번호"/>
+                        <Combo id="cbo_cdDlvStts" taborder="82" readonly="true" innerdataset="ds_cdDL10" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="845" top="20" width="150" height="24" objNm="상태"/>
+                        <Edit id="edt_ptnrId" taborder="83" cssclass="edt_default_r" left="114" top="49" width="100" height="24" objNm="협력사코드"/>
+                        <Edit id="edt_ptnrNm" taborder="84" lengthunit="utf8" onkeyup="fn_onkeyup_event" cssclass="edt_default_r" left="216" top="49" width="469" height="24" objNm="협력사명"/>
+                        <MaskEdit id="mae_DlvAmt" taborder="85" mask="#,##0" cssclass="mae_default_r" left="114" top="107" width="150" height="24" style="color:blue;align:right middle;font:bold 10 Dotum;" objNm="하한유찰가"/>
+                        <Combo id="cbo_cdDlvCrnc" taborder="86" innerdataset="ds_cdCM15" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default_r" left="265" top="107" width="112" height="24" objNm="응찰통화"/>
+                        <MaskEdit id="me_dlvTax" taborder="87" mask="#,##0" cssclass="mae_default_r" left="535" top="107" width="150" height="24" style="color:blue;align:right middle;font:bold 10 Dotum;" objNm="부가세"/>
+                        <Static id="Static00" taborder="88" text="부가세" cssclass="sta_WF_DetailLabel01" left="393" top="107" width="143" height="24"/>
+                        <Edit id="edt_poNo" taborder="89" cssclass="edt_default_r" left="114" top="78" width="150" height="24" objNm="발주번호"/>
+                        <Static id="ed_RfqAmt00" taborder="90" text="공급가액" cssclass="sta_WF_DetailLabel01" left="0" top="107" width="115" height="24" objNm="총금액" lbcd=""/>
+                        <Calendar id="cal_poDay" taborder="91" readonly="true" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd ddd" left="845" top="78" width="125" height="24" objNm="발주일자"/>
+                        <Calendar id="cal_inspDay" taborder="92" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd ddd" left="845" top="107" width="125" height="24" objNm="검수완료일자"/>
+                        <CheckBox id="chk_altPreMmGr" taborder="93" text="전월말일자 입고" value="N" truevalue="Y" falsevalue="N" onchanged="div_21_Tab01_tabp01_chk_altPreMmGr_onchanged" left="984" top="108" width="131" height="21" objNm="전월말일자 입고"/>
+                        <Static id="st_CrtrNm00" taborder="94" text="검수의견" cssclass="sta_WF_DetailLabel01" left="0" top="19" width="115" height="24" objNm="작성자" lbcd=""/>
+                        <Combo id="cbo_cdInspOpnn" taborder="95" innerdataset="ds_cdDL20" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="114" top="19" width="261" height="24" objNm="검수의견">
+                          <Dataset id="innerdataset">
+                            <ColumnInfo>
+                              <Column id="codecolumn" size="256"/>
+                              <Column id="datacolumn" size="256"/>
+                            </ColumnInfo>
+                            <Rows>
+                              <Row>
+                                <Col id="codecolumn">1</Col>
+                                <Col id="datacolumn">특이사항 없음</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">2</Col>
+                                <Col id="datacolumn">품질불량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">3</Col>
+                                <Col id="datacolumn">납기지연</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn">4</Col>
+                                <Col id="datacolumn">포장불량</Col>
+                              </Row>
+                              <Row>
+                                <Col id="codecolumn"/>
+                                <Col id="datacolumn">서비스 불만족</Col>
+                              </Row>
+                            </Rows>
+                          </Dataset>
+                        </Combo>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+            </Layout>
+          </Layouts>
+          <InitValue>
+            <Tab id="Tab01">
+              <Tabpages>
+                <Tabpage id="tabp03" objNm="첨부파일 텝" text="첨부파일"/>
+              </Tabpages>
+            </Tab>
+          </InitValue>
+        </Div>
+        <Div id="div_3" taborder="3" left="0" top="285" right="15" height="24" objNm="DIV-품목 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opItem" taborder="36" text="품목" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="73" height="24" objNm="접기펼치기 버튼" lbcd=""/>
+              <Button id="btn_sugar" taborder="37" text="측정당도입력" onclick="div_3_btn_sugar_onclick" cssclass="btn_WF_Custom" visible="false" top="1" right="1" width="87" height="23" objNm="측정당도입력"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_4" taborder="4" left="0" top="568" right="15" height="24" objNm="DIV-품목 상세-탭 헤더">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opItemDetail00" taborder="0" text="품목 상세정보" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="142" height="24" objNm="접기펼치기 버튼"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_41" taborder="5" left="0" top="597" right="15" height="259" scrollbars="none" objNm="DIV-품목 상세 - 텝 입력">
+          <Layouts>
+            <Layout>
+              <Tab id="Tab01" taborder="5" left="0" top="34" right="0" height="189" onchanged="div_41_Tab01_onchanged" tabindex="0" scrollbars="autoboth" objNm="입력탭">
+                <Tabpages>
+                  <Tabpage id="tabp04" text="품목 특이사항">
+                    <Layouts>
+                      <Layout>
+                        <TextArea id="txt_itemTxt" taborder="0" scrollbars="none" left="0" top="10" right="0" height="131" objNm="품목텍스트"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabpage5" text="유효기간 관리" objNm="유효기간 관리">
+                    <Layouts>
+                      <Layout>
+                        <Grid id="Grid00" taborder="3" binddataset="ds_dlvItemExp" useinputpanel="false" selecttype="cell" autofittype="col" left="0%" top="39" right="0%" bottom="0">
+                          <Formats>
+                            <Format id="MMODE">
+                              <Columns>
+                                <Column size="40"/>
+                                <Column size="512"/>
+                                <Column size="655"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="32" band="head"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell displaytype="checkbox" edittype="checkbox"/>
+                                <Cell col="1" text="수량"/>
+                                <Cell col="2" text="유효일자"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED" editautoselect="true"/>
+                                <Cell col="1" displaytype="number" edittype="text" style="align:right;" text="bind:DLV_QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:DLV_QTY"/>
+                                <Cell col="2" displaytype="date" edittype="date" text="bind:EFF_DAY" mask="yyyy.MM.dd" editautoselect="true" editdisplay="display" combodisplay="display" calendardisplay="edit" calendardisplaynulltype="none" tooltiptext="bind:EFF_DAY"/>
+                              </Band>
+                            </Format>
+                            <Format id="VMODE">
+                              <Columns>
+                                <Column size="512"/>
+                                <Column size="655"/>
+                              </Columns>
+                              <Rows>
+                                <Row size="32" band="head"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell text="수량"/>
+                                <Cell col="1" text="유효일자"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="number" style="align:right;" text="bind:DLV_QTY" mask="#,##0.00" editdisplay="edit" tooltiptext="bind:DLV_QTY"/>
+                                <Cell col="1" displaytype="date" text="bind:EFF_DAY" mask="yyyy.MM.dd" editdisplay="display" combodisplay="display" calendardisplay="edit" calendardisplaynulltype="none" tooltiptext="bind:EFF_DAY"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                        <Button id="btn_dlvItemDel" taborder="4" text=" 삭제" onclick="div_41_Tab01_tabpage5_btn_dlvItemDel_onclick" cssclass="btn_WF_Delete" visible="false" top="10" right="2" width="60" height="24" objNm="품목삭제버튼" lbcd=""/>
+                        <Button id="btn_dlvItemAdd" taborder="5" text=" 추가" onclick="div_41_Tab01_tabpage5_btn_dlvItemAdd_onclick" cssclass="btn_WF_Add" visible="false" top="10" right="64" width="60" height="24" objNm="품목삭제버튼" lbcd=""/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+              <Button id="btn_dlvItemRowDown" taborder="6" onclick="div_41_btn_dlvItemRowDown_onclick" cssclass="btn_WF_ListDown" left="755" top="0" width="24" height="21" objNm="down"/>
+              <Button id="btn_dlvItemRowUp" taborder="7" onclick="div_41_btn_dlvItemRowUp_onclick" cssclass="btn_WF_ListUp" left="729" top="0" width="24" height="24" objNm="up"/>
+              <Combo id="cbo_itemChg" taborder="8" innerdataset="ds_dlvItem" codecolumn="DLV_ITEM_ID" datacolumn="MTRL_NM" onitemchanged="div_41_cbo_itemChg_onitemchanged" cssclass="cbo_default" left="102" top="0" width="622" height="24" objNm="발주품목변경"/>
+              <Edit id="ed_itemNo" taborder="9" readonly="true" cssclass="input_point" left="0" top="0" width="100" height="24" style=":disabled {align:center;}" objNm="품목코드"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="Static04" taborder="6" text="h19" visible="false" left="1.07%" top="551" right="87.5%" height="20" style="background:#ff7272ff;"/>
+        <Div id="div_31" taborder="7" left="0" top="314" right="15" height="254" objNm="DIV-품목 상세">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_dlvItem" taborder="4" binddataset="ds_dlvItem" autoenter="select" useinputpanel="false" selecttype="cell" cellsizingtype="col" cellmovingtype="col" autofittype="col" oncellclick="div_31_grd_dlvItem_oncellclick" oncelldblclick="div_31_grd_dlvItem_oncelldblclick" left="0" top="0" right="0" height="210" objNm="품목 그리드" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="82"/>
+                      <Column size="349"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                      <Column size="110"/>
+                      <Column size="73"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드"/>
+                      <Cell col="1" text="품명"/>
+                      <Cell col="2" text="입고창고"/>
+                      <Cell col="3" text="요청"/>
+                      <Cell col="4" text="납품완료"/>
+                      <Cell col="5" text="검수요청"/>
+                      <Cell col="6" displaytype="decoratetext" text="&lt;fc v='red'&gt;* &lt;/fc&gt;검수수량"/>
+                      <Cell col="7" text="단위"/>
+                      <Cell col="8" text="단가"/>
+                      <Cell col="9" text="금액"/>
+                      <Cell col="10" text="납품완료"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2 ;">
+                      <Cell displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_CD" editautoselect="true" editdisplay="edit" tooltiptext="bind:MTRL_CD"/>
+                      <Cell col="1" edittype="none" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_NM" editdisplay="edit" expandshow="show" expandsize="24" expandimage="bind:IMG_TYPE" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="2" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:SL_NM" tooltiptext="bind:SL_NM"/>
+                      <Cell col="3" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:QTY"/>
+                      <Cell col="4" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:TOT_DLV_QTY" mask="#,##0.00" tooltiptext="bind:TOT_DLV_QTY"/>
+                      <Cell col="5" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:DLV_PLAN_QTY" mask="#,##0.00" tooltiptext="bind:DLV_PLAN_QTY"/>
+                      <Cell col="6" displaytype="number" edittype="masknumber" style="align:right;" text="bind:DLV_QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:DLV_QTY"/>
+                      <Cell col="7" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_UNIT_NM" tooltiptext="bind:CD_UNIT_NM"/>
+                      <Cell col="8" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:UNT_PRICE" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:UNT_PRICE"/>
+                      <Cell col="9" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:DLV_PLAN_AMT" mask="#,##0" editautoselect="true" tooltiptext="bind:DLV_PLAN_AMT"/>
+                      <Cell col="10" displaytype="checkbox" edittype="checkbox" text="bind:ALT_DLV_CMPLT" editautoselect="true" suppressalign="first"/>
+                    </Band>
+                  </Format>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="82"/>
+                      <Column size="349"/>
+                      <Column size="120"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="60"/>
+                      <Column size="80"/>
+                      <Column size="110"/>
+                      <Column size="73"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목코드"/>
+                      <Cell col="1" text="품명"/>
+                      <Cell col="2" text="입고창고"/>
+                      <Cell col="3" text="요청"/>
+                      <Cell col="4" text="납품완료"/>
+                      <Cell col="5" text="검수요청"/>
+                      <Cell col="6" text="검수수량"/>
+                      <Cell col="7" text="단위"/>
+                      <Cell col="8" text="단가"/>
+                      <Cell col="9" text="금액"/>
+                      <Cell col="10" text="납품완료"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2 ;">
+                      <Cell displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_CD" editautoselect="true" editdisplay="edit" tooltiptext="bind:MTRL_CD"/>
+                      <Cell col="1" edittype="none" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:MTRL_NM" editdisplay="edit" expandshow="show" expandsize="24" expandimage="bind:IMG_TYPE" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="2" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;" cssclass="cell_link" text="bind:SL_NM" tooltiptext="bind:SL_NM"/>
+                      <Cell col="3" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:QTY" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:QTY"/>
+                      <Cell col="4" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:TOT_DLV_QTY" mask="#,##0.00" tooltiptext="bind:TOT_DLV_QTY"/>
+                      <Cell col="5" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:DLV_PLAN_QTY" mask="#,##0.00" tooltiptext="bind:DLV_PLAN_QTY"/>
+                      <Cell col="6" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:DLV_QTY" mask="#,##0.00" editdisplay="edit" tooltiptext="bind:DLV_QTY"/>
+                      <Cell col="7" displaytype="normal" edittype="none" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:CD_UNIT_NM" tooltiptext="bind:CD_UNIT_NM"/>
+                      <Cell col="8" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:UNT_PRICE" mask="#,##0.00" editautoselect="true" editdisplay="edit" tooltiptext="bind:UNT_PRICE"/>
+                      <Cell col="9" displaytype="number" edittype="none" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:AMT" mask="#,##0" editautoselect="true" tooltiptext="bind:AMT"/>
+                      <Cell col="10" displaytype="checkbox" style="background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:ALT_DLV_CMPLT" expr="ALT_DLV_CMPLT=='Y'||ALT_DLV_CMPLT=='1' ? 1 : 0" suppressalign="first"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_51" taborder="8" left="0" top="872" right="20" height="144" visible="false" objNm="DIV-품목 상세">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_poPay" taborder="0" binddataset="ds_poPay" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" autofittype="col" onkeyup="div_21_Tab01_tabp01_grd_poPay_onkeyup" left="0" top="0" right="0" height="142" onmouseleave="div_21_Tab01_tabp01_grd_poPay_onmouseleave">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="117"/>
+                      <Column size="227"/>
+                      <Column size="154"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="회차"/>
+                      <Cell col="1" text="지급율(%)"/>
+                      <Cell col="2" text="지급금액"/>
+                      <Cell col="3" text="지급조건"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ODR"/>
+                      <Cell col="1" text="bind:PYMT_RT"/>
+                      <Cell col="2" displaytype="number" style="align:right;" text="bind:PYMT_PLN_AMT" mask="#,##0" editdisplay="edit"/>
+                      <Cell col="3" style="align: ;" text="bind:RMARK" calendardisplay="edit" calendardisplaynulltype="none"/>
+                    </Band>
+                  </Format>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="80"/>
+                      <Column size="100"/>
+                      <Column size="130"/>
+                      <Column size="886"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="회차"/>
+                      <Cell col="1" text="지급율(%)"/>
+                      <Cell col="2" text="지급금액"/>
+                      <Cell col="3" text="지급조건"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:ODR" tooltiptext="bind:ODR"/>
+                      <Cell col="1" text="bind:PYMT_RT" tooltiptext="bind:PYMT_RT"/>
+                      <Cell col="2" displaytype="number" style="align:right;" text="bind:PYMT_PLN_AMT" mask="#,##0" editdisplay="edit" tooltiptext="bind:PYMT_PLN_AMT"/>
+                      <Cell col="3" style="align: ;" text="bind:RMARK" calendardisplay="edit" tooltiptext="bind:RMARK"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_5" taborder="9" left="0" top="844" right="20" height="24" visible="false">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Button id="btn_opItemDetail" taborder="0" text="지급차수" onclick="fn_fold_onclick" cssclass="btn_WF_DivClose" left="0" top="0" width="72" height="22"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item9" compid="div_1.edt_docNo" propid="value" datasetid="ds_dlv" columnid="DLV_NO"/>
+      <BindItem id="item29" compid="div_1.cb_cdDocCtgr" propid="value" datasetid="ds_dlv" columnid="CD_DOC_CTGR"/>
+      <BindItem id="item0" compid="div_21.Tab01.tabp01.cbo_cdDlvStts" propid="value" datasetid="ds_dlv" columnid="CD_DLV_STTS"/>
+      <BindItem id="item1" compid="div_21.Tab01.tabp01.edt_ptnrId" propid="value" datasetid="ds_dlv" columnid="PTNR_ID"/>
+      <BindItem id="item2" compid="div_21.Tab01.tabp01.edt_ptnrNm" propid="value" datasetid="ds_dlv" columnid="PTNR_NM"/>
+      <BindItem id="item4" compid="div_21.Tab01.tabp01.edt_poNo" propid="value" datasetid="ds_dlv" columnid="PO_NO"/>
+      <BindItem id="item5" compid="div_21.Tab01.tabp01.mae_DlvAmt" propid="value" datasetid="ds_dlv" columnid="DLV_AMT"/>
+      <BindItem id="item6" compid="div_21.Tab01.tabp01.me_dlvTax" propid="value" datasetid="ds_dlv" columnid="VAT"/>
+      <BindItem id="item10" compid="div_21.Tab01.tabp05.edt_inspChrgrId" propid="value" datasetid="ds_dlv" columnid="INSP_CHRGR_ID"/>
+      <BindItem id="item11" compid="div_21.Tab01.tabp05.edt_inspChrgrNm" propid="value" datasetid="ds_dlv" columnid="INSP_CHRGR_NM"/>
+      <BindItem id="item12" compid="div_21.Tab01.tabp05.edt_tel" propid="value" datasetid="ds_dlv" columnid="TEL"/>
+      <BindItem id="item13" compid="div_21.Tab01.tabp05.edt_email" propid="value" datasetid="ds_dlv" columnid="EMAIL"/>
+      <BindItem id="item14" compid="div_21.Tab01.tabp05.edt_fax" propid="value" datasetid="ds_dlv" columnid="FAX"/>
+      <BindItem id="item15" compid="div_21.Tab01.tabp06.ta_rmark" propid="value" datasetid="ds_dlv" columnid="RMARK"/>
+      <BindItem id="item26" compid="div_21.Tab01.tabp01.cbo_cdDlvCrnc" propid="value" datasetid="ds_dlv" columnid="CD_CRNC"/>
+      <BindItem id="item58" compid="div_21.Tab01.tabp01.cal_poDay" propid="value" datasetid="ds_dlv" columnid="DLV_PLAN_DAY"/>
+      <BindItem id="item7" compid="div_21.Tab01.tabp01.cal_inspDay" propid="value" datasetid="ds_dlv" columnid="INSP_DAY"/>
+      <BindItem id="item8" compid="div_21.Tab01.tabp01.cbo_cdInspOpnn" propid="value" datasetid="ds_dlv" columnid="CD_INSP_OPNN"/>
+      <BindItem id="item25" compid="div_21.Tab01.tabp01.chk_altPreMmGr" propid="value" datasetid="ds_dlv" columnid="ALT_PRE_MM_GR"/>
+      <BindItem id="item17" compid="div_41.Tab01.tabp01.edt_srcGrp" propid="value" datasetid="ds_dlvItem" columnid="SRC_GRP_ID"/>
+      <BindItem id="item18" compid="div_41.Tab01.tabp01.edt_srcGrpNm" propid="value" datasetid="ds_dlvItem" columnid="SRC_GRP_NM"/>
+      <BindItem id="item19" compid="div_41.Tab01.tabp01.edt_mtrlCd" propid="value" datasetid="ds_dlvItem" columnid="MTRL_CD"/>
+      <BindItem id="item20" compid="div_41.Tab01.tabp01.edt_mtrlNm" propid="value" datasetid="ds_dlvItem" columnid="MTRL_NM"/>
+      <BindItem id="item21" compid="div_41.Tab01.tabp01.me_qty" propid="value" datasetid="ds_dlvItem" columnid="DLV_PLAN_QTY"/>
+      <BindItem id="item22" compid="div_41.Tab01.tabp01.cbo_unit" propid="value" datasetid="ds_dlvItem" columnid="CD_UNIT"/>
+      <BindItem id="item23" compid="div_41.Tab01.tabp01.me_untPrice" propid="value" datasetid="ds_dlvItem" columnid="UNT_PRICE"/>
+      <BindItem id="item24" compid="div_41.Tab01.tabp01.me_amt" propid="value" datasetid="ds_dlvItem" columnid="DLV_PLAN_AMT"/>
+      <BindItem id="item35" compid="div_41.ed_itemNo" propid="value" datasetid="ds_dlvItem" columnid="ITM_NO"/>
+      <BindItem id="item16" compid="div_41.cbo_itemChg" propid="text" datasetid="ds_dlvItem" columnid="MTRL_NM"/>
+      <BindItem id="item27" compid="div_41.Tab01.tabp01.chk_altDlvCmplt" propid="value" datasetid="ds_dlvItem" columnid="ALT_DLV_CMPLT"/>
+      <BindItem id="item28" compid="div_41.Tab01.tabp01.me_dlvOvrRt" propid="value" datasetid="ds_dlvItem" columnid="DLV_OVR_RT"/>
+      <BindItem id="item39" compid="div_41.Tab01.tabp03.edt_ptnrId" propid="value" datasetid="ds_poItem" columnid="PTNR_ID"/>
+      <BindItem id="item40" compid="div_41.Tab01.tabp03.edt_ptnrNm" propid="value" datasetid="ds_poItem" columnid="PTNR_NM"/>
+      <BindItem id="item41" compid="div_41.Tab01.tabp03.edt_zipCd" propid="value" datasetid="ds_poItem" columnid="ZIP_NO"/>
+      <BindItem id="item42" compid="div_41.Tab01.tabp03.edt_addr1" propid="value" datasetid="ds_poItem" columnid="ADDR"/>
+      <BindItem id="item43" compid="div_41.Tab01.tabp03.edt_addr2" propid="value" datasetid="ds_poItem" columnid="DTL_ADDR"/>
+      <BindItem id="item44" compid="div_41.Tab01.tabp03.edt_dlvContent" propid="value" datasetid="ds_poItem" columnid="FWD_REMARK"/>
+      <BindItem id="item45" compid="div_41.Tab01.tabp04.txt_itemTxt" propid="value" datasetid="ds_dlvItem" columnid="RMARK"/>
+    </Bind>
+    <Objects>
+      <Dataset id="ds_return" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="ds_dlv">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="10" type="string"/>
+          <Column id="CD_DOC_CTGR" size="10" type="string"/>
+          <Column id="DLV_NO" size="10" type="string"/>
+          <Column id="PO_NO" size="10" type="string"/>
+          <Column id="CD_INSP_OPNN" size="10" type="string"/>
+          <Column id="PTNR_ID" size="10" type="string"/>
+          <Column id="PTNR_NM" size="10" type="string"/>
+          <Column id="DLV_AMT" size="10" type="string"/>
+          <Column id="CD_CRNC" size="10" type="string"/>
+          <Column id="VAT" size="10" type="string"/>
+          <Column id="CD_DLV_STTS" size="10" type="string"/>
+          <Column id="STR_CD" size="10" type="string"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="DLV_PLAN_DAY" size="10" type="string"/>
+          <Column id="INSP_DAY" size="10" type="string"/>
+          <Column id="ALT_PRE_MM_GR" size="10" type="string"/>
+          <Column id="COREXP_KIDS" type="STRING" size="256"/>
+          <Column id="INT_DLV_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dlvItem" onrowposchanged="ds_dlvItem_onrowposchanged" oncolumnchanged="ds_dlvItem_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CHECKED" type="string" size="10"/>
+          <Column id="DLV_ITEM_ID" type="string" size="10"/>
+          <Column id="BRANCH_CD" type="string" size="10"/>
+          <Column id="DLV_NO" type="string" size="10"/>
+          <Column id="MTRL_CD" type="string" size="10"/>
+          <Column id="MTRL_NM" type="string" size="10"/>
+          <Column id="QTY" type="string" size="10"/>
+          <Column id="TOT_DLV_QTY" type="string" size="10"/>
+          <Column id="DLV_PLAN_QTY" type="string" size="10"/>
+          <Column id="EDIT_DLV_QTY" type="string" size="10"/>
+          <Column id="CD_UNIT" type="string" size="10"/>
+          <Column id="CD_UNIT_NM" type="string" size="10"/>
+          <Column id="UNT_PRICE" type="string" size="10"/>
+          <Column id="DLV_PLAN_AMT" type="string" size="10"/>
+          <Column id="ALT_DLV_CMPLT" type="string" size="10"/>
+          <Column id="DLV_OVR_RT" type="string" size="10"/>
+          <Column id="MAX_QTY" type="string" size="10"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="IMG_TYPE" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_dlvItemExp" oncolumnchanged="ds_dlvItemExp_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="DLV_ITEM_ID" type="STRING" size="256"/>
+          <Column id="DLV_QTY" type="STRING" size="256"/>
+          <Column id="EFF_DAY" type="STRING" size="256"/>
+          <Column id="PO_ITEM_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="ds_poPay"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SDlvList.xfdl
+ * @생성자       	: 이준호
+ * @생성일자     	: 2019. 04. 26
+ * @설명			: 납품서 작성
+ * @최종수정자		: 이준호
+ * @최종수정일자	: 2019. 04. 26
+*/
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 화면이 최초 열렸을때 실행되는 이벤트.
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function(){
+	var param = [
+					 {code:"CM10", sSelectType:"S"} // 문서유형					 
+					,{code:"CM20", sSelectType:"S"} // 공장
+					,{code:"CM11", sSelectType:"S"} // 단위
+					,{code:"CM15", sSelectType:"S"} // 통화
+					,{code:"DL10", sSelectType:"S"} // 납품서상태
+					,{code:"DL20", sSelectType:"[특이사항 없음]"} // 검수의견
+				];
+	gfnGetCode(this, param);
+}
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 화면이 로딩 될때마다 실행되는 이벤트 
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//gfnSetGrdFunc(this.divivViewCompBody00.SDlvList, this.divViewCompBody00.divPaging, this);
+	
+	this.ds_dlv.addRow();
+	this.ds_dlv.setColumn(0, "DLV_NO"		, gfnGetTmprData("DLV_NO"));
+	this.ds_dlv.setColumn(0, "COREXP_KIDS"	, gfnGetTmprData("COREXP_KIDS"));
+	
+    this.fnSearch();  
+}
+
+
+
+/**
+	@function	fn_preSearch()
+	@desc   	조회 전 처리
+*/
+this.fn_preSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_search()
+	@desc   	조회 프로세스
+*/
+this.fnSearch = function()
+{
+	if(!this.fn_preSearch()) return false;
+	 
+	var sSvcID = "readDlvDetail";
+	var sController = "epro.dlv.service.BDlvService.readDlvDetail";
+	var sInDatasets = "in_ds=ds_dlv";
+	var sOutDatasets = "ds_dlv=ds_dlv ds_dlvItem=ds_dlvItem ds_dlvItemExp=ds_dlvItemExp ds_poPay=ds_poPay";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	//var	oPaging = [
+		//			{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+		//		];
+				
+   gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	Fold_onclick()
+	@desc   	폴더접기
+*/
+this.fn_fold_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.gfn_divFold(obj);
+}
+
+/**
+	@function	fn_commAdd()
+	@desc   	(공통버튼)신규
+*/
+this.fn_commAdd = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_commAdd()
+	@desc   	(공통버튼)삭제
+*/
+this.fn_commDelete = function()
+{
+
+}
+
+/**
+	@function	fn_preSave()
+	@param		type {String} [Y:임시저장, N:검수완료]
+	@desc   	저장 전 처리
+*/
+this.fn_preSave = function(type)
+{			
+	if(!this.gfn_validate(null, type, "")) //확인 클릭 : this.fn_commSave(true) 호출됨.
+	{		
+		return false;
+	}
+	
+	var totQty = 0;
+	var expQty = 0;
+	
+	for(var i=0; i<this.ds_dlvItem.getRowCount(); i++)
+	{
+		//측정당도 입력했는지 체크...
+		if(type == "N")
+		{
+			if(this.ds_dlvItem.getColumn(i,"ALT_SC") == 'Y' && this.ds_dlvItem.getColumn(i,"SUGAR") <= 0)
+			{
+				this.gfn_alert("측정당도를 입력하지 않았습니다.\n측정당도입력 팝업에서 입력하십시오.");
+				this.div_3_btn_sugar_onclick(); //측정당도입력 팝업
+				return false;
+			}
+		}		
+
+		//반품발주
+		if(this.ds_dlv.getColumn(0,"CD_PO_CTGR") == "PO13RPO")
+		{			
+			if(this.ds_dlvItem.getColumn(i,"TOT_DLV_QTY") <= this.ds_dlvItem.getColumn(i,"QTY"))
+			{
+				this.gfn_alert("이미 완료 되어 있습니다. 반려 처리하십시오.");
+				return false;
+			}
+		}
+		
+		//구매발주
+		else if(this.ds_dlv.getColumn(0,"CD_PO_CTGR") == "PO13NPO")
+		{
+			if(this.ds_dlvItem.getColumn(i,"TOT_DLV_QTY") >= this.ds_dlvItem.getColumn(i,"QTY"))
+			{
+				this.gfn_alert("이미 완료 되어 있습니다. 반려 처리하십시오.");
+				return false;
+			}
+		}		
+		
+		//반품발주이면...
+		if(this.ds_dlv.getColumn(0, "CD_PO_CTGR")=="PO13RPO") continue;
+		
+		if(this.ds_dlvItem.getColumn(i,"DLV_QTY") > this.ds_dlvItem.getColumn(i,"MAX_QTY"))
+		{
+			this.ds_dlvItem.set_rowposition(i);
+			this.gfn_alert("품목 ("+(i+1)+"번째 Line) " + "요청된 검수 수량을 초과하였습니다.");
+			return false;
+		}
+		
+		//유효기간관리 여부
+		if("Y"==this.ds_dlvItem.getColumn(i,"ALT_DDATE_MGT"))
+		{			
+			if(type=="Y")
+			{
+				this.ds_dlvItemExp.filter("");
+				var nCnt = this.ds_dlvItemExp.getCaseCount("PO_ITEM_ID=='"+this.ds_dlvItem.getColumn(i,"PO_ITEM_ID")+"' && EFF_DAY==''");		
+				if(nCnt > 0)
+				{
+					this.div_41.Tab01.set_tabindex(1);
+					this.ds_dlvItem.set_rowposition(i);
+					this.ds_dlvItemExp.filter("PO_ITEM_ID=='" + this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "PO_ITEM_ID") + "'");
+					this.gfn_alert("품목 ("+(i+1)+"번째 Line) " + "유효기간관리의 유효일자는 필수 입력입니다.");
+					return false;
+				}
+			}
+
+			this.ds_dlvItemExp.filter("");
+			var nCnt = this.ds_dlvItemExp.getCaseCount("PO_ITEM_ID=='"+this.ds_dlvItem.getColumn(i,"PO_ITEM_ID")+"' && EFF_DAY<"+Number(this.gfn_today()));
+			if(nCnt > 0)
+			{
+				this.div_41.Tab01.set_tabindex(1);
+				this.ds_dlvItem.set_rowposition(i);
+				this.ds_dlvItemExp.filter("PO_ITEM_ID=='" + this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "PO_ITEM_ID") + "'");
+				this.gfn_alert("품목 ("+(i+1)+"번째 Line) " + "유효기간관리의 유효일자는 오늘 이후로 가능합니다.");
+				return false;
+			}
+
+			totQty = this.ds_dlvItem.getColumn(i,"DLV_QTY");	
+			this.ds_dlvItemExp.set_enableevent(false);
+			this.ds_dlvItemExp.filter("");
+			expQty = this.ds_dlvItemExp.getCaseSum("PO_ITEM_ID=='"+this.ds_dlvItem.getColumn(i,"PO_ITEM_ID")+"'", "DLV_QTY");
+			this.ds_dlvItemExp.filter("PO_ITEM_ID=='" + this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "PO_ITEM_ID") + "'");
+			this.ds_dlvItemExp.set_enableevent(true);
+						
+			if(expQty > totQty)
+			{
+				this.div_41.Tab01.set_tabindex(1);
+				this.ds_dlvItem.set_rowposition(i);
+				this.gfn_alert("품목 ("+(i+1)+"번째 Line) " + "유효기간관리의 수량에 검수 수량보다 많은 수량이 입력되었습니다.");
+				return false;
+			}		
+						
+			if(expQty < totQty)
+			{
+				this.div_41.Tab01.set_tabindex(1);
+				this.ds_dlvItem.set_rowposition(i);
+				this.gfn_alert("품목 ("+(i+1)+"번째 Line) " + "유효기간관리의 수량에 검수 수량보다 적은 수량이 입력되었습니다.");
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
+/**
+	@function	fn_commSave()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fn_commSave = function()
+{
+	if(!this.fn_preSave("Y")) return false;
+	if(!this.gfn_confirm("저장 하시겠습니까?")) return false;
+	this.fv_appPopCall = false;
+		
+	var sSvcID = "BDlv_Save";
+	var sController = "BDlv_Save.do";
+	var sInDatasets = "in_dlv=ds_dlv:A in_dlvItem=ds_dlvItem:A in_dlvItemExp=ds_dlvItemExp:A";
+	var sOutDatasets = "ds_dlv=in_dlv";
+	var sCallbackFunc = "fn_trCallBack";
+	this.gfn_fileSaveTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	div_1_btn_CfmDlv_onclick()
+	@desc   	검수완료
+*/
+this.div_1_btn_CfmDlv_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fn_preSave("N")) return false;
+	if(!this.gfn_confirm("검수완료 하시겠습니까?")) return false;
+	this.fv_appPopCall = false;
+
+	var sSvcID = "BDlv_Clo";
+	var sController = "BDlv_Clo.do";
+	var sInDatasets = "in_dlv=ds_dlv:A in_dlvItem=ds_dlvItem:A in_dlvItemExp=ds_dlvItemExp:A";
+	var sOutDatasets = "ds_dlv=in_dlv";
+	var sCallbackFunc = "fn_trCallBack";
+	this.gfn_fileSaveTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	div_1_btn_RejectDlv_onclick()
+	@desc   	반려
+*/
+this.div_1_btn_RejectDlv_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//반려사유 팝업 호출
+	var sArg = { };	
+	this.gfn_dialog("PopupInspRtnRmark", "DLVB::PDLVB100P03.xfdl", sArg, "fn_popCallBack");
+}
+
+/**
+	@function	btn_commCancel()
+	@desc   	(공통버튼)취소 프로세스
+*/
+this.btn_commCancel = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_commClose()
+	@desc   	(공통버튼)닫기
+*/
+this.fn_commClose = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_trCallBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	//strSvcID 가 read:fn_trCallBack 게 넘어옴
+	if(strErrCd < 0)
+	{
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "BDlv_Read" : 	
+		
+			//FILE_JOB_1 : 데이터 조회 이후에 파일 정보를 조회하기 위해 동기화 한다.
+			this.gfn_fileCompInit(this.div_21.Tab01.tabp07, this.div_21.Tab01.tabpage5);
+	
+			//FILE_JOB_4 : 파일 부모 데이터셋에 시퀀스 추가			
+			this.gfn_fileDsSeq(this.ds_dlv);
+			
+			//FILE_JOB_5 : 저장 후 재조회를 마치고 나서 파일 컴포넌트에 파일정보를 재설정 한다.
+			this.fn_getCompFileList1();
+			this.fn_getCompFileList2();
+			
+			//파라미터를 받은 이후에는 파라미터를 를 초기화 해준다.
+			this.gfn_clearTmprData(); 
+			
+			//유효기간관리 버튼이 안보이는 버그가 있어 탭페이지 클릭 유도를 위해 세팅.
+			this.div_41.Tab01.set_tabindex(0);
+			
+			//지급차수 그리드 visible
+			if(this.ds_dlv.getColumn(0,"INT_DLV_TYPE") == "PAY" && this.ds_poPay.getRowCount() > 1) //차수별 검수
+			{
+				this.div_5.setOffsetTop(this.div_21.getOffsetBottom());
+				this.div_51.setOffsetTop(this.div_5.getOffsetBottom());
+				
+				this.div_3.setOffsetTop(this.div_51.getOffsetBottom()+20);
+				this.div_31.setOffsetTop(this.div_3.getOffsetBottom());
+				
+				this.div_4.setOffsetTop(this.div_31.getOffsetBottom()+20);
+				this.div_41.setOffsetTop(this.div_4.getOffsetBottom());
+				
+				this.div_5.set_visible(true);
+				this.div_51.set_visible(true);
+				
+				this.resetScroll();
+			}			
+						
+			if("DL10SND" == this.ds_dlv.getColumn(0,"CD_DLV_STTS"))
+			{	
+				this.gfn_objReSet(this, "U");
+
+				//저장 기능 안쓴다고 하여 버튼 안보이게 함. 저장 로직은 살아있음. 20170202 mhhan
+				//this.parent.div_commBtns.btn_commSave.set_visible(true);						
+				this.div_1.btn_cfm.set_visible(true);
+				this.gfn_btnRange(this.div_1.btn_cfm);
+				
+				//당도측정할 품목이 존재하면...
+				if(this.ds_dlv.getColumn(0, "IS_EXISTS_SUGAR") == "Y")
+				{
+					this.div_3.btn_sugar.set_visible(true);
+				}
+				
+				//구매발주
+				if(this.ds_dlv.getColumn(0, "CD_PO_CTGR") == "PO13NPO")
+				{
+					this.div_31.grd_dlvItem.setFormat("MMODE");
+					this.div_41.Tab01.tabpage5.Grid00.setFormat("MMODE");
+				}
+				
+				//반품발주
+				else if(this.ds_dlv.getColumn(0, "CD_PO_CTGR") == "PO13RPO")
+				{
+					this.div_31.grd_dlvItem.setFormat("VMODE");
+					this.div_41.Tab01.tabpage5.Grid00.setFormat("VMODE");
+				}
+			}
+			else
+			{
+				this.gfn_objReSet(this, "R");					
+				this.div_31.grd_dlvItem.setFormat("VMODE");
+				this.div_41.Tab01.tabpage5.Grid00.setFormat("VMODE");
+				//저장 기능 안쓴다고 하여 버튼 안보이게 함. 저장 로직은 살아있음. 20170202 mhhan
+				//this.parent.div_commBtns.btn_commSave.set_visible(false);
+			}		
+			this.gfn_btnRange(this.parent.div_commBtns.btn_commInit);
+			
+		break;
+				
+		case "BDlv_Clo" : 
+		case "BDlv_Rtn" :
+			if(strErrMsg != "")
+			{
+				this.gfn_alert(strErrMsg);
+				this.gfn_setTmprData("DLV_NO"		, this.ds_dlv.getColumn(0, "DLV_NO"));
+				this.gfn_setTmprData("COREXP_KIDS"	, this.ds_dlv.getColumn(0, "COREXP_KIDS"));				
+				this.fn_search();
+			}
+		break;
+		
+		case "BDlv_Save" :
+		
+			this.gfn_setTmprData("DLV_NO"		, this.ds_dlv.getColumn(0, "DLV_NO"));
+			this.gfn_setTmprData("COREXP_KIDS"	, this.ds_dlv.getColumn(0, "COREXP_KIDS"));		
+			this.fn_search();	
+
+			if(this.fv_appPopCall == true)
+			{
+				// 프로토타입에서 사용하던 결재. 로직변경(개별 결재에서 검수마감품의로 변경) 및 그룹웨어 결재사용으로 아래 코드는 사용안함.
+// 				var doc_id = this.ds_dlv.getColumn(0, "APP_DOC_ID");
+// 				var appTtl = this.ds_dlv.getColumn(0, "TTL");
+// 				var app_dlv			= this.ds_dlv.saveXML();       
+// 				var app_dlvItem		= this.ds_dlvItem.saveXML();				
+// 				var app_dlvItemExp	= this.ds_dlvItemExp.saveXML();
+// 				var app_poPay		= this.ds_poPay.saveXML();
+// 								
+// 				var app_doc = 	app_dlv+"▩"+
+// 								app_dlvItem+"▩"+
+// 								app_dlvItemExp+"▩"+
+// 								app_poPay;
+// 
+// 				var sArg = { 
+// 								agv_doc_id			: this.ds_dlv.getColumn(0, "APP_DOC_ID")
+// 								,agv_ttl			: "[검수] " + appTtl
+// 								,agv_ref_key_1 		: this.ds_dlv.getColumn(0, "DLV_NO")
+// 								,agv_app_doc		: app_doc
+// 								,agv_aprv_doc_ctgr	: "AP11DLV"
+// 							};
+// 				this.gfn_dialog("PopupAppReq", "APPB::PAPPB100P01.xfdl",sArg, "fn_popCallBack");
+			}
+			else
+			{
+				if(strErrMsg != "") this.gfn_alert(strErrMsg);
+			}
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fn_popCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fn_popCallBack = function(sPopupId, rtn)
+{
+	if(this.gfn_isNull(rtn)) return;
+	
+	if(rtn.indexOf("<Dataset id=") == 0)
+	{
+		if(sPopupId == "PopupInspRtnRmark")
+		{
+			this.ds_return.loadXML(rtn);
+			this.ds_dlv.setColumn(0, "INSP_RTN_RMARK", this.ds_return.getColumn(0, "INSP_RTN_RMARK"));			
+		
+			var sSvcID = "BDlv_Rtn";
+			var sController = "BDlv_Rtn.do";
+			var sInDatasets = "in_dlv=ds_dlv:A";
+			var sOutDatasets = "ds_dlv=in_dlv";
+			var sCallbackFunc = "fn_trCallBack";
+			this.gfn_fileSaveTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+		}
+		else if(sPopupId =="PopupAppReq")	// 결재요청 팝업
+		{
+			this.ds_return.loadXML(rtn);
+			var isSucc = this.ds_return.getColumn(0, "IS_SUCCESS");
+			
+			if(isSucc == "Y") this.fn_search();
+		}
+		else if(sPopupId =="PopupSugarInfo")	// 당도입력 팝업
+		{
+			this.ds_return.loadXML(rtn);
+			
+			this.ds_dlvItem.set_enableevent(false);
+			for(var i=0; i<this.ds_return.getRowCount(); i++)
+			{
+				var fRow = this.ds_dlvItem.findRow("DLV_ITEM_ID", this.ds_return.getColumn(i, "DLV_ITEM_ID"));
+				
+				if(fRow > -1)
+				{
+					this.ds_dlvItem.setColumn(fRow, "SUGAR", this.ds_return.getColumn(i, "SUGAR"));
+				}
+			}
+			
+			this.ds_dlvItem.set_enableevent(true);			
+		}		
+	}
+}
+
+/**
+	@function	fn_getCompFileList1()
+	@desc   	FILE_JOB_6 : 파일 컴포넌트에 파일정보 셋팅 및 필터 추가(컴포넌트 갯수 만큼 function 추가)
+*/
+this.fn_getCompFileList1 = function()
+{	
+	if(this.div_21.Tab01.tabindex == 1) //협력사 첨부파일
+	{	
+		var array = [this.ds_dlv.getColumn(this.ds_dlv.rowposition, "DLV_NO")];		
+		this.div_21.Tab01.tabpages[this.div_21.Tab01.tabindex].fn_fileCompInit(this, "MM_PO_DLV", this.ds_dlv, array, "Y", "String(CRTR_ID).indexOf('S') >= 0"); //초기화 및 조회(필터링)	
+	}
+}
+
+/**
+	@function	fn_getCompFileList2()
+	@desc   	FILE_JOB_6 : 파일 컴포넌트에 파일정보 셋팅 및 필터 추가(컴포넌트 갯수 만큼 function 추가)
+*/
+this.fn_getCompFileList2 = function()
+{
+	if(this.div_21.Tab01.tabindex == 2) //검수담당 첨부파일
+	{
+		var array = [this.ds_dlv.getColumn(this.ds_dlv.rowposition, "DLV_NO")];
+		
+		var readOnly="";
+		if(this.ds_dlv.getColumn(0, "CD_DLV_STTS")=="DL10SND")
+		{
+			readOnly = "N";
+		}
+		else
+		{
+			readOnly = "Y";
+		}
+		
+		this.div_21.Tab01.tabpages[this.div_21.Tab01.tabindex].fn_fileCompInit(this, "MM_PO_DLV", this.ds_dlv, array, readOnly, "String(CRTR_ID).indexOf('B') >= 0"); //초기화 및 조회(필터링)	
+	}
+}
+
+/**
+	@function	div_21_Tab01_onchanged()
+	@desc   	FILE_COMP_JOB_7 : 파일 첨부 컴포넌트 초기화 & 조회
+*/
+this.div_21_Tab01_onchanged = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	if(this.div_21.Tab01.tabindex == 1) //협력사 첨부파일
+	{	
+		//FILE_COMP_JOB_7 : 파일 첨부 컴포넌트 초기화 & 조회
+		this.fn_getCompFileList1();
+	}
+	else if(this.div_21.Tab01.tabindex == 2) //검수담당 첨부파일
+	{
+		this.fn_getCompFileList2();
+	}
+}
+
+/**
+	@function	div_41_Tab01_onchanged()
+	@desc   	FILE_COMP_JOB_7 : 파일 첨부 컴포넌트 초기화 & 조회
+*/
+this.div_41_Tab01_onchanged = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{	
+	//유효기간관리 여부
+	if("Y"==this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition,"ALT_DDATE_MGT"))
+	{
+		this.div_41.Tab01.tabpage5.btn_dlvItemAdd.set_visible(true);
+		this.div_41.Tab01.tabpage5.btn_dlvItemDel.set_visible(true);
+	}
+	
+	//FILE_COMP_JOB_7 : 파일 첨부 컴포넌트 초기화 & 조회
+	this.fn_getCompFileList2();
+}
+
+/**
+	@function	ds_dlvItem_onrowposchanged()
+	@desc   	품목에 대한 첨부파일 변경을 위한 탭 변경 이벤트 호출
+*/
+this.ds_dlvItem_onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fn_getCompFileList2();
+	this.ds_dlvItemExp.filter("PO_ITEM_ID=='" + this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "PO_ITEM_ID") + "'");
+	
+	//유효기간관리 여부
+	if("Y"==this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition,"ALT_DDATE_MGT"))
+	{
+		this.div_41.Tab01.tabpage5.btn_dlvItemAdd.set_visible(true);
+		this.div_41.Tab01.tabpage5.btn_dlvItemDel.set_visible(true);
+	}
+}
+
+/**
+	@function	div_41_cbo_itemChg_onitemchanged()
+	@desc   	아이템선택
+*/
+ this.div_41_cbo_itemChg_onitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.ds_dlvItem.set_rowposition(this.ds_dlvItem.findRow("DLV_ITEM_ID",obj.value));
+}
+
+/**
+	@function	div_41_cbo_itemChg_onitemchanged()
+	@desc   	자재를 위로 이동하여 편집
+*/
+this.div_41_btn_dlvItemRowUp_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.ds_dlvItem.rowposition==0) return;
+	this.ds_dlvItem.set_rowposition(this.ds_dlvItem.rowposition-1);
+}
+
+/**
+	@function	div_41_btn_dlvItemRowDown_onclick()
+	@desc   	자재를 아래로 이동하여 편집
+*/
+this.div_41_btn_dlvItemRowDown_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.ds_dlvItem.rowposition==this.ds_dlvItem.rowcount-1) return;
+	this.ds_dlvItem.set_rowposition(this.ds_dlvItem.rowposition+1);
+}
+
+/**
+	@function	fn_onkeyup_event()
+	@desc   	검색조건에서 ENTER(keycode::13) BACKSPACE(keycode::8) 입력시 이벤트를 발생시킨다.
+*/
+this.fn_onkeyup_event = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	//Enter 입력시
+	if(e.keycode == "13")
+	{
+		if(obj.name == "edt_inspChrgrNm")
+		{
+			this.div_21_Tab01_tabp05_btn_chrgr_onclick();
+		}
+	}
+}
+
+/**
+	@function	div_41_Tab01_tabpage5_btn_dlvItemAdd_onclick()
+	@desc   	유효기간관리 그리드 행추가
+*/
+this.div_41_Tab01_tabpage5_btn_dlvItemAdd_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.ds_dlvItemExp.addRow();
+	this.ds_dlvItemExp.setColumn(nRow, "PO_ITEM_ID", this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "PO_ITEM_ID"));
+	this.ds_dlvItemExp.setColumn(nRow, "DLV_ITEM_ID", "");	
+	this.ds_dlvItemExp.setColumn(nRow, "EFF_DAY", "");
+	this.ds_dlvItemExp.setColumn(nRow, "DLV_QTY", "");
+}
+
+/**
+	@function	div_41_Tab01_tabpage5_btn_dlvItemDel_onclick()
+	@desc   	유효기간관리 그리드 행삭제
+*/
+this.div_41_Tab01_tabpage5_btn_dlvItemDel_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.gfn_dsChkDel(this.ds_dlvItemExp);
+	this.ds_dlvItemExp.filter("PO_ITEM_ID=='" + this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "PO_ITEM_ID") + "'");
+}
+
+/**
+	@function	div_21_Tab01_tabp01_chk_altPreMmGr_onchanged()
+	@desc   	전월말일자 체크박스 onchanged
+*/
+this.div_21_Tab01_tabp01_chk_altPreMmGr_onchanged = function(obj:CheckBox, e:nexacro.CheckBoxChangeEventInfo)
+{
+	var yyyymmdd = e.postvalue == "Y" ? this.gfn_preMonthLastDay() : this.gfn_today();
+	this.ds_dlv.setColumn(this.ds_dlv.rowposition, "INSP_DAY", yyyymmdd);		
+}
+
+/**
+	@function	ds_dlvItemExp_oncolumnchanged()
+	@desc   	유효기간관리 데이터셋 oncolumnchanged 이벤트
+*/
+this.ds_dlvItemExp_oncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if("EFF_DAY" == e.columnid)
+	{
+		for(var i=this.ds_dlvItemExp.getRowCount()-2; i>=0; i--)
+		{
+			if(this.ds_dlvItemExp.getColumn(i, "EFF_DAY") == "") continue;
+			if(this.ds_dlvItemExp.getColumn(i, "EFF_DAY") == this.ds_dlvItemExp.getColumn(this.ds_dlvItemExp.getRowCount()-1, "EFF_DAY"))
+			{
+				this.gfn_alert("유효기간관리의 유효일자는 중복될 수 없습니다.");
+				this.ds_dlvItemExp.setColumn(this.ds_dlvItemExp.getRowCount()-1, "EFF_DAY", "");
+				break;
+			}
+		}
+	}
+}
+
+/**
+	@function	ds_dlvItem_oncolumnchanged()
+	@desc   	품목 데이터셋 oncolumnchanged 이벤트
+*/
+this.ds_dlvItem_oncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if("DLV_QTY" == e.columnid)
+	{
+		//검수수량 변경시 금액 변경
+		var dSum = this.ds_dlvItem.getSum("DLV_QTY * UNT_PRICE", this.ds_dlvItem.rowposition, this.ds_dlvItem.rowposition+1);
+		this.ds_dlvItem.setColumn(this.ds_dlvItem.rowposition, "DLV_PLAN_AMT", dSum);
+		
+		if(this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "INT_NTAX") == "T")
+		{
+			var sVat = this.ds_dlvItem.getSum("DLV_QTY * UNT_PRICE * 0.1", this.ds_dlvItem.rowposition, this.ds_dlvItem.rowposition+1);
+			this.ds_dlvItem.setColumn(this.ds_dlvItem.rowposition, "VAT", sVat);
+		}
+		
+		var compareVal = this.ds_dlvItem.getSum("TOT_DLV_QTY + DLV_QTY", this.ds_dlvItem.rowposition, this.ds_dlvItem.rowposition+1);
+		if(compareVal >= this.ds_dlvItem.getColumn(this.ds_dlvItem.rowposition, "QTY"))
+			this.ds_dlvItem.setColumn(this.ds_dlvItem.rowposition, "ALT_DLV_CMPLT", 1);
+		else
+			this.ds_dlvItem.setColumn(this.ds_dlvItem.rowposition, "ALT_DLV_CMPLT", 0);
+		
+		dSum = this.ds_dlvItem.getSum("DLV_QTY * UNT_PRICE");
+		this.ds_dlv.setColumn(this.ds_dlv.rowposition, "DLV_AMT", dSum);
+		
+		sVat = this.ds_dlvItem.getSum("VAT");
+		this.ds_dlv.setColumn(this.ds_dlv.rowposition, "VAT", sVat);
+	}
+}
+
+/**
+	@function	div_31_grd_dlvItem_oncelldblclick()
+	@desc   	품목 그리드 oncelldblclick 이벤트
+*/
+this.div_31_grd_dlvItem_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.gfn_isNull(this.ds_dlvItem.getColumn(e.row, this.gfn_grdBindColName(obj, e.cell)))) return false;
+	
+	if(this.gfn_grdBindColName(obj, e.cell)=="MTRL_CD")	//품목코드
+	{
+		var sArg = { 
+						mtrl_cd:this.ds_dlvItem.getColumn(e.row, "MTRL_CD")	
+					};
+		this.gfn_dialog("PopupComMtrlView", "commPop::PPOPC700P01.xfdl", sArg, "fn_popCallBack");
+	}
+	else if(this.gfn_grdBindColName(obj, e.cell)=="MTRL_NM")	//품목코드
+	{
+		var sArg = { 
+						mtrl_cd:this.ds_dlvItem.getColumn(e.row, "MTRL_CD")	
+					};
+		this.gfn_dialog("PopupComMtrlView", "commPop::PPOPC700P01.xfdl", sArg, "fn_popCallBack");
+	}
+	else if(this.gfn_grdBindColName(obj, e.cell)=="SL_NM"){ //창고
+		var sArg = {strCd:this.ds_dlvItem.getColumn(e.row,"STR_CD")
+		            ,branchCd:application.gds_userInfo.getColumn(0,"BRANCH_CD")};
+		this.gfn_dialog("PPOPC400P00", "commPop::PPOPC400P00.xfdl", sArg);
+	}
+}
+
+/**
+	@function	div_31_grd_dlvItem_oncellclick()
+	@desc   	품목 그리드 oncellclick 이벤트
+*/
+this.div_31_grd_dlvItem_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.gfn_isNull(this.ds_dlvItem.getColumn(e.row, this.gfn_grdBindColName(obj, e.cell)))) return false;
+	
+	if(this.gfn_grdBindColName(obj, e.cell)=="ALT_DLV_CMPLT")	//품목코드
+	{
+		//납품완료 체크  - 차수별 검수일 경우에는 불가.
+		if(this.ds_dlv.getColumn(0,"INT_DLV_TYPE") != "PAY") //차수별 검수
+		{
+			this.ds_dlvItem.setColumn(this.ds_dlvItem.rowposition, "ALT_DLV_CMPLT", obj.getCellValue(e.row, e.col));
+		}
+	}
+}
+
+/**
+	@function	div_3_btn_sugar_onclick()
+	@desc   	측정당도 입력
+*/
+this.div_3_btn_sugar_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_branchCd:this.ds_dlv.getColumn(0, "BRANCH_CD")
+					, agv_dlvNo:this.ds_dlv.getColumn(0, "DLV_NO")
+			   };
+	this.gfn_dialog("PopupSugarInfo", "DLVB::PDLVB100P04.xfdl", sArg, "fn_popCallBack");
+}
+
+/**
+	@function	div_1_btn_barcode_onclick()
+	@desc   	바코드출력 팝업
+*/
+this.div_1_btn_barcode_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_branchCd:this.ds_dlv.getColumn(0, "BRANCH_CD")
+					, agv_dlvNo:this.ds_dlv.getColumn(0, "DLV_NO")
+			   };
+	this.gfn_dialog("PopupBarcode", "DLVB::PDLVB100P05.xfdl", sArg, "fn_popCallBack");
+}
+]]></Script>
+  </Form>
+</FDL>

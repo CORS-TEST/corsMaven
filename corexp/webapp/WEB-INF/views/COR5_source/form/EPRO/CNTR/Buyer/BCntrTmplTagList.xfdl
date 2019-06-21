@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="769" id="BSysCodeRsrc" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="계약서태그관리" top="0" width="1200">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Subtitle" height="23" id="staViewCompTitle00" left="0" taborder="142" text="태그리스트" top="67" width="254"/>
+        <Div cssclass="div_WF_SearchBg" height="43" id="divViewSeach" left="0" objNm="메인검색" right="15" style="align:center;" taborder="143" top="0">
+          <Layouts>
+            <Layout>
+              <Static height="24" id="staRsrcNm" left="404" objNm="컬럼ID" taborder="2" text="컬럼ID" top="10" width="85" cssclass="sta_WF_SearchLabel"/>
+              <Edit height="24" id="edtCntrTagNm" left="103" objNm="리소스ID" onkeydown="fnKeydown" taborder="1" top="10" width="281"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staCntrTagNm" left="5" objNm="태그명" taborder="0" text="태그명" top="10" width="93"/>
+              <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="24" id="cboTagType" left="862" objNm="타입" taborder="5" top="10" width="124">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn"/>
+                      <Col id="datacolumn">[전체]</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">header</Col>
+                      <Col id="datacolumn">header</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">grid</Col>
+                      <Col id="datacolumn">grid</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staRsrcLang" left="741" objNm="언어" style="align:right middle;" taborder="4" text="태그타입" top="10" width="114"/>
+              <Edit height="24" id="edtRsrcNm" left="493" objNm="리소스명" onkeydown="fnKeydown" taborder="3" top="10" width="219"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="28" id="divViewCompBody00" left="0" taborder="144" text="Div00" top="92" width="560">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsList" bottom="61" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="N" f_totalCnt="N" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="8" top="1" useinputpanel="false" autosizingtype="row">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="30"/>
+                      <Column size="200"/>
+                      <Column size="100"/>
+                      <Column size="171"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" text="태그명"/>
+                      <Cell col="2" text="타입"/>
+                      <Cell col="3" text="컬럼ID"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                      <Cell col="1" style="align:left middle;" text="bind:CNTR_TAG_NM"/>
+                      <Cell col="2" style="align:left middle;selectbackground:EXPR(gfnIsNull(VALIDATE) ? '' : VALIDATE=='N' ? 'antiquewhite' : 'aquamarine');" text="bind:CD_TAG_TYPE"/>
+                      <Cell col="3" style="align:left middle;" text="bind:CNTR_TAG_COL"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="1" height="59" id="divPaging" left="0" right="0" scrollbars="none" taborder="9" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="28" cssclass="div_WF_DetailBg" id="divViewCompBody01" left="570" objNm="DIV-헤더 상세" right="16" scrollbars="none" style="background:#ffffffff;" taborder="145" top="93">
+          <Layouts>
+            <Layout height="648" width="614">
+              <Static cssclass="sta_WF_Label" height="33" id="sta_upPgmId" lbcd="" left="371" objNm="상위프로그램ID" taborder="296" text="상위프로그램ID" top="-1" width="117"/>
+              <Edit cssclass="readonly_P" enable="false" height="23" id="edt_upPgmId" left="493" objNm="상위프로그램ID" taborder="297" top="4" width="194"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="298" top="-1"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staRsrcId" lbcd="" left="0" objNm="태그명" taborder="0" text="태그명" top="-1" width="117"/>
+              <Edit height="23" id="edtRsrcId" left="122" objNm="리소스ID" readonly="false" taborder="1" top="4" width="474"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" right="0" taborder="301" top="31"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staTagType" lbcd="" left="0" objNm="태그타입" taborder="2" text="태그타입" top="31" width="117"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="0" right="0" taborder="306" top="95"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staCrtrId" lbcd="" left="0" objNm="생성자" taborder="8" text="생성자" top="95" width="117"/>
+              <Edit height="23" id="edtCrtrId" left="122" objNm="생성자" readonly="true" taborder="9" top="100" width="160"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" right="0" taborder="311" top="127"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staLastChgrId" lbcd="" left="0" objNm="최종수정자" taborder="12" text="최종수정자" top="127" width="117"/>
+              <Edit height="23" id="edtLastChgrId" left="122" objNm="최중수정자" readonly="true" taborder="13" top="132" width="160"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staCrtrDt" lbcd="" left="288" objNm="생성일시" taborder="10" text="생성일시" top="95" width="117"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staLastChgDt" lbcd="" left="288" objNm="최종수정일시" taborder="14" text="최종수정일시" top="127" width="117"/>
+              <Calendar height="23" id="calCrtrDt" left="414" locale="en_US" objNm="생성일시" readonly="true" style="buttonsize:0;" taborder="11" top="100" width="183" dateformat="yyyy-MM-dd" value="null"/>
+              <Calendar height="23" id="calLastChgDt" left="414" locale="en_US" objNm="최종수정일시" readonly="true" style="buttonsize:0;" taborder="15" top="132" width="183" dateformat="yyyy-MM-dd" value="null"/>
+              <Static id="staViewCompLine04" taborder="323" cssclass="sta_WF_Labelbg" left="0" top="63" right="0" height="33"/>
+              <Static id="staCntrTagCol" taborder="4" text="컬럼ID" cssclass="sta_WF_Label" left="0" top="63" width="117" height="33" lbcd="" objNm="컬럼ID"/>
+              <Edit id="edtCntrTagCol" taborder="5" readonly="false" left="122" top="68" width="160" height="23" objNm="컬럼ID"/>
+              <Static id="staAltUse" taborder="6" text="사용여부" cssclass="sta_WF_Label" left="288" top="31" width="117" height="33" lbcd="" objNm="사용여부"/>
+              <Combo id="cboAltUse" taborder="7" autoselect="true" text="전체" codecolumn="codecolumn" datacolumn="datacolumn" index="0" cssclass="cbo_default" left="414" top="36" width="183" height="23" objNm="사용여부">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn"/>
+                      <Col id="datacolumn">[선택]</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Combo id="cboTagType" taborder="324" autoselect="true" text="전체" codecolumn="codecolumn" datacolumn="datacolumn" index="0" cssclass="cbo_default" left="122" top="36" width="160" height="23" objNm="사용여부">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn"/>
+                      <Col id="datacolumn">[선택]</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">header</Col>
+                      <Col id="datacolumn">header</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">grid</Col>
+                      <Col id="datacolumn">grid</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Button cssclass="btn_WF_Module" height="21" id="btnAddTag" objNm="태그추가" onclick="fnAddTag" right="101" taborder="146" text="태그추가" top="66" width="74"/>
+        <Button cssclass="btn_WF_Module" height="21" id="btnDelTag" objNm="태그삭제" onclick="fnDelTag" right="22" taborder="147" text="태그삭제" top="66" width="74"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="CNTR_TAG_NM" size="256" type="STRING"/>
+          <Column id="CD_TAG_TYPE" size="256" type="STRING"/>
+          <Column id="CNTR_TAG_COL" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="CNTR_TAG_NO" type="STRING" size="256"/>
+          <Column id="CNTR_TAG_NM" type="STRING" size="256"/>
+          <Column id="CD_TAG_TYPE" type="STRING" size="256"/>
+          <Column id="CNTR_TAG_COL" type="STRING" size="256"/>
+          <Column id="ALT_USE" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+          <Column id="LAST_CHG_DT" type="STRING" size="256"/>
+          <Column id="CD_TAG_TYPE_NM" type="STRING" size="256"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="CNTR_TAG_NM " compid="divViewSeach.edtCntrTagNm" datasetid="dsCondition" id="RSRC_ID" propid="value"/>
+      <BindItem columnid="CNTR_TAG_COL" compid="divViewSeach.edtRsrcNm" datasetid="dsCondition" id="RSRC_NM" propid="value"/>
+      <BindItem columnid="CD_TAG_TYPE" compid="divViewSeach.cboTagType" datasetid="dsCondition" id="CD_RSRC_LANG" propid="value"/>
+      <BindItem columnid="CNTR_TAG_NM" compid="divViewCompBody01.edtRsrcId" datasetid="dsList" id="item0" propid="value"/>
+      <BindItem columnid="CRTR_ID" compid="divViewCompBody01.edtCrtrId" datasetid="dsList" id="item2" propid="value"/>
+      <BindItem columnid="CRT_DT" compid="divViewCompBody01.calCrtrDt" datasetid="dsList" id="item3" propid="value"/>
+      <BindItem columnid="LAST_CHGR_ID" compid="divViewCompBody01.edtLastChgrId" datasetid="dsList" id="item4" propid="value"/>
+      <BindItem columnid="LAST_CHG_DT" compid="divViewCompBody01.calLastChgDt" datasetid="dsList" id="item5" propid="value"/>
+      <BindItem columnid="divViewSeach" compid="divViewSeach" datasetid="dsObjBindVi" id="divViewSeachVi" propid="visible"/>
+      <BindItem columnid="divViewSeach" compid="divViewSeach" datasetid="dsObjBindEn" id="divViewSeachEn" propid="enable"/>
+      <BindItem columnid="staRsrcNm" compid="divViewSeach.staRsrcNm" datasetid="dsObjBindVi" id="staRsrcNmVi" propid="visible"/>
+      <BindItem columnid="staRsrcNm" compid="divViewSeach.staRsrcNm" datasetid="dsObjBindEn" id="staRsrcNmEn" propid="enable"/>
+      <BindItem columnid="staRsrcId" compid="divViewSeach.staCntrTagNm" datasetid="dsObjBindVi" id="staRsrcIdVi" propid="visible"/>
+      <BindItem columnid="staRsrcId" compid="divViewSeach.staCntrTagNm" datasetid="dsObjBindEn" id="staRsrcIdEn" propid="enable"/>
+      <BindItem columnid="staRsrcLang" compid="divViewSeach.staRsrcLang" datasetid="dsObjBindVi" id="staRsrcLangVi" propid="visible"/>
+      <BindItem columnid="staRsrcLang" compid="divViewSeach.staRsrcLang" datasetid="dsObjBindEn" id="staRsrcLangEn" propid="enable"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindVi" id="divPagingVi" propid="visible"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindEn" id="divPagingEn" propid="enable"/>
+      <BindItem columnid="sta_upPgmId" compid="divViewCompBody01.sta_upPgmId" datasetid="dsObjBindVi" id="sta_upPgmIdVi" propid="visible"/>
+      <BindItem columnid="sta_upPgmId" compid="divViewCompBody01.sta_upPgmId" datasetid="dsObjBindEn" id="sta_upPgmIdEn" propid="enable"/>
+      <BindItem columnid="edt_upPgmId" compid="divViewCompBody01.edt_upPgmId" datasetid="dsObjBindVi" id="edt_upPgmIdVi" propid="visible"/>
+      <BindItem columnid="edt_upPgmId" compid="divViewCompBody01.edt_upPgmId" datasetid="dsObjBindEn" id="edt_upPgmIdEn" propid="readonly"/>
+      <BindItem columnid="staCrtrId" compid="divViewCompBody01.staCrtrId" datasetid="dsObjBindVi" id="staCrtrIdVi" propid="visible"/>
+      <BindItem columnid="staCrtrId" compid="divViewCompBody01.staCrtrId" datasetid="dsObjBindEn" id="staCrtrIdEn" propid="enable"/>
+      <BindItem columnid="edtCrtrId" compid="divViewCompBody01.edtCrtrId" datasetid="dsObjBindVi" id="edtCrtrIdVi" propid="visible"/>
+      <BindItem columnid="edtCrtrId" compid="divViewCompBody01.edtCrtrId" datasetid="dsObjBindEn" id="edtCrtrIdEn" propid="readonly"/>
+      <BindItem columnid="staLastChgrId" compid="divViewCompBody01.staLastChgrId" datasetid="dsObjBindVi" id="staLastChgrIdVi" propid="visible"/>
+      <BindItem columnid="staLastChgrId" compid="divViewCompBody01.staLastChgrId" datasetid="dsObjBindEn" id="staLastChgrIdEn" propid="enable"/>
+      <BindItem columnid="edtLastChgrId" compid="divViewCompBody01.edtLastChgrId" datasetid="dsObjBindVi" id="edtLastChgrIdVi" propid="visible"/>
+      <BindItem columnid="edtLastChgrId" compid="divViewCompBody01.edtLastChgrId" datasetid="dsObjBindEn" id="edtLastChgrIdEn" propid="readonly"/>
+      <BindItem columnid="staCrtrDt" compid="divViewCompBody01.staCrtrDt" datasetid="dsObjBindVi" id="staCrtrDtVi" propid="visible"/>
+      <BindItem columnid="staCrtrDt" compid="divViewCompBody01.staCrtrDt" datasetid="dsObjBindEn" id="staCrtrDtEn" propid="enable"/>
+      <BindItem columnid="staLastChgDt" compid="divViewCompBody01.staLastChgDt" datasetid="dsObjBindVi" id="staLastChgDtVi" propid="visible"/>
+      <BindItem columnid="staLastChgDt" compid="divViewCompBody01.staLastChgDt" datasetid="dsObjBindEn" id="staLastChgDtEn" propid="enable"/>
+      <BindItem columnid="calCrtrDt" compid="divViewCompBody01.calCrtrDt" datasetid="dsObjBindVi" id="calCrtrDtVi" propid="visible"/>
+      <BindItem columnid="calCrtrDt" compid="divViewCompBody01.calCrtrDt" datasetid="dsObjBindEn" id="calCrtrDtEn" propid="readonly"/>
+      <BindItem columnid="calLastChgDt" compid="divViewCompBody01.calLastChgDt" datasetid="dsObjBindVi" id="calLastChgDtVi" propid="visible"/>
+      <BindItem columnid="calLastChgDt" compid="divViewCompBody01.calLastChgDt" datasetid="dsObjBindEn" id="calLastChgDtEn" propid="readonly"/>
+      <BindItem id="item6" compid="divViewCompBody01.staCntrTagCol" propid="visible" datasetid="dsObjBindVi" columnid="staCrtrId"/>
+      <BindItem id="item7" compid="divViewCompBody01.staCntrTagCol" propid="enable" datasetid="dsObjBindEn" columnid="staCrtrId"/>
+      <BindItem id="item8" compid="divViewCompBody01.edtCntrTagCol" propid="value" datasetid="dsList" columnid="CNTR_TAG_COL"/>
+      <BindItem id="item11" compid="divViewCompBody01.staAltUse" propid="visible" datasetid="dsObjBindVi" columnid="staCrtrDt"/>
+      <BindItem id="item12" compid="divViewCompBody01.staAltUse" propid="enable" datasetid="dsObjBindEn" columnid="staCrtrDt"/>
+      <BindItem id="item13" compid="divViewCompBody01.cboAltUse" propid="value" datasetid="dsList" columnid="ALT_USE"/>
+      <BindItem id="item1" compid="divViewCompBody01.cboTagType" propid="value" datasetid="dsList" columnid="CD_TAG_TYPE"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BCntrTmplTagList.xfdl
+ * @생성자       	: 한의봉
+ * @생성일자     	: 2019. 03. 12.
+ * @설명			: 일단 되는것만 볼려고 리스트를 다넘겨서 그냥 하고 있음.난중에 수정해야됨.
+ * @최종수정자		: 
+ * @최종수정일자	: 
+*/  
+
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+	var param = [
+					{code:"CM34"} // 언어
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	//this.fnSetCode();
+}
+
+
+/**
+  * @함수명	: fnFormOnload
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	gfnSetObj("A");
+	
+	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this);
+	
+	this.dsCondition.addRow();
+	this.dsCondition.setColumn(0, "CD_TAG_TYPE", "");
+	
+	this.fnSearch();
+}
+
+/**
+	@함수명	fnSearch()
+	@desc   	조회 프로세스
+*/  
+this.fnSearch = function()
+{
+	var sSvcID = "readCntrTag";
+	var sController = "epro.cntr.service.BCntrService.readCntrTag";
+	var sInDatasets = "dsCondition=dsCondition"
+	var sOutDatasets = "dsList=dsTagList";
+	var sCallbackFunc = "fnTrCallBack";
+	var	oPaging = [	
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+
+/**
+	@함수명	fnPreSave()
+	@desc   	저장전 처리
+*/ 
+this.fnPreSave = function()
+{ 
+	return true;
+}
+
+
+/**
+	@함수명	fnSave()
+	@desc   	저장
+*/ 
+this.fnSave = function()
+{
+	if(!this.fnPreSave())return;
+	
+	var sSvcID = "saveCntrTag";
+	var sController = "epro.cntr.service.BCntrService.saveCntrTag";
+	var sInDatasets = "dsList=dsList:A";
+	var sOutDatasets = "dsCheckId=dsCheckId";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+	@함수명	fnTrCallBack()	
+	@desc   	Transaction Callback함수
+*/      
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;	
+	
+	switch(strSvcID){
+		case "readCntrTag" :
+
+		break;
+		
+		case "saveCntrTag" :
+			gfnAlert("저장되었습니다.");
+			this.fnSearch();
+		break;
+
+		
+		default:
+		break;	
+	}
+}
+
+/**
+	@함수명	fnKeydown()	
+	@desc   	키입력 이벤트
+*/  
+this.fnKeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13) { // Enter
+		if(obj.name == "edtCntrTagNm") {
+			this.fnSearch();
+		} else if(obj.name == "edtRsrcNm") {
+			this.fnSearch();
+		}
+	}
+}
+
+/**
+	@함수명	fnAddTag()	
+	@desc   	태그추가
+*/  
+this.fnAddTag = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsList.addRow();
+	this.dsList.setColumn(nRow,"CD_TAG_TYPE","header");
+	this.dsList.setColumn(nRow,"ALT_USE","Y");
+	
+}
+
+/**
+	@함수명	fnDelRsrc()	
+	@desc   	리소스삭제 버튼
+*/  
+this.fnDelTag = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("삭제하시겠습니까?")) return;
+	gfnDsChkDel(this.dsList,"CHECKED")
+}
+
+]]></Script>
+  </Form>
+</FDL>

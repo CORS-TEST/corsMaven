@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form _name="" classname="GridSortPop" height="35" id="commGrdFixPop" left="0" mmm="" onload="fnFormOnload" titletext="그리드 고정 팝업" top="0" width="348">
+    <Layouts>
+      <Layout>
+        <Combo codecolumn="COL_ID" datacolumn="COL_NM" height="20" id="cboColumn" innerdataset="@dsParentGrid" left="10" onitemchanged="cboColumnOnitemchanged" right="65" taborder="6" top="8"/>
+        <Button height="20" id="btnInit" onclick="btnInitOnclick" right="10" taborder="7" text="초기화" top="8" width="48"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsParentGrid">
+        <ColumnInfo>
+          <Column id="COL_ID" size="256" type="STRING"/>
+          <Column id="COL_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompGrdFixPop.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 22.
+ * @설명			: 틀고정
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 22.
+*/ 
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00801");
+
+this.fvGrid;	//대상 그리드
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();	
+	this.fvGrid = ownFrame.arg_grid;
+	
+	for(i=0; i<this.fvGrid.getCellCount("Head"); i++){	
+		var sHeadText = this.fvGrid.getCellProperty("head", i, "text");		
+		//if(gfnIsNull(sHeadText)) continue;
+		
+		if(gfnIsNull(this.fvGrid.getCellProperty("body", i, "text"))) continue;
+
+		var nRow = this.dsParentGrid.addRow();
+		
+		var arrBind = this.fvGrid.getCellProperty("body", i, "text").split("bind:");
+		this.dsParentGrid.setColumn(nRow, "COL_ID", arrBind[1]);
+		
+		this.dsParentGrid.setColumn(nRow, "COL_NM", sHeadText);
+	}
+	
+	this.dsParentGrid.set_rowposition(0);
+}
+
+/**
+  * @함수명	: btnInitOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 초기화
+  */
+this.btnInitOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	gfnCxlCellFix(this.fvGrid);
+}
+
+/**
+  * @함수명	: cboColumnOnitemchanged
+  * @input    	: obj:Combo(콤보 오브젝트), e:nexacro.ItemChangeEventInfo(이벤트변수)
+  * @desc     	: 콤보 Onitemchanged 이벤트
+  */
+this.cboColumnOnitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{	
+	gfnCellFix(this.fvGrid, e.postindex);
+}
+]]></Script>
+  </Form>
+</FDL>

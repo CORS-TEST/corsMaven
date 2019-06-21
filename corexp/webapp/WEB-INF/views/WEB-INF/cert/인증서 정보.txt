@@ -1,0 +1,30 @@
+<인증서 정보>
+
+1. 청어람(테스트법인)
+   *참조번호 : 77494
+   *인가코드 : 7789904992607233641
+   *인가된DN : cn=청어람(테스트법인),ou=테스트,ou=등록기관,ou=AccreditedCA,o=CrossCert,c=KR
+   *사업자번호 : 1234567890
+   
+   비밀번호 crosscert!@34
+
+2. 업체용(테스트법인)
+   *참조번호 : 77495
+   *인가코드 : 0799453917388696555
+   *인가된DN : cn=업체용(테스트법인),ou=테스트,ou=등록기관,ou=AccreditedCA,o=CrossCert,c=KR
+   *사업자번호 : 1234567890
+   
+    비밀번호 crosscert12#$
+
+
+
+<인증서 위치>
+- xp 계열 : C:\Users\Cors\AppData\LocalLow\NPKI
+- Vista 또는 Windows 7 : %USERPROFILE%\AppData\Locallow\NPKI\CrossCert\USER\
+
+    
+- %USERPROFILE% 확인방법
+   cmd 창에서  > echo %USERPROFILE%
+   예) 사용자 계정 : aaa
+   c:\users\aaa 
+   윈도우 탐색기 : 로컬디스크(C) --- 사용자 --- aaa

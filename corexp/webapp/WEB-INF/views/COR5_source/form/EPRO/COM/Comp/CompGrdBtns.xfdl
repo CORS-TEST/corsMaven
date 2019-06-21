@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompGrdBtns" height="28" id="CompGrdBtns" left="0" titletext="그리드 공통 기능 버튼" top="0" width="298">
+    <Layouts>
+      <Layout>
+        <Button cssclass="btn_WF_GrdDown" height="22" id="btnExcelDown" objNm="엑셀다운로드" onclick="fnBtnExcelDownOnclick" right="264" taborder="0" tooltiptext="엑셀다운로드" top="3" visible="false" width="22"/>
+        <Button height="22" id="btnFilter" objNm="필터" onclick="fnBtnFilterOnclick" right="240" style="background:#ffffffff URL('theme://images/btn_WF_GrdFilter_N.png');" taborder="1" tooltiptext="필터" top="3" visible="false" width="22"/>
+        <Button height="22" id="btnHideCol" objNm="컬럼 숨기기/보이기" onclick="fnBtnHideColOnclick" right="216" taborder="2" tooltiptext="열 숨기기/취소" top="3" visible="false" width="22"/>
+        <Button height="22" id="btnFind" objNm="찾기" onclick="fnBtnFindOnclick" right="192" taborder="3" tooltiptext="찾기" top="3" visible="false" width="22"/>
+        <Button cssclass="btn_WF_GrdSort" height="22" id="btnMultiSort" objNm="정렬" onclick="fnBtnMultiSortOnclick" right="168" taborder="4" tooltiptext="정렬" top="3" visible="false" width="22"/>
+        <Button cssclass="btn_WF_GrdSellfixed" height="22" id="btnFixCol" objNm="틀고정" onclick="fnBtnFixColOnclick" right="144" taborder="5" tooltiptext="틀고정" top="3" visible="false" width="22"/>
+        <Button height="22" id="btnGrdHeightUp" objNm="그리드 높이 증가" onclick="fnBtnGrdHeightUpOnclick" right="120" style="background:#ffffffff URL('theme://images/btn_WF_GrdSizeUp_N.png');" taborder="6" tooltiptext="그리드 높이 증가" top="3" visible="false" width="22"/>
+        <Button height="22" id="btnGrdHeightDown" objNm="그리드 높이 감소" onclick="fnBtnGrdHeightDownOnclick" right="96" style="background:#ffffffff URL('theme://images/btn_WF_GrdSizeDown_N.png');" taborder="7" tooltiptext="그리드 높이 감소" top="3" visible="false" width="22"/>
+        <Button height="22" id="btnColWidth" objNm="컬럼 리사이즈" onclick="fnBtnColWidthOnclick" right="72" style="background:#ffffffff URL('theme://images/btn_WF_GrdResize_N.png');" taborder="9" tooltiptext="컬럼 리사이즈" top="3" visible="false" width="22"/>
+        <Button cssclass="btn_WF_GrdChangeExcel" height="22" id="btnModeChng" objNm="엑셀/입력 모드 변환" onclick="fnBtnModeChngOnclick" right="48" taborder="10" tooltiptext="행/열 선택 변환" top="3" visible="false" width="22"/>
+        <Button cssclass="btn_WF_GrdInitialization" height="22" id="btnClear" objNm="초기화" onclick="fnBtnClearOnclick" right="24" taborder="11" tooltiptext="초기화" top="3" visible="false" width="22"/>
+        <Button cssclass="btn_WF_GrdVisibleBtns_N" height="22" id="btnVisibleBtns" objNm="초기화" onclick="fnBtnVisibleBtnsOnclick" right="0" taborder="13" tooltiptext="그리드 기능 버튼 보이기/숨기기" top="3" visible="true" width="22"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsExcelInfo">
+        <ColumnInfo>
+          <Column id="IS_TRAN" size="256" type="STRING"/>
+          <Column id="TRAN_NM" size="256" type="STRING"/>
+          <Column id="XML_HEADER" size="256" type="STRING"/>
+          <Column id="PATH" size="256" type="STRING"/>
+          <Column id="FORMATID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00242" compid="btnFind" datasetid="gdsLabel" id="item3" propid="tooltiptext"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00803" compid="btnGrdHeightDown" datasetid="gdsLabel" id="item7" propid="tooltiptext"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00806" compid="btnVisibleBtns" datasetid="gdsLabel" id="item11" propid="tooltiptext"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CompGrdBtns.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 9. 4.
+ * @설명			: 그리드 공통버튼
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 9. 4.
+*/  
+
+this.fvForm;			//대상 그리드가 속해있는 폼
+this.fvGrd;				//대상 그리드
+this.fvDataset;			//대상 그리드에 바인딩 되어 있는 데이터셋
+this.fvDivPaging		//페이징 div
+this.fvExcel;			//엑셀정보
+
+/**
+  * @함수명	: fnDivGrdComBtnsInit
+  * @input    	: objForm:Form(폼 오브젝트), objGrid:Grid(그리드), objDivPaging(페이징 div)
+  * @desc   	: 초기화 (CompPaging.xfdl 의 fnDivGrdComBtnsInit 에서 호출함.)
+  */
+this.fnDivGrdComBtnsInit = function(objForm:Form, objGrid:Grid, objDivPaging, objExcel)
+{
+	this.fvForm = objForm;
+	this.fvGrd = objGrid;
+	this.fvDivPaging = objDivPaging
+	this.fvDataset = objGrid.getBindDataset();	
+	this.fvExcel = objExcel;
+	this.fnBtnVisibleBtnsOnclick();
+}
+
+/**
+  * @함수명	: fnBtnExcelDownOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트 변수)
+  * @desc   	: 엑셀 다운로드
+  */
+this.fnBtnExcelDownOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.fvExcel)){
+		//예시) {isTran:"N", tranNm:"BRfqService.searchRfqPrg", dsParam:this.dsCondition}
+		gfnAlert("gfnSetGrdFunc() 함수에서 엑셀다운로드에 필요한 파라미터가 누락 되었습니다.");
+		return;
+	}	
+	
+	this.dsExcelInfo.clearData();
+	this.dsExcelInfo.addRow();
+	this.dsExcelInfo.setColumn(0,"IS_TRAN", this.fvExcel.isTran);	
+	this.dsExcelInfo.setColumn(0,"TRAN_NM", this.fvExcel.tranNm);
+	if(!gfnIsNull(this.fvExcel.formatId)){
+		this.dsExcelInfo.setColumn(0,"FORMATID", this.fvExcel.formatId);	
+	}else{
+		this.dsExcelInfo.setColumn(0,"FORMATID", this.fvGrd.formatid);	
+	}
+	this.dsExcelInfo.setColumn(0,"XML_HEADER",this.fvGrd.getFormatString());
+   
+	var sSvcID = "excelDown";
+	var sController = "core.service.service.CExcelService.getExcel";
+	var sInDatasets = "dsExcelInfo=dsExcelInfo dsParam="+this.fvExcel.dsParam.name+" dsData="+this.fvDataset.name;
+	var sOutDatasets = "dsExcelInfo=dsExcelInfo";
+	var sCallbackFunc = "excelCallBakc";
+
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: excelCallBakc
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc   	: 엑셀 콜백
+  */
+this.excelCallBakc =  function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+   
+	switch(strSvcID){
+		case "excelDown" :
+			var path = this.dsExcelInfo.getColumn(0,"PATH");
+			var downUrl = application.gvDomain + "/controller/updown/downExcelFile?excelFile="+escape(encodeURIComponent(path));
+			system.execBrowser(downUrl);
+		break;
+      
+		default:
+		break;   
+   }
+}
+
+/**
+  * @함수명	: fnBtnFilterOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트 변수)
+  * @desc   	: 필터
+  */
+this.fnBtnFilterOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = {	arg_bBgColor	: false
+					, arg_grid		: this.fvGrd
+					, arg_divPaging		: this.fvDivPaging
+				};
+	gfnModalPop(this.fvForm, "CompGrdFilterPop", "CPOP::CompGrdFilterPop.xfdl", sArg, "", 600, 285);
+}
+
+/**
+  * @함수명	: fnBtnHideColOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트 변수)
+  * @desc   	: 열 숨기기
+  */
+this.fnBtnHideColOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{		
+	var sArg = {	
+					arg_bBgColor	: false
+					, arg_grid		: this.fvGrd
+				};
+	gfnModalPop(this.fvForm, "CompGrdColumnHidePop", "CPOP::CompGrdColumnHidePop.xfdl", sArg, "", 600, 285);
+}
+
+/**
+  * @함수명	: fnBtnMultiSortOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트 변수)
+  * @desc   	: 정렬
+  */
+this.fnBtnMultiSortOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var sArg = {	
+					arg_bBgColor	: false
+					, arg_grid		: this.fvGrd
+				};
+	gfnModalPop(this.fvForm, "CompGrdSortPop", "CPOP::CompGrdSortPop.xfdl", sArg, "", 350, 280);
+}
+
+/**
+  * @함수명	: fnBtnFixColOnclick
+  * @input     	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 틀고정
+  */
+this.fnBtnFixColOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = {	
+					arg_bBgColor	: false
+					, arg_grid		: this.fvGrd
+				};
+	gfnModalPop(this.fvForm, "CompGrdFixPop", "CPOP::CompGrdFixPop.xfdl", sArg, "", 300, 80);
+}
+
+/**
+  * @함수명	: fnBtnGrdHeightUpOnclick
+  * @input     	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 그리드 높이 증가
+  */
+this.fnBtnGrdHeightUpOnclick = function(obj, e)
+{
+	if(this.fvGrd.getOffsetHeight() < 1000){
+		if(this.fvGrd.parent == "[object Div]"){
+			this.fvGrd.parent.set_height(Number(this.fvGrd.parent.getOffsetHeight())+150);			
+		}else{
+			this.fvGrd.setOffsetHeight(Number(this.fvGrd.getOffsetHeight())+150);
+		}
+		
+		var openId = application.gdsOpenMenu.getColumn(application.gdsOpenMenu.rowposition, "OPEN_ID");
+		var framesInfo = application.gv_workFrameSet.frames
+		framesInfo[openId].form.divWork.resetScroll();
+		
+		this.fnSetDivHeight(this.fvGrd);
+	}	
+}
+
+/**
+  * @함수명	: fnBtnGrdHeightDownOnclick
+  * @input     	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 그리드 높이 감소
+  */
+this.fnBtnGrdHeightDownOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.fvGrd.getOffsetHeight() > 180){
+		if(this.fvGrd.parent == "[object Div]"){
+			this.fvGrd.parent.set_height(Number(this.fvGrd.parent.getOffsetHeight())-150);
+		}else{
+			this.fvGrd.set_height(Number(this.fvGrd.getOffsetHeight())-150);
+		}
+		
+		var openId = application.gdsOpenMenu.getColumn(application.gdsOpenMenu.rowposition, "OPEN_ID");
+		var framesInfo = application.gv_workFrameSet.frames
+		framesInfo[openId].form.divWork.resetScroll();
+		
+		this.fnSetDivHeight(this.fvGrd);
+	}
+}
+
+/**
+  * @함수명	: fnSetDivHeight
+  * @input     	: obj:Button(버튼 오브젝트), target(todo : 탭 존재할때 탭페이지 넣는다.)
+  * @desc     	: 그리드 높이 조절
+  */
+this.fnSetDivHeight = function(obj , target)
+{
+	var targetDiv;
+	var objs = obj.parent;
+	for(var i =0 ; i < 10; i++){
+		objs = objs.parent;
+		if(objs instanceof Form){
+			break;
+		}
+	}
+	
+	var arrDivs = gfnDivHeightSort(objs);
+	
+	//대상 Div를 찾음
+	var btnDiv = obj.parent;
+	for(var i=0;i<arrDivs.length;i++){
+		if(btnDiv == arrDivs[i]){
+			targetDiv = arrDivs[i];
+			break;
+		}
+	}
+	
+	if(!targetDiv){
+		return;
+	}
+
+	for(var i=0;i<arrDivs.length;i++){
+		//이동 대상 Div 일 경우
+		if(arrDivs[i].getOffsetTop() > targetDiv.getOffsetTop()){
+			var preDiv = arrDivs[i-1];
+			if(!preDiv.visible){
+				preDiv = arrDivs[i-2];
+			}
+			
+			arrDivs[i].setOffsetTop(parseInt(preDiv.getOffsetTop()) + parseInt(preDiv.getOffsetHeight())+5);
+		}
+	}
+	objs.resetScroll();	
+}
+
+/**
+  * @함수명	: fnBtnColWidthOnclick
+  * @input     	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 컬럼 리사이즈
+  */
+this.fnBtnColWidthOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	if(this.fvGrd.autofittype == "none"){
+		this.fvGrd.set_autofittype("col");
+	}else{
+		this.fvGrd.set_autofittype("none");
+	}
+}
+
+/**
+  * @함수명	: fnBtnModeChngOnclick
+  * @input     	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 엑셀/입력 모드 변경
+  */
+this.fnBtnModeChngOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	if(this.fvGrd.autoenter == "none"){		
+		this.fvGrd.set_autoenter("select");
+		this.fvGrd.set_selecttype("row");
+		obj.set_cssclass("btn_WF_GrdChangeEdit");
+	}else{
+		this.fvGrd.set_autoenter("none");
+		this.fvGrd.set_selecttype("area");
+		obj.set_cssclass("btn_WF_GrdChangeExcel");
+	}	
+}
+
+/**
+  * @함수명	: fnBtnClearOnclick
+  * @input     	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 초기화
+  */
+this.fnBtnClearOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var orgFormatId = this.fvGrd.formatid;
+	this.fvGrd.set_enableevent(false);
+	this.fvGrd.set_formats(this.fvGrd.orgFormatBak);
+	this.fvGrd.set_formatid(orgFormatId);
+	this.fvGrd.set_enableevent(true);
+	
+	var ds = this.fvGrd.getBindDataset();
+	ds.filter("");
+}
+
+/**
+	@function	fnBtnVisibleBtnsOnclick()
+	@desc   	공통버튼 보이기/안보이기 버튼 onclick 이벤트
+*/ 
+this.fnBtnVisibleBtnsOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.btnVisibleBtns.cssclass == "btn_WF_GrdVisibleBtns_A")
+	{
+		this.btnExcelDown.set_visible(false);
+		this.btnFilter.set_visible(false);
+		this.btnHideCol.set_visible(false);
+		this.btnFind.set_visible(false);
+		this.btnMultiSort.set_visible(false);
+		this.btnFixCol.set_visible(false);		
+		this.btnGrdHeightUp.set_visible(false);
+		this.btnGrdHeightDown.set_visible(false);		
+		this.btnColWidth.set_visible(false);		
+		this.btnModeChng.set_visible(false);
+		this.btnClear.set_visible(false);
+		
+		this.btnVisibleBtns.set_cssclass("btn_WF_GrdVisibleBtns_N");
+	}
+	else if(this.btnVisibleBtns.cssclass == "btn_WF_GrdVisibleBtns_N")
+	{
+		if(gfnIsNull(this.fvGrd)) return;
+	
+		if(this.fvGrd.f_excel=="Y") this.btnExcelDown.set_visible(true);
+		else this.btnExcelDown.set_visible(false);
+		
+// 		if(this.fvGrd.f_filter=="Y") this.btnFilter.set_visible(true);
+// 		else this.btnFilter.set_visible(false);		
+		
+// 		if(this.fvGrd.f_hide=="Y") this.btnHideCol.set_visible(true);
+// 		else this.btnHideCol.set_visible(false);
+		
+// 		if(this.fvGrd.f_find=="Y") this.btnFind.set_visible(true);
+// 		else this.btnFind.set_visible(false);
+		
+		if(this.fvGrd.f_sort=="Y") this.btnMultiSort.set_visible(true);
+		else this.btnMultiSort.set_visible(false);
+		
+		if(this.fvGrd.f_fix=="Y") this.btnFixCol.set_visible(true);
+		else this.btnFixCol.set_visible(false);
+		
+		if(this.fvGrd.f_height=="Y")
+		{
+			this.btnGrdHeightUp.set_visible(true);
+			this.btnGrdHeightDown.set_visible(true);
+		}
+		else
+		{	
+			this.btnGrdHeightUp.set_visible(false);
+			this.btnGrdHeightDown.set_visible(false);
+		}
+				
+// 		if(this.fvGrd.f_colSize=="Y") this.btnColWidth.set_visible(true);
+// 		else this.btnColWidth.set_visible(false);
+		
+		if(this.fvGrd.f_mode=="Y") this.btnModeChng.set_visible(true);
+		else this.btnModeChng.set_visible(false);
+		
+		if(this.fvGrd.f_init=="Y") this.btnClear.set_visible(true);
+		else this.btnClear.set_visible(false);
+		
+		
+		//정렬
+// 		if(this.btnMultiSort.visible){
+// 			
+// 			var name = "pdiv_multiSort";	
+// 			
+// 			var pdiv = new PopupDiv();
+// 			pdiv.init(name, "absolute", 0, 0, 250, 237);
+// 			this.fvGrd.parent.addChild(pdiv.name, pdiv);	
+// 			pdiv.style.set_background_color("#ffffffff");
+// 			pdiv.style.set_border("1px solid gray");
+// 			//pdiv.addEventHandler("oncloseup", this._gfn_sortPdivOnCloseUpHandler, this);
+// 			pdiv.set_url("CCOMP::CompGrdSortPop.xfdl");
+// 			pdiv.show();
+// 			
+// 			// 대상 그리드 참조
+// 			//pdiv.grid = grid;	
+// 				
+// 			// 팝업 참조
+// 			//this.fvGrd.multiSortPopupDiv = pdiv;
+// 
+// 
+// 		}
+// 		
+// 		//틀고정 기능 초기화
+// 		if(this.btnFixCol.visible)
+// 		{
+// 			//this._gfn_setFixPopDiv(this.fvGrd);
+// 		}
+// 		
+// 		//숨기기 기능 초기화
+// 		if(this.btnHideCol.visible)
+// 		{
+// 			//this._gfn_setHidePopDiv(this.fvGrd);
+// 		}
+		
+		this.btnVisibleBtns.set_cssclass("btn_WF_GrdVisibleBtns_A");
+	}
+	
+	gfnBtnRange(this.btnVisibleBtns);		
+}
+
+/**
+  * @함수명	: fnBtnFindOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트 변수)
+  * @desc   	: 찾기
+  */
+this.fnBtnFindOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var sArg = {	
+					arg_bBgColor	: false
+					, arg_grid		: this.fvGrd
+				};
+	gfnModalPop(this.fvForm, "CompGrdFindPop", "CPOP::CompGrdFindPop.xfdl", sArg, "", 300, 150);
+}
+]]></Script>
+  </Form>
+</FDL>

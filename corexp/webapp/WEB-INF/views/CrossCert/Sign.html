@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+		
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="/CrossCert/CC_WSTD_home/unisignweb/rsrc/css/certcommon.css?v=1" />
+		<script type="text/javascript" src="/CrossCert/CC_WSTD_home/unisignweb/js/unisignwebclient.js?v=1"></script>
+		<script type="text/javascript" src="/CrossCert/ccc-sample-wstd/UniSignWeb_Multi_Init_Nim.js?v=1"></script>
+		<script>								
+		
+		//kspark - Nexacro 소스 추가
+		if (! window.NEXACROHTML) {
+			window.NEXACROHTML = {};
+		}
+
+		window.NEXACROHTML.FireUserNotify = function(userdata,type) {
+			
+			if (window.NEXACROWEBBROWSER) {
+					window.NEXACROWEBBROWSER.on_fire_onusernotify();	
+		  	}			
+		}
+
+
+		
+		function signContent(arg,arg1){
+			//unisign.SignDataNVerifyVID( arg, null, arg1, function( resultObject ) { 			 //운영시 하단을 주석으로 처리
+ 			unisign.SignDataNVerifyVID( arg, null, '1234567890', function( resultObject ) {
+ 				if( !resultObject || resultObject.resultCode != 0 ){
+					alert( resultObject.resultMessage);
+					if (window.NEXACROWEBBROWSER) {
+						window.NEXACROWEBBROWSER.on_fire_onusernotify(window.NEXACROWEBBROWSER, "▦"+resultObject.resultCode);
+	    		  	}else {
+	    		  	 	window.document.title = "▩"+resultObject.resultCode;
+	    			}
+					return;
+ 				}
+ 				//서명성공
+ 				if (window.NEXACROWEBBROWSER) {
+    				window.NEXACROWEBBROWSER.on_fire_onusernotify(window.NEXACROWEBBROWSER, "▦"+resultObject.signedData);
+    		  	} else {
+    		  	 	window.document.title = "▩"+resultObject.signedData;	
+    			}
+					
+ 				}
+ 			);
+		}
+			
+		function signSelfCheck(arg){	
+			unisign.VerifyVIDEx( arg, function( resultObject ) {
+			//unisign.VerifyVIDEx( '1234567890', function( resultObject ) {
+				if( !resultObject || resultObject.resultCode != 0 ){
+					alert( resultObject.resultMessage);
+					if (window.NEXACROWEBBROWSER) {
+						window.NEXACROWEBBROWSER.on_fire_onusernotify(window.NEXACROWEBBROWSER, "▦"+resultObject.resultCode);
+	    		  	}else {
+	    		  	 	window.document.title = "▩"+resultObject.resultCode;
+	    			}
+					return;
+				}
+				//신원확인성공
+				//서명성공
+ 				if (window.NEXACROWEBBROWSER) {
+    				window.NEXACROWEBBROWSER.on_fire_onusernotify(window.NEXACROWEBBROWSER, "▦");
+    		  	} else {
+    		  	 	window.document.title = "▩";	
+    			}
+				}	
+			);
+		}
+		
+		</script>
+	</head>
+	 
+</html>
+

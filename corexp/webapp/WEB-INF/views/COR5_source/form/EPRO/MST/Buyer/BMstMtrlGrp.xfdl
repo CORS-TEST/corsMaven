@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="768" id="BMstMtrlGrp" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="품목분류상세" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div height="24" id="divViewCompTitle00" left="8" objNm="대분류 타이틀" taborder="0" top="32" width="325">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" objNm="대분류" taborder="23" text="대분류" top="0" width="195"/>
+              <Button cssclass="btn_WF_Module" height="20" id="btnMtrlGrpLvl1Add" objNm="대분류 추가" onclick="fnLvl1AddOnclick" positionstep="1" right="0" taborder="24" text="추가" top="0" width="60"/>
+              <Button cssclass="btn_WF_Module" height="20" id="btnMtrlGrpLvl1Del" objNm="대분류 추가" onclick="fnLvl1DelOnclick" positionstep="1" right="64" taborder="25" text="삭제" top="0" visible="false" width="60"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="10" id="divViewCompBody00" left="8" objNm="DIV-대상업체 세부정보" taborder="1" top="64" width="325">
+          <Layouts>
+            <Layout height="386" width="1042">
+              <Grid autofittype="col" binddataset="dsMtrlGrpLvl1" bottom="37" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="N" f_height="N" f_hide="N" f_init="N" f_mode="Y" f_save="N" f_sort="Y" id="grdMtrlGrpLvl1" left="0" objNm="품목 그리드" right="0" taborder="6" top="0" useinputpanel="false">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="70"/>
+                      <Column size="139"/>
+                      <Column size="60"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="코드"/>
+                      <Cell col="1" expr="" text="코드명"/>
+                      <Cell col="2" expr="" text="사용여부"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2 ;">
+                      <Cell displaytype="text" editfilter="none" editlengthunit="ascii" editlimit="20" edittype="expr:O_RGI==undefined?'text':'none'" style="align: ;" text="bind:MTRL_GRP_ID" tooltiptext="bind:MTRL_GRP_ID"/>
+                      <Cell col="1" displaytype="text" editlengthunit="ascii" editlimit="100" edittype="text" style="align:left middle;" text="bind:MTRL_GRP_NM" tooltiptext="bind:SRC_GRP_NM"/>
+                      <Cell col="2" displaytype="checkbox" edittype="checkbox" text="bind:ALT_USE"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging1" left="0" right="0" scrollbars="none" taborder="7" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle01" left="346" objNm="중분류 타이틀" taborder="2" top="32" width="401">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" objNm="중분류" taborder="28" text="중분류" top="0" width="220"/>
+              <Button cssclass="btn_WF_Module" height="20" id="btnMtrlGrpLvl2Add" objNm="중분류 추가" onclick="fnLvl2AddOnclick" positionstep="1" right="0" taborder="29" text="추가" top="0" width="60"/>
+              <Button cssclass="btn_WF_Module" height="20" id="btnMtrlGrpLvl2Del" objNm="중분류 추가" onclick="fnLvl2DelOnclick" positionstep="1" right="64" taborder="30" text="삭제" top="0" visible="false" width="60"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="10" id="divViewCompBody01" left="346" objNm="DIV-대상업체 세부정보" taborder="3" top="64" width="402">
+          <Layouts>
+            <Layout height="386" width="1042">
+              <Grid autofittype="col" binddataset="dsMtrlGrpLvl2" bottom="37" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="N" f_height="N" f_hide="N" f_init="N" f_mode="Y" f_save="N" f_sort="Y" id="grdMtrlGrpLvl2" left="0" objNm="품목 그리드" right="1" taborder="0" top="0" useinputpanel="false">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="71"/>
+                      <Column size="70"/>
+                      <Column size="143"/>
+                      <Column size="50"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="상위코드"/>
+                      <Cell col="1" expr="" text="코드"/>
+                      <Cell col="2" expr="" text="코드명"/>
+                      <Cell col="3" expr="" text="사용여부"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2 ;">
+                      <Cell text="bind:UP_MTRL_GRP_ID"/>
+                      <Cell col="1" displaytype="text" editlengthunit="ascii" editlimit="20" edittype="expr:O_RGI==undefined?'text':'none'" style="align: ;" text="bind:MTRL_GRP_ID" tooltiptext="bind:MTRL_GRP_ID"/>
+                      <Cell col="2" displaytype="text" editlengthunit="ascii" editlimit="100" edittype="text" style="align:left middle;" text="bind:MTRL_GRP_NM" tooltiptext="bind:SRC_GRP_NM"/>
+                      <Cell col="3" displaytype="checkbox" edittype="checkbox" text="bind:ALT_USE"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging2" left="0" right="0" scrollbars="none" taborder="1" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle02" left="760" objNm="소분류 타이틀" right="8" taborder="4" top="32">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Button cssclass="btn_WF_Module" height="20" id="btnMtrlGrpLvl3Add" objNm="소분류 추가" onclick="fnLvl3AddOnclick" positionstep="1" right="0" taborder="27" text="추가" top="0" width="60"/>
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" objNm="소분류" taborder="28" text="소분류" top="0" width="170"/>
+              <Button cssclass="btn_WF_Module" height="20" id="btnMtrlGrpLvl3Del" objNm="소분류 추가" onclick="fnLvl3DelOnclick" positionstep="1" right="64" taborder="29" text="삭제" top="0" visible="false" width="60"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="10" id="divViewCompBody02" left="760" objNm="DIV-대상업체 세부정보" right="8" taborder="5" top="64">
+          <Layouts>
+            <Layout height="386" width="1042">
+              <Grid autofittype="col" binddataset="dsMtrlGrpLvl3" bottom="37" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="N" f_height="N" f_hide="N" f_init="N" f_mode="Y" f_save="N" f_sort="Y" id="grdMtrlGrpLvl3" left="0" objNm="품목 그리드" right="0" taborder="0" top="0" useinputpanel="false">
+                <Formats>
+                  <Format id="MMODE">
+                    <Columns>
+                      <Column size="92"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="60"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="상위코드"/>
+                      <Cell col="1" cssclass="Cellgrd_essential" expr="" text="코드"/>
+                      <Cell col="2" expr="" text="코드명"/>
+                      <Cell col="3" expr="" text="사용여부"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2 ;">
+                      <Cell text="bind:UP_MTRL_GRP_ID"/>
+                      <Cell col="1" editlengthunit="ascii" editlimit="20" edittype="expr:O_RGI==undefined?'text':'none'" expandsize="21" style="align: ;" text="bind:MTRL_GRP_ID" tooltiptext="bind:MTRL_GRP_ID"/>
+                      <Cell col="2" displaytype="text" editlengthunit="ascii" editlimit="100" edittype="text" style="align:left middle;" text="bind:MTRL_GRP_NM" tooltiptext="bind:DEPT_NM"/>
+                      <Cell col="3" displaytype="checkbox" edittype="checkbox" text="bind:ALT_USE" tooltiptext="bind:ALT_RPTST_YN"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging3" left="0" right="0" scrollbars="none" taborder="1" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset cancolumnchange="fnLvl1ColumnChange" id="dsMtrlGrpLvl1" oncolumnchanged="fnLvl1ColumnChanged" onrowposchanged="fnDsSrcGrpLvl1Onrowposchanged">
+        <ColumnInfo>
+          <Column id="MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="UP_MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="LVL" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_NM" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset cancolumnchange="fnLvl2CoumnChange" id="dsMtrlGrpLvl2" oncolumnchanged="fnLvl2CoumnChanged" onrowposchanged="fnDsSrcGrpLvl2Onrowposchanged">
+        <ColumnInfo>
+          <Column id="MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="UP_MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="LVL" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_NM" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="LVL" size="256" type="STRING"/>
+          <Column id="UP_MTRL_GRP_ID_MDL" size="256" type="STRING"/>
+          <Column id="UP_MTRL_GRP_ID_LOW" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+      <Dataset cancolumnchange="fnLvl3CoumnChange" id="dsMtrlGrpLvl3" oncolumnchanged="fnLvl3CoumnChanged" onrowposchanged="fnDsSrcGrpLvl3Onrowposchanged">
+        <ColumnInfo>
+          <Column id="MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="UP_MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="LVL" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_NM" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00276" compid="divViewCompTitle00.staViewCompTitle00" datasetid="gdsLabel" id="item3" propid="text"/>
+      
+      
+      <BindItem columnid="btnMtrlGrpLvl1Add" compid="divViewCompTitle00.btnMtrlGrpLvl1Add" datasetid="dsObjBindVi" id="btnMtrlGrpLvl1AddVi" propid="visible"/>
+      <BindItem columnid="btnMtrlGrpLvl1Add" compid="divViewCompTitle00.btnMtrlGrpLvl1Add" datasetid="dsObjBindEn" id="btnMtrlGrpLvl1AddEn" propid="enable"/>
+      <BindItem columnid="divPaging1" compid="divViewCompBody00.divPaging1" datasetid="dsObjBindVi" id="divPaging1Vi" propid="visible"/>
+      <BindItem columnid="divPaging1" compid="divViewCompBody00.divPaging1" datasetid="dsObjBindEn" id="divPaging1En" propid="enable"/>
+      <BindItem columnid="btnMtrlGrpLvl2Add" compid="divViewCompTitle01.btnMtrlGrpLvl2Add" datasetid="dsObjBindVi" id="btnMtrlGrpLvl2AddVi" propid="visible"/>
+      <BindItem columnid="btnMtrlGrpLvl2Add" compid="divViewCompTitle01.btnMtrlGrpLvl2Add" datasetid="dsObjBindEn" id="btnMtrlGrpLvl2AddEn" propid="enable"/>
+      <BindItem columnid="divPaging2" compid="divViewCompBody01.divPaging2" datasetid="dsObjBindVi" id="divPaging2Vi" propid="visible"/>
+      <BindItem columnid="divPaging2" compid="divViewCompBody01.divPaging2" datasetid="dsObjBindEn" id="divPaging2En" propid="enable"/>
+      <BindItem columnid="btnMtrlGrpLvl3Add" compid="divViewCompTitle02.btnMtrlGrpLvl3Add" datasetid="dsObjBindVi" id="btnMtrlGrpLvl3AddVi" propid="visible"/>
+      <BindItem columnid="btnMtrlGrpLvl3Add" compid="divViewCompTitle02.btnMtrlGrpLvl3Add" datasetid="dsObjBindEn" id="btnMtrlGrpLvl3AddEn" propid="enable"/>
+      <BindItem columnid="divPaging3" compid="divViewCompBody02.divPaging3" datasetid="dsObjBindVi" id="divPaging3Vi" propid="visible"/>
+      <BindItem columnid="divPaging3" compid="divViewCompBody02.divPaging3" datasetid="dsObjBindEn" id="divPaging3En" propid="enable"/>
+      <BindItem columnid="grdMtrlGrpLvl1" compid="divViewCompBody00.grdMtrlGrpLvl1" datasetid="dsObjBindGrid" id="grdMtrlGrpLvl1FormatId" propid="formatid"/>
+      <BindItem columnid="grdMtrlGrpLvl2" compid="divViewCompBody01.grdMtrlGrpLvl2" datasetid="dsObjBindGrid" id="grdMtrlGrpLvl2FormatId" propid="formatid"/>
+      <BindItem columnid="grdMtrlGrpLvl3" compid="divViewCompBody02.grdMtrlGrpLvl3" datasetid="dsObjBindGrid" id="grdMtrlGrpLvl3FormatId" propid="formatid"/>
+      
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMstMtrlGrp.xfdl
+ * @생성자       	: 김동호
+ * @생성일자     	: 2017. 12. 06.
+ * @설명			: 품목분류상세
+ * @최종수정자		: 김동호
+ * @최종수정일자	: 2017. 12. 06.
+*/  
+var UP_MTRL_GRP_ID_1 = ""; //중분류 추가시 넣을 UP_MTRL_GRP_ID
+var UP_MTRL_GRP_ID_2 = ""; //소분류 추가시 넣을 UP_MTRL_GRP_ID
+var checkCd = "";
+
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [ ];
+	gfnGetCode(this, param);
+	
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	this.dsCondition.addRow();
+	this.dsCondition.setColumn(0,"BRANCH_CD", application.gdsUserInfo.getColumn(0, "BRANCH_CD"));
+	this.dsCondition.setColumn(0,"UP_MTRL_GRP_ID_MDL", "");
+	this.dsCondition.setColumn(0,"UP_MTRL_GRP_ID_LOW", "");
+	var sArgEx_1 = {
+		isTran:"N", tranNm:"", dsParam:this.dsMtrlGrpLvl1
+	} 	
+  	gfnSetGrdFunc(this.divViewCompBody00.grdMtrlGrpLvl1, this.divViewCompBody00.divPaging1, this, sArgEx_1);
+  	var sArgEx_2 = {
+		isTran:"Y", tranNm:"BMstService.searchMstMtrlExcelMdl", dsParam:this.dsCondition
+	}
+  	gfnSetGrdFunc(this.divViewCompBody01.grdMtrlGrpLvl2, this.divViewCompBody01.divPaging2, this, sArgEx_2);
+  	var sArgEx_3 = {
+		isTran:"Y", tranNm:"BMstService.searchMstMtrlExcelLow", dsParam:this.dsCondition
+	}
+  	gfnSetGrdFunc(this.divViewCompBody02.grdMtrlGrpLvl3, this.divViewCompBody02.divPaging3, this, sArgEx_3);
+  	
+  	
+	gfnSetObj("A");
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchMstMtrlGrp";
+	var sController = "epro.mst.service.BMstService.searchMstMtrlGrp";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsMtrlGrpLvl1=dsMtrlGrpLvl1 dsMtrlGrpLvl2=dsMtrlGrpLvl2 dsMtrlGrpLvl3=dsMtrlGrpLvl3";
+	var sCallbackFunc = "fnTrCallBack";
+				
+	var	oPaging = [	
+					//{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnPreSave
+  * @desc     	: 저장 전 처리
+  */
+this.fnPreSave = function()
+{
+	var arr = [];
+	
+	var lrg = this.dsMtrlGrpLvl1.getColumn(this.dsMtrlGrpLvl1,"MTRL_GRP_ID");
+	var mdl = this.dsMtrlGrpLvl2.getColumn(this.dsMtrlGrpLvl2,"MTRL_GRP_ID");
+	
+	this.dsMtrlGrpLvl1.filter("");
+	this.dsMtrlGrpLvl2.filter("");
+	this.dsMtrlGrpLvl3.filter("");
+	
+	//dsMtrlGrpLvl1 체크
+	for(var i = 0; i< this.dsMtrlGrpLvl1.getRowCount(); i++){
+		var cd = this.dsMtrlGrpLvl1.getColumn(i, "MTRL_GRP_ID");
+		var nm = this.dsMtrlGrpLvl1.getColumn(i, "MTRL_GRP_NM");
+		// 코드입력
+		if(gfnIsNull(cd)){ 
+			var msg = gfnMultiLabel("EPRO_LABEL_01334");;
+			var type = gfnMultiLabel("EPRO_LABEL_00770");
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+		// 코드명 입력
+		}else if(gfnIsNull(nm)){ 
+			
+			var msg = gfnMultiLabel("EPRO_LABEL_00276")+" "+this.dsMtrlGrpLvl1.getColumn(i,"MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_01333");
+			var type = gfnMultiLabel("EPRO_LABEL_00770");
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+			
+		}
+	}
+	//dsMtrlGrpLvl2 체크
+	for(var i = 0; i< this.dsMtrlGrpLvl2.getRowCount(); i++){
+		var cd = this.dsMtrlGrpLvl2.getColumn(i, "MTRL_GRP_ID");
+		var nm = this.dsMtrlGrpLvl2.getColumn(i, "MTRL_GRP_NM");
+		// 코드입력
+		if(gfnIsNull(cd)){ 
+			var msg = gfnMultiLabel("EPRO_LABEL_00441")+" :"+this.dsMtrlGrpLvl2.getColumn(i,"UP_MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_01278");;
+			var type = gfnMultiLabel("EPRO_LABEL_00770");
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+		// 코드명 입력
+		}else if(gfnIsNull(nm)){ 
+			
+			var msg = gfnMultiLabel("EPRO_LABEL_00441")+" :"+this.dsMtrlGrpLvl2.getColumn(i,"UP_MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_00324")+" "+this.dsMtrlGrpLvl2.getColumn(i,"MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_01333");
+			var type = gfnMultiLabel("EPRO_LABEL_00770");
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+			
+		}
+	}
+	
+	//dsMtrlGrpLvl3 체크
+	for(var i = 0; i< this.dsMtrlGrpLvl3.getRowCount(); i++){
+		var cd = this.dsMtrlGrpLvl3.getColumn(i, "MTRL_GRP_ID");
+		var nm = this.dsMtrlGrpLvl3.getColumn(i, "MTRL_GRP_NM");
+		// 코드입력
+		if(gfnIsNull(cd)){ 
+			var msg = gfnMultiLabel("EPRO_LABEL_00441")+" :"+this.dsMtrlGrpLvl3.getColumn(i,"UP_MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_01335");;
+			var type = gfnMultiLabel("EPRO_LABEL_00770");
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+		// 코드명 입력
+		}else if(gfnIsNull(nm)){ 
+			
+			var msg = gfnMultiLabel("EPRO_LABEL_00441")+" :"+this.dsMtrlGrpLvl3.getColumn(i,"UP_MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_00571")+" "+this.dsMtrlGrpLvl3.getColumn(i,"MTRL_GRP_ID")+" "+gfnMultiLabel("EPRO_LABEL_01333");
+			var type = gfnMultiLabel("EPRO_LABEL_00770");
+			var objParam = {agv_msg:msg, agv_type:type,agv_isEs:"Y"};
+			arr.push(objParam);
+			
+		}
+	}
+	this.dsMtrlGrpLvl1.filter("MTRL_GRP_ID>=0'");
+	this.dsMtrlGrpLvl2.filter("UP_MTRL_GRP_ID=='"+lrg+"'");
+	this.dsMtrlGrpLvl3.filter("UP_MTRL_GRP_ID=='"+mdl+"'");
+	
+	return gfnValidate(this, true, arr);
+}
+
+/**
+  * @함수명	: fnSave
+  * @desc     	: (공통버튼)저장
+  */
+this.fnSave = function()
+{
+	if (!this.fnPreSave()) return false;
+	
+	if(!gfnConfirm("EPRO_LABEL_00001")) return;
+
+	var sSvcID = "saveMstMtrlGrp";
+	var sController = "epro.mst.service.BMstService.saveMstMtrlGrp";
+	var sInDatasets = "dsMtrlGrpLvl1=dsMtrlGrpLvl1:A dsMtrlGrpLvl2=dsMtrlGrpLvl2:A dsMtrlGrpLvl3=dsMtrlGrpLvl3:A";
+	var sOutDatasets = "dsMtrlGrpLvl1=dsMtrlGrpLvl1 dsMtrlGrpLvl2=dsMtrlGrpLvl2 dsMtrlGrpLvl3=dsMtrlGrpLvl3";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);	
+    
+}
+/**
+  * @함수명	: fnLvl1AddOnclick
+  * @desc     	: LVL 1 추가
+  */
+this.fnLvl1AddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var row = this.dsMtrlGrpLvl1.addRow();
+	this.dsMtrlGrpLvl1.setColumn(row, "ALT_USE", 1);
+}
+/**
+  * @함수명	: fnLvl1AddOnclick
+  * @desc     	: LVL 2 추가
+  */
+this.fnLvl2AddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if (this.dsMtrlGrpLvl1.rowposition < 0)
+	{
+		gfnAlert("EPRO_LABEL_01231");
+		return;
+	}else if(gfnIsNull(UP_MTRL_GRP_ID_1)){
+		gfnAlert("EPRO_LABEL_01280");
+		return;
+	}
+	var isRow = this.dsMtrlGrpLvl2.getColumn((this.dsMtrlGrpLvl2.rowcount-1), "MTRL_GRP_ID");
+	var row = this.dsMtrlGrpLvl2.addRow();
+	this.dsMtrlGrpLvl2.setColumn(row, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_1);	
+	this.dsMtrlGrpLvl2.setColumn(row, "ALT_USE", 1);
+}
+/**
+  * @함수명	: fnLvl1AddOnclick
+  * @desc     	: LVL 3 추가
+  */
+this.fnLvl3AddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	
+	if (this.dsMtrlGrpLvl2.rowposition < 0)
+	{
+		gfnAlert("EPRO_LABEL_01245");
+		return;
+	}else if(gfnIsNull(UP_MTRL_GRP_ID_2)){
+		gfnAlert("EPRO_LABEL_01280");
+		return;
+	}
+	
+	var row = this.dsMtrlGrpLvl3.addRow();
+	this.dsMtrlGrpLvl3.setColumn(row, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_2);	
+	this.dsMtrlGrpLvl3.setColumn(row, "ALT_USE", 1);	
+}
+/**
+  * @함수명	: fnLvl1DelOnclick
+  * @desc     	: 대분류 삭제
+  */
+this.fnLvl1DelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsMtrlGrpLvl1.rowposition;
+	
+	if(this.dsMtrlGrpLvl1.getRowType(nRow) == "2"){
+		if(!gfnConfirm("EPRO_LABEL_01297")) return;
+		
+		
+		for(var i =0; i< this.dsMtrlGrpLvl2.getRowCount(); i++){
+			this.dsMtrlGrpLvl2.set_rowposition(i);
+			if(!gfnIsNull(this.dsMtrlGrpLvl2.getColumn(i, "MTRL_GRP_ID"))){
+				this.dsMtrlGrpLvl3.filter("UP_MTRL_GRP_ID=='"+UP_MTRL_GRP_ID_2+"'")
+				this.dsMtrlGrpLvl3.deleteAll();
+			}
+		}
+		this.dsMtrlGrpLvl2.deleteAll();
+		this.dsMtrlGrpLvl1.deleteRow(nRow);
+		
+	}
+	
+}
+/**
+  * @함수명	: fnLvl2DelOnclick
+  * @desc     	: 중분류 삭제
+  */
+this.fnLvl2DelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsMtrlGrpLvl2.rowposition;
+	
+	if(this.dsMtrlGrpLvl2.getRowType(nRow) == "2"){
+		if(!gfnConfirm("EPRO_LABEL_01297")) return;
+		this.dsMtrlGrpLvl3.deleteAll;
+		this.dsMtrlGrpLvl2.deleteRow(nRow);
+	}
+}
+/**
+  * @함수명	: fnLvl3DelOnclick
+  * @desc     	: 소분류 삭제
+  */
+this.fnLvl3DelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsMtrlGrpLvl3.rowposition;
+	
+	if(this.dsMtrlGrpLvl3.getRowType(nRow) == "2"){
+		if(!gfnConfirm("EPRO_LABEL_01298")) return;
+		this.dsMtrlGrpLvl3.deleteRow(nRow);
+	}
+}
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "searchMstMtrlGrp":
+			this.dsMtrlGrpLvl1.set_rowposition(-1);
+			this.dsMtrlGrpLvl2.filter("UP_MTRL_GRP_ID==''")
+			this.dsMtrlGrpLvl3.filter("UP_MTRL_GRP_ID==''")
+		break;
+		case "saveMstMtrlGrp":
+			gfnAlert(strErrMsg);
+			this.fnSearch();
+		break;
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnDsSrcGrpLvl1Onrowposchanged
+  * @desc     	: 대분류 필터 이벤트
+  */
+this.fnDsSrcGrpLvl1Onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.dsMtrlGrpLvl1.getRowType(obj.rowposition) == 2){
+		this.divViewCompTitle00.btnMtrlGrpLvl1Del.set_visible(true);
+		
+	}else{
+		this.divViewCompTitle00.btnMtrlGrpLvl1Del.set_visible(false);
+		this.divViewCompTitle01.btnMtrlGrpLvl2Del.set_visible(false);
+		this.divViewCompTitle02.btnMtrlGrpLvl3Del.set_visible(false);
+	}
+	
+	UP_MTRL_GRP_ID_1 = this.dsMtrlGrpLvl1.getColumn(obj.rowposition, "MTRL_GRP_ID");
+	this.fnGrdListFilter(this.dsMtrlGrpLvl2, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_1);
+	this.dsCondition.setColumn(0, "UP_MTRL_GRP_ID_MDL", UP_MTRL_GRP_ID_1);
+	this.fnGrdListFilter(this.dsMtrlGrpLvl3, "UP_MTRL_GRP_ID", "");
+}
+
+/**
+  * @함수명	: fnDsSrcGrpLvl1Onrowposchanged
+  * @desc     	: 중분류 필터 이벤트
+  */
+this.fnDsSrcGrpLvl2Onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+
+	
+	if(this.dsMtrlGrpLvl2.getRowType(obj.rowposition) == 2){
+		this.divViewCompTitle01.btnMtrlGrpLvl2Del.set_visible(true);
+	}else{
+		this.divViewCompTitle01.btnMtrlGrpLvl2Del.set_visible(false);
+		this.divViewCompTitle02.btnMtrlGrpLvl3Del.set_visible(false);
+	}
+	
+	UP_MTRL_GRP_ID_2 = UP_MTRL_GRP_ID_1+""+this.dsMtrlGrpLvl2.getColumn(obj.rowposition, "MTRL_GRP_ID");
+	this.dsCondition.setColumn(0, "UP_MTRL_GRP_ID_LOW",UP_MTRL_GRP_ID_2);
+	this.fnGrdListFilter(this.dsMtrlGrpLvl3, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_2);
+}
+/**
+  * @함수명	: fnDsSrcGrpLvl3Onrowposchanged
+  * @desc     	: 소분류 이벤트
+  */
+this.fnDsSrcGrpLvl3Onrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	if(this.dsMtrlGrpLvl3.getRowType(obj.rowposition) == 2){
+		this.divViewCompTitle02.btnMtrlGrpLvl3Del.set_visible(true);
+	}else{
+		this.divViewCompTitle02.btnMtrlGrpLvl3Del.set_visible(false);
+	}
+}
+
+/**
+  * @함수명	: fnGrdListFilter
+  * @desc     	: 리스트 필터설정
+  */
+this.fnGrdListFilter = function(objDs, filterCol, filterVal)
+{	
+	objDs.set_enableevent(false);
+	objDs.filter("");
+	objDs.filter(filterCol + "=='" + filterVal + "'");
+	objDs.set_enableevent(true);
+}
+/**
+  * @함수명	: fnLvl1ColumnChanged
+  * @desc     	: 대분류 코드 변경
+  */
+this.fnLvl1ColumnChanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	
+	if(e.columnid == "MTRL_GRP_ID"){
+		
+		var checkUpId = this.dsMtrlGrpLvl1.getColumn(e.row, "MTRL_GRP_ID");
+		var frontCheck = this.dsMtrlGrpLvl1.findRow("MTRL_GRP_ID", checkUpId);
+		var backCheck = this.dsMtrlGrpLvl1.findRow("MTRL_GRP_ID", checkUpId, (frontCheck+1));
+		
+		if(frontCheck == e.row && backCheck == -1 && !gfnIsNull(checkUpId)){
+			UP_MTRL_GRP_ID_1 = checkUpId;
+			for(var i = 0; i < this.dsMtrlGrpLvl2.rowcount; i++){
+				if(!gfnIsNull(checkUpId)){
+					this.dsMtrlGrpLvl2.setColumn(i, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_1);
+				}
+			}
+		}else{
+			gfnAlert("EPRO_LABEL_01281");
+			this.dsMtrlGrpLvl1.setColumn(e.row, "MTRL_GRP_ID", UP_MTRL_GRP_ID_1);
+			return false;
+		}
+		
+		if(!gfnIsNull(checkCd)){
+			if(!gfnConfirm("EPRO_LABEL_01309")){ 
+			this.dsMtrlGrpLvl1.setColumn(e.row, "MTRL_GRP_ID", UP_MTRL_GRP_ID_1);
+			return;
+			}
+		}
+	}
+}
+/**
+  * @함수명	: fnLvl2CoumnChanged
+  * @desc     	: 중분류 코드 변경
+  */
+this.fnLvl2CoumnChanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "MTRL_GRP_ID"){
+		var cd = UP_MTRL_GRP_ID_2.slice(UP_MTRL_GRP_ID_1.length);
+		var mtrl_id = this.dsMtrlGrpLvl2.getColumn(e.row, "MTRL_GRP_ID");
+		var row = e.row;
+		var frontCheck = this.dsMtrlGrpLvl2.findRow("MTRL_GRP_ID", mtrl_id);
+		var backCheck = this.dsMtrlGrpLvl2.findRow("MTRL_GRP_ID", mtrl_id, (row+1));
+	
+		if(frontCheck == row && backCheck == -1&& !gfnIsNull(mtrl_id)){
+			
+			UP_MTRL_GRP_ID_2 = UP_MTRL_GRP_ID_1+""+mtrl_id;
+			for(var i = 0; i < this.dsMtrlGrpLvl3.rowcount; i++){
+				if(!gfnIsNull(mtrl_id)){
+					this.dsMtrlGrpLvl3.setColumn(i, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_2);
+				}else{
+					this.dsMtrlGrpLvl3.setColumn(i, "UP_MTRL_GRP_ID", "");
+				}
+			}
+		}else{
+			gfnAlert("EPRO_LABEL_01281");
+			
+			if(!gfnIsNull(cd)) cd ="";
+			this.dsMtrlGrpLvl2.setColumn(e.row, "MTRL_GRP_ID", cd);
+			return false;
+			
+		}
+		if(!gfnIsNull(checkCd)){
+			
+			if(!gfnConfirm("EPRO_LABEL_01309")){ 
+				this.dsMtrlGrpLvl2.setColumn(e.row, "MTRL_GRP_ID", cd);
+				return false;
+			}
+		}
+		
+	}
+	if(e.columnid == "UP_MTRL_GRP_ID"){
+		
+		for(var i = 0; i < this.dsMtrlGrpLvl3.rowcount; i++){
+				var mtrl_id =  this.dsMtrlGrpLvl2.getColumn(e.row, "MTRL_GRP_ID");
+				UP_MTRL_GRP_ID_2 = UP_MTRL_GRP_ID_1 + mtrl_id;
+				if(!gfnIsNull(mtrl_id)){
+					this.dsMtrlGrpLvl3.setColumn(i, "UP_MTRL_GRP_ID", UP_MTRL_GRP_ID_2);
+				}
+			}
+	}
+}
+/**
+  * @함수명	: fnLvl2CoumnChanged
+  * @desc     	: 중분류 코드 변경
+  */
+this.fnLvl3CoumnChanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid == "MTRL_GRP_ID"){
+		var mtrl_id = this.dsMtrlGrpLvl3.getColumn(e.row, "MTRL_GRP_ID");
+		var row = e.row;
+		var frontCheck = this.dsMtrlGrpLvl3.findRow("MTRL_GRP_ID", mtrl_id);
+		var backCheck = this.dsMtrlGrpLvl3.findRow("MTRL_GRP_ID", mtrl_id, (row+1));
+		
+		if(frontCheck < row || backCheck > row){			
+		gfnAlert("EPRO_LABEL_01281");
+			this.dsMtrlGrpLvl3.setColumn(row, "MTRL_GRP_ID", checkCd);
+		}
+	}
+}
+
+/**
+  * @함수명	: fnLvl1ColumnChange
+  * @desc     	: 대 분류 코드 변경 전
+  */
+this.fnLvl1ColumnChange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	checkCd = this.dsMtrlGrpLvl1.getColumn(e.row, "MTRL_GRP_ID");
+}
+/**
+  * @함수명	: fnLvl1ColumnChange
+  * @desc     	: 중분류 코드 변경 전
+  */
+this.fnLvl2CoumnChange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	checkCd = this.dsMtrlGrpLvl2.getColumn(e.row, "MTRL_GRP_ID");
+}
+
+/**
+  * @함수명	: fnLvl1ColumnChange
+  * @desc     	: 소분류 코드 변경 전
+  */
+this.fnLvl3CoumnChange = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	checkCd = this.dsMtrlGrpLvl2.getColumn(e.row, "MTRL_GRP_ID");
+}
+]]></Script>
+  </Form>
+</FDL>

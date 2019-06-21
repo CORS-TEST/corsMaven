@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BCntrDetail" classname="FrmTemplate100" left="0" top="0" width="334" height="507" titletext="문서유형팝업" onload="fnFormOnload" oninit="fnFormOninit" ontimer="PCTRS100N00_ontimer">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompBody00" taborder="1" left="10" top="34" right="10" bottom="10">
+          <Layouts>
+            <Layout>
+              <Grid id="grdList" taborder="0" useinputpanel="false" left="0" top="0" right="0" bottom="0" autofittype="col" binddataset="dsCdCM10">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="110"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="24" band="head"/>
+                      <Row size="24"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="문서유형"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:CD_NM_LO"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnApply" taborder="3" text="적용" left="77.84%" top="5" right="5" height="24" onclick="fnBtnApplyOnclick"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCdCM10"/>
+    </Objects>
+    <Bind/>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BCntrDocCtgrPop
+ * @생성자			: 안성민
+ * @생성일시		: 2019. 05. 15.
+ * @설명			: 문서유형선택
+ * @최종수정자		: 안성민
+ * @최종수정일시	: 2019. 05. 15.
+*/  
+this.popTitle = "문서유형";
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [ {code:"CM10"} // 문서유형
+				];		
+																
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+
+
+this.fnBtnApplyOnclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.parent.close(this.dsCdCM10.getColumn(this.dsCdCM10.rowposition, "CD_ID"))
+}
+]]></Script>
+  </Form>
+</FDL>

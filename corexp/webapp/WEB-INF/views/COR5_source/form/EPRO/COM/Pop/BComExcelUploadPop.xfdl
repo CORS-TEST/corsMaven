@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="551" id="commExcelUpPoptoDataSet" inheritanceid="" left="0" onload="form_onload" position="absolute" titletext="엑셀 업로드 팝업" top="0" width="864">
+    <Layouts>
+      <Layout>
+        <Div height="54" id="Div00" left="12" right="12" taborder="1" top="41">
+          <Layouts>
+            <Layout>
+              <FileUpload height="26" id="FileUpload" index="0" onerror="FileUpload_onerror" onitemchanged="FileUpload_onitemchanged" onsuccess="FileUpload01_onsuccess" retry="0" right="580" style="itemheight:23;buttonsize:80;editborder:0 none white ;editpadding:1 5 0 5;editcolor:black;buttontext:엑셀업로드;" taborder="0" top="0" width="83"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Grid binddataset="ds_importData" cellsizingtype="col" height="143" id="grd_importRaw" left="16" objNm="가져온 엑셀 보기 그리드" oncelldblclick="fn_thisClose" onkeydown="grd_page_onkeydown" right="16" taborder="9" top="68" treeusecheckbox="false" treeuseline="false" useinputpanel="false">
+          <Formats>
+            <Format id="default"/>
+          </Formats>
+        </Grid>
+        <Static cssclass="sta_WF_SearchLabel" height="26" id="Static03" left="16" objNm="2. 컬럼 연결하기" taborder="27" text="2. 컬럼 연결하기" top="232" width="140"/>
+        <Static cssclass="sta_WF_SearchLabel" height="26" id="Static04" left="375" objNm="3. 미리보기 수행" taborder="28" text="3. 미리보기 수행" top="230" width="140"/>
+        <Button cssclass="btn_WF_Module" height="26" id="btn_apply00" left="515" objNm="미리보기" onclick="btn_apply_onclick" taborder="29" text="미리보기" top="230" width="80"/>
+        <Grid autoenter="select" autofittype="col" autoupdatetype="comboselect" binddataset="ds_mapping" height="236" id="grd_mapping" left="16" objNm="컬럼 연결하기 그리드" taborder="31" top="260" useinputpanel="false" width="344">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="180"/>
+                <Column size="180"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="화면의 컬럼"/>
+                <Cell col="1" expr="" text="엑셀의 컬럼"/>
+              </Band>
+              <Band id="body" style="cellline: ;">
+                <Cell displaytype="normal" style="padding: ;" text="bind:gridHeadText"/>
+                <Cell col="1" combocodecol="code" combodatacol="data" combodataset="ds_excelColumn" displaytype="combo" edittype="combo" style="align:left middle;padding: ;" text="bind:excelColumnIndex"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Grid binddataset="ds_preview" height="236" id="grd_preview" left="375" objNm="미리보기 그리드" taborder="32" top="260" useinputpanel="false" width="460">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" style="align:center middle;padding:0 0 0 4;font:bold 9 Dotum;" text="컬럼명"/>
+              </Band>
+              <Band id="body" style="cellline:1 solid #808080;">
+                <Cell suppress="1" text="Data"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button cssclass="btn_WF_Module" enable="false" height="30" id="btn_finish" left="672" objNm="적용하기" onclick="btn_finish_onclick" taborder="34" text="적용하기" top="513" width="89"/>
+        <Button cssclass="btn_WF_Module" height="30" id="btn_cancel" left="775" objNm="닫기" onclick="btn_cancel_onclick" taborder="35" text="닫기" top="512" width="60"/>
+        <Static cssclass="sta_WF_SearchLabel" height="21" id="Static26" left="16" objNm="1. 가져온 엑셀 파일선택" taborder="36" text="1. 가져온 엑셀 파일선택" top="41" width="179"/>
+        <Static cssclass="sta_WF_SearchLabel" height="26" id="Static00" left="542" objNm="4. 견적 화면에 반영하기" taborder="39" text="4.화면에 반영하기" top="517" width="120"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_importData" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="Column1" size="256" type="STRING"/>
+          <Column id="Column2" size="256" type="STRING"/>
+          <Column id="Column3" size="256" type="STRING"/>
+          <Column id="Column4" size="256" type="STRING"/>
+          <Column id="Column5" size="256" type="STRING"/>
+          <Column id="Column6" size="256" type="STRING"/>
+          <Column id="Column7" size="256" type="STRING"/>
+          <Column id="Column8" size="256" type="STRING"/>
+          <Column id="Column9" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_mapping" loadfiltermode="keep" loadkeymode="keep" oncolumnchanged="ds_mapping_oncolumnchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="exclude" size="1" type="INT"/>
+          <Column id="gridHeadText" size="256" type="STRING"/>
+          <Column id="col" size="256" type="STRING"/>
+          <Column id="bindColumn" size="256" type="STRING"/>
+          <Column id="columnSize" size="4" type="INT"/>
+          <Column id="excelColumnIndex" size="256" type="STRING"/>
+          <Column id="excelColumnName" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_excelColumn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="code" size="256" type="STRING"/>
+          <Column id="data" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_preview" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+    </Objects>
+    <Bind>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00459" compid="btn_apply00" datasetid="gdsLabel" id="item4" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00436" compid="Div00.FileUpload" datasetid="gdsLabel" id="item1" propid="buttontext"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       commExcelUpPoptoDataSet.xfdl
+   @desc       엑셀 업로드 팝업(데이터셋으로 리턴)
+   @author     김민성
+   @makedate   2016.08.01
+   @history    
+*/
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00436");
+this.fv_targetGrid;
+
+/**
+	@function	form_onload()
+	@desc   	form_onload 이벤트
+*/
+this.form_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	if(gfnIsNull(ownFrame.agv_grid)) return;
+	
+	this.fv_targetGrid = ownFrame.agv_grid;
+}
+
+this.FileUpload_onitemchanged = function(obj:FileUpload,  e:nexacro.FileUploadItemChangeEventInfo)
+{	
+	this.Div00.FileUpload.set_uploadurl(application.gvDomain + "/controller/updown/upExcelTempFile?callModule=&methodName="); 
+ 	this.Div00.FileUpload.upload();
+ 	this.setWaitCursor(true);
+}
+this.FileUpload01_onsuccess = function(obj:FileUpload,  e:nexacro.FileUploadLoadEventInfo)
+{
+	this.setWaitCursor(false);
+
+	if(e.datasets[0]){
+		this.ds_importData.copyData(e.datasets[0]);
+		this.grd_importRaw.createFormat();
+		this.grd_importRaw.set_autofittype("col");
+		//this.grd_importRaw.setFormatRowProperty(0, "size", 1);		
+		this.fn_uploadInit();
+	}
+}
+
+this.FileUpload_onerror = function(obj:FileUpload,  e:nexacro.FileUploadErrorEventInfo)
+{
+	this.setWaitCursor(false);
+	gfnAlert("EPRO_LABEL_01102");
+}
+
+/**
+	@function	btn_close_onclick()
+	@desc   	팝업 닫기
+*/
+this.btn_close_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.parent.close();
+}
+
+this.previewFormats = ""; //preview grid format.
+ 
+/**
+	@function	fn_uploadInit()
+	@desc   	init. form 
+*/
+this.fn_uploadInit = function()
+{
+	this.btn_finish.set_enable(false);	
+	
+	this.setPreviewFormats();
+	
+	this.ds_mapping.set_enableevent(false);
+	
+	this.clearDataset();
+	this.fn_clearSpecialletter(); //데이터의 특수문자 제거
+	this.setMappingColumn();
+	
+	this.ds_mapping.set_enableevent(true);
+}
+
+/**
+	@function	clearDataset()
+	@desc   	데이터셋 클리어
+*/
+this.clearDataset = function()
+{
+	this.ds_excelColumn.clearData();
+	this.ds_mapping.clearData();
+	this.ds_preview.clear();
+}
+
+/**
+	@function	setPreviewFormats()
+	@desc   	포멧미리보기
+*/
+this.setPreviewFormats = function()
+{
+	var previewFormats = "";
+	previewFormats += "<Formats>";
+	previewFormats += "<Format id='default'>";
+	previewFormats += "  <Columns>";
+	previewFormats += "    <Column size='100' />";
+	previewFormats += "  </Columns>";
+	previewFormats += "  <Rows>";
+	previewFormats += "    <Row size='32' band='head' />";
+	previewFormats += "    <Row size='27' />";
+	previewFormats += "  </Rows>";
+	previewFormats += "  <Band id='head'>";
+	previewFormats += "    <Cell style='align:center&#32;middle;padding:0&#32;0&#32;0&#32;4;font:bold&#32;9&#32;Dotum;' text='" + gfnMultiLabel("EPRO_LABEL_01101") + "'/>";
+	previewFormats += "  </Band>";
+	previewFormats += "  <Band id='body'>";
+	previewFormats += "    <Cell text='Data' suppress='1'/>";
+	previewFormats += "  </Band>";
+	previewFormats += "</Format>";
+	previewFormats += "</Formats>";
+
+	this.previewFormats = previewFormats;
+}
+
+/**
+	@function	setMappingColumn()
+	@desc   	컬럼매칭용 그리드 생성
+*/
+this.setMappingColumn = function()
+{
+	var headTextList = this.getHeadTextList();	
+	var bindColumnInfo = this.getBodyBindColumnInfo();
+	var textInfo, col, bindColumn;
+	var headTextLen = headTextList.length;
+	var dsMapping = this.ds_mapping;
+	
+	for(var i=0; i < headTextLen; i++)
+	{
+		textInfo = headTextList[i];
+		col = textInfo.col;
+		bindColumn = bindColumnInfo[col];
+		textInfo["bindColumn"] = bindColumn;
+		textInfo["columnSize"] = this.fv_targetGrid.getRealColSize(i);
+	}
+
+	var row;
+	
+	var mappingGrid = this.grd_mapping;
+	mappingGrid.set_enableevent(false);
+	mappingGrid.set_enableredraw(false);
+	
+	var headInfo;
+	for(var i = 0; i < headTextLen; i++)
+	{
+		headInfo = headTextList[i];
+		if(gfnIsNull(headInfo.text)) continue;
+		headInfo.text = gfnReplace(headInfo.text, "\<fc v=\'red\'\\>\\* \<\\/fc\\>", "");
+		headInfo.text = gfnReplace(headInfo.text, "▲", "");
+		headInfo.text = gfnReplace(headInfo.text, "▼", "");
+		
+		row = dsMapping.addRow();
+		dsMapping.setColumn(row, "gridHeadText", headInfo.text);
+		dsMapping.setColumn(row, "col", headInfo.col);
+		dsMapping.setColumn(row, "bindColumn", headInfo.bindColumn);
+		dsMapping.setColumn(row, "columnSize", headInfo.columnSize);
+		dsMapping.setColumn(row, "excelColumnIndex", "-1");
+		
+	}	
+	
+	this.ds_excelColumn.addRow();
+	this.ds_excelColumn.setColumn(0, "code", "-1");
+	this.ds_excelColumn.setColumn(0, "data", gfnMultiLabel("EPRO_LABEL_01103"));
+	
+	var excelColumn;
+	var findRow = 0;
+
+	for(var i = 0; i < this.ds_importData.getColCount(); i++)
+	{
+		excelColumn = this.ds_importData.getColID(i);
+		
+		if(!gfnIsNull(excelColumn)){
+			row = this.ds_excelColumn.addRow();
+			this.ds_excelColumn.setColumn(row, "code", i);
+			this.ds_excelColumn.setColumn(row, "data", excelColumn.trim());
+			
+			findRow = dsMapping.findRow("gridHeadText", excelColumn);
+			
+			if(findRow > -1) dsMapping.setColumn(findRow, "excelColumnIndex", i);
+		}
+	}		
+
+	dsMapping.set_rowposition(-1);
+	
+	mappingGrid.set_enableevent(true);
+	mappingGrid.set_enableredraw(true);	
+	
+}
+ 
+/**
+	@function	fn_clearSpecialletter()
+	@desc   	데이터의 특수문자 제거
+*/
+this.fn_clearSpecialletter = function()
+{
+	this.ds_importData.set_enableevent(false);
+	for(var i = 0; i < this.ds_importData.getColCount(); i++)
+	{
+		for(var k=0;k<this.ds_importData.rowcount;k++)
+		{
+			var dsValue = this.ds_importData.getColumn(k, i);
+			
+// 			dsValue = gfnReplace(dsValue, '\\.', '');
+// 			dsValue = gfnReplace(dsValue, '\\-', '');
+// 			dsValue = gfnReplace(dsValue, '\\/', '');
+//  			dsValue = gfnReplace(dsValue, '\\*', '');
+//  			dsValue = gfnReplace(dsValue, '\\,', '');
+ 			dsValue = gfnReplace(dsValue, '\\&', '＆');
+/* 			dsValue = gfnReplace(dsValue, '\\$', '');*/
+ 			dsValue = gfnTrim(dsValue);
+			
+			//특수문자 제거결과가 숫자일 경우에는 특수문자 제거한 값으로 세팅
+			if(!gfnIsNum(dsValue)) continue; 
+			
+			this.ds_importData.setColumn(k, i, dsValue);		
+		}
+	}
+	//수량과, 단가의 특수문자를 제거한다.
+	for(var i=0;i<this.grd_importRaw.getFormatColCount();i++){
+		var bindCol = this.ds_importData.getColID(i).toUpperCase();
+		if( (bindCol == gfnMultiLabel("EPRO_LABEL_00617").toUpperCase() || bindCol == gfnMultiLabel("EPRO_LABEL_00572").toUpperCase()) && this.ds_importData.rowcount > 1){
+			var sOld;
+			for(var j=0;j<this.ds_importData.rowcount;j++){
+				sOld = this.ds_importData.getColumn(j,i);
+				if(!gfnIsNull(sOld)){
+					var sNew = sOld.replace(/[^0-9]/g,''); 
+					this.ds_importData.setColumn(j,i,sNew);
+				}
+			}
+		}
+	}
+	this.ds_importData.set_enableevent(true);
+}
+ 
+/**
+	@function	getHeadTextList()
+	@desc   	body 밴드 컬럼에 일치되는 head text 정보를 반환한다.
+*/ 
+this.getHeadTextList = function()
+{
+	var band = "head";
+	var cellCount = this.fv_targetGrid.getCellCount(band);
+	
+	if(cellCount == 0) return 0;
+	
+	var col = 0;
+	var textInfo = {};
+	var textList = [];
+	var text;
+	for (var i = 0; i < cellCount; i++) 
+	{
+		//Head Row가 2개이상일 경우, 첫번째 Head Text만 가저오게끔. 2개이상일시 col이 겹침.
+		if("0" == this.fv_targetGrid.getCellProperty(band, i,"row")){
+			col  = this.fv_targetGrid.getCellProperty(band, i,"col");
+			text = this.fv_targetGrid.getCellProperty(band, i,"text");
+			textInfo[col] = text;
+		}
+	}
+	
+	//head값을 col 값의 내림차순에 따라 정렬한다.
+	for(var name in textInfo)
+	{
+		textList.push({col:name, text: textInfo[name]});
+	}
+	
+	textList = textList.sort(this.sortAsc);
+	
+	return textList;
+}
+ 
+ 
+/**
+	@function	getBodyBindColumnInfo()
+	@desc   	body 밴드의 cellIndex별 bind column 정보를 반환한다.
+*/  
+this.getBodyBindColumnInfo = function()
+{
+	//body의 bindColumn정보를 추출한다.
+	var band = "body";
+	var bodyCellCount = this.fv_targetGrid.getCellCount(band);
+	var tempText;
+	var bindColumnInfo = {};
+	for (var i = 0; i < bodyCellCount; i++) 
+	{
+		tempText = this.fv_targetGrid.getCellProperty(band, i, "text");
+		bindColumn = "";
+		
+		if(tempText && (tempText.indexOf("bind:") > -1) ) 
+		{
+			bindColumn = tempText.replace("bind:","");
+		}
+
+		bindColumnInfo[i] = bindColumn; 
+    }
+    
+    return bindColumnInfo;
+}
+
+/**
+	@function	sortAsc()
+	@desc   	내림차순 정렬함수
+*/  
+this.sortAsc = function(l, r) 
+{
+  if ( l.col < r.col ) return -1;
+  if ( l.col > r.col ) return 1;
+  return 0;
+}
+ 
+/**
+	@function	btn_apply_onclick()
+	@desc   	컬럼매칭 미리보기
+*/ 
+this.btn_apply_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.previewFormats)){
+		gfnAlert("EPRO_LABEL_01104");
+		return;
+	}
+	
+	var dsMapping = this.ds_mapping;
+	var grdPreview = this.grd_preview;
+	var dsPreview = this.ds_preview;
+	
+	grdPreview.set_formats("<Formats>" + this.previewFormats + "</Formats>"); //초기화
+		
+	var rowCount = dsMapping.rowcount;
+	dsPreview.clear();
+	
+	grdPreview.set_enableevent(false);
+	grdPreview.set_enableredraw(false);
+	
+	var columnName;
+	var copyColumnInfo = "";
+	for(var i = 0; i < rowCount; i++)
+	{
+		if(dsMapping.getColumn(i, "excelColumnIndex") == "-1") continue;
+		
+		columnName = this.setGridPreiview(i);
+		dsMapping.setColumn(i, "excelColumnName", columnName);
+		
+		if(copyColumnInfo.length == 0)
+		{
+			copyColumnInfo = columnName + "="+ columnName;
+		}
+		else
+		{
+			copyColumnInfo += "," + columnName + "="+ columnName;
+		}
+		
+	}
+	
+	if(copyColumnInfo.length == 0)
+	{
+		gfnAlert("EPRO_LABEL_01105");
+		return;
+	}
+	
+	this.setPreviewData(copyColumnInfo);
+
+	grdPreview.set_enableevent(true);
+	grdPreview.set_enableredraw(true);	
+	
+	dsPreview.set_rowposition(0);
+	this.btn_finish.set_enable(true);	
+}
+
+/**
+	@function	setGridPreiview()
+	@desc   	미리보기
+*/ 
+this.setGridPreiview = function(rowIndex)
+{
+	var dsMapping = this.ds_mapping;
+	var grdMapping = this.grd_mapping;
+	var grdPreview = this.grd_preview;
+	var gridHeadText = dsMapping.getColumn(rowIndex, "gridHeadText");
+	var columnSize = dsMapping.getColumn(rowIndex, "columnSize");
+	var excelColumnText = grdMapping.getCellText(rowIndex,2);
+	var excelColumnIndex = dsMapping.getColumn(rowIndex, "excelColumnIndex");
+	var columnInfo = this.ds_importData.getColumnInfo(nexacro.toNumber(excelColumnIndex));
+	var columnName = columnInfo.name;
+
+	var cellIndex = grdPreview.appendContentsCol("body");
+	
+	if(columnSize == 0) columnSize = 120;
+	
+	grdPreview.setFormatColProperty(cellIndex, "size", columnSize);
+	grdPreview.setCellProperty("Head", cellIndex, "text", gridHeadText);
+	
+	this.ds_preview.addColumn(columnName, "string");
+	
+	grdPreview.setCellProperty("body", cellIndex, "text", "bind:" + columnName);
+	return columnName;
+	
+}
+ 
+/**
+	@function	setPreviewData()
+	@desc   	미리보기data 생성
+*/
+this.setPreviewData = function(copyColumnInfo)
+{
+ 	var dataset = this.ds_importData;
+ 	var dsPreview = this.ds_preview;
+ 	var rowCount = dataset.rowcount;	
+	var rowIndex = 0;
+	var i = 0;
+	
+ 	for(; i < rowCount; i++)
+ 	{
+		rowIndex = dsPreview.addRow();
+		dsPreview.copyRow(rowIndex, dataset, i, copyColumnInfo);
+ 	}
+}
+
+/**
+	@function	btn_finish_onclick()
+	@desc   	엑셀업로드 finish
+*/
+this.btn_finish_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	var copyColumnInfo;	
+	
+	var dataset;
+	dataset = this.ds_importData;
+	copyColumnInfo = this.getCopyColumnInfo();
+	
+	var targetDataset = this.fv_targetGrid.getBindDataset();
+	var ds_temp = gfnGetTmpDs("ds_temp",targetDataset); 
+	ds_temp.clearData();
+	
+	var rowCount = dataset.rowcount;	
+	var rowIndex = 0;
+	var i = 0;
+	
+	for(; i < rowCount; i++)
+	{
+		rowIndex = ds_temp.addRow();
+		ds_temp.copyRow(rowIndex, dataset, i, copyColumnInfo);
+	}
+	
+	this.parent.close(ds_temp.saveXML());		
+}
+ 
+/**
+	@function	getCopyColumnInfo()
+	@desc   	dataset copyRow를 위한 컬럼정보를 반환한다.
+*/ 
+this.getCopyColumnInfo = function()
+{	
+	var dsMapping = this.ds_mapping;
+	var rowCount = dsMapping.rowcount;
+	var columnName;
+	var copyColumnInfo = "";
+	for(var i = 0; i < rowCount; i++)
+	{
+		if(dsMapping.getColumn(i, "excelColumnIndex") == "-1") continue;
+		
+		columnName = dsMapping.getColumn(i, "bindColumn") + " = " + dsMapping.getColumn(i, "excelColumnName");
+		
+		if(copyColumnInfo.length == 0)
+		{
+			copyColumnInfo = columnName;
+		}
+		else
+		{
+			copyColumnInfo += "," + columnName;
+		}
+	}
+	
+	return copyColumnInfo;
+
+}
+
+/**
+	@function	ds_mapping_oncolumnchanged()
+	@desc   	ds_mapping_oncolumnchanged
+*/ 
+this.ds_mapping_oncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	this.btn_finish.set_enable(false);	
+}
+
+/**
+	@function	btn_cancel_onclick()
+	@desc   	btn_cancel_onclick
+*/ 
+this.btn_cancel_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.parent.close();
+}]]></Script>
+  </Form>
+</FDL>

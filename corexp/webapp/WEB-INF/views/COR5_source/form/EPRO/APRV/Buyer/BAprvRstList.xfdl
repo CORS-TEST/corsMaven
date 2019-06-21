@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="frmSearchCond" height="711" id="BAprvRstList" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="완료리스트" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div cssclass="div_WF_SearchBg" height="146" id="divViewCompCond01" left="0" objNm="" right="15" taborder="1" top="35">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchText" height="19" id="staWarning" left="0" right="0" taborder="12" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." top="125"/>
+              <Div height="24" id="dviReqDt" left="170" objNm="요청일자" taborder="1" text="Div01" top="5" url="CCOMP::CompCalFromTo.xfdl" width="257"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staReqUser" left="0" onclick="Div_SOption_sta_WFDA_Label04_onclick" style="padding:0 10 0 6;align:right middle;" taborder="2" text="기안자" top="34" width="170"/>
+              <Edit cssclass="readonly" height="24" id="edtReqId" left="170" lengthunit="utf8" maxlength="10" objNm="평가담당자ID" taborder="3" top="34" width="100"/>
+              <Edit height="24" id="edtReqNm" left="273" lengthunit="utf8" objNm="평가담당자명" onkeyup="fnOnkeyup" ontextchanged="fnOntextchanged" taborder="4" top="34" width="130"/>
+              <Button cssclass="btn_WF_SearchSmall" height="24" id="btnEvalReqr" left="404" objNm="평가담당자 검색 버튼" onclick="fnSrchReq" taborder="5" top="34" width="24"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staReqDt" left="0" style="padding:0 10 0 6;align:right middle;" taborder="14" text="기안일자" top="5" width="170"/>
+              <Div height="24" id="divCmpltDt" left="170" objNm="요청일자" taborder="20" text="Div01" top="92" url="CCOMP::CompCalFromTo.xfdl" width="257"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staAprvr" left="0" onclick="Div_SOption_sta_WFDA_Label04_onclick" style="padding:0 10 0 6;align:right middle;" taborder="21" text="최종승인자" top="63" width="170"/>
+              <Edit cssclass="readonly" height="24" id="edtAprvrId" left="170" lengthunit="utf8" maxlength="10" objNm="평가담당자ID" taborder="22" top="63" width="100"/>
+              <Edit height="24" id="edtAprvrNm" left="273" lengthunit="utf8" objNm="평가담당자명" onkeyup="fnOnkeyup" ontextchanged="fnOntextchanged" taborder="23" top="63" width="130"/>
+              <Button cssclass="btn_WF_SearchSmall" height="24" id="btnAprvr" left="404" objNm="평가담당자 검색 버튼" onclick="fnSrchAprvr" taborder="24" top="63" width="24"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staCmpltDt" left="0" style="padding:0 10 0 6;align:right middle;" taborder="26" text="승인완료일자" top="92" width="170"/>
+              <Static height="24" id="staAdvice00" left="428" onclick="div_condition1_Static00_onclick" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 7 25;" taborder="27" text="승인문서의 기안일자" top="9" width="303"/>
+              <Static height="24" id="staAdvice01" left="428" onclick="div_condition1_Static00_onclick" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 7 25;" taborder="28" text="승인문서의 기안자" top="38" width="303"/>
+              <Static height="24" id="staAdvice02" left="428" onclick="div_condition1_Static00_onclick" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 7 25;" taborder="29" text="승인문서의 최종승인자" top="67" width="303"/>
+              <Static height="24" id="staAdvice03" left="428" onclick="div_condition1_Static00_onclick" style="background:transparent URL('img::img_WF_Question.png');padding:0 0 7 25;" taborder="30" text="모든승인이 완료된 일자" top="96" width="303"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="3" text="Div00" top="199">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" f_totalCnt="Y" id="grdList" left="0" objNm="검색결과 그리드" oncelldblclick="fnListOncelldblclick" right="0" taborder="6" top="10" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="110"/>
+                      <Column size="93"/>
+                      <Column size="120"/>
+                      <Column size="400"/>
+                      <Column size="120"/>
+                      <Column size="109"/>
+                      <Column size="120"/>
+                      <Column size="93"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="승인문서번호" tooltiptext=""/>
+                      <Cell col="1" expr="" text="승인상태" tooltiptext=""/>
+                      <Cell col="2" expr="" text="승인유형" tooltiptext=""/>
+                      <Cell col="3" expr="" text="승인문서명" tooltiptext=""/>
+                      <Cell col="4" expr="" text="기안자" tooltiptext=""/>
+                      <Cell col="5" expr="" text="기안일자" tooltiptext=""/>
+                      <Cell col="6" expr="" text="최종승인자" tooltiptext=""/>
+                      <Cell col="7" expr="" text="승인완료일자" tooltiptext=""/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" text="bind:APP_DOC_ID" tooltiptext="bind:APP_DOC_ID"/>
+                      <Cell col="1" style="align:left;" text="bind:CD_APRV_STTS_NM" tooltiptext="bind:CD_APRV_STTS_NM"/>
+                      <Cell col="2" style="align:left;" text="bind:CD_APRV_DOC_CTGR_NM" tooltiptext="bind:CD_APRV_DOC_CTGR_NM"/>
+                      <Cell col="3" style="align:left;" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="4" cssclass="cell_link" style="align:center;" text="bind:REQR_NM" tooltiptext="bind:REQR_NM"/>
+                      <Cell calendardisplaynulltype="none" col="5" displaytype="date" mask="yyyy-MM-dd" text="bind:REQ_DT" tooltiptext="bind:REQ_DT"/>
+                      <Cell col="6" cssclass="cell_link" style="align:center;" text="bind:APRVR_NM" tooltiptext="bind:APRVR_NM"/>
+                      <Cell calendardisplaynulltype="none" col="7" displaytype="date" mask="yyyy-MM-dd" text="bind:APRV_CMPLT_DT" tooltiptext="bind:APRV_CMPLT_DT"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="7" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button cssclass="btn_Fold_Close" height="17" id="btnFold" left="45.66%" taborder="2" top="181" width="56"/>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" taborder="4" top="0">
+          <Layouts>
+            <Layout>
+              <Edit height="24" id="edtTtl" left="170" objNm="평가서명" onkeyup="fnOnkeyup" taborder="5" top="5" width="257"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staTtl" left="0" style="padding:0 10 0 6;align:right middle;" taborder="6" text="승인문서명" top="5" width="170"/>
+              <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cboDocCtgr" innerdataset="@dsCdAP11" left="643" objNm="상태" taborder="7" top="5" width="150"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staDocCtgr" left="473" style="padding:0 10 0 6;align:right middle;" taborder="9" text="승인유형" top="5" width="170"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="TTL" compid="divViewCompCond00.edtTtl" datasetid="dsCondition" id="item0" propid="value"/>
+      <BindItem columnid="CD_APRV_DOC_CTGR" compid="divViewCompCond00.cboDocCtgr" datasetid="dsCondition" id="item2" propid="value"/>
+      <BindItem columnid="REQR_ID" compid="divViewCompCond01.edtReqId" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="REQR_NM" compid="divViewCompCond01.edtReqNm" datasetid="dsCondition" id="item4" propid="value"/>
+      <BindItem columnid="APRVR_ID" compid="divViewCompCond01.edtAprvrId" datasetid="dsCondition" id="item5" propid="value"/>
+      <BindItem columnid="APRVR_NM" compid="divViewCompCond01.edtAprvrNm" datasetid="dsCondition" id="item6" propid="value"/>
+      <BindItem columnid="EPRO_LABEL_00516" compid="divViewCompCond01.staAprvr" datasetid="gdsLabel" id="staAprvrLangBind2017110317184219422" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00270" compid="divViewCompCond01.dviReqDt" datasetid="gdsLabel" id="dviReqDtLangBind2017110317184276522" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00886" compid="divViewCompCond01.staAdvice01" datasetid="gdsLabel" id="item1" propid="text"/>
+    </Bind>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsCondition" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="TTL" size="256" type="STRING"/>
+          <Column id="APP_DOC_ID" size="256" type="STRING"/>
+          <Column id="CD_APRV_DOC_CTGR" size="256" type="STRING"/>
+          <Column id="START_REQ_DT" size="256" type="STRING"/>
+          <Column id="END_REQ_DT" size="256" type="STRING"/>
+          <Column id="REQR_ID" size="256" type="STRING"/>
+          <Column id="REQR_NM" size="256" type="STRING"/>
+          <Column id="START_CMPLT_DT" size="256" type="STRING"/>
+          <Column id="END_CMPLT_DT" size="256" type="STRING"/>
+          <Column id="APRVR_ID" size="256" type="STRING"/>
+          <Column id="APRVR_NM" size="256" type="STRING"/>
+          <Column id="SORT_ITEM1" size="256" type="STRING"/>
+          <Column id="SORT_ITEM2" size="256" type="STRING"/>
+          <Column id="SORT_ITEM3" size="256" type="STRING"/>
+          <Column id="SORT_ITEM4" size="256" type="STRING"/>
+          <Column id="SORT_TYPE1" size="256" type="STRING"/>
+          <Column id="SORT_TYPE2" size="256" type="STRING"/>
+          <Column id="SORT_TYPE3" size="256" type="STRING"/>
+          <Column id="SORT_TYPE4" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsCdAP11"/>
+      <Dataset id="dsReturn"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsSortItem" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CD_NM_LO" size="256" type="STRING"/>
+          <Column id="CD_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CD_NM_LO">--선택--</Col>
+            <Col id="CD_ID"/>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">승인문서번호</Col>
+            <Col id="CD_ID">MA.APP_DOC_ID</Col>
+          </Row>
+          <Row>
+            <Col id="CD_NM_LO">승인유형</Col>
+            <Col id="CD_ID">MA.CD_APRV_DOC_CTGR</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">MA.REQ_DT</Col>
+            <Col id="CD_NM_LO">기안일자</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">MA.APRV_CMPLT_DT</Col>
+            <Col id="CD_NM_LO">승인완료일자</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BAprvRstList.xfdl
+ * @생성자       	: 배열
+ * @생성일자     	: 2017. 9. 7.
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 9. 7.
+*/  
+
+/**
+  * @함수명	: fnSetCode
+  * @desc   : 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"AP11", sSelectType:"A"}
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01, initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	gfnSetObj("A");
+
+ 	this.dsCondition.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+ 	this.dsCondition.setColumn(0,"USER_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+ 	this.dsCondition.setColumn(0,"CD_APRV_DOC_CTGR","");
+ 	
+ 	this.divViewCompCond01.dviReqDt.fnSetDate(this.dsCondition, "START_REQ_DT", "END_REQ_DT");
+ 	this.divViewCompCond01.divCmpltDt.fnSetDate(this.dsCondition, "START_CMPLT_DT", "END_CMPLT_DT");
+ 	
+ 	var sArgEx = {
+					isTran:"Y", tranNm:"BAprvService.searchAprvRst", dsParam:this.dsCondition
+				}
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this, sArgEx);
+ 	this.fnFold();
+ 	
+	this.dsCondition.setColumn(0,"SORT_ITEM1","MA.APP_DOC_ID");
+	this.dsCondition.setColumn(0,"SORT_TYPE1","DESC");
+	this.dsCondition.setColumn(0,"SORT_ITEM2","");
+	this.dsCondition.setColumn(0,"SORT_TYPE2","");
+	this.dsCondition.setColumn(0,"SORT_ITEM3","");
+	this.dsCondition.setColumn(0,"SORT_TYPE3","");
+	this.dsCondition.setColumn(0,"SORT_ITEM4","");
+	this.dsCondition.setColumn(0,"SORT_TYPE4","");
+	
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc   : 조회
+  */
+this.fnSearch = function()
+{
+	var sSvcID = "searchAprvRst";
+	var sController = "epro.aprv.service.BAprvService.searchAprvRst";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+	/*
+		페이징일 때 oPaging 선언후 사용
+		inDs:검색조건 데이터셋, outDs:리스트 데이터셋, divPaging:페이징 div
+	*/
+	var	oPaging = [
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchAprvRst" :
+		break;
+ 
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnSrchUser
+  * @desc   : 기안자 검색
+  */
+this.fnSrchReq = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_nm:this.dsCondition.getColumn(0,"REQR_NM")
+			   };
+	//매개변수 ::>    form, sPopupId, CallBack Function Name, arg
+	gfnSearchComUser(this, "SrchReq", "fnPopCallBack", sArg)
+}
+
+/**
+  * @함수명	: fnSrchUser
+  * @desc   : 기안자 검색
+  */
+this.fnSrchAprvr = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_nm:this.dsCondition.getColumn(0,"APRVR_NM")
+			   };
+	//매개변수 ::>    form, sPopupId, CallBack Function Name, arg
+	gfnSearchComUser(this, "SrchAprvr", "fnPopCallBack", sArg)
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "SrchReq" :
+				this.dsCondition.setColumn(0,"REQR_ID",this.dsReturn.getColumn(0,"USER_ID"));
+				this.dsCondition.setColumn(0,"REQR_NM",this.dsReturn.getColumn(0,"USER_NM"));
+			break;
+			
+		case "SrchAprvr" :
+				this.dsCondition.setColumn(0,"APRVR_ID",this.dsReturn.getColumn(0,"USER_ID"));
+				this.dsCondition.setColumn(0,"APRVR_NM",this.dsReturn.getColumn(0,"USER_NM"));
+			break;
+		
+		default:
+			break;	
+	}
+}
+
+/**
+	@function	fnOnkeyup()
+	@desc   	키다운 이벤트
+*/
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		if(obj.name == "edtReqNm") this.fnSrchReq();
+		else if(obj.name == "edtAprvrNm") this.fnSrchAprvr();
+		else this.fnSearch();
+	}
+}
+
+/**
+	@function	fnOntextchanged()
+	@desc   	텍스트변경이벤트
+*/
+this.fnOntextchanged = function(obj:Edit,  e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name == "edtReqNm") this.dsCondition.setColumn(0,"REQR_ID","");
+	else if(obj.name == "edtAprvrNm") this.dsCondition.setColumn(0,"APRVR_ID","");
+}
+
+this.fnListOncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if("APP_DOC_ID" == gfnGrdBindColId(obj, obj.getCellPos())){ 
+// 		gfnSetTmprData("APP_DOC_ID"		,this.dsList.getColumn(e.row, "APP_DOC_ID"));
+// 		gfnSetTmprData("GUBUN","RST");
+// 		var aprvDocCtgr = this.dsList.getColumn(e.row,"CD_APRV_DOC_CTGR");
+// 		if(aprvDocCtgr=="AP11ARFQ"){
+// 			gfnOpenMenuUrl("BAPRV::BAprvDetailRfqReq");
+// 		}else if(aprvDocCtgr=="AP11RFQ"){
+// 			gfnOpenMenuUrl("BAPRV::BAprvDetailRfqAls");
+// 		}else if(aprvDocCtgr=="AP11EVL"){
+// 			gfnOpenMenuUrl("BAPRV::BAprvDetailScjdEval");
+// 		}else{
+// 			gfnOpenMenuUrl("BAPRV::BAprvDetail");
+// 		}
+		gfnSetTmprData("APP_DOC_ID"		,this.dsList.getColumn(e.row, "APP_DOC_ID"));
+		gfnSetTmprData("GUBUN","REQ");
+		gfnSetTmprData("DOC_CTGR",this.dsList.getColumn(e.row, "CD_APRV_DOC_CTGR"));
+		
+		gfnOpenMenuUrl("BAPRV::BAprvDetail");
+
+	}else if(gfnGrdBindColId(obj, obj.getCellPos()) == "REQR_NM" && !gfnIsNull(this.dsList.getColumn(e.row, "REQR_NM"))){
+		var nRow = obj.currentrow;
+		var sArg = {
+					agv_id:this.dsList.getColumn(e.row, "REQR_ID") //USER ID
+				   };
+		gfnModalPop(this, "BUserInfoPopup", "CPOP::BUserInfoPopup.xfdl", sArg, "", 550, 250);
+	}else if(gfnGrdBindColId(obj, obj.getCellPos()) == "APRVR_NM" && !gfnIsNull(this.dsList.getColumn(e.row, "APRVR_NM"))){
+		var nRow = obj.currentrow;
+		var sArg = {
+					agv_id:this.dsList.getColumn(e.row, "APRVR_ID") //USER ID
+				   };
+		gfnModalPop(this, "BUserInfoPopup", "CPOP::BUserInfoPopup.xfdl", sArg, "", 550, 250);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

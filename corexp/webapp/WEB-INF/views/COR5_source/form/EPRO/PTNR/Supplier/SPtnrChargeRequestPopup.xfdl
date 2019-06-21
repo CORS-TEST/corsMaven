@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="POP_Setting" cssclass="frm_POP_Search" height="90" id="POP_Setting" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="정보변경팝업" top="0" width="442">
+    <Layouts>
+      <Layout>
+        <Edit height="35" id="edtId" imemode="alpha" inputtype="number,english,sign,symbol" left="8" objNm="아이디" onkeydown="fnEnterOnkeyup" style="background:#ffffffff URL('theme://images/img_login_id.png');padding:5 10 3 60;" taborder="4" top="6" width="295"/>
+        <Edit height="35" id="edtPwd" left="8" objNm="비밀번호" onkeydown="fnEnterOnkeyup" password="true" style="background:#ffffffff URL('theme://images/img_login_pw.png');color:black;padding:5 10 3 60;" taborder="5" top="46" value="dlvldptm" width="295"/>
+        <Button cssclass="btn_MF_login" height="75" id="btnLogin" left="308" objNm="로그인" onclick="fnSearch" style="background:#003399ff;" taborder="6" text="Search" top="6" width="124"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsPtnrUser">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="USER_PW_ORG" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsPtnrChk">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="USER_PW_ORG" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="CD_PTNR_STTS" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="USER_ID" compid="edtId" datasetid="dsPtnrUser" id="item0" propid="value"/>
+      <BindItem columnid="USER_PW_ORG" compid="edtPwd" datasetid="dsPtnrUser" id="item1" propid="value"/>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SPtnrChargeRequestPopup.xfdl
+ * @생성자       	: 안성민
+ * @생성일자     	: 2018.01.04.
+ * @설명			: 신규 저장한 업체의 정보 조회
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2018.01.04.
+*/  
+
+
+var bizNo = "";
+this.popTitle = "Change Request"//gfnMultiLabel("EPRO_LABEL_00149");
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	this.dsPtnrUser.deleteAll(); this.dsPtnrUser.addRow();
+	this.dsPtnrChk.deleteAll(); this.dsPtnrChk.addRow();
+	this.parent.btnClose.clearEventHandler("onclick");
+	this.parent.btnClose.addEventHandler("onclick",this.fnTmpClose,this);
+}
+
+this.fnTmpClose = function()
+{
+	this.parent.close();
+}
+
+/**
+	@fnCnfrm	fnPreSearch()
+	@desc   	조회 전 처리
+*/ 
+this.fnPreSearch = function()
+{
+	if(gfnIsNull(this.dsPtnrUser.getColumn(0, "USER_ID"))) {
+		this.edtId.setFocus();
+		gfnAlert("EPRO_LABEL_00995");
+		return false;
+	}
+	
+	if(gfnIsNull(this.dsPtnrUser.getColumn(0, "USER_PW_ORG"))) {
+		this.edtPwd.setFocus();
+		gfnAlert("EPRO_LABEL_00934");
+		return false;
+	}
+	return true;
+}
+
+/**
+	@fnCnfrm	fnSearch()
+	@desc   	사업자번호 조회
+*/     
+this.fnSearch = function()
+{	
+	if(!this.fnPreSearch()) return;
+	this.dsPtnrChk.copyData(this.dsPtnrUser);
+	
+	var sSvcID = "checkPtnrUser";
+	var sController = "epro.ptnr.service.SPtnrService.checkPtnrUser";
+	var sInDatasets = "dsPtnrChk=dsPtnrChk:A";
+	var sOutDatasets = "dsPtnrChk=dsPtnrChk";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+ 
+
+/**
+	@function	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/      
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}	
+	switch(strSvcID)
+	{	
+		case "checkPtnrUser" :
+			if(0 < this.dsPtnrChk.getRowCount()) {
+				var prntStts = this.dsPtnrChk.getColumn(0, "CD_PTNR_STTS");
+				if("SR10NCLO" == prntStts) {
+					gfnAlert("EPRO_LABEL_01114");
+					return;
+				} else if("SR10NREJ" == prntStts&&this.dsPtnrChk.getColumn(0,"ALT_REJ_DAY")!="Y") {
+					gfnAlert("EPRO_LABEL_01117");
+					return;
+				} else if("SR10NREQ" == prntStts) {
+					if(!gfnConfirm("EPRO_LABEL_01400")) return;
+					gfnSetTmprData("bizType", "CR");
+					gfnSetTmprData("ptnrId", this.dsPtnrChk.getColumn(0, "PTNR_ID"));
+					gfnSetTmprData("ptnrCtgr", this.dsPtnrChk.getColumn(0, "CD_PTNR_CTGR"));
+					application.gv_loginFrame.set_formurl("SPTNR::SPtnrReqDetail.xfdl");
+					this.fnTmpClose();
+				} else if("SR10WRI" == prntStts||("SR10NREJ" == prntStts&&this.dsPtnrChk.getColumn(0,"ALT_REJ_DAY")=="Y")) {
+					gfnSetTmprData("bizType", "CR");
+					gfnSetTmprData("ptnrId", this.dsPtnrChk.getColumn(0, "PTNR_ID"));
+					gfnSetTmprData("ptnrCtgr", this.dsPtnrChk.getColumn(0, "CD_PTNR_CTGR"));
+					application.gv_loginFrame.set_formurl("SPTNR::SPtnrReqDetail.xfdl");
+					this.fnTmpClose();
+				} else if("SR10NWAT" == prntStts) {
+					gfnAlert("EPRO_LABEL_01119");
+					return;
+				}
+			} else {
+				gfnAlert("EPRO_LABEL_01393");
+			}
+			
+			break;
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnEnterOnkeyup
+  * @input    	: obj:Edit(에디트 오브젝트), e:nexacro.KeyEventInfo(이벤트변수)
+  * @desc     	: 검색조건에서 ENTER(keycode::13) 입력시 이벤트를 발생시킨다. 
+  */
+this.fnEnterOnkeyup = function(obj:MaskEdit, e:nexacro.KeyEventInfo)
+{
+	this.edtId.updateToDataset();
+	this.edtPwd.updateToDataset();
+	if(e.keycode == "13"){
+			this.fnSearch();
+	}
+}]]></Script>
+  </Form>
+</FDL>

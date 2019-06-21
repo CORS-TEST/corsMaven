@@ -1,0 +1,423 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="frmSearchCond" height="768" id="BMtrlList" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="품목관리리스트" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div bottom="10" id="divViewCompBody00" left="0" right="15" taborder="3" top="46">
+          <Layouts>
+            <Layout>
+              <Div bottom="10" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="7" url="CCOMP::CompPaging.xfdl"/>
+              <FileUpload height="25" id="FileUpload" index="0" objNm="엑셀업로드" onerror="FileUpload_onerror" onitemchanged="FileUpload_onitemchanged" onsuccess="FileUpload01_onsuccess" retry="0" right="3" style="itemheight:25;buttonsize:83;editborder:0 none white ;editcolor:black;buttonbackground:#6f7786ff;buttonborder:1 solid #808080ff ;buttoncolor:#ffffffff;buttontext:엑셀업로드;" taborder="8" top="0" width="83"/>
+              <Grid binddataset="dsList" bottom="38" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" f_totalCnt="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="9" top="30" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="150"/>
+                      <Column size="400"/>
+                      <Column size="97"/>
+                      <Column size="150"/>
+                      <Column size="80"/>
+                      <Column size="130"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="자재코드"/>
+                      <Cell col="1" style="align:center;" text="자재명"/>
+                      <Cell col="2" text="자재분류"/>
+                      <Cell col="3" text="자재분류명"/>
+                      <Cell col="4" text="단위"/>
+                      <Cell col="5" text="서브자제그룹"/>
+                      <Cell col="6" text="사용여부"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell text="bind:MTRL_CD" tooltiptext="bind:MTRL_CD"/>
+                      <Cell col="1" style="align:left;" text="bind:MTRL_NM" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="2" text="bind:MTRL_GRP_ID" tooltiptext="bind:MTRL_GRP_ID"/>
+                      <Cell col="3" style="align:left;" text="bind:MTRL_GRP_NM" tooltiptext="bind:MTRL_GRP_NM2"/>
+                      <Cell col="4" text="bind:BASIC_UNIT"/>
+                      <Cell col="5" text="bind:SUB_MTRL_GRP_NM"/>
+                      <Cell col="6" displaytype="checkbox" text="bind:ALT_USE"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" taborder="4" top="0">
+          <Layouts>
+            <Layout>
+              <Edit height="24" id="edtMtrlCd" left="170" objNm="품목코드" onkeyup="fnEnterOnkeyup" taborder="5" top="5" width="161"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staTtl" left="0" style="padding:0 10 0 6;align:right middle;" taborder="6" text="자재코드/명" top="5" width="170"/>
+              <Edit height="24" id="edtMtrlNm" left="333" objNm="품목명" onkeyup="fnEnterOnkeyup" taborder="8" top="5" width="220"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="grdList" compid="divViewCompBody00.grdList" datasetid="dsObjBindGrid" id="grdListFormatId" propid="formatid"/>
+      <BindItem columnid="TTL" compid="divCondition.edtTtl" datasetid="dsCondition" id="item14" propid="value"/>
+      <BindItem columnid="CD_EVAL_RUN_STTS" compid="divCondition.cboCdEvalRunStts" datasetid="dsCondition" id="item5" propid="value"/>
+      <BindItem columnid="PR_NO" compid="Div_SOption.me_PrNo" datasetid="ds_searchPrNo" id="item22" propid="value"/>
+      <BindItem columnid="CD_PR_ITEM_STTS" compid="Div_SOption.cb_PrItemStatus" datasetid="ds_SearchOpt" id="item0" propid="value"/>
+      <BindItem columnid="REQ_DT_S" compid="Div_SOption.cd_WriteDayS" datasetid="ds_SearchOpt" id="item1" propid="value"/>
+      <BindItem columnid="REQ_DT_E" compid="Div_SOption.cd_WriteDayE" datasetid="ds_SearchOpt" id="item2" propid="value"/>
+      <BindItem columnid="REQR_NM" compid="Div_SOption.ed_RrqrNm" datasetid="ds_SearchOpt" id="item7" propid="value"/>
+      <BindItem columnid="MTRL_GRP_ID" compid="Div_SOption.ed_MtrlGrpId" datasetid="ds_SearchOpt" id="item8" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="Div_SOption.ed_MtrlCd" datasetid="ds_SearchOpt" id="item6" propid="value"/>
+      <BindItem columnid="MTRL_GRP_NM" compid="Div_SOption.ed_MtrlGrpNm" datasetid="ds_SearchOpt" id="item4" propid="value"/>
+      <BindItem columnid="REQR_ID" compid="Div_SOption.ed_RrqrId" datasetid="ds_SearchOpt" id="item12" propid="value"/>
+      <BindItem columnid="MTRL_CD" compid="Div_SOption.ed_CrtrId00" datasetid="ds_SearchOpt" id="item13" propid="value"/>
+      <BindItem columnid="PCHRGR_ID" compid="Div_SOption.ed_PchrgrId" datasetid="ds_SearchOpt" id="item10" propid="value"/>
+      <BindItem columnid="PCHRGR_NM" compid="Div_SOption.ed_PchrgrNm" datasetid="ds_SearchOpt" id="item11" propid="value"/>
+      <BindItem columnid="PCHRGR_ID" compid="div_Search.cbo_prItemStatus" datasetid="dsCondition" id="item9" propid="value"/>
+      <BindItem columnid="PORG_ID" compid="div_Search.cbo_bsnsPlc" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="EVAL_CHRGR_NM" compid="divCondition1.edtEvalChrgrNm" datasetid="dsCondition" id="item15" propid="value"/>
+      <BindItem columnid="EVAL_CHRGR_ID" compid="divCondition1.edtEvalChrgrId" datasetid="dsCondition" id="item16" propid="value"/>
+      <BindItem columnid="CD_DOC_CTGR" compid="divCondition1.cboCdScjdEvalType" datasetid="dsCondition" id="item48" propid="value"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindVi" id="divPagingVi" propid="visible"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindEn" id="divPagingEn" propid="enable"/>
+      <BindItem columnid="edtMtrlCd" compid="divViewCompCond00.edtMtrlCd" datasetid="dsObjBindVi" id="edtMtrlCdVi" propid="visible"/>
+      <BindItem columnid="edtMtrlCd" compid="divViewCompCond00.edtMtrlCd" datasetid="dsObjBindEn" id="edtMtrlCdEn" propid="readonly"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond00.staTtl" datasetid="dsObjBindVi" id="staTtlVi" propid="visible"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond00.staTtl" datasetid="dsObjBindEn" id="staTtlEn" propid="enable"/>
+      <BindItem columnid="edtMtrlNm" compid="divViewCompCond00.edtMtrlNm" datasetid="dsObjBindVi" id="edtMtrlNmVi" propid="visible"/>
+      <BindItem columnid="edtMtrlNm" compid="divViewCompCond00.edtMtrlNm" datasetid="dsObjBindEn" id="edtMtrlNmEn" propid="readonly"/>
+      <BindItem columnid="MTRL_CD" compid="divViewCompCond00.edtMtrlCd" datasetid="dsCondition" id="item18" propid="value"/>
+      <BindItem columnid="MTRL_NM" compid="divViewCompCond00.edtMtrlNm" datasetid="dsCondition" id="item19" propid="value"/>
+      <BindItem columnid="FileUpload" compid="divViewCompBody00.FileUpload" datasetid="dsObjBindVi" id="FileUploadVi" propid="visible"/>
+      <BindItem columnid="FileUpload" compid="divViewCompBody00.FileUpload" datasetid="dsObjBindEn" id="FileUploadEn" propid="enable"/>
+    </Bind>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsCondition" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="MTRL_NM" size="500" type="string"/>
+          <Column id="MTRL_CD" size="20" type="string"/>
+          <Column id="CORP_CD" size="256" type="STRING"/>
+          <Column id="CORP_NM" size="256" type="STRING"/>
+          <Column id="INT_NTAX" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="20" type="string"/>
+          <Column id="LRG_CLS_ID" size="256" type="STRING"/>
+          <Column id="MDL_CLS_ID" size="256" type="STRING"/>
+          <Column id="SML_CLS_ID" size="256" type="STRING"/>
+          <Column id="ATTR_ID1" size="256" type="STRING"/>
+          <Column id="ATTR_NM1" size="256" type="STRING"/>
+          <Column id="ATTR_ID2" size="256" type="STRING"/>
+          <Column id="ATTR_NM2" size="256" type="STRING"/>
+          <Column id="ATTR_ID3" size="256" type="STRING"/>
+          <Column id="ATTR_NM3" size="256" type="STRING"/>
+          <Column id="FLAG" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="ALT_CNTR" size="256" type="STRING"/>
+          <Column id="SRC_LVL_2" size="256" type="STRING"/>
+          <Column id="SRC_LVL_1" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="MTRL_CD" size="256" type="STRING"/>
+          <Column id="MTRL_NM2" size="256" type="STRING"/>
+          <Column id="MTRL_NM" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_NM2" size="256" type="STRING"/>
+          <Column id="CD_PO_UNIT" size="256" type="STRING"/>
+          <Column id="CD_PO_UNIT_NM" size="256" type="STRING"/>
+          <Column id="LAST_PO_PRICE" size="256" type="STRING"/>
+          <Column id="CNTR_PTNR_ID" size="256" type="STRING"/>
+          <Column id="CNTR_PTNR_NM" size="256" type="STRING"/>
+          <Column id="GR_ACNT_CD_MGMT" size="256" type="STRING"/>
+          <Column id="CNTR_PRICE" size="256" type="STRING"/>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="INT_NTAX" size="256" type="STRING"/>
+          <Column id="INT_NTAX_NM" size="256" type="STRING"/>
+          <Column id="CNTR_END_DAY" size="256" type="STRING"/>
+          <Column id="DLV_DAY" size="256" type="STRING"/>
+          <Column id="LAST_CHGR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSend">
+        <ColumnInfo>
+          <Column id="ATTR_ID" size="256" type="STRING"/>
+          <Column id="ATTR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsMtrlAttrCombo1">
+        <ColumnInfo>
+          <Column id="ATTR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ATTR_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMtrlAttrCombo3">
+        <ColumnInfo>
+          <Column id="ATTR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ATTR_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsMtrlAttrCombo2">
+        <ColumnInfo>
+          <Column id="ATTR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ATTR_NM">--전체--</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCombo">
+        <ColumnInfo>
+          <Column id="ATTR_ID" size="256" type="STRING"/>
+          <Column id="ATTR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsYear">
+        <ColumnInfo>
+          <Column id="READ_DAY" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCM11"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_excelData" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="Column1" size="256" type="STRING"/>
+          <Column id="Column2" size="256" type="STRING"/>
+          <Column id="Column3" size="256" type="STRING"/>
+          <Column id="Column4" size="256" type="STRING"/>
+          <Column id="Column5" size="256" type="STRING"/>
+          <Column id="Column6" size="256" type="STRING"/>
+          <Column id="Column7" size="256" type="STRING"/>
+          <Column id="Column8" size="256" type="STRING"/>
+          <Column id="Column9" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMtrlList.xfdl
+ * @생성자       	: 정준화
+ * @생성일자     	: 2017. 9. 11.
+ * @설명			: 품목관리 리스트
+ * @최종수정자		: 정준화
+ * @최종수정일자	: 2017. 9. 11.
+*/  
+
+var length; 	//길이 구하는 변수
+var idNum; 		//속성ID/명 1,2,3
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+				//	 {code:"EV21", sSelectType:"A"} // 평가상태
+					{code:"CM11", sSelectType:""} // 단위
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+// 	var sArg = [ 
+// 				{ttl:this.btnFold, body:this.divViewCompCond01, initFold:true}
+// 		   ];		   
+// 	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	var sArgEx = {
+					isTran:"Y", tranNm:"BMtrlService.searchMtrl", dsParam:this.dsCondition
+				}
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this, sArgEx);
+ 	
+	this.dsCondition.addRow();
+	
+	//디폴트 값 세팅
+    this.dsCondition.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0, "BRANCH_CD"));
+   	gfnSetObj("A");
+   	
+   	if(application.gdsUserRole.getCaseCount("ROLE_ID =='B_WEBMASTER'")>0){
+		this.divViewCompBody00.FileUpload.set_visible(true);
+   	}
+ 	this.fnSearch();
+ 	
+
+}
+
+/**
+  * @함수명	: fnClose
+  * @desc     	: (공통버튼)닫기
+  */
+this.fnClose = function()
+{	
+	return true;
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchMtrl";
+	var sController = "epro.mtrl.service.BMtrlService.searchMtrl";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+
+	var	oPaging = [	
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "searchMtrl" :
+		break;
+		case "saveExcel" :
+			alert("엑셀업로드 성공하였습니다.");
+		break;
+		
+		
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnPopCallBack
+  * @input    	: sPopupId(팝업ID), rtn(팝업에서 리턴하는 문자열)
+  * @desc     	: 팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+}
+
+/**
+  * @함수명	: fnEnterOnkeyup
+  * @input    	: obj:Edit(에디트 오브젝트), e:nexacro.KeyEventInfo(이벤트변수)
+  * @desc     	: 검색조건에서 ENTER(keycode::13) 입력시 이벤트를 발생시킨다. 
+  */
+this.fnEnterOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		if(obj.name == "edtMtrlCd" || obj.name == "edtMtrlNm"){
+			this.fnSearch();
+		} else{
+			this.fnSearch();
+		}
+	}
+}
+
+/**
+  * @함수명	: fnOntextchanged
+  * @input    	: obj:Edit(에디트 오브젝트), e:nexacro.TextChangedEventInfo(이벤트변수)
+  * @desc     	: 검색조건에서 에디트에 바인딩 된 데이터셋 값이 변경될 때 값을 공백("")으로 변경한다.
+  */
+this.fnOntextchanged = function(obj:Edit,  e:nexacro.TextChangedEventInfo)
+{	
+
+}
+
+
+
+
+this.FileUpload_onitemchanged = function(obj:FileUpload,  e:nexacro.FileUploadItemChangeEventInfo)
+{
+	//this.divViewCompBody00.FileUpload.set_uploadurl(application.gvDomain + "/controller/updown/upExcelTempFile?callModule=BMtrlService&methodName=saveMtrlToExcel"); 
+	this.divViewCompBody00.FileUpload.set_uploadurl(application.gvDomain + "/controller/updown/upExcelTempFile?callModule=&methodName="); 
+ 	this.divViewCompBody00.FileUpload.upload();
+ 	
+ 	this.divViewCompBody00.FileUpload.deleteItem(0);
+	this.divViewCompBody00.FileUpload.appendItem();
+ 	
+ 	this.setWaitCursor(true);
+}
+this.FileUpload01_onsuccess = function(obj:FileUpload,  e:nexacro.FileUploadLoadEventInfo)
+{
+	this.setWaitCursor(false);
+
+	if(e.datasets[0]){
+		//gfnAlert("EPRO_LABEL_00943");
+		this.ds_excelData.copyData(e.datasets[0]);
+		var sSvcID = "saveExcel";
+		var sController = "epro.mtrl.service.BMtrlService.saveMtrlToExcel";
+		var sInDatasets = "ds_output=ds_excelData:A";
+		var sOutDatasets = "";
+		var sCallbackFunc = "fnTrCallBack";
+			
+		gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);  
+	}
+}
+this.FileUpload_onerror = function(obj:FileUpload,  e:nexacro.FileUploadErrorEventInfo)
+{
+	this.setWaitCursor(false);
+	gfnAlert("EPRO_LABEL_00942");
+}]]></Script>
+  </Form>
+</FDL>

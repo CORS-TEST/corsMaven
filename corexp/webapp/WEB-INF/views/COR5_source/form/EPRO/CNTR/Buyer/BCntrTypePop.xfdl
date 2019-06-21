@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="182" id="BCntrTypePop" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="계약유형" top="0" width="427" oninit="FormOninit">
+    <Layouts>
+      <Layout>
+        <Static id="staViewCompLine01" taborder="1" cssclass="sta_WF_Labelbg" left="10" top="35" height="36" right="10"/>
+        <Button id="btn_rtn" taborder="2" text="적용" onclick="btn_rtn_onclick" cssclass="btn_WF_CRUD" top="6" right="10" width="65" height="25"/>
+        <Static id="staViewCompLine00" taborder="3" cssclass="sta_WF_Labelbg" left="10" top="70" right="10" height="36"/>
+        <Static id="staViewCompLine02" taborder="4" cssclass="sta_WF_Labelbg" left="10" top="105" right="10" height="36"/>
+        <Static id="staViewCompLine03" taborder="5" cssclass="sta_WF_Labelbg" left="10" top="140" right="10" height="36"/>
+        <Static id="staLabel01" taborder="6" text="계약일자" wordwrap="char" cssclass="sta_WF_Label" left="10" top="35" width="134" height="36" positionstep="0"/>
+        <Static id="staLabel02" taborder="7" text="계약구분" wordwrap="char" cssclass="sta_WF_Label" left="10" top="70" width="134" height="36"/>
+        <Static id="staLabel03" taborder="8" text="계약템플릿" wordwrap="char" cssclass="sta_WF_Label" left="10" top="105" width="134" height="36"/>
+        <Static id="staLabel04" taborder="9" text="사업장" wordwrap="char" cssclass="sta_WF_Label" left="10" top="140" width="134" height="36"/>
+        <Calendar id="calCntrDay" taborder="10" cssclass="cal_default" left="152" top="43" height="21" objNm="견적마감일자" right="16"/>
+        <Combo id="cboCdGongSa" taborder="11" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="152" top="78" height="21" objNm="예산구분" right="16" innerdataset="@dsCdZZ10"/>
+        <Combo id="cboCntrTmpl" taborder="12" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="152" top="113" height="21" objNm="예산구분" right="176" innerdataset="@dsCdCT11" onitemchanged="cboCntrTmplOnitemchanged" index="-1"/>
+        <Combo id="cboCdFctry" taborder="13" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="152" top="148" height="21" objNm="예산구분" right="16" innerdataset="@dsCdCM20"/>
+        <Combo id="cboCntrTmpl00" taborder="14" innerdataset="@dsTemplate" codecolumn="CNTR_TMPLT_NO" datacolumn="TTL" cssclass="cbo_default" left="256" top="113" right="17" height="21" objNm="예산구분" index="-1"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCtgr">
+        <ColumnInfo>
+          <Column id="CNTR_DAY" type="STRING" size="256"/>
+          <Column id="CNTR_TMPLT" type="STRING" size="256"/>
+          <Column id="FCTRY" type="STRING" size="256"/>
+          <Column id="CD_CNST_TYPE" type="STRING" size="256"/>
+          <Column id="CD_CNTR_CTGR" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCdZZ10"/>
+      <Dataset id="dsCdCM20"/>
+      <Dataset id="dsCdCT11"/>
+      <Dataset id="dsTemplate"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item2" compid="calCntrDay" propid="value" datasetid="dsCtgr" columnid="CNTR_DAY"/>
+      <BindItem id="item3" compid="cboCdGongSa" propid="value" datasetid="dsCtgr" columnid="CD_CNST_TYPE"/>
+      <BindItem id="item1" compid="cboCdFctry" propid="value" datasetid="dsCtgr" columnid="FCTRY"/>
+      <BindItem id="item4" compid="cboCntrTmpl00" propid="value" datasetid="dsCtgr" columnid="CNTR_TMPLT"/>
+      <BindItem id="item0" compid="cboCntrTmpl" propid="value" datasetid="dsCtgr" columnid="CD_CNTR_CTGR"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BCntrTypePop.xfdl
+ * @생성자       	: 안성민
+ * @생성일자     	: 2019. 03. 06.
+ * @설명			: 계약유형
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2019. 03. 06.
+*/
+
+this.popTitle = '계약유형' //gfnMultiLabel("EPRO_LABEL_01168");
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+	var param = [
+					{code:"ZZ10", sSelectType:"S"} // 공사구분
+					,{code:"CM20", sSelectType:"S"} // 사업장
+					,{code:"CT11", sSelectType:"S"} // 계약템플릿
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgDetail_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	var fvData = ownFrame.agv_data;
+	var fvRfqPtnrId = ownFrame.agv_rfq_ptnr_id;
+	var fvRfqId = ownFrame.agv_rfq_item_id;
+	
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsCtgr.setColumn(0,"CNTR_DAY",gfnToday());
+	this.dsCtgr.setColumn(0,"CNTR_TMPLT","CT2010");
+	this.dsCtgr.setColumn(0,"CD_CNST_TYPE","");
+	this.dsCtgr.setColumn(0,"CD_CNTR_CTGR","");
+	
+	if(!gfnIsNull(ownFrame.cd_fctry)){
+		this.dsCtgr.setColumn(0,"FCTRY",ownFrame.cd_fctry);
+		this.cboCdFctry.set_readonly(true);
+	}else{
+		this.dsCtgr.setColumn(0,"FCTRY","");
+	}
+	this.fnTemplateSearch();
+	
+}
+
+this.fnTemplateSearch = function()
+{
+	var sSvcID = "searchTmplList";
+	var sController = "epro.cntr.service.BCntrService.searchTmplList";
+	var sInDatasets = "";
+	var sOutDatasets = "dsTemplate=dsTemplate";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;	
+	switch(strSvcID){
+		case "searchTmplList":
+			this.dsTemplate.insertRow(0);
+			this.dsTemplate.setColumn(0, "CNTR_TMPLT_NO", "");
+			this.dsTemplate.setColumn(0, "TTL", '[선택]');
+			this.dsTemplate.set_enableevent(false);
+			this.dsTemplate.filter("CD_CNTR_CTGR==''||CNTR_TMPLT_NO==''");
+			this.dsCtgr.setColumn(0, "CNTR_TMPLT", "");
+			this.dsTemplate.set_enableevent(true);
+			break;
+	}
+}
+/***************************************************************************
+ * 함  수  명		: btn_rtn_onclick()
+ * 기      능		: 적용버튼 클릭 이벤트
+ ***************************************************************************/
+this.btn_rtn_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.dsCtgr.getColumn(0,"CNTR_DAY"))){
+		gfnAlert("계약일자를 설정해 주세요.");
+		return;
+	}  
+
+	else if(gfnIsNull(this.dsCtgr.getColumn(0,"CNTR_TMPLT"))){
+		gfnAlert("계약템플릿을 선택해 주세요.");
+		return;
+	
+	} else if(gfnIsNull(this.dsCtgr.getColumn(0,"FCTRY"))){
+		gfnAlert("사업장을 선택해 주세요.");
+		return;
+		
+	} else if(gfnIsNull(this.dsCtgr.getColumn(0,"CD_CNST_TYPE"))){
+		gfnAlert("공사구분을 선택해 주세요.");
+		return;
+	}
+	this.parent.close(this.dsCtgr.saveXML());
+}
+
+this.cboCntrTmplOnitemchanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	var cdCtgr = obj.value
+	this.dsTemplate.set_enableevent(false);
+	this.dsTemplate.filter("CD_CNTR_CTGR=='" + cdCtgr + "'||CNTR_TMPLT_NO==''");
+	this.dsCtgr.setColumn(0, "CNTR_TMPLT", "")
+	this.dsTemplate.set_enableevent(true);
+}
+]]></Script>
+  </Form>
+</FDL>

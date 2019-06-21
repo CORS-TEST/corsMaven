@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="150" id="BMtrlAttrPop" left="0" oninit="BMtrlSrcGrpMappPopOninit" onload="BMtrlSrcGrpMappPopOnload" titletext="품목속성관리팝업" top="0" width="510">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="65" id="staViewCompCond01" left="10" right="20" taborder="0" top="47"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="10" right="20" taborder="1" top="79"/>
+        <Button height="24" id="btnSave" objNm="저장" onclick="btnSave_onclick" right="20" taborder="2" text="저장" top="9" width="65"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="10" right="20" taborder="3" top="47"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staAttrNm" lbcd="TTL_TOT_AMT" left="10" taborder="4" text="속성" tooltiptext="대분류" top="47" width="100"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staRmark" lbcd="TTL_TOT_AMT" left="10" taborder="5" text="비고" tooltiptext="중분류" top="79" width="100"/>
+        <Edit height="26" id="edtAttrNm" left="115" objNm="속성" taborder="8" top="50" width="300"/>
+        <Edit height="26" id="edtRmark" left="115" objNm="비고" taborder="9" top="82" width="300"/>
+        <Button height="24" id="btnDulChk" objNm="중복체크" onclick="btnDulChk_onclick" right="25" taborder="10" text="중복체크" top="51" width="65"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="ATTR_NM" size="300" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="ALT_USE" size="1" type="string"/>
+          <Column id="ATTR_ID" size="20" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMtrlAttr" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="ATTR_NM" size="300" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="ALT_USE" size="1" type="string"/>
+          <Column id="ATTR_ID" size="20" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="ATTR_NM" compid="edtAttrNm" datasetid="dsMtrlAttr" id="item0" propid="value"/>
+      <BindItem columnid="RMARK" compid="edtRmark" datasetid="dsMtrlAttr" id="item1" propid="value"/>
+    
+
+
+<BindItem columnid="EPRO_LABEL_00213" compid="btnDulChk" datasetid="gdsLabel" id="btnDulChkLangBind2017110317184218333" propid="text"/>
+</Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMtrlAttrPop.xfdl
+ * @생성자       	: 정준화
+ * @생성일자     	: 2017. 9. 07.
+ * @설명			: 품목속성관리 팝업
+ * @최종수정자		: 정준화
+ * @최종수정일자	: 2017. 9. 07.
+*/ 
+
+/*
+ 적용 또는 닫기 버튼으로 닫을 때는 
+  this.parent.close(리턴문자열); 사용
+*/
+
+
+this.popTitle = "품목속성관리";
+
+var fv_flag = false;
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	/*
+		MM_SYS_CD 테이블의 컬럼 참조		
+		code: CD_GRP + CD_CLS 		
+		, sSelectType:[A : --전체--], [B : --선택--]		
+		, sFiltered(코드 필터링): 구분자:CD, CD, CD, CD ......
+									가져올 코드만 표시 방법 - S:WRI, ING, CXL, RTN ......
+									빼고 가져올 코드표시 방법 - D:WRI, ING, CXL, RTN ......
+	*/
+	
+	var param = [
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: CSamplePopOninit
+  * @desc     	: 폼 oninit이벤트
+  */
+this.BMtrlSrcGrpMappPopOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();	
+}
+
+/**
+  * @함수명	: CSamplePopOnload
+  * @desc     	: 폼 onload이벤트
+  */
+this.BMtrlSrcGrpMappPopOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	
+	var ownFrame = this.getOwnerFrame();
+	
+	//부모창으로 부터 전달받은 값을 NULL 이 아니면 검색조건 DataSet에 담는다.
+	if(!gfnIsNull(ownFrame.attr_id)){
+		
+		this.dsMtrlAttr.setColumn(0, "ATTR_ID"	, ownFrame.attr_id);
+		this.dsMtrlAttr.setColumn(0, "ATTR_NM"	, ownFrame.attr_nm);
+		
+		this.edtAttrNm.set_readonly(true);
+		this.btnDulChk.set_visible(false);
+		
+		if(!gfnIsNull(ownFrame.rmark)){		 		
+			this.dsMtrlAttr.setColumn(0, "RMARK"	, ownFrame.rmark);		
+		}
+		
+		fv_flag = true;
+	}
+
+
+}
+ 
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "checkMtrlAttr" :	
+			if(strErrCd != 0){
+				gfnAlert(strErrMsg);
+				
+			} else{
+				if(0 == this.dsReturn.getColumn(0,"CNT")){
+					gfnAlert("사용가능한 속성명 입니다.");
+					fv_flag = true;
+				} else{
+					this.dsMtrlAttr.setColumn(0,"ATTR_NM","");
+					gfnAlert("속성이 중복 됩니다.");
+					fv_flag = false;
+				}
+			}
+		break;
+		
+		case "saveMtrlAttr" :
+			gfnAlert(strErrMsg);
+			this.parent.close(this.dsMtrlAttr.saveXML());
+		break;	
+ 
+		default:
+		break;	
+	}
+}
+
+
+/**
+  * @함수명	: btnDulChk_onclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 속성 중복체크버튼 클릭 시 이벤트를 발생시킨다. 
+  */
+this.btnDulChk_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.dsMtrlAttr.getColumn(0,"ATTR_NM"))){
+		gfnAlert("속성을 입력 해 주세요.");
+		return;
+	}
+	
+	var sSvcID = "checkMtrlAttr";
+	var sController = "epro.mtrl.service.BMtrlService.checkMtrlAttr";
+	var sInDatasets = "dsMtrlAttr=dsMtrlAttr";
+	var sOutDatasets = "dsReturn=dsReturn";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);		
+	
+}
+
+/**
+  * @함수명	: btnSave_onclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 저장버튼 클릭 시 이벤트를 발생시킨다. 
+  */
+this.btnSave_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(gfnIsNull(this.dsMtrlAttr.getColumn(0,"ATTR_NM"))){
+		gfnAlert("속성을 입력 해 주세요.");
+		return;
+	}
+	
+	if(fv_flag == false){
+		gfnAlert("중복체크를 해 주세요.");
+		return;
+	}
+	
+	if(!gfnConfirm("저장하시겠습니까?")) return;
+
+	var sSvcID = "saveMtrlAttr";
+	var sController = "epro.mtrl.service.BMtrlService.saveMtrlAttr";
+	var sInDatasets = "dsMtrlAttr=dsMtrlAttr";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);		
+}
+]]></Script>
+  </Form>
+</FDL>

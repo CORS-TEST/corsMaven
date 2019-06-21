@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="RoleCheckFilter">
+	
+ 	<select id="getRoleCheckService"  parameterType="String" resultType="HashMap">
+	/* [RoleCheckFilter.getRoleCheckService][][2017.9.14][박민재] */
+		SELECT
+			SVC_NM	
+			,METHOD
+			,AUTHCHK
+			,EXPLN
+		FROM MM_SYS_SERVICE MSS
+		WHERE MSS.SVC_NM = #{SVC_NM} 
+		AND MSS.METHOD = #{METHOD}
+	</select>
+	
+	
+	<select id="getRoleCheckServiceCnt"  parameterType="String" resultType="java.lang.Integer">
+	/* [RoleCheckFilter.getRoleCheckServiceCnt][접속이력저장][2017.9.14][박민재] */
+		SELECT
+			COUNT(*) ROLE_CHK
+		FROM MM_SYS_SERVICE MSS,MM_SYS_SERVICE_ROLE MSSR
+		WHERE MSS.SVC_NM = MSSR.SVC_NM
+		AND MSS.METHOD = MSSR.METHOD
+		AND MSS.SVC_NM = #{SVC_NM} 
+		AND MSS.METHOD = #{METHOD}
+		AND MSS.AUTHCHK='Y'
+		AND MSSR.ROLE_ID IN (
+							SELECT
+							    MSUR.ROLE_ID
+							FROM MM_MT_USER MMU, MM_SYS_USER_ROLE MSUR
+							WHERE MMU.USER_ID = MSUR.USER_ID
+							AND MSUR.ROLE_ID = MSSR.ROLE_ID 
+							AND MMU.USER_ID = #{GUSER_ID}
+							)
+	</select>
+</mapper>

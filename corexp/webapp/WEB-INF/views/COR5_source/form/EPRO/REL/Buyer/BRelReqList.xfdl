@@ -1,0 +1,498 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="BRelReqList" left="0" top="0" width="1220" height="768" titletext="출고등록" onload="FormOnload" oninit="FormOninit">
+    <Layouts>
+      <Layout>
+        <Tab id="Tab01" taborder="0" preload="true" left="0" top="5" right="0" bottom="0" tabindex="0" scrollbars="autoboth" cssclass="tab_default">
+          <Tabpages>
+            <Tabpage id="tabp01" text="출고요청작성" scrollbars="none" lbcd="" objNm="출고요청작성">
+              <Layouts>
+                <Layout width="1042" height="218">
+                  <Static id="staViewCompLine01" taborder="137" cssclass="sta_WF_Labelbg" left="-40" top="5" right="0" height="33"/>
+                  <Edit id="edtWriting" taborder="153" lengthunit="utf8" left="125" top="9" width="81" height="24" objNm="edtWriting"/>
+                  <Div id="div_2" taborder="156" left="0" top="49" right="3" height="30" scrollbars="none" objNm="DIV_품목타이">
+                    <Layouts>
+                      <Layout width="1202" height="622">
+                        <Static id="staViewCompTitle00" taborder="19" text="출고요청정보" cssclass="sta_WF_Subtitle" left="0" top="0" bottom="0" width="111" style="color:black;padding:0 0 2 17;"/>
+                      </Layout>
+                    </Layouts>
+                    <InitValue/>
+                  </Div>
+                  <Static id="staViewCompLine03" taborder="157" cssclass="sta_WF_Labelbg" left="0" top="88" right="0" height="33"/>
+                  <Calendar id="edtReqDate" taborder="158" dateformat="yyyy.MM.dd ddd" editformat="yyyy.MM.dd ddd" left="417" top="92" width="150" height="24" objNm="edtReqDate"/>
+                  <Static id="Static01" taborder="161" text="건" left="218" top="9" right="974" height="24" enable="true" style="color:black;"/>
+                  <Static id="Static02" taborder="162" text="건" left="464" top="9" right="727" height="24" style="color:black;"/>
+                  <Edit id="edtPos" taborder="164" lengthunit="utf8" left="373" top="9" width="81" height="24" objNm="edtPostulat"/>
+                  <Combo id="edtStr" taborder="168" innerdataset="dsCdCM91" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="124" top="92" width="150" height="24" positionstep="1" objNm="edtStr"/>
+                  <Div id="div_00" taborder="169" left="0" top="133" right="3" height="30" scrollbars="none" objNm="DIV_품목타이">
+                    <Layouts>
+                      <Layout width="1202" height="622">
+                        <Static id="staViewCompTitle00" taborder="0" text="품목정보" cssclass="sta_WF_Subtitle" left="0" top="0" bottom="0" width="111" style="color:black;padding:0 0 2 17;"/>
+                        <Button id="btn_Item_Search" taborder="1" text="+품목검색" onclick="fnSearchPrPre" cssclass="btn_WF_Add" top="3" right="62" bottom="3" width="100" style="background:#dfdfdfff;" lbcd="" objNm="이전요청검색"/>
+                        <Button id="btn_Itm_Del" taborder="2" text="- 삭제" onclick="Div3_btn_Itm_Del_onclick" cssclass="btn_WF_Delete" top="3" right="0" bottom="3" width="60" style="background:#dfdfdfff;" lbcd="" objNm="행삭제"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Grid id="grdList" taborder="170" autoenter="select" useinputpanel="false" selecttype="cell" cellsizingtype="col" cellmovingtype="col" left="0" top="173" right="0" bottom="0" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" objNm="품목그리드" autofittype="col" binddataset="dsItem">
+                    <Formats>
+                      <Format id="MMODE">
+                        <Columns>
+                          <Column size="43"/>
+                          <Column size="104"/>
+                          <Column size="371"/>
+                          <Column size="58"/>
+                          <Column size="99"/>
+                          <Column size="91"/>
+                          <Column size="87"/>
+                          <Column size="113"/>
+                          <Column size="118"/>
+                          <Column size="120"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="32" band="head"/>
+                          <Row size="27"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell displaytype="checkbox" edittype="checkbox"/>
+                          <Cell col="1" text="품목코드"/>
+                          <Cell col="2" text="품목명"/>
+                          <Cell col="3" text="단위"/>
+                          <Cell col="4" text="출고창고"/>
+                          <Cell col="5" text="현재고"/>
+                          <Cell col="6" text="출고대기"/>
+                          <Cell col="7" text="출고가능수량"/>
+                          <Cell col="8" text="요청수량"/>
+                          <Cell col="9" text="출고계정명"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED" maskchar=" " editdisplay="display" expandshow="hide"/>
+                          <Cell col="1" style="selectcolor:darkslateblue;" text="bind:MTRL_CD" tooltiptext="bind:MTRL_CD"/>
+                          <Cell col="2" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;selectcolor:darkslateblue;" cssclass="cell_link" text="bind:MTRL_NM2" tooltiptext="bind:DOC_NM"/>
+                          <Cell col="3" displaytype="combo" edittype="combo" text="bind:CD_PUR_UNIT" maskchar=" " combodataset="dsCdCM11" combocodecol="CD_ID" combodatacol="CD_NM_LO" tooltiptext="bind:CD_PUR_UNIT"/>
+                          <Cell col="4" displaytype="number" edittype="masknumber" style="align:right;color:royalblue;color2:royalblue;selectcolor:blue;selectfont:9 Dotum bold;" text="bind:OUT_STR_NM" editautoselect="true"/>
+                          <Cell col="5" displaytype="number" edittype="masknumber" style="align:right;color:salmon;color2:salmon;font:9 Dotum bold;selectcolor:fuchsia;selectfont:9 Dotum bold;" text="bind:STOCK_QTY" mask="#,##0.00" editautoselect="true"/>
+                          <Cell col="6" displaytype="number" style="align:right;background:#f5f5f5ff;background2:#f5f5f5ff;" text="bind:REQ_QTY" mask="#,##0" editautoselect="true"/>
+                          <Cell col="7" edittype="none" text="bind:RELEPOSS" expandshow="show" expandimage="URL('theme://images/btn_WF_Search.png')"/>
+                          <Cell col="8" displaytype="date" edittype="date" text="bind:REQ_QTY" mask="yyyy.MM.dd" editautoselect="true"/>
+                          <Cell col="9" edittype="text" style="align:left;" text="bind:OUT_ITEM_ACC_NM" editautoselect="true" expandshow="show" expandimage="URL('theme://images/btn_WF_Search.png')"/>
+                        </Band>
+                      </Format>
+                      <Format id="VMODE">
+                        <Columns>
+                          <Column size="104"/>
+                          <Column size="288"/>
+                          <Column size="58"/>
+                          <Column size="61"/>
+                          <Column size="122"/>
+                          <Column size="110"/>
+                          <Column size="124"/>
+                          <Column size="94"/>
+                          <Column size="120"/>
+                          <Column size="147"/>
+                          <Column size="71"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="32" band="head"/>
+                          <Row size="27"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="품목코드"/>
+                          <Cell col="1" text="품목명"/>
+                          <Cell col="2" text="단위"/>
+                          <Cell col="3" text="수량"/>
+                          <Cell col="4" text="예상단가"/>
+                          <Cell col="5" text="금액"/>
+                          <Cell col="6" text="입고부서"/>
+                          <Cell col="7" text="입고요청일"/>
+                          <Cell col="8" text="입고계정"/>
+                          <Cell col="9" text="비고"/>
+                          <Cell col="10" text="첨부파일"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="selectcolor:darkslateblue;" text="bind:MTRL_CD" tooltiptext="bind:MTRL_CD"/>
+                          <Cell col="1" edittype="none" style="align:left;selectcolor:darkslateblue;" cssclass="cell_link" text="bind:MTRL_NM" tooltiptext="bind:DOC_NM"/>
+                          <Cell col="2" displaytype="combo" edittype="none" text="bind:CD_UNIT" maskchar=" " combodataset="dsCdCM11" combocodecol="CD_ID" combodatacol="CD_NM_LO" tooltiptext="bind:CD_PUR_UNIT"/>
+                          <Cell col="3" displaytype="number" edittype="none" style="align:right;color:royalblue;color2:royalblue;selectcolor:blue;selectfont:9 Dotum bold;" text="bind:QTY"/>
+                          <Cell col="4" displaytype="number" edittype="none" style="align:right;color:salmon;color2:salmon;font:9 Dotum bold;selectcolor:fuchsia;selectfont:9 Dotum bold;" text="bind:REQ_PRICE" mask="#,##0.00" editautoselect="true"/>
+                          <Cell col="5" displaytype="number" edittype="none" style="align:right;" text="bind:REQ_AMT" mask="#,##0" editautoselect="true"/>
+                          <Cell col="6" edittype="none" text="bind:IN_STR_NM" expandshow="hide"/>
+                          <Cell col="7" displaytype="date" edittype="none" text="bind:DLV_REQ_DAY" mask="yyyy.MM.dd" editautoselect="true"/>
+                          <Cell col="8" edittype="none" style="align:left;" text="bind:GR_ACNT_NM" editautoselect="true" expandshow="hide"/>
+                          <Cell col="9" edittype="none" style="align:left;" text="bind:RMARK" editautoselect="true"/>
+                          <Cell col="10" displaytype="text" cssclass="cell_link" text="bind:ATTCH_FILE_CNT"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Static id="staPrNm" taborder="173" text="출고요청일" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="311" top="92" width="105" height="24" style="color:black;padding:0 10 0 6;align:right middle;" userdata="출고요청일"/>
+                  <Static id="staStr" taborder="174" text="입고창고" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="20" top="92" width="105" height="24" style="color:black;padding:0 10 0 6;align:right middle;" userdata="입고창고"/>
+                  <Static id="staWriting" taborder="175" text="작성중" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="20" top="9" width="105" height="24" style="color:green;padding:0 10 0 6;align:right middle;" objNm="작성중"/>
+                  <Static id="staPos" taborder="176" text="요청(품의중)" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="267" top="9" width="105" height="24" style="color:green;padding:0 10 0 6;align:right middle;" objNm="요청(품의중)"/>
+                  <Button id="Button00" taborder="177" text="출고품의요청" cssclass="btn_WF_SearchBtn" left="91.46%" top="9" right="0.33%" height="24" style="background:#888888ff;color:white;font:bold 10 malgun gothic;"/>
+                  <Div id="divPaging" taborder="178" url="CCOMP::CompPaging.xfdl" left="0" right="0" bottom="9" height="28" scrollbars="none" objNm="페이징"/>
+                </Layout>
+              </Layouts>
+              <InitValue>
+                <Grid id="grdList" left="0"/>
+              </InitValue>
+            </Tabpage>
+            <Tabpage id="tabp02" objNm="출고현황" text="출고현황">
+              <Layouts>
+                <Layout>
+                  <Div id="divViewCompCond00" taborder="0" left="0" top="0" right="0" height="36" style="align:center;" cssclass="div_WF_SearchBg">
+                    <Layouts>
+                      <Layout>
+                        <Edit id="edtAll" taborder="37" lengthunit="utf8" left="82" top="5" width="56" height="24" objNm="전체"/>
+                        <Edit id="edtPos" taborder="40" lengthunit="utf8" left="192" top="5" width="56" height="24" objNm="요청"/>
+                        <Edit id="edtReqEnd" taborder="42" lengthunit="utf8" left="325" top="5" width="56" height="24" objNm="출고완료"/>
+                        <Div id="divPrDt" taborder="43" url="CCOMP::CompCalFromTo.xfdl" text="Div01" left="571" top="6" width="301" height="24" objNm="출고요청일"/>
+                        <Static id="staAll" taborder="45" text="전체" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="0" top="6" width="82" height="24" style="color:green;padding:0 10 0 6;align:right middle;"/>
+                        <Static id="staPos" taborder="46" text="요청" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="111" top="6" width="82" height="24" style="color:green;padding:0 10 0 6;align:right middle;"/>
+                        <Static id="staReqEnd" taborder="47" text="출고완료" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="246" top="6" width="82" height="24" style="color:green;padding:0 10 0 6;align:right middle;"/>
+                        <Static id="staReqDate" taborder="48" text="출고요청일" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="470" top="6" width="99" height="24" style="padding:0 10 0 6;align:right middle;"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Div id="divViewCompCond01" taborder="1" left="0" top="35" right="0" height="88" cssclass="div_WF_SearchBg" objNm="">
+                    <Layouts>
+                      <Layout>
+                        <Static id="staOrderBy" taborder="91" text="정렬순서" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="0" top="34" width="105" height="24" style="color:black;padding:0 10 0 6;align:right middle;"/>
+                        <Div id="divOrderBy" taborder="92" url="CCOMP::CompOrderBy.xfdl" text="Div00" left="106" top="34" right="87" height="24" objNm="정렬순서"/>
+                        <Static id="staWarning" taborder="93" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="-1" top="67" height="19" right="0"/>
+                        <Static id="staMtrl00" taborder="99" text="출고창고" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="439" top="6" width="99" height="24" style="padding:0 10 0 6;align:right middle;"/>
+                        <Div id="divReqStr" taborder="100" text="Div01" left="544" top="6" right="417" height="24" url="CCOMP::ComSrchStr.xfdl" objNm="출고창고"/>
+                        <Static id="staMtrl01" taborder="101" text="입고창고" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="773" top="6" width="99" height="24" style="padding:0 10 0 6;align:right middle;"/>
+                        <Div id="divPutStr" taborder="102" url="CCOMP::ComSrchStr.xfdl" text="Div01" left="882" top="6" right="78" height="24" objNm="입고창고"/>
+                        <Static id="staPrNm00" taborder="103" text="품목" onclick="Div_SOption_sta_WFDA_Label04_onclick" cssclass="sta_WF_SearchLabel" left="0" top="6" width="105" height="24" style="color:black;padding:0 10 0 6;align:right middle;"/>
+                        <Div id="divMtrl" taborder="104" url="CCOMP::ComSrchMtrl.xfdl" text="Div01" left="106" top="6" right="748" height="24" objNm="품목"/>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Button id="btnFold" taborder="2" onclick="btnFold_onclick" cssclass="btn_Fold_Close" left="45.65%" top="122" width="56" height="17"/>
+                  <Grid id="grdList" taborder="3" binddataset="dsItem" autoenter="select" useinputpanel="false" selecttype="cell" cellsizingtype="col" cellmovingtype="col" autofittype="col" left="0" top="177" right="0" bottom="9" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" objNm="품목그리드">
+                    <Formats>
+                      <Format id="MMODE">
+                        <Columns>
+                          <Column size="43"/>
+                          <Column size="104"/>
+                          <Column size="288"/>
+                          <Column size="89"/>
+                          <Column size="119"/>
+                          <Column size="114"/>
+                          <Column size="72"/>
+                          <Column size="70"/>
+                          <Column size="87"/>
+                          <Column size="83"/>
+                          <Column size="47"/>
+                          <Column size="77"/>
+                          <Column size="160"/>
+                          <Column size="107"/>
+                          <Column size="85"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="32" band="head"/>
+                          <Row size="27"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell displaytype="checkbox" edittype="checkbox"/>
+                          <Cell col="1" text="품목번호"/>
+                          <Cell col="2" text="품목명"/>
+                          <Cell col="3" text="출고요청일"/>
+                          <Cell col="4" text="출고창고명"/>
+                          <Cell col="5" text="입고창고명"/>
+                          <Cell col="6" text="요청수량"/>
+                          <Cell col="7" text="출고수량"/>
+                          <Cell col="8" text="출고담당자"/>
+                          <Cell col="9" text="출고완료일"/>
+                          <Cell col="10" text="단위"/>
+                          <Cell col="11" text="단가"/>
+                          <Cell col="12" text="품목분류"/>
+                          <Cell col="13" text="출고계정명"/>
+                          <Cell col="14" text="상태"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED" maskchar=" " editdisplay="display" expandshow="hide"/>
+                          <Cell col="1" style="selectcolor:darkslateblue;" text="bind:MTRL_CD" tooltiptext="bind:MTRL_CD"/>
+                          <Cell col="2" style="align:left;background:#f5f5f5ff;background2:#f5f5f5ff;selectcolor:darkslateblue;" cssclass="cell_link" text="bind:MTRL_NM2" tooltiptext="bind:DOC_NM"/>
+                          <Cell col="3" displaytype="combo" edittype="combo" text="bind:CRT_DT" maskchar=" " combodataset="dsCdCM11" combocodecol="CD_ID" combodatacol="CD_NM_LO" tooltiptext="bind:CD_PUR_UNIT"/>
+                          <Cell col="4" displaytype="number" edittype="masknumber" style="align:right;color:royalblue;color2:royalblue;selectcolor:blue;selectfont:9 Dotum bold;" text="bind:OUT_STR_NM" editautoselect="true"/>
+                          <Cell col="5"/>
+                          <Cell col="6" text="bind:CFM_QTY"/>
+                          <Cell col="7" text="bind:REQ_QTY"/>
+                          <Cell col="8"/>
+                          <Cell col="9" text="bind:LAST_CHG_DT"/>
+                          <Cell col="10"/>
+                          <Cell col="11"/>
+                          <Cell col="12"/>
+                          <Cell col="13" text="bind:OUT_ITEM_ACC_NM"/>
+                          <Cell col="14"/>
+                        </Band>
+                      </Format>
+                      <Format id="VMODE">
+                        <Columns>
+                          <Column size="104"/>
+                          <Column size="288"/>
+                          <Column size="58"/>
+                          <Column size="61"/>
+                          <Column size="122"/>
+                          <Column size="110"/>
+                          <Column size="124"/>
+                          <Column size="94"/>
+                          <Column size="120"/>
+                          <Column size="147"/>
+                          <Column size="71"/>
+                        </Columns>
+                        <Rows>
+                          <Row size="32" band="head"/>
+                          <Row size="27"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell text="품목코드"/>
+                          <Cell col="1" text="품목명"/>
+                          <Cell col="2" text="단위"/>
+                          <Cell col="3" text="수량"/>
+                          <Cell col="4" text="예상단가"/>
+                          <Cell col="5" text="금액"/>
+                          <Cell col="6" text="입고부서"/>
+                          <Cell col="7" text="입고요청일"/>
+                          <Cell col="8" text="입고계정"/>
+                          <Cell col="9" text="비고"/>
+                          <Cell col="10" text="첨부파일"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="selectcolor:darkslateblue;" text="bind:MTRL_CD" tooltiptext="bind:MTRL_CD"/>
+                          <Cell col="1" edittype="none" style="align:left;selectcolor:darkslateblue;" cssclass="cell_link" text="bind:MTRL_NM" tooltiptext="bind:DOC_NM"/>
+                          <Cell col="2" displaytype="combo" edittype="none" text="bind:CD_UNIT" maskchar=" " combodataset="dsCdCM11" combocodecol="CD_ID" combodatacol="CD_NM_LO" tooltiptext="bind:CD_PUR_UNIT"/>
+                          <Cell col="3" displaytype="number" edittype="none" style="align:right;color:royalblue;color2:royalblue;selectcolor:blue;selectfont:9 Dotum bold;" text="bind:QTY"/>
+                          <Cell col="4" displaytype="number" edittype="none" style="align:right;color:salmon;color2:salmon;font:9 Dotum bold;selectcolor:fuchsia;selectfont:9 Dotum bold;" text="bind:REQ_PRICE" mask="#,##0.00" editautoselect="true"/>
+                          <Cell col="5" displaytype="number" edittype="none" style="align:right;" text="bind:REQ_AMT" mask="#,##0" editautoselect="true"/>
+                          <Cell col="6" edittype="none" text="bind:IN_STR_NM" expandshow="hide"/>
+                          <Cell col="7" displaytype="date" edittype="none" text="bind:DLV_REQ_DAY" mask="yyyy.MM.dd" editautoselect="true"/>
+                          <Cell col="8" edittype="none" style="align:left;" text="bind:GR_ACNT_NM" editautoselect="true" expandshow="hide"/>
+                          <Cell col="9" edittype="none" style="align:left;" text="bind:RMARK" editautoselect="true"/>
+                          <Cell col="10" displaytype="text" cssclass="cell_link" text="bind:ATTCH_FILE_CNT"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Div id="div_2" taborder="4" left="0" top="145" right="3" height="30" scrollbars="none" objNm="DIV_품목타이">
+                    <Layouts>
+                      <Layout width="1202" height="622">
+                        <Button id="btnCancel" taborder="18" text="취소" onclick="Div3_btn_Itm_Del_onclick" cssclass="btn_WF_Delete" top="3" right="1" bottom="3" width="60" style="background:#dfdfdfff;color:black;" lbcd="" objNm="행삭제"/>
+                      </Layout>
+                    </Layouts>
+                    <InitValue/>
+                  </Div>
+                  <Div id="divPaging" taborder="5" url="CCOMP::CompPaging.xfdl" left="0" right="0" bottom="9" height="28" scrollbars="none" objNm="페이징"/>
+                </Layout>
+              </Layouts>
+              <InitValue>
+                <Grid id="grdList" left="0"/>
+              </InitValue>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item23" compid="Tab01.tabp02.div_2.btnCancel" propid="enable" datasetid="dsObjBindEn" columnid="btn_Itm_Del"/>
+      <BindItem id="item19" compid="Tab01.tabp02.div_2.btnCancel" propid="visible" datasetid="dsObjBindVi" columnid=""/>
+      <BindItem id="Static01Vi" compid="Static01" propid="visible" datasetid="dsObjBindVi" columnid="Static01"/>
+      <BindItem id="Static01En" compid="Static01" propid="enable" datasetid="dsObjBindEn" columnid="Static01"/>
+      <BindItem id="staPrNmVi" compid="divViewCompCond01.staPrNm" propid="visible" datasetid="dsObjBindVi" columnid="staPrNm"/>
+      <BindItem id="staPrNmEn" compid="divViewCompCond01.staPrNm" propid="enable" datasetid="dsObjBindEn" columnid="staPrNm"/>
+      <BindItem id="Div00Vi" compid="divViewCompCond01.Div00" propid="visible" datasetid="dsObjBindVi" columnid="Div00"/>
+      <BindItem id="Div00En" compid="divViewCompCond01.Div00" propid="enable" datasetid="dsObjBindEn" columnid="Div00"/>
+      <BindItem id="chkMtrlVi" compid="divViewCompCond01.chkMtrl" propid="visible" datasetid="dsObjBindVi" columnid="chkMtrl"/>
+      <BindItem id="chkMtrlEn" compid="divViewCompCond01.chkMtrl" propid="readonly" datasetid="dsObjBindEn" columnid="chkMtrl"/>
+      <BindItem id="staMtrlVi" compid="divViewCompCond01.staMtrl" propid="visible" datasetid="dsObjBindVi" columnid="staMtrl"/>
+      <BindItem id="staMtrlEn" compid="divViewCompCond01.staMtrl" propid="enable" datasetid="dsObjBindEn" columnid="staMtrl"/>
+      <BindItem id="staStrNmVi" compid="divViewCompCond00.staStrNm" propid="visible" datasetid="dsObjBindVi" columnid="staStrNm"/>
+      <BindItem id="staStrNmEn" compid="divViewCompCond00.staStrNm" propid="enable" datasetid="dsObjBindEn" columnid="staStrNm"/>
+      <BindItem id="staMtrlNmVi" compid="divViewCompCond00.staMtrlNm" propid="visible" datasetid="dsObjBindVi" columnid="staMtrlNm"/>
+      <BindItem id="staMtrlNmEn" compid="divViewCompCond00.staMtrlNm" propid="enable" datasetid="dsObjBindEn" columnid="staMtrlNm"/>
+      <BindItem id="staMtrlTypeVi" compid="divViewCompCond00.staMtrlType" propid="visible" datasetid="dsObjBindVi" columnid="staMtrlType"/>
+      <BindItem id="staMtrlTypeEn" compid="divViewCompCond00.staMtrlType" propid="enable" datasetid="dsObjBindEn" columnid="staMtrlType"/>
+      <BindItem id="divMtrlTypeVi" compid="divViewCompCond00.divMtrlType" propid="visible" datasetid="dsObjBindVi" columnid="divMtrlType"/>
+      <BindItem id="divMtrlTypeEn" compid="divViewCompCond00.divMtrlType" propid="enable" datasetid="dsObjBindEn" columnid="divMtrlType"/>
+      <BindItem id="divStrVi" compid="divViewCompCond00.divStr" propid="visible" datasetid="dsObjBindVi" columnid="divStr"/>
+      <BindItem id="divStrEn" compid="divViewCompCond00.divStr" propid="enable" datasetid="dsObjBindEn" columnid="divStr"/>
+      <BindItem id="divMtrlVi" compid="divViewCompCond00.divMtrl" propid="visible" datasetid="dsObjBindVi" columnid="divMtrl"/>
+      <BindItem id="divMtrlEn" compid="divViewCompCond00.divMtrl" propid="enable" datasetid="dsObjBindEn" columnid="divMtrl"/>
+      <BindItem id="btnFoldVi" compid="btnFold" propid="visible" datasetid="dsObjBindVi" columnid="btnFold"/>
+      <BindItem id="btnFoldEn" compid="btnFold" propid="enable" datasetid="dsObjBindEn" columnid="btnFold"/>
+      <BindItem id="divPagingVi" compid="divViewCompBody00.divPaging" propid="visible" datasetid="dsObjBindVi" columnid="divPaging"/>
+      <BindItem id="divPagingEn" compid="divViewCompBody00.divPaging" propid="enable" datasetid="dsObjBindEn" columnid="divPaging"/>
+      <BindItem id="item0" compid="Tab01.tabp01.edtWriting" propid="value" datasetid="dsCnt" columnid="TMP"/>
+      <BindItem id="item1" compid="Tab01.tabp01.edtPos" propid="value" datasetid="dsCnt" columnid="APP"/>
+    </Bind>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsReturn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="SRCH_MTRL_CD" type="STRING" size="40"/>
+          <Column id="SRCH_MTRL_NM" type="STRING" size="400"/>
+          <Column id="SRCH_STR_CD" type="STRING" size="40"/>
+          <Column id="SRCH_STR_NM" type="STRING" size="400"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="SRCH_REQ_DAY_STR" type="STRING" size="256"/>
+          <Column id="SRCH_REQ_DAY_END" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="GI_REQ_NO" type="STRING" size="256"/>
+          <Column id="CD_GI_STTS" type="STRING" size="256"/>
+          <Column id="TTL" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsItem">
+        <ColumnInfo>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="GI_REQ_ITEM_NO" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="GI_REQ_NO" type="STRING" size="256"/>
+          <Column id="OUT_STR_CD" type="STRING" size="256"/>
+          <Column id="OUT_STR_NM" type="STRING" size="256"/>
+          <Column id="GI_REQ_YMD" type="STRING" size="256"/>
+          <Column id="GI_CFM_YMD" type="STRING" size="256"/>
+          <Column id="GI_CFMR_ID" type="STRING" size="256"/>
+          <Column id="CD_GI_RI_STTS" type="STRING" size="256"/>
+          <Column id="OUT_ITEM_ACC" type="STRING" size="256"/>
+          <Column id="OUT_ITEM_ACC_NM" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM2" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="REQ_QTY" type="STRING" size="256"/>
+          <Column id="CFM_QTY" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="CRT_DT" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+          <Column id="LAST_CHG_DT" type="STRING" size="256"/>
+          <Column id="STOCK_QTY" type="STRING" size="256"/>
+          <Column id="MOVE_REQ_QTY" type="STRING" size="256"/>
+          <Column id="RELEPOSS" type="STRING" size="256"/>
+          <Column id="UNT_PRICE" type="STRING" size="256"/>
+          <Column id="CD_PUR_UNIT" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCnt">
+        <ColumnInfo>
+          <Column id="TMP" type="STRING" size="256"/>
+          <Column id="APP" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsHeader">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="GI_REQ_NO" type="STRING" size="256"/>
+          <Column id="IN_STR_CD" type="STRING" size="256"/>
+          <Column id="IN_STR_NM" type="STRING" size="256"/>
+          <Column id="CD_GI_STTS" type="STRING" size="256"/>
+          <Column id="GI_REQR_ID" type="STRING" size="256"/>
+          <Column id="GI_REQR_NM" type="STRING" size="256"/>
+          <Column id="GI_REQ_YMD" type="STRING" size="256"/>
+          <Column id="CRTR_ID" type="STRING" size="256"/>
+          <Column id="LAST_CHGR_ID" type="STRING" size="256"/>
+          <Column id="APP_DOC_ID" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.Tab01.tabp02.btnFold, body:this.Tab01.tabp02.divViewCompCond01,initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+this.FormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetObj("A");
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(
+				this.Tab01.tabp01.grdList
+				,this.Tab01.tabp01.grdPaging
+				,this,{isTran:"Y", tranNm:"BRelService.reqList", dsParam:this.dsCondition}
+				);
+ 	
+ 	this.Tab01.tabp02.divViewCompCond01.divMtrl.fnSet(this.dsCondition		, "SRCH_MTRL_CD", "SRCH_MTRL_NM");
+ 	this.Tab01.tabp02.divViewCompCond01.divReqStr.fnSet(this.dsCondition		, "SRCH_STR_CD", "SRCH_STR_NM");
+ 	this.Tab01.tabp02.divViewCompCond01.divPutStr.fnSet(this.dsCondition		, "SRCH_STR_CD", "SRCH_STR_NM");
+ 	this.Tab01.tabp02.divViewCompCond00.divPrDt.fnSetDate(this.dsCondition	, "SRCH_REQ_DAY_STR", "SRCH_REQ_DAY_END");
+
+ 	
+ 	this.fnSearch();
+ 	
+	this.fnFold();		//조회조건 Div 접기/펼치기 세팅
+}
+
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function(svcId)
+{
+	
+	var sSvcID = "reqList";
+	var sController = "epro.rel.service.BRelService.reqList";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsItem=dsItem dsCnt=dsCnt";
+	var sCallbackFunc = "fnTrCallBack";
+		
+ 	var	oPaging = [      
+                    {inDs:this.dsCondition, grid:this.Tab01.tabp02.grdList, divPaging:this.Tab01.tabp02.divPaging}
+                ];
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "reqList" :
+		break;
+		 
+		default:
+		break;	
+	}
+}]]></Script>
+  </Form>
+</FDL>

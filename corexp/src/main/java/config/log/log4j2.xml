@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+<!-- 
+%P debug, info, warn, error, fatal 등 priority 출력
+%m  로그 내용 출력 
+%d  발생 시간 출력  
+%t  발생 쓰레드의 이름 출력 
+%n  개행 문자 출력 
+%c  패키지 출력 / {숫자} 를 이용하여 단계별 출력, ex) %x{5} 
+%C  클래스 명 출력 / {숫자} 를 이용하여 단계별 출력, ex) %x{5}   
+%F  프로그램 파일 명 출력 
+%I  로깅이 발생한 caller 의 정보 출력 
+%L  로깅이 발생한 caller 의 라인 수 출력 
+%M  로깅이 발생한 method 명 출력 
+%r  애플리케이션 시작 이후 로깅이 발생한 시점의 시간 출력(millisecond) 
+%x  NDC 에 저장된 내용 출력 
+%X  MDC 에 저장된 내용 출력
+ --> 
+        <properties>
+                <property name="pattern">[%d][%p] - %m%n</property>
+        </properties>
+
+        <appenders>
+                <Console name="console" target="SYSTEM_OUT">
+                        <PatternLayout pattern="${pattern}"/>
+                </Console>
+                <RollingFile name="file" fileName="D:/00.Project/Cors19/logs/cors.log"
+                                 filePattern="D:/00.Project/Cors19/logs/$${date:yyyy}/$${date:MM}/cors.log.%d{yyyy-MM-dd}.log">
+                        <PatternLayout>
+                                <pattern>${pattern}</pattern>
+                        </PatternLayout>
+                        <Policies>
+                                <TimeBasedTriggeringPolicy />
+                        </Policies>
+                </RollingFile>
+        </appenders>
+
+        <loggers>
+			<!-- 안떠도 되는 애들은 level을 다르게 적용함. -->
+			<logger name="org.springframework" level="error" additivity="false">
+				<appender-ref ref="console" />
+			</logger>
+			<logger name="org.apache.ibatis" level="error" additivity="false">
+				<appender-ref ref="console" />
+			</logger>
+			<logger name="com.nexacro.xapi" level="info">
+				<appender-ref ref="console" />
+			</logger>
+			<logger name="org.apache.ibatis.session" level="INFO" additivity="false">
+				<appender-ref ref="console" />
+			</logger>
+			<logger name="java.sql.ResultSet" level="ERROR" additivity="false">
+				<appender-ref ref="console" />
+			</logger>
+			<logger name="org.quartz.core.QuartzSchedulerThread" level="error" additivity="false">
+				<appender-ref ref="console" />
+			</logger>
+			<!-- 공통으로 적용되는 로그 -->
+			<root level="debug">
+				<appender-ref ref="console"/>
+				<appender-ref ref="file"/>
+			</root>
+
+        </loggers>
+</configuration>
+

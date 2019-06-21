@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" height="24" id="CompSrchUser" left="0" titletext="AddOn-협력사검색" top="0" width="263">
+    <Layouts>
+      <Layout>
+        <Edit id="edtComPtnrId" taborder="0" lengthunit="utf8" maxlength="10" enable="false" left="0" top="0" width="98" height="24" style=":disabled {color:black;align:center middle;}" objNm="협력사ID"/>
+        <Edit id="edtComPtnrNm" taborder="1" lengthunit="utf8" onkeydown="fnOnkeydownEvent" left="101" top="0" width="118" height="24" objNm="협력사명"/>
+        <Button id="btnPtnrSrch" taborder="2" onclick="fnComPtnrSrch" cssclass="btn_WF_SearchSmall" left="220" top="0" width="24" height="24" objNm="협력사검색 버튼"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsComReturn"/>
+    </Objects>
+    <Bind/>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       ComSrchPtnr.xfdl
+   @desc       협력사검색 컴포넌트
+   @author     배열
+   @makedate   2019.06.03
+   @history    
+*/
+
+/**
+  * @함수명	: fnSetDate
+  * @input    	: objDs:Dataset(데이터셋 오브젝트), sFromDtCol(from 날짜), sToDtCol(to 날짜)
+  * @desc     	: 데이터셋 입력된 날짜를 바인딩
+  */
+this.fnSet = function(objDs:Dataset, sFromDtCol, sToDtCol)
+{
+	this.removeChild("Bind01");
+	this.removeChild("Bind02");
+	var objBindItem = new BindItem("Bind01", "edtComPtnrId", "value", objDs.name,sFromDtCol);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	var objBindItem = new BindItem("Bind02", "edtComPtnrNm", "value", objDs.name,sToDtCol);
+	this.addChild("Bind02", objBindItem);
+	objBindItem.bind();
+}
+
+
+
+
+
+this.fnOnkeydownEvent = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	
+	if(e.keycode == "13"){
+		this.fnComPtnrSrch();
+	}else if(e.keycode == "8"){
+		this.edtComPtnrId.set_value("");
+	}
+	
+}
+
+this.fnComPtnrSrch = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+				agv_id 	: this.edtComPtnrId.value
+				,agv_nm : this.edtComPtnrNm.value
+				};
+	gfnModalPop(this, "comPtnrSrch", "CPOP::BPtnrSrchPopup.xfdl", sArg, "fnPopCallBack", 900, 500);
+}
+
+/**
+	@function	fn_popCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+	
+	if(rtn.indexOf("<Dataset id=") == 0){
+		
+		this.dsComReturn.loadXML(rtn);
+		
+		//요청창고 검색 CallBack
+		if(sPopupId == "comPtnrSrch"){
+			
+			this.edtComPtnrId.set_value(this.dsComReturn.getColumn(0,"PTNR_ID"));
+			this.edtComPtnrNm.set_value(this.dsComReturn.getColumn(0,"PTNR_NM"));
+			
+		}
+		
+	}
+}
+
+ 
+]]></Script>
+  </Form>
+</FDL>

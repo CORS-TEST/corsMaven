@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="pop_docType" classname="TabPage_Multiline_0" inheritanceid="" position="absolute" titletext="계약템플릿팝업" left="0" width="995" top="0" height="930" cssclass="frm_POP_Search" onload="FormOnload">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompBody05" taborder="0" text="Div00" left="1%" top="46" right="9" scrollbars="none" bottom="10" url="CCOMP::ComEditor.xfdl"/>
+        <Div id="divViewCompTitle04" taborder="1" left="7" top="14" right="3" height="24" objNm="DIV-품목정보 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle01" taborder="0" text="계약내용" cssclass="sta_WF_Subtitle" left="0" top="0" width="255" height="24" objNm="품목정보타이틀"/>
+              <Button id="btnCntrTmpltOk" taborder="1" text="완료" cssclass="btn_WF_Module" top="0" width="65" height="24" objNm="품목추가버튼" onclick="fnBtnCntrTmpltOkOnClick" right="10"/>
+              <Button id="btnCntrTmpltOk00" taborder="2" text="초기화" onclick="fnReload" cssclass="btn_WF_Module" top="0" width="65" height="24" objNm="품목추가버튼" right="79"/>
+              <Button id="btnCntrTmpltOk01" taborder="3" text="전체화면" onclick="Button00_onclick" cssclass="btn_WF_Module" top="0" right="148" width="65" height="24" objNm="품목추가버튼"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCntrTmplt">
+        <ColumnInfo>
+          <Column id="CNTR_NO" type="STRING" size="256"/>
+          <Column id="CNTR_ORDR" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="CONTENT" type="STRING" size="4000"/>
+          <Column id="CNTR_TMPLT_NO" type="STRING" size="256"/>
+          <Column id="ALT_RELOAD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="btnRfqMtrlAddVi" compid="divViewCompTitle04.btnCntrTmpltOk" propid="visible" datasetid="dsObjBindVi" columnid="btnRfqMtrlAdd"/>
+      <BindItem id="btnRfqMtrlAddEn" compid="divViewCompTitle04.btnCntrTmpltOk" propid="enable" datasetid="dsObjBindEn" columnid="btnRfqMtrlAdd"/>
+      <BindItem id="item0" compid="divViewCompTitle04.btnCntrTmpltOk00" propid="visible" datasetid="dsObjBindVi" columnid="btnRfqMtrlAdd"/>
+      <BindItem id="item1" compid="divViewCompTitle04.btnCntrTmpltOk00" propid="enable" datasetid="dsObjBindEn" columnid="btnRfqMtrlAdd"/>
+      <BindItem id="item2" compid="divViewCompTitle04.btnCntrTmpltOk01" propid="visible" datasetid="dsObjBindVi" columnid="btnRfqMtrlAdd"/>
+      <BindItem id="item3" compid="divViewCompTitle04.btnCntrTmpltOk01" propid="enable" datasetid="dsObjBindEn" columnid="btnRfqMtrlAdd"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/***************************************************************************
+ * Program ID    : BCntrTmpltPopup.xfdl
+ * Program Name  : 계약템플릿 팝업
+ * Author        : 안성민
+ * Created On    : 2019.03.15
+**************************************************************************/
+this.popTitle = "미리보기"
+var mode = "";
+
+
+this.fv_top = ''
+this.fv_left = ''
+this.fv_width = ''
+this.fv_height = ''
+
+this.FormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fv_top = this.parent.parent.top;
+	this.fv_left = this.parent.parent.left;
+	this.fv_width = this.parent.parent.width;
+	this.fv_height = this.parent.parent.height;
+
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsCntrTmplt.setColumn(0,"BRANCH_CD",ownFrame.agv_branchCd);
+	this.dsCntrTmplt.setColumn(0,"CNTR_NO",ownFrame.agv_no);
+	this.dsCntrTmplt.setColumn(0,"CNTR_ORDR",ownFrame.agv_ordr);
+	this.dsCntrTmplt.setColumn(0,"CONTENT",ownFrame.agv_content);
+	this.dsCntrTmplt.setColumn(0,"CNTR_TMPLT_NO",ownFrame.agv_tmpltNo);
+	
+	this.fnSearch();	
+	
+}
+
+this.fnSearch = function()
+{	
+    var sSvcID = "selectCntrTemplatePop";
+	var sController = "epro.cntr.service.BCntrService.selectCntrTemplatePop";
+	var sInDatasets = "dsCntrTmplt=dsCntrTmplt";
+	var sOutDatasets = "dsCntrTmplt=dsCntrTmplt";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnReload = function()
+{
+	this.dsCntrTmplt.setColumn(0,"ALT_RELOAD","Y");
+	this.fnSearch();
+//     var sSvcID = "selectCntrTemplateReload";
+// 	var sController = "epro.cntr.service.BCntrService.selectCntrTemplateReload";
+// 	var sInDatasets = "dsCntrTmplt=dsCntrTmplt";
+// 	var sOutDatasets = "dsCntrTmplt=dsCntrTmplt";
+// 	var sCallbackFunc = "fnTrCallBack";
+// 		  
+//     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnSave = function()
+{	
+    var sSvcID = "saveCntrTemplateCmplt";
+	var sController = "epro.cntr.service.BCntrService.saveCntrCntnt";
+	var sInDatasets = "dsCntrTmplt=dsCntrTmplt";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+		  
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "selectCntrTemplateReload" :
+			this.divViewCompBody05.fnEditorInit(this.dsCntrTmplt.getColumn(0,"CONTENT"));
+			break;
+		case "selectCntrTemplatePop" :
+			this.divViewCompBody05.fnEditorInit(this.dsCntrTmplt.getColumn(0,"CONTENT"));
+			break;
+
+		case "saveCntrTemplateCmplt":
+			this.fnClose();
+			break;
+		default:
+			break;	
+	}
+}
+
+this.fnClose = function() 
+{
+	this.parent.close(this.dsCntrTmplt.saveXML());
+}
+
+this.fnBtnCntrTmpltOkOnClick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.divViewCompBody05.getContent(this.dsCntrTmplt, 0, "CONTENT", "fnSave");
+}
+
+var fullscreen = "N"
+this.Button00_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+
+	if("N" == fullscreen) {
+		this.parent.parent.set_top(0)
+		this.parent.parent.set_left(0)
+		this.parent.parent.set_width(application.gv_mainframe.width)
+		this.parent.parent.set_height(application.gv_mainframe.height)
+		fullscreen = "Y"
+	} else {
+		this.parent.parent.set_top(this.fv_top)
+		this.parent.parent.set_left(this.fv_left)
+		this.parent.parent.set_width(this.fv_width)
+		this.parent.parent.set_height(this.fv_height)
+		fullscreen = "N"
+	}	
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\default_typedef.xml"/>
+  <Form id="BundlePop" classname="frmSearchCond" left="0" top="0" width="1200" height="769" titletext="공통팝업모음" onload="fnFormOnload">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompBody01" taborder="95" left="428" top="23" width="300" height="169" cssclass="div_WF_DetailBg">
+          <Layouts>
+            <Layout>
+              <Static id="staViewCompLine02" taborder="48" cssclass="sta_WF_Labelbg" left="0" top="31" right="0" height="33"/>
+              <Static id="staViewCompLine01" taborder="26" cssclass="sta_WF_Labelbg" left="0" top="-1" right="0" height="33"/>
+              <Static id="staMultyPop01" taborder="31" text="업체검색" cssclass="sta_WF_Label" left="0" top="-1" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnMultyPop01" taborder="41" text="업체검색" cssclass="btn_WF_Module" top="5" width="74" height="21" objNm="견적요청참조 버튼" lbcd="" left="105"/>
+              <Static id="staMultyPop02" taborder="46" text="품목검색" cssclass="sta_WF_Label" left="0" top="31" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnMultyPop02" taborder="47" text="품목검색" cssclass="btn_WF_Module" left="105" top="37" width="74" height="21" objNm="견적요청참조 버튼" lbcd="" onclick="fnSearchMultyItem"/>
+              <Static id="staViewCompLine00" taborder="49" cssclass="sta_WF_Labelbg" left="0" top="63" right="0" height="33"/>
+              <Static id="staMultyPop00" taborder="50" text="품목검색(PR)" cssclass="sta_WF_Label" left="0" top="63" width="100" height="33" lbcd="TTL_TOT_AMT"/>
+              <Edit id="edtMultyPopNm01" taborder="51" lengthunit="utf8" onkeyup="fnOnkeyup" ontextchanged="fnOnTextChanged" left="105" top="68" width="150" height="23" objNm="구매요청자명"/>
+              <Button id="btnSinglePop01" taborder="52" cssclass="btn_WF_SearchSmall" left="231" top="68" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSearchPrItem"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody00" left="-2" top="23" width="370" height="369" cssclass="div_WF_DetailBg">
+          <Layouts>
+            <Layout>
+              <Static id="staViewCompLine00" taborder="5" cssclass="sta_WF_Labelbg" left="0" top="-1" right="0" height="33"/>
+              <Static id="staViewCompLine01" taborder="6" cssclass="sta_WF_Labelbg" left="0" top="31" right="0" height="33"/>
+              <Static id="staViewCompLine02" taborder="7" cssclass="sta_WF_Labelbg" left="0" top="63" right="0" height="33"/>
+              <Static id="staViewCompLine03" taborder="8" cssclass="sta_WF_Labelbg" left="0" top="95" right="0" height="33"/>
+              <Static id="staViewCompLine04" taborder="9" cssclass="sta_WF_Labelbg" left="0" top="127" right="0" height="33"/>
+              <Static id="staSinglePop00" taborder="0" text="담당자검색" cssclass="sta_WF_Label" left="0" top="-1" width="100" height="33"/>
+              <Static id="staSinglePop01" taborder="1" text="창고검색" cssclass="sta_WF_Label" left="0" top="31" width="100" height="33"/>
+              <Static id="staSinglePop02" taborder="2" text="협력사검색" cssclass="sta_WF_Label" left="0" top="63" width="100" height="33" tooltiptext="거래중지포함"/>
+              <Static id="staSinglePop03" taborder="3" text="계정검색" cssclass="sta_WF_Label" left="0" top="95" width="100" height="33"/>
+              <Static id="staSinglePop04" taborder="4" text="품목검색" cssclass="sta_WF_Label" left="0" top="127" width="100" height="33"/>
+              <Edit id="edtSinglePopId02" taborder="16" enable="false" left="105" top="68" width="100" height="23" style=":disabled {align:center middle;}" objNm="구매요청자ID" cssclass="readonly"/>
+              <Edit id="edtSinglePopNm02" taborder="17" lengthunit="utf8" left="207" top="68" width="150" height="23" objNm="구매요청자명" onkeydown="fnOnkeyup" ontextchanged="fnOnTextChanged"/>
+              <Button id="btnSinglePop02" taborder="18" cssclass="btn_WF_SearchSmall" left="333" top="68" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSrchPtnrSingle"/>
+              <Edit id="edtSinglePopId03" taborder="19" enable="false" left="105" top="100" width="100" height="23" style=":disabled {align:center middle;}" objNm="구매요청자ID" cssclass="readonly"/>
+              <Edit id="edtSinglePopNm03" taborder="20" lengthunit="utf8" left="207" top="100" width="150" height="23" objNm="구매요청자명" onkeyup="fnOnkeyup" ontextchanged="fnOnTextChanged"/>
+              <Button id="btnSinglePop03" taborder="21" cssclass="btn_WF_SearchSmall" left="333" top="100" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSrchAcntSingle"/>
+              <Edit id="edtSinglePopId04" taborder="22" enable="false" left="105" top="132" width="100" height="23" style=":disabled {align:center middle;}" objNm="구매요청자ID" cssclass="readonly"/>
+              <Edit id="edtSinglePopNm04" taborder="23" lengthunit="utf8" left="207" top="132" width="150" height="23" objNm="구매요청자명" onkeyup="fnOnkeyup" ontextchanged="fnOnTextChanged"/>
+              <Button id="btnSinglePop04" taborder="24" cssclass="btn_WF_SearchSmall" left="333" top="132" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSearchItem"/>
+              <Edit id="edtSinglePopId01" taborder="25" cssclass="readonly" enable="false" left="105" top="36" width="100" height="23" style=":disabled {align:center middle;}" objNm="구매요청자ID"/>
+              <Edit id="edtSinglePopNm01" taborder="26" lengthunit="utf8" left="207" top="36" width="150" height="23" objNm="구매요청자명" onkeydown="fnOnkeyup" ontextchanged="fnOnTextChanged"/>
+              <Button id="btnSinglePop01" taborder="27" cssclass="btn_WF_SearchSmall" left="333" top="36" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSrchSlSingle"/>
+              <Edit id="edtSinglePopId00" taborder="28" cssclass="readonly" enable="false" left="105" top="4" width="100" height="23" style=":disabled {align:center middle;}" objNm="구매요청자ID"/>
+              <Edit id="edtSinglePopNm00" taborder="29" lengthunit="utf8" left="207" top="4" width="150" height="23" objNm="구매요청자명" onkeydown="fnOnkeyup" ontextchanged="fnOnTextChanged"/>
+              <Button id="btnSinglePop00" taborder="30" cssclass="btn_WF_SearchSmall" left="333" top="4" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSrchUserSingle"/>
+              <Static id="staViewCompLine05" taborder="32" cssclass="sta_WF_Labelbg" left="0" top="159" right="0" height="33"/>
+              <Static id="staSinglePop05" taborder="31" text="운영단위" cssclass="sta_WF_Label" left="0" top="159" width="100" height="33"/>
+              <Edit id="edtSinglePopId05" taborder="36" cssclass="readonly" enable="false" left="105" top="164" width="100" height="23" style=":disabled {align:center middle;}" objNm="구매요청자ID"/>
+              <Edit id="edtSinglePopNm05" taborder="37" lengthunit="utf8" onkeyup="fnOnkeyup" ontextchanged="fnOnTextChanged" left="207" top="164" width="150" height="23" objNm="구매요청자명"/>
+              <Button id="btnSinglePop05" taborder="38" cssclass="btn_WF_SearchSmall" left="333" top="164" width="24" height="23" objNm="구매요청자 검색 버튼" onclick="fnSrchPorgSingle"/>
+              <Static id="staViewCompLine13" taborder="63" cssclass="sta_WF_Labelbg" left="0" top="191" right="0" height="33"/>
+              <Static id="staViewCompLine14" taborder="64" cssclass="sta_WF_Labelbg" left="0" top="223" right="0" height="33"/>
+              <Static id="staSinglePop13" taborder="65" text="계약템플릿" cssclass="sta_WF_Label" left="0" top="191" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Static id="staSinglePop14" taborder="69" text="스킨변경" cssclass="sta_WF_Label" left="0" top="223" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Static id="staViewCompLine15" taborder="73" cssclass="sta_WF_Labelbg" left="0" top="255" right="0" height="33"/>
+              <Static id="staSinglePop15" taborder="74" text="관리자모드" cssclass="sta_WF_Label" left="0" top="255" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Static id="staViewCompLine16" taborder="78" cssclass="sta_WF_Labelbg" left="0" top="287" right="0" height="33"/>
+              <Static id="staSinglePop16" taborder="80" text="구매유형" cssclass="sta_WF_Label" left="0" top="287" width="100" height="33" lbcd="TTL_TOT_AMT"/>
+              <Static id="staViewCompLine17" taborder="81" cssclass="sta_WF_Labelbg" left="0" top="319" right="0" height="33"/>
+              <Static id="staSinglePop17" taborder="82" text="계약유형" cssclass="sta_WF_Label" left="0" top="319" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnCntrTmplt01" taborder="33" text="계약템플릿" cssclass="btn_WF_Module" left="105" top="197" width="74" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Button id="btnCntrTmplt03" taborder="49" text="관리자모드변경" cssclass="btn_WF_Module" left="105" top="261" width="90" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Button id="btnCntrTmplt04" taborder="52" text="구매유형" cssclass="btn_WF_Module" left="105" top="293" width="74" height="21" objNm="견적요청참조 버튼" lbcd="" onclick="fnSelectPurType"/>
+              <Button id="btnCntrTmplt05" taborder="79" text="계약유형" cssclass="btn_WF_Module" left="105" top="325" width="74" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Button id="btnCntrTmplt02" taborder="45" text="스킨변경" cssclass="btn_WF_Module" left="105" top="229" width="74" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody02" taborder="92" left="764" top="23" width="402" height="109" cssclass="div_WF_DetailBg">
+          <Layouts>
+            <Layout>
+              <Static id="staViewCompLine01" taborder="6" cssclass="sta_WF_Labelbg" left="0" top="-1" right="0" height="33"/>
+              <Static id="staViewPop01" taborder="3" text="품목정보" cssclass="sta_WF_Label" left="0" top="-1" width="120" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Static id="btnViewPop01" taborder="13" text="품목정보" left="128" top="5" width="120" height="23" lbcd="TTL_TOT_AMT" style="color:blue;cursor:hand;" onclick="divViewCompBody02_btnViewPop01_onclick"/>
+              <Static id="staViewCompLine07" taborder="26" cssclass="sta_WF_Labelbg" left="0" top="31" right="0" height="33"/>
+              <Static id="btnViewPop07" taborder="27" text="협력사정보" left="128" top="37" width="120" height="23" style="color:blue;cursor:hand;" lbcd="TTL_TOT_AMT" onclick="divViewCompBody02_btnViewPop07_onclick"/>
+              <Static id="staViewPop07" taborder="28" text="협력사정보" cssclass="sta_WF_Label" left="0" top="31" width="120" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Static id="staViewCompLine08" taborder="29" cssclass="sta_WF_Labelbg" left="0" top="63" right="0" height="33"/>
+              <Static id="staViewPop08" taborder="30" text="사용자정보" cssclass="sta_WF_Label" left="0" top="63" width="120" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Static id="btnViewPop08" taborder="31" text="사용자정보" left="128" top="69" width="120" height="23" style="color:blue;cursor:hand;" lbcd="TTL_TOT_AMT" onclick="divViewCompBody02_btnViewPop08_onclick"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staViewCompTitle00" taborder="93" text="싱글검색팝업" cssclass="sta_WF_Subtitle" top="0" height="23" left="0" width="370"/>
+        <Static id="staViewCompTitle01" taborder="94" text="멀티검색팝업" cssclass="sta_WF_Subtitle" left="428" top="0" height="23" width="300"/>
+        <Static id="staViewCompTitle03" taborder="96" text="입력팝업" cssclass="sta_WF_Subtitle" left="428" top="210" width="300" height="23"/>
+        <Div id="divViewCompBody03" taborder="97" left="428" top="233" width="300" height="265" cssclass="div_WF_DetailBg">
+          <Layouts>
+            <Layout>
+              <Static id="staViewCompLine00" taborder="45" cssclass="sta_WF_Labelbg" left="0" top="-1" right="0" height="33"/>
+              <Static id="staInputPop00" taborder="50" text="파일첨부" cssclass="sta_WF_Label" left="0" top="-1" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop00" taborder="54" text="파일첨부" cssclass="btn_WF_Module" left="105" top="5" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Static id="staViewCompLine01" taborder="55" cssclass="sta_WF_Labelbg" left="0" top="31" right="0" height="33"/>
+              <Static id="staInputPop01" taborder="56" text="개인화설정" cssclass="sta_WF_Label" left="0" top="31" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop01" taborder="57" text="개인화설정" cssclass="btn_WF_Module" left="105" top="37" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Static id="staViewCompLine02" taborder="58" cssclass="sta_WF_Labelbg" left="0" top="63" right="0" height="33"/>
+              <Static id="staInputPop02" taborder="59" text="구매업무설정" cssclass="sta_WF_Label" left="0" top="63" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop02" taborder="60" text="구매업무설정" cssclass="btn_WF_Module" left="105" top="69" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Static id="staViewCompLine03" taborder="61" cssclass="sta_WF_Labelbg" left="0" top="95" right="0" height="33"/>
+              <Static id="staInputPop03" taborder="62" text="신규상품등록" cssclass="sta_WF_Label" left="0" top="95" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop03" taborder="63" text="신규상품등록" cssclass="btn_WF_Module" left="105" top="101" width="98" height="21" objNm="견적요청참조 버튼" lbcd="" onclick="fnNewMtrlReg"/>
+              <Static id="staViewCompLine04" taborder="64" cssclass="sta_WF_Labelbg" left="0" top="127" right="0" height="33"/>
+              <Static id="staInputPop04" taborder="65" text="비밀번호변경" cssclass="sta_WF_Label" left="0" top="127" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop04" taborder="66" text="비밀번호변경" cssclass="btn_WF_Module" left="105" top="133" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Static id="staViewCompLine05" taborder="67" cssclass="sta_WF_Labelbg" left="0" top="159" right="0" height="33"/>
+              <Static id="staInputPop05" taborder="68" text="ID/비밀번호" cssclass="sta_WF_Label" left="0" top="159" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop05" taborder="69" text="ID/비밀번호찾기" cssclass="btn_WF_Module" left="105" top="165" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Static id="staViewCompLine06" taborder="70" cssclass="sta_WF_Labelbg" left="0" top="191" right="0" height="33"/>
+              <Static id="staInputPop06" taborder="71" text="멀티입력" cssclass="sta_WF_Label" left="0" top="191" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop06" taborder="72" text="멀티입력" cssclass="btn_WF_Module" left="105" top="197" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+              <Static id="staViewCompLine07" taborder="73" cssclass="sta_WF_Labelbg" left="0" top="223" right="0" height="33"/>
+              <Static id="staInputPop07" taborder="74" text="그리드붙이기" cssclass="sta_WF_Label" left="0" top="223" width="100" height="33" lbcd="TTL_TOT_AMT" style="color:transparent;"/>
+              <Button id="btnInputPop07" taborder="75" text="그리드붙여넣기" cssclass="btn_WF_Module" left="105" top="229" width="98" height="21" objNm="견적요청참조 버튼" lbcd=""/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static id="staViewCompTitle02" taborder="98" text="상세팝업" cssclass="sta_WF_Subtitle" left="764" top="0" width="370" height="23"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCondition" firefirstcount="0" firenextcount="0" dsDescription="검색조건 데이터셋">
+        <ColumnInfo>
+          <Column id="USER_ID" type="STRING" size="256"/>
+          <Column id="USER_NM" type="STRING" size="256"/>
+          <Column id="MTRL_CD" type="STRING" size="256"/>
+          <Column id="MTRL_NM" type="STRING" size="256"/>
+          <Column id="MTRL_NM_M" type="STRING" size="256"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+          <Column id="PTNR_ID" type="STRING" size="256"/>
+          <Column id="PTNR_NM" type="STRING" size="256"/>
+          <Column id="ACNT_CD" type="STRING" size="256"/>
+          <Column id="ACNT_NM" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="BRANCH_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="USER_ID"/>
+            <Col id="USER_NM"/>
+            <Col id="MTRL_CD"/>
+            <Col id="MTRL_NM"/>
+            <Col id="MTRL_NM_M"/>
+            <Col id="STR_CD"/>
+            <Col id="SL_NM"/>
+            <Col id="PTNR_ID"/>
+            <Col id="PTNR_NM"/>
+            <Col id="ACNT_CD"/>
+            <Col id="ACNT_NM"/>
+            <Col id="BRANCH_CD"/>
+            <Col id="BRANCH_NM"/>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsReturn" firefirstcount="0" firenextcount="0"/>
+      <Dataset id="dsAltInvntry">
+        <ColumnInfo>
+          <Column id="CD_ID" type="STRING" size="40"/>
+          <Column id="CD_NM_LO" type="STRING" size="40"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="CD_ID"/>
+            <Col id="CD_NM_LO">[전체]</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">N</Col>
+            <Col id="CD_NM_LO">구매대상</Col>
+          </Row>
+          <Row>
+            <Col id="CD_ID">Y</Col>
+            <Col id="CD_NM_LO">출고대상</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompBody00.edtSinglePopNm04" propid="value" datasetid="dsCondition" columnid="MTRL_NM"/>
+      <BindItem id="item1" compid="divViewCompBody00.edtSinglePopId04" propid="value" datasetid="dsCondition" columnid="MTRL_CD"/>
+      <BindItem id="item2" compid="divViewCompBody01.edtMultyPopNm01" propid="value" datasetid="dsCondition" columnid="MTRL_NM_M"/>
+      <BindItem id="item3" compid="divViewCompBody00.edtSinglePopNm01" propid="value" datasetid="dsCondition" columnid="SL_NM"/>
+      <BindItem id="item4" compid="divViewCompBody00.edtSinglePopId01" propid="value" datasetid="dsCondition" columnid="STR_CD"/>
+      <BindItem id="item5" compid="divViewCompBody00.edtSinglePopNm00" propid="value" datasetid="dsCondition" columnid="USER_NM"/>
+      <BindItem id="item6" compid="divViewCompBody00.edtSinglePopId00" propid="value" datasetid="dsCondition" columnid="USER_ID"/>
+      <BindItem id="item7" compid="divViewCompBody00.edtSinglePopNm02" propid="value" datasetid="dsCondition" columnid="PTNR_NM"/>
+      <BindItem id="item8" compid="divViewCompBody00.edtSinglePopId02" propid="value" datasetid="dsCondition" columnid="PTNR_ID"/>
+      <BindItem id="item9" compid="divViewCompBody00.edtSinglePopId03" propid="value" datasetid="dsCondition" columnid="ACNT_CD"/>
+      <BindItem id="item10" compid="divViewCompBody00.edtSinglePopNm03" propid="value" datasetid="dsCondition" columnid="ACNT_NM"/>
+      <BindItem id="item11" compid="divViewCompBody00.edtSinglePopId05" propid="value" datasetid="dsCondition" columnid="BRANCH_CD"/>
+      <BindItem id="item12" compid="divViewCompBody00.edtSinglePopNm05" propid="value" datasetid="dsCondition" columnid="BRANCH_NM"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       Popup.xfdl
+   @desc       팝업샘플
+   @author     김민성
+   @makedate   2019.04.29
+   @history    
+*/
+
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetObj("A");
+}
+
+/**
+  * @함수명	: fnSrchUserSingle
+  * @desc     	: 담당자검색(싱글)
+  */
+this.fnSrchUserSingle = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"USER_NM")
+	};
+	gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  * @함수명	: fnSrchSlSingle
+  * @desc     	: 부서검색(싱글)
+  */
+this.fnSrchSlSingle = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"SL_NM")
+	};
+	gfnSearchComSl(this, "BSlSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  * @함수명	: fnSrchPtnrSingle
+  * @desc     	: 협력사검색(싱글)
+  */
+this.fnSrchPtnrSingle = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"PTNR_NM")
+	};
+	gfnSearchComPtnr(this, "BPtnrSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  * @함수명	: fnSrchAcntSingle
+  * @desc     	: 계정검색(싱글)
+  */
+this.fnSrchAcntSingle = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"ACNT_NM")
+	};
+	gfnSearchComAcnt(this, "BAcntSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  * @함수명	: fnSearchItem
+  * @desc     	: 품목검색(싱글)
+  */
+this.fnSearchItem = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"MTRL_NM")
+	};
+	gfnSearchComMtrl(this, "BMtrlSrchPopup", "fnPopCallBack", sArg,"N");
+}
+
+/**
+  * @함수명	: fnSrchPorgSingle
+  * @desc     	: 운영단위검색(싱글)
+  */
+this.fnSrchPorgSingle = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"BRANCH_NM")
+	};
+	gfnSearchComPorg(this, "BPorgSrchPopup", "fnPopCallBack", sArg);
+}
+
+/**
+  * @함수명	: fnSearchMultyItem
+  * @desc     	: 품목검색(멀티)
+  */
+this.fnSearchMultyItem = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: ""
+	};
+	gfnSearchComMtrl(this, "BMtrlSrchMultyPopup", "fnPopCallBack", sArg,"Y");
+}
+
+/**
+  * @함수명	: fnSearchPrItem
+  * @desc     	: 품목검색(구매요청)
+  */
+this.fnSearchPrItem = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id: ""
+		,agv_nm: this.dsCondition.getColumn(0,"MTRL_NM_M")
+	};
+	gfnSearchComMtrl(this, "BMtrlPrSrchMultiPopup", "fnPopCallBack", sArg,"PR");
+}
+
+/**
+  * @함수명	: fnNewMtrlReg
+  * @desc     	: 신규상품등록
+  */
+this.fnNewMtrlReg = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+}
+
+/**
+  * @함수명	: fnSelectPurType
+  * @desc     	: 구매유형
+  */
+this.fnSelectPurType = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sArg = { 
+					agv_id:""
+			   };
+	gfnModalPop(this, "BPurTypePop", "CPOP::BPurTypePop.xfdl", sArg, "fnPopCallBack", 700, 500);
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "BUserSrchPopup" :
+			this.dsCondition.setColumn(0,"USER_ID",this.dsReturn.getColumn(0,"USER_ID"));
+			this.dsCondition.setColumn(0,"USER_NM",this.dsReturn.getColumn(0,"USER_NM"));
+			break;
+		case "BSlSrchPopup" :
+			this.dsCondition.setColumn(0,"STR_CD",this.dsReturn.getColumn(0,"STR_CD"));
+			this.dsCondition.setColumn(0,"SL_NM",this.dsReturn.getColumn(0,"SL_NM"));
+			break;
+		case "BPtnrSrchPopup" :
+			this.dsCondition.setColumn(0,"PTNR_ID",this.dsReturn.getColumn(0,"PTNR_ID"));
+			this.dsCondition.setColumn(0,"PTNR_NM",this.dsReturn.getColumn(0,"PTNR_NM"));
+			break;
+		case "BAcntSrchPopup" :
+			this.dsCondition.setColumn(0,"ACNT_CD",this.dsReturn.getColumn(0,"ACNT_CD"));
+			this.dsCondition.setColumn(0,"ACNT_NM",this.dsReturn.getColumn(0,"ACNT_NM"));
+			break;
+		case "BMtrlSrchPopup" :
+			this.dsCondition.setColumn(0,"MTRL_CD",this.dsReturn.getColumn(0,"MTRL_CD"));
+			this.dsCondition.setColumn(0,"MTRL_NM",this.dsReturn.getColumn(0,"MTRL_NM2"));
+			break;
+		case "BPorgSrchPopup" :
+			this.dsCondition.setColumn(0,"BRANCH_CD",this.dsReturn.getColumn(0,"BRANCH_CD"));
+			this.dsCondition.setColumn(0,"BRANCH_NM",this.dsReturn.getColumn(0,"BRANCH_NM"));
+			break;
+		case "BPurTypePop" :
+			trace(this.dsReturn.saveXML());
+			break;
+		case "BMtrlPrSrchMultiPopup" :
+			trace(this.dsReturn.saveXML());
+			break;	
+		default:
+			break;	
+	}
+}
+
+/**
+  * @함수명	: fnOnkeyup
+  * @desc     	: Key Up 이벤트
+  */
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode==13){
+		obj.updateToDataset();
+		
+		// 품목검색멀티팝업(PR)
+		if(obj.name=="edtMultyPopNm01"){
+			this.fnSearchPrItem();
+		
+		// 담당자검색 싱글팝업
+		}else if(obj.name=="edtSinglePopNm00"){
+			this.fnSrchUserSingle();
+		
+		// 창고검색 싱글팝업
+		}else if(obj.name=="edtSinglePopNm01"){
+			this.fnSrchSlSingle();
+		
+		// 협력사검색 싱글팝업
+		}else if(obj.name=="edtSinglePopNm02"){
+			this.fnSrchPtnrSingle();
+		
+		// 계정검색 싱글팝업
+		}else if(obj.name=="edtSinglePopNm03"){
+			this.fnSrchAcntSingle();
+		
+		// 계정검색 싱글팝업
+		}else if(obj.name=="edtSinglePopNm04"){
+			this.fnSearchItem();
+		
+		// 운영단위검색 싱글팝업
+		}else if(obj.name=="edtSinglePopNm05"){
+			this.fnSrchPorgSingle();
+			
+		}
+	}
+}
+
+/**
+  * @함수명	: fnOnTextChanged
+  * @desc     	: 텍스트 변환 이벤트
+  */
+this.fnOnTextChanged = function(obj:Edit, e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name=="edtSinglePopNm00"){
+		this.dsCondition.setColumn(0,"USER_ID","");
+	}else if(obj.name=="edtSinglePopNm01"){
+		this.dsCondition.setColumn(0,"STR_CD","");
+	}else if(obj.name=="edtSinglePopNm02"){
+		this.dsCondition.setColumn(0,"PTNR_ID","");
+	}else if(obj.name=="edtSinglePopNm03"){
+		this.dsCondition.setColumn(0,"ACNT_CD","");
+	}else if(obj.name=="edtSinglePopNm04"){
+		this.dsCondition.setColumn(0,"MTRL_CD","");
+	}else if(obj.name=="edtSinglePopNm05"){
+		this.dsCondition.setColumn(0,"BRANCH_CD","");
+	}
+}
+ 
+this.divViewCompBody02_btnViewPop01_onclick = function(obj:Static, e:nexacro.ClickEventInfo)
+{
+	//var sArg = { agv_id : this.dsList.getColumn(e.row, "MTRL_CD")};
+	var sArg = { agv_id : "100000948"};
+	gfnModalPop(this, "readMtrlInfo", "CPOP::BMtrlInfoPopup.xfdl", sArg, "fnPopCallBack", 800, 500);
+}
+
+this.divViewCompBody02_btnViewPop07_onclick = function(obj:Static, e:nexacro.ClickEventInfo)
+{
+		var sArg = { agv_id : "1078626829"
+				};
+	gfnModalPop(this, "CtnrPtnrInfo", "CPOP::BPtnrInfoPopup.xfdl", sArg, "fnPopCallBack", 550, 500);
+}
+
+this.divViewCompBody02_btnViewPop08_onclick = function(obj:Static, e:nexacro.ClickEventInfo)
+{
+	var sArg = { agv_id : "B_SMAN"		};
+	gfnModalPop(this, "CtnrUserInfo", "CPOP::BUserInfoPopup.xfdl", sArg, "fnPopCallBack", 550, 230);
+}
+]]></Script>
+  </Form>
+</FDL>

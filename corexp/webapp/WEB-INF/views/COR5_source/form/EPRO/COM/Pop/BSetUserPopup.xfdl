@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="276" id="BSetUserPopup" left="0" oninit="fnFormOninit" onload="fnOnLoad" titletext="개인화" top="0" width="533">
+    <Layouts>
+      <Layout>
+        <Static bottom="10" cssclass="sta_WF_Labelbg" id="staViewCompCond00" left="10" right="10" taborder="0" top="10"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="10" right="10" taborder="5" top="10"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staAbsUserID" left="10" positionstep="0" taborder="6" text="부재시 대리인" top="10" width="160"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="10" right="10" taborder="8" top="42"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staAbsDay" left="10" taborder="9" text="부재일자" top="42" width="160"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="10" right="10" taborder="10" top="74"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staRcvSmsRcv" left="10" taborder="11" text="SMS수신 여부" top="74" width="160"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="10" right="10" taborder="12" top="106"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staRcvMailRcv" left="10" taborder="13" text="E-MAIL 수신 여부" top="106" width="160"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="10" right="10" taborder="14" top="138"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staTel" left="10" taborder="15" text="연락처" top="138" width="160"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine05" left="10" right="10" taborder="16" top="170"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staHp" left="10" taborder="17" text="휴대전화" top="170" width="160"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine06" left="10" right="10" taborder="18" top="202"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staLangCd" left="10" taborder="19" text="언어 설정" top="202" width="160"/>
+        <Div height="24" id="divEvalStdDay" left="176" objNm="평가기준일" positionstep="0" right="15" taborder="21" text="Div01" top="46" url="CCOMP::CompCalFromTo.xfdl"/>
+        <CheckBox expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00531&quot;)" falsevalue="N" height="23" id="chkAltUse" left="176" objNm="chk사용여부" taborder="22" text="사용여부" top="79" truevalue="Y" value="N" width="100"/>
+        <CheckBox expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00531&quot;)" falsevalue="N" height="23" id="chkAltUse00" left="176" objNm="chk사용여부" taborder="23" text="사용여부" top="111" truevalue="Y" value="N" width="100"/>
+        <Edit height="24" id="edtTel" left="176" lengthunit="utf8" objNm="평가서명" readonly="true" right="15" taborder="24" top="142"/>
+        <Edit height="24" id="edtHp" left="176" lengthunit="utf8" objNm="평가서명" readonly="true" right="15" taborder="25" top="174"/>
+        <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="24" id="cbLangCd" innerdataset="dsCdCM34" left="176" right="15" taborder="26" top="206"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine07" left="10" right="10" taborder="29" top="233"/>
+        <Edit cssclass="readonly" enable="false" height="24" id="edtAbsUserId" left="176" objNm="구매요청자ID" ontextchanged="fnOnTextChanged" style=":disabled {align:center middle;}" taborder="30" top="15" width="100"/>
+        <Edit height="24" id="edtAbsUserNM" left="282" lengthunit="utf8" objNm="구매요청자명" onkeydown="fnOnkeyup" ontextchanged="fnOnTextChanged" right="15" taborder="31" top="15"/>
+        <Button cssclass="btn_WF_SearchSmall" height="24" id="btnSinglePop00" objNm="구매요청자 검색 버튼" onclick="fnUserSearch" right="15" taborder="32" top="15" width="24"/>
+        <Button cssclass="btn_WF_Module" height="24" id="btnSave" objNm="미리보기버튼" onclick="fnOnClick" right="15" taborder="33" text="저장" top="237" width="70"/>
+        <Static height="16" id="Static00" left="15" right="93" style="color:red;align:left top;" taborder="34" text="※언어설정은 저장후 재로그인시 적용됩니다." top="242" usedecorate="true" wordwrap="char"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="staTtl" compid="staAbsUserID" datasetid="dsObjBindEn" id="staTtlEn" propid="readonly"/>
+      
+      <BindItem columnid="staTtl" compid="staAbsDay" datasetid="dsObjBindEn" id="item1" propid="readonly"/>
+      
+      <BindItem columnid="staTtl" compid="staRcvSmsRcv" datasetid="dsObjBindEn" id="item4" propid="readonly"/>
+      
+      <BindItem columnid="staTtl" compid="staRcvMailRcv" datasetid="dsObjBindEn" id="item7" propid="readonly"/>
+      <BindItem columnid="staTtl" compid="staTel" datasetid="dsObjBindEn" id="item10" propid="readonly"/>
+      
+      <BindItem columnid="staTtl" compid="staHp" datasetid="dsObjBindEn" id="item13" propid="readonly"/>
+      
+      <BindItem columnid="staTtl" compid="staLangCd" datasetid="dsObjBindEn" id="item16" propid="readonly"/>
+      
+      <BindItem columnid="Static00" compid="divEvalStdDay.Static00" datasetid="dsObjBindVi" id="Static00Vi" propid="visible"/>
+      <BindItem columnid="Static00" compid="divEvalStdDay.Static00" datasetid="dsObjBindEn" id="Static00En" propid="readonly"/>
+      <BindItem columnid="cal_from" compid="divEvalStdDay.cal_from" datasetid="dsObjBindVi" id="cal_fromVi" propid="visible"/>
+      <BindItem columnid="cal_from" compid="divEvalStdDay.cal_from" datasetid="dsObjBindEn" id="cal_fromEn" propid="readonly"/>
+      <BindItem columnid="cal_to" compid="divEvalStdDay.cal_to" datasetid="dsObjBindVi" id="cal_toVi" propid="visible"/>
+      <BindItem columnid="cal_to" compid="divEvalStdDay.cal_to" datasetid="dsObjBindEn" id="cal_toEn" propid="readonly"/>
+      <BindItem columnid="Static02" compid="divEvalStdDay.Static02" datasetid="dsObjBindVi" id="Static02Vi" propid="visible"/>
+      <BindItem columnid="Static02" compid="divEvalStdDay.Static02" datasetid="dsObjBindEn" id="Static02En" propid="readonly"/>
+      <BindItem columnid="pdvCal" compid="divEvalStdDay.pdvCal" datasetid="dsObjBindVi" id="pdvCalVi" propid="visible"/>
+      <BindItem columnid="pdvCal" compid="divEvalStdDay.pdvCal" datasetid="dsObjBindEn" id="pdvCalEn" propid="readonly"/>
+      <BindItem columnid="divEvalStdDay" compid="divEvalStdDay" datasetid="dsObjBindVi" id="divEvalStdDayVi" propid="visible"/>
+      <BindItem columnid="divEvalStdDay" compid="divEvalStdDay" datasetid="dsObjBindEn" id="divEvalStdDayEn" propid="readonly"/>
+      <BindItem columnid="divEvalStdDay" compid="divEvalStdDay" datasetid="dsObjBindEn" id="item58" propid="enable"/>
+      
+      <BindItem columnid="ALT_SMS_RCV" compid="chkAltUse" datasetid="dsUserInfo" id="item3" propid="value"/>
+      <BindItem columnid="ALT_MAIL_RCV" compid="chkAltUse00" datasetid="dsUserInfo" id="item6" propid="value"/>
+      <BindItem columnid="TEL" compid="edtTel" datasetid="dsUserInfo" id="item15" propid="value"/>
+      <BindItem columnid="HP" compid="edtHp" datasetid="dsUserInfo" id="item18" propid="value"/>
+      <BindItem columnid="LANG_CD" compid="cbLangCd" datasetid="dsUserInfo" id="item19" propid="value"/>
+      <BindItem columnid="USER_ID" compid="edtSinglePopId00" datasetid="dsUser" id="item0" propid="value"/>
+      <BindItem columnid="USER_NM" compid="edtSinglePopNm00" datasetid="dsUser" id="item9" propid="value"/>
+      
+      <BindItem columnid="ABS_USER_ID" compid="edtAbsUserId" datasetid="dsUserInfo" id="item12" propid="value"/>
+      <BindItem columnid="ABS_USER_NM" compid="edtAbsUserNM" datasetid="dsUserInfo" id="item21" propid="value"/>
+      
+      
+      
+    </Bind>
+    <Objects>
+      <Dataset id="dsUserInfo" oncolumnchanged="fnOncolumnChanged">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="ABS_USER_ID" size="256" type="STRING"/>
+          <Column id="ABS_USER_NM" size="256" type="STRING"/>
+          <Column id="ABS_ST_DAY" size="256" type="STRING"/>
+          <Column id="ABS_ED_DAY" size="256" type="STRING"/>
+          <Column id="ALT_SMS_RCV" size="256" type="STRING"/>
+          <Column id="ALT_MAIL_RCV" size="256" type="STRING"/>
+          <Column id="TEL" size="256" type="STRING"/>
+          <Column id="HP" size="256" type="STRING"/>
+          <Column id="LANG_CD" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCdCM34"/>
+      <Dataset id="dsReturn"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BSetUserPopup.xfdl
+ * @생성자       	: 김동호
+ * @생성일자     	: 2017.12.04.
+ * @설명			: 개인화 팝업
+ * @최종수정자		: 김동호
+ * @최종수정일자	: 2017.12.05.
+*/
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_01217");
+/**
+  * @함수명	: fnSetCode
+  * @desc   : 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [
+					 {code:"CM34", sSelectType:""}
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	this.dsUserInfo.addRow();
+	this.dsUserInfo.setColumn(0, "USER_ID", ownFrame.agv_id);
+	
+	this.divEvalStdDay.fnSetDate(this.dsUserInfo,"ABS_ST_DAY","ABS_ED_DAY");
+	this.fnSearch();
+}
+
+/**
+  * @함수명: fnSearch
+  * @desc   : 사용자 정보 출력
+  */ 
+this.fnSearch = function(){
+
+	var sSvcID = "searchSetUserInfo";
+	var sController = "epro.com.service.BComService.searchSetUser";
+	var sInDatasets = "dsUserInfo=dsUserInfo";
+	var sOutDatasets = "dsUserInfo=dsUserInfo";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchSetUserInfo" :
+			var ownFrame = this.getOwnerFrame();
+			if(gfnIsNull(this.dsUserInfo.getColumn(0,"LANG_CD"))){
+				this.dsUserInfo.setColumn(0, "LANG_CD", ownFrame.agv_lang);
+			}
+			
+		break;
+		
+		case "saveSetUser" :
+			gfnAlert("EPRO_LABEL_00002");
+			
+		break;
+		
+		default:
+		break;	
+	}
+}
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	switch(sPopupId){
+		case "BUserSrchPopup" :
+			var user_id = this.dsReturn.getColumn(0, "USER_ID");
+			if(user_id == this.dsUserInfo.getColumn(0, "USER_ID")){
+				gfnAlert("EPRO_LABEL_01226");
+				
+			}else{
+				this.dsUserInfo.setColumn(0, "ABS_USER_NM", this.dsReturn.getColumn(0, "USER_NM"));
+				this.dsUserInfo.setColumn(0, "ABS_USER_ID", this.dsReturn.getColumn(0, "USER_ID"));
+				
+			}
+			
+		break;
+		
+		default :
+		break;
+	}
+}
+this.fnSaveCheck = function(){
+	
+	var strDay = this.dsUserInfo.getColumn(0, "ABS_ST_DAY");
+	var endDay = this.dsUserInfo.getColumn(0, "ABS_ED_DAY");
+	
+	if(!gfnIsNull(this.dsUserInfo.getColumn(0,"ABS_USER_ID"))){
+		if(!((gfnIsNull(strDay) && gfnIsNull(endDay)) || (!gfnIsNull(strDay) && !gfnIsNull(endDay))) ){
+			gfnAlert("EPRO_LABEL_00985");
+			return false;
+		} 
+	}
+	
+	return true;
+	
+}
+/**
+  * @함수명	: fnOnClick
+  * @desc     	: 저장 함수 이벤트
+  */
+this.fnOnClick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fnSaveCheck()) return;
+	if(!gfnConfirm("EPRO_LABEL_00001")) return;
+	
+	var sSvcID = "saveSetUser";
+	var sController = "epro.com.service.BComService.saveSetUser";
+	var sInDatasets = "dsUserInfo=dsUserInfo";
+	var sOutDatasets = "dsUserInfo=dsUserInfo";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	
+	if(e.keycode == "13"){
+
+		obj.updateToDataset();
+
+		if(obj.name == "edtAbsUserNM") this.fnUserSearch();
+	}
+}
+
+this.fnUserSearch = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+
+	var sArg = { 
+				agv_id:""
+				,agv_nm:this.dsUserInfo.getColumn(0,"ABS_USER_NM")
+				,agv_dept:""
+		   };
+	//매개변수 ::>    form, sPopupId, CallBack Function Name, arg
+	gfnSearchComUser(this, "BUserSrchPopup", "fnPopCallBack", sArg)
+}
+
+this.fnOnTextChanged = function(obj:Edit,  e:nexacro.TextChangedEventInfo)
+{
+	if(obj.name == "edtAbsUserNM") {
+		this.dsUserInfo.setColumn(0,"ABS_USER_ID","");
+		this.dsUserInfo.setColumn(0,"ABS_ST_DAY","");
+		this.dsUserInfo.setColumn(0,"ABS_ED_DAY","");
+	}
+}
+this.fnOncolumnChanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(gfnIsNull(this.dsUserInfo.getColumn(0,"ABS_USER_ID"))){
+		this.divEvalStdDay.set_enable(false);
+		
+	} else{
+		this.divEvalStdDay.set_enable(true);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="428" id="BPtnrInfoPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="협력사정보팝업" top="0" width="550">
+    <Layouts>
+      <Layout>
+        <Tab height="412" id="tabPtnr" left="10" right="10" scrollbars="autoboth" tabindex="0" taborder="0" top="7">
+          <Tabpages>
+            <Tabpage id="tabInfo" scrollbars="none" text="기본정보">
+              <Layouts>
+                <Layout>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond01" left="-1" right="-1" taborder="41" top="38"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staBizNo" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="42" text="사업자번호" top="38" width="108"/>
+                  <Edit height="24" id="edtBizNo" left="114" readonly="true" right="6" taborder="43" top="43"/>
+                  <Static bottom="276" cssclass="sta_WF_Labelbg" id="staViewCompCond02" left="-1" right="-1" taborder="44" top="71"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staPtnrNm" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="45" text="협력사명" top="71" width="108"/>
+                  <Edit height="24" id="edtPtnrNm" left="114" readonly="true" right="6" taborder="46" top="76"/>
+                  <Static bottom="243" cssclass="sta_WF_Labelbg" id="staViewCompCond03" left="-1" right="-1" taborder="47" top="104"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staCndtnNType" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="48" text="업태/업종" top="104" width="108"/>
+                  <Edit height="24" id="edtBizCndtn" left="114" readonly="true" taborder="49" top="109" width="160"/>
+                  <Edit height="24" id="edtType" left="279" readonly="true" right="6" taborder="50" top="109"/>
+                  <Static bottom="210" cssclass="sta_WF_Labelbg" id="staViewCompCond04" left="-1" right="-1" taborder="51" top="137"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staTel" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="52" text="대표전화번호" top="137" width="108"/>
+                  <Edit height="24" id="edtTel" left="114" readonly="true" right="6" taborder="53" top="142"/>
+                  <Static bottom="177" cssclass="sta_WF_Labelbg" id="staViewCompCond05" left="-1" right="-1" taborder="54" top="170"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staFax" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="55" text="FAX" top="170" width="108"/>
+                  <Edit height="24" id="edtFax" left="114" readonly="true" right="6" taborder="56" top="175"/>
+                  <Static bottom="144" cssclass="sta_WF_Labelbg" id="staViewCompCond06" left="-1" right="-1" taborder="57" top="203"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staFax00" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="58" text="평가자" top="203" width="108"/>
+                  <Edit height="24" id="edtBizCndtn00" left="114" readonly="true" taborder="59" top="208" width="159"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staCmpltDt" left="279" style="padding:1 0 0 17;align:left middle;" taborder="60" text="최종평가일시" top="203" width="94"/>
+                  <Div bottom="0" id="divEvalScore" left="-1" right="-1" taborder="68" top="280">
+                    <Layouts>
+                      <Layout>
+                        <Grid autofittype="col" binddataset="dsPtnrEval" bottom="0" id="grdEvalScore" left="0" right="0" taborder="0" top="0" useinputpanel="false">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="60"/>
+                                <Column size="90"/>
+                                <Column size="82"/>
+                                <Column size="73"/>
+                                <Column size="150"/>
+                              </Columns>
+                              <Rows>
+                                <Row band="head" size="32"/>
+                                <Row size="27"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell expr="" text="품질"/>
+                                <Cell col="1" expr="" text="원가절감"/>
+                                <Cell col="2" expr="" text="기술력"/>
+                                <Cell col="3" expr="" text="납기관리"/>
+                                <Cell col="4" expr="" text="경영/재무"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell text="bind:RT_Q"/>
+                                <Cell col="1" text="bind:RT_C"/>
+                                <Cell col="2" text="bind:RT_T"/>
+                                <Cell col="3" text="bind:RT_D"/>
+                                <Cell col="4" text="bind:RT_F"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Calendar height="24" id="calCmpltDt" left="378" locale="en_US" readonly="true" right="6" taborder="69" top="208"/>
+                  <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond00" left="-1" right="-1" taborder="70" top="5"/>
+                  <Static cssclass="sta_WF_Label" height="34" id="staVENDOR" left="-1" style="padding:1 0 0 17;align:left middle;" taborder="71" text="VENDOR" top="5" width="108"/>
+                  <Edit height="24" id="edtBizNo00" left="114" readonly="true" right="6" taborder="72" top="10"/>
+                  <Static height="24" id="Static00" right="451" style="align:left middle;" taborder="73" text="평가점수:" top="255" width="78"/>
+                  <Static height="24" id="Static01" right="416" style="align:right middle;" taborder="74" top="255" width="35"/>
+                  <Static height="24" id="staScore" right="257" style="align:left middle;" taborder="75" text="점" top="255" width="146"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabUserInfo" text="사용자정보">
+              <Layouts>
+                <Layout>
+                  <Edit height="24" id="edtSms" left="10" onkeyup="fnOnkeyup" ontextchanged="onTextChanged" right="10" taborder="8" top="320"/>
+                  <Button height="24" id="btnSms" onclick="fnSendSms" right="10" taborder="10" text="SMS전송" top="288" width="80"/>
+                  <Div height="269" id="divUserInfo" left="0" right="0" taborder="12" top="10">
+                    <Layouts>
+                      <Layout>
+                        <Grid autoenter="select" autofittype="col" binddataset="dsPtnrUser" cellclickbound="cell" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="Y" height="269" id="grdList" left="0" oncelldblclick="fnRtnData" onkeydown="grdListOnkeydown" right="0" taborder="0" top="0" useinputpanel="false">
+                          <Formats>
+                            <Format id="default">
+                              <Columns>
+                                <Column size="40"/>
+                                <Column size="100"/>
+                                <Column size="100"/>
+                                <Column size="100"/>
+                                <Column size="100"/>
+                              </Columns>
+                              <Rows>
+                                <Row band="head" size="32"/>
+                                <Row size="28"/>
+                              </Rows>
+                              <Band id="head">
+                                <Cell displaytype="checkbox" edittype="checkbox"/>
+                                <Cell col="1" expr="" text="사용자ID"/>
+                                <Cell col="2" expr="" text="사용자명"/>
+                                <Cell col="3" expr="" text="EMAIL"/>
+                                <Cell col="4" expr="" text="HP"/>
+                              </Band>
+                              <Band id="body">
+                                <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                                <Cell col="1" style="align:left;" text="bind:USER_ID"/>
+                                <Cell col="2" style="align:center;" text="bind:USER_NM"/>
+                                <Cell col="3" style="align:left;" text="bind:EMAIL"/>
+                                <Cell col="4" style="align:center;" text="bind:HP"/>
+                              </Band>
+                            </Format>
+                          </Formats>
+                        </Grid>
+                      </Layout>
+                    </Layouts>
+                  </Div>
+                  <Static height="24" id="stsSmsInfo" left="10" right="395" taborder="13" text="최대 30자(90Byte)" top="288"/>
+                  <Static height="24" id="Static00" right="94" taborder="14" text="/ 90 (Byte)" top="288" width="63"/>
+                  <Static height="24" id="Static01" right="162" style="align:right;" taborder="15" text="0" top="288" width="59"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsPtnrInfo">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsPtnrUser"/>
+      <Dataset id="dsPtnrEval"/>
+      <Dataset id="dsTarget"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="BIZ_NO" compid="tabPtnr.tabInfo.edtBizNo" datasetid="dsPtnrInfo" id="item0" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="tabPtnr.tabInfo.edtPtnrNm" datasetid="dsPtnrInfo" id="item1" propid="value"/>
+      <BindItem columnid="BIZ_CNDTN" compid="tabPtnr.tabInfo.edtBizCndtn" datasetid="dsPtnrInfo" id="item2" propid="value"/>
+      <BindItem columnid="BIZ_TYPE" compid="tabPtnr.tabInfo.edtType" datasetid="dsPtnrInfo" id="item3" propid="value"/>
+      <BindItem columnid="TEL" compid="tabPtnr.tabInfo.edtTel" datasetid="dsPtnrInfo" id="item4" propid="value"/>
+      <BindItem columnid="FAX" compid="tabPtnr.tabInfo.edtFax" datasetid="dsPtnrInfo" id="item5" propid="value"/>
+      <BindItem columnid="SCJD_CMPLT_NM" compid="tabPtnr.tabInfo.edtBizCndtn00" datasetid="dsPtnrInfo" id="item10" propid="value"/>
+      <BindItem columnid="SCJD_CMPLT_DT" compid="tabPtnr.tabInfo.calCmpltDt" datasetid="dsPtnrInfo" id="item11" propid="value"/>
+      <BindItem columnid="SAP_VENDOR" compid="tabPtnr.tabInfo.edtBizNo00" datasetid="dsPtnrInfo" id="item15" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BUserInfoPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 13.
+ * @설명			    : 사용자정보 팝업
+ * @최종수정자		: 안성민
+ * @최종수정일자	    : 2017. 12. 07.
+*/
+
+this.popTitle = "협력사정보"
+ 
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	gfnSetGrdFunc(this.tabPtnr.tabUserInfo.divUserInfo.grdList, null, this);
+
+	var ownFrame = this.getOwnerFrame();
+	
+	this.dsPtnrInfo.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	this.dsPtnrInfo.setColumn(0,"PTNR_ID",ownFrame.agv_id);
+	
+	this.fnSearch();
+}
+
+this.fnSearch = function()
+{
+	var sSvcID = "readComPtnrInfo";
+	var sController = "epro.com.service.BComService.readComPtnrInfo";
+	var sInDatasets = "dsPtnrInfo=dsPtnrInfo";
+	var sOutDatasets = "dsPtnrInfo=dsPtnrInfo dsPtnrUser=dsPtnrUser dsPtnrEval=dsPtnrEval";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchComUser" :	
+		break;
+ 
+		case "sendComSms" :
+			gfnAlert(strErrMsg);
+			
+		break;
+		case "readComPtnrInfo":
+			if(gfnIsNull(this.dsPtnrInfo.getColumn(0, "SCJD_EVAL_SCORE"))){
+				//this.tabPtnr.tabInfo.staScore.set_text(gfnMultiLabel("EPRO_LABEL_01360"));
+			}
+		break;
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: dsPreSendSms
+  * @desc     	: SMS전송 전처리
+  */
+this.dsPreSendSms = function()
+{
+	if(!gfnGetChkRowString(this.dsPtnrUser)) return false;
+	if(gfnIsNull(this.tabPtnr.tabUserInfo.edtSms.value)) {
+		gfnAlert("EPRO_LABEL_00832");
+		return false;
+	}
+	this.dsTarget.loadXML(gfnGetChkRowString(this.dsPtnrUser))
+	
+	//SMS사용여부 확인
+	var arr = [];
+	
+	if(this.tabPtnr.tabUserInfo.edtSms.getLength("utf8") > 90){
+		var msg = gfnMultiLabel("EPRO_LABEL_01336");
+		var type = gfnMultiLabel("EPRO_LABEL_00753");
+		var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+		arr.push(objParam);
+	}
+	
+	for(var i =0; i<this.dsTarget.getRowCount(); i++) {
+		if("N" == this.dsTarget.getColumn(i, "ALT_SMS_RCV")) {
+			var msg = gfnMultiLabel("EPRO_LABEL_01282");
+			var type = gfnMultiLabel("EPRO_LABEL_01283");
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+		} else {
+			this.dsTarget.setColumn(i, "CNTNT", this.tabPtnr.tabUserInfo.edtSms.value);
+		}
+	} 	
+ 	return gfnValidate(this, false, arr);
+}
+
+/**
+  * @함수명	: fnSendSms
+  * @desc     	: SMS전송
+  */
+this.fnSendSms = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.dsPreSendSms()) return;
+	if(!gfnConfirm("EPRO_LABEL_01279")) return;
+	
+	var sSvcID = "sendComSms";
+	var sController = "epro.com.service.BComService.sendComSms";
+	var sInDatasets = "dsTarget=dsTarget";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.onTextChanged = function(obj:Edit,  e:nexacro.TextChangedEventInfo)
+{
+	this.tabPtnr.tabUserInfo.Static01.set_text(this.tabPtnr.tabUserInfo.edtSms.getLength("utf8"));
+}
+]]></Script>
+  </Form>
+</FDL>

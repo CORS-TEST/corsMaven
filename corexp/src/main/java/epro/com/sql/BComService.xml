@@ -1,0 +1,1192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BComService">
+
+	<select id="searchComMtrlType1" resultType="HMap">
+	/*[BComService.searchComMtrlType1][품목그룹검색][2019.04.30][김민성] */
+		SELECT 
+             '' AS MTRL_GRP_ID                                                                        
+            ,'' AS UP_MTRL_GRP_ID                                                                      
+            ,1 AS LVL                                                                                
+            ,'--전체--' AS MTRL_GRP_NM                                                                        
+            ,'' AS RMARK                                                                              
+            ,0 AS ARY_ORDR                                                                           
+            ,'' AS ALT_USE                                                                            
+            ,'' AS MTRL_GRP_NM2
+            FROM MM_MTRL_GRP
+		WHERE  ROWNUM = 1
+		UNION ALL
+  		SELECT
+  			MTRL_GRP_ID                                                                        
+			,UP_MTRL_GRP_ID                                                                      
+			,LVL                                                                                
+			,MTRL_GRP_NM                                                                        
+			,RMARK                                                                              
+			,ARY_ORDR                                                                           
+			,ALT_USE                                                                            
+			,MTRL_GRP_NM2   
+		FROM MM_MTRL_GRP	
+		WHERE LVL = 1		
+		<if test='IS_ROLE == "Y" '>
+			AND MTRL_GRP_ID <![CDATA[<>]]> '80'
+		</if>
+	</select>
+	
+	<select id="searchComMtrlType2" resultType="HMap">
+	/*[BComService.searchComMtrlType2][품목그룹검색][2019.04.30][김민성] */
+		SELECT 
+             '' AS MTRL_GRP_ID                                                                        
+            ,'' AS UP_MTRL_GRP_ID                                                                      
+            ,2 AS LVL                                                                                
+            ,'--전체--' AS MTRL_GRP_NM                                                                        
+            ,'' AS RMARK                                                                              
+            ,0 AS ARY_ORDR                                                                           
+            ,'' AS ALT_USE                                                                            
+            ,'' AS MTRL_GRP_NM2
+            FROM MM_MTRL_GRP
+		WHERE  ROWNUM = 1
+		UNION ALL  	
+  		SELECT
+  			MTRL_GRP_ID                                                                        
+			,UP_MTRL_GRP_ID                                                                      
+			,LVL                                                                                
+			,MTRL_GRP_NM                                                                        
+			,RMARK                                                                              
+			,ARY_ORDR                                                                           
+			,ALT_USE                                                                            
+			,MTRL_GRP_NM2   
+		FROM MM_MTRL_GRP
+		WHERE LVL = 2
+	</select>
+	
+	<select id="searchComMtrlType3" resultType="HMap">
+	/*[BComService.searchComMtrlType3][품목그룹검색][2019.04.30][김민성] */
+		SELECT 
+             '' AS MTRL_GRP_ID                                                                        
+            ,'' AS UP_MTRL_GRP_ID                                                                      
+            ,3 AS LVL                                                                                
+            ,'--전체--' AS MTRL_GRP_NM                                                                        
+            ,'' AS RMARK                                                                              
+            ,0 AS ARY_ORDR                                                                           
+            ,'' AS ALT_USE                                                                            
+            ,'' AS MTRL_GRP_NM2
+            FROM MM_MTRL_GRP
+		WHERE  ROWNUM = 1
+		UNION ALL  	
+  		SELECT
+  			MTRL_GRP_ID                                                                        
+			,UP_MTRL_GRP_ID                                                                      
+			,LVL                                                                                
+			,MTRL_GRP_NM                                                                        
+			,RMARK                                                                              
+			,ARY_ORDR                                                                           
+			,ALT_USE                                                                            
+			,MTRL_GRP_NM2   
+		FROM MM_MTRL_GRP	
+		WHERE LVL = 3
+	</select>
+	
+	<select id="searchComAttr" resultType="HMap">
+	/*[BComService.searchComAttr][속성검색][2019.04.30][김민성] */
+		SELECT
+			'' AS ATTR_ID
+			,'--전체--' AS ATTR_NM
+		FROM DUAL
+		UNION
+  		SELECT
+  			ATTR_ID
+  			,ATTR_NM
+		FROM MM_MT_ATTR
+		WHERE ALT_USE = 'Y'
+		ORDER BY ATTR_NM
+	</select>
+	
+	<select id="searchComMtrlAttr" resultType="HMap">
+	/*[BComService.searchComMtrlAttr][품목속성검색][2019.04.30][김민성] */
+		SELECT 
+			'--전체--' AS ATTR_NM
+			,ROWNUM AS ROW_NUM
+		FROM DUAL
+		UNION
+		SELECT 
+			ATTR_NM
+			,ROWNUM+1 AS ROW_NUM
+		FROM (
+			SELECT 
+				DISTINCT ATTR AS ATTR_NM
+			FROM MM_MTRL_ATTR
+			WHERE ATTR_ID = #{ATTR_ID}
+			AND   ATTR IS NOT NULL
+			ORDER BY ATTR_NM
+		)
+		WHERE ROWNUM <![CDATA[<=]]> 50
+		ORDER BY ROW_NUM
+	</select>
+	
+	<select id="searchPrMtrl" resultType="HMap">
+	/*[BComService.searchPrMtrl][품목검색구매요청][2019.04.30][김민성] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="MTRL_CD DESC"/>
+		</include>
+			WITH MQURY AS (
+			<if test='ALT_INVNTRY_MGMT == "" or ALT_INVNTRY_MGMT == "N"'>
+				SELECT
+					MP.BRANCH_CD
+					,MP.MTRL_CD
+					,MM.MTRL_NM
+					,MM.MTRL_NM2
+					,MM.SPEC
+					,MM.CD_PUR_UNIT
+					,MM.LRG_CLS_ID
+					,MM.MDL_CLS_ID
+					,MM.SML_CLS_ID
+					,DECODE(MP.CNTR_PRICE,NULL,MP.LAST_GR_UNT_PRICE,MP.CNTR_PRICE) AS CNTR_PRICE
+					,MP.CNTR_PTNR_ID
+					,MP.GR_ACNT_CD_BIZ
+					,MP.GR_ACNT_CD_MGMT
+					,MP.OUT_ITEM_ACC_BIZ
+					,MP.OUT_ITEM_ACC_MGMT
+					,NULL AS STOCK_QTY 						
+					,NULL AS OUT_STR_NM						
+					,NULL AS OUT_STR_CD																							
+					,MP.ALT_INVNTRY_MGMT
+					,SYSDATE+NVL(MP.DLV_DAY,1) DLV_DAY
+				FROM MM_MTRL_PURC MP
+					 ,MM_MTRL MM
+				WHERE MP.MTRL_CD = MM.MTRL_CD
+				AND   MP.ALT_INVNTRY_MGMT = 'N' 																					-- 저장품이 아닌것
+				AND   MP.ALT_USE = 'Y'
+				AND   MP.BRANCH_CD = #{BRANCH_CD}
+				<if test="LRG_CLS_ID != null and LRG_CLS_ID != 'undefined' and LRG_CLS_ID != ''">
+					AND   MM.LRG_CLS_ID = #{LRG_CLS_ID}
+				</if>
+				
+				<if test="MDL_CLS_ID != null and MDL_CLS_ID != 'undefined' and MDL_CLS_ID != ''">
+					AND   MM.MDL_CLS_ID = #{MDL_CLS_ID}
+				</if>
+				
+				<if test="SML_CLS_ID != null and SML_CLS_ID != 'undefined' and SML_CLS_ID != ''">
+					AND   MM.SML_CLS_ID = #{SML_CLS_ID}
+				</if>
+				<choose>
+					<when test="ALT_TOT_SRCH != null and ALT_TOT_SRCH != 'undefined' and ALT_TOT_SRCH != ''" >
+						AND   (MM.MTRL_CD = #{MTRL_CD} OR MM.MTRL_NM LIKE '%'||#{MTRL_NM}||'%')
+					</when>
+					<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+						AND   MM.MTRL_CD = #{MTRL_CD}
+					</when>
+					<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+						AND   REGEXP_LIKE (MM.MTRL_NM2, REPLACE(#{MTRL_NM},' ','|'),'i')
+					</when>
+				</choose>
+			</if>
+			<if test="ALT_INVNTRY_MGMT == ''">
+				UNION ALL
+			</if>
+			<if test='ALT_INVNTRY_MGMT == "" or ALT_INVNTRY_MGMT == "Y"'>
+				SELECT
+					MP.BRANCH_CD
+					,MP.MTRL_CD
+					,MM.MTRL_NM
+					,MM.MTRL_NM2
+					,MM.SPEC
+					,MM.CD_PUR_UNIT
+					,MM.LRG_CLS_ID
+					,MM.MDL_CLS_ID
+					,MM.SML_CLS_ID
+					,DECODE(MP.CNTR_PRICE,NULL,MP.LAST_GR_UNT_PRICE,MP.CNTR_PRICE) CNTR_PRICE
+					,'' CNTR_PTNR_ID
+					,MP.GR_ACNT_CD_BIZ
+					,MP.GR_ACNT_CD_MGMT
+					,MP.OUT_ITEM_ACC_BIZ
+					,MP.OUT_ITEM_ACC_MGMT
+					,SM.STOCK_QTY  																										-- 재고수량
+					,SL2.SL_NM AS OUT_STR_NM 																							-- 창고명
+					,SL2.STR_CD AS OUT_STR_CD																							-- 창고코드
+					,MP.ALT_INVNTRY_MGMT
+					,SYSDATE+NVL(MP.DLV_DAY,1) DLV_DAY
+				FROM MM_MTRL_PURC MP
+					 ,MM_MTRL MM
+					 ,MM_MTRL_SL SL
+					 ,MC_STOCK_MST SM
+					 ,MM_MT_SL SL2
+				WHERE MP.MTRL_CD = MM.MTRL_CD
+				AND   MP.BRANCH_CD = SL.BRANCH_CD(+)
+				AND   MP.MTRL_CD = SL.MTRL_CD(+)
+				AND   SL.BRANCH_CD = SM.BRANCH_CD(+)
+				AND   SL.MTRL_CD = SM.MTRL_CD(+)
+				AND   SL.STR_CD = SM.STR_CD(+)
+				AND   SM.BRANCH_CD = SL2.BRANCH_CD(+)
+				AND   SM.STR_CD = SL2.STR_CD(+)
+				AND   MP.ALT_INVNTRY_MGMT = 'Y'																							-- 저장품
+				AND   MP.ALT_USE = 'Y'
+				AND   MP.BRANCH_CD = #{BRANCH_CD}
+				<if test="EXIST == 'true'">
+					AND   SM.STOCK_QTY <![CDATA[>]]> 0
+				</if>
+				<if test="OUT_STR_CD != null and OUT_STR_CD != 'undefined' and OUT_STR_CD != ''">
+					AND   SL2.STR_CD = #{OUT_STR_CD}
+				</if>
+				
+				<if test="OUT_STR_NM != null and OUT_STR_NM != 'undefined' and OUT_STR_NM != ''">
+					AND   SL2.SL_NM LIKE '%'||#{OUT_STR_NM}||'%'
+				</if>
+				<if test="LRG_CLS_ID != null and LRG_CLS_ID != 'undefined' and LRG_CLS_ID != ''">
+					AND   MM.LRG_CLS_ID = #{LRG_CLS_ID}
+				</if>
+				
+				<if test="MDL_CLS_ID != null and MDL_CLS_ID != 'undefined' and MDL_CLS_ID != ''">
+					AND   MM.MDL_CLS_ID = #{MDL_CLS_ID}
+				</if>
+				
+				<if test="SML_CLS_ID != null and SML_CLS_ID != 'undefined' and SML_CLS_ID != ''">
+					AND   MM.SML_CLS_ID = #{SML_CLS_ID}
+				</if>
+				<choose>
+					<when test="ALT_TOT_SRCH != null and ALT_TOT_SRCH != 'undefined' and ALT_TOT_SRCH != ''" >
+						AND   (MM.MTRL_CD = #{MTRL_NM} OR MM.MTRL_NM LIKE  '%'||#{MTRL_NM}||'%')
+					</when>
+					<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+						AND   MM.MTRL_CD = #{MTRL_CD}
+					</when>
+					<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+						AND   REGEXP_LIKE (MM.MTRL_NM2, REPLACE(#{MTRL_NM},' ','|'),'i')
+					</when>
+				</choose>
+			</if>
+		)
+		SELECT
+			'' AS BTN_STATUS        				--추가,삭제 code 출력용 컬럼
+            ,'' AS BTN_STATUS_NM					--추가,삭제 data 출력용 컬럼
+			,M.BRANCH_CD
+			,M.MTRL_CD
+			,M.MTRL_NM
+			,M.MTRL_NM2 AS MTRL_NM_SPEC
+			,M.SPEC
+			,M.CD_PUR_UNIT
+			,M.LRG_CLS_ID
+			,M.MDL_CLS_ID
+            ,M.SML_CLS_ID
+            ,MG.MTRL_GRP_NM AS SML_CLS_NM
+			,M.CNTR_PRICE
+			,M.CNTR_PTNR_ID
+			,M.STOCK_QTY
+			,M.OUT_STR_CD
+			,M.OUT_STR_NM
+			,M.ALT_INVNTRY_MGMT
+			,TO_CHAR(M.DLV_DAY,'YYYYMMDD') DLV_DAY
+		FROM MQURY M
+			 ,MM_MTRL_GRP MG
+		WHERE M.SML_CLS_ID = MG.MTRL_GRP_ID(+)
+		<if test='IS_ROLE == "Y" '>
+		AND  M.LRG_CLS_ID <![CDATA[<>]]> '80'
+		</if>
+		
+		<if test="FLAG == 'true'">
+           AND M.MTRL_CD IN 
+               ( 
+                 SELECT MTRL_CD
+                 FROM MM_MTRL_ATTR MMA
+                 WHERE 1=1 
+            <if test="ATTR_ID1 != null and ATTR_ID1 != 'undefined' and ATTR_ID1 != ''">
+                AND MMA.ATTR_ID = #{ATTR_ID1}
+            </if>
+                     
+            <if test="ATTR_NM1 != null and ATTR_NM1 != 'undefined' and ATTR_NM1 != '' and ATTR_NM1 != '--전체--'">
+                AND MMA.ATTR LIKE '%' || #{ATTR_NM1} || '%'
+            </if>        
+            
+            <if test="ATTR_ID2 != null and ATTR_ID2 != 'undefined' and ATTR_ID2 != ''">
+                AND MMA.ATTR_ID = #{ATTR_ID2}
+            </if>
+            
+            <if test="ATTR_NM2 != null and ATTR_NM2 != 'undefined' and ATTR_NM2 != '' and ATTR_NM2 != '--전체--'">
+                AND MMA.ATTR LIKE '%' || #{ATTR_NM2} || '%'
+            </if>    
+            
+            <if test="ATTR_ID3 != null and ATTR_ID3 != 'undefined' and ATTR_ID3 != ''">
+                AND MMA.ATTR_ID = #{ATTR_ID3}
+            </if>
+            
+            <if test="ATTR_NM3 != null and ATTR_NM3 != 'undefined' and ATTR_NM3 != '' and ATTR_NM3 != '--전체--'">
+                AND MMA.ATTR LIKE '%' || #{ATTR_NM3} || '%'
+            </if>
+                )
+        </if>
+        <include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComMtrl" resultType="HMap">
+	/*[BComService.searchComMtrl][품목검색][2019.05.03][김민성] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="MTRL_CD DESC"/>
+		</include>
+		SELECT 
+		    '' AS BTN_STATUS																--추가,삭제 code 출력용 컬럼
+			,'' AS BTN_STATUS_NM 															--추가,삭제 data 출력용 컬럼
+		    ,MM.MTRL_CD
+		    ,MM.MTRL_NM2
+		    ,MM.MTRL_NM
+		    ,MM.SPEC
+		    ,MM.CD_PUR_UNIT
+		    ,MM.LRG_CLS_ID
+		    ,MM.MDL_CLS_ID
+		    ,MM.SML_CLS_ID
+		    ,MM.INT_NTAX
+		    ,MMG.MTRL_GRP_NM2
+		    ,MMP.CNTR_PRICE
+		    ,MMP.ALT_MEAL
+		    ,MMP.ALT_INVNTRY_MGMT
+		    ,MMP.ALT_BARCD					--바코드발행여부   추가
+		FROM MM_MTRL MM 
+		     ,MM_MTRL_PURC MMP
+		     ,MM_MTRL_GRP MMG
+		WHERE MM.MTRL_CD = MMP.MTRL_CD
+		AND   MM.SML_CLS_ID = MMG.MTRL_GRP_ID
+		AND   MMP.ALT_USE = 'Y'
+		AND   MMP.BRANCH_CD = #{BRANCH_CD}
+		
+		<if test="LRG_CLS_ID != null and LRG_CLS_ID != 'undefined' and LRG_CLS_ID != ''">
+			AND   MM.LRG_CLS_ID = #{LRG_CLS_ID}
+		</if>
+		<if test="MDL_CLS_ID != null and MDL_CLS_ID != 'undefined' and MDL_CLS_ID != ''">
+			AND   MM.MDL_CLS_ID = #{MDL_CLS_ID}
+		</if>
+		<if test="SML_CLS_ID != null and SML_CLS_ID != 'undefined' and SML_CLS_ID != ''">
+			AND   MM.SML_CLS_ID = #{SML_CLS_ID}
+		</if>
+		<choose>
+			<when test="ALT_TOT_SRCH != null and ALT_TOT_SRCH != 'undefined' and ALT_TOT_SRCH != ''" >
+				AND   (MM.MTRL_CD = #{MTRL_CD} OR MM.MTRL_NM = #{MTRL_NM})
+			</when>
+      		<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != '' ">
+         		AND   MM.MTRL_CD = #{MTRL_CD}
+      		</when>
+      		<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+         		AND   REGEXP_LIKE (MM.MTRL_NM2, REPLACE(#{MTRL_NM},' ','|'),'i')
+      		</when>
+   		</choose>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComSl" resultType="HMap">
+	/*[BComService.searchComSl][창고검색][2019.05.02][김민성] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="STR_CD DESC"/>
+		</include>
+			 SELECT
+				BRANCH_CD
+				,STR_CD
+				,DEPT_CD
+				,SL_NM
+				,PROFIT_CC_CD
+				,COST_CNTR_CD
+				,BIZ_SL_CD
+				,CD_RVC_GBN
+				,CHRGR_ID
+				,ZIP_NO
+				,ADDR
+				,DTL_ADDR
+				,TEL
+				,FAX
+				,ALT_USE
+				,CRTR_ID
+				,CRT_DT
+				,LAST_CHGR_ID
+				,LAST_CHG_DT
+				,OUT_ITEM_ACC_BIZ AS ACC_CD 
+				,(
+					SELECT ACNT_NM
+				      FROM MM_MT_ACCOUNT MMA
+				     WHERE MMA.BRANCH_CD = BRANCH_CD
+				       AND MMA.ACNT_CD = OUT_ITEM_ACC_BIZ
+				       AND MMA.BRANCH_CD = #{BRANCH_CD}
+				  )AS ACC_NM        
+			FROM MM_MT_SL
+			WHERE BRANCH_CD = #{BRANCH_CD}
+			AND ALT_USE = 'Y'
+			
+			<choose>
+				<when test="STR_CD != null and STR_CD != 'undefined' and STR_CD != '' and SL_NM != null and SL_NM != 'undefined' and SL_NM != ''">
+					AND (STR_CD = #{STR_CD} OR SL_NM LIKE '%' || #{SL_NM} || '%')  
+				</when>
+				
+				<when test="STR_CD != null and STR_CD != 'undefined' and STR_CD != ''">
+					AND STR_CD = #{STR_CD}
+				</when>
+				
+				<when test="SL_NM != null and SL_NM != 'undefined' and SL_NM != ''">
+					AND SL_NM LIKE '%'||#{SL_NM}||'%'
+				</when>
+			</choose>
+		  <include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComUser" resultType="HMap">
+	/*[BComService.searchComUser][사용자검색][2019. 05.03][김민성] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="USER_ID DESC"/>
+		</include>
+		SELECT
+			U.BRANCH_CD
+			,U.USER_ID
+			,U.INT_USER_TYPE
+			,U.USER_NM
+			,U.USER_NM_GB
+			,U.PTNR_ID
+			,U.DEPT_CD
+			,U.DEPT_NM
+			,U.PWD
+			,U.FAX
+			,U.MJR_JOB
+			,U.TEL
+			,U.HP
+			,U.ALT_SMS_RCV
+			,U.ALT_MAIL_RCV
+			,U.PWD_EXPR_DAY
+			,U.PWD_CHG_DAY
+			,U.LAST_LOGIN_DT
+			,U.COST_CNTR_CD
+			,U.CC_NM
+			,U.ALT_USE
+			,U.EMP_NO
+			,U.EMAIL
+			,U.CRTR_ID
+			,U.CRT_DT
+			,U.LAST_CHGR_ID
+			,U.LAST_CHG_DT
+			,A.POST_NM
+		  FROM MM_MT_USER U
+		  		,MM_MT_USER_ADD A
+		 WHERE U.BRANCH_CD = A.BRANCH_CD(+)
+		   AND U.USER_ID = A.USER_ID(+)
+		   AND U.INT_USER_TYPE = 'B'
+		   AND U.BRANCH_CD = #{BRANCH_CD}
+		<choose>
+			<when test="USER_ID !=null and USER_ID !='undefined' and USER_ID != '' and USER_NM !=null and USER_NM !='undefined' and USER_NM != ''">
+					AND ( U.USER_ID = #{USER_ID} OR U.USER_NM LIKE '%' || #{USER_NM} || '%' )
+			</when>
+			<when test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND U.USER_ID = #{USER_ID}
+			</when>
+			<when test="USER_NM != null and USER_NM != 'undefined' and USER_NM != ''">
+				AND U.USER_NM LIKE '%'|| #{USER_NM}||'%'
+			</when>
+		</choose>
+		ORDER BY U.USER_ID ASC
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComPtnr" resultType="HMap">
+   /*[BComService.searchComPtnr][업체검색][2019.05.03][김민성] */
+      <include refid="commonService.list-before">
+         <property name="ORDERS" value="BIZ_NO DESC"/>
+      </include>
+      SELECT
+      		'0' CHECKED
+            ,'' AS BTN_STATUS
+            ,'' AS BTN_STATUS_NM 														
+            ,MP.BIZ_NO
+            ,MP.PTNR_ID
+            ,MP.PTNR_NM
+            ,MP.RPRSTV_NM
+            ,MP.RPTST_TEL
+            ,MPP.SRCH_KEY
+            ,MP.ADDR
+            ,MP.DTL_ADDR
+            ,MP.ADDR||MP.DTL_ADDR AS TOTAL_ADDR
+            ,MP.ZIP_NO
+            ,MAX(MPP.EVAL_POINT) AS EVAL_POINT
+            ,TO_CHAR(MAX(ER.EVAL_CMPLT_DT),'YYYYMMDD') AS EVAL_CMPLT_DT
+            ,MP.RPRSTV_HP
+            ,MP.RPRSTV_EMAIL
+            ,MPP.CD_PO_CRNC
+            ,MPP.CD_DLV_MTHD
+            ,MPP.CD_PYMT_CNDTN
+            ,MPP.CD_PAY_CTGR
+            ,MPP.CD_TAX_KIND
+            ,MPP.CD_TAX_CD
+            ,MPP.CD_DLV_AREA
+      FROM MM_PTNR MP
+      	   ,MM_PTNR_PORG MPP
+      	   ,MM_PTNR_ADD MPA
+      	   ,MM_EVL_RUN ER
+      WHERE MPP.PTNR_ID = MP.PTNR_ID 
+      AND   MPP.PTNR_ID = MPA.PTNR_ID(+)
+      AND   MPP.BRANCH_CD = ER.BRANCH_CD(+)
+      AND   MPP.PTNR_ID = ER.PTNR_ID(+)
+      AND   MPP.CD_PORG_UNIT_STTS = 'SR20PTNR'
+      AND   MPP.BRANCH_CD = #{BRANCH_CD}
+      
+      <if test="BIZ_NO != null and BIZ_NO != 'undefined' and BIZ_NO != ''">
+      	AND   MP.BIZ_NO = #{BIZ_NO}
+      </if>
+      
+      <choose>
+      	<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != '' and PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+      		AND   (MP.PTNR_ID =  #{PTNR_ID} OR MP.PTNR_NM LIKE '%'||#{PTNR_NM}||'%')
+		</when>
+		<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+			AND   MP.PTNR_ID = #{PTNR_ID}
+		</when>
+		<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+			AND   MP.PTNR_NM LIKE '%'||#{PTNR_NM}||'%'
+		</when>
+      </choose>
+      GROUP BY MP.BIZ_NO
+      		,MP.PTNR_ID
+      		,MP.PTNR_NM
+      		,MP.RPRSTV_NM
+      		,MP.RPTST_TEL
+      		,MPP.SRCH_KEY
+      		,MP.ADDR
+      		,MP.DTL_ADDR
+      		,MP.ZIP_NO
+      		,MP.RPRSTV_HP
+      		,MP.RPRSTV_EMAIL
+      		,MPP.CD_PO_CRNC
+      		,MPP.CD_DLV_MTHD
+      		,MPP.CD_PYMT_CNDTN
+      		,MPP.CD_PAY_CTGR
+      		,MPP.CD_TAX_KIND
+      		,MPP.CD_TAX_CD
+      		,MPP.CD_DLV_AREA
+      <include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComAccount" parameterType="hashmap" resultType="hashmap">
+	/* [BComService.searchComAccount][계정조회] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="ACNT_CD DESC"/>
+		</include>
+			 SELECT 
+			 	ACNT_CD 	/*계정코드*/
+ 			    ,ACNT_NM 	/*계정명*/
+			 FROM MM_MT_ACCOUNT
+			 WHERE BRANCH_CD = #{BRANCH_CD}
+	         <choose>
+				<when test="ACNT_CD != null and ACNT_CD  != 'undefined' and ACNT_CD != '' and ACNT_NM != null and ACNT_NM  != 'undefined' and ACNT_NM != ''">
+					AND ( ACNT_CD = #{ACNT_CD} OR ACNT_NM LIKE '%' || #{ACNT_NM} || '%' )
+				</when>
+			 	<when test="ACNT_CD != null and ACNT_CD  != 'undefined' and ACNT_CD != ''">
+			 		AND ACNT_CD = #{ACNT_CD}
+			 	</when>
+			 	<when test="ACNT_NM != null and ACNT_NM  != 'undefined' and ACNT_NM != ''">
+			 		AND ACNT_NM LIKE '%' || #{ACNT_NM} || '%'
+			 	</when>
+			 </choose>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComPorg" parameterType="hashmap" resultType="hashmap">
+	/* [BComService.searchComPorg][운영단위조회] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="BRANCH_CD DESC"/>
+		</include>
+		SELECT
+  			BRANCH_CD
+  			,BRANCH_NM
+  			,BIZ_PLC_NM
+  			,HR_CD
+  			,SAP_COMPANY
+  			,SAP_BACD
+  			,BIZ_NO
+  			,BIZ_CNDTN
+  			,BIZ_TYPE
+  			,RPTST_TEL
+  			,RPRSTV_NM
+  			,RPRSTV_HP
+  			,ZIP_NO
+  			,ADDR1
+  			,ADDR2
+  			,FAX
+  			,ETC_RSN
+  			,ALT_USE
+  			,CRTR_ID
+  			,CRT_DT
+  			,LAST_CHGR_ID
+  			,LAST_CHG_DT
+  		FROM MM_MT_PORG
+  		WHERE 1=1
+  		<choose>
+	  		<when test="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != '' and BRANCH_NM != null and BRANCH_NM != 'undefined' and BRANCH_NM != ''">
+				AND (BRANCH_CD = #{BRANCH_CD} OR BRANCH_NM LIKE '%'||#{BRANCH_NM}||'%')
+			</when>
+			
+			<when test="BRANCH_CD != null and BRANCH_CD != 'undefined' and BRANCH_CD != ''">
+				AND BRANCH_CD = #{BRANCH_CD}
+			</when>
+			<when test="BRANCH_NM != null and BRANCH_NM != 'undefined' and BRANCH_NM != ''">
+				AND BRANCH_NM LIKE '%'||#{BRANCH_NM}||'%'
+			</when>
+  		</choose>
+		<include refid="commonService.list-after" />
+	</select>
+	
+	<select id="searchComSrcLvl1" parameterType="hashmap" resultType="hashmap">
+	/* [BPtnrService.searchSrcLvl1][협력사 소싱그룹][2017.11.14][안성민] */
+		SELECT SRC_GRP_ID
+		       , LVL
+		       , SRC_GRP_NM
+		       , SRC_GRP_NM2
+		  FROM MM_MT_SRC_GRP
+		 WHERE ALT_USE = 'Y'
+		   AND LVL=1
+		 ORDER BY ARY_ORDR
+	</select>
+	
+	<select id="searchComSrcLvl2" parameterType="hashmap" resultType="hashmap">
+	/* [BPtnrService.searchSrcLvl2][협력사 소싱그룹][2017.11.14][안성민] */
+		SELECT SRC_GRP_ID
+		       , LVL
+		       , SRC_GRP_NM
+		       , SRC_GRP_NM2
+		       , UP_SRC_GRP_ID
+		  FROM MM_MT_SRC_GRP
+		 WHERE ALT_USE = 'Y'
+		   AND LVL=2
+	</select>	
+	
+	<select id="searchComSrcLvl" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.searchSrcLvl][소싱그룹검색][2017.09.13][송태봉] */
+        SELECT SRC_GRP_ID
+               ,UP_SRC_GRP_ID
+               ,LVL
+               ,SRC_GRP_NM
+               ,SRC_GRP_NM2
+        FROM MM_MT_SRC_GRP
+        WHERE 1=1
+		<choose>
+			<when test="SRC_GRP_ID != null and SRC_GRP_ID  != 'undefined' and SRC_GRP_ID != ''">
+				AND UP_SRC_GRP_ID = #{SRC_GRP_ID}
+			</when>
+		  	<otherwise>
+		  		AND (UP_SRC_GRP_ID = '' OR UP_SRC_GRP_ID IS NULL) 
+		  	</otherwise>
+		  </choose>
+	</select>
+
+	<select id="searchSrcGrpPtnr" resultType="HMap">
+	/*[BComService.searchSrcGrpPtnr][소싱그룹별 업체검색][2017.12.04][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="BIZ_NO DESC"/>
+		</include>
+		 SELECT 
+				MP.BIZ_NO  /*사업자번호*/
+				,MP.PTNR_ID /*협력사ID*/
+				,MP.PTNR_NM  /*사업자명*/
+				,MP.RPRSTV_NM /*대표자명*/
+				,MP.BIZ_CNDTN /*업태*/
+				,MP.BIZ_TYPE /*업종*/
+				,MP.RPTST_TEL/*대표전화*/
+				,PP.CD_PORG_UNIT_STTS /*협력사구분*/
+				,CASE WHEN PP.CD_PORG_UNIT_STTS = 'SR20REJ' OR PP.CD_PORG_UNIT_STTS = 'SR20RST' THEN 'Y'
+					ELSE 'N'
+				 END AS PTNR_STTS
+				,PP.SCJD_EVAL_SCORE /*정기평가 점수*/
+				,TO_CHAR(PP.SCJD_CMPLT_DT,'YYYY-MM-DD')	 AS	SCJD_CMPLT_DT		/*정기평가 완료일시*/
+				,PP.SAP_VENDOR
+				,'(' || MP.ZIP_NO || ')' || MP.ADDR || DTL_ADDR AS ADDR /*주소*/
+				,'추가' AS BTN /*버튼*/
+			FROM MM_PTNR MP 
+				 ,MM_PTNR_PORG PP 
+			WHERE MP.PTNR_ID = PP.PTNR_ID	
+			AND   PP.BRANCH_CD = #{BRANCH_CD}
+
+		<choose>
+		  <when test="CD_PORG_UNIT_STTS != null and CD_PORG_UNIT_STTS  != 'undefined' and CD_PORG_UNIT_STTS != ''">
+          AND	PP.CD_PORG_UNIT_STTS = 	#{CD_PORG_UNIT_STTS}
+		  </when>
+		  <otherwise>
+		  AND	PP.CD_PORG_UNIT_STTS IN ('SR20WAI', 'SR20PTNR','SR20RST','SR20REJ')
+		  </otherwise>
+		</choose>
+		
+		<if test='ALT_AUTO =="Y"'>
+       		AND		PP.ALT_AUTO	=	'Y'
+       	</if>
+        <if test="PTNR_NM != null and PTNR_NM  != 'undefined' and PTNR_NM != ''">
+        	AND		MP.PTNR_NM LIKE '%' || #{PTNR_NM} || '%'
+        </if>
+        <choose>
+			<when test="SRC_LVL_1 != null and SRC_LVL_1  != 'undefined' and SRC_LVL_1 != '' and (SRC_LVL_2 == null or SRC_LVL_2  == 'undefined' or SRC_LVL_2 == '')">
+			AND		MP.PTNR_ID IN ( SELECT MPP.PTNR_ID 
+									FROM MM_PTNR_POOL MPP
+										, MM_MT_SRC_GRP MMSG 
+									WHERE MPP.SRC_GRP_ID = MPP.SRC_GRP_ID 
+									AND MMSG.SRC_GRP_ID = #{SRC_LVL_1} 
+									AND MPP.BRANCH_CD = #{BRANCH_CD})
+			</when>
+			<when test="SRC_LVL_2 != null and SRC_LVL_2  != 'undefined' and SRC_LVL_2 != ''">
+			AND		MP.PTNR_ID IN ( SELECT PTNR_ID FROM MM_PTNR_POOL WHERE SRC_GRP_ID = #{SRC_LVL_2} AND BRANCH_CD = #{BRANCH_CD})
+			</when>
+		</choose>
+        <include refid="commonService.list-after" />
+	</select>
+   
+	<select id="searchRfqPtnr" resultType="HMap">
+	/*[BComService.searchRfqPtnr][입찰 참여 협력사 검색][2017.11.09][김동호] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="BIZ_NO DESC"/>
+		</include>
+			SELECT	MP.PTNR_ID
+					,MP.BIZ_NO	-- 사업자 번호
+					,MP.PTNR_NM	-- 업체명
+					,MP.RPRSTV_NM	-- 대표자명
+					,MP.BIZ_CNDTN /*업태*/
+					,MP.BIZ_TYPE /*업종*/
+					,'(' || MP.ZIP_NO || ')' || MP.ADDR || DTL_ADDR AS ADDR /*주소*/
+					,MPP.CD_PORG_UNIT_STTS /*협력사구분*/
+					,MPP.SCJD_EVAL_SCORE /*정기평가 점수*/
+					,TO_CHAR(MPP.SCJD_CMPLT_DT,'YYYY-MM-DD')	 AS	SCJD_CMPLT_DT		/*정기평가 완료일시*/
+					,MPP.SAP_VENDOR
+					,CASE WHEN MPP.CD_PORG_UNIT_STTS = 'SR20REJ' OR MPP.CD_PORG_UNIT_STTS = 'SR20RST' THEN 'Y'
+						ELSE 'N'
+					 END AS PTNR_STTS
+					,'추가' AS BTN /*버튼*/
+			FROM 	MM_PTNR MP 
+					,MM_PTNR_PORG MPP
+			WHERE MP.PTNR_ID = MPP.PTNR_ID
+			  AND MP.PTNR_ID IN  (SELECT MRP.PTNR_ID 
+								  FROM MM_RFQ MR 
+									   ,MM_RFQ_ITEM MRI 
+			                           ,MM_RFQ_PTNR MRP 
+	                               WHERE MR.BRANCH_CD = MRI.BRANCH_CD
+                   				    AND MR.RFQ_REQ_NO = MRI.RFQ_REQ_NO
+                   				    AND MR.RFQ_ODR = MRI.RFQ_ODR
+                   				    AND MRP.RFQ_REQ_NO = MR.RFQ_REQ_NO
+									AND	MR.RFQ_ODR = MRP.RFQ_ODR 
+	                                AND  MRI.MTRL_CD IS NOT NULL
+	                                AND   MRP.CD_RFQ_SUBM_STTS IN( 'ET11SND','ET11VIW')
+								<if test="MTRL_CD != null and MTRL_CD  != 'undefined' and MTRL_CD != ''">
+						       		AND MRI.MTRL_CD = #{MTRL_CD}
+						       	</if>
+	                               )
+			<if test='ALT_AUTO =="Y"'>
+        		AND		MPP.ALT_AUTO	=	'Y'
+        	</if>
+			<if test="CD_PORG_UNIT_STTS != null and CD_PORG_UNIT_STTS  != 'undefined' and CD_PORG_UNIT_STTS != ''">
+        		AND		MPP.CD_PORG_UNIT_STTS = 	#{CD_PORG_UNIT_STTS}
+        	</if>
+
+		  <include refid="commonService.list-after" />
+	</select>
+
+	<select id="searchPrePtnr" resultType="HMap">
+	/*[BComService.searchPrePtnr][이전 발주 참조 협력사 검색][2017.12.26][한의봉] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="BIZ_NO DESC"/>
+		</include>
+			SELECT	MP.PTNR_ID
+					,MP.BIZ_NO	-- 사업자 번호
+					,MP.PTNR_NM	-- 업체명
+					,MP.RPRSTV_NM	-- 대표자명
+					,MP.BIZ_CNDTN /*업태*/
+					,MP.BIZ_TYPE /*업종*/
+					,'(' || MP.ZIP_NO || ')' || MP.ADDR || DTL_ADDR AS ADDR /*주소*/
+					,MPP.CD_PORG_UNIT_STTS /*협력사구분*/
+					,MPP.SCJD_EVAL_SCORE /*정기평가 점수*/
+					,TO_CHAR(MPP.SCJD_CMPLT_DT,'YYYY-MM-DD')	 AS	SCJD_CMPLT_DT		/*정기평가 완료일시*/
+					,MPP.SAP_VENDOR
+					,CASE WHEN MPP.CD_PORG_UNIT_STTS = 'SR20REJ' OR MPP.CD_PORG_UNIT_STTS = 'SR20RST' THEN 'Y'
+						ELSE 'N'
+					 END AS PTNR_STTS
+					,'추가' AS BTN /*버튼*/
+			FROM 	MM_PTNR MP 
+					,MM_PTNR_PORG MPP
+			WHERE MP.PTNR_ID = MPP.PTNR_ID
+			  AND MPP.SAP_VENDOR IN  (SELECT SAP_VENDOR
+										FROM MM_SAP_POGR
+									<if test="MTRL_CD != null and MTRL_CD  != 'undefined' and MTRL_CD != ''">
+								       	WHERE MTRL_CD = #{MTRL_CD}
+							       	</if>
+							       	<if test="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+										AND PO_DAY	<![CDATA[>=]]> TO_CHAR(#{PO_DAY_STR}, 'YYYYMMDD')
+									</if>
+									<if test="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+										AND PO_DAY	<![CDATA[<=]]> TO_CHAR(#{PO_DAY_END}, 'YYYYMMDD')
+									</if>     
+			                               )
+			<if test='ALT_AUTO =="Y"'>
+        		AND		MPP.ALT_AUTO	=	'Y'
+        	</if>
+		  <include refid="commonService.list-after" />
+	</select>
+
+	<select id="searchFavPtnr" resultType="HMap">
+	/*[BComService.searchFavPtnr][즐겨찾기 협력사 검색][2017.11.09][김동호] */
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value="BIZ_NO DESC"/>
+		</include>
+		 	SELECT  MP.BIZ_NO  /*사업자번호*/
+			        ,MP.PTNR_ID /*협력사ID*/
+			        ,MP.PTNR_NM  /*사업자명*/
+			        ,MP.RPRSTV_NM /*대표자명*/
+			        ,MP.BIZ_CNDTN /*업태*/
+			        ,MP.BIZ_TYPE /*업종*/
+			        ,PP.CD_PORG_UNIT_STTS /*협력사구분*/
+			       	,PP.SCJD_EVAL_SCORE /*정기평가 점수*/
+					,TO_CHAR(PP.SCJD_CMPLT_DT,'YYYY-MM-DD')	 AS	SCJD_CMPLT_DT		/*정기평가 완료일시*/
+					,PP.SAP_VENDOR
+			        ,'(' || MP.ZIP_NO || ')' || MP.ADDR || DTL_ADDR AS ADDR /*주소*/
+			        ,CASE WHEN PP.CD_PORG_UNIT_STTS = 'SR20REJ' OR PP.CD_PORG_UNIT_STTS = 'SR20RST' THEN 'Y'
+						ELSE 'N'
+					 END AS PTNR_STTS
+			         ,'추가' AS BTN /*버튼*/
+			FROM    MM_PTNR MP
+					,MM_MT_USER_PTNR MMUP 
+					,MM_PTNR_PORG PP 
+			WHERE MP.PTNR_ID = MMUP.PTNR_ID
+			  AND MP.PTNR_ID = PP.PTNR_ID	
+			  AND MMUP.USER_ID = #{USER_ID}
+		<if test='ALT_AUTO =="Y"'>
+       		AND		PP.ALT_AUTO	=	'Y'
+       	</if>
+		  <include refid="commonService.list-after" />
+	</select>
+	
+	<select id="readComUserInfo" resultType="HMap">
+	/*[BComService.readComUserInfo][사용자검색][2017.09.07][송태봉] */
+			 SELECT USER_ID /*유저ID*/
+			        ,CASE WHEN #{LANG_CD} = 'CM34EN' THEN USER_NM_GB
+			        	  ELSE USER_NM
+			         END USER_NM
+			        ,EMAIL
+			        ,TEL
+			        ,FAX
+			        ,HP
+			 FROM MM_MT_USER MT
+             WHERE MT.BRANCH_CD = #{BRANCH_CD}
+               AND MT.USER_ID = #{USER_ID}
+	</select>
+	
+	<select id="readComPtnrInfo" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.readComPtnrInfo][회사정보 조회][2017.12.07][안성민] */
+		SELECT PTNR.BIZ_NO
+			   ,PORG.SAP_VENDOR
+               ,PTNR.PTNR_NM
+               ,PTNR.BIZ_CNDTN
+               ,PTNR.BIZ_TYPE
+               ,PTNR.TEL
+               ,PTNR.FAX
+          FROM MM_PTNR PTNR
+               ,MM_PTNR_PORG PORG
+         WHERE PTNR.PTNR_ID = PORG.PTNR_ID(+)
+           AND PTNR.PTNR_ID = #{PTNR_ID}
+           AND PORG.BRANCH_CD(+) = #{BRANCH_CD}
+	</select>
+	
+	<select id="readComPtnrEval" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.readComPtnrEval][회사평가점수 조회][2017.12.07][안성민] */
+		SELECT TO_CHAR(TO_NUMBER(CORP.RT_Q)) || ' / ' || TO_CHAR(TO_NUMBER(SCJD.RT_Q)) AS RT_Q
+	           , TO_CHAR(TO_NUMBER(CORP.RT_C)) || ' / ' || TO_CHAR(TO_NUMBER(SCJD.RT_C)) AS RT_C
+	           , TO_CHAR(TO_NUMBER(CORP.RT_T)) || ' / ' || TO_CHAR(TO_NUMBER(SCJD.RT_T)) AS RT_T
+	           , TO_CHAR(TO_NUMBER(CORP.RT_D)) || ' / ' || TO_CHAR(TO_NUMBER(SCJD.RT_D)) AS RT_D
+	           , TO_CHAR(TO_NUMBER(CORP.RT_F)) || ' / ' || TO_CHAR(TO_NUMBER(SCJD.RT_F)) AS RT_F
+          FROM MM_PTNR PTNR
+               ,MM_PTNR_PORG PORG
+               <!-- ,MM_EVL_SCJD_CORP CORP
+               ,MM_EVL_SCJD SCJD -->
+         WHERE PTNR.PTNR_ID = PORG.PTNR_ID(+)
+           <!-- AND PORG.PTNR_ID = CORP.PTNR_ID(+)
+           AND PORG.SCJD_EVAL_ID = CORP.SCJD_EVAL_ID(+)
+           AND PORG.BRANCH_CD = CORP.BRANCH_CD(+)
+           AND CORP.SCJD_EVAL_ID = SCJD.SCJD_EVAL_ID(+)
+           AND CORP.BRANCH_CD = SCJD.BRANCH_CD(+) -->
+           AND PTNR.PTNR_ID = #{PTNR_ID}
+           AND PORG.BRANCH_CD(+) = #{BRANCH_CD}
+        
+	</select>
+	
+	<select id="readComPtnrUserInfo" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.readComPtnrUserInfo][회사유저 조회][2017.09.13][송태봉] */
+		SELECT '' AS CHECKED
+               ,SUBSTR(USER_ID, 3, LENGTH(USER_ID)) AS USER_ID
+               ,USER_NM
+               ,EMAIL
+               ,HP
+               ,ALT_SMS_RCV
+               ,ALT_MAIL_RCV
+               ,'' AS CNTNT
+        FROM MM_MT_USER
+        WHERE BRANCH_CD = 'SUP'
+          AND PTNR_ID = #{PTNR_ID}
+	</select>
+	
+	<resultMap id="RM_readComNoticePop" type="HMap">
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap> 
+	<select id="readComNoticePop" parameterType="Hmap" resultType="Hmap" resultMap="RM_readComNoticePop">
+	/*[BComService.readComNoticePop][공지사항 팝업 조회][2017.09.21][송태봉] */
+		SELECT
+				DOC_NO
+				,DOC_NM
+				,INT_OPEN_SITE
+				,CONTENT
+				,WRTR_NM || ' / ' || TO_CHAR(CRT_DT, 'YYYY-MM-DD') WRTR_INFO
+				,GET_USERNM(LAST_CHGR_ID,BRANCH_CD,#{LANG_CD}) || ' / ' || TO_CHAR(LAST_CHG_DT, 'YYYY-MM-DD') LAST_WRTR_INFO
+				,'NOTICE' || TO_CHAR(SYSDATE,'YYYYMMDD') || DOC_NO AS TODAY
+			FROM MM_CM_BBS
+			WHERE DOC_NO = #{DOC_NO}
+	</select>
+	
+	<select id="readComMtrlInfo" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.readComMtrlInfo][품목상세팝업][2017.11.30][김동호] */
+		SELECT  MM.MTRL_CD
+				,MM.MTRL_NM
+				,MMSG.SRC_GRP_ID
+				,MMSG.SRC_GRP_NM2
+        		--,TO_DATE(MM.LST_PO_DAY, 'YYYY-MM-DD') AS LST_PO_DAY
+        		--,TO_DATE(MM.LST_GR_DAY, 'YYYY-MM-DD') AS LST_GR_DAY 
+		FROM	MM_MTRL MM
+				,MM_MTRL_GRP MMG
+				,MM_MT_SRC_GRP MMSG
+		WHERE MM.SML_CLS_ID = MMG.MTRL_GRP_ID(+)
+		  AND MMG.SRC_GRP_ID = MMSG.SRC_GRP_ID(+)
+		  AND MM.MTRL_CD = #{MTRL_CD}
+	</select>
+	
+	<select id="readCompBranchCd" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.readCompBranchCd][구매조직 조회][2017.10.12][한민희] */
+		SELECT	
+				BRANCH_CD
+				, BRANCH_NM
+		FROM	MM_MT_PORG
+		WHERE	ALT_USE = 'Y'
+	</select>
+	
+	<select id="searchComSrcGrp" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.searchComSrcGrp][소싱그룹 조회][2017.10.30][송태봉] */
+		SELECT 
+				SRC_GRP_ID
+				,CASE WHEN NVL(UP_SRC_GRP_ID,'') = '' THEN TO_CHAR(SRC_GRP_ID)
+					ELSE TO_CHAR(UP_SRC_GRP_ID)
+				 END AS UP_SRC_GRP_ID
+				,SRC_GRP_NM
+				,SRC_GRP_ID
+				,SRC_GRP_NM2
+				,RMARK
+				,LVL
+				,ARY_ORDR
+		FROM 	MM_MT_SRC_GRP
+		WHERE 	ALT_USE		=	'Y'
+		START WITH UP_SRC_GRP_ID IS NULL
+		CONNECT BY PRIOR SRC_GRP_ID = UP_SRC_GRP_ID
+        ORDER SIBLINGS BY UP_SRC_GRP_ID,ARY_ORDR
+	</select>
+	<select id="searchSetUser" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.searchSetUser][개인화 사용자 정보 조회][2017.12.04][김동호] */
+		SELECT  
+				GET_USERNM(MMU.ABS_USER_ID,MMU.BRANCH_CD,#{LANG_CD}) AS ABS_USER_NM
+				,MMU.ABS_USER_ID
+		        ,MMU.ABS_ST_DAY
+		        ,MMU.ABS_ED_DAY
+		        ,MMU.ALT_SMS_RCV
+		        ,MMU.ALT_MAIL_RCV
+		        ,MMU.TEL
+		        ,MMU.HP
+		        ,#{USER_ID} AS USER_ID
+		        ,LANG_CD
+		FROM  	MM_MT_USER MMU
+		WHERE	MMU.USER_ID = #{USER_ID}
+	</select>
+	<select id="checkSUserPW" parameterType="Hmap" resultType="Hmap">
+	/*[BComService.checkSUserPW][협력사 비밀번호 변경전 체크][2017.12.27][김동호] */
+		SELECT CASE WHEN COUNT(USER_ID) = 1
+		        THEN 'Y'		-- 변경가능하면 Y		
+		        ELSE 'N'		-- 변경 불가능 하면 N
+		        END AS PWCK
+		FROM  MM_MT_USER
+		WHERE USER_ID = #{USER_ID}
+		AND PWD = #{PWD}
+	</select>
+	<update id="saveSetUser" parameterType="Hmap" >
+	/*[BComService.saveSetUser][개인화 사용자 정보 저장][2017.12.05][김동호] */
+		UPDATE	MM_MT_USER 
+		SET		ABS_USER_ID		=	#{ABS_USER_ID}		
+				,ABS_ST_DAY 	=	#{ABS_ST_DAY}
+				,ABS_ED_DAY		=	#{ABS_ED_DAY}
+				,ALT_SMS_RCV 	=	#{ALT_SMS_RCV}
+				,ALT_MAIL_RCV	=	#{ALT_MAIL_RCV}
+				,LANG_CD		=	#{LANG_CD}
+		WHERE	USER_ID = #{USER_ID}		
+	</update>
+	<update id="saveSSetUser" parameterType="Hmap" >
+	/*[BComService.saveSSetUser][개인화 협력사 사용자 정보 수정ㄷ][2017.12.27][김동호] */
+		UPDATE	MM_MT_USER 
+		SET		PWD = #{NEWPWD}
+				,LAST_CHGR_ID = #{USER_ID}
+				,LAST_CHG_DT = SYSDATE
+		WHERE	USER_ID = #{USER_ID}		
+	</update>
+	
+	<update id="saveSignOrgDoc" parameterType="hashmap">
+	  		UPDATE 
+	  			<choose>
+	  				<otherwise>
+	  					${TBL_NM} 
+	  				</otherwise>
+	  			</choose>
+	  		   SET SIGN_ORGNL = #{CONTENT, jdbcType=CLOB}
+	  		 WHERE ${COL_NM1} = #{REF_KEY_1}
+	  		 	<if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+	  		   		AND ${COL_NM2} = #{REF_KEY_2}
+	  		   	</if>
+  	</update>
+  	
+  	<update id="signedSingleSave" parameterType="hashmap">
+  	/*[BComService.signedSingleSave][전자서명한 데이터를 저장한다.][2019.03.08][안성민] */
+		<if test="TBL_NM eq 'MM_CNTR_ADD'.toString()">
+		UPDATE ${TBL_NM} SET
+		    SIGN_DATA 			= #{SIGN_DATA_B, jdbcType=CLOB}
+		    ,PTNR_CNTR_DT		= SYSDATE
+		    ,UL_CNTR_USER_NM	= GET_USERNM(#{USER_ID}, #{BRANCH_CD}, 'CM34KR')
+		WHERE BRANCH_CD = #{BRANCH_CD}
+		AND ${COL_NM1} = #{REF_KEY_1}
+			<if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+			AND ${COL_NM2} = #{REF_KEY_2}
+			</if>
+		</if>
+  	</update> 
+  	
+  	<update id="signedSigleUpdStts" parameterType="hashmap">
+  	/*[BComService.signedSigleUpdStts][전자서명 후 발주 및 계약의 상태를 업데이트 한다.][2019.03.08][안성민] */
+  		<if test="TBL_NM eq 'MM_CNTR_ADD'.toString()">
+		UPDATE MM_CNTR SET
+		    CD_CNTR_STTS	= 'CT10SCLO'
+			,CNTR_CFM_DT	= SYSDATE
+			,LAST_CHGR_ID	= #{USER_ID}
+			,LAST_CHG_DT	= SYSDATE
+		WHERE ${COL_NM1} = #{REF_KEY_1}
+			<if test="REF_KEY_2 != null and REF_KEY_2 != ''">
+			AND ${COL_NM2} = #{REF_KEY_2}
+			</if>
+		</if>
+  	</update> 
+  	
+  	<update id="signedSave" parameterType="hashmap">
+  	/*[BComService.signedSave][전자서명한 데이터를 저장한다.][2019.03.08][안성민] */
+		UPDATE ${TBL_NM} SET
+		    A_SIGN_DATA 	= #{SIGN_DATA_A, jdbcType=CLOB}
+		    ,ALT_A_SIGN 	= 'Y'
+		    ,A_SIGN_DT 		= SYSDATE
+		    ,A_CHARGR_ID	= (SELECT CNTR_CHRGR_ID FROM MM_CNTR WHERE CNTR_NO = #{REF_KEY_1} AND CNTR_ORDR=#{REF_KEY_2} )
+		    ,B_SIGN_DATA 	= #{SIGN_DATA_B, jdbcType=CLOB}
+		    ,ALT_B_SIGN 	= 'Y'
+		    ,B_CHARGR 		= #{USER_NM}
+		    ,B_CHARGR_ID	= #{USER_ID}
+		    ,B_SIGN_DT 		= SYSDATE
+		WHERE ${COL_NM1} 	= #{REF_KEY_1}
+		AND ${COL_NM2} 		= #{REF_KEY_2}
+  	</update>
+  	
+  	<update id="signedUpdStts" parameterType="hashmap">
+  	/*[BComService.signedUpdStts][전자서명 후 발주 및 계약의 상태를 업데이트 한다.][2019.03.08][안성민] */
+  		<if test="TBL_NM == 'MM_CNTR_ADD'">
+  			UPDATE MM_CNTR SET
+  				CD_CNTR_STTS = 'CT10CLO'
+  				,CNTR_CFM_DT	= SYSDATE
+  			WHERE ${COL_NM1} = #{REF_KEY_1}
+			AND ${COL_NM2} = #{REF_KEY_2}
+  		</if>
+  	</update>
+  	
+  	<resultMap id="contentobj" type="hashmap">
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+  	<select id="selectCntrTemplatePop" parameterType="hashmap" resultMap="contentobj">
+	/* [BComService.selectCntrTemplatePop][계약내용조회] */
+		SELECT BRANCH_CD
+			   , CNTR_NO
+			   , CNTR_ORDR
+		       , CONTENT
+		       , '' AS REF_TBL_NM
+		       , '' AS REF_KEY_1
+		       , '' AS REF_KEY_2
+		       , '' AS REF_KEY_3
+		       , '' AS COL_NM1
+		       , '' AS COL_NM2
+		       , '' AS TBL_NM
+		       , '' AS SIGN_MODE
+		  FROM MM_CNTR
+		 WHERE BRANCH_CD = #{BRANCH_CD} 
+		   AND CNTR_NO = #{CNTR_NO}
+		   AND CNTR_ORDR = #{CNTR_ORDR}
+	</select>
+	
+	
+	
+	<resultMap id="signobj" type="hashmap">
+		<result property="A_SIGN_DATA" column="A_SIGN_DATA" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="B_SIGN_DATA" column="B_SIGN_DATA" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap>
+	<select id="unSignContent" parameterType="hashmap" resultMap="signobj">
+	/* [BComService.unSignContent][전자서명복호화] */
+		SELECT
+			 A_SIGN_DATA
+			 ,  B_SIGN_DATA
+           FROM ${TBL_NM}
+          WHERE ${COL_NM1} = #{REF_KEY_1}
+			AND ${COL_NM2} = #{REF_KEY_2}
+	</select>
+		
+	<select id="selectSignInfo" parameterType="hashmap" resultType="hashmap">
+	/* [BComService.selectSignInfo][전자서명 정보조회] */
+		SELECT SUBSTR(A_BIZ_NO,0,3) || '-' || SUBSTR(A_BIZ_NO,4,2) || '-' || SUBSTR(A_BIZ_NO,6) AS A_BIZ_NO
+			   , SUBSTR(B_BIZ_NO,0,3) || '-' || SUBSTR(B_BIZ_NO,4,2) || '-' || SUBSTR(B_BIZ_NO,6) AS B_BIZ_NO
+		       , A_CORP_NM
+		       , B_CORP_NM
+		       , A_ADDR
+		       , B_ADDR
+		       , A_PNAME
+		       , B_PNAME
+		       , A_CHARGR
+		       , B_CHARGR
+		       , '완료' AS A_SIGN
+		       , '완료' AS B_SIGN
+		  FROM MM_CNTR_ADD 
+		 WHERE CNTR_NO  = #{CNTR_NO} 
+		   AND CNTR_ORDR = #{CNTR_ORDR}
+	</select>
+	
+  	<insert id="savePurHist" parameterType="hashmap">
+  		/* [BComService.savePurHist][구매요청 품목 히스토리 저장] */
+  		INSERT INTO MM_PR_ITEM_HIST(
+  			VOC_NO                  		-- MM_PR_ITEM_HIST_SEQ.NEXTVAL
+  			,PR_ITEM_ID            			-- 구매요청아이템번호
+  			,DT                        		-- 일시
+  			,DOC_NO                  		-- 문서번호
+  			,TYPE                     		-- 구분
+  			,PRGRS_STEP						-- 진행단계
+  			,RMARK                  		-- 비고
+  			,CRT_DT                  		-- 생성일시
+  		)VALUES(
+  			MM_PR_ITEM_HIST_SEQ.NEXTVAL
+  			,#{PR_ITEM_ID}      			-- 구매요청아이템번호
+  			,SYSDATE               			-- 일시
+  			,#{DOC_NO}            			-- 문서번호
+  			,#{TYPE}               			-- 구분
+  			,#{PRGRS_STEP}					-- 진행단계
+  			,#{RMARK}               		-- 비고
+  			,SYSDATE         	 			-- 생성일시
+  		)
+  	</insert>
+  	 <!-- 구매진행상태 조회 -->	
+  	<select id="readComPrHist" parameterType="hashmap" resultType="hashmap" >
+ 			SELECT
+  			MPIH.VOC_NO
+  			,MPIH.PR_ITEM_ID
+  			,MPIH.DT
+  			,TO_CHAR(MPIH.DT,'YYYY.MM.DD HH24:MI:SS') AS DT_MASK
+  			,MPIH.DOC_NO
+  			,MPIH.PRGRS_STEP
+  			,MPIH.TYPE
+  			,MPIH.RMARK
+  			,MPIH.CRT_DT
+  			,MPI.CD_PR_ITEM_STTS
+  		FROM MM_PR_ITEM_HIST MPIH , MM_PR_ITEM MPI
+  		WHERE MPIH.PR_ITEM_ID = MPI.PR_ITEM_ID
+  		AND MPIH.PR_ITEM_ID =  #{PR_ITEM_ID}
+  		ORDER BY MPIH.DT DESC
+  	</select>
+</mapper>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="768" id="BMtrlSrcGrpMapping" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="소싱그룹매핑" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="1" text="Div00" top="46">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" autosizingtype="none" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="8" top="30" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="100"/>
+                      <Column size="300"/>
+                      <Column size="300"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" expr="" text="품목그룹ID"/>
+                      <Cell col="2" expr="" text="품목그룹명"/>
+                      <Cell col="3" expr="" text="소싱그룹"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                      <Cell col="1" text="bind:MTRL_GRP_ID"/>
+                      <Cell col="2" style="align:left;" text="bind:MTRL_GRP_NM"/>
+                      <Cell col="3" style="align:left;" text="bind:SRC_GRP_NM2"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="9" url="CCOMP::CompPaging.xfdl"/>
+              <Button cssclass="btn_WF_Com_G" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00192&quot;)" height="25" id="btnSrcGrpMap" objNm="소싱그룹매핑" onclick="fnBtnSrcGrpMapOnclick" positionstep="1" right="0" taborder="10" text="소싱그룹매핑" top="0" width="170"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" taborder="3" top="0">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staCdEvalRunStts" left="740" style="padding:0 10 0 6;align:right middle;" taborder="8" text="소싱그룹" top="5" width="170"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staGrpId" left="0" style="padding:0 10 0 6;align:right middle;" taborder="10" text="품목그룹ID" top="5" width="170"/>
+              <Div height="24" id="divSrcGrp" left="910" taborder="13" top="5" url="CCOMP::CompSrcType.xfdl" width="267"/>
+              <Edit height="24" id="edtGrpId" left="170" objNm="협력사명" onkeyup="fnOnkeyup" taborder="14" top="5" width="200"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staGrpNm" left="370" style="padding:0 10 0 6;align:right middle;" taborder="15" text="품목그룹명" top="5" width="170"/>
+              <Edit height="24" id="edtGrpNm" left="540" objNm="협력사명" onkeyup="fnOnkeyup" taborder="16" top="5" width="200"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="LRG_SRC_ID" size="256" type="STRING"/>
+          <Column id="MDL_SRC_ID" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_ID" size="256" type="STRING"/>
+          <Column id="MTRL_GRP_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="CHECKED" size="256" type="STRING"/>
+          <Column id="LRG_CLS_ID" size="256" type="STRING"/>
+          <Column id="LRG_CLS_NM" size="256" type="STRING"/>
+          <Column id="MDL_CLS_ID" size="256" type="STRING"/>
+          <Column id="MDL_CLS_NM" size="256" type="STRING"/>
+          <Column id="SML_CLS_ID" size="256" type="STRING"/>
+          <Column id="SML_CLS_NM" size="256" type="STRING"/>
+          <Column id="SRC_GRP_ID" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindVi" id="divPagingVi" propid="visible"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindEn" id="divPagingEn" propid="enable"/>
+      <BindItem columnid="btnSrcGrpMap" compid="divViewCompBody00.btnSrcGrpMap" datasetid="dsObjBindVi" id="btnSrcGrpMapVi" propid="visible"/>
+      <BindItem columnid="btnSrcGrpMap" compid="divViewCompBody00.btnSrcGrpMap" datasetid="dsObjBindEn" id="btnSrcGrpMapEn" propid="enable"/>
+      <BindItem columnid="staCdEvalRunStts" compid="divViewCompCond00.staCdEvalRunStts" datasetid="dsObjBindVi" id="staCdEvalRunSttsVi" propid="visible"/>
+      <BindItem columnid="staCdEvalRunStts" compid="divViewCompCond00.staCdEvalRunStts" datasetid="dsObjBindEn" id="staCdEvalRunSttsEn" propid="enable"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond00.staGrpId" datasetid="dsObjBindVi" id="staTtlVi" propid="visible"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond00.staGrpId" datasetid="dsObjBindEn" id="staTtlEn" propid="enable"/>
+      <BindItem columnid="divSrcGrp" compid="divViewCompCond00.divSrcGrp" datasetid="dsObjBindVi" id="divSrcGrpVi" propid="visible"/>
+      <BindItem columnid="divSrcGrp" compid="divViewCompCond00.divSrcGrp" datasetid="dsObjBindEn" id="divSrcGrpEn" propid="enable"/>
+      <BindItem columnid="grdList" compid="divViewCompBody00.grdList" datasetid="dsObjBindGrid" id="grdListFormatId" propid="formatid"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00192" compid="divViewCompBody00.btnSrcGrpMap" datasetid="gdsLabel" id="btnSrcGrpMapLangBind2017110317184271793" propid="text"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond00.staGrpNm" datasetid="dsObjBindVi" id="item0" propid="visible"/>
+      <BindItem columnid="staTtl" compid="divViewCompCond00.staGrpNm" datasetid="dsObjBindEn" id="item2" propid="enable"/>
+      
+      <BindItem columnid="MTRL_GRP_ID" compid="divViewCompCond00.edtGrpId" datasetid="dsCondition" id="item1" propid="value"/>
+      <BindItem columnid="MTRL_GRP_NM" compid="divViewCompCond00.edtGrpNm" datasetid="dsCondition" id="item4" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BMstSrcGrpMappList.xfdl
+ * @생성자       	: 정준화
+ * @생성일자     	: 2017. 9. 04.
+ * @설명			: 소싱그룹매핑 리스트
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 03.
+*/  
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	var sArgEx = {
+					isTran:"Y", tranNm:"BMstService.searchMstSrcGrpMapp", dsParam:this.dsCondition
+				}
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this, sArgEx);
+ 	gfnSetObj("A");
+ 	
+	this.divViewCompCond00.divSrcGrp.fnSetBind(this.dsCondition,"LRG_SRC_ID","MDL_SRC_ID");
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSave
+  * @desc     	: 저장 전 처리
+  */
+this.fnPreSave = function(){
+	var chk = false;
+	
+	for(var i = 0 ; i < this.dsList.rowcount ; i++){
+		if(this.dsList.getRowType(i) == "4"){
+			chk = true;
+			break;
+		}
+	}
+	
+	if(!chk){
+		gfnAlert("EPRO_LABEL_01344");
+		return false;
+	}
+
+	if(!gfnConfirm("EPRO_LABEL_00001")) return false;
+
+	return true;
+}
+
+/**
+  * @함수명	: fnSave
+  * @desc     	: (공통버튼)저장
+  */
+this.fnSave = function(){
+	if(!this.fnPreSave()) return false;
+	
+	var sSvcID = "saveMstSrcGrpMapp";
+	var sController = "epro.mst.service.BMstService.saveMstSrcGrpMapp";
+	var sInDatasets = "dsList=dsList:A";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);	
+}
+
+/**
+  * @함수명	: fnClose
+  * @desc     	: (공통버튼)닫기
+  */
+this.fnClose = function()
+{	
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	var sSvcID = "searchMstSrcGrpMapp";
+	var sController = "epro.mst.service.BMstService.searchMstSrcGrpMapp";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+
+	var	oPaging = [	
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "searchMstSrcGrpMapp" :
+		break;
+		
+		case "saveMstSrcGrpMapp" :
+			gfnAlert(strErrMsg);
+			this.fnSearch();
+		break;
+				
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnPopCallBack
+  * @input    	: sPopupId(팝업ID), rtn(팝업에서 리턴하는 문자열)
+  * @desc     	: 팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+	
+	if(sPopupId == "srcGrpMappPop"){	    
+		this.dsReturn.loadXML(rtn);
+
+		for(var i=0; i<this.dsList.getRowCount(); i++)
+		{
+			if(this.dsList.getColumn(i, "CHECKED") == "1")
+			{	
+				this.dsList.setColumn(i,"SRC_GRP_ID", this.dsReturn.getColumn(0, "MDL_SRC_ID"));
+				this.dsList.setColumn(i, "SRC_GRP_NM2", this.dsReturn.getColumn(0, "SRC_GRP_NM2"));
+			}
+		}
+	}
+}
+
+/**
+  * @함수명	: divViewCompBody00_btnSrcGrpMap_onclick
+  * @input    	: sPopupId(팝업ID), rtn(팝업에서 리턴하는 문자열)
+  * @desc     	: 팝업 CallBack 함수
+  */
+this.fnBtnSrcGrpMapOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnIsGrdChk(this.dsList)) {
+		gfnAlert("EPRO_LABEL_00759");
+		return;
+		
+	} else {
+		var sArg = { };
+		gfnModalPop(this, "srcGrpMappPop", "BMST::BMstSrcGrpMappPop.xfdl", sArg, "fnPopCallBack", 520, 100);
+	}	
+}
+
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == 13){
+		obj.updateToDataset();
+		this.fnSearch();
+	}
+}]]></Script>
+  </Form>
+</FDL>

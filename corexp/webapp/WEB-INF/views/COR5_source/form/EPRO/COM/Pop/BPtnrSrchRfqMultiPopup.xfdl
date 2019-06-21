@@ -1,0 +1,685 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="800" id="BPtnrSrchRfqMultiPopup" inheritanceid="" left="0" oninit="fnOninit" onload="fnOnLoad" position="absolute" titletext="업체검색멀티팝업(입찰)" top="0" width="1100">
+    <Layouts>
+      <Layout>
+        <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00410&quot;)" height="24" id="btnRtn" objNm="적용" onclick="fnRtnData" right="10" taborder="22" text="적용" top="454" width="65"/>
+        <Grid autoenter="select" autofittype="none" binddataset="dsAddList" bottom="10" cellclickbound="cell" f_excel="N" f_sort="N" id="grdAddList" left="10" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="10" taborder="28" top="483" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="110"/>
+                <Column size="120"/>
+                <Column size="300"/>
+                <Column size="100"/>
+                <Column size="110"/>
+                <Column size="120"/>
+                <Column size="100"/>
+                <Column size="300"/>
+                <Column band="right" size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="VENDOR"/>
+                <Cell col="1" expr="" text="사업자번호"/>
+                <Cell col="2" expr="" text="협력사명"/>
+                <Cell col="3" expr="" text="최종평가"/>
+                <Cell col="4" expr="" text="최종평가일"/>
+                <Cell col="5" expr="" text="협력사 구분"/>
+                <Cell col="6" expr="" text="대표자명"/>
+                <Cell col="7" expr="" text="주소"/>
+                <Cell col="8"/>
+              </Band>
+              <Band id="body">
+                <Cell style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:SAP_VENDOR"/>
+                <Cell col="1" text="bind:BIZ_NO"/>
+                <Cell col="2" style="align:left;" text="bind:PTNR_NM"/>
+                <Cell col="3" displaytype="number" mask="###" maskchar=" " text="bind:SCJD_EVAL_SCORE"/>
+                <Cell col="4" displaytype="normal" text="bind:SCJD_CMPLT_DT"/>
+                <Cell col="5" style="align:left;color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                <Cell col="6" style="align:center;" text="bind:RPRSTV_NM"/>
+                <Cell col="7" style="align:left;" text="bind:ADDR"/>
+                <Cell col="8" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Tab height="436" id="tabPtnr" left="10" onchanged="fnTabChange" right="10" scrollbars="autoboth" tabindex="0" taborder="29" top="10">
+          <Tabpages>
+            <Tabpage id="tabRfqPtnr" text="입찰참여협력사">
+              <Layouts>
+                <Layout>
+                  <Grid autoenter="select" autofittype="none" binddataset="dsList" bottom="28" cellclickbound="cell" cellmovingtype="none" f_excel="N" f_sort="N" id="grdList" left="0" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="0" taborder="4" top="53" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="110"/>
+                          <Column size="120"/>
+                          <Column size="300"/>
+                          <Column size="100"/>
+                          <Column size="120"/>
+                          <Column size="150"/>
+                          <Column size="100"/>
+                          <Column size="300"/>
+                          <Column band="right" size="60"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="32"/>
+                          <Row size="28"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="VENDOR"/>
+                          <Cell col="1" expr="" text="사업자번호"/>
+                          <Cell col="2" expr="" text="협력사명"/>
+                          <Cell col="3" expr="" text="최종평가"/>
+                          <Cell col="4" expr="" text="최종평가일"/>
+                          <Cell col="5" expr="" text="협력사구분"/>
+                          <Cell col="6" expr="" text="대표자명"/>
+                          <Cell col="7" expr="" text="주소"/>
+                          <Cell col="8"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:SAP_VENDOR"/>
+                          <Cell col="1" text="bind:BIZ_NO"/>
+                          <Cell col="2" style="align:left;" text="bind:PTNR_NM"/>
+                          <Cell col="3" displaytype="number" mask="###" text="bind:SCJD_EVAL_SCORE"/>
+                          <Cell col="4" text="bind:SCJD_CMPLT_DT"/>
+                          <Cell col="5" displaytype="normal" style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                          <Cell col="6" style="align:center;" text="bind:RPRSTV_NM"/>
+                          <Cell col="7" style="align:left;" text="bind:ADDR"/>
+                          <Cell col="8" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Div bottom="0" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="0" url="CCOMP::CompPaging.xfdl"/>
+                  <Static cssclass="sta_WF_Labelbg" height="40" id="staViewCompCond00" left="0" right="0" taborder="1" top="5"/>
+                  <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00005&quot;)" height="24" id="btnRfqSearch" onclick="fnSearch" right="16" taborder="2" text="조회" top="13" width="60"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00104&quot;)" height="24" id="staMtrlCd" left="16" taborder="3" text="품목명" top="13" width="85"/>
+                  <Combo codecolumn="MTRL_CD" datacolumn="MTRL_NM" height="25" id="Combo00" innerdataset="dsTemp" left="10.85%" taborder="5" text="Combo00" top="13" width="169"/>
+                  <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="25" id="Combo01" innerdataset="@dsCdSR20" left="749" taborder="6" text="Combo01" top="13" width="120"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00703&quot;)" height="24" id="staPtnrNm00" left="629" taborder="7" text="협력사 구분" top="13" width="117"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabPreRfq" text="이전발주참조">
+              <Layouts>
+                <Layout>
+                  <Grid autoenter="select" autofittype="none" binddataset="dsList" bottom="28" cellclickbound="cell" f_excel="N" f_sort="N" id="grdList" left="0" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="0" taborder="0" top="53" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="110"/>
+                          <Column size="120"/>
+                          <Column size="300"/>
+                          <Column size="100"/>
+                          <Column size="120"/>
+                          <Column size="149"/>
+                          <Column size="150"/>
+                          <Column size="90"/>
+                          <Column size="266"/>
+                          <Column band="right" size="60"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="32"/>
+                          <Row size="28"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="VENDOR"/>
+                          <Cell col="1" expr="" text="사업자번호"/>
+                          <Cell col="2" expr="" text="협력사명"/>
+                          <Cell col="3" expr="" text="최종평가"/>
+                          <Cell col="4" expr="" text="최종평가일"/>
+                          <Cell col="5" expr="" text="발주일자"/>
+                          <Cell col="6" expr="" text="협력사구분"/>
+                          <Cell col="7" expr="" text="대표자명"/>
+                          <Cell col="8" expr="" text="주소"/>
+                          <Cell col="9"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:SAP_VENDOR"/>
+                          <Cell col="1" text="bind:BIZ_NO"/>
+                          <Cell col="2" style="align:left;" text="bind:PTNR_NM"/>
+                          <Cell col="3" displaytype="number" mask="###" text="bind:SCJD_EVAL_SCORE"/>
+                          <Cell col="4" text="bind:SCJD_CMPLT_DT"/>
+                          <Cell col="5" maskchar=" " text="bind:PO_DAY"/>
+                          <Cell col="6" displaytype="combo" style="align:left;color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                          <Cell col="7" style="align:center;" text="bind:RPRSTV_NM"/>
+                          <Cell col="8"/>
+                          <Cell col="9" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Div bottom="0" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="1" url="CCOMP::CompPaging.xfdl"/>
+                  <Static cssclass="sta_WF_Labelbg" height="40" id="staViewCompCond00" left="0" right="0" taborder="2" top="5"/>
+                  <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00005&quot;)" height="24" id="btnPreSearch" onclick="fnSearch" right="16" taborder="3" text="조회" top="14" width="60"/>
+                  <Static cssclass="sta_WF_SearchLabel" height="24" id="staMtrlCd" left="16" taborder="5" text="품목명" top="13" width="85"/>
+                  <Combo codecolumn="MTRL_CD" datacolumn="MTRL_NM" height="25" id="Combo00" innerdataset="@dsTemp" left="10.85%" taborder="8" text="Combo00" top="13" width="169"/>
+                  <Div height="24" id="divPoDay" left="603" objNm="입찰완료일자" style="padding:0 10 0 10;" taborder="9" text="발주일자" top="13" url="CCOMP::CompCalFromTo.xfdl" width="220"/>
+                  <Static cssclass="sta_WF_SearchLabel" height="24" id="staRfqEndDt" left="432" objNm="발주일자" style="padding:0 10 0 6;align:right middle;cursor:auto;" taborder="10" text="발주일자" top="13" width="170"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabpage5" text="소싱그룹별 협력사">
+              <Layouts>
+                <Layout>
+                  <Grid autoenter="select" binddataset="dsList" bottom="28" cellclickbound="cell" f_excel="N" f_sort="N" id="grdList" left="0" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="0" taborder="1" top="53" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="110"/>
+                          <Column size="120"/>
+                          <Column size="300"/>
+                          <Column size="100"/>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                          <Column size="100"/>
+                          <Column size="300"/>
+                          <Column band="right" size="60"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="32"/>
+                          <Row size="28"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="VENDOR"/>
+                          <Cell col="1" expr="" text="사업자번호"/>
+                          <Cell col="2" expr="" text="협력사명"/>
+                          <Cell col="3" expr="" text="최종평가"/>
+                          <Cell col="4" expr="" text="최종평가일"/>
+                          <Cell col="5" expr="" text="협력사구분"/>
+                          <Cell col="6" expr="" text="대표자명"/>
+                          <Cell col="7" expr="" text="주소"/>
+                          <Cell col="8"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'orangered':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'orangered':'');" text="bind:SAP_VENDOR"/>
+                          <Cell col="1" style="color: ;" text="bind:BIZ_NO"/>
+                          <Cell col="2" cssclass="cell_link" style="align:left;color2: ;" text="bind:PTNR_NM"/>
+                          <Cell col="3" displaytype="number" mask="###" maskchar=" " style="color: ;" text="bind:SCJD_EVAL_SCORE"/>
+                          <Cell calendardisplaynulltype="none" col="4" style="color: ;" text="bind:SCJD_CMPLT_DT"/>
+                          <Cell col="5" displaytype="normal" style="align:left;color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                          <Cell col="6" style="align:center;color2: ;" text="bind:RPRSTV_NM"/>
+                          <Cell col="7" style="align:left;color2: ;" text="bind:ADDR"/>
+                          <Cell col="8" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Div bottom="0" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="2" url="CCOMP::CompPaging.xfdl"/>
+                  <Static cssclass="sta_WF_Labelbg" height="40" id="staViewCompCond00" left="0" right="0" taborder="11" top="5"/>
+                  <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="25" id="cbo_cdPorgUnitStts" innerdataset="@dsCdSR20" left="845" taborder="12" top="13" width="120"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00703&quot;)" height="24" id="stacdPorgUnitStts" left="725" taborder="13" text="협력사 구분" top="13" width="117"/>
+                  <Edit height="24" id="edPtnrNm" left="522" objNm="협력사명" onkeyup="fnOnkeyup" taborder="14" top="13" width="200"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00376&quot;)" height="24" id="staMtrlCd" left="431" taborder="15" text="협력사명" top="13" width="85"/>
+                  <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00005&quot;)" height="24" id="btnSrcGrpSearch" onclick="fnSearch" right="16" taborder="16" text="조회" top="13" width="60"/>
+                  <Div height="23" id="divComp01" left="147" taborder="17" top="13" url="CCOMP::CompSrcType2.xfdl" width="233"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00464&quot;)" height="24" id="staMtrlNm00" left="16" style="align:right middle;" taborder="18" text="소싱그룹" top="13" width="123"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabFavPtnr" text="즐겨찾기 등록협력사">
+              <Layouts>
+                <Layout>
+                  <Grid autoenter="select" autofittype="none" binddataset="dsList" bottom="28" cellclickbound="cell" f_excel="N" f_sort="N" id="grdList" left="0" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="0" taborder="0" top="5" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="110"/>
+                          <Column size="120"/>
+                          <Column size="300"/>
+                          <Column size="100"/>
+                          <Column size="120"/>
+                          <Column size="150"/>
+                          <Column size="100"/>
+                          <Column size="300"/>
+                          <Column band="right" size="60"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="32"/>
+                          <Row size="28"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="VENDOR"/>
+                          <Cell col="1" expr="" text="사업자번호"/>
+                          <Cell col="2" expr="" text="협력사명"/>
+                          <Cell col="3" expr="" text="최종평가"/>
+                          <Cell col="4" expr="" text="최종평가일"/>
+                          <Cell col="5" expr="" text="협력사구분"/>
+                          <Cell col="6" expr="" text="대표자명"/>
+                          <Cell col="7" expr="" text="주소"/>
+                          <Cell col="8"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:SAP_VENDOR"/>
+                          <Cell col="1" text="bind:BIZ_NO"/>
+                          <Cell col="2" style="align:left;" text="bind:PTNR_NM"/>
+                          <Cell col="3" displaytype="number" mask="###" text="bind:SCJD_EVAL_SCORE"/>
+                          <Cell col="4" text="bind:SCJD_CMPLT_DT"/>
+                          <Cell col="5" displaytype="normal" style="align:left;color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                          <Cell col="6" style="align:center;" text="bind:RPRSTV_NM"/>
+                          <Cell col="7" style="align:left;" text="bind:ADDR"/>
+                          <Cell col="8" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Div bottom="0" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="1" url="CCOMP::CompPaging.xfdl"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabComPtnr" text="협력사공통">
+              <Layouts>
+                <Layout>
+                  <Grid autoenter="select" autofittype="none" binddataset="dsList" bottom="28" cellclickbound="cell" f_excel="N" f_sort="N" id="grdList" left="0" oncellclick="fnOnecellclick" oncelldblclick="fnOncelldbClick" onkeydown="grdListOnkeydown" right="0" taborder="0" top="53" useinputpanel="false">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="110"/>
+                          <Column size="120"/>
+                          <Column size="300"/>
+                          <Column size="100"/>
+                          <Column size="150"/>
+                          <Column size="150"/>
+                          <Column size="100"/>
+                          <Column size="300"/>
+                          <Column band="right" size="60"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="32"/>
+                          <Row size="28"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell expr="" text="VENDOR"/>
+                          <Cell col="1" expr="" text="사업자번호"/>
+                          <Cell col="2" expr="" text="협력사명"/>
+                          <Cell col="3" expr="" text="최종평가"/>
+                          <Cell col="4" expr="" text="최종평가일"/>
+                          <Cell col="5" expr="" text="협력사구분"/>
+                          <Cell col="6" expr="" text="대표자명"/>
+                          <Cell col="7" expr="" text="주소"/>
+                          <Cell col="8"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell style="color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'orangered':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'orangered':'');" text="bind:SAP_VENDOR"/>
+                          <Cell col="1" style="color: ;" text="bind:BIZ_NO"/>
+                          <Cell col="2" cssclass="cell_link" style="align:left;color2: ;" text="bind:PTNR_NM"/>
+                          <Cell col="3" displaytype="number" mask="###" style="color: ;" text="bind:SCJD_EVAL_SCORE"/>
+                          <Cell calendardisplaynulltype="none" col="4" maskchar=" " style="color: ;" text="bind:SCJD_CMPLT_DT"/>
+                          <Cell col="5" displaytype="normal" style="align:left;color:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');color2:EXPR(PTNR_STTS == &quot;Y&quot; ? 'red':'');" text="bind:CD_PORG_UNIT_STTS_NM"/>
+                          <Cell col="6" style="align:center;color2: ;" text="bind:RPRSTV_NM"/>
+                          <Cell col="7" style="align:left;color2: ;" text="bind:ADDR"/>
+                          <Cell col="8" displaytype="button" expr="expr:BTN==&quot;추가&quot;?gfnMultiLabel(&quot;EPRO_LABEL_00144&quot;):gfnMultiLabel(&quot;EPRO_LABEL_00172&quot;)" text="bind:BTN"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Div bottom="0" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="1" url="CCOMP::CompPaging.xfdl"/>
+                  <Static cssclass="sta_WF_Labelbg" height="40" id="staViewCompCond00" left="0" right="0" taborder="2" top="5"/>
+                  <Button expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00005&quot;)" height="24" id="btnComSearch" onclick="fnSearch" right="16" taborder="3" text="조회" top="13" width="60"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00376&quot;)" height="24" id="staMtrlCd" left="16" taborder="5" text="협력사명" top="13" width="100"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00149&quot;)" height="24" id="staPtnrNm" left="362" taborder="6" text="사업자번호" top="13" width="115"/>
+                  <Edit height="24" id="edBizNo" left="482" objNm="협력사명" onkeyup="fnOnkeyup" taborder="7" top="13" width="200"/>
+                  <Edit height="24" id="edPtnrNm" left="116" objNm="협력사명" onkeyup="fnOnkeyup" taborder="8" top="13" width="200"/>
+                  <Combo codecolumn="CD_ID" datacolumn="CD_NM_LO" height="25" id="cbo_cdPorgUnitStts" innerdataset="@dsCdSR20" left="821" taborder="9" top="13" width="120"/>
+                  <Static cssclass="sta_WF_SearchLabel" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00703&quot;)" height="24" id="stacdPorgUnitStts" left="701" taborder="10" text="협력사 구분" top="13" width="117"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <CheckBox expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00807&quot;)" falsevalue="N" height="23" id="chAltAuto" left="78.09%" onchanged="chAltAuto_onchanged" right="10.64%" taborder="30" text="전장업체만조회" top="12" truevalue="Y"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsSrchOpt" loadfiltermode="keep" loadkeymode="keep" oncolumnchanged="dsSrchOpt_oncolumnchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="BIZ_NO" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="MTRL_CD" size="256" type="STRING"/>
+          <Column id="BTN" size="256" type="STRING"/>
+          <Column id="PO_NO" size="256" type="STRING"/>
+          <Column id="SRC_LVL_1" size="256" type="STRING"/>
+          <Column id="SRC_LVL_2" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="CD_PTNR_CTGR" size="256" type="STRING"/>
+          <Column id="ALT_AUTO" size="256" type="STRING"/>
+          <Column id="CD_PORG_UNIT_STTS" size="256" type="STRING"/>
+          <Column id="PO_DAY_STR" size="256" type="STRING"/>
+          <Column id="PO_DAY_END" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList"/>
+      <Dataset id="dsAddList"/>
+      <Dataset id="dsTemp"/>
+      <Dataset id="dsCdSR20"/>
+    </Objects>
+    <Bind>
+      <BindItem columnid="PTNR_NM" compid="tabPtnr.tabpage5.edPtnrNm" datasetid="dsSrchOpt" id="item0" propid="value"/>
+      <BindItem columnid="CD_PORG_UNIT_STTS" compid="tabPtnr.tabpage5.cbo_cdPorgUnitStts" datasetid="dsSrchOpt" id="item2" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="Tab00.tabpage1.edPtnrNm" datasetid="dsSrchOpt" id="item1" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="Tab00.tabpage2.edPtnrNm" datasetid="dsSrchOpt" id="item4" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="Tab00.tabpage5.edPtnrNm" datasetid="dsSrchOpt" id="item6" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="Tab00.tabpage5.edPtnrNm00" datasetid="dsSrchOpt" id="item5" propid="value"/>
+      <BindItem columnid="EPRO_LABEL_00145" compid="Tab00.tabpage2.staPtnrNm" datasetid="gdsLabel" id="staPtnrNmLangBind201711031718421134" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00410" compid="btnRtn" datasetid="gdsLabel" id="btnRtnLangBind2017110317184232069" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00005" compid="Tab00.tabpage5.btnSearch" datasetid="gdsLabel" id="btnSearchLangBind2017110317184298699" propid="text"/>
+      <BindItem columnid="CD_PORG_UNIT_STTS" compid="tabPtnr.tabRfqPtnr.Combo01" datasetid="dsSrchOpt" id="item9" propid="value"/>
+      <BindItem columnid="CD_PORG_UNIT_STTS" compid="tabPtnr.tabComPtnr.cbo_cdPorgUnitStts" datasetid="dsSrchOpt" id="item8" propid="value"/>
+      <BindItem columnid="ALT_AUTO" compid="chAltAuto" datasetid="dsSrchOpt" id="item10" propid="value"/>
+      <BindItem columnid="MTRL_CD" compid="tabPtnr.tabRfqPtnr.Combo00" datasetid="dsSrchOpt" id="item11" propid="value"/>
+      <BindItem columnid="MTRL_CD" compid="tabPtnr.tabPreRfq.Combo00" datasetid="dsSrchOpt" id="item12" propid="value"/>
+      <BindItem columnid="PTNR_NM" compid="tabPtnr.tabComPtnr.edPtnrNm" datasetid="dsSrchOpt" id="item13" propid="value"/>
+      <BindItem columnid="BIZ_NO" compid="tabPtnr.tabComPtnr.edBizNo" datasetid="dsSrchOpt" id="item14" propid="value"/>
+      <BindItem columnid="EPRO_LABEL_00822" compid="tabPtnr.tabComPtnr" datasetid="gdsLabel" id="item19" propid="text"/>
+      <BindItem columnid="EPRO_LABEL_00104" compid="tabPtnr.tabPreRfq.staMtrlCd" datasetid="gdsLabel" id="item3" propid="text"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrSrchMultiPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 8. 31.
+ * @설명			: 입찰업체검색멀티팝업
+ * @최종수정자		: 김동호
+ * @최종수정일자	: 2017. 11. 10.
+*/ 
+
+this.popTitle = "업체검색"
+/**
+* @함수명  : fnSetCode
+* @desc     : 글로벌 코드 데이터셋에서 사용할 코드 카피.
+*/
+this.fnSetCode = function()
+{
+	var param = [
+					{code:"SR20", sSelectType:"A", sFiltered:"S:WAI,RST,REJ,PTNR"} // 협력사 구분
+				];
+	gfnGetCode(this, param);
+}
+
+/**
+ * @함수명  : fnOninit
+ * @input    : obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+ * @return   : 
+ * @desc     : 폼 oninit 이벤트 
+ */
+this.fnOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+		this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.tabPtnr.tabRfqPtnr.grdList, this.tabPtnr.tabRfqPtnr.divPaging, this);
+	gfnSetGrdFunc(this.tabPtnr.tabPreRfq.grdList,  this.tabPtnr.tabPreRfq.divPaging, this);
+	gfnSetGrdFunc(this.tabPtnr.tabFavPtnr.grdList, this.tabPtnr.tabFavPtnr.divPaging, this);
+	gfnSetGrdFunc(this.tabPtnr.tabComPtnr.grdList, this.tabPtnr.tabComPtnr.divPaging, this);
+	gfnSetGrdFunc(this.tabPtnr.tabpage5.grdList, this.tabPtnr.tabpage5.divPaging, this);
+	
+	var ownFrame = this.getOwnerFrame();
+	this.dsTemp.loadXML(ownFrame.agv_data);
+		
+	for(var i =this.dsTemp.getRowCount()-1; i>=0;i--){
+		if(gfnIsNull(this.dsTemp.getColumn(i,"MTRL_CD"))){
+			this.dsTemp.deleteRow(i);
+		}
+	}
+	
+	this.dsTemp.insertRow(0);
+	this.dsTemp.setColumn(0, "MTRL_NM", gfnMultiLabel("EPRO_LABEL_00785"));
+	this.dsTemp.setColumn(0, "MTRL_CD", "");
+	
+	this.tabPtnr.tabpage5.divComp01.fnSetBind(this.dsSrchOpt,"SRC_LVL_1","SRC_LVL_2");
+	this.tabPtnr.tabPreRfq.divPoDay.fnSetDate(this.dsSrchOpt,"PO_DAY_STR","PO_DAY_END");
+ 	this.dsSrchOpt.addRow();
+ 	this.dsSrchOpt.setColumn(0,"PO_DAY_STR",gfnAddMonth(gfnToday(),-12));
+ 	this.dsSrchOpt.setColumn(0,"PO_DAY_END",gfnToday());
+	this.dsSrchOpt.setColumn(0,"MTRL_CD","");
+	this.dsSrchOpt.setColumn(0,"BRANCH_CD", application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	this.dsSrchOpt.setColumn(0,"CD_PORG_UNIT_STTS", "SR20PTNR");
+	this.dsSrchOpt.setColumn(0,"ALT_AUTO", "N");
+	this.dsSrchOpt.setColumn(0,"SRC_LVL_1",ownFrame.agv_src_lvl_1);
+	this.tabPtnr.tabpage5.divComp01.dsFilter(ownFrame.agv_src_lvl_1);
+	this.dsSrchOpt.setColumn(0,"SRC_LVL_2",ownFrame.agv_src_lvl_2);
+}
+ 
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+/**
+  * @함수명	: fnMtrlCdChk
+  * @desc     	: 품목명 체크
+  */
+this.fnMtrlCdChk = function(){
+	if(gfnIsNull(this.dsSrchOpt.getColumn(0,"MTRL_CD"))){
+		gfnAlert("EPRO_LABEL_00808");
+		return false;
+	}else{
+		return true;
+	}
+}
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 입찰 참여 협력사 조회 프로세스
+  */
+this.fnSearch = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.fnPreSearch()) return false;
+	
+	var	oPaging = "";		
+	
+	// 입찰참여협력사 tab
+	if(obj.name == "btnRfqSearch"){
+		if(!this.fnMtrlCdChk()) return false;
+		this.dsSrchOpt.setColumn(0, "BTN", "btnRfqSearch");
+		oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.tabPtnr.tabRfqPtnr.grdList, divPaging:this.tabPtnr.tabRfqPtnr.divPaging}
+				];		
+	// 이전 발주 참조 tab
+	}else if(obj.name == "btnPreSearch"){
+		if(!this.fnMtrlCdChk()) return false;
+		this.dsSrchOpt.setColumn(0, "BTN", "btnPreSearch");
+		oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.tabPtnr.tabPreRfq.grdList, divPaging:this.tabPtnr.tabPreRfq.divPaging}
+				];		
+	// 협력사 공통 tab
+	}else if(obj.name == "btnComSearch"){
+		this.dsSrchOpt.setColumn(0, "BTN", "btnComSearch");
+		oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.tabPtnr.tabComPtnr.grdList, divPaging:this.tabPtnr.tabComPtnr.divPaging}
+				];		
+	}else if(obj.name == "btnSrcGrpSearch"){
+		this.dsSrchOpt.setColumn(0, "BTN", "btnSrcGrpSearch");
+		oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.tabPtnr.tabpage5.grdList, divPaging:this.tabPtnr.tabpage5.divPaging}
+				];		
+	}
+	
+	var sController = "epro.com.service.BComService.searchComPtnr";
+	var sSvcID 		= "searchComPtnr";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+	
+}
+
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchComPtnr" :	
+			
+			this.tabPtnr.tabRfqPtnr.grdList.setFocus();
+			
+			if(this.dsAddList.colcount == 0){
+				for(var i = 0 ; i < this.dsList.colcount ; i++){
+					this.dsAddList.addColumn(this.dsList.getColID(i),"STRING");
+				}
+			}
+			
+			if(this.dsAddList.rowcount != 0){
+				for(var i = 0 ; i < this.dsList.rowcount ; i++){
+					var nRow = this.dsAddList.findRow("BIZ_NO",this.dsList.getColumn(i,"BIZ_NO"));
+					
+					if(nRow != -1){
+						this.dsList.setColumn(i,"BTN","삭제");
+					}
+				}
+			}
+			
+		break;
+ 
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnAddData
+  * @desc   : 목록에 추가하는 함수
+  */
+this.fnAddData = function(obj:Grid)
+{
+	var bindDs = obj.getBindDataset();
+
+	if(bindDs.getColumn(bindDs.rowposition,"BTN") == "추가"){
+		if(this.dsList.getColumn(this.dsList.rowposition,"PTNR_STTS") == "Y"){
+			if(!gfnConfirm("EPRO_LABEL_01198")) return false; 
+		}
+	
+		this.dsList.setColumn(this.dsList.rowposition,"BTN","삭제");
+		var nRow = this.dsAddList.addRow();
+		this.dsAddList.copyRow(nRow,this.dsList,this.dsList.rowposition);
+		
+	} else{
+		var ptnrId = bindDs.getColumn(bindDs.rowposition,"PTNR_ID");
+		var nRow = this.dsAddList.findRow("PTNR_ID",ptnrId);
+		this.dsAddList.deleteRow(nRow);
+		
+		nRow = this.dsList.findRow("PTNR_ID",ptnrId);
+		this.dsList.setColumn(nRow,"BTN","추가");
+	}
+}
+   
+/**
+  * @함수명		: fnRtnData
+  * @desc     	: 적용버튼 클릭 이벤트
+  */   
+this.fnRtnData = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(this.dsAddList.rowcount != 0){
+		this.parent.close(this.dsAddList.saveXML());
+		
+	} else{
+		gfnAlert("EPRO_LABEL_00937")
+	}
+}
+
+/**
+  * @함수명	: grdListOnkeyup
+  * @desc     	: 에디트 Onkeyup 이벤트
+  */ 
+this.fnOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		if(obj.name == "edBizNo" || obj.name == "edPtnrNm"){
+				this.fnSearch(this.tabPtnr.tabComPtnr.btnComSearch);
+			}
+		}
+}
+
+/**
+  * @함수명	: grdListOnkeydown
+  * @desc     	: 그리드 Onkeydown 이벤트
+  */
+this.grdListOnkeydown = function(obj:Grid, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		this.fnAddData(obj);
+	}
+}
+
+/**
+  * @함수명	: fnOnecellclick
+  * @desc     	: 그리드 원클릭 이벤트
+  */
+this.fnOnecellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnGrdBindColId(obj,e.cell) == "BTN"){
+		this.fnAddData(obj);
+	}
+}
+
+/**
+  * @함수명	: fnOncelldbClick
+  * @desc     	: 그리드 더블클릭 이벤트
+  */
+this.fnOncelldbClick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if( gfnGrdBindColId(obj, obj.getCellPos()) == "PTNR_NM"){
+		var sArg = {
+						agv_id:this.dsList.getColumn(e.row,"PTNR_ID")
+					};
+		gfnModalPop(this, "BPtnrInfoPopup", "CPOP::BPtnrInfoPopup.xfdl", sArg, "fnPopCallBack", 570, 465);
+		
+	}else if(gfnGrdBindColId(obj,e.cell) != "BTN"){
+		this.fnAddData(obj);
+	}
+}
+
+this.fnTabChange = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	this.dsList.clear();
+
+	if(obj.tabindex == "3"){
+		if(!this.fnPreSearch()) return false;
+
+		this.dsSrchOpt.setColumn(0, "BTN", "btnFavSearch");
+		var oPaging = [
+					{inDs:this.dsSrchOpt, grid:this.tabPtnr.tabFavPtnr.grdList, divPaging:this.tabPtnr.tabFavPtnr.divPaging}
+		];		
+			
+		var sController = "epro.com.service.BComService.searchComPtnr";
+		var sSvcID 		= "searchComPtnr";
+		var sInDatasets = "dsSrchOpt=dsSrchOpt";
+		var sOutDatasets = "dsList=dsList";
+		var sCallbackFunc = "fnTrCallBack";	
+	
+		gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+	}
+}
+
+this.fnPopCallBack = function()
+{
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="SDlvMgmtList" left="0" top="0" width="1220" height="711" titletext="납품서 관리" onload="fnFormOnload" oninit="fnFormOninit">
+    <Layouts>
+      <Layout>
+        <Button id="btn_multiSelect" taborder="0" onclick="div_condition_btn_multiSelect_onclick" cssclass="btn_WF_MultiSmall" left="293" top="10" width="24" height="24" objNm="발주번호 멀티선택 버튼"/>
+        <Div id="div_condition" taborder="1" left="0" top="0" right="15" height="36" cssclass="div_WF_SearchBg">
+          <Layouts>
+            <Layout>
+              <Edit id="edt_poNoArr" taborder="18" onkeyup="fn_onkeyup_event" cssclass="edt_default" left="170" top="5" width="200" height="24" objNm="발주번호"/>
+              <Static id="staPtnrNm" taborder="20" text="발주작성일자" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staPtnrNm00" taborder="21" text="납품예정일자" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="330" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staPtnrNm01" taborder="22" text="운영단위" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="690" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Button id="btn_fold" taborder="2" cssclass="btn_WF_SearchClose" top="120" right="15" width="63" height="13"/>
+        <Div id="divViewCompCond01" taborder="4" left="0" top="35" right="15" height="85" cssclass="div_WF_SearchBg" objNm="">
+          <Layouts>
+            <Layout>
+              <Static id="staWarning" taborder="73" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="-1" top="64" right="0" height="19"/>
+              <Button id="btnSinglePop00" taborder="80" onclick="fnPtnrSearch" cssclass="btn_WF_SearchSmall" left="934" top="5" width="24" height="24" objNm="구매요청자 검색 버튼"/>
+              <Static id="staPtnrNm" taborder="82" text="납품서명" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="5" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtRprstvNm" taborder="85" onkeyup="fnEnterOnkeyup" left="170" top="34" width="219" height="24" objNm="대표자명"/>
+              <Static id="staPtnrNm02" taborder="89" text="정렬순서" onclick="divViewCompCond00_staPtnrNm_onclick" cssclass="sta_WF_SearchLabel" left="0" top="34" width="170" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edt_ttl" taborder="6" onkeyup="fn_onkeyup_event" cssclass="edt_default" left="170" top="5" width="200" height="24" objNm="납품서명"/>
+              <Static id="sta_WFDA_Label00" taborder="91" text="납품번호" cssclass="sta_WF_SearchLabel" left="417" top="5" width="117" height="24" lbcd=""/>
+              <Edit id="edt_dlvNoArr" taborder="92" onkeyup="fn_onkeyup_event" cssclass="edt_default" left="534" top="5" width="200" height="24" objNm="납품번호"/>
+              <Static id="sta_Fctry00" taborder="93" text="상태" cssclass="sta_WF_SearchLabel" left="734" top="5" width="117" height="24" lbcd=""/>
+              <Combo id="cbo_cdDlvStts" taborder="94" innerdataset="ds_cdDL10" codecolumn="CD_ID" datacolumn="CD_NM_LO" cssclass="cbo_default" left="851" top="5" width="150" height="24" objNm="창고"/>
+              <Static id="Static02" taborder="95" text="5" visible="false" left="51.45%" top="29" width="211" height="5" style="background:coral;align:center middle;"/>
+              <Edit id="edt_dlvNoArr00" taborder="96" onkeyup="fn_onkeyup_event" cssclass="edt_default" left="534" top="34" width="200" height="24" objNm="납품번호"/>
+              <TextArea id="TextArea00" taborder="97" left="1.08%" top="43" right="92.52%" height="15"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody00" taborder="5" text="Div00" left="-2" top="152" right="17" bottom="-11">
+          <Layouts>
+            <Layout>
+              <Grid id="grdlist" cssclass="grd_default" taborder="14" binddataset="dsList" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" oncelldblclick="div_body_grd_list_oncelldblclick" left="0" top="39" right="0" bottom="37" objNm="검색결과 그리드" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40" band="left"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="80"/>
+                      <Column size="90"/>
+                      <Column size="443"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" text="운영단위"/>
+                      <Cell col="2" text="납품서번호"/>
+                      <Cell col="3" text="상태"/>
+                      <Cell col="4" text="납품예정일자"/>
+                      <Cell col="5" text="납품서명"/>
+                      <Cell col="6" text="발주번호" combodisplaynulltext="CD_CNTR_STTS"/>
+                      <Cell col="7" text="발주유형" tooltiptext="ㅇ"/>
+                      <Cell col="8" text="발주일자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" style="background: ;" text="bind:CHECKED" expandshow="hide"/>
+                      <Cell col="1" text="bind:BRANCH_NM" tooltiptext="bind:BRANCH_NM"/>
+                      <Cell col="2" cssclass="cell_link" text="bind:DLV_NO" tooltiptext="bind:DLV_NO"/>
+                      <Cell col="3" text="bind:CD_DLV_STTS_NM" tooltiptext="bind:CD_DLV_STTS_NM"/>
+                      <Cell col="4" displaytype="date" text="bind:DLV_PLAN_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none" tooltiptext="bind:DLV_PLAN_DAY"/>
+                      <Cell col="5" style="align:left;" cssclass="cell_link" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="6" edittype="none" cssclass="cell_link" text="bind:PO_NO" maskchar=" " tooltiptext="bind:PO_NO"/>
+                      <Cell col="7" text="bind:CD_PO_CTGR_NM" tooltiptext="bind:CD_PO_CTGR_NM"/>
+                      <Cell col="8" displaytype="date" text="bind:PO_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none" tooltiptext="bind:PO_DAY"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btn_delDlv" taborder="15" text="납품서삭제" onclick="div_body_btn_delDlv_onclick" cssclass="btn_WF_Custom" top="10" right="0" width="78" height="24" lbcd="" objNm="납품서삭제버튼"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item21" compid="divViewCompCond01.edtRprstvNm" propid="value" datasetid="dsCondition" columnid="RPRSTV_NM"/>
+      <BindItem id="edtRprstvNmVi" compid="divViewCompCond01.edtRprstvNm" propid="visible" datasetid="dsObjBindVi" columnid="edtRprstvNm"/>
+      <BindItem id="edtRprstvNmEn" compid="divViewCompCond01.edtRprstvNm" propid="readonly" datasetid="dsObjBindEn" columnid="edtRprstvNm"/>
+      <BindItem id="item1" compid="divViewCompCond01.edt_ttl" propid="value" datasetid="ds_condition" columnid="TTL"/>
+      <BindItem id="item0" compid="divViewCompCond01.edt_dlvNoArr" propid="value" datasetid="ds_condition" columnid="DLV_NO_ARR"/>
+      <BindItem id="item7" compid="divViewCompCond01.cbo_cdDlvStts" propid="value" datasetid="ds_condition" columnid="CD_DLV_STTS"/>
+      <BindItem id="item2" compid="divViewCompCond01.edt_dlvNoArr00" propid="value" datasetid="ds_condition" columnid="DLV_NO_ARR"/>
+      <BindItem id="item3" compid="divViewCompCond01.TextArea00" propid="value" datasetid="dsList" columnid="CD_DLV_STTS_NM"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsCondition" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="DLV_PLAN_DAY" type="STRING" size="8"/>
+          <Column id="PO_NO_ARR" size="20" type="string"/>
+          <Column id="DLV_NO_ARR" size="20" type="string"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="DLV_PLAN_DAY_STR" type="STRING" size="8"/>
+          <Column id="DLV_PLAN_DAY_END" type="STRING" size="8"/>
+          <Column id="STR_CD" size="40" type="string"/>
+          <Column type="string" id="CD_DLV_STTS" size="40"/>
+          <Column id="SORT_ITEM1" type="STRING" size="256"/>
+          <Column id="SORT_ITEM2" type="STRING" size="256"/>
+          <Column id="SORT_ITEM3" type="STRING" size="256"/>
+          <Column id="SORT_ITEM4" type="STRING" size="256"/>
+          <Column id="SORT_TYPE1" type="STRING" size="256"/>
+          <Column id="SORT_TYPE2" type="STRING" size="256"/>
+          <Column id="SORT_TYPE3" type="STRING" size="256"/>
+          <Column id="SORT_TYPE4" type="STRING" size="256"/>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="SL_NM" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsList" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="CHECKED" size="40" type="string"/>
+          <Column id="BRANCH_CD" size="40" type="string"/>
+          <Column id="BRANCH_NM" size="40" type="string"/>
+          <Column id="PO_NO" size="40" type="string"/>
+          <Column id="DLV_NO" size="40" type="string"/>
+          <Column id="CD_DLV_STTS" size="40" type="string"/>
+          <Column id="CD_DLV_STTS_NM" size="40" type="string"/>
+          <Column id="STR_CD" size="40" type="string"/>
+          <Column id="SL_NM" size="40" type="string"/>
+          <Column id="TTL" size="40" type="string"/>
+          <Column id="PO_DAY" size="40" type="string"/>
+          <Column id="DLV_PLAN_DAY" size="40" type="string"/>
+        </ColumnInfo>
+        <Rows/>
+      </Dataset>
+      <Dataset id="dsCdDL10"/>
+      <Dataset id="ds_return" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 화면이 최초 열렸을때 실행되는 이벤트.
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function(){
+	var param = [
+					{code:"DL10", sSelectType:"A"}
+				];
+	gfnGetCode(this, param);
+}
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 화면이 로딩 될때마다 실행되는 이벤트 
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+
+	gfnSetGrdFunc(this.divViewCompBody00.grdlist, this.divViewCompBody00.divPaging, this);
+	this.dsCondition.addRow();
+	
+	//공통코드 콤보 index 처리  
+//     this.dsCondition.setColumn(0,"DLV_PLAN_DAY_STR",this.gfn_addMonth(this.gfn_today(),-1));
+// 	this.dsCondition.setColumn(0,"DLV_PLAN_DAY_END",this.gfn_today());
+	
+	this.dsCondition.setColumn(0,"STR_CD","");
+	this.dsCondition.setColumn(0,"CD_DLV_STTS","");
+	
+ 	this.dsCondition.setColumn(0,"SORT_ITEM1","MPD.DLV_PLAN_DAY");
+ 	this.dsCondition.setColumn(0,"SORT_TYPE1","DESC");
+ 	this.dsCondition.setColumn(0,"SORT_ITEM2","MPD.DLV_NO");
+ 	this.dsCondition.setColumn(0,"SORT_TYPE2","DESC");
+ 	this.dsCondition.setColumn(0,"SORT_ITEM3","");
+ 	this.dsCondition.setColumn(0,"SORT_TYPE3","");	 	
+ 	this.dsCondition.setColumn(0,"SORT_ITEM4","");
+ 	this.dsCondition.setColumn(0,"SORT_TYPE4","");	
+    this.fnSearch();
+}
+// 	var sSvcID = "SDlv_MgmtSrch";
+// 	var sController = "SDlv_MgmtSrch.do";
+// 	var sInDatasets = "in_ds=dsCondition";
+// 	var sOutDatasets = "ds_list=ds_srch";
+// 	var sCallbackFunc = "fn_trCallBack";
+// 	
+//     this.div_body.div_paing.gfn_pagingTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+    
+    
+    /**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 기능
+  */
+this.fnSearch = function()
+{
+	
+	//if(!this.fnPreSearch()) return false;
+	
+	var sSvcID = "searchDlvMgmtList";
+	var sController = "epro.dlv.service.SDlvService.searchDlvMgmtList";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	//var	oPaging = [
+		//			{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+		//		];
+				
+   gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+    
+}
+/**
+  * @함수명	: fnTrCallBack
+  * @input  	: strSvcID, strErrCd, strErrMsg
+  * @desc     	: 콜백 함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{	
+
+}
+this.div_body_btn_delDlv_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	this.dsList.set_enableevent(false);
+	this.dsList.filter("CHECKED == 1");
+	this.ds_return.copyData(this.dsList, true);
+	this.dsList.filter("");
+	this.dsList.set_enableevent(true);
+	
+	var nCnt = this.ds_return.getCaseCount("CD_DLV_STTS!='DL10SND' && CD_DLV_STTS!='DL10RTN'");	
+	if(nCnt > 0)
+	{
+		alert("납품서를 삭제할 수 없는 상태입니다.");
+		return;
+	}
+	
+	if(!application.confirm( "납품서를 삭제 하시겠습니까?" , "확인", "오류" )) return;
+	//if(this.gfnConfirm("납품서를 삭제 하시겠습니까?")) return;
+	//DataBase 의 상태 값을 변경한다.
+	
+	var sSvcID = "deleteDlv";
+	var sController = "epro.dlv.service.SDlvService.deleteDlv";
+	var sInDatasets = "in_dlv=ds_return:A";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.div_body_grd_list_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.dsList.rowcount==0) return;
+	if(gfnIsNull(this.dsList.getColumn(e.row, gfnGrdBindColId(obj, obj.getCellPos())))) return false;
+	
+	//if(this.gfn_grdBindColName(obj, e.cell)=="PO_NO")
+	if("PO_NO" == gfnGrdBindColId(obj, obj.getCellPos())){ 
+		alert("발주 팝업");
+		//this.gfn_setTmprData("BRANCH_CD"   , this.ds_list.getColumn(e.row, "BRANCH_CD"));
+		///*/*/this.gfn_setTmprData("PO_NO"	   , this.ds_list.getColumn(e.row, "PO_NO"));
+		//this.gfn_setTmprData("COREXP_KIDS" , this.dsList.getColumn(e.row, "PO_COREXP_KIDS"));
+
+		//this.gfn_dialog("PopupPo", "PORS::PPORS100P00.xfdl", "", "fn_popCallBack");
+		//SPor 팝업 페이지 연다.
+		
+	}
+	
+	if("TTL" == gfnGrdBindColId(obj, obj.getCellPos())){ 
+		var sArg = {	pop_poNo 		: this.dsList.getColumn(this.dsList.rowposition, "PO_NO")
+						,pop_dlvNo 		: this.dsList.getColumn(this.dsList.rowposition, "DLV_NO")
+						,pop_branchCd	: this.dsList.getColumn(this.dsList.rowposition, "BRANCH_CD")
+						,pop_strCd		: this.dsList.getColumn(this.dsList.rowposition, "STR_CD")
+						,pop_kid		: this.dsList.getColumn(this.dsList.rowposition, "COREXP_KIDS")
+						,agv_type		: "mgr"	//납품서관리화면에서 호출.
+				};
+		gfnModalPop(this, "popupid", "SDLV::SDlvPopup.xfdl", sArg, "fnPopCallBack", 1057, 1067);
+		//this.gfn_dialog("createDlvPop", "DLVS::PDLVS100P00.xfdl", sArg, "fn_popCallBack");
+	}
+	if("DLV_NO" == gfnGrdBindColId(obj, obj.getCellPos())){ 	
+		var sArg = {	pop_poNo 		: this.dsList.getColumn(this.dsList.rowposition, "PO_NO")
+						,pop_dlvNo 		: this.dsList.getColumn(this.dsList.rowposition, "DLV_NO")
+						,pop_branchCd	: this.dsList.getColumn(this.dsList.rowposition, "BRANCH_CD")
+						,pop_strCd		: this.dsList.getColumn(this.dsList.rowposition, "STR_CD")
+						,pop_kid		: this.dsList.getColumn(this.dsList.rowposition, "COREXP_KIDS")
+						,agv_type		: "mgr"	//납품서관리화면에서 호출.
+				};
+		gfnModalPop(this, "popupid", "SDLV::SDlvPopup.xfdl", sArg, "fnPopCallBack", 1057, 1067);
+		//this.gfn_dialog("createDlvPop", "DLVS::PDLVS100P00.xfdl", sArg, "fn_popCallBack");
+		
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

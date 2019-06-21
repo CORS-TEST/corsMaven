@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="497" id="CSampleDetail" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="협력사SMS발송" top="0" width="1220">
+    <Layouts>
+      <Layout screenid="Screen0" stepcount="" stepindex="">
+        <Div height="24" id="divViewCompTitle00" left="0" objNm="DIV-평가서 타이틀" positionstep="0" right="0" taborder="1" top="0">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" onclick="div_2_staSubTitle01_onclick" taborder="21" text="업체SMS발송" top="0" width="255"/>
+              <Button cssclass="btn_WF_Module" height="24" id="btnSend" objNm="발송버튼" onclick="btnSendOnclick" right="10" taborder="22" text="발송" top="0" width="51"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_DetailBg" height="121" id="divViewCompBody00" left="0" objNm="DIV-평가서 상세" positionstep="0" right="10" taborder="101" top="30">
+          <Layouts>
+            <Layout>
+              <Static bottom="0" cssclass="sta_WF_Labelbg" id="staViewCompLine00" left="0" right="0" taborder="30" top="0"/>
+              <Static bottom="0" cssclass="sta_WF_Label" id="staTtl" left="0" positionstep="1" taborder="32" text="발송내용" top="1" width="171"/>
+              <TextArea bottom="5" id="TextArea00" left="176" lengthunit="ascii" objNm="SMS내용" onchanged="divViewCompBody00_TextArea00_onchanged" taborder="33" top="5" width="897"/>
+              <Static height="20" id="sta_inputByte2" left="92.23%" objNm="SMS글자수" right="1.82%" style="align:center middle;" taborder="34" text=" / 90 bytes" top="94"/>
+              <Static height="20" id="sta_inputByte" left="91.4%" right="6.69%" taborder="35" top="94"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Div height="24" id="divViewCompTitle05" left="0" objNm="DIV-평가서 타이틀" right="10" taborder="113" top="171">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle01" left="0" taborder="0" text="대상업체" top="0" width="255"/>
+              <Button cssclass="btn_WF_Module" height="24" id="btnEvalTmpl" objNm="협력사추가버튼" onclick="btnPtnrAddOnclick" positionstep="1" right="56" taborder="1" text="협력사추가" top="0" width="90"/>
+              <Button cssclass="btn_WF_Module" height="24" id="btnEvalTmpl00" objNm="협력사 삭제버튼" onclick="btnPtnrDelOnclick" positionstep="1" right="0" taborder="2" text="삭제" top="0" width="51"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="287" id="divViewCompBody05" left="0" objNm="DIV-평가서 상세" right="10" taborder="114" top="200">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsPtnrList" bottom="0" id="Grid00" left="0" objNm="협력사 grid" right="0" taborder="0" top="0" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="37"/>
+                      <Column size="100"/>
+                      <Column size="300"/>
+                      <Column size="182"/>
+                      <Column size="279"/>
+                      <Column size="300"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" expr="" text="VENDOR"/>
+                      <Cell col="2" expr="" text="협력사명" tooltiptext=""/>
+                      <Cell col="3" expr="" text="사업자번호" tooltiptext=""/>
+                      <Cell col="4" expr="" text="대표사용자명" tooltiptext=""/>
+                      <Cell col="5" expr="" text="주소" tooltiptext=""/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                      <Cell col="1" text="bind:SAP_VENDOR"/>
+                      <Cell col="2" style="align:left;" text="bind:PTNR_NM" tooltiptext="bind:PTNR_NM"/>
+                      <Cell col="3" text="bind:BIZ_NO" tooltiptext="bind:BIZ_NO"/>
+                      <Cell col="4" text="bind:RPRSTV_NM" tooltiptext="bind:RPRSTV_NM"/>
+                      <Cell col="5" style="align:left;" text="bind:ADDR" tooltiptext="bind:ADDR"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsPtnrList">
+        <ColumnInfo>
+          <Column id="CHECKED" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+          <Column id="BIZ_NO" size="256" type="STRING"/>
+          <Column id="RPRSTV_NM" size="256" type="STRING"/>
+          <Column id="RPTST_TEL" size="256" type="STRING"/>
+          <Column id="ADDR" size="256" type="STRING"/>
+          <Column id="SMSID" size="256" type="STRING"/>
+          <Column id="SAP_VENDOR" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSms">
+        <ColumnInfo>
+          <Column id="SND_CNTNT" size="256" type="STRING"/>
+          <Column id="SMSID" size="256" type="STRING"/>
+          <Column id="INT_TRSMT_STTS" size="256" type="STRING"/>
+          <Column id="SNDR_TEL" size="256" type="STRING"/>
+          <Column id="RCVR_TEL" size="256" type="STRING"/>
+          <Column id="TRSMT_ERR" size="256" type="STRING"/>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="CRTR_ID" size="256" type="STRING"/>
+          <Column id="CRT_DT" size="256" type="STRING"/>
+          <Column id="LAST_CHGR_ID" size="256" type="STRING"/>
+          <Column id="LAST_CHG_DT" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="SND_CNTNT" compid="divViewCompBody00.TextArea00" datasetid="dsSms" id="item0" propid="value"/>
+      <BindItem columnid="btnSend" compid="divViewCompTitle00.btnSend" datasetid="dsObjBindVi" id="btnSendVi" propid="visible"/>
+      <BindItem columnid="btnSend" compid="divViewCompTitle00.btnSend" datasetid="dsObjBindEn" id="btnSendEn" propid="enable"/>
+      <BindItem columnid="staTtl" compid="divViewCompBody00.staTtl" datasetid="dsObjBindVi" id="staTtlVi" propid="visible"/>
+      <BindItem columnid="staTtl" compid="divViewCompBody00.staTtl" datasetid="dsObjBindEn" id="staTtlEn" propid="enable"/>
+      <BindItem columnid="TextArea00" compid="divViewCompBody00.TextArea00" datasetid="dsObjBindVi" id="TextArea00Vi" propid="visible"/>
+      <BindItem columnid="TextArea00" compid="divViewCompBody00.TextArea00" datasetid="dsObjBindEn" id="TextArea00En" propid="readonly"/>
+      <BindItem columnid="Static01" compid="divViewCompBody00.sta_inputByte2" datasetid="dsObjBindVi" id="Static01Vi" propid="visible"/>
+      <BindItem columnid="Static01" compid="divViewCompBody00.sta_inputByte2" datasetid="dsObjBindEn" id="Static01En" propid="enable"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00202" compid="divViewCompTitle05.staViewCompTitle01" datasetid="gdsLabel" id="staViewCompTitle01LangBind2017110317184329212" propid="text"/>
+      
+      <BindItem columnid="btnEvalTmpl" compid="divViewCompTitle05.btnEvalTmpl" datasetid="dsObjBindVi" id="btnEvalTmplVi" propid="visible"/>
+      <BindItem columnid="btnEvalTmpl" compid="divViewCompTitle05.btnEvalTmpl" datasetid="dsObjBindEn" id="btnEvalTmplEn" propid="enable"/>
+      
+      <BindItem columnid="btnEvalTmpl00" compid="divViewCompTitle05.btnEvalTmpl00" datasetid="dsObjBindVi" id="btnEvalTmpl00Vi" propid="visible"/>
+      <BindItem columnid="btnEvalTmpl00" compid="divViewCompTitle05.btnEvalTmpl00" datasetid="dsObjBindEn" id="btnEvalTmpl00En" propid="enable"/>
+      
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: CSampleDetail.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 8. 17.
+ * @설명			: 협력사 SMS 발송
+ * @최종수정자		: 김승일
+ * @최종수정일자	: 2017. 10. 31.
+*/  
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function(){
+	var param = [
+					 
+				];
+
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo){
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function(){
+	/*
+		상단에서부터 div 순서대로 기입.
+		ttl:접기/펼치기 클릭 하는 컴포넌트, body:실제로 접혀지거나 펼쳐지는 컴포넌트
+	*/
+	var sArg = [ 
+				{ttl:this.divViewCompTitle00.staViewCompTitle00, body:this.divViewCompBody00}	//서브타이틀1
+				
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo){
+	
+	//타이틀 접기/펼치기 기능
+	this.fnFold();
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	gfnSetGrdFunc(this.divViewCompBody05.Grid00, this.divViewCompBody05.divGrdBtns, this);
+	
+	gfnSetObj("A");
+}
+
+/**
+	@함수명	fnClose
+	@desc   	(공통버튼)닫기
+*/
+this.fnClose = function(){
+	return true;
+}
+
+/**
+	@함수명	fnAdd
+	@desc   	(공통버튼)신규
+*/
+this.fnAdd = function(){	
+	
+}
+
+/**
+	@function	btnScjdCorpAddOnclick
+	@desc   	협력사추가 버튼 onclick 이벤트
+*/
+this.btnPtnrAddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo){
+	var sArg = {};
+	gfnModalPop(this, "BPtnrSrchMultiPopup", "CPOP::BPtnrSrchMultiPopup.xfdl", sArg, "fnPopCallBack", 1100, 800);
+}
+
+/**
+	@function	btnScjdCorpDelOnclick
+	@desc   	삭제
+*/
+this.btnPtnrDelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo){
+// 	for(var i=this.dsPtnrList.rowcount; i>=0; i--){
+// 		if(this.dsPtnrList.getColumn(i, "CHECKED") == '1'){
+// 			this.dsPtnrList.deleteRow(i);
+// 		}
+// 	}
+	gfnDsChkDel(this.dsPtnrList);
+}
+
+
+/**
+  *	@함수명	: fnMPPreSave
+  * @desc     협력사 추가 전 처리
+  */
+this.fnPreAddPtnr = function(){
+	var arr = [];
+	for(var i=0; i<this.dsPtnrList.rowcount; i++){
+		for(var j = i+1; j < this.dsPtnrList.rowcount ; j++){
+			if(this.dsPtnrList.getColumn(i,"PTNR_ID") == this.dsPtnrList.getColumn(j,"PTNR_ID")){
+			this.dsPtnrList.deleteRow(j);
+				var msg = gfnMultiLabel("EPRO_LABEL_01305");
+				var type = gfnMultiLabel("EPRO_LABEL_01306");
+				var objParam = {
+						 agv_msg : msg
+						,agv_type : type
+					};
+				arr.push(objParam);
+			}
+		}
+	}
+	return gfnValidate(this, true, arr);
+}
+
+
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn){
+	
+	this.dsReturn.clear();
+	this.dsReturn.loadXML(rtn);
+	
+	switch(sPopupId){
+		case "BPtnrSrchMultiPopup" :
+			if(this.dsReturn.rowcount != 0){
+				var row = this.dsPtnrList.rowcount;
+				for(var i = row; i < (this.dsReturn.rowcount + row); i++){
+					if(!this.fnPreAddPtnr()) return;
+					this.dsPtnrList.addRow();
+					this.dsPtnrList.setColumn(i, "CHECKED"	, '0');
+ 					this.dsPtnrList.setColumn(i, "BIZ_NO"	, this.dsReturn.getColumn(i - row, "BIZ_NO"));
+ 					this.dsPtnrList.setColumn(i, "PTNR_NM"	, this.dsReturn.getColumn(i - row, "PTNR_NM"));
+ 					this.dsPtnrList.setColumn(i, "RPRSTV_NM", this.dsReturn.getColumn(i - row, "RPRSTV_NM"));
+ 					this.dsPtnrList.setColumn(i, "PTNR_ID"	, this.dsReturn.getColumn(i - row, "PTNR_ID"));
+ 					this.dsPtnrList.setColumn(i, "ADDR" 	, this.dsReturn.getColumn(i - row, "ADDR"));
+ 					this.dsPtnrList.setColumn(i, "SAP_VENDOR" 	, this.dsReturn.getColumn(i - row, "SAP_VENDOR"));
+				}
+			}
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+	
+
+/**
+	@function	preBtnSendOnclick()
+	@desc   	발송 전처리
+*/
+this.preBtnSendOnclick = function(){
+	
+	if(this.dsSms.getColumn(0, "SND_CNTNT") == null || this.dsSms.getColumn(0, "SND_CNTNT") == ""){
+		gfnAlert("EPRO_LABEL_00832");
+		return false;
+	}
+	
+	if(this.dsPtnrList.rowcount == 0){
+		gfnAlert("EPRO_LABEL_00853");
+		return false;
+	}
+	
+	return true;
+}
+
+/**
+	@function	btnSendOnclick()
+	@desc   	발송버튼 클릭 이벤트
+*/
+this.btnSendOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!this.preBtnSendOnclick()) return;
+	
+	if(this.divViewCompBody00.sta_inputByte.text > 90){
+		  gfnAlert("EPRO_LABEL_00815");
+		  this.divViewCompBody00.TextArea00.setFocus();
+      return;
+	}
+	
+	if(!gfnConfirm("EPRO_LABEL_01279")) return;
+	
+	var sSvcID = "savePtnrSms";
+	var sController = "epro.ptnr.service.BPtnrService.savePtnrSms";
+	var sInDatasets = "dsPtnrList=dsPtnrList:A dsSms=dsSms";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg){
+	if(strErrCd < 0){
+		return;
+	}	
+	
+	switch(strSvcID){		
+		case "savePtnrSms" : //SMS저장 콜백
+			gfnAlert("EPRO_LABEL_01293");
+			this.reload();
+		break;	
+		
+		case "" :
+		break;
+		
+		default:
+		break;	
+	}
+}
+	
+/**
+	@function	divViewCompBody00_TextArea00_onkillfocus()
+	@desc   	sms 글자수 체크
+*/
+
+this.divViewCompBody00_TextArea00_onchanged = function(obj:TextArea, e:nexacro.ChangeEventInfo)
+{
+   this.divViewCompBody00.sta_inputByte.set_text(this.divViewCompBody00.TextArea00.getLength("ascii"));
+}
+]]></Script>
+  </Form>
+</FDL>

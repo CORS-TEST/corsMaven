@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="500" id="BComSrcGrpPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="소싱그룹" top="0" width="441">
+    <Layouts>
+      <Layout>
+        <Grid autoenter="select" autofittype="col" binddataset="dsList" bottom="10" cellclickbound="cell" f_excel="Y" f_sort="N" id="grdList" left="10" oncellclick="grdList_oncellclick" oncelldblclick="grdList_oncelldblclick" right="10" scrollbars="alwaysvert" taborder="5" top="50" treeusebutton="use" treeusecheckbox="false" treeuseimage="true" treeuseline="true" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="422"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="소싱그룹"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="tree" edittype="tree" text="bind:SRC_GRP_NM" treelevel="bind:LVL" treestartlevel="1"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button cssclass="btn_WF_Com_G" height="24" id="btnApp" onclick="fnRtnData" right="10" taborder="15" text="적용" top="16" width="60"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsList">
+        <ColumnInfo>
+          <Column id="SRC_GRP_ID" size="256" type="STRING"/>
+          <Column id="UP_SRC_GRP_ID" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM" size="256" type="STRING"/>
+          <Column id="RMARK" size="256" type="STRING"/>
+          <Column id="LVL" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BComSrcGrpPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 10. 30.
+ * @설명			    : 소싱그룹 선택 팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 10. 30.
+*/ 
+
+this.popTitle = "Sourcing Group";
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	this.parent.btnClose.set_visible(false);
+	this.fnSearch();	
+}
+ 
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	var sSvcID = "searchComSrcGrp";
+	var sController = "epro.com.service.BComService.searchComSrcGrp";
+	var sInDatasets = "dsList=dsList";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "searchComSrcGrp" :	
+			this.grdList.setFocus();
+			
+		break;
+ 
+		default:
+		break;	
+	}
+}
+   
+/**
+  * @함수명		: fnRtnData
+  * @desc     	: 그리드 cell 더블클릭
+  */   
+this.fnRtnData = function()
+{
+	if(this.dsList.rowposition < 0||this.dsList.getColumn(this.dsList.rowposition,"LVL")==1){
+		return 
+	}
+	
+	var rtn = gfnGetSelRowString(this.dsList);
+	
+	if(rtn){
+		this.parent.close(rtn);
+	}	
+}
+this.grdList_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.dsList.getColumn(e.row,"LVL")>1){
+		this.fnRtnData();
+	}
+}
+
+this.grdList_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(e.clickitem == "treebutton") return;
+	
+	var check;
+	var treeRow = this.grdList.getTreeRow(this.dsList.rowposition);
+
+	if(this.grdList.getTreeStatus(treeRow) == 0) check = true;
+	else check = false;
+	
+	if(this.dsList.getColumn(e.row,"LVL")>1){
+		
+	}else{
+		this.grdList.setTreeStatus(treeRow,check);
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

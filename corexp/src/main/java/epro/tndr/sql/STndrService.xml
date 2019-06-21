@@ -1,0 +1,1786 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="STndrService">
+	<select id="tndrReqSrch" parameterType="hashmap" resultType="hashmap" >
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="T.TNDR_NO DESC, T.TNDR_ODR DESC"/>
+		</include>
+		SELECT
+			'0' CHECKED
+			,'' AS REASON
+			,T.BRANCH_CD 
+			,(SELECT BRANCH_NM FROM MM_MT_PORG WHERE BRANCH_CD = T.BRANCH_CD ) BRANCH_NM
+			,T.CD_DOC_CTGR
+			,T.TNDR_NO
+			,T.TNDR_ODR
+			,T.TTL
+			,DECODE(TC.ALT_PUR_AMT_OPEN,'Y',TO_CHAR(T.GOALAMT),'**********') GOALAMT
+			,TA.CHRGR_ID
+			,TA.CHRGR_NM
+			,TMP.PRGRS_DAY
+			,TMP.BGN_TIME
+			,T.REQ_DT
+			,TP.PTNR_ID
+			,'' LAST_CHGR_ID
+			,TP.CD_PTNR_BID_STTS
+			,TO_DATE(TC.TNDR_ATD_CLOSE_DAY||TC.TNDR_ATD_CLOSE_TIME,'YYYYMMDD HH24MISS') TNDR_ATD_CLOSE_DAY
+		FROM MM_TNDR T , MM_TNDR_ADD TA , MM_TNDR_COND TC
+	    	,(SELECT * FROM MM_TNDR_ROUND WHERE ROUND_SEQ = '1') TMP
+	    	,MM_TNDR_PTNR TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.TNDR_NO = TMP.TNDR_NO
+		AND T.BRANCH_CD = TMP.BRANCH_CD
+		AND T.TNDR_ODR = TMP.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND T.CD_TNDR_STTS = 'ET20ANN'
+		AND TP.PTNR_ID = #{PTNR_ID}
+		<if test='ALT_JOIN_YN == "N" and ALT_JOIN_YN != ""'>
+			AND TP.CD_PTNR_BID_STTS = 'ET24REQ'
+		</if>
+		<if test='ALT_JOIN_YN == "Y" and ALT_JOIN_YN != ""'>
+			AND TP.CD_PTNR_BID_STTS IN ('ET24REJ','ET24REQ')
+		</if>
+ 		<if test="REQ_DT_STR != null and REQ_DT_STR != 'undefined' and REQ_DT_STR != ''">
+			AND T.REQ_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{REQ_DT_STR},'YYYYMMDD'))
+		</if>
+		<if test="REQ_DT_END != null and REQ_DT_END != 'undefined' and REQ_DT_END != ''">
+			AND T.REQ_DT <![CDATA[<]]> TRUNC(TO_DATE( #{REQ_DT_END},'YYYYMMDD')+1)
+		</if>
+		<if test="TNDR_NO != null and TNDR_NO != 'undefined' and TNDR_NO != ''">
+			AND T.TNDR_NO LIKE  #{TNDR_NO}||'%'
+		</if>
+		<if test="SRCH_BRANCH_CD != null and SRCH_BRANCH_CD != 'undefined' and SRCH_BRANCH_CD != ''">
+			AND T.BRANCH_CD = #{SRCH_BRANCH_CD}
+		</if>
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<select id="tndrRead" parameterType="hashmap" resultType="hashmap" >
+		SELECT
+			T.BRANCH_CD
+			,T.TNDR_NO
+			,T.CD_TNDR_STTS
+			,T.CD_DOC_CTGR
+			,T.WRTR_ID
+			,T.ATTCH_FILE_CNT
+			,T.TTL
+			,T.WRTR_NM
+			,T.RMARK
+			,T.REQ_DT
+			,T.GOALAMT
+			,DECODE(TC.ALT_PUR_AMT_APLY,'Y',T.GOALAMT,'') GOALAMT_HIDDEN
+			,T.AWRD_AMT
+			,T.APP_DOC_ID
+			,T.ROUND_CNT
+			,T.CRTR_ID
+			,T.CRT_DT
+			,T.LAST_CHGR_ID
+			,T.LAST_CHG_DT
+			,T.TKEY
+			,T.CD_TNDR_MTHD
+			,T.TNDR_ODR
+			,T.PRGRS_ROUND
+			,TA.ALT_OPEN_EXPLN
+			,TA.ALT_OPEN
+			,TA.OPEN_EXPLN_DAY
+			,TA.OPEN_EXPLN_TIME
+			,TA.OPEN_EXPLN_AREA
+			,TA.OPEN_EXPLN_ATTN_CNDTN
+			,TA.OPEN_EXPLN_DR_TIME
+			,TA.CHRGR_ID
+			,TA.CHRGR_NM
+			,TA.EMAIL
+			,TA.TEL
+			,TA.CNCL_RSN
+			,TA.FAX
+			,TC.CD_PYMT_CNDTN
+			,TC.CD_BID_UNIT
+			,TC.TNDR_ATD_CLOSE_DAY
+			,TC.TNDR_ATD_CLOSE_TIME
+			,TC.TNDR_LOW_AMT
+			,TC.ALT_RFQ_CHG
+			,TC.ALT_PRE_BID
+			,TC.ALT_LOW_FAIL_APLY
+			,TC.ALT_PUR_AMT_APLY
+			,TC.ALT_PUR_AMT_OPEN
+			,TC.ALT_EVAL_STD_OPEN
+			,TC.ALT_CERT
+			,TC.ALT_CNFDNC_OBY_AGRMT
+			,TC.ALT_LPRC_PTNR_OPEN
+			,TC.ALT_LPRC_AMT_OPEN
+			,TC.LPRC_OPEN_PTNR_CNT
+			,TC.ALT_TMP_BID
+			,TC.ALT_LST_RFQ
+			,TC.ALT_ATD_PTNR_OPEN
+			,TC.CD_BID_CRNC
+			,TC.ALT_TOT_BID
+		FROM 	MM_TNDR T 
+			,	MM_TNDR_ADD TA
+			,	MM_TNDR_COND TC
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+  	</select>
+  	
+  	<select id="tndrReadItm" parameterType="hashmap" resultType="hashmap" >
+	 	 SELECT
+			'0' CHECKED
+			,TI.TNDR_ITEM_ID
+			,TI.BRANCH_CD
+			,TI.TNDR_NO
+			,TI.TNDR_ODR
+			,TI.PR_ITEM_ID
+			,TI.RFQ_REQ_ITEM_ID
+			,TI.ITM_NO
+			,TI.CD_FCTRY
+			,TI.STR_CD
+			,(SELECT SL_NM FROM MM_MT_SL WHERE STR_CD = TI.STR_CD AND BRANCH_CD = TI.BRANCH_CD) SL_NM 
+			,TI.MTRL_GRP_ID
+			,TI.MTRL_GRP_NM
+			,TI.SRC_GRP_ID
+			,TI.SRC_GRP_NM
+			,TI.MTRL_CD
+			,TI.MTRL_NM
+			,TI.QTY
+			,TI.CD_UNIT
+			,TI.GOALUNT_PRICE
+			,TI.GOALAMT
+			,TI.AWRD_PRICE
+			,TI.AWRD_AMT
+			,TI.DLV_REQ_DAY
+			,TI.ATTCH_FILE_CNT
+			,TI.RMARK
+			,TI.CRTR_ID
+			,TI.CRT_DT
+			,TI.LAST_CHGR_ID
+			,TI.LAST_CHG_DT
+			,TIA.PTNR_ID
+			,TIA.DLV_PLC_NM
+			,TIA.ZIP_NO
+			,TIA.ADDR
+			,TIA.DTL_ADDR
+			,TIA.FWD_REMARK
+		FROM MM_TNDR_ITEM TI , MM_TNDR_ITEM_ADD TIA
+		WHERE TI.TNDR_ITEM_ID = TIA.TNDR_ITEM_ID
+		AND TI.TNDR_NO = #{TNDR_NO}
+		AND TI.TNDR_ODR = #{TNDR_ODR}
+  	</select>
+  	
+  	<select id="tndrReadRound" parameterType="hashmap" resultType="hashmap" >
+	 	 SELECT
+		  	BRANCH_CD
+			,TNDR_NO
+			,TNDR_ODR
+			,ROUND_SEQ
+			,PRGRS_DAY
+			,BGN_TIME
+			,END_TIME
+			,DECODE(CD_ROUND_NEXT,'ET12NXT','ET12WIN','ET12NOT','ET12WIN',CD_ROUND_NEXT) CD_ROUND_NEXT
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 2, 9)) DAY
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 12, 2)) HOUR
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 15, 2)) MINUTE
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 18, 2)) SECOND
+		FROM MM_TNDR_ROUND
+		WHERE TNDR_NO = #{TNDR_NO}
+		AND TNDR_ODR = #{TNDR_ODR}
+  	</select>
+  	
+  	<select id="tndrReadPtnr" parameterType="hashmap" resultType="hashmap" >
+			SELECT
+				'0' CHECKED
+				,MP.BIZ_NO
+				,MP.PTNR_NM
+				,MP.HEAD_OFFCBIZ_NO
+				,MP.CORP_REG_NO
+				,MP.BIZ_CNDTN
+				,MP.BIZ_TYPE
+				,MP.BIZ_BGN_DAY
+				,MP.RPRSTV_NM
+				,MP.RPRSTV_HP
+				,MP.RPRSTV_EMAIL
+				,MP.ZIP_NO
+				,MP.ADDR
+				,MP.DTL_ADDR
+				,MP.RPTST_TEL
+				,MP.TEL
+				,MP.FAX
+				,MP.ALT_USE
+--				,MPP.ALT_CNST_PTNR
+--				,MPP.ALT_MTRL_PTNR
+--				,MP.ALT_WAST_PTNR
+				,MPP.CD_PO_CRNC
+				,MPP.CD_PYMT_CNDTN
+				,MPP.SRCH_KEY
+				,TP.TNDR_PTNR_ID
+				,TP.BRANCH_CD
+				,TP.TNDR_NO
+				,TP.TNDR_ODR
+				,TP.PTNR_ID
+				,TP.CD_PTNR_BID_STTS
+				,TP.CD_BID_RSLT
+				,TP.RCVR_ID
+				,TP.RCVR_NM
+				,TP.RCV_DT
+				,TP.BIDR_ID
+				,TP.CD_BID_RSLT
+				,TP.BID_DT
+				,TP.BID_AMT
+				,TP.SIGN_DATA
+				,TP.RMARK
+				,TP.ALT_PRGRS_TARG
+				,TP.ALT_PRGRS_CMPL
+				,TP.TKEY
+				,TP.CRTR_ID
+				,TP.CRT_DT
+				,TP.LAST_CHGR_ID
+				,TP.LAST_CHG_DT
+			FROM MM_PTNR MP , MM_TNDR_PTNR TP, MM_PTNR_PORG MPP
+			WHERE MP.PTNR_ID = TP.PTNR_ID
+			AND MP.PTNR_ID = MPP.PTNR_ID
+			AND TP.TNDR_NO = #{TNDR_NO}
+			AND TP.TNDR_ODR = #{TNDR_ODR}
+  	</select>
+  	
+  	<select id="tndrGoSrch" parameterType="hashmap" resultType="hashmap" >
+	--STndr.tndrGoSrch
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="T.TNDR_NO DESC, TNDR_ODR DESC"/>
+		</include>
+		SELECT
+				T.BRANCH_CD
+				, T.TNDR_NO
+				, T.TNDR_ODR
+				, MAX(T.CD_DOC_CTGR) AS CD_DOC_CTGR
+				, MAX(T.TTL) AS TTL
+				, MAX(T.CD_TNDR_MTHD) AS CD_TNDR_MTHD
+				, (SELECT BRANCH_NM FROM MM_MT_PORG WHERE BRANCH_CD = T.BRANCH_CD ) BRANCH_NM
+				, MIN(TR.PRGRS_DAY) AS PRGRS_DAY
+				, MIN(TR.BGN_TIME) AS BGN_TIME
+				, DECODE(MAX(TC.ALT_PUR_AMT_OPEN), 'Y', TO_CHAR(MAX(T.GOALAMT)), '**********') AS GOALAMT
+				, MAX(TP.PTNR_ID) AS PTNR_ID
+				, GET_PTNRNM(MAX(TP.PTNR_ID)) AS TNDR_PTNR_NM
+				, MAX(TP.CD_PTNR_BID_STTS) AS CD_PTNR_BID_STTS
+				, MAX(TP.RCVR_NM) AS RCVR_NM
+				, TO_CHAR(MAX(TP.RCV_DT), 'YYYYMMDDHH24MISS') AS RCV_DT
+				, MAX(TP.BIDR_NM) AS BIDR_NM				
+				, TO_CHAR(MAX(TP.BID_DT), 'YYYYMMDDHH24MISS') AS BID_DT				
+				, MAX(TA.CHRGR_NM) AS CHRGR_NM
+				, TO_CHAR(MAX(T.REQ_DT),'YYYYMMDD') AS REQ_DT
+				, CASE WHEN TO_DATE(MIN(TR.PRGRS_DAY)||MIN(TR.BGN_TIME),'YYYYMMDDHH24MISS')  <![CDATA[<]]> SYSDATE THEN 'N'
+					   WHEN MAX(TC.ALT_PRE_BID) = 'Y' THEN 'Y'
+					   ELSE 'N'
+				  END  ALT_PRE_BID				  
+				, CASE WHEN TO_DATE(MAX(TR.PRGRS_DAY)||MAX(TR.END_TIME),'YYYYMMDDHH24MISS') <![CDATA[<]]>  SYSDATE THEN 'N'
+				       ELSE 'Y'
+				  END  ROUND_END
+				, CASE WHEN TO_DATE(MAX(TR.PRGRS_DAY)||MAX(TR.END_TIME),'YYYYMMDDHH24MISS') <![CDATA[<]]>  SYSDATE THEN 'N'
+					   ELSE 'Y'
+				  END  ROUND_STR
+				, CASE WHEN TO_DATE(MAX(TR.PRGRS_DAY)||MIN(TR.BGN_TIME),'YYYYMMDDHH24MISS') -1/24  <![CDATA[<=]]> SYSDATE THEN 'Y'
+				       ELSE 'N'
+				  END  STR_TNDR_YN
+				, MAX(TC.ALT_TMP_BID) AS ALT_TMP_BID
+				, MAX(TC.ALT_CERT) AS ALT_CERT
+			    , MAX(TC.ALT_CNFDNC_OBY_AGRMT) AS ALT_CNFDNC_OBY_AGRMT
+			    , MAX(TC.TNDR_ATD_CLOSE_DAY) || MAX(TNDR_ATD_CLOSE_TIME) || '00' AS TNDR_ATD_CLOSE_DAY
+			    , MAX(TP.CD_BID_RSLT) AS CD_BID_RSLT
+			    , MAX(TP.CNFDNC_OBY_AGRMT_DT) AS CNFDNC_OBY_AGRMT_DT
+			    , MAX(TP.CNFDNC_OBY_AGRMTR_ID) AS CNFDNC_OBY_AGRMTR_ID
+			    , '' AS REASON
+			    , '' AS LAST_CHGR_ID
+			    , '0' AS CHECKED
+		  FROM	MM_TNDR			T
+		  		, MM_TNDR_ADD	TA
+		  		, MM_TNDR_COND	TC
+		  		, MM_TNDR_ROUND	TR
+		  		, MM_TNDR_PTNR	TP
+		 WHERE	T.BRANCH_CD		= TA.BRANCH_CD
+		   AND  T.TNDR_NO 		= TA.TNDR_NO
+		   AND  T.TNDR_ODR 		= TA.TNDR_ODR
+		   AND  T.BRANCH_CD 	= TC.BRANCH_CD
+		   AND  T.TNDR_NO 		= TC.TNDR_NO
+		   AND  T.TNDR_ODR 		= TC.TNDR_ODR
+		   AND  T.BRANCH_CD 	= TR.BRANCH_CD
+		   AND  T.TNDR_NO 		= TR.TNDR_NO
+		   AND  T.TNDR_ODR 		= TR.TNDR_ODR
+		   AND  T.BRANCH_CD 	= TP.BRANCH_CD
+		   AND  T.TNDR_NO 		= TP.TNDR_NO
+		   AND  T.TNDR_ODR 		= TP.TNDR_ODR
+		   AND  TP.PTNR_ID 		= #{PTNR_ID}
+		   AND  T.CD_TNDR_STTS IN ( 'ET20ANN', 'ET20ING', 'ET20APP', 'ET20ANI' )
+				
+		<if test="TNDR_NO != null and TNDR_NO != 'undefined' and TNDR_NO != ''">
+			AND T.TNDR_NO = #{TNDR_NO}
+		</if>
+		<if test="REQ_DT_STR != null and REQ_DT_STR != 'undefined' and REQ_DT_STR != ''">
+			AND T.REQ_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{REQ_DT_STR},'YYYYMMDD'))
+		</if>
+		<if test="REQ_DT_END != null and REQ_DT_END != 'undefined' and REQ_DT_END != ''">
+			AND T.REQ_DT <![CDATA[<]]> TRUNC(TO_DATE(#{REQ_DT_END},'YYYYMMDD')+1)
+		</if>
+		<if test="SRCH_BRANCH_CD != null and SRCH_BRANCH_CD != 'undefined' and SRCH_BRANCH_CD != ''">
+			AND T.BRANCH_CD = #{SRCH_BRANCH_CD}
+		</if>
+		
+		GROUP BY	T.BRANCH_CD
+					, T.TNDR_NO
+					, T.TNDR_ODR
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<select id="tndrEndSrch" parameterType="hashmap" resultType="hashmap" >
+  		<include refid="commonService.list-before">
+			<property name="ORDERS" value="T.TNDR_NO DESC ,TNDR_ODR DESC"/>
+		</include>
+		SELECT
+			T.CD_DOC_CTGR
+			,T.TNDR_NO
+			,T.TTL
+			,MAX(T.CD_TNDR_STTS) CD_TNDR_STTS			
+			,T.BRANCH_CD 
+			,(SELECT BRANCH_NM FROM MM_MT_PORG WHERE BRANCH_CD = T.BRANCH_CD) BRANCH_NM
+			,MAX(T.TNDR_ODR) TNDR_ODR
+			,MIN(TR.PRGRS_DAY) PRGRS_DAY
+			,MIN(TR.BGN_TIME) BGN_TIME
+			,CASE WHEN	(SYSDATE - TO_DATE(MIN(TR.PRGRS_DAY)||MAX(TR.BGN_TIME),'YYYYMMDDHH24MISS')) > 0
+                THEN 'N'
+                ELSE 'Y'
+             END LIMITE_YN
+			,T.CD_TNDR_MTHD
+			,T.GOALAMT
+			,TP.PTNR_ID
+			,GET_PTNRNM(TP.PTNR_ID) TNDR_PTNR_NM
+			,TP.CD_PTNR_BID_STTS
+			,TP.RCVR_NM
+			,TO_CHAR(TP.RCV_DT, 'YYYY.MM.DD HH24:MI') AS RCV_DT
+			,TP.BIDR_NM
+			,TO_CHAR(TP.BID_DT, 'YYYY.MM.DD HH24:MI') AS BID_DT
+			,TA.CHRGR_NM
+			,TO_CHAR(T.REQ_DT,'YYYYMMDD') REQ_DT
+			,DECODE(MAX(T.CD_TNDR_STTS),'ET20ANI','','ET20REE','','ET20YOO','',
+                DECODE(TP.CD_BID_RSLT,'ET25AWD','낙찰'
+                                    ,'ET25CXL','취소'
+                                    ,'탈락'
+                      )) CD_BID_RSLT
+		FROM MM_TNDR T ,MM_TNDR_ADD TA ,MM_TNDR_ROUND TR ,MM_TNDR_PTNR TP
+		WHERE T.BRANCH_CD = TA.BRANCH_CD
+		AND T.TNDR_NO = TA.TNDR_NO
+		AND T.TNDR_ODR = TA.TNDR_ODR
+		AND T.BRANCH_CD = TR.BRANCH_CD
+		AND T.TNDR_NO = TR.TNDR_NO
+		AND T.TNDR_ODR = TR.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.PTNR_ID = #{PTNR_ID}
+		AND T.CD_TNDR_STTS IN ('ET20ANI'
+												,'ET20CLO'
+												,'ET20CXL'
+												,'ET20YOO'
+												,'ET20REE')
+
+		<if test="REQ_DT_STR != null and REQ_DT_STR != 'undefined' and REQ_DT_STR != ''">
+			AND T.REQ_DT <![CDATA[>=]]> TRUNC(TO_DATE(#{REQ_DT_STR}, 'YYYYMMDD'))
+		</if>
+		<if test="REQ_DT_END != null and REQ_DT_END != 'undefined' and REQ_DT_END != ''">
+			AND T.REQ_DT <![CDATA[<]]> TRUNC(TO_DATE(#{REQ_DT_END},'YYYYMMDD')+1)
+		</if>
+		<if test="SRCH_BRANCH_CD != null and SRCH_BRANCH_CD != 'undefined' and SRCH_BRANCH_CD != ''">
+			AND T.BRANCH_CD = #{SRCH_BRANCH_CD}
+		</if>
+
+		GROUP BY T.CD_DOC_CTGR,T.TNDR_NO,T.TTL,T.CD_TNDR_MTHD,T.GOALAMT,TP.PTNR_ID
+		 				,T.BRANCH_CD
+						,TP.CD_PTNR_BID_STTS,TP.RCVR_NM,TP.RCV_DT,TP.BIDR_NM,TP.BID_DT,TA.CHRGR_NM,T.REQ_DT,TP.CD_BID_RSLT
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+  	<update id="tndrRjc" parameterType="hashmap">
+ 		<!--  업체 입찰거부 -->
+ 		UPDATE MM_TNDR_PTNR SET
+ 			CD_PTNR_BID_STTS 		= 'ET24REJ'
+ 			,CD_BID_RSLT 			= 'ET25TALX'
+ 			,RCVR_ID				= #{LAST_CHGR_ID}
+ 			,RCVR_NM 				= GET_USERNM(#{LAST_CHGR_ID}, #{BRANCH_CD},'CM34KR')
+ 			,RCV_DT					=	SYSDATE
+ 			,LAST_CHGR_ID			= #{LAST_CHGR_ID}
+ 			,LAST_CHG_DT			=	SYSDATE
+ 			,TNDR_RJT_RSN           = #{REASON}
+		WHERE PTNR_ID = #{PTNR_ID}
+		AND TNDR_NO = 	#{TNDR_NO}
+		AND TNDR_ODR = 	#{TNDR_ODR}
+		AND CD_PTNR_BID_STTS IN ( 'ET24REQ', 'ET24VIW' ) 
+ 	</update>
+  	
+  	<update id="tndrAcp" parameterType="hashmap">
+ 		<!--  업체 입찰참여 -->
+ 		UPDATE MM_TNDR_PTNR SET
+			CD_PTNR_BID_STTS 		= 'ET24VIW'
+			,RCVR_ID				= #{LAST_CHGR_ID}
+			,CD_BID_RSLT 			= null
+			,RCVR_NM 				= GET_USERNM(#{LAST_CHGR_ID}, #{BRANCH_CD},'CM34KR')
+			,RCV_DT					= SYSDATE
+			,LAST_CHGR_ID			= #{LAST_CHGR_ID}
+			,LAST_CHG_DT			= SYSDATE
+		WHERE PTNR_ID 	= #{PTNR_ID}
+		AND TNDR_NO 	= #{TNDR_NO}
+		AND TNDR_ODR 	= #{TNDR_ODR}
+		AND CD_PTNR_BID_STTS 	IN ('ET24REQ','ET24REJ')
+ 	</update>
+ 	
+ 	<select id="tndrGoRead" parameterType="hashmap" resultType="hashmap" >
+		<!--  업체 응찰내용 조회 -->
+		SELECT
+		    TP.PTNR_ID
+		    ,TP.BRANCH_CD
+		    ,T.TNDR_NO
+		    ,T.TTL
+		    ,T.TNDR_ODR
+		    ,T.CD_TNDR_MTHD
+		    ,T.ROUND_CNT
+		    ,T.CD_TNDR_STTS
+		    ,TC.CD_BID_CRNC
+		    ,RP.RFQ_AMT
+		    ,TC.TNDR_LOW_AMT
+		    ,TC.ALT_PUR_AMT_APLY
+		    ,DECODE(TC.ALT_PUR_AMT_OPEN,'Y',TO_CHAR(T.GOALAMT),'********') GOALAMT
+		    ,TC.CD_BID_UNIT
+		    ,TP.TNDR_PTNR_ID
+		    ,T.PRGRS_ROUND
+		    ,NVL(TP.BID_AMT,0) BID_AMT
+		    ,TP.LAST_CHGR_ID
+		    ,DECODE(T.ROUND_CNT,T.PRGRS_ROUND,'Y','N') ROUND_END
+		    ,(SELECT
+		    	BID_AMT
+		    FROM MM_TNDR_PTNR_BID_ROUND
+		    WHERE TNDR_NO = T.TNDR_NO
+		    AND TNDR_ODR = T.TNDR_ODR
+		    AND BRANCH_CD = TP.BRANCH_CD
+		    AND TNDR_PTNR_ID = TP.TNDR_PTNR_ID
+		    AND ROUND_SEQ = T.PRGRS_ROUND-1) ROUND_BID_AMT
+		    ,'' ROUND_NEXT_CD
+		    ,'' END_ROUND_YN
+		    ,'' SIGN_DATA
+		    ,TP.CD_BID_RSLT
+		    ,TC.ALT_CERT
+		    ,TC.ALT_CNFDNC_OBY_AGRMT
+		    ,TC.ALT_TOT_BID
+		    ,TC.ALT_ATD_PTNR_OPEN
+		FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP, MM_RFQ_PTNR RP
+		WHERE T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+		AND TP.PTNR_ID = #{PTNR_ID}
+  	</select>
+  	
+  	<select id="tndrGoReadItem" parameterType="hashmap" resultType="hashmap" >
+		<!--  업체 응찰내용 아이템 조회 -->
+		SELECT
+        	 TPBI.TNDR_PTNR_ID
+			,TPBI.PTNR_BID_ITEM_ID
+			,TPBI.BID_UNIT_PRICE
+			,NVL(TPBI.BID_AMT,0) BID_AMT
+			,TPBI.BID_ODR
+			,TI.TNDR_ITEM_ID
+			,TI.TNDR_ODR
+			,TI.MTRL_CD
+			,TI.MTRL_NM
+			,TI.QTY
+			,TI.CD_UNIT
+			,TI.LAST_CHGR_ID
+			,TI.TNDR_NO
+			,TI.BRANCH_CD
+			,T.PRGRS_ROUND
+			,'' SIGN_DATA
+			,(SELECT
+                MAX(RPQ.RFQ_PRICE) RFQ_PRICE
+                FROM MM_RFQ_PTNR RP , MM_RFQ_PTNR_QUOTE RPQ, MM_RFQ_ITEM RI
+                WHERE RP.RFQ_PTNR_ID = RPQ.RFQ_PTNR_ID
+                AND RI.RFQ_REQ_ITEM_ID = RPQ.RFQ_REQ_ITEM_ID
+                AND TI.RFQ_REQ_ITEM_ID = RI.RFQ_REQ_ITEM_ID(+)
+                AND RPQ.RFQ_PTNR_ID = TP.RFQ_PTNR_ID
+            ) RFQ_PRICE
+        FROM MM_TNDR T , MM_TNDR_ITEM TI, MM_TNDR_PTNR TP, MM_TNDR_PTNR_BID_ITEM TPBI
+        WHERE  T.BRANCH_CD 		= TI.BRANCH_CD
+		AND T.TNDR_NO 			= TI.TNDR_NO
+		AND T.TNDR_ODR 		= TI.TNDR_ODR
+		AND TI.BRANCH_CD 		= TP.BRANCH_CD
+		AND TI.TNDR_NO			= TP.TNDR_NO
+		AND TI.TNDR_ODR 		= TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID     = TPBI.TNDR_PTNR_ID(+)
+		AND DECODE(TPBI.TNDR_ITEM_ID,NULL,'B',TI.TNDR_ITEM_ID) = DECODE(TPBI.TNDR_ITEM_ID,NULL,'B',TPBI.TNDR_ITEM_ID)
+		AND TP.TNDR_NO 			= #{TNDR_NO}
+        AND TP.BRANCH_CD 		= #{BRANCH_CD}
+        AND TP.TNDR_ODR 		= #{TNDR_ODR}
+        AND TP.PTNR_ID 			= #{PTNR_ID}
+  	</select>
+  	
+  	<select id="tndrGoReadRound" parameterType="hashmap" resultType="hashmap" >
+		<!--  업체 응찰내용 라운드 조회 -->
+		SELECT
+			T.BRANCH_CD
+			,T.TNDR_NO
+			,T.TNDR_ODR
+			,ROUND_SEQ
+			,PRGRS_DAY
+			,BGN_TIME
+			,END_TIME
+			,DECODE(CD_ROUND_NEXT,'ET12NXT','ET12WIN','ET12NOT','ET12WIN',CD_ROUND_NEXT) CD_ROUND_NEXT
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 9, 2)) TIME_DAY
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 12, 2)) TIME_HOUR
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 15, 2)) TIME_MINUTE
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 18, 2)) TIME_SECOND
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 9, 2)) TIME_END_DAY
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 12, 2)) TIME_END_HOUR
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 15, 2)) TIME_END_MINUTE
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 18, 2)) TIME_END_SECOND
+			,SUBSTR(BGN_TIME,0,2) HOUR
+            ,SUBSTR(BGN_TIME,3,2) MINUTE
+            ,SUBSTR(END_TIME,0,2) END_HOUR
+            ,SUBSTR(END_TIME,3,2) END_MINUTE
+			,CASE WHEN  SYSDATE  BETWEEN TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS') AND  TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS')
+                    THEN 'Y'
+                    ELSE 'N'
+                END ROUND_YN
+             ,T.PRGRS_ROUND
+		FROM MM_TNDR_ROUND TR ,MM_TNDR T
+		WHERE T.TNDR_NO =  TR.TNDR_NO
+		AND T.TNDR_ODR = TR.TNDR_ODR
+		AND T.BRANCH_CD = TR.BRANCH_CD
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+		ORDER BY ROUND_SEQ ASC
+  	</select>
+  	
+  	<select id="tndrGoReadPtnr" parameterType="hashmap" resultType="hashmap" >
+		<!--  업체 응찰내용 업체 조회 -->
+		 SELECT
+                ROWNUM LANKING
+                ,AL.*
+			FROM
+			(
+				SELECT
+					TPBR.TNDR_PTNR_ID
+					,T.BRANCH_CD
+					,T.TNDR_NO
+					,T.TNDR_ODR
+					,TP.PTNR_ID
+					,DECODE(TC.ALT_LPRC_PTNR_OPEN,'Y',GET_PTNRNM(TP.PTNR_ID),'********') PTNR_NM
+					,DECODE(TC.ALT_LPRC_AMT_OPEN,'Y',TPBR.BID_AMT,0) BID_AMT
+					,TPBR.BID_DT
+					,TC.LPRC_OPEN_PTNR_CNT
+					,TC.ALT_ATD_PTNR_OPEN
+					,TC.ALT_LPRC_AMT_OPEN
+				FROM MM_TNDR T , MM_TNDR_COND TC ,MM_TNDR_PTNR_BID_ROUND TPBR , MM_TNDR_PTNR TP
+				WHERE T.BRANCH_CD 			= TC.BRANCH_CD
+				AND T.TNDR_NO 				= TC.TNDR_NO
+				AND T.TNDR_ODR 			= TC.TNDR_ODR
+				AND T.BRANCH_CD 				= TPBR.BRANCH_CD
+				AND T.TNDR_NO 				= TPBR.TNDR_NO
+				AND T.TNDR_ODR 			= TPBR.TNDR_ODR
+				AND T.BRANCH_CD 				= TP.BRANCH_CD
+				AND T.TNDR_NO 				= TP.TNDR_NO
+				AND T.TNDR_ODR 			= TP.TNDR_ODR
+				AND TPBR.ROUND_SEQ 	= T.PRGRS_ROUND - 1
+				AND TPBR.TNDR_PTNR_ID = TP.TNDR_PTNR_ID
+				AND T.BRANCH_CD 				= #{BRANCH_CD}
+				AND T.TNDR_NO 				= #{TNDR_NO}
+				AND T.TNDR_ODR 			=#{TNDR_ODR}
+				AND TP.PTNR_ID <![CDATA[<>]]> #{PTNR_ID}
+	            ORDER BY BID_AMT ASC
+			) AL
+			WHERE ROWNUM <![CDATA[<=]]> NVL(LPRC_OPEN_PTNR_CNT,0)
+			UNION ALL
+			SELECT
+				0 LANKING
+				,TP.TNDR_PTNR_ID
+				,T.BRANCH_CD
+				,T.TNDR_NO
+				,T.TNDR_ODR
+				,TP.PTNR_ID
+				,GET_PTNRNM(TP.PTNR_ID) PTNR_NM
+				,TP.BID_AMT
+				,TP.BID_DT
+				,TC.LPRC_OPEN_PTNR_CNT
+				,TC.ALT_ATD_PTNR_OPEN
+				,TC.ALT_LPRC_AMT_OPEN
+			FROM MM_TNDR T , MM_TNDR_COND TC ,MM_TNDR_PTNR_BID_ROUND TPBR , MM_TNDR_PTNR TP
+			WHERE T.BRANCH_CD 		= TC.BRANCH_CD
+			AND T.TNDR_NO 			= TC.TNDR_NO
+			AND T.TNDR_ODR 		= TC.TNDR_ODR
+			AND T.BRANCH_CD 			= TPBR.BRANCH_CD(+)
+			AND T.TNDR_NO 			= TPBR.TNDR_NO(+)
+			AND T.TNDR_ODR 		= TPBR.TNDR_ODR(+)
+			AND T.BRANCH_CD 			= TP.BRANCH_CD
+			AND T.TNDR_NO 			= TP.TNDR_NO
+			AND T.TNDR_ODR 		= TP.TNDR_ODR
+			AND T.PRGRS_ROUND 	= TPBR.ROUND_SEQ (+)
+            AND TP.BRANCH_CD 			= #{BRANCH_CD}
+            AND TP.TNDR_NO 		= #{TNDR_NO}
+            AND TP.TNDR_ODR 		= #{TNDR_ODR}
+            AND TP.PTNR_ID	 		= #{PTNR_ID}
+            AND ROWNUM = 1
+            ORDER BY LANKING
+  	</select>
+  	
+  	<update id="tndrGoAcpUpd" parameterType="hashmap">
+		<!--  업체 응찰 업데이트 -->
+		UPDATE MM_TNDR_PTNR SET
+			CD_PTNR_BID_STTS 	= 'ET24CLO'
+			,BIDR_ID 			= #{LAST_CHGR_ID}
+			,BIDR_NM 			= GET_USERNM(#{LAST_CHGR_ID}, 'SUPP','CM34KR')
+			,BID_DT 			= SYSDATE
+			,BID_AMT 			= #{BID_AMT}
+			,SIGN_DATA 			= #{SIGN_DATA, jdbcType=CLOB}
+			,LAST_CHGR_ID 		= #{LAST_CHGR_ID}
+			,LAST_CHG_DT 		= SYSDATE
+		WHERE PTNR_ID 			= #{PTNR_ID} 
+		AND BRANCH_CD 			= #{BRANCH_CD}		 
+		AND TNDR_ODR 			= #{TNDR_ODR}
+		AND TNDR_NO 			= #{TNDR_NO}
+		AND TNDR_PTNR_ID 		= #{TNDR_PTNR_ID}
+	</update>
+	
+	<update id="tndrGoAcpRoundMerge" parameterType="hashmap">
+  		<!-- 업체 응찰 라운드별 저장 -->
+			<![CDATA[
+			MERGE INTO MM_TNDR_PTNR_BID_ROUND TPBR
+            USING DUAL
+                 ON
+                 	(
+                 	TPBR.BRANCH_CD			= #{BRANCH_CD}
+					AND TPBR.TNDR_NO       	= #{TNDR_NO}
+					AND TPBR.TNDR_ODR      	= #{TNDR_ODR}
+					AND TPBR.ROUND_SEQ     	= #{PRGRS_ROUND}-1
+					AND TPBR.TNDR_PTNR_ID  	= #{TNDR_PTNR_ID}
+					)
+            WHEN MATCHED THEN
+               UPDATE SET
+   									BIDR_ID				= 	#{LAST_CHGR_ID}
+									,BIDR_NM   			=	GET_USERNM(#{LAST_CHGR_ID}, 'SUPP','CM34KR')
+									,BID_DT     		=	SYSDATE
+									,BID_AMT    		=	#{BID_AMT}
+            WHEN NOT MATCHED THEN
+               INSERT (
+									 BRANCH_CD
+									,TNDR_NO
+									,TNDR_ODR
+									,ROUND_SEQ
+									,TNDR_PTNR_ID
+									,BIDR_ID
+									,BIDR_NM
+									,BID_DT
+									,BID_AMT
+				) VALUES (
+				 					 #{BRANCH_CD}
+									,#{TNDR_NO}
+									,#{TNDR_ODR}
+									,#{PRGRS_ROUND}-1
+									,#{TNDR_PTNR_ID}
+									,#{LAST_CHGR_ID}
+									,GET_USERNM(#{LAST_CHGR_ID}, 'SUPP','CM34KR')
+									,SYSDATE
+									,#{BID_AMT}
+						)
+		]]>
+  	</update>
+  	
+  	<insert id="tndrGoAcpItemInsert" parameterType="hashmap">
+  		<!-- 업체 응찰 품목 저장 -->
+		INSERT INTO MM_TNDR_PTNR_BID_ITEM(
+			PTNR_BID_ITEM_ID
+			,TNDR_PTNR_ID
+			,TNDR_ITEM_ID
+			,BID_ODR
+			,BID_UNIT_PRICE
+			,BID_AMT
+			,RMARK
+			,CRTR_ID
+			,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT
+		) VALUES (
+			#{PTNR_BID_ITEM_ID}
+			,#{TNDR_PTNR_ID}
+			,#{TNDR_ITEM_ID}
+			,#{BID_ODR}
+			,#{BID_UNIT_PRICE}
+			,#{BID_AMT}
+			,#{RMARK}
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+			,#{LAST_CHGR_ID}
+			,SYSDATE
+		)
+  	</insert>
+
+  	<update id="tndrGoAcpItemUpd" parameterType="hashmap">
+  	<!-- 업체 응찰 품목 저장 -->
+  		UPDATE MM_TNDR_PTNR_BID_ITEM SET
+			BID_UNIT_PRICE   			= #{BID_UNIT_PRICE}
+			,BID_AMT           				= #{BID_AMT}
+			,AWRD_QTY         			= #{AWRD_QTY}
+			,AWRD_AMT        				= #{AWRD_AMT}
+			,RMARK            				= #{RMARK}
+			,CRTR_ID           				= #{LAST_CHGR_ID}
+			,CRT_DT            				= SYSDATE
+			,LAST_CHGR_ID    				= #{LAST_CHGR_ID}
+			,LAST_CHG_DT     				= SYSDATE
+		WHERE PTNR_BID_ITEM_ID 	= #{PTNR_BID_ITEM_ID}
+		AND TNDR_PTNR_ID 				= #{TNDR_PTNR_ID}
+		AND TNDR_ITEM_ID 				= #{TNDR_ITEM_ID}
+  	</update>
+
+
+  	<insert id="tndrGoAcpHstMerge" parameterType="hashmap">
+  		<!-- 업체 응찰 이력 저장 -->
+			MERGE INTO MM_TNDR_PTNR_BID_ROUND_ITEM TPBRI
+            USING DUAL
+                 ON
+                 	(
+                 	TPBRI.BRANCH_CD								= #{BRANCH_CD}
+					AND TPBRI.TNDR_NO               		= #{TNDR_NO}	
+					AND TPBRI.TNDR_ODR              	= #{TNDR_ODR}
+					AND TPBRI.ROUND_SEQ            	= #{PRGRS_ROUND}
+					AND TPBRI.TNDR_PTNR_ID          	= #{TNDR_PTNR_ID}
+					AND TPBRI.PTNR_BID_ITEM_ID	    = #{PTNR_BID_ITEM_ID}
+					)
+            WHEN MATCHED THEN
+               UPDATE SET
+   									BID_UNIT_PRICE		= #{BID_UNIT_PRICE}
+									,BID_AMT					= #{BID_AMT}
+            WHEN NOT MATCHED THEN
+               INSERT (
+									BRANCH_CD
+									,TNDR_NO
+									,TNDR_ODR
+									,ROUND_SEQ
+									,TNDR_PTNR_ID
+									,PTNR_BID_ITEM_ID
+									,BID_UNIT_PRICE
+									,BID_AMT
+					) VALUES (
+									#{BRANCH_CD}
+									,#{TNDR_NO}
+									,#{TNDR_ODR}
+									,#{PRGRS_ROUND}
+									,#{TNDR_PTNR_ID}
+									,#{PTNR_BID_ITEM_ID}
+									,#{BID_UNIT_PRICE}
+									,#{BID_AMT}
+					)
+  	</insert>
+  	
+  	<update id="tndrGoNotAcpUpd" parameterType="hashmap">
+		<!--  업체 미응찰 업데이트 -->
+		UPDATE MM_TNDR_PTNR SET
+			CD_PTNR_BID_STTS 	= 'ET24NOT'
+			,CD_BID_RSLT		 	= 'ET25TALM'
+			,LAST_CHGR_ID 		= ''
+			,LAST_CHG_DT 			= SYSDATE
+		WHERE BRANCH_CD 			= ''
+		AND PTNR_ID 				= ''	
+		AND TNDR_ODR 			= ''
+		AND TNDR_NO 				= ''
+		AND TNDR_PTNR_ID 		= ''
+	</update>
+
+
+	<update id="tndrGoAcpRoundUpd" parameterType="hashmap">
+		UPDATE MM_TNDR SET
+            PRGRS_ROUND 	= DECODE(ROUND_CNT,#{PRGRS_ROUND},ROUND_CNT,#{PRGRS_ROUND}+1)
+            ,LAST_CHGR_ID 	= 'BATCH'||#{PRGRS_ROUND}
+            ,LAST_CHG_DT 	= SYSDATE
+        WHERE TNDR_NO 		= #{TNDR_NO}
+        AND BRANCH_CD 		= #{BRANCH_CD}
+        AND TNDR_ODR 		= #{TNDR_ODR}
+        AND PRGRS_ROUND <![CDATA[<=]]> ROUND_CNT
+        AND LAST_CHGR_ID <![CDATA[<>]]> 'BATCH'||#{PRGRS_ROUND}
+	</update>
+
+
+
+	<update id="tndrGoAcpET25TALD" parameterType="hashmap">
+ 			UPDATE MM_TNDR_PTNR SET
+                CD_BID_RSLT = 'ET25TALD'
+                ,LAST_CHGR_ID = 'BATCH'
+                ,LAST_CHG_DT = SYSDATE
+            WHERE (BRANCH_CD,TNDR_NO,TNDR_ODR,TNDR_PTNR_ID) IN
+            (
+		    	SELECT
+				    T.BRANCH_CD
+				    ,T.TNDR_NO
+				    ,T.TNDR_ODR
+				    ,TP.TNDR_PTNR_ID
+			    FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP
+			    WHERE T.BRANCH_CD 	= TC.BRANCH_CD
+	            AND T.TNDR_NO 		= TC.TNDR_NO
+	            AND T.TNDR_ODR 	= TC.TNDR_ODR
+	            AND T.BRANCH_CD 		= TP.BRANCH_CD
+	            AND T.TNDR_NO 		= TP.TNDR_NO
+	            AND T.TNDR_ODR 	= TP.TNDR_ODR
+	            AND T.BRANCH_CD 		= #{BRANCH_CD}
+	            AND T.TNDR_NO 		= #{TNDR_NO}
+	            AND T.TNDR_ODR 	= #{TNDR_ODR}
+	            AND TC.TNDR_LOW_AMT <![CDATA[>=]]> TP.BID_AMT
+	            AND NVL(TP.CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+	            AND TC.ALT_LOW_FAIL_APLY = 'Y'
+		    )
+	</update>
+
+	<update id="tndrGoAcpLowET25TALU" parameterType="hashmap">
+ 			UPDATE MM_TNDR_PTNR SET
+                CD_BID_RSLT = 'ET25TALU'
+                ,LAST_CHGR_ID = 'BATCH'
+                ,LAST_CHG_DT = SYSDATE
+            WHERE (BRANCH_CD,TNDR_NO,TNDR_ODR,TNDR_PTNR_ID) IN
+            (
+		    	SELECT
+				    T.BRANCH_CD
+				    ,T.TNDR_NO
+				    ,T.TNDR_ODR
+				    ,TP.TNDR_PTNR_ID
+			    FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP
+			    WHERE T.BRANCH_CD 	= TC.BRANCH_CD
+	            AND T.TNDR_NO 		= TC.TNDR_NO
+	            AND T.TNDR_ODR 	= TC.TNDR_ODR
+	            AND T.BRANCH_CD 		= TP.BRANCH_CD
+	            AND T.TNDR_NO 		= TP.TNDR_NO
+	            AND T.TNDR_ODR 	= TP.TNDR_ODR
+	            AND T.BRANCH_CD 		= #{BRANCH_CD}
+	            AND T.TNDR_NO 		= #{TNDR_NO}
+	            AND T.TNDR_ODR 	= #{TNDR_ODR}
+	            AND TC.TNDR_LOW_AMT <![CDATA[>]]> TP.BID_AMT
+		    )
+	</update>
+
+
+
+
+
+
+	<update id="tndrGoAcpET12ND1" parameterType="hashmap">
+			UPDATE MM_TNDR_PTNR SET
+                CD_BID_RSLT = 'ET25TALO'
+                ,LAST_CHGR_ID = 'BATCH'
+                ,LAST_CHG_DT = SYSDATE
+            WHERE (BRANCH_CD , TNDR_PTNR_ID,TNDR_NO,TNDR_ODR) =
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID ,AL.TNDR_NO ,AL.TNDR_ODR
+                        FROM
+                        (
+                            SELECT
+                            TP.*
+                            FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                            WHERE TP.BRANCH_CD 			= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND NVL(TP.BID_AMT,0) <![CDATA[<>]]> 0
+                            AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                            ORDER BY NVL(TP.BID_AMT,0) DESC
+                        ) AL
+                        WHERE ROWNUM = 1
+                    )
+
+	</update>
+
+	<update id="tndrGoAcpUpET12ND1" parameterType="hashmap">
+			UPDATE MM_TNDR_PTNR SET
+                CD_BID_RSLT = 'ET25TALD'
+                ,LAST_CHGR_ID = 'BATCH'
+                ,LAST_CHG_DT = SYSDATE
+            WHERE (BRANCH_CD , TNDR_PTNR_ID,TNDR_NO,TNDR_ODR) =
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID ,AL.TNDR_NO ,AL.TNDR_ODR
+                        FROM
+                        (
+                            SELECT
+                            TP.*
+                            FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                            WHERE TP.BRANCH_CD 			= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND NVL(TP.BID_AMT,0) <![CDATA[<>]]> 0
+                            AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                            ORDER BY NVL(TP.BID_AMT,0) ASC
+                        ) AL
+                        WHERE ROWNUM = 1
+                    )
+
+	</update>
+
+	<update id="tndrGoAcpET12NU2" parameterType="hashmap">
+					UPDATE MM_TNDR_PTNR SET
+                        CD_BID_RSLT = 'ET25TALO'
+                        ,LAST_CHGR_ID = 'BATCH'
+                        ,LAST_CHG_DT = SYSDATE
+                    WHERE (BRANCH_CD , TNDR_PTNR_ID) NOT IN
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID
+                        FROM
+                        (
+                             SELECT
+                            TP.*
+                            FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                            WHERE TP.BRANCH_CD 			= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND NVL(TP.BID_AMT,0) <![CDATA[<>]]> 0
+                            AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                            ORDER BY NVL(TP.BID_AMT,0) ASC
+                        ) AL
+                        WHERE ROWNUM <![CDATA[<]]> 3
+                    )
+
+	</update>
+
+	<update id="tndrGoAcpUpET12NU2" parameterType="hashmap">
+					UPDATE MM_TNDR_PTNR SET
+                        CD_BID_RSLT = 'ET25TALO'
+                        ,LAST_CHGR_ID = 'BATCH'
+                        ,LAST_CHG_DT = SYSDATE
+                    WHERE (BRANCH_CD , TNDR_PTNR_ID) NOT IN
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID
+                        FROM
+                        (
+                             SELECT
+                            TP.*
+                            FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                            WHERE TP.BRANCH_CD 			= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND NVL(TP.BID_AMT,0) <![CDATA[<>]]> 0
+                            AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                            ORDER BY NVL(TP.BID_AMT,0) DESC
+                        ) AL
+                        WHERE ROWNUM <![CDATA[<]]> 3
+                    )
+
+	</update>
+
+	<update id="tndrGoAcpET12WIN" parameterType="hashmap">
+					UPDATE MM_TNDR_PTNR SET
+                        CD_BID_RSLT = 'ET25AWD'
+                        ,LAST_CHGR_ID = 'BATCH'
+                        ,LAST_CHG_DT = SYSDATE
+                    WHERE (BRANCH_CD , TNDR_PTNR_ID,TNDR_NO,TNDR_ODR)  IN
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID ,AL.TNDR_NO ,AL.TNDR_ODR
+                        FROM
+                        (
+                             SELECT
+                            TP.*
+                            ,T.GOALAMT
+                            FROM MM_TNDR T, MM_TNDR_COND TC,MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR , MM_RFQ_PTNR RP
+                            WHERE T.BRANCH_CD 			= TP.BRANCH_CD
+                            AND T.TNDR_NO 				= TP.TNDR_NO
+                            AND T.TNDR_ODR 			= TP.TNDR_ODR
+                            AND T.BRANCH_CD 				= TC.BRANCH_CD
+                            AND T.TNDR_NO 				= TC.TNDR_NO
+                            AND T.TNDR_ODR 			= TC.TNDR_ODR
+                            AND TP.BRANCH_CD 				= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND T.GOALAMT <![CDATA[>=]]> TP.BID_AMT
+                            AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND TC.ALT_PUR_AMT_APLY = 'Y'
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                            ORDER BY TP.BID_AMT ASC ,RP.RFQ_AMT ASC ,TPBR.BID_DT ASC
+                        ) AL   WHERE ROWNUM = 1
+                    )
+
+	</update>
+
+	<update id="tndrGoAcpUpET12WIN" parameterType="hashmap">
+					UPDATE MM_TNDR_PTNR SET
+                        CD_BID_RSLT = 'ET25AWD'
+                        ,LAST_CHGR_ID = 'BATCH'
+                        ,LAST_CHG_DT = SYSDATE
+                    WHERE (BRANCH_CD , TNDR_PTNR_ID,TNDR_NO,TNDR_ODR)  IN
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID ,AL.TNDR_NO ,AL.TNDR_ODR
+                        FROM
+                        (
+                             SELECT
+                            TP.*
+                            ,T.GOALAMT
+                            FROM MM_TNDR T, MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                            WHERE T.BRANCH_CD 			= TP.BRANCH_CD
+                            AND T.TNDR_NO 				= TP.TNDR_NO
+                            AND T.TNDR_ODR 			= TP.TNDR_ODR
+                            AND TP.BRANCH_CD 				= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND T.GOALAMT <![CDATA[<=]]> TP.BID_AMT
+                            AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                            ORDER BY TP.BID_AMT DESC
+                        ) AL  WHERE ROWNUM = 1
+                    )
+
+	</update>
+
+	<update id="tndrGoAcpET25TALU" parameterType="hashmap">
+					UPDATE MM_TNDR_PTNR SET
+                        CD_BID_RSLT = 'ET25TALO'
+                        ,LAST_CHGR_ID = 'BATCH'
+                        ,LAST_CHG_DT = SYSDATE
+                    WHERE (BRANCH_CD , TNDR_PTNR_ID,TNDR_NO,TNDR_ODR)  IN
+                    (
+                        SELECT
+                        AL.BRANCH_CD , AL.TNDR_PTNR_ID ,AL.TNDR_NO ,AL.TNDR_ODR
+                        FROM
+                        (
+                             SELECT
+                            TP.*
+                            ,T.GOALAMT
+                            FROM MM_TNDR T, MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                            WHERE T.BRANCH_CD 			= TP.BRANCH_CD
+                            AND T.TNDR_NO 				= TP.TNDR_NO
+                            AND T.TNDR_ODR 			= TP.TNDR_ODR
+                            AND TP.BRANCH_CD 				= TPBR.BRANCH_CD(+)
+                            AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+                            AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+                            AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+                            AND TP.BRANCH_CD = #{BRANCH_CD}
+                            AND TP.TNDR_NO = #{TNDR_NO}
+                            AND TP.TNDR_ODR = #{TNDR_ODR}
+                            AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+                            AND NVL(TP.CD_BID_RSLT,'EMPTY') <![CDATA[<>]]>  'ET25AWD'
+                             AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+                            AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+                        ) AL
+                    )
+
+
+	</update>
+
+	<update id="tndrGoAcpET12WINEnd" parameterType="hashmap">
+					UPDATE MM_TNDR A SET
+                        CD_TNDR_STTS =
+                        (
+                                    SELECT
+                                    DECODE(TR.CD_ROUND_NEXT,'ET12NOT','ET20YOO','ET20ANI')
+                        FROM MM_TNDR T , MM_TNDR_ROUND TR
+                        WHERE T.BRANCH_CD = TR.BRANCH_CD
+                        AND T.TNDR_NO = TR.TNDR_NO
+                        AND T.TNDR_ODR = TR.TNDR_ODR
+                        AND T.ROUND_CNT = TR.ROUND_SEQ
+                        AND T.BRANCH_CD = A.BRANCH_CD
+                        AND T.TNDR_NO = A.TNDR_NO
+                        AND T.TNDR_ODR = A.TNDR_ODR
+                        )
+                        ,A.PRGRS_ROUND = ROUND_CNT
+                        ,A.LAST_CHGR_ID = 'BATCH'
+                        ,A.LAST_CHG_DT = SYSDATE
+                   		 WHERE BRANCH_CD  = #{BRANCH_CD}
+						 AND A.TNDR_NO   = #{TNDR_NO}
+						 AND A.TNDR_ODR = #{TNDR_ODR}
+	</update>
+
+	<update id="tndrGoAcpUpdTal" parameterType="hashmap">
+		UPDATE MM_TNDR SET
+		    CD_TNDR_STTS = 'ET20YOO'
+		WHERE TNDR_NO 		= #{TNDR_NO}
+		AND BRANCH_CD 			= #{BRANCH_CD}
+		AND TNDR_ODR 		= #{TNDR_ODR}
+		AND (
+			    SELECT COUNT(*) FROM TNDR_PTNR
+			    WHERE TNDR_NO 		= #{TNDR_NO}
+			        AND BRANCH_CD 		= #{BRANCH_CD}
+			        AND TNDR_ODR 	= #{TNDR_ODR}
+			    ) = (
+		        SELECT
+		        COUNT(*) CNT
+		        FROM MM_TNDR T ,MM_TNDR_PTNR TP
+		        WHERE T.BRANCH_CD = TP.BRANCH_CD
+		        AND T.TNDR_NO =TP.TNDR_NO
+		        AND T.TNDR_ODR = TP.TNDR_ODR
+		        AND T.TNDR_NO 		= #{TNDR_NO}
+		        AND T.BRANCH_CD 			= #{BRANCH_CD}
+		        AND T.TNDR_ODR 		= #{TNDR_ODR}
+		        AND CD_BID_RSLT  LIKE 'ET25TAL%'
+		        )
+	</update>
+
+
+	<update id="tndrGoAcpET25TALM" parameterType="hashmap">
+		<!-- 미응찰 업체는 탈락시킨다. -->
+		UPDATE MM_TNDR_PTNR SET
+                        CD_BID_RSLT = 'ET25TALM'
+                        ,LAST_CHGR_ID = 'BATCH'
+                        ,LAST_CHG_DT = SYSDATE
+                    WHERE (BRANCH_CD
+                    			,TNDR_PTNR_ID
+                    			,TNDR_NO
+                    			,TNDR_ODR) IN
+														(
+														SELECT
+															TP.BRANCH_CD
+															,TP.TNDR_PTNR_ID
+															,TP.TNDR_NO
+															,TP.TNDR_ODR
+														FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+														WHERE TP.BRANCH_CD 			= TPBR.BRANCH_CD(+)
+														AND TP.TNDR_NO 			= TPBR.TNDR_NO(+)
+														AND TP.TNDR_ODR 			= TPBR.TNDR_ODR(+)
+														AND TP.TNDR_PTNR_ID 	= TPBR.TNDR_PTNR_ID(+)
+														AND TP.BRANCH_CD 				= #{BRANCH_CD}
+														AND TP.TNDR_NO 			= #{TNDR_NO}
+														AND TP.TNDR_ODR 			= #{TNDR_ODR}
+														AND TPBR.ROUND_SEQ(+) = #{PRGRS_ROUND}-1
+														AND TPBR.BID_AMT IS NULL
+														AND NVL(CD_BID_RSLT,'EMPTY') NOT IN ('ET25TALD'
+																,'ET25TALM'
+																,'ET25TALO'
+																,'ET25TALU'
+																,'ET25YOO'
+																,'ET25TALX')
+														)
+	</update>
+
+
+	<update id="tndrGoAcpPtnrNAC" parameterType="hashmap">
+		<!-- 총액기준 낙찰업체 업데이트 -->
+		UPDATE MM_TNDR_PTNR  SET
+		CD_BID_RSLT = 'ET25AWD'
+		WHERE (BRANCH_CD,TNDR_PTNR_ID,TNDR_NO,TNDR_ODR)	=
+		(
+		    SELECT BRANCH_CD,TNDR_PTNR_ID,TNDR_NO,TNDR_ODR FROM (
+		        SELECT
+		        TP.BRANCH_CD,TP.TNDR_PTNR_ID,TP.TNDR_NO,TP.TNDR_ODR
+		        FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+		        WHERE TP.BRANCH_CD = TPBR.BRANCH_CD(+)
+		        AND TP.TNDR_NO = TPBR.TNDR_NO(+)
+		        AND TP.TNDR_ODR = TPBR.TNDR_ODR(+)
+		        AND TP.TNDR_PTNR_ID = TPBR.TNDR_PTNR_ID(+)
+		        AND TP.BRANCH_CD = #{BRANCH_CD}
+		        AND TP.TNDR_NO = #{TNDR_NO}
+		        AND TP.TNDR_ODR =#{TNDR_ODR}
+		        AND TPBR.BID_AMT IS not NULL
+		        ORDER BY  TPBR.BID_AMT ASC
+		    ) WHERE ROWNUM = 1
+		)
+	</update>
+	<update id="tndrGoAcpPtnrItemNAC" parameterType="hashmap">
+		<!-- 낙찰업체 아이템 업데이트 -->
+	UPDATE MM_TNDR_PTNR_BID_ITEM TPBI SET
+			TPBI.AWRD_QTY = (SELECT A.QTY FROM MM_TNDR_ITEM A WHERE A.TNDR_ITEM_ID = TPBI.TNDR_ITEM_ID)
+			,TPBI.AWRD_AMT = BID_AMT
+			,TPBI.LAST_CHGR_ID = 'BATCH'
+			,TPBI.LAST_CHG_DT = SYSDATE
+		WHERE  TPBI.TNDR_PTNR_ID	=
+		(
+            SELECT TNDR_PTNR_ID FROM
+            (
+                SELECT
+                TP.BRANCH_CD,TP.TNDR_PTNR_ID,TP.TNDR_NO,TP.TNDR_ODR
+                FROM MM_TNDR_PTNR TP , MM_TNDR_PTNR_BID_ROUND TPBR
+                WHERE TP.BRANCH_CD = TPBR.BRANCH_CD(+)
+                AND TP.TNDR_NO = TPBR.TNDR_NO(+)
+                AND TP.TNDR_ODR = TPBR.TNDR_ODR(+)
+                AND TP.TNDR_PTNR_ID = TPBR.TNDR_PTNR_ID(+)
+                AND TP.BRANCH_CD = #{BRANCH_CD}
+		        AND TP.TNDR_NO = #{TNDR_NO}
+		        AND TP.TNDR_ODR =#{TNDR_ODR}
+                AND TPBR.BID_AMT IS not NULL
+                ORDER BY  TPBR.BID_AMT ASC
+            ) WHERE ROWNUM = 1
+        )
+	</update>
+	<update id="tndrGoAcpNAC" parameterType="hashmap">
+		<!-- 아이템에 업데이트 -->
+		UPDATE MM_TNDR A SET
+		    AWRD_AMT = (
+		                SELECT
+		                TP.BID_AMT
+		                FROM MM_TNDR T ,MM_TNDR_PTNR TP
+		                WHERE T.BRANCH_CD = TP.BRANCH_CD
+		                AND T.TNDR_NO = TP.TNDR_NO
+		                AND T.TNDR_ODR = TP.TNDR_ODR
+		                AND T.BRANCH_CD = #{BRANCH_CD}
+		                AND T.TNDR_NO = #{TNDR_NO}
+		                AND T.TNDR_ODR = #{TNDR_ODR}
+		                AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+		                AND TP.CD_BID_RSLT = 'ET25AWD'
+		                AND  T.BRANCH_CD = A.BRANCH_CD
+		                AND T.TNDR_NO = A.TNDR_NO
+		                AND T.TNDR_ODR = A.TNDR_ODR
+		                )
+		WHERE BRANCH_CD =#{BRANCH_CD}
+		AND TNDR_NO =#{TNDR_NO}
+		AND TNDR_ODR =#{TNDR_ODR}
+	</update>
+
+
+  	<update id="tndrGoAcpItemNAC" parameterType="hashmap">
+		<!-- 아이템에 업데이트 -->
+		UPDATE MM_TNDR_ITEM AL SET
+		    (AWRD_PRICE,AWRD_AMT) =
+		                (
+		                SELECT
+		                TPBI.BID_UNIT_PRICE , TPBI.BID_AMT
+		                FROM MM_TNDR T ,MM_TNDR_PTNR TP ,MM_TNDR_PTNR_BID_ITEM TPBI
+		                WHERE T.BRANCH_CD = TP.BRANCH_CD
+		                AND T.TNDR_NO = TP.TNDR_NO
+		                AND T.TNDR_ODR = TP.TNDR_ODR
+		                AND TP.TNDR_PTNR_ID = TPBI.TNDR_PTNR_ID
+		                AND T.BRANCH_CD =#{BRANCH_CD}
+		                AND T.TNDR_NO =#{TNDR_NO}
+		                AND T.TNDR_ODR = #{TNDR_ODR}
+		                AND TP.CD_PTNR_BID_STTS IN ('ET24VIW','ET24CLO')
+		                AND TP.CD_BID_RSLT = 'ET25AWD'
+		                AND TPBI.TNDR_ITEM_ID = AL.TNDR_ITEM_ID
+		                AND T.BRANCH_CD = AL.BRANCH_CD
+		                AND T.TNDR_NO = AL.TNDR_NO
+		                AND T.TNDR_ODR = AL.TNDR_ODR
+		                )
+		WHERE AL.BRANCH_CD = #{BRANCH_CD}
+		AND  AL.TNDR_NO = #{TNDR_NO}
+		AND  AL.TNDR_ODR = #{TNDR_ODR}
+	</update>
+	
+	<select id="tndrEndPtnrRead" parameterType="hashmap" resultType="hashmap" >
+			SELECT
+		     TP.PTNR_ID
+		    ,TP.BRANCH_CD
+		    ,T.TNDR_NO
+		    ,T.TTL
+		    ,T.TNDR_ODR
+		    ,T.CD_TNDR_MTHD
+		    ,T.ROUND_CNT
+		    ,T.CD_TNDR_STTS
+		    ,TC.CD_BID_CRNC
+		    ,RP.RFQ_AMT
+		    ,DECODE(TC.ALT_PUR_AMT_OPEN,'Y',TO_CHAR(T.GOALAMT),'********') GOALAMT
+		    ,TC.CD_BID_UNIT
+		    ,TP.TNDR_PTNR_ID
+		    ,T.PRGRS_ROUND
+		    ,NVL(TP.BID_AMT,0) BID_AMT
+		    ,TP.LAST_CHGR_ID
+		    ,DECODE(T.ROUND_CNT,T.PRGRS_ROUND,'Y','N') ROUND_END
+		    ,'' ROUND_NEXT_CD
+		    ,'' END_ROUND_YN
+		    ,'' SIGN_DATA
+		    ,TP.CD_BID_RSLT
+		    ,TC.ALT_CERT
+		    ,TC.ALT_CNFDNC_OBY_AGRMT
+		    ,TC.ALT_TOT_BID
+		FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP, MM_RFQ_PTNR RP
+		WHERE T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+		AND TP.PTNR_ID = #{PTNR_ID}
+  	</select>
+  	<select id="tndrEndPtnrReadRound" parameterType="hashmap" resultType="hashmap" >
+			 SELECT
+				ROUND_SEQ
+				,PRGRS_DAY
+				,BGN_TIME
+				,END_TIME
+				,DECODE(CD_ROUND_NEXT,'ET12NXT','ET12WIN','ET12NOT','ET12WIN',CD_ROUND_NEXT) CD_ROUND_NEXT
+			FROM MM_TNDR_ROUND
+			WHERE TNDR_NO = #{TNDR_NO}
+			AND BRANCH_CD =#{BRANCH_CD}
+			AND TNDR_ODR = #{TNDR_ODR}
+  	</select>
+  	<select id="tndrEndPtnrReadPtnr" parameterType="hashmap" resultType="hashmap" >
+			SELECT
+				'1' LANKING
+				,GET_PTNRNM(PTNR_ID) PTNR_NM
+				,BID_AMT
+			FROM MM_TNDR_PTNR
+			WHERE TNDR_NO 		= #{TNDR_NO}
+			AND BRANCH_CD 			= #{BRANCH_CD}
+			AND TNDR_ODR 		= #{TNDR_ODR}
+			AND PTNR_ID 			= #{PTNR_ID}
+  	</select>
+  	<select id="tndrEndPtnrReadItem" parameterType="hashmap" resultType="hashmap" >
+		select
+        	TPBI.TNDR_PTNR_ID
+			,TPBI.PTNR_BID_ITEM_ID
+			,NVL(TPBI.BID_UNIT_PRICE,0) BID_UNIT_PRICE
+			,TPBI.BID_AMT BID_AMT
+			,TPBI.BID_ODR
+			,TI.TNDR_ITEM_ID
+			,TI.TNDR_ODR
+			,TI.MTRL_CD
+			,TI.MTRL_NM
+			,TI.QTY
+			,TI.CD_UNIT
+			,TI.LAST_CHGR_ID
+			,TI.TNDR_NO
+			,TI.BRANCH_CD
+			,T.PRGRS_ROUND
+			,DECODE(TC.ALT_PUR_AMT_OPEN,'Y',TO_CHAR(TI.GOALUNT_PRICE),'********') GOALUNT_PRICE
+			,'' SIGN_DATA
+			,(SELECT
+                MAX(RPQ.RFQ_PRICE) RFQ_PRICE
+                FROM MM_RFQ_PTNR RP , MM_RFQ_PTNR_QUOTE RPQ, MM_RFQ_ITEM RI
+                WHERE RP.RFQ_PTNR_ID = RPQ.RFQ_PTNR_ID
+                AND RI.RFQ_REQ_ITEM_ID = RPQ.RFQ_REQ_ITEM_ID
+                AND TI.RFQ_REQ_ITEM_ID = RI.RFQ_REQ_ITEM_ID(+)
+				AND RPQ.RFQ_PTNR_ID = TP.RFQ_PTNR_ID
+            ) RFQ_PRICE
+        from MM_TNDR T ,MM_TNDR_ITEM TI,MM_TNDR_COND TC,MM_TNDR_PTNR TP,MM_TNDR_PTNR_BID_ITEM TPBI
+        where  T.BRANCH_CD 			= TI.BRANCH_CD
+		AND T.TNDR_NO 				= TI.TNDR_NO
+		AND T.TNDR_ODR 			= TI.TNDR_ODR
+		AND T.BRANCH_CD 				= TC.BRANCH_CD
+		AND T.TNDR_NO 				= TC.TNDR_NO
+		AND T.TNDR_ODR 			= TC.TNDR_ODR
+		AND TI.BRANCH_CD 				= TP.BRANCH_CD
+		AND TI.TNDR_NO				= TP.TNDR_NO
+		AND TI.TNDR_ODR 			= TP.TNDR_ODR
+		AND TP.TNDR_PTNR_ID     = TPBI.TNDR_PTNR_ID(+)
+		AND DECODE(TPBI.TNDR_ITEM_ID,NULL,'B',TI.TNDR_ITEM_ID) = DECODE(TPBI.TNDR_ITEM_ID,NULL,'B',TPBI.TNDR_ITEM_ID)
+		AND TP.TNDR_NO 			= #{TNDR_NO}
+        AND TP.BRANCH_CD 				= #{BRANCH_CD}
+        AND TP.TNDR_ODR 			= #{TNDR_ODR}
+        AND TP.PTNR_ID 				= #{PTNR_ID}
+  	</select>
+  	
+  	<select id="tndrAcpSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!--   현재 입찰의 상태를 확인 하여 해당입찰 업체의 상태를 업데이트 한다.   -->
+
+	  		WITH XX AS (
+	    SELECT T.PRGRS_ROUND
+	        ,NVL(TC.TNDR_LOW_AMT,1) LPRICE							-- 하한 유찰가
+	        ,CASE WHEN TC.ALT_PUR_AMT_APLY = 'Y' THEN T.GOALAMT     -- 구매요청가 적용 여부 Y 이면 목표금액 아니면 99999
+	                  ELSE 999999999999
+	         END HPRICE												-- 상한가 금액		
+	        ,CASE WHEN ALT_PUR_AMT_APLY = 'Y' AND T.GOALAMT <![CDATA[>]]> 0 THEN T.GOALAMT  --구매요청가적용여부  Y이고 목표금액이 0보다 크면 목표금액 아니면 0
+	                  ELSE 0
+	         END H2PRICE											
+	        ,T.CD_TNDR_MTHD											-- 입찰방식
+	        ,TR.CD_ROUND_NEXT										-- 라운드 후 처리
+	        ,TC.*
+	     FROM MM_TNDR T, MM_TNDR_ROUND TR, MM_TNDR_COND TC
+	     WHERE     T.TNDR_NO = TR.TNDR_NO 
+	     AND T.TNDR_ODR = TR.TNDR_ODR 
+	     AND T.BRANCH_CD = TR.BRANCH_CD 
+	     AND T.PRGRS_ROUND = TR.ROUND_SEQ				-- 진행라운드랑 라운드 순서가 같으면
+         AND TR.PRGRS_DAY||TR.END_TIME <![CDATA[<]]> TO_CHAR (SYSDATE, 'YYYYMMDDHH24MISS')  -- 현재시간보다 진행날짜 종료시간이 현재시간보다 작으면
+         AND T.TNDR_NO = #{TNDR_NO} 
+         AND T.TNDR_ODR = #{TNDR_ODR}
+         AND T.TNDR_NO = TC.TNDR_NO 
+         AND T.BRANCH_CD = TC.BRANCH_CD 
+         AND T.TNDR_ODR = TC.TNDR_ODR
+	     AND 'GO' = CASE
+	                WHEN T.ROUND_CNT = T.PRGRS_ROUND THEN 'GO'  -- 진행횟수와 진행라운드가 같으면 GO
+	                WHEN EXISTS (
+		                            SELECT 'EXIST'
+		                            FROM  MM_TNDR_PTNR TP
+		                            WHERE T.TNDR_NO = TP.TNDR_NO 
+		                            AND T.TNDR_ODR = TP.TNDR_ODR 
+		                            AND T.BRANCH_CD = TP.BRANCH_CD
+		                            AND TP.CD_PTNR_BID_STTS = 'ET24CLO'  -- 협력사응찰상태가 응찰완료 이고
+		                            AND TP.CD_BID_RSLT IS NULL			 -- 협력사응찰결과가 
+		                            AND TC.ALT_PUR_AMT_APLY = 'Y'		 -- 구매요청가가 Y이고
+		                            AND (
+		                                         ( SUBSTR(T.CD_TNDR_MTHD,1 ,5) = 'ET30L'  AND TP.BID_AMT BETWEEN NVL(TC.TNDR_LOW_AMT,1) AND T.GOALAMT ) -- 입찰방식이 최저가 일경우 응찰금액이 최저가 1과 목표금액 사이이고 
+		                                         OR																										-- 또는
+		                                         ( SUBSTR(T.CD_TNDR_MTHD,1 ,5) = 'ET30H'  AND TP.BID_AMT > T.GOALAMT )									-- 입찰방식이 최고가일경우  응창금액이 목표금액보다 클경우
+		                                        )
+		                            	   AND TR.CD_ROUND_NEXT = 'ET12WIN'																				-- 라운드 이후 처리가 목표가 이하 낙찰이면	
+		                            ) THEN 'GO'
+	                        	END
+	    )
+		SELECT /* 최저가 낙철처리*/
+		       CASE
+		            WHEN CD_BID_RSLT IN ( 'ET25TALD','ET25TALU' ) THEN CD_BID_RSLT																		-- 협력사 응찰결과 (탈락(하한가), 탈락(목표가)) 응찰결과이고
+		            WHEN  ( RANK() OVER(PARTITION BY CD_BID_RSLT ORDER BY BID_AMT ASC, RFQ_AMT ASC, BID_DT ASC, RN  ASC ) =  1							-- 응찰금액이 낮고, 견적금애이 낮고 입찰을 먼저 했으면 랭킹 1과 같고
+		                        AND CD_ROUND_NEXT <![CDATA[<>]]> 'ET12NOT' ) THEN 'ET25AWD'																-- 라운드 종료후 유찰이 이 아니면 협력사 응찰결과 낙찰
+		            ELSE 'ET25TALO'																														-- 협력사 응찰결과  탈락(순위)
+		       END  AS CD_BID_RSLT
+		       ,BID_AMT, RFQ_AMT, BID_DT, TNDR_PTNR_ID
+		FROM (
+		    SELECT
+		        CASE
+		            WHEN TP.BID_AMT <![CDATA[<=]]> XX.LPRICE THEN 'ET25TALD'																			-- 응찰금액이 최저가보다 작으면  (탈락-하한가)
+		            WHEN TP.BID_AMT <![CDATA[>]]> XX.HPRICE THEN 'ET25TALU'																				-- 응찰금액이 최고가보다 크면 (탈락-목표가)
+		            ELSE   'ET25TALO'																													-- 아니면 협력사 응찰결과 (순위탈락)	
+		        END CD_BID_RSLT
+		        ,ROWNUM RN																																 	
+		        ,TP.BID_AMT, RP.RFQ_AMT, BR.BID_DT
+		        ,TP.TNDR_PTNR_ID, XX.CD_ROUND_NEXT
+		    FROM XX ,MM_TNDR_PTNR TP, MM_TNDR_PTNR_BID_ROUND BR, MM_RFQ_PTNR RP
+		    WHERE XX.TNDR_NO = TP.TNDR_NO 
+		    AND XX.TNDR_ODR = TP.TNDR_ODR  
+		    AND XX.BRANCH_CD = TP.BRANCH_CD
+		    AND TP.TNDR_NO = BR.TNDR_NO 
+		    AND TP.TNDR_ODR = BR.TNDR_ODR  
+		    AND TP.BRANCH_CD = BR.BRANCH_CD 
+		    AND TP.TNDR_PTNR_ID = BR.TNDR_PTNR_ID 
+		    AND BR.ROUND_SEQ = XX.PRGRS_ROUND
+		    AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+		    AND 1 = DECODE(SUBSTR(XX.CD_TNDR_MTHD,1 ,5),'ET30L',1,0)																					-- 입찰방식이 최저가 이면 				
+		)  TL
+		UNION ALL
+		SELECT /*최고가 낙찰처리*/
+		       CASE WHEN CD_BID_RSLT = 'ET25TALU' THEN CD_BID_RSLT																						-- 응찰결과가 탈락(목표가)이면 탈락(목표가)	
+		       WHEN (RANK() OVER(PARTITION BY CD_BID_RSLT ORDER BY BID_AMT DESC, RFQ_AMT DESC, BID_DT ASC, RN  ASC)) = 1 AND CD_ROUND_NEXT <![CDATA[<>]]> 'ET12NOT' THEN 'ET25TWIN' -- 강제유찰이 아니면 
+		       ELSE 'ET25TALO'																															-- 응찰결과가 탈락(순위)			
+		       END  AS CD_BID_ASLT
+		       ,BID_AMT, RFQ_AMT, BID_DT, TNDR_PTNR_ID
+		FROM (
+		    SELECT
+		        CASE
+		            WHEN TP.BID_AMT <![CDATA[>=]]> XX.H2PRICE THEN 'ET25TALO'																			-- 응찰금액이 구매요청가적용여부  Y이고 목표금액이 0보다 크거나 같으면 탈락(순위) 	
+		            ELSE   'ET25TALU'																													-- 응찰금액이  구매요청가적용여부  Y이고 목표금액이 0보다 작으면  (탈락-목표가)
+		        END CD_BID_RSLT
+		        ,ROWNUM RN
+		        ,TP.BID_AMT, RP.RFQ_AMT, BR.BID_DT
+		        ,TP.TNDR_PTNR_ID, XX.CD_ROUND_NEXT
+		    FROM XX ,MM_TNDR_PTNR TP, MM_TNDR_PTNR_BID_ROUND BR, MM_RFQ_PTNR RP
+		    WHERE XX.TNDR_NO = TP.TNDR_NO 
+		    AND XX.TNDR_ODR = TP.TNDR_ODR  
+		    AND XX.BRANCH_CD = TP.BRANCH_CD
+		    AND TP.TNDR_NO = BR.TNDR_NO 
+		    AND TP.TNDR_ODR = BR.TNDR_ODR 
+		    AND TP.BRANCH_CD = BR.BRANCH_CD 
+		    AND TP.TNDR_PTNR_ID = BR.TNDR_PTNR_ID 
+		    AND BR.ROUND_SEQ = XX.PRGRS_ROUND
+		    AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+		    AND 1 = DECODE(SUBSTR(XX.CD_TNDR_MTHD,1 ,5),'ET30H',1,0)																					-- 입찰방식이 최고가 이면
+		)  TL
+		UNION ALL
+		SELECT /*미응찰 탈락처리*/
+		    'ET25TALX' AS CD_BID_RSLT																													-- 미응찰
+		    ,NULL BID_AMT, NULL RFQ_AMT, NULL BID_DT, TP.TNDR_PTNR_ID
+		FROM MM_TNDR T ,MM_TNDR_PTNR TP
+		WHERE T.TNDR_NO = #{TNDR_NO} 
+		AND T.TNDR_ODR = #{TNDR_ODR}
+		AND T.TNDR_NO = TP.TNDR_NO 
+		AND T.TNDR_ODR = TP.TNDR_ODR  
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND NOT EXISTS (																														 -- 존재하지 않으면 것만
+		        SELECT 'NOT EXIST'
+		        FROM MM_TNDR_PTNR_BID_ROUND BR
+		        WHERE TP.TNDR_NO = BR.TNDR_NO 
+		        AND TP.TNDR_ODR = BR.TNDR_ODR  
+		        AND TP.BRANCH_CD = BR.BRANCH_CD 
+		        AND TP.TNDR_PTNR_ID = BR.TNDR_PTNR_ID 
+		        AND BR.ROUND_SEQ = T.PRGRS_ROUND
+		    )
+		    AND TP.CD_BID_RSLT IS NULL																												-- 	응찰상태가 미응찰이면
+		UNION ALL
+		SELECT
+		    CD_BID_RSLT,BID_AMT,RFQ_AMT, BID_DT, TNDR_PTNR_ID
+		FROM (
+		    SELECT /*상위 하위 처리*/
+		        CASE WHEN  SUBSTR(T.CD_TNDR_MTHD,1 ,5) = 'ET30L' AND TR.CD_ROUND_NEXT = 'ET12ND1'  THEN
+		                        DECODE(RANK() OVER(ORDER BY BR.BID_AMT DESC, RP.RFQ_AMT DESC, BR.BID_DT DESC, ROWNUM  ),1,'ET25TALO',NULL)
+		                 WHEN  SUBSTR(T.CD_TNDR_MTHD,1 ,5) = 'ET30L' AND TR.CD_ROUND_NEXT = 'ET12NU2'  THEN
+		                        DECODE(RANK() OVER(ORDER BY BR.BID_AMT ASC, RP.RFQ_AMT ASC, BR.BID_DT ASC, ROWNUM),1,NULL,2,NULL,'ET25TALO')
+		                 WHEN  SUBSTR(T.CD_TNDR_MTHD,1 ,5) = 'ET30H' AND TR.CD_ROUND_NEXT = 'ET12ND1'  THEN
+		                        DECODE(RANK() OVER(ORDER BY BR.BID_AMT ASC, RP.RFQ_AMT ASC, BR.BID_DT DESC, ROWNUM  ),1,'ET25TALO',NULL)
+		                 WHEN  SUBSTR(T.CD_TNDR_MTHD,1 ,5) = 'ET30H' AND TR.CD_ROUND_NEXT = 'ET12NU2'  THEN
+		                        DECODE(RANK() OVER(ORDER BY BR.BID_AMT DESC, RP.RFQ_AMT DESC, BR.BID_DT ASC, ROWNUM),1,NULL,2,NULL,'ET25TALO')
+		        END AS CD_BID_RSLT
+		        ,BR.BID_AMT, RP.RFQ_AMT, BR.BID_DT, TP.TNDR_PTNR_ID
+		    FROM MM_TNDR T, MM_TNDR_PTNR TP, MM_TNDR_PTNR_BID_ROUND BR, MM_TNDR_ROUND TR, MM_RFQ_PTNR RP
+		    WHERE T.TNDR_NO = #{TNDR_NO} 
+		    AND T.TNDR_ODR = #{TNDR_ODR}
+		    AND T.TNDR_NO = TP.TNDR_NO 
+		    AND T.TNDR_ODR = TP.TNDR_ODR  
+		    AND T.BRANCH_CD = TP.BRANCH_CD
+		    AND TP.TNDR_NO = BR.TNDR_NO 
+		    AND TP.TNDR_ODR = BR.TNDR_ODR  
+		    AND TP.BRANCH_CD = BR.BRANCH_CD 
+		    AND T.PRGRS_ROUND = BR.ROUND_SEQ 
+		    AND TP.TNDR_PTNR_ID =  BR.TNDR_PTNR_ID
+		    AND T.TNDR_NO = TR.TNDR_NO 
+		    AND T.TNDR_ODR = TR.TNDR_ODR  
+		    AND T.BRANCH_CD = TP.BRANCH_CD 
+		    AND T.PRGRS_ROUND = TR.ROUND_SEQ  
+		    AND TR.CD_ROUND_NEXT IN ('ET12ND1','ET12NU2')
+		    AND TP.RFQ_PTNR_ID = RP.RFQ_PTNR_ID(+)
+		    AND TP.CD_BID_RSLT IS NULL
+		    ) TX
+		WHERE TX.CD_BID_RSLT IS NOT NULL
+  	</select>
+
+	<update id="tndrAcpPtnrUpd" parameterType="hashmap">
+		<!--   조회된 업체가 존재하면  해당 업체의 상태를 업데이트 한다.   -->
+		UPDATE MM_TNDR_PTNR  SET
+		       CD_BID_RSLT  = #{CD_BID_RSLT}
+		WHERE TNDR_PTNR_ID = #{TNDR_PTNR_ID}
+	</update>
+
+  	<select id="tndrAcpEndSrch" parameterType="hashmap" resultType="hashmap" >
+  		<!--   위의 조건에 부합하는 데이터들이 다음라운드로 넘어갈 것인지 아니면 낙찰 / 유찰 인지 확인한다.   -->
+  		SELECT
+		    CASE WHEN SUM(DECODE(TP.CD_BID_RSLT,'ET25AWD',1,0)) > 0 THEN 'AWARD'    --낙찰
+		             WHEN SUM(DECODE(TP.CD_BID_RSLT,NULL,1,0)) = 0 THEN 'YOUCHAL'    --유찰
+		             WHEN SUM(DECODE(TP.CD_BID_RSLT,'ET25TALX',1,0)) = COUNT(*) THEN 'YOUCHAL'    --유찰
+		             ELSE 'NEXT' --다음 진행
+		    END NEXT_WORK
+		FROM MM_TNDR_PTNR TP
+		WHERE TNDR_NO 	= #{TNDR_NO}
+		AND TNDR_ODR	= #{TNDR_ODR}
+	</select>
+
+	<update id="tndrAcpTndrUpd" parameterType="hashmap">
+		<!--   낙찰 또는 유찰된 데이터가 존재하며 해당 테이블을 업데이트 한다.   -->
+		UPDATE MM_TNDR  SET
+			CD_TNDR_STTS = #{CD_TNSR_STTS}
+		WHERE  TNDR_NO = #{TNDR_NO}
+		AND TNDR_ODR 	= #{TNDR_ODR}
+	</update>
+
+	<update id="tndrAcpTndrAwrdUpd" parameterType="hashmap">
+		<!--   낙찰 또는 유찰된 데이터가 존재하며 해당 테이블을 업데이트 한다.   -->
+		UPDATE MM_TNDR  SET
+			CD_TNDR_STTS = 'ET20ANI'
+		WHERE  TNDR_NO = #{TNDR_NO}
+		AND TNDR_ODR 	= #{TNDR_ODR}
+	</update>
+	<update id="tndrAcpTndrYouUpd" parameterType="hashmap">
+		<!--   낙찰 또는 유찰된 데이터가 존재하며 해당 테이블을 업데이트 한다.   -->
+		UPDATE MM_TNDR  SET
+			CD_TNDR_STTS = 'ET20YOO'
+		WHERE  TNDR_NO = #{TNDR_NO}
+		AND TNDR_ODR 	= #{TNDR_ODR}
+	</update>
+
+	<update id="tndrBatchAcpRoundUpd" parameterType="hashmap">
+		UPDATE MM_TNDR SET
+            PRGRS_ROUND 	= PRGRS_ROUND+1
+            ,LAST_CHGR_ID 	= 'BATCH'||(PRGRS_ROUND+1)
+            ,LAST_CHG_DT 		= SYSDATE
+        WHERE TNDR_NO 		= #{TNDR_NO}
+        AND TNDR_ODR 		= #{TNDR_ODR}
+        AND ROUND_CNT  <![CDATA[<>]]> PRGRS_ROUND+1
+	</update>
+
+
+	<select id="chkRoundTime" parameterType="hashmap" resultType="hashmap" >
+		SELECT
+			COUNT(*) CNT
+		FROM MM_TNDR_ROUND
+		WHERE SYSDATE BETWEEN TO_DATE(PRGRS_DAY||BGN_TIME,'YYYYMMDDHH24MISS') AND  TO_DATE(PRGRS_DAY||END_TIME,'YYYYMMDDHH24MISS')
+		AND TNDR_NO 		= #{TNDR_NO}
+		AND TNDR_ODR 	= #{TNDR_ODR}
+	</select>
+
+	<select id="tndrGoReadTime" parameterType="hashmap" resultType="hashmap" >
+		<!--  업체 응찰내용 라운드 조회 -->
+		SELECT
+			T.BRANCH_CD
+			,T.TNDR_NO
+			,T.TNDR_ODR
+			,ROUND_SEQ
+			,PRGRS_DAY
+			,BGN_TIME
+			,END_TIME
+			,DECODE(CD_ROUND_NEXT,'ET12NXT','ET12WIN','ET12NOT','ET12WIN',CD_ROUND_NEXT) CD_ROUND_NEXT
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 9, 2)) TIME_DAY
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 12, 2)) TIME_HOUR
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 15, 2)) TIME_MINUTE
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 18, 2)) TIME_SECOND
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 9, 2)) TIME_END_DAY
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 12, 2)) TIME_END_HOUR
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 15, 2)) TIME_END_MINUTE
+			,TO_NUMBER (SUBSTR (NUMTODSINTERVAL(SYSDATE - TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS'),'DAY'), 18, 2)) TIME_END_SECOND
+			,SUBSTR(BGN_TIME,0,2) HOUR
+            ,SUBSTR(BGN_TIME,3,2) MINUTE
+            ,SUBSTR(END_TIME,0,2) END_HOUR
+            ,SUBSTR(END_TIME,3,2) END_MINUTE
+			,CASE WHEN  SYSDATE  BETWEEN TO_DATE(PRGRS_DAY||BGN_TIME,'YYYY/MM/DD HH24:MI:SS') AND  TO_DATE(PRGRS_DAY||END_TIME,'YYYY/MM/DD HH24:MI:SS')
+                    THEN 'Y'
+                    ELSE 'N'
+                END ROUND_YN
+            ,T.PRGRS_ROUND
+		FROM MM_TNDR_ROUND TR ,MM_TNDR T
+		WHERE T.TNDR_NO =  TR.TNDR_NO
+		AND T.TNDR_ODR = TR.TNDR_ODR
+		AND T.BRANCH_CD = TR.BRANCH_CD
+		AND TR.BRANCH_CD = #{BRANCH_CD}
+		AND TR.TNDR_NO = #{TNDR_NO}
+		AND TR.TNDR_ODR = #{TNDR_ODR}
+
+		ORDER BY ROUND_SEQ ASC
+  	</select>
+  	
+  	<select id="tndrChkTime" parameterType="hashmap" resultType="hashmap" >
+		SELECT
+            CASE WHEN SYSDATE > TO_DATE(TC.TNDR_ATD_CLOSE_DAY||TC.TNDR_ATD_CLOSE_TIME,'YYYYMMDD HH24MISS')
+                THEN 'Y'
+                ELSE 'N'
+            END TIME
+		FROM MM_TNDR T , MM_TNDR_COND TC
+		WHERE T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = #{BRANCH_CD}
+		AND T.TNDR_NO = #{TNDR_NO}
+		AND T.TNDR_ODR = #{TNDR_ODR}
+	</select>
+
+	<update id="tndrAcpPtnrEnd" parameterType="hashmap">
+		UPDATE MM_TNDR_PTNR SET
+			CD_PTNR_BID_STTS 	= 'ET24NOT'
+			,CD_BID_RSLT 			= 'ET25TALX'
+			,LAST_CHGR_ID			= 'BATCH'
+			,LAST_CHG_DT			=	SYSDATE
+		WHERE PTNR_ID 	= #{PTNR_ID}
+		AND TNDR_NO 		= #{TNDR_NO}
+		AND TNDR_ODR 	= #{TNDR_ODR}
+	</update>
+
+	<update id="tndrEndTime" parameterType="hashmap">
+		UPDATE MM_TNDR_PTNR SET
+			CD_PTNR_BID_STTS 	= 'ET24NOT'
+			,CD_BID_RSLT 		= 'ET25TALX'
+			,LAST_CHGR_ID		= 'SYSTEM'
+			,LAST_CHG_DT		= SYSDATE
+		WHERE  (BRANCH_CD,TNDR_NO,TNDR_ODR,TNDR_PTNR_ID) 	IN
+                        (
+                         SELECT
+                            	 T.BRANCH_CD 
+                            	,T.TNDR_NO 
+                            	,T.TNDR_ODR
+                            	,TP.TNDR_PTNR_ID
+                        FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP
+                        WHERE T.BRANCH_CD = TC.BRANCH_CD
+                        AND T.TNDR_NO = TC.TNDR_NO
+                        AND T.TNDR_ODR = TC.TNDR_ODR
+                        AND T.BRANCH_CD = TP.BRANCH_CD
+                        AND T.TNDR_NO = TP.TNDR_NO
+                        AND T.TNDR_ODR = TP.TNDR_ODR
+                        AND TO_DATE(TC.TNDR_ATD_CLOSE_DAY||TC.TNDR_ATD_CLOSE_TIME,'YYYYMMDDHH24MISS') <![CDATA[<]]> SYSDATE
+                        AND T.CD_TNDR_STTS = 'ET20ANN'
+                        AND TP.CD_PTNR_BID_STTS = 'ET24REQ'
+                        )
+	</update>
+
+  	<select id="tndrYooPtnrSrch" parameterType="hashmap" resultType="hashmap" >
+		SELECT
+		   	T.TNDR_NO 
+		   ,T.TNDR_ODR 
+		   ,T.BRANCH_CD
+		FROM MM_TNDR T , MM_TNDR_COND TC , MM_TNDR_PTNR TP
+		WHERE T.BRANCH_CD = TC.BRANCH_CD
+		AND T.TNDR_NO = TC.TNDR_NO
+		AND T.TNDR_ODR = TC.TNDR_ODR
+		AND T.BRANCH_CD = TP.BRANCH_CD
+		AND T.TNDR_NO = TP.TNDR_NO
+		AND T.TNDR_ODR = TP.TNDR_ODR
+		AND TO_DATE(TC.TNDR_ATD_CLOSE_DAY||TC.TNDR_ATD_CLOSE_TIME,'YYYYMMDDHH24MISS') <![CDATA[<]]> SYSDATE
+		AND T.CD_TNDR_STTS = 'ET20ANN'
+		AND TP.CD_BID_RSLT = 'ET25TALX'
+		GROUP BY T.TNDR_NO , T.TNDR_ODR , T.BRANCH_CD
+  	</select>
+  	
+  	
+  	
+</mapper>

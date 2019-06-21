@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="183" id="BUserInfoPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="사용자정보 팝업" top="0" width="371">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_WF_Labelbg" height="161" id="staViewCompCond00" left="10" right="10" taborder="7" top="10"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="10" right="10" taborder="41" top="10"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staName" left="10" style="align:left middle;" taborder="42" text="이름" top="10" width="85"/>
+        <Edit height="24" id="edtName" left="100" readonly="true" right="15" taborder="43" top="15"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="10" right="10" taborder="44" top="42"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine02" left="10" right="10" taborder="45" top="74"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="10" right="10" taborder="46" top="106"/>
+        <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="10" right="10" taborder="47" top="138"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staEmail" left="10" style="align:left middle;" taborder="48" text="EMAIL" top="42" width="85"/>
+        <Edit height="24" id="edtEmail" left="100" readonly="true" right="15" taborder="49" top="47"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staTel" left="10" style="align:left middle;" taborder="50" text="전화번호" top="74" width="85"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staHp" left="10" style="align:left middle;" taborder="51" text="HP" top="106" width="85"/>
+        <Static cssclass="sta_WF_Label" height="33" id="staFax" left="10" style="align:left middle;" taborder="52" text="FAX" top="138" width="85"/>
+        <Edit height="24" id="edtTel" left="100" readonly="true" right="15" taborder="53" top="78"/>
+        <Edit height="24" id="edtHp" left="100" readonly="true" right="15" taborder="54" top="110"/>
+        <Edit height="24" id="edtFax" left="100" readonly="true" right="15" taborder="55" top="143"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsSrchOpt">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="USER_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="USER_NM" compid="edtName" datasetid="dsSrchOpt" id="item0" propid="value"/>
+      <BindItem columnid="EMAIL" compid="edtEmail" datasetid="dsSrchOpt" id="item1" propid="value"/>
+      <BindItem columnid="TEL" compid="edtTel" datasetid="dsSrchOpt" id="item2" propid="value"/>
+      <BindItem columnid="HP" compid="edtHp" datasetid="dsSrchOpt" id="item4" propid="value"/>
+      <BindItem columnid="FAX" compid="edtFax" datasetid="dsSrchOpt" id="item3" propid="value"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BUserInfoPopup.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 13.
+ * @설명			    : 사용자정보 팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 9. 13.
+*/
+
+this.popTitle = "사용자정보"
+ 
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	var branchCd = ownFrame.branch_cd;
+	
+	if(gfnIsNull(branchCd)) branchCd = application.gdsUserInfo.getColumn(0,"BRANCH_CD");
+	
+	this.dsSrchOpt.setColumn(0,"BRANCH_CD",branchCd);
+	this.dsSrchOpt.setColumn(0,"USER_ID",ownFrame.agv_id);
+	this.fnSearch();
+}
+
+this.fnSearch = function()
+{
+	var sSvcID = "readComUserInfo";
+	var sController = "epro.com.service.BComService.readComUserInfo";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsSrchOpt=dsList";
+	var sCallbackFunc = "fnTrCallBack";	
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "readComUserInfo" :	
+		break;
+ 
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

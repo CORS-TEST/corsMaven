@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="commonService">
+  <!-- List 공통 정의  -->
+
+	<sql id="list-before">
+		SELECT ROW_NUMBER() OVER(ORDER BY ROW_NUM) AS ROW_NUMBER_TOP, PAGE_TABLE.* FROM( SELECT  ROW_NUMBER() OVER(
+			<choose>
+				<when test="ORDERS != null and ORDERS != 'undefined' and ORDERS != ''">
+					ORDER BY ${ORDERS}
+				</when>
+				<otherwise>
+					ORDER BY ''
+				</otherwise>
+			</choose>
+		) AS ROW_NUM,
+		COUNT(1) OVER() AS TOTAL_ITEM_COUNT, COREXP_DATA_TABLE.* FROM(
+	</sql>
+	<sql id="list-after">
+		) COREXP_DATA_TABLE ) PAGE_TABLE
+ 		WHERE PAGE_TABLE.ROW_NUM BETWEEN NVL(#{PAGE_STR_NO},0) AND NVL(#{PAGE_END_NO},20)
+ 		ORDER BY ROW_NUM
+	</sql>
+
+	<sql id="read-before">
+		SELECT ROW_NUMBER() OVER(ORDER BY ROW_NUM) AS ROW_NUMBER_TOP, PAGE_TABLE.* FROM( SELECT  ROW_NUMBER() OVER(ORDER BY ROWNUM) AS ROW_NUM,
+		COUNT(1) OVER() AS TOTAL_ITEM_COUNT, COREXP_DATA_TABLE.* FROM(
+	</sql>
+	<sql id="read-after">
+		) COREXP_DATA_TABLE ) PAGE_TABLE
+		ORDER BY ROW_NUM
+	</sql>
+	<!-- List 공통 정의 끝 -->
+
+	<select id="getSeq" parameterType="String" resultType="String">
+		SELECT ${inTblAlias}.NEXTVAL AS SEQ FROM DUAL	
+	</select>
+  	<select id="getSeqNewId" parameterType="String" resultType="String">
+	   	SELECT SYS_GUID() AS SEQ
+	   	FROM DUAL
+  	</select>
+	<select id="isEqualsTkey" parameterType="String" resultType="String">
+	/* [commonService.isEqualsTkey][tkey가 같으면 Y를 리턴한다.][2017.9.8][한민희] */
+		SELECT	CASE TKEY
+			    WHEN #{TKEY} THEN 'Y'
+			    ELSE 'N'
+			    END RTN
+        FROM  	${TABLE}
+        <where>        
+			<if test="COND_KEY_0 != null and COND_KEY_0 != 'undefined' and COND_KEY_0 != ''">
+		         AND ${COND_KEY_0} = #{COND_VALUE_0}
+			</if>
+        	<if test="COND_KEY_1 != null and COND_KEY_1 != 'undefined' and COND_KEY_1 != ''">
+		         AND ${COND_KEY_1} = #{COND_VALUE_1}
+			</if>
+			<if test="COND_KEY_2 != null and COND_KEY_2 != 'undefined' and COND_KEY_2 != ''">
+		         AND ${COND_KEY_2} = #{COND_VALUE_2}
+			</if>
+			<if test="COND_KEY_3 != null and COND_KEY_3 != 'undefined' and COND_KEY_3 != ''">
+		         AND ${COND_KEY_3} = #{COND_VALUE_3}
+			</if>
+			<if test="COND_KEY_4 != null and COND_KEY_4 != 'undefined' and COND_KEY_4 != ''">
+		         AND ${COND_KEY_4} = #{COND_VALUE_4}
+			</if>
+        </where>
+  	</select>	
+  	
+  	<sql id="getAbsUser">
+  	/* [commonService.getAbsUser][자기자신과 부재자아이디를 리턴한다.][2017.12.04][송태봉] */
+  		SELECT #{USER_ID} AS USER_ID
+  		FROM DUAL
+		UNION
+		SELECT USER_ID
+		FROM MM_MT_USER 
+		WHERE ABS_USER_ID = #{USER_ID}
+		  AND ABS_ST_DAY <![CDATA[<=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+		  AND ABS_ED_DAY <![CDATA[>=]]> TO_CHAR(SYSDATE,'YYYYMMDD')
+  	</sql>
+</mapper>

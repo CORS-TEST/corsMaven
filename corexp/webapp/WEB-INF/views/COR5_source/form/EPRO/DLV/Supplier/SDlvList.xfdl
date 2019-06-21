@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="SDlvListddfsd" left="0" top="0" width="1220" height="711" titletext="납품서작성" oninit="fnFormOninit" onload="fnFormOnload">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompTitle00" taborder="4" left="0" top="0" height="36" cssclass="div_WF_SearchBg" width="1205">
+          <Layouts>
+            <Layout>
+              <Static id="staPoNo" taborder="0" text="발주번호" left="0" top="5" height="24" cssclass="sta_WF_SearchLabel" width="116" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtPoNo" taborder="1" left="115" top="5" height="24" width="200" onkeyup="onKeyUp"/>
+              <Static id="staPoDay" taborder="2" text="발주일자" cssclass="sta_WF_SearchLabel" left="322" top="5" width="116" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Static id="staDocCtrg" taborder="3" text="구매유형" cssclass="sta_WF_SearchLabel" left="658" top="5" width="116" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Combo id="cboDocCtgr" taborder="5" left="773" top="5" height="24" width="150" datacolumn="CD_NM_LO" codecolumn="CD_ID" innerdataset="@dsCdCM10"/>
+              <Div id="divPoDay" taborder="6" text="Div00" left="436" top="5" height="24" url="CCOMP::CompCalFromTo.xfdl" width="221"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle01" taborder="5" text="Div00" left="0" top="36" height="55" cssclass="div_WF_SearchBg" width="1205">
+          <Layouts>
+            <Layout>
+              <Static id="staTtl" taborder="0" text="발주명" cssclass="sta_WF_SearchLabel" left="0" top="5" width="116" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Edit id="edtTtl" taborder="1" left="115" top="5" height="24" width="200" onkeyup="onKeyUp"/>
+              <Static id="staWarning" taborder="2" text="- 검색조건 없이 검색 시 속도가 저하 될 수 있습니다." cssclass="sta_WF_SearchText" left="-1" top="34" right="1" height="19"/>
+              <Static id="staPoDay" taborder="3" text="납품요청일자" cssclass="sta_WF_SearchLabel" left="321" top="5" width="116" height="24" style="padding:0 10 0 6;align:right middle;"/>
+              <Div id="div_dlvReqDay" taborder="4" url="CCOMP::CompCalFromTo.xfdl" text="Div01" left="436" top="5" width="220" height="24" objNm="납품요청일자"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody00" taborder="7" left="0" top="105" right="15" bottom="0">
+          <Layouts>
+            <Layout>
+              <Grid id="grdList" taborder="0" binddataset="dsList" useinputpanel="false" cellsizingtype="col" cellmovingtype="col" left="0" top="39" objNm="검색결과 그리드" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y" autofittype="col" width="1205" height="530" oncellclick="grdList_oncellclick" oncelldblclick="grdList_oncelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="40" band="left"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="485"/>
+                      <Column size="80"/>
+                      <Column size="70"/>
+                      <Column size="110"/>
+                      <Column size="60"/>
+                      <Column size="90"/>
+                      <Column size="81"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell/>
+                      <Cell col="1" text="운영단위"/>
+                      <Cell col="2" text="발주번호" combodisplaynulltext="CD_CNTR_STTS"/>
+                      <Cell col="3" text="발주명"/>
+                      <Cell col="4" text="구매유형"/>
+                      <Cell col="5" text="품목수"/>
+                      <Cell col="6" text="총금액"/>
+                      <Cell col="7" text="통화"/>
+                      <Cell col="8" text="발주일자"/>
+                      <Cell col="9" text="담당자"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" style="controlbackground: ;" text="bind:CHECKED"/>
+                      <Cell col="1" text="bind:BRANCH_NM" tooltiptext="bind:BRANCH_NM"/>
+                      <Cell col="2" edittype="none" cssclass="cell_link" text="bind:PO_NO" maskchar=" " tooltiptext="bind:PO_NO"/>
+                      <Cell col="3" style="align:left;" cssclass="cell_link" text="bind:TTL" tooltiptext="bind:TTL"/>
+                      <Cell col="4" text="bind:CD_DOC_CTGR_NM" tooltiptext="bind:CD_DOC_CTGR_NM"/>
+                      <Cell col="5" style="align:right;" text="bind:ITM_CNT" tooltiptext="bind:ITM_CNT"/>
+                      <Cell col="6" displaytype="number" edittype="none" style="align:right;" text="bind:TOT_AMT" mask="#,##0" tooltiptext="bind:TOT_AMT"/>
+                      <Cell col="7" style="align: ;" text="bind:CD_PO_CRNC_NM" tooltiptext="bind:CD_PO_CRNC_NM"/>
+                      <Cell col="8" displaytype="date" text="bind:PO_DAY" mask="yyyy.MM.dd" calendardisplaynulltype="none" tooltiptext="bind:PO_DAY"/>
+                      <Cell col="9" cssclass="cell_link" text="bind:WRTR_NM" tooltiptext="bind:WRTR_NM"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button id="btnCreateDlv" taborder="2" text="납품서작성" left="1114" top="10" height="24" width="91" onclick="btnCreate" cssclass="btn_WF_Com_G"/>
+              <Div id="divPaging" taborder="3" url="CCOMP::CompPaging.xfdl" left="0" scrollbars="none" top="541" width="1205" height="28"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Button id="btnFold" taborder="8" onclick="btnFold_onclick" cssclass="btn_Fold_Close" left="586" top="91" width="56" height="17"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompTitle00.edtPoNo" propid="value" datasetid="dsCondition" columnid="PO_NO_ARR"/>
+      <BindItem id="item1" compid="divViewCompTitle01.edtTtl" propid="value" datasetid="dsCondition" columnid="TTL"/>
+      <BindItem id="item3" compid="divViewCompTitle00.divPoDay" propid="text" datasetid="dsCondition" columnid="PO_DAY"/>
+      <BindItem id="item4" compid="divViewCompTitle01.div_dlvReqDay" propid="text" datasetid="dsCondition" columnid="DLV_REQ_DAY"/>
+      <BindItem id="item2" compid="divViewCompTitle00.cboDocCtgr" propid="value" datasetid="dsCondition" columnid="CD_DOC_CTGR"/>
+    </Bind>
+    <Objects>
+      <Dataset id="dsList"/>
+      <Dataset id="dsReturn"/>
+      <Dataset id="dsIngChk">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCdCM10"/>
+      <Dataset id="dsCdPO11"/>
+      <Dataset id="dsCondition" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false">
+        <ColumnInfo>
+          <Column id="PO_NO_ARR" size="20" type="string"/>
+          <Column id="BRANCH_CD" size="40" type="string"/>
+          <Column id="CD_DOC_CTGR" size="40" type="string"/>
+          <Column id="CD_DLV_MTHD" size="40" type="string"/>
+          <Column id="PO_DAY_STR" type="STRING" size="256"/>
+          <Column id="PO_DAY_END" type="STRING" size="256"/>
+          <Column id="PO_DAY" type="STRING" size="256"/>
+          <Column id="DLV_REQ_DAY_STR" type="STRING" size="256"/>
+          <Column id="DLV_REQ_DAY_END" type="STRING" size="256"/>
+          <Column id="DLV_REQ_DAY" type="STRING" size="256"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="ALT_IPGO_CHK" type="STRING" size="256"/>
+          <Column id="CD_PO_STTS" size="40" type="string"/>
+          <Column id="SORT_ITEM1" type="STRING" size="256"/>
+          <Column id="SORT_ITEM2" type="STRING" size="256"/>
+          <Column id="SORT_ITEM3" type="STRING" size="256"/>
+          <Column id="SORT_ITEM4" type="STRING" size="256"/>
+          <Column id="SORT_TYPE1" type="STRING" size="256"/>
+          <Column id="SORT_TYPE2" type="STRING" size="256"/>
+          <Column id="SORT_TYPE3" type="STRING" size="256"/>
+          <Column id="SORT_TYPE4" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SDlvList.xfdl
+ * @생성자       	: 이준호
+ * @생성일자     	: 2019. 04. 26
+ * @설명			: 납품서 작성
+ * @최종수정자		: 이준호
+ * @최종수정일자	: 2019. 04. 26
+*/
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 화면이 최초 열렸을때 실행되는 이벤트.
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function(){
+	var param = [
+					 {code:"CM10", sSelectType:"A"} //구매유형
+					,{code:"PO11", sSelectType:"A"} //납품방법
+				];
+	gfnGetCode(this, param);
+}
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 화면이 로딩 될때마다 실행되는 이벤트 
+  */
+this.fnFormOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//공통함수 호출 obj 안하고있음.
+	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this);
+	gfnSetObj("A");
+	this.fnFold(); //아래 쓰면 안되나보네..
+	
+	this.dsCondition.addRow();
+	this.divViewCompTitle00.divPoDay.fnSetDate(this.dsCondition, "PO_DAY_STR", "PO_DAY_END");
+// 	this.ds_condition.setColumn(0,"PO_DAY_STR",this.gfn_addMonth(this.gfn_today(),-1));
+// 	this.ds_condition.setColumn(0,"PO_DAY_END",this.gfn_today());
+	
+	this.divViewCompTitle01.div_dlvReqDay.fnSetDate(this.dsCondition, "DLV_REQ_DAY_STR", "DLV_REQ_DAY_END");
+// 	this.ds_condition.setColumn(0,"DLV_REQ_DAY_STR",this.gfn_addMonth(this.gfn_today(),-1));
+// 	this.ds_condition.setColumn(0,"DLV_REQ_DAY_END",this.gfn_today());
+		
+    this.dsCondition.setColumn(0, "CD_DOC_CTGR", "");
+    this.dsCondition.setColumn(0, "CD_DLV_MTHD", "");
+
+	//정렬 기본값 셋팅
+ 	this.dsCondition.setColumn(0,"SORT_ITEM1","MP.PO_NO");
+ 	this.dsCondition.setColumn(0,"SORT_TYPE1","DESC");	
+ 	
+ 	this.dsCondition.setColumn(0,"SORT_ITEM2","");
+	this.dsCondition.setColumn(0,"SORT_TYPE2","");
+ 	this.dsCondition.setColumn(0,"SORT_ITEM3","");
+	this.dsCondition.setColumn(0,"SORT_TYPE3","");		
+	this.dsCondition.setColumn(0,"SORT_ITEM4","");
+	this.dsCondition.setColumn(0,"SORT_TYPE4","");
+	
+    this.fnSearch();
+}
+
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+
+this.fnFold = function()
+{
+	var sArg = [ 
+				 {ttl:this.btnFold, body:this.divViewCompTitle01, initFold:false}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 기능
+  */
+this.fnSearch = function()
+{
+	
+	if(!this.fnPreSearch()) return false;
+	
+	var sSvcID = "searchDlvList";
+	var sController = "epro.dlv.service.SDlvService.searchDlvList";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	var	oPaging = [
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+   gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+/**
+  * @함수명	: btnCreate
+  * @input  	: obj:Button, e:nexacro.ClickEventInfo
+  * @desc     	: 납품서 작성 버튼
+  */
+this.btnCreate = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(this.dsList.getCaseCount("CHECKED==1")==0){
+		gfnAlert("발주서를 선택하십시오."); 
+		return false;
+	}
+	this.dsList.set_enableevent(false);
+	this.dsList.filter("CHECKED==1");
+	this.dsIngChk.copyData(this.dsList,true);
+	this.dsList.filter("");
+	this.dsList.set_enableevent(true);
+		
+	var sSvcID = "readDlvIngChk";
+	var sController = "epro.dlv.service.SDlvService.readDlvIngChk";
+	var sInDatasets = "dsIngChk=dsIngChk";
+	var sOutDatasets = "dsReturn=dsReturn";
+	var sCallbackFunc = "fnTrCallBack";
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+/**
+  * @함수명	: fnTrCallBack
+  * @input  	: strSvcID, strErrCd, strErrMsg
+  * @desc     	: 콜백 함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{	
+	if(strErrCd < 0)
+	{
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "searchDlvList" :
+		break;
+		
+		case "readDlvIngChk" :
+			//if(this.dsReturn.getColumn(0, "DL10SND_CNT") < 1)
+			if(this.dsReturn.getColumn(0, "DL10SND_CNT")=="0") //검수요청건이 0건일 경우 == 납품작성 하지 않은 경우
+			{
+				var sArg = {	pop_poNo 		: this.dsIngChk.getColumn(0, "PO_NO")
+							,pop_branchCd	: this.dsIngChk.getColumn(0, "BRANCH_CD")
+							,pop_strCd		: this.dsIngChk.getColumn(0, "STR_CD")
+							,pop_kid		: this.dsIngChk.getColumn(0, "COREXP_KIDS")
+							,pop_dlvNo		: this.dsIngChk.getColumn(0, "DLV_NO")
+							,agv_type		: "wri"	//납품서작성화면에서 호출.
+						};		
+				gfnModalPop(this, "createDlvPop", "SDLV::SDlvPopup.xfdl", sArg, "fnPopCallBack", 1057, 1067);
+			}
+			else
+			{
+				alert("진행중인 납품서가 존재하여 작성할 수 없습니다.");
+			}
+		break;	
+		default:
+		break;	
+	}
+}
+/**
+  * @함수명	: fnPopCallBack
+  * @desc     	: 사용자 팝업 콜백
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+		this.dsReturn.clear();
+		this.dsReturn.loadXML(rtn); //이거 필요없나..?
+	switch(sPopupId){
+		case "createDlvPop":
+					this.fnSearch();
+		break;
+		default:
+		break;	
+	}
+}
+
+this.grdList_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	this.dsList.set_enableevent(false);
+	for(var i=0; i<this.dsList.getRowCount(); i++)
+	{
+		this.dsList.setColumn(i, "CHECKED", "0");
+	}
+	this.dsList.setColumn(e.row, "CHECKED", "1");
+	this.dsList.set_enableevent(true);
+}
+
+this.grdList_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(this.dsList.rowcount==0) return;	
+	if(this.gfnIsNull(this.dsList.getColumn(e.row, gfnGrdBindColId(obj, obj.getCellPos())))) return false;
+	
+	if(gfnGrdBindColId(obj, obj.getCellPos())=="PO_NO")
+	{
+		gfnSetTmprData("BRANCH_CD"   , this.dsList.getColumn(e.row, "BRANCH_CD"));
+		gfnSetTmprData("PO_NO"	   , this.dsList.getColumn(e.row, "PO_NO"));
+		gfnSetTmprData("COREXP_KIDS" , this.dsList.getColumn(e.row, "COREXP_KIDS"));
+		//상단 ASIS코드는 gfnOpenMenuUrl 쓰는 코드인데
+		//팝업으로 열어야되는데 뭘로 열어야하나
+		//gfnOpenMenuUrl("SDLV::SDlvPopup");
+		//gfnModalPop(this, "popupid", "SDLV::SDlvPopup.xfdl", sArg, "fnPopCallBack", 1057, 1067);
+		//gfnModalPop("PopupPo", "BPOR::PPORB100P00.xfdl", "", "fn_popCallBack");
+	}
+	else if(this.gfn_grdBindColName(obj, e.cell)=="TTL")
+	{
+		this.gfn_setTmprData("BRANCH_CD"   , this.ds_list.getColumn(e.row, "BRANCH_CD"));
+		this.gfn_setTmprData("PO_NO"	   , this.ds_list.getColumn(e.row, "PO_NO"));
+		this.gfn_setTmprData("COREXP_KIDS" , this.ds_list.getColumn(e.row, "COREXP_KIDS"));
+
+		this.gfn_dialog("PopupPo", "PORS::PPORS100P00.xfdl", "", "fn_popCallBack");
+	}
+	else if(this.gfn_grdBindColName(obj, e.cell)=="WRTR_NM")	//담당자
+	{
+		var sArg = {	 branch_cd : this.ds_list.getColumn(e.row, "BRANCH_CD")
+						,  user_id : this.ds_list.getColumn(e.row, "WRTR_ID")
+					};
+		this.gfn_dialog("PopupUserInfo", "commPop::PPOPC000P07.xfdl", sArg, "fn_popCallBack");
+	}
+}
+
+/**
+	@function	div_condition_btn_multiSelect_onclick()
+	@desc   	멀티입력 팝업을 호출
+*/
+this.div_condition_btn_multiSelect_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	//멀티입력 컴포넌트 호출 //libForm에 해당 메소드가 없음.
+	gfnPopMultiInput(this.divViewCompTitle00.edtPoNo);	
+}
+
+/**
+	@function	onKeyUp
+	@desc   	검색조건에서 ENTER(keycode::13) BACKSPACE(keycode::8) 입력시 이벤트를 발생시킨다.
+*/
+this.onKeyUp = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	//Enter 입력시
+	if(e.keycode == "13")
+	{
+			this.fnSearch();
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

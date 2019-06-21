@@ -1,0 +1,949 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form id="PCTRS100N00" classname="FrmTemplate100" left="0" top="0" width="1220" height="711" titletext="계약서" onload="form_onload" oninit="form_oninit" ontimer="PCTRS100N00_ontimer">
+    <Layouts>
+      <Layout>
+        <Div id="divViewCompCond00" taborder="0" left="0" top="0" height="43" objNm="컨트롤 박스" cssclass="div_WF_SearchBg" right="15">
+          <Layouts>
+            <Layout>
+              <Buttoan id="btn_NewDoc" taborder="44" text="신규" cssclass="btn_WF_crud" left="35.01%" top="13" right="59.36%" height="20" onclick="Div1_btn_NewDoc_onclick"/>
+              <Edit id="maeCntrNo" taborder="1" left="104" top="10" height="24" objNm="문서번호" width="200" readonly="true"/>
+              <Button id="btnCntrClo" taborder="3" text="계약합의" cssclass="btn_WF_SearchBtn" top="10" right="8" width="70" height="24" onclick="div_1_btn_CntrClo_onclick" objNm="계약합의버튼"/>
+              <Combo id="cboCdDocCtgr" taborder="0" innerdataset="ds_cdCM10" codecolumn="CD_ID" datacolumn="CD_NM_LO" left="2" top="10" height="24" objNm="문서유형" width="100" readonly="true"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="div_2" taborder="7" left="0%" top="63" height="24" objNm="DIV-헤더 타이틀" right="15">
+          <Layouts>
+            <Layout width="993" height="139"/>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody00" taborder="1" left="0" top="48" scrollbars="none" objNm="DIV-헤더 상세" right="15" height="195">
+          <Layouts>
+            <Layout>
+              <Tab id="Tab01" taborder="0" left="0" top="0" right="0" tabindex="0" scrollbars="autoboth" objNm="TAB" onchanged="div_21_Tab01_onchanged" height="194">
+                <Tabpages>
+                  <Tabpage id="tabp01" text="기본정보" scrollbars="none" objNm="기본정보" lbcd="">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_WFDA_Label05" taborder="71" cssclass="sta_WF_Labelbg" left="0" top="34" right="0" height="33"/>
+                        <Static id="staTtl" taborder="12" text="계약명" cssclass="sta_WF_Label" left="0" top="34" height="33" lbcd="" onclick="div_21_Tab01_tabp01_st_Ttl_onclick" width="117" style="padding:1 0 0 17;"/>
+                        <Div id="divViewCompTitle00" taborder="78" left="0" top="5" right="10" height="24" objNm="DIV-평가서 타이틀" style="padding:1 0 0 17;">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="2" text="기본정보" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="sta_WFDA_Label00" taborder="79" cssclass="sta_WF_Labelbg" left="0" top="66" right="0" height="33"/>
+                        <Static id="sta_WFDA_Label01" taborder="80" cssclass="sta_WF_Labelbg" left="0" top="98" right="0" height="33"/>
+                        <Static id="sta_WFDA_Label02" taborder="81" cssclass="sta_WF_Labelbg" left="0" top="130" right="0" height="33"/>
+                        <Static id="staPtnrNm" taborder="82" text="협력사" cssclass="sta_WF_Label" left="0" top="66" width="117" height="33" style="padding:1 0 0 17;" objNm="협력사" lbcd=""/>
+                        <Static id="staCntrCtgr" taborder="83" text="계약유형" cssclass="sta_WF_Label" left="0" top="98" width="117" height="33" style="padding:1 0 0 17;" objNm="계약유형" lbcd=""/>
+                        <Static id="staCntrDt" taborder="84" text="계약일자" cssclass="sta_WF_Label" left="0" top="130" width="117" height="33" style="padding:1 0 0 17;" objNm="계약일자" lbcd=""/>
+                        <Div id="divCntrDt" taborder="85" text="Div01" left="122" top="135" width="276" height="24" enable="false" objNm="계약일자" url="CCOMP::CompCalFromTo.xfdl"/>
+                        <Static id="staCdCrnc" taborder="86" text="통화단위" cssclass="sta_WF_Label" left="460" top="130" width="101" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staPymtCndtn" taborder="87" text="지급조건" cssclass="sta_WF_Label" left="38.24%" top="66" width="101" height="33" style="padding:1 0 0 17;" objNm="지급계정"/>
+                        <Static id="staGrntPrid" taborder="88" text="하자보증기간" cssclass="sta_WF_Label" left="460" top="98" width="101" height="33" style="padding:1 0 0 17;" objNm="하자보증기간" lbcd=""/>
+                        <Static id="staCntrStts" taborder="89" text="상태" cssclass="sta_WF_Label" left="703" top="130" width="61" height="33" style="padding:1 0 0 17;" lbcd=""/>
+                        <Static id="staVat" taborder="90" text="부가세" cssclass="sta_WF_Label" left="902" top="130" width="117" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staCntrAmt" taborder="91" text="공급가액" cssclass="sta_WF_Label" left="902" top="98" width="117" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staCntrSum" taborder="92" text="계약금액" cssclass="sta_WF_Label" left="902" top="66" width="117" height="33" style="padding:1 0 0 17;" objNm="예산번호"/>
+                        <Static id="staCntrType" taborder="93" text="계약구분" cssclass="sta_WF_Label" left="74.98%" top="34" width="117" height="33" style="padding:1 0 0 17;" objNm="계약구분" lbcd=""/>
+                        <Edit id="edtTtl" taborder="94" left="121" top="39" right="25.44%" height="24"/>
+                        <Combo id="cboCntrType" taborder="95" left="85.12%" top="39" right="4.24%" height="24" value="null"/>
+                        <Edit id="edtPtnrId" taborder="96" left="121" top="70" height="24" width="124"/>
+                        <Edit id="edtPtnrNm" taborder="97" left="250" top="70" height="24" right="62.18%"/>
+                        <Combo id="cboCntrCtgr" taborder="98" left="121" top="102" right="957" height="24"/>
+                        <Combo id="cboPymtCndtn" taborder="99" left="566" top="70" right="506" height="24"/>
+                        <Combo id="cboCdCrnc" taborder="100" left="566" top="134" right="506" height="24"/>
+                        <Combo id="cboCntrStts" taborder="101" left="769" top="134" right="306" height="24"/>
+                        <Edit id="edtGrntPrid" taborder="102" left="566" top="102" right="25.52%" height="24"/>
+                        <MaskEdit id="mdeCntrSum" taborder="103" left="85.12%" top="70" right="0.42%" height="24" mask="#,###"/>
+                        <MaskEdit id="medCntrAmt" taborder="104" left="85.12%" top="102" right="0.58%" height="24" mask="#,###"/>
+                        <MaskEdit id="medVat" taborder="105" left="85.12%" top="134" right="0.67%" height="24" mask="#,###"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp02" text="계약담당자" left="0" top="31" width="1042" height="163">
+                    <Layouts>
+                      <Layout>
+                        <Static id="sta_WFDA_Label00" taborder="9" cssclass="sta_WF_DetailLabel02" left="0%" top="10" right="0%" height="75"/>
+                        <Div id="divViewCompTitle00" taborder="10" left="0" top="5" right="0" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="0" text="계약담당자" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                        <Static id="sta_WFDA_Label01" taborder="14" cssclass="sta_WF_Labelbg" left="0" top="34" right="0" height="33"/>
+                        <Static id="staCntrReqr" taborder="15" text="담당자" cssclass="sta_WF_Label" left="0" top="34" width="170" height="33"/>
+                        <Static id="sta_WFDA_Label02" taborder="16" cssclass="sta_WF_Labelbg" left="0" top="66" right="0" height="33"/>
+                        <Static id="staTel" taborder="17" text="전화번호" cssclass="sta_WF_Label" left="0" top="66" width="170" height="33"/>
+                        <Edit id="edtCntrReqrId" taborder="18" enable="false" left="175" top="38" width="100" height="24" style=":disabled {align:center middle;}" objNm="계약담당자ID"/>
+                        <Edit id="edtCntrReqrNm" taborder="19" lengthunit="utf8" left="280" top="38" height="24" objNm="계약담당자명" right="55.94%"/>
+                        <Edit id="edtTel" taborder="20" left="175" top="71" height="24" objNm="계약담당자 전화번호" right="55.94%"/>
+                        <Static id="staEmail" taborder="21" text="EMail" cssclass="sta_WF_Label" left="44.47%" top="34" width="170" height="33"/>
+                        <Static id="staFax" taborder="22" text="Fax" cssclass="sta_WF_Label" left="44.47%" top="66" height="33" width="170"/>
+                        <Edit id="edtEmail" taborder="23" cssclass="edt_default_r" left="59.02%" top="38" height="23" objNm="계약담당자 EMAIL" right="7.73%"/>
+                        <Edit id="edtFax" taborder="24" cssclass="edt_default_r" left="59.02%" top="71" height="24" objNm="계약담당자 FAX" right="7.73%"/>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp03" text="특이사항">
+                    <Layouts>
+                      <Layout>
+                        <TextArea id="txaRmark" taborder="0" left="0" top="34" right="0" bottom="5"/>
+                        <Div id="divViewCompTitle00" taborder="1" left="0" top="5" right="10" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+                          <Layouts>
+                            <Layout width="993" height="139">
+                              <Static id="staViewCompTitle00" taborder="0" text="특이사항" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+                            </Layout>
+                          </Layouts>
+                        </Div>
+                      </Layout>
+                    </Layouts>
+                  </Tabpage>
+                  <Tabpage id="tabp04" text="첨부파일" url="CCOMP::CompNFileUpDown.xfdl">
+                    <Layouts/>
+                  </Tabpage>
+                </Tabpages>
+              </Tab>
+            </Layout>
+          </Layouts>
+          <InitValue>
+            <Tab id="Tab01">
+              <Tabpages>
+                <Tabpage id="tabp03" objNm="첨부파일 텝" text="첨부파일"/>
+              </Tabpages>
+            </Tab>
+          </InitValue>
+        </Div>
+        <Div id="div_4" taborder="9" left="0" top="635" height="24" objNm="DIV-품목 상세-탭 헤더" right="15">
+          <Layouts>
+            <Layout width="993" height="139"/>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody02" taborder="4" left="0" top="641" height="200" scrollbars="none" objNm="DIV-대상업체 상세" right="15">
+          <Layouts>
+            <Layout>
+              <Grid id="grd_cntrPay" taborder="0" binddataset="dsCntrPay" useinputpanel="false" left="0" top="0" right="0" bottom="0" objNm="지급계획 그리드" autofittype="col">
+                <Formats>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="90"/>
+                      <Column size="70"/>
+                      <Column size="90"/>
+                      <Column size="500"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="회차"/>
+                      <Cell col="1" cssclass="cell_head" text="지급율"/>
+                      <Cell col="2" cssclass="cell_head" text="지급금액"/>
+                      <Cell col="3" cssclass="cell_head" text="지급조건"/>
+                    </Band>
+                    <Band id="body" style="cellpadding:2 2 2 2 ;">
+                      <Cell displaytype="normal" edittype="none" style="align: ;" text="bind:PYMT_ORDR" editdisplay="edit"/>
+                      <Cell col="1" celltype="none" displaytype="normal" edittype="none" editfilter="number" style="align:right;" text="bind:PYMT_RT" mask="###" maskchar=" " editlimit="-1" editautoselect="false" editdisplay="edit" suppress="0" autosizecol="default"/>
+                      <Cell col="2" displaytype="normal" edittype="none" style="align:right;padding: ;" text="bind:PYMT_AMT" mask="9,999.###" maskchar=" " editautoselect="true" editdisplay="edit"/>
+                      <Cell col="3" displaytype="normal" edittype="none" style="align:left;" text="bind:RMARK" editdisplay="edit"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody01" taborder="2" left="0%" top="292" right="15" height="300" objNm="DIV-품목 상세">
+          <Layouts>
+            <Layout>
+              <Grid id="grdCntrItem" taborder="2" useinputpanel="false" left="0" top="0" right="0" bottom="0" objNm="품목 그리드" binddataset="dsCntrItem" onexpandup="div_31_grd_cntrItem_onexpandup" f_filter="Y" f_excel="Y" f_hide="Y" f_find="Y" f_sort="Y" f_fix="Y" f_height="Y" f_save="Y" f_mode="Y" f_init="Y" f_colSize="Y" cellmovingtype="col" cellsizingtype="col">
+                <Formats>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="415"/>
+                      <Column size="55"/>
+                      <Column size="55"/>
+                      <Column size="80"/>
+                      <Column size="80"/>
+                      <Column size="102"/>
+                      <Column size="270"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="품목명"/>
+                      <Cell col="1" text="수량"/>
+                      <Cell col="2" text="단위"/>
+                      <Cell col="3" text="단가"/>
+                      <Cell col="4" text="공급가"/>
+                      <Cell col="5" text="부가세"/>
+                      <Cell col="6" text="비고"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:left;padding:3 3 3 3;" text="expr:MTRL_NM" editdisplay="edit" expandshow="hide" tooltiptext="bind:MTRL_NM"/>
+                      <Cell col="1" displaytype="number" edittype="none" style="align:right;padding:3 3 3 3;selectbackground: ;" text="bind:QTY" mask="#,##0.00" editdisplay="edit" expandshow="hide"/>
+                      <Cell col="2" style="padding:3 3 3 3;" text="bind:CD_UNIT_NM" editdisplay="edit" expandshow="hide"/>
+                      <Cell col="3" displaytype="number" edittype="none" style="align:right;padding:3 3 3 3;selectbackground: ;" text="bind:UNT_PRICE" mask="#,##0.00" editdisplay="edit" expandshow="hide"/>
+                      <Cell col="4" style="align:right;padding:3 3 3 3;selectcolor: ;" text="bind:AMT" editdisplay="edit" expandshow="hide"/>
+                      <Cell col="5" style="align:right;" text="bind:VAT"/>
+                      <Cell col="6" style="align:left;padding:3 3 3 3;" text="bind:RMARK" editdisplay="edit" expandshow="hide" tooltiptext="bind:RMARK"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div id="div_grdBottom" taborder="3" url="" left="0%" right="0%" bottom="10" height="28" visible="false"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody03" taborder="5" left="0" top="890" right="10" height="200" scrollbars="none" objNm="DIV-대상업체 상세">
+          <Layouts>
+            <Layout width="1042" height="164">
+              <Grid id="grd_insrncItem" taborder="0" binddataset="dsCntrInsrnc" useinputpanel="false" left="0%" top="0" right="0%" bottom="0" objNm="품목 그리드" autofittype="col">
+                <Formats>
+                  <Format id="VMODE">
+                    <Columns>
+                      <Column size="71"/>
+                      <Column size="154"/>
+                      <Column size="196"/>
+                      <Column size="192"/>
+                      <Column size="268"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="회차"/>
+                      <Cell col="1" cssclass="cell_head" text="이행보증구분"/>
+                      <Cell col="2" cssclass="cell_head" text="보증유형"/>
+                      <Cell col="3" cssclass="cell_head" text="보증금율"/>
+                      <Cell col="4" cssclass="cell_head" text="보증금액"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="normal" edittype="none" text="bind:PYMT_ORDR" combodataset="dsCntrPay" combocodecol="PYMT_ORDR" combodatacol="PYMT_ORDR" combodisplay="display"/>
+                      <Cell col="1" displaytype="normal" edittype="none" text="bind:CD_GRNT_INSRNC_TYPE_NM" combodataset="ds_cdCT16" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodisplay="display"/>
+                      <Cell col="2" displaytype="normal" edittype="none" text="bind:CD_GRNT_MTHD_NM" combodataset="ds_cdCT15" combocodecol="CD_ID" combodatacol="CD_NM_LO" combodisplay="display"/>
+                      <Cell col="3" displaytype="normal" edittype="none" style="align:right;" text="bind:GRNT_RT" mask="###" maskchar=" " editdisplay="edit"/>
+                      <Cell col="4" displaytype="normal" edittype="none" style="align:right;" text="bind:GRNT_AMT" mask="9,999.###" maskchar=" " editdisplay="edit"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompBody04" taborder="6" left="0" top="1143" right="15" height="516" scrollbars="none">
+          <Layouts>
+            <Layout width="1042" height="500">
+              <WebBrowser id="WebBrowser00" left="0" top="3" right="0" height="506" taborder="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <WebBrowser id="WebBrowser_Sign" left="16.56%" top="11" right="40.57%" height="0" taborder="76"/>
+        <WebBrowser id="WebBrowser00" left="1243" top="240" width="148" height="64" taborder="89" visible="false" onusernotify="WebBrowser00_onusernotify"/>
+        <WebBrowser id="WebBrowser01" left="1240" top="336" width="148" height="64" taborder="90" visible="false" onusernotify="WebBrowser01_onusernotify"/>
+        <Div id="Div00" taborder="91" text="Div00" left="1241" top="416" width="147" height="89" url="" visible="false"/>
+        <Div id="divViewCompTitle00" taborder="92" left="0" top="263" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="품목" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle01" taborder="93" left="0" top="612" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="지급계획" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle02" taborder="94" left="0" top="861" right="15" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="이행보증" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div id="divViewCompTitle03" taborder="95" left="8" top="1113" right="2" height="24" style="padding:1 0 0 17;" objNm="DIV-평가서 타이틀">
+          <Layouts>
+            <Layout width="993" height="139">
+              <Static id="staViewCompTitle00" taborder="0" text="계약내용" onclick="div_2_staSubTitle01_onclick" cssclass="sta_WF_Subtitle" left="0" bottom="0" width="255" height="24" style="padding:0 0 2 17;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCntr" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onrowposchanged="ds_tndr_onrowposchanged">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="20" type="string"/>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="LNK_CNTR_NO" size="40" type="string"/>
+          <Column id="CNTR_TMPL_ID" size="40" type="string"/>
+          <Column id="PTNR_ID" size="40" type="string"/>
+          <Column id="PTNR_NM" type="STRING" size="256"/>
+          <Column id="CD_CNTR_STTS" size="40" type="string"/>
+          <Column id="CD_DOC_CTGR" size="40" type="string"/>
+          <Column id="CD_CNTR_CTGR" size="40" type="string"/>
+          <Column id="CD_CNTR_TYPE" size="40" type="string"/>
+          <Column id="CD_PYMT_CNDTN" size="40" type="string"/>
+          <Column id="CNTR_SUM" type="BIGDECIMAL" size="256"/>
+          <Column id="CNTR_AMT" size="22" type="bigdecimal"/>
+          <Column id="VAT" size="22" type="bigdecimal"/>
+          <Column id="CD_CRNC" size="40" type="string"/>
+          <Column id="CNTR_BGN_DAY" size="8" type="string"/>
+          <Column id="CNTR_END_DAY" size="8" type="string"/>
+          <Column id="TTL" size="600" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="CNTR_REQR_ID" size="50" type="string"/>
+          <Column id="CNTR_REQR_NM" type="STRING" size="256"/>
+          <Column id="REQR_EMAIL" type="STRING" size="256"/>
+          <Column id="REQR_TEL" type="STRING" size="256"/>
+          <Column id="REQR_FAX" type="STRING" size="256"/>
+          <Column id="CNTR_REQ_DT" size="7" type="STRING"/>
+          <Column id="CNTR_CFM_DT" size="7" type="STRING"/>
+          <Column id="APP_DOC_ID" size="40" type="string"/>
+          <Column id="TKEY" size="40" type="string"/>
+          <Column id="ATTCH_FILE_CNT" size="22" type="bigdecimal"/>
+          <Column id="DFCT_GRNT_PRID" size="300" type="string"/>
+          <Column id="ALT_INTL_CFM" size="1" type="STRING"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="CRT_DT" size="7" type="STRING"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCntrItem" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false" onrowposchanged="dsCntrItem_onrowposchanged" oncolumnchanged="dsCntrItem_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CNTR_ITEM_ID" size="40" type="string"/>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="CD_UNIT_NM" size="40" type="string"/>
+          <Column id="CD_UNIT" size="40" type="string"/>
+          <Column id="AMT" size="22" type="bigdecimal"/>
+          <Column id="ITM_NO" size="5" type="string"/>
+          <Column id="MTRL_GRP_NM" size="500" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="DLV_REQ_DAY" size="8" type="string"/>
+          <Column id="MTRL_GRP_ID" size="20" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="PR_ITEM_ID" size="40" type="string"/>
+          <Column id="QTY" size="22" type="bigdecimal"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="MTRL_NM" size="500" type="string"/>
+          <Column id="MTRL_CD" size="20" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="UNT_PRICE" size="22" type="bigdecimal"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="BRANCH_CD" size="20" type="string"/>
+          <Column id="CD_FCTRY_NM" size="40" type="string"/>
+          <Column id="CD_FCTRY" size="40" type="string"/>
+          <Column id="PR_NO" size="40" type="string"/>
+          <Column id="SRC_GRP_ID" size="40" type="string"/>
+          <Column id="SRC_GRP_NM" size="300" type="string"/>
+          <Column id="ATTCH_FILE_CNT" size="22" type="bigdecimal"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+          <Column id="STR_CD" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsReturn" firefirstcount="0" firenextcount="0" useclientlayout="false" updatecontrol="true" enableevent="true" loadkeymode="keep" loadfiltermode="keep" reversesubsum="false"/>
+      <Dataset id="dsCntrInsrnc" oncolumnchanged="dsCntrInsrnc_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="PYMT_ORDR" size="22" type="bigdecimal"/>
+          <Column id="REQR_NM" size="30" type="string"/>
+          <Column id="GRNT_BGN_DAY" size="8" type="string"/>
+          <Column id="SIGNCNTNT" size="0" type="string"/>
+          <Column id="CRTR_ID" size="50" type="string"/>
+          <Column id="GRNT_INSRNC_NO" size="40" type="string"/>
+          <Column id="PCHRGR_ID" size="30" type="string"/>
+          <Column id="GRNT_RT" size="22" type="bigdecimal"/>
+          <Column id="RJT_RSN" size="1500" type="string"/>
+          <Column id="REQR_ID" size="50" type="string"/>
+          <Column id="LAST_CHGR_ID" size="50" type="string"/>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="CD_GRNT_STTS_NM" size="40" type="string"/>
+          <Column id="CD_GRNT_STTS" size="40" type="string"/>
+          <Column id="PCHRGR_NM" size="50" type="string"/>
+          <Column id="GRNT_REQ_DT" size="7" type="string"/>
+          <Column id="GRNT_END_DAY" size="8" type="string"/>
+          <Column id="GRNT_INSRNC_CORP" size="40" type="string"/>
+          <Column id="CNTR_GRNT_ID" size="40" type="string"/>
+          <Column id="ATTCH_FILE_CNT" size="22" type="bigdecimal"/>
+          <Column id="GRNT_AMT" size="22" type="bigdecimal"/>
+          <Column id="CD_GRNT_MTHD_NM" size="40" type="string"/>
+          <Column id="CD_GRNT_MTHD" size="40" type="string"/>
+          <Column id="LAST_CHG_DT" size="7" type="string"/>
+          <Column id="CNTR_PAY_PLAN_ID" size="40" type="string"/>
+          <Column id="GRNT_CFM_DT" size="7" type="string"/>
+          <Column id="CD_GRNT_INSRNC_TYPE_NM" size="40" type="string"/>
+          <Column id="CD_GRNT_INSRNC_TYPE" size="40" type="string"/>
+          <Column id="CRT_DT" size="7" type="string"/>
+          <Column id="BRANCH_CD" size="20" type="string"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCntrPay" oncolumnchanged="dsCntrPay_oncolumnchanged">
+        <ColumnInfo>
+          <Column id="CNTR_NO" size="40" type="string"/>
+          <Column id="RMARK" size="1500" type="string"/>
+          <Column id="PYMT_PLN_DAY" size="8" type="string"/>
+          <Column id="PYMT_RT" size="22" type="STRING"/>
+          <Column id="CNTR_PAY_PLAN_ID" size="40" type="string"/>
+          <Column id="PYMT_ORDR" size="22" type="bigdecimal"/>
+          <Column id="PYMT_AMT" size="22" type="bigdecimal"/>
+          <Column id="BRANCH_CD" size="20" type="string"/>
+          <Column id="CHECKED" type="STRING" size="256"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsSign">
+        <ColumnInfo>
+          <Column id="SIGN_ORGNL" type="STRING" size="256"/>
+          <Column id="SIGN_DATA" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCntrOrg"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompBody00.Tab01.tabp01.edtTtl" propid="value" datasetid="dsCntr" columnid="TTL"/>
+      <BindItem id="item1" compid="divViewCompBody00.Tab01.tabp01.edtPtnrNm" propid="value" datasetid="dsCntr" columnid="PTNR_NM"/>
+      <BindItem id="item2" compid="divViewCompBody00.Tab01.tabp01.edtPtnrId" propid="value" datasetid="dsCntr" columnid="PTNR_ID"/>
+      <BindItem id="item3" compid="divViewCompBody00.Tab01.tabp01.cboCntrCtgr" propid="value" datasetid="dsCntr" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item4" compid="divViewCompBody00.Tab01.tabp01.cboPymtCndtn" propid="value" datasetid="dsCntr" columnid="CD_PYMT_CNDTN"/>
+      <BindItem id="item5" compid="divViewCompBody00.Tab01.tabp01.edtGrntPrid" propid="value" datasetid="dsCntr" columnid="DFCT_GRNT_PRID"/>
+      <BindItem id="item6" compid="divViewCompBody00.Tab01.tabp01.cboCdCrnc" propid="value" datasetid="dsCntr" columnid="CD_CRNC"/>
+      <BindItem id="item7" compid="divViewCompBody00.Tab01.tabp01.cboCntrStts" propid="value" datasetid="dsCntr" columnid="CD_CNTR_STTS"/>
+      <BindItem id="item8" compid="divViewCompBody00.Tab01.tabp01.cboCntrType" propid="value" datasetid="dsCntr" columnid="CD_CNTR_TYPE"/>
+      <BindItem id="item9" compid="divViewCompBody00.Tab01.tabp01.mdeCntrSum" propid="value" datasetid="dsCntr" columnid="CNTR_SUM"/>
+      <BindItem id="item10" compid="divViewCompBody00.Tab01.tabp01.medCntrAmt" propid="value" datasetid="dsCntr" columnid="CNTR_AMT"/>
+      <BindItem id="item11" compid="divViewCompBody00.Tab01.tabp01.medVat" propid="value" datasetid="dsCntr" columnid="VAT"/>
+      <BindItem id="item12" compid="divViewCompCond00.cboCdDocCtgr" propid="value" datasetid="dsCntr" columnid="CD_DOC_CTGR"/>
+      <BindItem id="item13" compid="divViewCompCond00.maeCntrNo" propid="value" datasetid="dsCntr" columnid="CNTR_NO"/>
+      <BindItem id="item14" compid="divViewCompBody00.Tab01.tabp02.edtCntrReqrId" propid="value" datasetid="dsCntr" columnid="CNTR_REQR_ID"/>
+      <BindItem id="item15" compid="divViewCompBody00.Tab01.tabp02.edtCntrReqrNm" propid="value" datasetid="dsCntr" columnid="CNTR_REQR_NM"/>
+      <BindItem id="item16" compid="divViewCompBody00.Tab01.tabp02.edtTel" propid="value" datasetid="dsCntr" columnid="REQR_TEL"/>
+      <BindItem id="item17" compid="divViewCompBody00.Tab01.tabp02.edtEmail" propid="value" datasetid="dsCntr" columnid="REQR_EMAIL"/>
+      <BindItem id="item18" compid="divViewCompBody00.Tab01.tabp02.edtFax" propid="value" datasetid="dsCntr" columnid="REQR_FAX"/>
+      <BindItem id="item19" compid="divViewCompBody00.Tab01.tabp03.txaRmark" propid="value" datasetid="dsCntr" columnid="RMARK"/>
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: SCntrDetail
+ * @생성자			: 안성민
+ * @생성일시		: 2019. 05. 14.
+ * @설명			: 계약상세
+ * @최종수정자		: 안성민
+ * @최종수정일시	: 2019. 05. 14.
+*/  
+
+this.cntWeb00Load = 0;
+this.cntWeb01Load = 0;
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [	{code:"CM13", sSelectType:"S"} // 지급조건
+					,{code:"CM10", sSelectType:"S"} // 문서유형
+					,{code:"CM20", sSelectType:"S"} // 공장
+					,{code:"CM11", sSelectType:"S"} // 단위
+					,{code:"CT10", sSelectType:"S"} // 계약상태
+					,{code:"CT11", sSelectType:"S"} // 계약유형
+					,{code:"CT19", sSelectType:"S"} // 계약구분
+					,{code:"CM15", sSelectType:"S"} // 통화
+					,{code:"CT17", sSelectType:"S"} // 보증보험상태
+					,{code:"CT16", sSelectType:"S"} // 보증보험유형
+					,{code:"CT15", sSelectType:"S"} // 보증유형
+				];		
+									
+									
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacr o.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	gfnSetObj("A");
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this,{isTran:"Y", tranNm:"BCntrService.searchCntrList", dsParam:this.dsCondition});
+ 	
+	//확정일자, 계약일자	
+	this.divViewCompCond00.divCntrReqDt.fnSetDate(this.dsCondition, "REQ_DT_STR", "REQ_DT_END");
+	this.dsCondition.setColumn(0, "CD_CNTR_STTS", "");
+	this.dsCondition.setColumn(0, "PTNR_ID", application.gdsUserInfo.getColumn(0, "PTNR_ID"));
+	this.fnSearch();
+}
+
+/**
+	@function	form_onload()
+	@desc   	폼 onload이벤트
+*/
+this.form_onload = function(obj:Form, e:LoadEventInfo)
+{	
+	this.dsCntr.addRow();	
+	
+ 	//그리드 공통버튼 설정
+ 	this.div_31.div_grdBottom.fn_initGridInfo(obj, this.div_31.grd_cntrItem);
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기
+	this.gfn_setGrdFunc(this.div_31.grd_cntrItem);
+	this.gfn_setGrdFunc(this.div_51.grd_cntrPay);
+	this.gfn_setGrdFunc(this.div_61.grd_insrncItem);
+
+	//이전화면에서 넘어오는 파라미터를 받는다.	
+	this.dsCntr.setColumn(0,"CNTR_NO"		, this.gfnGetTmprData("CNTR_NO"));
+	this.dsCntr.setColumn(0,"BRANCH_CD"	, this.gfn_getTmprData("BRANCH_CD"));
+	this.dsCntr.setColumn(0,"COREXP_KIDS"	, this.gfn_getTmprData("COREXP_KIDS"));	
+
+	if(this.gfn_getTmprData("STATUS") != "1"){
+		this.WebBrowser00.set_url(application.services["svcurl"].url+"crosscert/Object_chk.jsp");
+	} else{
+		this.WebBrowser00.set_url("");
+	}
+	
+	this.gfn_clearTmprData(); 
+	
+	this.WebBrowser01.set_url(application.services["svcurl"].url+"crosscert/SignData.jsp");
+	this.div_21.Tab01.tabp01.div_crtDt.fn_setDate(this.dsCntr, "CNTR_BGN_DAY", "CNTR_END_DAY");
+	
+	this.fn_search();
+	
+	//FILE_JOB_1 : 데이터 조회 이후에 파일 정보를 조회하기 위해 동기화 한다.
+ 	this.gfn_fileCompInit(this.div_21.Tab01.tabp04);
+}
+/**
+	@function	fnPreSearch()
+	@desc   	조회 전 처리
+*/
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+	@function	fnSearch()
+	@desc   	조회 프로세스
+*/
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "read";
+	var sController = "SCntr_Read.do";
+	var sInDatasets = "in_ds=dsCntr";
+	var sOutDatasets = "dsCntr=dsCntr dsCntrAdd=dsCntrAdd dsCntrItem=dsCntrItem dsCntrPay=dsCntrPay dsCntrInsrnc=dsCntrInsrnc";
+	var sCallbackFunc = "fn_trCallBack";
+
+	//FILE_JOB_2 :  트랜잭션 gfn_fileTran 으로 변경
+    this.gfn_fileTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fn_preSave()
+	@desc   	저장 전 처리
+*/
+this.fnPreSave = function()
+{	
+	return true;
+}
+
+/**
+	@function	div_1_btn_CntrClo_onclick()
+	@desc   	계약합의 프로세스
+*/
+this.div_1_btn_CntrClo_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+ 	if(!this.Plugin00)
+ 	{
+		// Create Object	
+		var objPlugin = new Plugin("Plugin00", "absolute", 30, 120, 196, 46, null, null);
+		// Add Object to Parent Form  
+		this.addChild("Plugin00", objPlugin);
+		this.Plugin00.set_visible(false);
+		this.Plugin00.set_classid(application.gv_certClassid);
+		this.Plugin00.set_codebase(application.gv_certCodebase);	
+		this.Plugin00.show();
+	}
+	
+	// 1. SIGN_DATA에 저장할 HTML로 만들기 전 에디터 관련 컬럼을 삭제한다. 있으면 HTML로 만들 수 없다.(UbiviewerLib 에서 지원안함)
+	this.dsCntrOrg.copyData(this.dsCntr);
+  	this.dsCntr.set_updatecontrol(false);
+  	this.dsCntr.deleteColumn("SIGN_ORGNL");	
+  	this.dsCntr.deleteColumn("SIGN_DATA");
+  	  	
+	// 2. 에디터 관련 컬럼을 삭제한 데이터셋을 이용하여 HTML로 만든다.
+	var sArg = {
+					ubiJrf:"PCTRB100N00_P01_SIGNDATA_HTML.jrf"
+					, key:[this.dsCntr.getColumn(0, "BRANCH_CD"), this.dsCntr.getColumn(0, "CNTR_NO")]
+					, localdaset:[this.dsCntr, this.dsCntrItem, this.dsCntrPay, this.dsCntrInsrnc]
+					, exportType : "html"
+					, exportUrl : this.dsCntr.getColumn(0, "SIGNDATA_FILE_EXPORTURL")							
+					, signdataFileNm:this.dsCntr.getColumn(0, "SIGNDATA_FILE_NM")
+				}
+	this.Div00.ubiviewerlib_setting(sArg);
+	
+	// 3. 1번에서 삭제한 데이터셋 원복
+	this.dsCntr.copyData(this.dsCntrOrg);
+}
+
+/**
+	@function	ubi_callback()
+	@desc   	생성된 HTML 파일에 계약내용(에디터내용) 치환하여 HTML파일 생성하기
+*/
+this.ubi_callback = function()
+{
+	// 4. 2번에서 만든 HTML 파일에 에디터내용을 추가한다.
+	var sSvcID = "SCntr_createHtml";
+	var sController = "SCntr_createHtml.do";
+	var sInDatasets = "in_ds=dsCntr";
+	var sOutDatasets = "dsReturn=dsReturn";
+	var sCallbackFunc = "fn_trCallBack";
+
+    this.gfn_tran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+this.init_cross = function()
+{
+	var Ret;
+
+	var policies = "";
+
+	 /* 법인상호연동용(범용) */                            //
+	policies +="1.2.410.200004.5.2.1.1"    + "|";          // 한국정보인증               법인
+	policies +="1.2.410.200004.5.1.1.7"    + "|";          // 한국증권전산               법인, 단체, 개인사업자
+	policies +="1.2.410.200005.1.1.5"      + "|";          // 금융결제원                 법인, 임의단체, 개인사업자
+	policies +="1.2.410.200004.5.3.1.1"    + "|";          // 한국전산원                 기관(국가기관 및 비영리기관)
+	policies +="1.2.410.200004.5.3.1.2"    + "|";          // 한국전산원                 법인(국가기관 및 비영리기관을  제외한 공공기관, 법인)
+	policies +="1.2.410.200004.5.4.1.2"    + "|";          // 한국전자인증               법인, 단체, 개인사업자
+	policies +="1.2.410.200012.1.1.3"      + "|";          // 한국무역정보통신           법인
+
+	Ret =  this.Plugin00.callMethod("SetCommonInfoFromVal","211.192.169.70",4502, 
+														"211.192.169.180",389, 
+														"211.192.169.180",389,
+														"CN=ROOT-RSA-CRL,OU=ROOTCA,O=KISA,C=KR",
+														"no",
+														policies);
+	if ( Ret != 0 )
+	{ 
+		this.gfn_alert( "인증 초기 설정에 실패하였습니다." );
+		return false;
+	}
+	else
+	{
+		Ret = this.Plugin00.callMethod("SetPKCSInform", 1, 0, 0, 0, 0, 0, 0, 1, "SEED"); 
+		
+		
+		if ( Ret != 0 )
+		{ 
+			this.gfn_alert( "인증 초기 설정에 실패하였습니다." );
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}	
+}
+
+
+
+/**
+	@function	fn_commSave()
+	@desc   	(공통버튼)저장 프로세스
+*/
+this.fn_commSave = function()
+{
+	if (!this.fn_preSave()) return false;
+}
+
+/**
+	@function	btn_commCancel()
+	@desc   	(공통버튼)취소 프로세스
+*/
+this.btn_commCancel = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_commClose()
+	@desc   	(공통버튼)닫기 : form 닫기 전 공통에서 체크함
+*/
+this.fn_commClose = function()
+{
+	return true;
+}
+
+/**
+	@function	fn_trCallBack()
+	@desc   	Transaction Callback함수
+*/
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	//strSvcID 가 read:fn_trCallBack 게 넘어옴
+	if(strErrCd < 0)
+	{
+		return;
+	}
+	
+	switch(strSvcID)
+	{
+		case "read" : 
+			//FILE_JOB_4 : 파일 부모 데이터셋에 시퀀스 추가			
+			this.gfn_fileDsSeq(this.dsCntr);
+			
+			//FILE_JOB_5 : 저장 후 재조회를 마치고 나서 파일 컴포넌트에 파일정보를 재설정 한다.
+			this.fn_getCompFileList1();
+					
+			var start = "<div style="+"color:#333333;font:20 malgun gothic;>";
+			var end   = "</div>";
+			var doc = this.div_71.WebBrowser00.getProperty("document");
+			doc.callMethod("write", start+this.dsCntr.getColumn(0,"SIGN_ORGNL")+end);
+			
+			// 합의완료
+			if("CT10SREQ" != this.dsCntr.getColumn(0,"CD_CNTR_STTS")){
+				this.div_1.btn_CntrClo.set_visible(false);
+			}
+			
+			
+		break;
+		
+		case "SCntr_Agree" : 
+			if(strErrMsg != ""){
+				this.gfn_alert(strErrMsg);
+				
+				this.gfn_setTmprData("CNTR_NO"		, this.dsCntr.getColumn(0,"CNTR_NO"));
+				this.gfn_setTmprData("COREXP_KIDS"	, this.dsCntr.getColumn(0,"COREXP_KIDS"));
+				this.gfn_setTmprData("BRANCH_CD"	, this.dsCntr.getColumn(0,"BRANCH_CD"));
+				this.gfn_setTmprData("CD_CNTR_STTS"	, this.dsCntr.getColumn(0,"CD_CNTR_STTS"));
+				this.gfn_setTmprData("STATUS"		, "1");
+				this.gfn_openMenuUrl("CTRS::PCTRS100N00.xfdl");
+			}
+		break;
+		
+		case "SCntr_createHtml" :
+			// 20170217 mhhan 로컬에서는 pdf파일이 잘 되나 개발에서는 인코딩 문제인지 한글이 깨짐...
+// 			// 5. 계약서 내용을 pdf로 만든다.
+// 			var temp = this.gfn_replace(this.dsCntr.getColumn(0,"SIGN_ORGNL"), "\"", "\'");			
+// 			//temp = this.gfn_replace(temp , "mso-bidi-font-family: 'Times New Roman';", "mso-bidi-font-family: Times New Roman;");
+// 			this.dsCntr.setColumn(0,"SIGN_ORGNL", temp);
+// 			var sArg = {
+// 							ubiJrf:"PCTRB100N00_P01_SIGNDATA_PDF.jrf"
+// 							, key:[this.dsCntr.getColumn(0, "BRANCH_CD"), this.dsCntr.getColumn(0, "CNTR_NO")]
+// 							, localdaset:[this.dsCntr, this.dsCntrItem, this.dsCntrPay, this.dsCntrInsrnc]
+// 							, exportType : "pdf"
+// 							, exportUrl : this.dsCntr.getColumn(0, "SIGNDATA_FILE_EXPORTURL")							
+// 							, signdataFileNm:this.dsCntr.getColumn(0, "SIGNDATA_FILE_NM")
+// 						}
+// 			this.Div00.ubiviewerlib_setting(sArg);
+		 
+			// 6. 전자서명 프로세스 진행
+			var sign_data = this.dsReturn.getColumn(0, "SIGN_DATA");
+			
+			//런타임 
+			if( system.navigatorname == "nexacro" ) {	
+				// 환경설정 함수 콜
+				this.init_cross();
+
+				var ret;
+				var signeddata, textin;
+				var userdn;
+				if( sign_data == null || sign_data == "" )
+				{
+					alert("서명할 데이타를 넣어주십시요");
+					return;
+				}
+
+				// 인증서 선택창 초기화 및 선택된 인증서의 DN 추출
+				// DN은 인증기관에서 유니크한 것임.
+				userdn = this.Plugin00.callMethod("GetUserDN");
+				if( userdn == null || userdn == "" )
+				{ 
+					return;
+				}
+				else
+				{
+
+					// 전자서명 생성
+					// BSTR *SignData(BSTR Source, BSTR HashAlgo, BSTR Password);
+					// parameters : 
+					//   Source : 전자서명할 메세지
+					//   HashAlgo : 서명 알고리즘 ("SHA1", "MD5") ==> SHA1이 표준
+					//   Password : 개인키 복호를 위한 패스워드
+					// return value : 생성된 전자서명 값
+					// 참 고 : 암호를 넣지 않았을 경우에는 암호 입력 다이얼로그 박스에 입력한다.
+					signeddata = this.Plugin00.callMethod("SignData", sign_data, "SHA1", ""); 
+					
+					if( signeddata == null || signeddata == "" )
+					{
+						errmsg = this.Plugin00.callMethod("GetErrorContent"); 
+						errcode = this.Plugin00.callMethod("GetErrorCode"); 
+						this.gfn_alert( "SignData :"+errmsg );
+						return;
+					}
+					else
+					{
+						var sBizNo = this.gfn_replace(this.dsCntr.getColumn(0,"BIZ_NO"), "-", "");
+						getR = this.Plugin00.callMethod("GetRFromKey",userdn,sBizNo); 
+						//getR = this.Plugin00.callMethod("GetRFromKey",userdn,"1234567890"); 
+						if (getR == "")
+						{
+							alert("주민번호/사업자번호를 확인할 수 없는 인증서입니다.");
+							return;
+						}
+					}
+					if(!this.gfn_confirm("계약합의 하시겠습니까?")) return;
+					this.dsCntr.setColumn(0,"SIGN_DATA",signeddata);			
+					
+					var sSvcID = "SCntr_Agree";
+					var sController = "SCntr_Agree.do";
+					var sInDatasets = "in_cntr=dsCntr";
+					var sOutDatasets = "dsCntr=dsCntr";
+					var sCallbackFunc = "fn_trCallBack";
+
+					//FILE_JOB_2 :  트랜잭션 gfn_fileTran 으로 변경
+					this.gfn_fileTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);			
+				}
+
+			// html5 
+			}else{
+				if( this.dsCntr.getColumn(0,"SIGN_ORGNL") == null || this.dsCntr.getColumn(0,"SIGN_ORGNL") == "" )
+				{
+					alert("서명할 데이타를 넣어주십시요");
+					return;
+				}
+				//this.WebBrowser01.callMethod("SignData",this.dsCntr.getColumn(0,"SIGN_ORGNL"),this.dsCntr.getColumn(0,"BIZ_NO"));		
+				
+				this.WebBrowser01.callMethod("SignData",sign_data,this.dsCntr.getColumn(0,"BIZ_NO"));		
+				
+			}
+			
+			// Remove Object form Parent Form  
+			this.removeChild("Plugin00");
+		break;
+		default:
+		break;	  
+	}
+}
+
+/**
+	@function	fn_getCompFileList1()
+	@desc   	FILE_JOB_6 : 파일 컴포넌트에 파일정보 셋팅 및 필터 추가(컴포넌트 갯수 만큼 function 추가)
+*/
+this.fn_getCompFileList1 = function()
+{
+	if(this.div_21.Tab01.tabindex == 3) //첨부파일
+	{	
+		var array = [this.dsCntr.getColumn(this.dsCntr.rowposition, "CNTR_NO")];
+		this.div_21.Tab01.tabpages[this.div_21.Tab01.tabindex].fn_fileCompInit(this, "MM_CNTR", this.dsCntr, array, "Y"); //초기화 및 조회(필터링)
+	}
+}
+
+
+
+/**
+	@function	div_21_Tab01_onchanged()
+	@desc   	FILE_COMP_JOB_7 : 파일 첨부 컴포넌트 초기화 & 조회
+*/
+this.div_21_Tab01_onchanged = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	//FILE_COMP_JOB_7 : 파일 첨부 컴포넌트 초기화 & 조회
+	this.fn_getCompFileList1();
+}
+
+/**
+	@function	WebBrowser00_onusernotify()
+	@desc   	인증서관리프로그램 설치 완료시
+*/
+this.WebBrowser00_onusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{	
+	this.cntWeb00Load++;
+	if(this.cntWeb00Load == 1)
+	{
+		if(this.gfn_replace(e.userdata,"▩","") == "fail")
+		{
+			this.gfn_alert("인증서관리프로그램이 설치되지 않았습니다.");
+			//this.WebBrowser00.set_url(application.services["svcurl"].url+"crosscert/Object_chk.jsp");
+		}
+		else if(this.gfn_replace(e.userdata,"▩","") == "success")
+		{
+			this.gfn_setTmprData("CNTR_NO"		, this.dsCntr.getColumn(0,"CNTR_NO"));
+			this.gfn_setTmprData("COREXP_KIDS"	, this.dsCntr.getColumn(0,"COREXP_KIDS"));
+			this.gfn_setTmprData("BRANCH_CD"	, this.dsCntr.getColumn(0,"BRANCH_CD"));
+			this.gfn_setTmprData("CD_CNTR_STTS"	, this.dsCntr.getColumn(0,"CD_CNTR_STTS"));
+			this.gfn_setTmprData("STATUS"		, "1");
+			this.gfn_openMenuUrl("SCNTR::PCTRS100N00.xfdl");
+		}
+	}
+}
+
+/**
+	@function	WebBrowser01_onusernotify()
+	@desc   	전자서명
+*/
+this.WebBrowser01_onusernotify = function(obj:WebBrowser, e:nexacro.WebTitleChangeEventInfo)
+{
+	this.cntWeb01Load++;
+	if(this.cntWeb01Load == 1)
+	{
+		if(system.navigatorname != "nexacro")
+		{ 
+			if(!this.gfn_confirm("계약합의 하시겠습니까?")) return;
+			this.dsCntr.setColumn(0,"SIGN_DATA",this.gfn_replace(e.userdata,"▦",""))
+			
+			var sSvcID = "SCntr_Agree";
+			var sController = "SCntr_Agree.do";
+			var sInDatasets = "in_cntr=dsCntr";
+			var sOutDatasets = "dsCntr=dsCntr";
+			var sCallbackFunc = "fn_trCallBack";
+
+			this.gfn_fileTran(sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+		}
+	}
+}
+
+var hiddenClick = false;
+this.div_1_mae_docNo_oneditclick = function(obj:Edit,  e:nexacro.EditClickEventInfo)
+{
+	if(!hiddenClick) return;
+	
+	var sArg = {
+				cntr_no:this.dsCntr.getColumn(0, "CNTR_NO")
+				,branch_cd:this.dsCntr.getColumn(0, "BRANCH_CD")
+				};
+	this.gfn_dialog("", "CTRB::PCTRB100P06.xfdl", sArg, "fn_popCallBack");
+}
+
+this.div_1_cb_cdDocCtgr_oneditclick = function(obj:Combo,  e:nexacro.EditClickEventInfo)
+{
+	hiddenClick = true;
+}
+]]></Script>
+  </Form>
+</FDL>

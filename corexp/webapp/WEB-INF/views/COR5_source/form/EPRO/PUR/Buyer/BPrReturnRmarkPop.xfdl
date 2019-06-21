@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="211" id="BUserInfoPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="반품교환접수비고팝업" top="0" width="500">
+    <Layouts>
+      <Layout>
+        <Button id="btnAccept" taborder="8" text="적용" cssclass="btn_WF_Ssign" top="8" right="73" width="60" height="24" objNm="구매종료" positionstep="-1" onclick="btnAcceptOnclick"/>
+        <Button id="btnCancle" taborder="9" text="취소" cssclass="btn_WF_Ssign" top="8" right="10" width="60" height="24" positionstep="-1" objNm="구매종료" onclick="btnCancle_onclick"/>
+        <TextArea id="TextArea00" taborder="10" left="10" top="40" right="10" bottom="10"/>
+        <Radio id="rdoRtnChg" taborder="11" codecolumn="codecolumn" datacolumn="datacolumn" direction="vertical" left="10" top="8" width="150" height="24">
+          <Dataset id="innerdataset">
+            <ColumnInfo>
+              <Column id="codecolumn" size="256"/>
+              <Column id="datacolumn" size="256"/>
+            </ColumnInfo>
+            <Rows>
+              <Row>
+                <Col id="codecolumn">A</Col>
+                <Col id="datacolumn">반품</Col>
+              </Row>
+              <Row>
+                <Col id="codecolumn">B</Col>
+                <Col id="datacolumn">교환</Col>
+              </Row>
+            </Rows>
+          </Dataset>
+        </Radio>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsAnswer">
+        <ColumnInfo>
+          <Column id="INT_TYPE" size="1" type="STRING"/>
+          <Column id="RTN_CNTNT" type="STRING" size="2000"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="TextArea00" propid="value" datasetid="dsReturn" columnid="OPNN"/>
+      <BindItem id="item1" compid="rdoRtnChg" propid="value" datasetid="ds_answer" columnid="INT_TYPE"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPrReturnRmarkPop.xfdl
+ * @생성자       	: 배열
+ * @생성일자     	: 2019.05.27
+ * @설명			: 반품교환접수비고팝업
+ * @최종수정자		: 배열
+ * @최종수정일자	: 2019.05.27
+*/
+
+this.popTitle = "반품교환접수비고팝업"
+
+/**
+	@var  this.fv_gubun
+	@desc 전역변수 버튼명 구분값
+*/
+this.fvGubun = ""; 
+ 
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+
+	//부모창으로 부터 전달받은 값	
+	var ownFrame = this.getOwnerFrame();
+	
+	this.fvGubun = ownFrame.gubun;
+	
+	//부모창으로 부터 전달받은 값으로 폼을 세팅한다.
+	if(this.fvGubun=="RCV"){
+		
+		//this.sta_title.set_text("반품/교환 접수");
+		this.btnAccept.set_text("접수");
+		this.dsAnswer.setColumn(0,"INT_TYPE",ownFrame.intType);
+		
+	}else if(this.fvGubun=="CHG"){
+	
+		//this.sta_rtnChg.set_visible(false);
+		//this.sta_title.set_text("교환완료");
+		this.rdoRtnChg.set_visible(false);
+		this.btnAccept.set_text("완료");
+		
+		
+		
+	}else if(this.fvGubun=="RTN"){
+		
+		//this.sta_rtnChg.set_visible(false);
+		//this.sta_title.set_text("반려");
+		this.rdoRtnChg.set_visible(false);
+		this.btnAccept.set_text("반려");
+	}
+	
+	this.dsAnswer.setColumn(0,"RTN_CNTNT","")
+
+
+}
+  
+/**
+  * @함수명	: btnCancle_onclick
+  * @desc   	: 구매종료취소
+  */ 
+this.btnCancle_onclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm(this.btn_cmpt.text+" 하시겠습니까?")) return;
+	this.parent.close();
+}
+
+this.btnAcceptOnclick = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	if(this.dsReturn.getColumn(0,"OPNN")==""){
+		gfnAlert("사유를 입력해주세요");    
+		return;
+		
+	}
+	
+	if(!gfnConfirm("구매종료 처리하시겠습니까?")) return;
+	
+	this.parent.close(this.dsReturn.saveXML());
+}
+]]></Script>
+  </Form>
+</FDL>

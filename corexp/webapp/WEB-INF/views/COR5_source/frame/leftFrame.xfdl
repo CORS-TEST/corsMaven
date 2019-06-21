@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\default_typedef.xml"/>
+  <Form classname="left" height="798" id="leftFrame" left="0" onload="form_onload" scrollbars="none" style="background:#4d7990ff;" titletext="Left 레이아웃(메뉴)" top="0" visible="true" width="230">
+    <Layouts>
+      <Layout>
+        <Static cssclass="sta_TF_Line" height="34" id="sta_menuLine" left="0" taborder="4" top="0" visible="true" width="29"/>
+        <Static bottom="0" cssclass="sta_LF_Bg" id="Static04" left="0%" onclick="Static04_onclick" taborder="3" top="0" visible="true" width="30"/>
+        <Static cssclass="sta_TF_Line" height="33" id="sta_menuLine00" left="30" taborder="5" top="0" visible="true" width="29"/>
+        <PopupDiv cssclass="pdiv_TF_Menubg" height="100%" id="pdvMenu" left="310" scrollbars="none" top="95" width="198">
+          <Layouts>
+            <Layout>
+              <Button bottom="45%" id="btnExpand" onclick="fnBtnExpandOnclick" right="2" taborder="1" text="&gt;" top="45%" width="20"/>
+              <Grid id="grd_menu" cssclass="grd_LF_Tree" taborder="2" binddataset="dsLeftMenu" scrollbars="autovert" useinputpanel="false" treeuseline="false" treeusecheckbox="false" treeinitstatus="collapse,all" oncellclick="grd_Menu_oncellclick" left="-1" top="0" width="100%" height="100%" style="padding:4 10 4 20;" objNm="마이메뉴">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="400"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="33"/>
+                    </Rows>
+                    <Band id="body" style="cellpadding:2 4 2 10;">
+                      <Cell displaytype="tree" edittype="tree" style="font:EXPR(LINK_URL == '' ? 'bold 9 굴림' : '9 굴림');selectfont:EXPR(LINK_URL == '' ? 'bold 9 굴림' : '9 굴림'); :mouseover {selectbackground:URL('theme://img/img_LF_TreeSelect.png') repeat-x;}" text="bind:MENU_NM" treelevel="bind:MENU_LEVEL" treestartlevel="0"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+        <Button cssclass="btn_WF_LeftMenuFA" height="34" id="Button02" left="0" onclick="fn_MyMenuSrch" taborder="6" top="31" width="29"/>
+        <Button cssclass="btn_TF_UserSetting" height="33" id="btn_setting" left="0" onclick="fnPersonOnclick" style="border:1 solid #31596bff,0 solid #31596bff;bordertype:normal 0 0 ;" taborder="7" top="65" width="29"/>
+        <Button height="31" id="btn_leftExpand" left="0" onclick="btn_leftExpand_onclick" style="background:URL('theme://images/btn_mega_menu.png');border:1 solid #31596bff,0 solid #31596bff;align:center top;" taborder="8" top="0" width="30" cssclass="btn_menu"/>
+        <PopupDiv id="pdvMyMenu" left="590" top="95" width="198" height="100%" scrollbars="none" cssclass="pdiv_TF_Menubg">
+          <Layouts>
+            <Layout>
+              <Button id="btnExpand" taborder="3" text="&gt;" onclick="fnBtnExpandOnclick" top="44.99%" right="2" bottom="44.99%" width="20"/>
+              <Grid id="grd_Mymenu" cssclass="grd_LF_Tree" taborder="4" binddataset="dsMyMenu" scrollbars="autovert" useinputpanel="false" treeuseline="false" treeusecheckbox="false" treeinitstatus="collapse,all" oncellclick="grd_Menu_oncellclick" left="-1" top="0" width="100%" height="100%" style="padding:4 10 4 20;" objNm="마이메뉴">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="400"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="33"/>
+                    </Rows>
+                    <Band id="body" style="cellpadding:2 4 2 10;">
+                      <Cell displaytype="tree" edittype="tree" style="font:EXPR(LINK_URL == '' ? 'bold 9 굴림' : '9 굴림');selectfont:EXPR(LINK_URL == '' ? 'bold 9 굴림' : '9 굴림'); :mouseover {selectbackground:URL('theme://img/img_LF_TreeSelect.png') repeat-x;}" text="bind:MENU_NM" treelevel="bind:MENU_LEVEL" treestartlevel="0"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+        </PopupDiv>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsLeftMenu" loadfiltermode="keep" loadkeymode="keep" oncolumnchanged="dsLeftMenu_oncolumnchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMyMenu" loadfiltermode="keep" loadkeymode="keep" oncolumnchanged="dsLeftMenu_oncolumnchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       leftFrame
+   @desc       왼쪽 메뉴
+   @author     공통
+   @makedate   
+   @history    
+*/ 
+
+/**
+	@function	form_onload()
+	@desc   	폼 onload 이벤트
+*/
+this.form_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+	if(application.gdsUserInfo.getColumn(0, "INT_USER_TYPE") != "B"){
+		//this.btnAVL.set_visible(false);
+		//this.btnCntr.set_visible(false);
+	}
+ 	this.fnChgMenu();
+} 
+
+/**
+  * @function	: fnChgMenu
+  * @desc     	: 
+  */
+this.fnChgMenu = function()
+{
+	var filterExpr = "ALT_MENU == 'Y' && MENU_LEVEL != '0'";
+			
+	application.gdsMenu.set_enableevent(false);
+	this.dsLeftMenu.set_enableevent(false);
+		
+	application.gdsMenu.filter(filterExpr);
+	this.dsLeftMenu.copyData(application.gdsMenu, true);			
+	application.gdsMenu.filter("");
+	
+	application.gdsMenu.set_enableevent(true);
+	this.dsLeftMenu.set_enableevent(true);
+	
+	this.pdvMenu.set_top(0);
+	this.pdvMenu.set_left(0);
+}
+
+this.fn_MyMenuSrch = function(obj:Button, e:nexacro.ClickEventInfo)
+{
+	var sSvcID = "getMyMenuSrch";
+	var sController = "epro.sys.service.BSysService.getMyMenuSrch";
+	var sInDatasets = "";
+	var sOutDatasets = "dsMyMenu=ds_mymenu";
+	var sCallbackFunc = "fn_trCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+
+/**
+	@function	btn_leftExpand_onclick()
+	@desc   	메뉴 펼침
+*/
+this.btn_leftExpand_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	this.pdvMenu.trackPopupByComponent(this.sta_menuLine, 0, this.sta_menuLine.height);
+}
+
+/**
+  * @function	: grd_Menu_oncellclick
+  * @desc     	: 
+  */
+this.grd_Menu_oncellclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(e.clickitem == "treebutton") return;
+	
+	var nRow = this.dsLeftMenu.rowposition;
+	
+	if(gfnIsNull(this.dsLeftMenu.getColumn(nRow,"LINK_URL"))){
+		var check;
+		var treeRow = this.pdvMenu.grd_menu.getTreeRow(nRow);
+		
+		if(this.pdvMenu.grd_menu.getTreeStatus(treeRow) == 0) check = true;
+		else check = false;
+		
+		this.pdvMenu.grd_menu.setTreeStatus(treeRow,check);
+		
+	} else{
+		gfnOpenMenuUrl(this.dsLeftMenu.getColumn(this.dsLeftMenu.rowposition, "LINK_URL"));
+	}
+}
+
+/**
+  * @함수명	: fnBtnExpandOnclick
+  * @desc     	: leftMenu 늘리고 줄이기
+  */
+this.fnBtnExpandOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	if(this.pdvMenu.width < 300){
+		this.pdvMenu.btnExpand.set_text("<");
+		this.pdvMenu.set_width(348);
+		
+	}else{
+		this.pdvMenu.btnExpand.set_text(">");
+		this.pdvMenu.set_width(198);		
+	}
+	
+	if(this.pdvMenu.isPopup()) this.pdvMenu.closePopup();
+	this.pdvMenu.trackPopupByComponent(this.sta_menuLine, 0, this.sta_menuLine.height);
+}
+/**
+	@function	fnPersonOnclick()
+	@desc   	개인화 팝업
+*/
+this.fnPersonOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var sArg = {
+		agv_id:application.gdsUserInfo.getColumn(0, "USER_ID")
+		,agv_lang:application.gdsUserInfo.getColumn(0, "LANG_CD")
+	};
+	
+	if(application.gdsUserInfo.getColumn(0, "INT_USER_TYPE") == "B"){// 내부
+		gfnModalPop(this, "BSetUserPopup", "CPOP::BSetUserPopup.xfdl", sArg, "fnPopCallBack", 450, 313);
+	}else if(application.gdsUserInfo.getColumn(0, "INT_USER_TYPE") == "S"){// 외부
+		gfnModalPop(this, "SSetUserPopup", "CPOP::SSetUserPopup.xfdl", sArg, "fnPopCallBack", 450, 190);
+	}
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fn_trCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0)return;
+	
+	switch(strSvcID){
+		case "getMyMenuSrch":
+			this.pdvMyMenu.trackPopupByComponent(this.sta_menuLine, 0, this.sta_menuLine.height);
+		break;
+
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fnPopCallBack()
+	@desc   	팝업 CallBack 함수
+*/
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	switch(sPopupId){
+		case "BSetUserPopup" :
+		break;
+			
+		default:
+		break;	
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form height="768" id="BCntrTmplList" left="0" oninit="FormOninit" onload="FormOnload" titletext="계약템플릿현황" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="1" text="Div00" top="48">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="none" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="1" top="1" useinputpanel="false" oncelldblclick="fnGridListOnCelldblclick">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="75"/>
+                      <Column size="85"/>
+                      <Column size="75"/>
+                      <Column size="352"/>
+                      <Column size="91"/>
+                      <Column size="90"/>
+                      <Column size="90"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell text="계약유형" combodataset="ds_cdET31" combocodecol="CD_NM_LO" combodatacol="CD_ID"/>
+                      <Cell col="1" text="계약구분"/>
+                      <Cell col="2" text="관리번호"/>
+                      <Cell col="3" text="템플릿명"/>
+                      <Cell col="4" text="작성자"/>
+                      <Cell col="5" text="작성일자"/>
+                      <Cell col="6" text="사용여부"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell style="align:center;" text="bind:CD_CNTR_CTGR_NM"/>
+                      <Cell col="1" text="bind:CD_CNTR_TYPE_NM"/>
+                      <Cell col="2" style="color:blue;color2:blue;" cssclass="cell_link" text="bind:CNTR_TMPL_ID" maskchar=" "/>
+                      <Cell col="3" style="align:left;" text="bind:TTL"/>
+                      <Cell col="4" text="bind:CRTR_NM"/>
+                      <Cell col="5" text="bind:CRT_DT" mask="@@@@.@@.@@" maskchar=" "/>
+                      <Cell col="6" expr="expr:ALT_USE=='Y'?'사용':'미사용'" maskchar=" "/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging" left="0" objNm="페이징" right="0" scrollbars="none" taborder="2" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" style="align:center;" taborder="3" top="0">
+          <Layouts>
+            <Layout>
+              <Static id="staCdCntrType" taborder="2" text="계약구분" onclick="div_condition_sta_geayakGyelFgCdDist_onclick" left="452" top="5" height="24" width="103" style="align:right middle;" cssclass="sta_WF_SearchLabel"/>
+              <Combo id="cboCdCntrType" taborder="6" left="559" top="5" height="24" innerdataset="@dsCdCT19" codecolumn="CD_ID" datacolumn="CD_NM_LO" width="146" onkeydown="fnKeydown"/>
+              <Static id="staCdCntrCtgr" taborder="7" text="계약유형" onclick="div_condition_sta_geayakGyelFgCdDist_onclick" cssclass="sta_WF_SearchLabel" left="12" top="5" width="170" height="24" style="align:right middle;"/>
+              <Combo id="cboCdCntrCtgr" taborder="8" left="187" top="5" height="24" codecolumn="CD_ID" datacolumn="CD_NM_LO" innerdataset="@dsCdCT11" width="146" onkeydown="fnKeydown"/>
+              <Combo id="cboAltUse" taborder="9" left="932" top="5" width="146" height="24" codecolumn="codecolumn" datacolumn="datacolumn" onkeydown="fnKeydown">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn"/>
+                      <Col id="datacolumn">[전체]</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">사용</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">미사용</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static id="staAltUse" taborder="10" text="사용여부" onclick="div_condition_sta_geayakGyelFgCdDist_onclick" cssclass="sta_WF_SearchLabel" left="824" top="5" width="103" height="24" style="align:right middle;"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="RFQ_REQ_NO" size="20" type="STRING"/>
+          <Column id="RFQ_ODR" size="256" type="INT"/>
+          <Column id="CD_RFQ_STTS" size="40" type="STRING"/>
+          <Column id="CD_DOC_CTGR" size="40" type="STRING"/>
+          <Column id="TTL" size="100" type="STRING"/>
+          <Column id="RFQ_CLOSE_DAY" size="8" type="STRING"/>
+          <Column id="RFQ_CLOSE_TIME" size="6" type="STRING"/>
+          <Column id="GOALAMT" size="15" type="INT"/>
+          <Column id="CHRGR_NM" size="50" type="STRING"/>
+          <Column id="REQ_DT" size="256" type="DATE"/>
+          <Column id="ITEM_CNT" size="20" type="STRING"/>
+          <Column id="BRANCH_CD" size="20" type="STRING"/>
+          <Column id="TNDR_NO" size="256" type="STRING"/>
+          <Column id="PTNR_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" type="STRING" size="256"/>
+          <Column id="LANG_CD" type="STRING" size="256"/>
+          <Column id="CD_CNTR_TYPE" type="STRING" size="256"/>
+          <Column id="CD_CNTR_CTGR" type="STRING" size="256"/>
+          <Column id="ALT_USE" type="STRING" size="256"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsCdCT11"/>
+      <Dataset id="dsCdCT19"/>
+    </Objects>
+    <Bind>
+      <BindItem id="item0" compid="divViewCompCond00.cboCdCntrCtgr" propid="value" datasetid="dsCondition" columnid="CD_CNTR_CTGR"/>
+      <BindItem id="item1" compid="divViewCompCond00.cboCdCntrType" propid="value" datasetid="dsCondition" columnid="CD_CNTR_TYPE"/>
+      <BindItem id="item2" compid="divViewCompCond00.cboAltUse" propid="value" datasetid="dsCondition" columnid="ALT_USE"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명			: BCntrTmplList
+ * @생성자			: 안성민
+ * @생성일시		: 2019. 05. 13.
+ * @설명			: 계약템플릿현황
+ * @최종수정자		: 안성민
+ * @최종수정일시	: 2019. 05. 13.
+*/  
+
+
+/**
+  * @함수명	: fnSetCode
+  * @desc     	: 글로벌 코드 데이터셋에서 사용할 코드 카피.
+  */
+this.fnSetCode = function()
+{
+	var param = [	{code:"CT11", sSelectType:"A"} // 계약유형
+					,{code:"CT19", sSelectType:"A"} // 계약구분
+				];				
+	gfnGetCode(this, param);
+}
+
+/**
+  * @함수명	: BRfqPrgList_oninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.FormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+	this.fnSetCode();
+}
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	var sArg = [ 
+				{ttl:this.btnFold, body:this.divViewCompCond01,initFold:true}
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacr o.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.FormOnload = function(obj:Form, e:LoadEventInfo)
+{	
+	gfnSetObj("A");
+	
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this,{isTran:"Y", tranNm:"BCntrService.searchTmplList", dsParam:this.dsCondition});
+ 	
+	//기본세팅
+	this.dsCondition.setColumn(0, "CD_CNTR_TYPE", "");
+	this.dsCondition.setColumn(0, "CD_CNTR_CTGR", "");
+	this.dsCondition.setColumn(0, "ALT_USE", "");
+
+	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+				
+	var sSvcID = "search";
+	var sController = "epro.cntr.service.BCntrService.searchTmplList";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+			  
+ 	var	oPaging = [      
+                    {inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+                ];
+     gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnAdd
+  * @desc     	: 신구 프로세스
+  */
+this.fnAdd = function()
+{
+	gfnOpenMenuUrl("BCNTR::BCntrTmplDetail");
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID)
+	{
+		case "search" : 
+			break;
+		default:
+		break;	
+	}
+}
+
+/**
+	@function	fnKeydown
+	@desc   	에디터 키이벤트
+*/
+this.fnKeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		this.fnSearch();
+	}
+	
+}
+
+/**
+  * @함수명	: fnGridListOnCelldblclick
+  * @desc     	: 그리드 리스트 셀 더블클릭이벤트
+  */
+this.fnGridListOnCelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnIsNull(this.dsList.getColumn(e.row, gfnGrdBindColId(obj, e.cell)))) return false;
+		
+	//템플릿번호
+	if("CNTR_TMPL_ID" == gfnGrdBindColId(obj, obj.getCellPos())) { 
+		gfnSetTmprData("CNTR_TMPL_ID", this.dsList.getColumn(e.row,"CNTR_TMPL_ID"));
+		gfnSetTmprData("BRANCH_CD", this.dsList.getColumn(e.row,"BRANCH_CD"));
+		gfnOpenMenuUrl("BCNTR::BCntrTmplDetail");
+	} 
+}
+]]></Script>
+  </Form>
+</FDL>

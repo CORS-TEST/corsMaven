@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="562" id="BPtnrEvalPop" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="거래신청팝업" top="0" width="900">
+    <Layouts>
+      <Layout>
+        <Grid autoenter="select" autofittype="col" binddataset="dsList" bottom="10" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="N" f_save="N" f_sort="Y" id="grdList" left="10" oncelldblclick="fnRtnData" oncloseup="fnOncloseup" onkeydown="grdListOnkeydown" right="10" taborder="29" top="246" useinputpanel="false">
+          <Formats>
+            <Format id="MMODE">
+              <Columns>
+                <Column size="100"/>
+                <Column size="0"/>
+                <Column size="180"/>
+                <Column size="340"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+                <Row band="summ" size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="평가분류"/>
+                <Cell col="1" expr=""/>
+                <Cell col="2" expr="" text="문항"/>
+                <Cell col="3" expr="" text="평가Scale"/>
+                <Cell col="4" expr="" text="최대"/>
+                <Cell col="5" expr="" text="최소"/>
+                <Cell col="6" expr="" text="점수"/>
+              </Band>
+              <Band id="body">
+                <Cell style="align:left;" suppress="1" text="bind:LGR_CLS_NM"/>
+                <Cell col="1" style="align:left;" suppress="1" text="bind:MDL_CLS_NM"/>
+                <Cell col="2" style="align:left;" text="bind:EVAL_QSTN"/>
+                <Cell col="3" combocodecol="EVAL_SCALE_SEQ" combodatacol="EVAL_SCALE" combodataset="expr:&quot;dsCbo&quot; + EVAL_ITEM_SEQ" combodisplay="display" displaytype="combo" edittype="combo" text="bind:EVAL_SCALE_SEQ"/>
+                <Cell col="4" style="align:right;" text="bind:MAX_SCORE"/>
+                <Cell col="5" style="align:right;" text="bind:MIN_SCORE"/>
+                <Cell col="6" style="align:right;" text="bind:EVAL_SCORE"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="4" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00597&quot;)" style="align:center;"/>
+                <Cell col="4" expr="expr:dataset.getSum(&quot;MAX_SCORE*1&quot;)"/>
+                <Cell col="5" expr="expr:dataset.getSum(&quot;MIN_SCORE*1&quot;)"/>
+                <Cell col="6" expr="expr:dataset.getSum(&quot;EVAL_SCORE*1&quot;)"/>
+              </Band>
+            </Format>
+            <Format id="VMODE">
+              <Columns>
+                <Column size="100"/>
+                <Column size="0"/>
+                <Column size="180"/>
+                <Column size="340"/>
+                <Column size="80"/>
+                <Column size="80"/>
+                <Column size="80"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="32"/>
+                <Row size="28"/>
+                <Row band="summ" size="24"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="평가분류"/>
+                <Cell col="1" expr="" text="상세분류"/>
+                <Cell col="2" expr="" text="문항"/>
+                <Cell col="3" expr="" text="평가Scale"/>
+                <Cell col="4" expr="" text="최대"/>
+                <Cell col="5" expr="" text="최소"/>
+                <Cell col="6" expr="" text="점수"/>
+              </Band>
+              <Band id="body">
+                <Cell style="align:left;" suppress="1" text="bind:LGR_CLS_NM"/>
+                <Cell col="1" style="align:left;" suppress="1" text="bind:MDL_CLS_NM"/>
+                <Cell col="2" style="align:left;" text="bind:EVAL_QSTN"/>
+                <Cell col="3" combocodecol="EVAL_SCALE_SEQ" combodatacol="EVAL_SCALE" combodataset="dsScale" displaytype="combo" style="align:left;" text="bind:EVAL_SCALE_SEQ"/>
+                <Cell col="4" style="align:right;" text="bind:MAX_SCORE"/>
+                <Cell col="5" style="align:right;" text="bind:MIN_SCORE"/>
+                <Cell col="6" style="align:right;" text="bind:EVAL_SCORE"/>
+              </Band>
+              <Band id="summary">
+                <Cell colspan="4" expr="expr:gfnMultiLabel(&quot;EPRO_LABEL_00597&quot;)" style="align:center;"/>
+                <Cell col="4" expr="expr:dataset.getSum(&quot;MAX_SCORE*1&quot;)"/>
+                <Cell col="5" expr="expr:dataset.getSum(&quot;MIN_SCORE*1&quot;)"/>
+                <Cell col="6" expr="expr:dataset.getSum(&quot;EVAL_SCORE*1&quot;)"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button height="24" id="btnClo" onclick="fnSave" right="10" taborder="31" text="평가완료" top="5" visible="false" width="75"/>
+        <Div height="202" id="Div00" left="10" right="10" taborder="32" text="Div00" top="34">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond01" left="0" right="0" taborder="0" top="33"/>
+              <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond00" left="0" right="0" taborder="1" top="0"/>
+              <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond02" left="0" right="0" taborder="6" top="66"/>
+              <Static cssclass="sta_WF_Labelbg" height="66" id="staViewCompCond03" left="0" right="0" taborder="9" top="132"/>
+              <Static cssclass="sta_WF_Labelbg" height="34" id="staViewCompCond04" left="0" right="0" taborder="20" top="99"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staEval" left="0" taborder="21" text="평가서" top="0" width="171"/>
+              <Edit height="24" id="edtEvalId" left="176" readonly="true" taborder="22" top="5" width="110"/>
+              <Edit height="24" id="edtEvalNm" left="291" readonly="true" taborder="23" top="5" width="266"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staPtnrNm" left="0" taborder="24" text="협력사명" top="33" width="171"/>
+              <Edit height="24" id="edtPtnrId" left="176" readonly="true" taborder="25" top="38" width="110"/>
+              <Edit height="24" id="edtPtnrNm" left="291" readonly="true" taborder="26" top="38" width="266"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staSco" left="0" taborder="27" text="평가점수" top="66" width="171"/>
+              <Edit height="24" id="edtSco" left="176" readonly="true" taborder="28" top="71" width="110"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staUser" left="0" taborder="29" text="평가자" top="99" width="171"/>
+              <Edit height="24" id="edtId" left="176" readonly="true" taborder="30" top="104" width="110"/>
+              <Edit height="24" id="edtNm" left="291" readonly="true" taborder="31" top="104" width="140"/>
+              <TextArea height="56" id="txtRmark" left="176" lengthunit="ascii" maxlength="1000" readonly="true" taborder="32" top="137" width="695"/>
+              <Static cssclass="sta_WF_Label" height="66" id="staRmark" left="0" taborder="33" text="종합의견" top="132" width="171"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staGubun" left="562" taborder="34" text="구분" top="33" width="171"/>
+              <Combo height="24" id="cboEvalState" left="738" readonly="true" taborder="35" top="5" width="132"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staEvalState" left="562" taborder="36" text="평가상태" top="0" width="171"/>
+              <Combo height="24" id="cboGubun" left="738" readonly="true" taborder="37" top="38" width="132"/>
+              <Calendar cssclass="cal_default" height="24" id="calDay" left="738" locale="en_US" objNm="견적마감일" oneditclick="div_21_Tab01_tabp01_cal_rfqCloseDay_oneditclick" readonly="true" taborder="38" top="71" width="132"/>
+              <Static cssclass="sta_WF_Label" height="34" id="staDay" left="562" taborder="39" text="평가일" top="66" width="171"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsEval">
+        <ColumnInfo>
+          <Column id="BRANCH_CD" size="256" type="STRING"/>
+          <Column id="EVAL_ID" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+          <Column id="EVAL_TMPL_ID" size="256" type="STRING"/>
+          <Column id="BIZ_NO" size="256" type="STRING"/>
+          <Column id="STTS" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+        </Rows>
+      </Dataset>
+      <Dataset id="dsList"/>
+      <Dataset id="dsScale"/>
+    </Objects>
+    <Bind>
+      
+      
+      <BindItem columnid="EVAL_ID" compid="Div00.edtEvalId" datasetid="dsEval" id="item0" propid="value"/>
+      <BindItem columnid="TTL" compid="Div00.edtEvalNm" datasetid="dsEval" id="item1" propid="value"/>
+      
+      <BindItem columnid="REF_NO" compid="Div00.edtPtnrId" datasetid="dsEval" id="item3" propid="value"/>
+      <BindItem columnid="REF_NM" compid="Div00.edtPtnrNm" datasetid="dsEval" id="item4" propid="value"/>
+      
+      <BindItem columnid="EVAL_SCORE" compid="Div00.edtSco" datasetid="dsEval" id="item6" propid="value"/>
+      
+      <BindItem columnid="EVAL_CHRGR_ID" compid="Div00.edtId" datasetid="dsEval" id="item7" propid="value"/>
+      <BindItem columnid="EVAL_CHRGR_NM" compid="Div00.edtNm" datasetid="dsEval" id="item8" propid="value"/>
+      <BindItem columnid="ALL_RMK" compid="Div00.txtRmark" datasetid="dsEval" id="item10" propid="value"/>
+      
+      
+      
+      <BindItem columnid="CD_EVAL_TYPE_NM" compid="Div00.cboGubun" datasetid="dsEval" id="item5" propid="value"/>
+      <BindItem columnid="EVAL_END_DT" compid="Div00.calDay" datasetid="dsEval" id="item9" propid="value"/>
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BPtnrEvalPop.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 11. 1.
+ * @설명			    : 거래신청 팝업
+ * @최종수정자		: 송태봉
+ * @최종수정일자	    : 2017. 11. 22.
+*/
+
+var fv_endFlag = false;
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00229");
+
+/**
+  * @함수명	: fnOnLoad
+  * @desc   : 폼 onload이벤트
+  */ 
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	//gfnSetGrdFunc(this.grdList, null, this);
+
+	var ownFrame = this.getOwnerFrame();
+	
+	if("Y" == ownFrame.agv_readYN) {
+		this.btnClo.set_visible(false);
+		this.Div00.set_top(5);
+		var grdTop = nexacro.toNumber(this.Div00.top) + nexacro.toNumber(this.Div00.height) + 10
+		this.grdList.set_top(grdTop);
+	} else {
+		this.btnClo.set_visible(true);
+	}
+
+	this.dsEval.setColumn(0,"BRANCH_CD",application.gdsUserInfo.getColumn(0,"BRANCH_CD"));
+	this.dsEval.setColumn(0,"EVAL_ID",ownFrame.agv_eval);
+	this.dsEval.setColumn(0,"EVAL_TMPL_ID",ownFrame.agv_tmpl);
+	this.dsEval.setColumn(0,"PTNR_ID",ownFrame.agv_ptnrId);
+	this.dsEval.setColumn(0,"BIZ_NO",ownFrame.agv_bizNo);
+	this.dsEval.setColumn(0,"STTS",ownFrame.agv_stts);
+	
+	this.fnSearch();
+}
+
+this.fnSearch = function()
+{
+	var sSvcID = "readEvalPtnr";
+	var sController = "epro.ptnr.service.BPtnrService.readEvalPtnr";
+	var sInDatasets = "dsEval=dsEval";
+	var sOutDatasets = "dsEval=dsEval dsList=dsList dsScale=dsScale";
+	var sCallbackFunc = "fnTrCallBack";
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0){
+		return;
+	}
+	
+	switch(strSvcID){
+		case "readEvalPtnr" :	
+			if(fv_endFlag){
+				this.parent.close(this.dsEval.saveXML());
+				return;
+			}
+			
+			if(!gfnIsNull(this.dsEval.getColumn(0,"STTS"))){
+				if(gfnIsNull(this.dsEval.getColumn(0,"EVAL_ID"))){
+					this.dsEval.setColumn(0,"EVAL_CHRGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+					this.dsEval.setColumn(0,"EVAL_CHRGR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+					
+					this.Div00.cboEvalState.set_text(gfnMultiLabel("EPRO_LABEL_01042"));
+					this.Div00.txtRmark.set_readonly(false);
+					//this.btnClo.set_visible(true);
+					
+					var nSum = 0;
+					for(var i = 0 ; i < this.dsList.rowcount ; i++){
+						var nMax = this.dsScale.getCaseMax("EVAL_ITEM_SEQ =='" + this.dsList.getColumn(i,"EVAL_ITEM_SEQ") + "'","SCORE");
+						var nMin = this.dsScale.getCaseMin("EVAL_ITEM_SEQ =='" + this.dsList.getColumn(i,"EVAL_ITEM_SEQ") + "'","SCORE");
+						
+						var seq = this.dsList.getColumn(i,"EVAL_ITEM_SEQ");
+						var nRow = this.dsScale.findRow("EVAL_ITEM_SEQ",seq);
+						for(var j = nRow ; j < this.dsScale.rowcount ; j++){
+							if(this.dsScale.getColumn(j,"ALT_DEFAULT") == "Y"){
+								this.dsList.setColumn(i,"EVAL_SCALE_SEQ",this.dsScale.getColumn(j,"EVAL_SCALE_SEQ"));
+								this.dsList.setColumn(i,"EVAL_SCORE",this.dsScale.getColumn(j,"SCORE"));
+								this.dsList.setColumn(i,"MAX_SCORE",nMax);
+								this.dsList.setColumn(i,"MIN_SCORE",nMin);
+								nSum += this.dsScale.getColumn(j,"SCORE");
+								
+								break;
+							}
+						}
+						
+						this.dsEval.setColumn(0,"EVAL_SCORE",nSum);
+						
+						var tmpDs = new Dataset;
+						var tmpNm = "dsCbo" + seq;
+						this.addChild(tmpNm, tmpDs);
+						
+						this.dsScale.filter("EVAL_ITEM_SEQ =='" + seq + "'");
+						tmpDs.copyData(this.dsScale,true);
+						this.dsScale.filter("");
+					}
+					
+				} else{
+					this.dsEval.setColumn(0,"EVAL_CHRGR_ID",application.gdsUserInfo.getColumn(0,"USER_ID"));
+					this.dsEval.setColumn(0,"EVAL_CHRGR_NM",application.gdsUserInfo.getColumn(0,"USER_NM"));
+					
+					this.Div00.cboEvalState.set_text(gfnMultiLabel("EPRO_LABEL_01042"));
+					this.Div00.txtRmark.set_readonly(false);
+					//this.btnClo.set_visible(true);
+				
+					for(var i = 0 ; i < this.dsList.rowcount; i++){
+						var nMax = this.dsScale.getCaseMax("EVAL_ITEM_SEQ =='" + this.dsList.getColumn(i,"EVAL_ITEM_SEQ") + "'","SCORE");
+						var nMin = this.dsScale.getCaseMin("EVAL_ITEM_SEQ =='" + this.dsList.getColumn(i,"EVAL_ITEM_SEQ") + "'","SCORE");
+						
+						this.dsList.setColumn(i,"MAX_SCORE",nMax);
+						this.dsList.setColumn(i,"MIN_SCORE",nMin);
+						
+						var seq = this.dsList.getColumn(i,"EVAL_ITEM_SEQ");
+						var tmpDs = new Dataset;
+						var tmpNm = "dsCbo" + seq;
+						this.removeChild(tmpNm);
+						this.addChild(tmpNm, tmpDs);
+						
+						this.dsScale.filter("EVAL_ITEM_SEQ =='" + seq + "'");
+						tmpDs.copyData(this.dsScale,true);
+						this.dsScale.filter("");
+					}
+				}
+				
+			} else{
+				this.Div00.cboEvalState.set_text(gfnMultiLabel("EPRO_LABEL_00074"));
+				this.Div00.txtRmark.set_readonly(true);
+				//this.btnClo.set_visible(false);
+				
+				for(var i = 0 ; i < this.dsList.rowcount; i++){
+					var nMax = this.dsScale.getCaseMax("EVAL_ITEM_SEQ =='" + this.dsList.getColumn(i,"EVAL_ITEM_SEQ") + "'","SCORE");
+					var nMin = this.dsScale.getCaseMin("EVAL_ITEM_SEQ =='" + this.dsList.getColumn(i,"EVAL_ITEM_SEQ") + "'","SCORE");
+					
+					this.dsList.setColumn(i,"MAX_SCORE",nMax);
+					this.dsList.setColumn(i,"MIN_SCORE",nMin);
+				}
+				
+				this.grdList.setFormat("VMODE");
+			}
+			
+			this.grdList.redraw();
+			
+			break;
+		
+		case "saveEvalPtnr" :
+			gfnAlert(strErrMsg);
+			fv_endFlag = true;
+			this.fnSearch();
+			
+			break;
+ 
+		default:
+		break;	
+	}
+}
+
+this.fnOncloseup = function(obj:Grid, e:nexacro.GridEditEventInfo)
+{
+	obj.updateToDataset();
+	
+	var seq  = this.dsList.getColumn(this.dsList.rowposition,"EVAL_SCALE_SEQ");
+	var nRow = this.dsScale.findRow("EVAL_SCALE_SEQ",seq);
+	this.dsList.setColumn(this.dsList.rowposition,"EVAL_SCORE",this.dsScale.getColumn(nRow,"SCORE"));
+	
+	var nSum = 0;
+	for(var i = 0 ; i < this.dsList.rowcount ; i++){
+		nSum += parseInt(this.dsList.getColumn(i,"EVAL_SCORE"));
+	}
+	
+	this.dsEval.setColumn(0,"EVAL_SCORE",nSum);
+}
+
+this.fnSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{	
+	if(!gfnConfirm("EPRO_LABEL_01043")) return;
+	
+	var sSvcID = "saveEvalPtnr";
+	var sController = "epro.ptnr.service.BPtnrService.saveEvalPtnr";
+	var sInDatasets = "dsEval=dsEval dsList=dsList dsScale=dsScale";
+	var sOutDatasets = "dsEval=dsEval";
+	var sCallbackFunc = "fnTrCallBack";
+	
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}]]></Script>
+  </Form>
+</FDL>

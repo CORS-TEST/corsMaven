@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="187" id="SPtnrRegPopup" inheritanceid="" left="0" onload="fnOnLoad" position="absolute" titletext="신규거래신청" top="0" width="401">
+    <Layouts>
+      <Layout>
+        <Button bottom="10" id="btnBiz" left="10" onclick="btnBiz_onclick" style="background:#546f90ff;border:1 solid #999999ff ;color:#ffffffff;bordertype:round 3 3 ;align:center middle;font:bold 20 malgun gothic;" taborder="3" text="국내" top="9" width="185"/>
+        <Button bottom="10" id="btnForeign" left="199" onclick="btnForeign_onclick" style="background:#546f90ff;border:1 solid #999999ff ;color:#ffffffff;bordertype:round 3 3 ;align:center middle;font:bold 20 malgun gothic;" taborder="6" text="해외" top="9" width="195"/>
+      </Layout>
+    </Layouts>
+    <Objects/>
+    <Bind>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00435" compid="Div00.Button00" datasetid="gdsLabel" id="Button00LangBind2017110317184336762" propid="text"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00551" compid="Div00.Static02" datasetid="gdsLabel" id="Static02LangBind2017110317184396019" propid="text"/>
+      
+      
+      
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SPtnrReq.xfdl
+ * @생성자       	: 한민희
+ * @생성일자     	: 2017. 11. 08.
+ * @설명			: 신규거래신청 팝업
+ * @최종수정자		: 한민희
+ * @최종수정일자	: 2017. 11. 08.
+*/
+
+this.popTitle = gfnMultiLabel("EPRO_LABEL_00745");
+ 
+/**
+  * @함수명	: fnOnLoad
+  * @desc     	: 폼 onload 이벤트
+  */
+this.fnOnLoad = function(obj:Form, e:nexacro.LoadEventInfo)
+{	
+}
+
+
+/**
+  * @함수명	: fnGoRegulations
+  * @input    	: sType(가입신청 구분자)
+  * @desc     	: 거래신청진행을 위해 본 팝업을 닫고 약관 페이지로 이동한다.
+  */
+this.fnGoRegulations = function(sType)
+{
+	this.parent.close(sType);
+}
+
+
+/**
+  * @함수명	: fnBtnSignUpForeignOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 해외 가입
+  */
+this.btnForeign_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fnGoRegulations("Foreign");	
+}
+
+/**
+  * @함수명	: fnBtnSignUpBizOnclick
+  * @input    	: obj:Button(버튼 오브젝트), e:nexacro.ClickEventInfo(이벤트변수)
+  * @desc     	: 사업자 가입
+  */
+this.btnBiz_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fnGoRegulations("Biz");
+}
+]]></Script>
+  </Form>
+</FDL>

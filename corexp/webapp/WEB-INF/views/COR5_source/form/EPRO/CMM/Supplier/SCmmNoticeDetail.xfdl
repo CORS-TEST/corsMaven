@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmTemplate100" height="1067" id="SCmmNoticeDetail" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="공지사항상세" top="0" width="1220">
+    <Layouts>
+      <Layout screenid="Screen0" stepcount="" stepindex="">
+        <Div height="24" id="divViewCompTitle00" left="0" objNm="DIV-기본정보 타이틀" positionstep="0" right="0" taborder="1" top="0">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" onclick="div_2_staSubTitle01_onclick" taborder="21" text="기본정보" top="0" width="255"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_DetailBg" height="70" id="divViewCompBody00" left="0" objNm="DIV-평가서 상세" positionstep="0" right="10" taborder="101" top="29">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" right="0" taborder="16" top="0"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staDocNm" left="0" objNm="제목" positionstep="1" taborder="2" text="제목" top="1" width="171"/>
+              <Edit height="24" id="edtDocNm" left="176" lengthunit="utf8" objNm="제목" positionstep="1" taborder="6" top="5" width="551"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine04" left="0" right="0" taborder="20" top="32"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staWrtrInfo" left="0" objNm="작성자/작성일자" positionstep="1" taborder="22" text="작성자 / 작성일자" top="32" width="171" wordwrap="char"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staLastChgrInfo" left="581" objNm="수정자/수정일자" positionstep="1" taborder="23" text="수정자 / 수정일자" top="32" width="171" wordwrap="char"/>
+              <Edit cssclass="readonly_P" height="24" id="edtWrtrInfo" left="176" lengthunit="utf8" objNm="작성자/작성일자" positionstep="1" taborder="25" top="37" width="400"/>
+              <Edit cssclass="readonly_P" height="24" id="edtLastChgrInfo" left="757" lengthunit="utf8" objNm="수정자/수정일자" positionstep="1" taborder="27" top="37" width="400"/>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Div height="24" id="divViewCompTitle01" left="0" objNm="DIV-공지내용 타이틀" positionstep="0" right="10" taborder="104" top="119">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle01" left="0" taborder="20" text="공지내용" top="0" width="255"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="554" id="divViewCompBody01" left="0" objNm="DIV-대상업체 세부정보" right="10" style="background:transparent;" taborder="107" top="148">
+          <Layouts>
+            <Layout height="386" width="1042">
+              <TextArea bottom="0" id="txaContent" left="0" objNm="공지사항내용" right="0" taborder="0" top="0"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="24" id="divViewCompTitle02" left="0" objNm="DIV-평가서 타이틀" right="8" taborder="108" top="722">
+          <Layouts>
+            <Layout height="139" width="993">
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle02" left="0" taborder="0" text="첨부파일" top="0" width="255"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div height="321" id="divViewCompBody02" left="0" right="0" taborder="109" top="751" url="CCOMP::CompNFileUpDown.xfdl"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsBbs">
+        <ColumnInfo>
+          <Column id="DOC_BRANCH_CD" size="10" type="STRING"/>
+          <Column id="BBS_CTGR" size="10" type="STRING"/>
+          <Column id="DOC_NO" size="20" type="STRING"/>
+          <Column id="CONTENT" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="DOC_NM" compid="divViewCompBody00.edtDocNm" datasetid="dsBbs" id="item1" propid="value"/>
+      <BindItem columnid="WRTR_INFO" compid="divViewCompBody00.edtWrtrInfo" datasetid="dsBbs" id="item6" propid="value"/>
+      <BindItem columnid="LAST_WRTR_INFO" compid="divViewCompBody00.edtLastChgrInfo" datasetid="dsBbs" id="item7" propid="value"/>
+      <BindItem columnid="staDocNm" compid="divViewCompBody00.staDocNm" datasetid="dsObjBindVi" id="staDocNmVi" propid="visible"/>
+      <BindItem columnid="staDocNm" compid="divViewCompBody00.staDocNm" datasetid="dsObjBindEn" id="staDocNmEn" propid="enable"/>
+      <BindItem columnid="edtDocNm" compid="divViewCompBody00.edtDocNm" datasetid="dsObjBindVi" id="edtDocNmVi" propid="visible"/>
+      <BindItem columnid="edtDocNm" compid="divViewCompBody00.edtDocNm" datasetid="dsObjBindEn" id="edtDocNmEn" propid="readonly"/>
+      <BindItem columnid="staWrtrInfo" compid="divViewCompBody00.staWrtrInfo" datasetid="dsObjBindVi" id="staWrtrInfoVi" propid="visible"/>
+      <BindItem columnid="staWrtrInfo" compid="divViewCompBody00.staWrtrInfo" datasetid="dsObjBindEn" id="staWrtrInfoEn" propid="enable"/>
+      <BindItem columnid="staLastChgrInfo" compid="divViewCompBody00.staLastChgrInfo" datasetid="dsObjBindVi" id="staLastChgrInfoVi" propid="visible"/>
+      <BindItem columnid="staLastChgrInfo" compid="divViewCompBody00.staLastChgrInfo" datasetid="dsObjBindEn" id="staLastChgrInfoEn" propid="enable"/>
+      <BindItem columnid="edtWrtrInfo" compid="divViewCompBody00.edtWrtrInfo" datasetid="dsObjBindVi" id="edtWrtrInfoVi" propid="visible"/>
+      <BindItem columnid="edtWrtrInfo" compid="divViewCompBody00.edtWrtrInfo" datasetid="dsObjBindEn" id="edtWrtrInfoEn" propid="readonly"/>
+      <BindItem columnid="edtLastChgrInfo" compid="divViewCompBody00.edtLastChgrInfo" datasetid="dsObjBindVi" id="edtLastChgrInfoVi" propid="visible"/>
+      <BindItem columnid="edtLastChgrInfo" compid="divViewCompBody00.edtLastChgrInfo" datasetid="dsObjBindEn" id="edtLastChgrInfoEn" propid="readonly"/>
+      <BindItem columnid="CONTENT" compid="divViewCompBody01.txaContent" datasetid="dsBbs" id="item0" propid="value"/>
+      <BindItem columnid="txaContent" compid="divViewCompBody01.txaContent" datasetid="dsObjBindEn" id="item2" propid="readonly"/>
+      <BindItem columnid="txaContent" compid="divViewCompBody01.txaContent" datasetid="dsObjBindVi" id="item3" propid="visible"/>
+      
+      
+      
+      <BindItem columnid="EPRO_LABEL_00050" compid="divViewCompBody00.staLastChgrInfo" datasetid="gdsLabel" id="staLastChgrInfoLangBind2017110317184258367" propid="text"/>
+      
+      
+    </Bind>
+    <InitValue/>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SCmmNoticeDetail.xfdl
+ * @생성자       	: 배열
+ * @생성일자     	: 2017. 9. 06.
+ * @설명			: 공지사항 상세(외부)
+ * @최종수정자		: 김승일
+ * @최종수정일자	: 2017. 10. 31.
+*/  
+ 
+
+/**
+	@함수명	fnFold
+	@desc   	타이틀 접기/펼치기 기능
+*/
+this.fnFold = function()
+{
+	/*
+		상단에서부터 div 순서대로 기입.
+		ttl:접기/펼치기 클릭 하는 컴포넌트, body:실제로 접혀지거나 펼쳐지는 컴포넌트, initFold:true면 접는다.
+	*/
+	var sArg = [ 
+				{ttl:this.divViewCompTitle00.staViewCompTitle00, body:this.divViewCompBody00}	// 기본정보
+				,{ttl:this.divViewCompTitle01.staViewCompTitle01, body:this.divViewCompBody01}	// 공지내용
+				,{ttl:this.divViewCompTitle02.staViewCompTitle02, body:this.divViewCompBody02}	// 첨부파일
+		   ];		   
+	gfnDivFold(this, sArg);
+}
+
+/**
+  * @함수명	: fnFormOnload()
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo){
+	var docNo = gfnGetTmprData("DOC_NO");
+	var bbsCtgr = gfnGetTmprData("BBS_CTGR");
+	var docBranchCd = gfnGetTmprData("DOC_BRANCH_CD");
+	gfnClearTmprData();
+	
+	// 파일 데이터셋 생성
+	gfnMakeFileDs(this);
+	
+	// 타이틀 접기/펼치기 기능
+	this.fnFold();
+	
+	this.dsBbs.addRow();
+	this.dsBbs.setColumn(0, "DOC_NO",docNo);
+	this.dsBbs.setColumn(0, "BBS_CTGR",bbsCtgr);
+	this.dsBbs.setColumn(0, "DOC_BRANCH_CD",docBranchCd);
+	
+	this.fnSearch();
+}
+
+/**
+	@function	fnfileSet()
+  * @input    	read모드 YN
+	@desc   	파일 구성
+*/
+this.fnfileSet = function()
+{
+	var sTableNm = "MM_CM_BBS";
+	var arrFileKey = [this.dsBbs.getColumn(0, "DOC_NO")];
+	this.divViewCompBody02.fnFileInit(this, sTableNm, this.dsBbs, arrFileKey);
+}
+ 
+/**
+	@함수명	fnPreSearch()
+	@desc   	조회 전 처리
+*/
+this.fnPreSearch = function(){
+	return true;
+}
+
+/**
+	@함수명	fnSearch
+	@desc   	조회 프로세스
+*/
+this.fnSearch = function(){	
+	
+	var sSvcID = "readCmmNotice";
+	var sController = "epro.cmm.service.SCmmService.readCmmNotice";
+	var sInDatasets = "dsBbs=dsBbs";
+	var sOutDatasets = "dsBbs=dsBbs";
+	var sCallbackFunc = "fnTrCallBack";
+
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc); 
+}
+
+/**
+	@함수명	fnClose()
+	@desc   	(공통버튼)닫기
+*/
+this.fnClose = function(){
+	return true;
+}
+
+/**
+	@함수명	fnSave()
+	@desc   	(공통버튼)저장
+*/
+this.fnSave = function(){	
+}
+
+
+
+/**
+	@function	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg){
+	
+	if(strErrCd < 0){
+		return;
+	}	
+	
+	switch(strSvcID){		
+		case "readCmmNotice" :	//조회
+			gfnSetObj("A");
+			this.fnfileSet();
+			break;	
+		
+		default:
+			break;	
+	}
+}]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,532 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="frmSearchCond" height="769" id="BSysRoleDetail" left="0" onload="formOnload" titletext="권한관리" top="0" width="1200">
+    <Layouts>
+      <Layout>
+        <Div bottom="232" id="divViewCompBody00" left="0" right="400" taborder="1" text="Div00" top="45">
+          <Layouts>
+            <Layout height="667" width="1042">
+              <Grid autoenter="select" autofittype="col" binddataset="dsRole" bottom="29" cellmovingtype="col" cellsizingtype="col" id="grdList" left="0" objNm="검색결과 그리드" right="0" taborder="8" top="39" useinputpanel="false">
+                <Formats>
+                  <Format id="MODE">
+                    <Columns>
+                      <Column size="40"/>
+                      <Column size="90"/>
+                      <Column size="100"/>
+                      <Column size="200"/>
+                      <Column size="70"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="32" band="head"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell displaytype="checkbox" edittype="checkbox"/>
+                      <Cell col="1" text="사이트구분"/>
+                      <Cell col="2" cssclass="Cellgrd_essential" text="권한ID"/>
+                      <Cell col="3" cssclass="Cellgrd_essential" text="권한명"/>
+                      <Cell col="4" text="사용여부"/>
+                    </Band>
+                    <Band id="body">
+                      <Cell displaytype="checkbox" edittype="checkbox" text="bind:CHECKED"/>
+                      <Cell col="1" displaytype="combo" edittype="none" text="bind:INT_SITE_DIST" editdisplay="edit" combodataset="dsGrCd" combocodecol="INT_SITE_DIST" combodatacol="INT_SITE_DIST_NM" combodisplay="edit"/>
+                      <Cell col="2" text="bind:ROLE_ID"/>
+                      <Cell col="3" displaytype="normal" edittype="none" style="align:left;" text="bind:ROLE_NM_LO" editdisplay="edit"/>
+                      <Cell col="4" displaytype="combo" edittype="none" style="align:left;" text="bind:ALT_USE" editdisplay="edit" combodataset="dsIsYn" combocodecol="ALT_USE" combodatacol="ALT_USE_NM" combodisplay="edit"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Button cssclass="btn_WF_Module" height="24" id="btnRoleAdd" objNm="코드그룹추가버튼" onclick="fnRoleAdd" right="65" taborder="10" text="추가" top="10" width="60"/>
+              <Button cssclass="btn_WF_Module" height="24" id="btnRoleDel" objNm="코드그룹삭제버튼" onclick="fnRoleDel" right="0" taborder="11" text="삭제" top="10" width="60"/>
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle00" left="0" taborder="12" text="권한관리" top="10" width="254"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="45" id="divViewCompCond00" left="0" right="15" taborder="0" top="0">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="23" id="staSiteGubun" lbcd="" left="19" objNm="사이트 구분" taborder="0" text="사이트 구분" top="11" width="85"/>
+              <Combo codecolumn="codecolumn" cssclass="cbo_default" datacolumn="datacolumn" displayrowcount="-1" height="23" id="cboSiteGubun" index="0" left="106" objNm="코드그룹" taborder="13" text="전체" top="11" width="133">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn"/>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">B</Col>
+                      <Col id="datacolumn">내부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">S</Col>
+                      <Col id="datacolumn">외부</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static cssclass="sta_WF_SearchLabel" height="23" id="staIsYn" lbcd="" left="268" objNm="사용여부" taborder="14" text="사용여부" top="11" width="85"/>
+              <Combo autoselect="true" codecolumn="codecolumn" cssclass="cbo_default" datacolumn="datacolumn" displayrowcount="-1" height="23" id="cboIsYn" index="0" left="337" objNm="사용여부" taborder="15" text="전체" top="11" width="133">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn"/>
+                      <Col id="datacolumn">전체</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static cssclass="sta_WF_SearchLabel" height="23" id="staAuth" lbcd="" left="499" objNm="사용여부" taborder="16" text="권한명" top="11" width="85"/>
+              <Edit cssclass="edt_default" height="23" id="edtAuth" lbcd="" left="554" lengthunit="utf8" objNm="그룹" onkeydown="fnOnkeydown" taborder="17" top="11" width="250"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div bottom="0" id="div_menu" objNm="DIV-헤더 상세" right="16" scrollbars="none" taborder="3" top="45" width="364">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Subtitle" height="24" id="staViewCompTitle02" left="0" taborder="1" text="메뉴권한관리" top="10" width="254"/>
+              <Grid autofittype="col" binddataset="dsMenu" bottom="0" cantreestatuschange="fnGrdTreeCantreestatuschange" id="grdTree" left="0" right="0" taborder="0" top="39" treeinitstatus="expand,all" treeusecheckbox="true" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="183"/>
+                    </Columns>
+                    <Rows>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="body">
+                      <Cell displaytype="tree" edittype="tree" text="bind:PGM_NM" treecheck="bind:CHECKED" treelevel="bind:LVL"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+            </Layout>
+          </Layouts>
+          <InitValue/>
+        </Div>
+        <Div bottom="0" cssclass="div_WF_DetailBg" height="197" id="div_input" left="0" right="400" taborder="5">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine00" left="0" onclick="Div21_Static01_onclick" right="0" taborder="53" top="-1"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine01" left="0" onclick="Div21_Static01_onclick" right="0" taborder="54" top="31"/>
+              <Static cssclass="sta_WF_Labelbg" height="33" id="staViewCompLine03" left="0" onclick="Div21_Static01_onclick" right="0" taborder="55" top="63"/>
+              <Static cssclass="sta_WF_Labelbg" height="100" id="staViewCompLine04" left="0" onclick="Div21_Static01_onclick" right="0" taborder="56" top="95"/>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staRoleNm" lbcd="" left="0" objNm="코드설명" taborder="38" text="권한명" top="31" usedecorate="true" width="100"/>
+              <Edit cssclass="essential" height="23" id="edtRoleNm" lbcd="" left="105" lengthunit="utf8" objNm="코드설명" taborder="39" top="36" width="290"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staSiteGubun" lbcd="" left="0" objNm="코드설명" taborder="40" text="사이트구분" top="-1" usedecorate="true" width="100"/>
+              <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="23" id="cboSiteGubun" index="0" left="105" objNm="코드그룹" taborder="41" text="내부" top="4" value="B" width="100">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">B</Col>
+                      <Col id="datacolumn">내부</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">S</Col>
+                      <Col id="datacolumn">외부</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static cssclass="sta_WF_Label_P" height="33" id="staRoleId" lbcd="" left="400" objNm="코드설명" taborder="42" text="권한ID" top="-1" usedecorate="true" width="100"/>
+              <Edit cssclass="essential" height="23" id="edtRoleId" lbcd="" left="505" lengthunit="utf8" objNm="코드설명" taborder="43" top="4" width="100"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staRoleNmEn" lbcd="" left="400" objNm="코드설명" taborder="44" text="권한명(영)" top="31" usedecorate="true" width="100"/>
+              <Edit height="23" id="edtRoleNmEn" lbcd="" left="505" lengthunit="utf8" objNm="코드설명" taborder="45" top="36" width="289"/>
+              <Static cssclass="sta_WF_Label" height="100" id="staAuthInfo" lbcd="" left="0" objNm="코드설명" taborder="46" text="권한상세정보" top="95" usedecorate="true" width="100"/>
+              <Static cssclass="sta_WF_Label" height="33" id="staIsYn" lbcd="" left="0" objNm="코드설명" taborder="48" text="사용여부" top="63" usedecorate="true" width="100"/>
+              <Combo codecolumn="codecolumn" datacolumn="datacolumn" height="23" id="cboIsYn" index="0" left="105" objNm="코드그룹" taborder="49" text="예" top="68" value="Y" width="100">
+                <Dataset id="innerdataset">
+                  <ColumnInfo>
+                    <Column id="codecolumn" size="256"/>
+                    <Column id="datacolumn" size="256"/>
+                  </ColumnInfo>
+                  <Rows>
+                    <Row>
+                      <Col id="codecolumn">Y</Col>
+                      <Col id="datacolumn">예</Col>
+                    </Row>
+                    <Row>
+                      <Col id="codecolumn">N</Col>
+                      <Col id="datacolumn">아니오</Col>
+                    </Row>
+                  </Rows>
+                </Dataset>
+              </Combo>
+              <Static cssclass="sta_WF_Label" height="33" id="staOrder" lbcd="" left="400" objNm="코드설명" taborder="50" text="정렬순서" top="63" usedecorate="true" width="100"/>
+              <Edit height="23" id="edtOrder" inputtype="number" lbcd="" left="505" lengthunit="utf8" objNm="코드설명" taborder="51" top="68" width="100"/>
+              <TextArea height="90" id="txaAuthInfo" left="105" objNm="요청내역" readonly="false" right="6" taborder="52" top="100"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Static bottom="198" cssclass="sta_WF_Subtitle" height="23" id="staViewCompTitle01" left="0" taborder="8" text="권한상세" width="254"/>
+      </Layout>
+    </Layouts>
+    <Bind>
+      <BindItem columnid="INT_SITE_DIST" compid="divViewCompCond00.cboSiteGubun" datasetid="dsSrchOpt" id="item4" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="divViewCompCond00.cboIsYn" datasetid="dsSrchOpt" id="item0" propid="value"/>
+      <BindItem columnid="ROLE_NM_LO" compid="divViewCompCond00.edtAuth" datasetid="dsSrchOpt" id="item1" propid="value"/>
+      <BindItem columnid="ARY_ORDR" compid="div_input.edtOrder" datasetid="dsRole" id="item2" propid="value"/>
+      <BindItem columnid="ROLE_ID" compid="div_input.edtRoleId" datasetid="dsRole" id="item3" propid="value"/>
+      <BindItem columnid="INT_SITE_DIST" compid="div_input.cboSiteGubun" datasetid="dsRole" id="item5" propid="value"/>
+      <BindItem columnid="ROLE_NM_LO" compid="div_input.edtRoleNm" datasetid="dsRole" id="item6" propid="value"/>
+      <BindItem columnid="ROLE_NM_GB" compid="div_input.edtRoleNmEn" datasetid="dsRole" id="item7" propid="value"/>
+      <BindItem columnid="ALT_USE" compid="div_input.cboIsYn" datasetid="dsRole" id="item8" propid="value"/>
+      <BindItem columnid="ROLE_EXPLN" compid="div_input.txaAuthInfo" datasetid="dsRole" id="item9" propid="value"/>
+    </Bind>
+    <Objects>
+      <Dataset dsDescription="검색조건 데이터셋" enableevent="true" firefirstcount="0" firenextcount="0" id="dsSrchOpt" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="INT_SITE_DIST" size="1" type="STRING"/>
+          <Column id="ALT_USE" size="1" type="STRING"/>
+          <Column id="ROLE_NM_LO" size="40" type="STRING"/>
+          <Column id="ROLE_ID" size="40" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset canrowposchange="fnDsRoleCanrowposchange" enableevent="true" firefirstcount="0" firenextcount="0" id="dsRole" loadfiltermode="keep" loadkeymode="keep" onrowposchanged="fnDsRoleOnrowposchanged" onvaluechanged="fnDsRoleOnvaluechanged" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMenu" loadfiltermode="keep" loadkeymode="keep" oncolumnchanged="fnDsMenuOncolumnchanged" onvaluechanged="fnDsMenuOnvaluechanged" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsRoleMenu" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsGrCd">
+        <ColumnInfo>
+          <Column id="INT_SITE_DIST" size="256" type="STRING"/>
+          <Column id="INT_SITE_DIST_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="INT_SITE_DIST">B</Col>
+            <Col id="INT_SITE_DIST_NM">내부</Col>
+          </Row>
+          <Row>
+            <Col id="INT_SITE_DIST">S</Col>
+            <Col id="INT_SITE_DIST_NM">외부</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsIsYn" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="ALT_USE" size="256" type="STRING"/>
+          <Column id="ALT_USE_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="ALT_USE">Y</Col>
+            <Col id="ALT_USE_NM">예</Col>
+          </Row>
+          <Row>
+            <Col id="ALT_USE">N</Col>
+            <Col id="ALT_USE_NM">아니오</Col>
+          </Row>
+        </Rows>
+      </Dataset>
+      <Dataset dsDescription="팝업에서 전달받은 데이터를 담아놓는 데이터셋" firefirstcount="0" firenextcount="0" id="dsReturn"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: BSysRoleDetail.xfdl
+ * @생성자       	: 송태봉
+ * @생성일자     	: 2017. 9. 04.
+ * @설명		    : 권한관리
+ * @최종수정자		: 안성민
+ * @최종수정일자	: 2017. 11. 03.
+*/  
+
+/**
+	@function	formOnload()
+	@desc   	폼 onload이벤트
+*/  
+this.formOnload = function(obj:Form, e:LoadEventInfo)
+{
+	gfnSetGrdFunc(this.divViewCompBody00.grdList);
+	gfnSetObj("A");
+    
+	this.dsSrchOpt.addRow();
+ 	this.dsSrchOpt.setColumn(0, "INT_SITE_DIST", "");
+ 	this.dsSrchOpt.setColumn(0, "ALT_USE", "");
+    
+	this.fnSearch();
+}
+
+/**
+	@function	fnPreSearch()
+	@desc   	조회 전 처리
+*/   
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+
+/**
+	@function	fnSearch()
+	@desc   	조회 프로세스
+*/   
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+	
+	var sSvcID = "readSysRole";
+	var sController = "epro.sys.service.BSysService.readSysRole";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsRole=dsRole";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnPreMenuSearch()
+	@desc   	조회 전 처리
+*/   
+this.fnPreMenuSearch = function()
+{
+	this.dsSrchOpt.setColumn(0,"ROLE_ID",this.dsRole.getColumn(this.dsRole.rowposition,"INT_SITE_DIST")+"_"+this.dsRole.getColumn(this.dsRole.rowposition,"ROLE_ID"));
+	return true;
+}
+
+
+/**
+	@function	fnMenuSearch()
+	@desc   	조회 프로세스
+*/   
+this.fnMenuSearch = function()
+{
+	if(!this.fnPreMenuSearch()) return false;
+	
+	var sSvcID = "readSysRoleMenu";
+	var sController = "epro.sys.service.BSysService.readSysRoleMenu";
+	var sInDatasets = "dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "dsMenu=dsMenu";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnPreSave()
+	@desc   	저장 전 처리
+*/      
+this.fnPreSave = function(obj)
+{
+	var arr = [];
+	for(var i = 0 ; i < this.dsRole.rowcount ; i++){
+		if(gfnIsNull(this.dsRole.getColumn(i,"ROLE_ID"))){
+			var msg = gfnMultiLabel("EPRO_LABEL_00752"); //"권한 ID를 입력 해 주세요.";
+			var type = gfnMultiLabel("EPRO_LABEL_00753"); //"필수";
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+		}
+		
+		if(gfnIsNull(this.dsRole.getColumn(i,"ROLE_NM_LO"))){
+			var msg = gfnMultiLabel("EPRO_LABEL_00751");
+			var type = gfnMultiLabel("EPRO_LABEL_00753");
+			var objParam = {agv_msg:msg, agv_type:type, agv_isEs:"Y"};
+			arr.push(objParam);
+		}
+	}
+	
+	if(!gfnValidate(this, false, arr)) return;
+
+
+	this.dsSrchOpt.setColumn(0,"ROLE_ID",this.dsRole.getColumn(this.dsRole.rowposition,"INT_SITE_DIST")+"_"+this.dsRole.getColumn(this.dsRole.rowposition,"ROLE_ID"));
+	
+	this.dsMenu.set_enableevent(false);
+	this.dsMenu.filter("INT_SITE_DIST=='"+this.dsRole.getColumn(this.dsRole.rowposition,"INT_SITE_DIST")+"' && CHECKED==1");
+	this.dsRoleMenu.copyData(this.dsMenu,true);
+	this.dsMenu.filter("INT_SITE_DIST=='"+this.dsRole.getColumn(this.dsRole.rowposition,"INT_SITE_DIST")+"'");
+	this.dsMenu.set_enableevent(true);
+	
+	if(!gfnConfirm("EPRO_LABEL_00001")) return false;
+	
+	return true;
+}
+
+/**
+	@function	fnSave()
+	@desc   	권한 저장
+*/
+this.fnSave = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if (!this.fnPreSave(obj)) return false;
+	
+	var sSvcID = "saveSysRole";
+	var sController = "epro.sys.service.BSysService.saveSysRole";
+	var sInDatasets = "dsRole=dsRole:A dsRoleMenu=dsRoleMenu:A dsSrchOpt=dsSrchOpt";
+	var sOutDatasets = "";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc);
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	Transaction Callback함수
+*/          
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID)
+	{	
+		case "readSysRole" :
+			break;
+		case "readSysRoleMenu" :	
+			this.dsMenu.filter("INT_SITE_DIST=='"+this.dsRole.getColumn(this.dsRole.rowposition,"INT_SITE_DIST")+"'");
+			break;
+		case "saveSysRole" :
+			gfnAlert(strErrMsg);
+			this.fnSearch();	
+			break;
+		
+		default:
+		break;		
+	}
+}
+
+/**
+	@function	fnRoleAdd()
+	@desc   	권한 추가
+*/
+this.fnRoleAdd = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var nRow = this.dsRole.addRow();
+	
+	this.dsRole.setColumn(nRow,"INT_SITE_DIST","B");
+	this.dsRole.setColumn(nRow,"ALT_USE","Y");
+}
+
+/**
+	@function	fnRoleDel()
+	@desc   	권한 삭제
+*/
+this.fnRoleDel = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	if(!gfnConfirm("EPRO_LABEL_00754")) return; //선택된 권한을 삭제하시겠습니까?
+	gfnDsChkDel(this.dsRole);
+	this.fnMenuSearch();
+}
+
+/**
+	@function	fnDsRoleCanrowposchange()
+	@desc   	권한을 클릭시 메뉴수정사항있는지 조회
+*/
+this.fnDsRoleCanrowposchange = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	return true;
+}
+
+/**
+	@function	fnDsRoleOnrowposchanged()
+	@desc   	권한을 클릭시 권한별 메뉴조회
+*/
+this.fnDsRoleOnrowposchanged = function(obj:Dataset, e:nexacro.DSRowPosChangeEventInfo)
+{
+	this.fnMenuSearch();
+}
+
+/**
+	@function	fnSetTreeStatus()
+	@desc   	트리 세팅
+*/   
+this.fnSetTreeStatus = function()
+{
+	for(var i=0; i<this.dsMenu.getRowCount(); i++){
+		if(this.dsMenu.getColumn(i,"GRID_INIT_STATUS")==1){
+			this.div_menu.grdTree.setTreeStatus(this.div_menu.grdTree.getTreeRow(i), true);
+		}
+	}
+}
+
+/**
+	@function	fnSetTreeStatus()
+	@desc   	트리 상태변경시 발생하는 이벤트
+*/   
+this.fnGrdTreeCantreestatuschange = function(obj:Grid, e:nexacro.GridTreeStatusEventInfo)
+{
+	this.dsMenu.setColumn(e.realrow,"GRID_INIT_STATUS",e.reason);
+}
+
+/**
+	@function	fnDsRoleOnvaluechanged()
+	@desc   	권한 사이트값 변경시 메뉴변경
+*/
+this.fnDsRoleOnvaluechanged = function(obj:Dataset,  e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid=="INT_SITE_DIST"){
+		this.dsMenu.filter("INT_SITE_DIST=='"+e.newvalue+"'");
+	}
+}
+
+/**
+	@function	fnDsRoleOnvaluechanged()
+	@desc   	메뉴클릭시 권한아이디 세팅
+*/
+this.fnDsMenuOnvaluechanged = function(obj:Dataset,  e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid=="CHECKED"){
+		if(e.newvalue==1){
+			this.dsMenu.setColumn(e.row,"ROLE_ID",this.dsRole.getColumn(this.dsRole.rowposition,"ROLE_ID"));
+		}else{
+			this.dsMenu.setColumn(e.row,"ROLE_ID","");
+		}
+	}
+}
+
+/**
+	@function	fnDsMenuOncolumnchanged()
+	@desc   	메뉴클릭시 자식노드 세팅
+*/
+this.fnDsMenuOncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	if(e.columnid=="CHECKED"){
+		if(e.newvalue == 1){
+			var upPgm = this.dsMenu.getColumn(e.row,"UP_PGM_ID");
+			var nRow = this.dsMenu.findRow("PGM_ID",upPgm);
+			
+			while(nRow != -1){
+				this.dsMenu.setColumn(nRow,"CHECKED",e.newvalue);
+				
+				upPgm = this.dsMenu.getColumn(nRow,"UP_PGM_ID");
+				nRow = this.dsMenu.findRow("PGM_ID",upPgm);
+			}
+		} 
+		for(var i = e.row + 1 ; i < this.dsMenu.rowcount ; i++){
+			if(this.dsMenu.getColumn(e.row,"LVL") < this.dsMenu.getColumn(i,"LVL")){
+				this.dsMenu.setColumn(i,"CHECKED",e.newvalue);
+				
+			} else break;
+		}
+		
+	}	
+}
+
+/**
+	@function	fnOnkeydown()
+	@desc   	검색조건에서 ENTER(keycode::13) 입력시 이벤트를 발생시킨다.
+*/         
+this.fnOnkeydown = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	//Enter 입력시
+	if(e.keycode == "13"){
+		obj.updateToDataset();
+		this.fnSearch();
+	} 
+}]]></Script>
+  </Form>
+</FDL>

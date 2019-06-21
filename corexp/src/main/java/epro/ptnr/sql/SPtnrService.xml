@@ -1,0 +1,1060 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SPtnrService">
+
+	<select id="checkBizNo" parameterType="hashmap" resultType="hashmap" >
+	/* [SPtnrService.checkBizNo][사업자번호 중복체크][2017.09.06][한의봉] */
+		SELECT	MP.PTNR_ID
+				,BIZ_NO
+				,MP.CD_PTNR_STTS
+				, MPP.CD_PORG_UNIT_STTS
+		FROM 	MM_PTNR MP 
+		LEFT OUTER JOIN MM_PTNR_PORG MPP 
+					ON MP.PTNR_ID = MPP.PTNR_ID
+		WHERE	MP.BIZ_NO = #{BIZ_NO}   	   
+	</select>
+
+	<select id="checkUserId" parameterType="hashmap" resultType="hashmap" >
+	/* [SPtnrService.checkUserId][사용자 아이디 중복체크][2017.09.06][한의봉] */
+		SELECT USER_ID
+		FROM MM_MT_USER
+	   WHERE USER_ID = 'S_' + #{USER_ID}
+	</select>
+
+	<insert id="insertPtnr" parameterType="hashmap">
+	/* [SPtnrService.insertPtnr][협력사 저장][2017.12.04][안성민]] */
+		INSERT INTO MM_PTNR (
+					PTNR_ID									
+					, CD_PTNR_STTS
+					, BIZ_NO
+					, PTNR_NM
+					, PTNR_NM_GB
+					, HEAD_OFFCBIZ_NO
+					, CORP_REG_NO
+					, BIZ_CNDTN
+					, BIZ_TYPE
+					, BIZ_BGN_DAY
+					, RPRSTV_NM
+					, RPRSTV_HP
+					, RPRSTV_EMAIL
+					, ZIP_NO
+					, ADDR
+					, DTL_ADDR
+					, RPTST_TEL
+					, TEL
+					, FAX
+					, TKEY
+					, TRD_REQ_BRANCH_CD
+					, RPTST_SRC_GRP_ID
+					, PTNR_CHT_DT
+					, RPTST_USER_ID
+					, AST
+					, DEBT
+					, CAPL
+					, BIZ_PROFIT
+					, EMP_CNT
+					, MJR_CSTMR
+					, YR_1
+					, YR_2
+					, YR_3
+					, SALES_AMT_1
+					, SALES_AMT_2
+					, SALES_AMT_3
+					, PTNR_RMK
+					, EMP_CNT_KI
+					, EMP_CNT_SA
+					, EMP_CNT_ETC
+					, CD_PTNR_CTGR
+					, CD_NATION
+					, NATION_RMK
+					, AREA
+					, BIZ_PROFIT_1
+					, BIZ_PROFIT_2
+					, BIZ_PROFIT_3
+					, HM_PG
+					, CRDT_GRD
+					, CACHE_GRADE
+					, CRDT_EVAL_ORG
+					, CRDT_EVAL_DAY
+					, ATTCH_FILE_CNT
+					, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+				) VALUES (
+					#{PTNR_ID}
+					, #{CD_PTNR_STTS}
+					, #{BIZ_NO}
+					, #{PTNR_NM}
+					, #{PTNR_NM}
+					, #{HEAD_OFFCBIZ_NO}
+					, #{CORP_REG_NO}
+					, #{BIZ_CNDTN}
+					, #{BIZ_TYPE}
+					, #{BIZ_BGN_DAY}
+					, #{RPRSTV_NM}
+					, #{RPRSTV_HP}
+					, #{RPRSTV_EMAIL}
+					, #{ZIP_NO}
+					, #{ADDR}
+					, #{DTL_ADDR}
+					, #{RPTST_TEL}
+					, #{TEL}
+					, #{FAX}
+					, CONVERT(VARCHAR(17),GETDATE(),112)+REPLACE(CONVERT(CHAR(12), CURRENT_TIMESTAMP, 114),':','')
+					, 'HMAX'
+					, #{RPTST_SRC_GRP_ID}
+					, GETDATE()
+					, 'S_' + #{RPTST_USER_ID}
+					, CONVERT(DECIMAL,ISNULL(#{AST},0))
+					, CONVERT(DECIMAL,ISNULL(#{DEBT},0))
+					, CONVERT(DECIMAL,ISNULL(#{CAPL},0))
+					, CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT},0))
+					, #{EMP_CNT}
+					, #{MJR_CSTMR}
+					, #{YR_1}
+					, #{YR_2}
+					, #{YR_3}
+					, CONVERT(DECIMAL,ISNULL(#{SALES_AMT_1},0))
+					, CONVERT(DECIMAL,ISNULL(#{SALES_AMT_2},0))
+					, ISNULL(#{SALES_AMT_3},0)
+					, #{PTNR_RMK}
+					, CONVERT(DECIMAL,ISNULL(#{EMP_CNT_KI},0))
+					, CONVERT(DECIMAL,ISNULL(#{EMP_CNT_SA},0))
+					, CONVERT(DECIMAL,ISNULL(#{EMP_CNT_ETC},0))
+					, #{CD_PTNR_CTGR}
+					, #{CD_NATION}
+					, #{NATION_RMK}
+					, #{AREA}
+					, CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_1},0))
+					, CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_2},0))
+					, CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_3},0))
+					, #{HM_PG}
+					, #{CRDT_GRD}
+					, #{CACHE_GRADE}
+					, #{CRDT_EVAL_ORG}
+					, #{CRDT_EVAL_DAY}
+					, #{ATTCH_FILE_CNT}
+					, #{CRTR_ID}
+					, GETDATE()
+					, #{LAST_CHGR_ID}
+					, GETDATE()
+				)
+	</insert>
+	
+	<update id="updatePtnr" parameterType="hashmap">
+	/* [SPtnrService.updatePtnr][협력사 수정][2017.11.24][안성민] */
+		UPDATE MM_PTNR
+		   SET PTNR_NM = #{PTNR_NM}
+				, PTNR_NM_GB = #{PTNR_NM_GB}
+				, CORP_REG_NO = #{CORP_REG_NO}
+				, BIZ_CNDTN = #{BIZ_CNDTN}
+				, BIZ_TYPE = #{BIZ_TYPE}
+				, BIZ_BGN_DAY = #{BIZ_BGN_DAY}
+				, RPRSTV_NM = #{RPRSTV_NM}
+				, RPRSTV_HP = #{RPRSTV_HP}
+				, RPRSTV_EMAIL = #{RPRSTV_EMAIL}
+				, ZIP_NO = #{ZIP_NO}
+				, ADDR = #{ADDR}
+				, DTL_ADDR = #{DTL_ADDR}
+				, RPTST_TEL = #{RPTST_TEL}
+				, TEL = #{TEL}
+				, FAX = #{FAX}
+				, TKEY = CONVERT(VARCHAR(17),GETDATE(),112)+REPLACE(CONVERT(CHAR(12), CURRENT_TIMESTAMP, 114),':','')
+				, TRD_REQ_BRANCH_CD = #{TRD_REQ_BRANCH_CD}
+				, RPTST_SRC_GRP_ID = #{RPTST_SRC_GRP_ID}
+				, AST = CONVERT(DECIMAL,ISNULL(#{AST},0))
+				, DEBT = CONVERT(DECIMAL,ISNULL(#{DEBT},0))
+				, CAPL = CONVERT(DECIMAL,ISNULL(#{CAPL},0)) 
+				, BIZ_PROFIT =  CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT},0))
+				, EMP_CNT = CONVERT(DECIMAL,ISNULL(#{EMP_CNT},0))
+				, MJR_CSTMR = #{MJR_CSTMR}
+				, YR_1 = #{YR_1}
+				, YR_2 = #{YR_2}
+				, YR_3 = #{YR_3}
+				, SALES_AMT_1 = CONVERT(DECIMAL,ISNULL(#{SALES_AMT_1},0))
+				, SALES_AMT_2 = CONVERT(DECIMAL,ISNULL(#{SALES_AMT_2},0))
+				, SALES_AMT_3 = CONVERT(DECIMAL,ISNULL(#{SALES_AMT_3},0))
+				, PTNR_RMK = #{PTNR_RMK}
+				, EMP_CNT_KI = CONVERT(DECIMAL,ISNULL(#{EMP_CNT_KI},0))
+				, EMP_CNT_SA = CONVERT(DECIMAL,ISNULL(#{EMP_CNT_SA},0))
+				, EMP_CNT_ETC = CONVERT(DECIMAL,ISNULL(#{EMP_CNT_ETC},0))
+				, CD_PTNR_CTGR = #{CD_PTNR_CTGR}
+				, CD_NATION = #{CD_NATION}
+				, NATION_RMK = #{NATION_RMK}
+				, AREA = #{AREA}
+				, BIZ_PROFIT_1 = CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_1},0))
+				, BIZ_PROFIT_2 = CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_2},0))
+				, BIZ_PROFIT_3 = CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_3},0))
+				, PYMT_BNK_ADDR = #{PYMT_BNK_ADDR}
+				, HM_PG = #{HM_PG}
+				, CRDT_GRD = #{CRDT_GRD}
+				, CACHE_GRADE = #{CACHE_GRADE}
+				, CRDT_EVAL_ORG = #{CRDT_EVAL_ORG}
+				, CRDT_EVAL_DAY = CONVERT(VARCHAR, #{CRDT_EVAL_DAY}, 112)
+				, ATTCH_FILE_CNT = CONVERT(INT,ISNULL(#{ATTCH_FILE_CNT},0))
+				, LAST_CHGR_ID = #{LAST_CHGR_ID}
+				, LAST_CHG_DT = GETDATE()
+		WHERE PTNR_ID = #{PTNR_ID}
+	</update>
+	
+	<update id="updatePtnrReq" parameterType="hashmap">
+	/* [SPtnrService.updatePtnrReq][협력사 등록요청][2017.11.24][안성민] */
+		UPDATE MM_PTNR
+		   SET CD_PTNR_STTS = 'SR10NREQ'
+		       , PTNR_CHT_DT = GETDATE()
+		 WHERE PTNR_ID =#{PTNR_ID}
+	</update>
+	<update id="updatePtnrPorgReq" parameterType="hashmap">
+	/* [SPtnrService.updatePtnrPorgReq][협력사 운영단위 등록요청][2017.11.24][안성민] */
+		UPDATE MM_PTNR_PORG
+		   SET CD_PORG_UNIT_STTS = 'SR20REQ'
+		 WHERE PTNR_ID = #{PTNR_ID}
+		   AND BRANCH_CD = #{BRANCH_CD}
+	</update>
+	
+	<insert id="insertPtnrPorg" parameterType="hashmap">
+	/* [SPtnrService.insertPtnrPorg][협력사 운영단위저장][2017.11.24][안성민] */
+		INSERT INTO MM_PTNR_PORG (
+					BRANCH_CD
+					, PTNR_ID
+					, TKEY
+					, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+				) VALUES (
+					#{BRANCH_CD}
+					, #{PTNR_ID}
+					, CONVERT(VARCHAR(17),GETDATE(),112)+REPLACE(CONVERT(CHAR(12), CURRENT_TIMESTAMP, 114),':','')
+					, #{CRTR_ID}
+					, GETDATE()
+					, #{LAST_CHGR_ID}
+					, GETDATE()
+				)
+	</insert>
+		
+	<select id="readPtnrUser" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readPtnrUser][협력사 대표사용자 ][2017.12.07][안성민]] */
+		SELECT
+				BRANCH_CD
+				, SUBSTRING(USER_ID, 3, LEN(USER_ID)) AS USER_ID
+				, ALT_USE
+				, INT_USER_TYPE
+				, PTNR_ID
+				, USER_NM
+				, USER_NM_GB
+				, DEPT_CD
+				, DEPT_NM
+				, '' AS PWD
+				, '' AS PWDCH
+				, FAX
+				, MJR_JOB
+				, PSTN
+				, TEL
+				, HP
+				, ALT_SMS_RCV
+				, ALT_MAIL_RCV
+				, PWD_EXPR_DAY
+				, PWD_CHG_DAY
+				, LAST_LOGIN_DT
+				--, COST_CNTR_CD
+				--, CC_NM
+				, EMP_NO
+				, EMAIL
+				, LOGIN_SSN_INFO
+				, LOGIN_IP_ADDR
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+		  FROM	MM_MT_USER
+		 WHERE  USER_ID = ( SELECT 
+		 							RPTST_USER_ID 
+		 					  FROM  MM_PTNR
+		 					 WHERE  PTNR_ID 	=	#{PTNR_ID} )		
+	</select>	
+
+	<select id="readPtnr" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readPtnr][신규협력사 상세][2017.12.05][안성민] */
+		SELECT PTNR.PTNR_ID						/* 협력사ID */
+			   ,PTNR.CD_PTNR_STTS				/* 협력사상태 */
+			   ,PTNR.BIZ_NO						/* 사업자번호 */
+			   ,PTNR.PTNR_NM                    /* 협력사명 */
+			   ,PTNR.PTNR_NM_GB                 /* 협력사명 */
+			   ,PTNR.HEAD_OFFCBIZ_NO            /* 본사사업자번호 */
+			   ,PTNR.CORP_REG_NO                /* 법인등록번호 */
+			   ,PTNR.BIZ_CNDTN                  /* 업태 */
+			   ,PTNR.BIZ_TYPE                   /* 업종*/
+			   ,PTNR.BIZ_BGN_DAY                /* 영업개시일자 */
+			   ,PTNR.RPRSTV_NM                  /* 대표자명 */
+			   ,PTNR.RPRSTV_HP                  /* 대표자핸드폰 */
+			   ,PTNR.RPRSTV_EMAIL               /* 대표자EMAIL */
+			   ,PTNR.ZIP_NO                     /* 우편번호 */
+			   ,PTNR.ADDR                       /* 주소 */
+			   ,PTNR.DTL_ADDR                   /* 상세주소 */
+			   ,PTNR.RPTST_TEL                  /* 대표전화 */
+			   ,PTNR.TEL                        /* 연락처 */
+			   ,PTNR.FAX                        /* 팩스 */
+			   ,PTNR.TKEY                       /* TKEY */
+			   ,PTNR.TRD_REQ_BRANCH_CD          /* 거래요청_구매조직ID */
+			   ,ISNULL(PTNR.RPTST_SRC_GRP_ID,'') AS RPTST_SRC_GRP_ID    /* 대표소싱그룹ID */
+			   ,ISNULL((SELECT UP_SRC_GRP_ID 
+              		    FROM MM_MT_SRC_GRP
+              	       WHERE SRC_GRP_ID = PTNR.RPTST_SRC_GRP_ID),'') AS LRG_GRP_ID 	/* 소싱그룹중분류ID */	
+			   ,PTNR.RPTST_USER_ID              /* 대표사용자ID */
+			   ,PTNR.AST                        /* 자산 */
+			   ,PTNR.DEBT                       /* 부채 */
+			   ,PTNR.CAPL                       /* 자본 */
+			   ,PTNR.BIZ_PROFIT                 /* 영업이익 */
+			   ,PTNR.EMP_CNT                    /* 종업원수 */
+			   ,PTNR.PYMT_BNK                   /* 지급은행 */
+			   ,PTNR.BNK_OWNR                   /* 예금주 */
+			   ,PTNR.BNK_ACNT_NO                /* 계좌정보 */
+			   ,PTNR.MJR_CSTMR                  /* 주요거래처 */
+			   ,PTNR.YR_1                       /* 연도1 */
+			   ,PTNR.YR_2                       /* 연도2 */
+			   ,PTNR.YR_3                       /* 연도3 */
+			   ,PTNR.SALES_AMT_1                /* 매출액1 */
+			   ,PTNR.SALES_AMT_2                /* 매출액2 */
+			   ,PTNR.SALES_AMT_3                /* 매출액3 */
+			   ,PTNR.PTNR_RMK                   /* 협력사비고 */
+			   ,PTNR.EMP_CNT_KI                 /* 종업원수 기능 */
+			   ,PTNR.EMP_CNT_SA                 /* 종업원수 사무 */
+			   ,PTNR.EMP_CNT_ETC                /* 종업원수 기타 */
+			   ,PTNR.CD_PTNR_CTGR               /* 협력사유형 */
+			   ,PTNR.CD_NATION                  /* 국가 */
+			   ,PTNR.NATION_RMK                 /* 국가비고 */
+			   ,PTNR.AREA                       /* 지역 */
+			   ,PTNR.BIZ_PROFIT_1               /* 영업이익1 */
+			   ,PTNR.BIZ_PROFIT_2               /* 영업이익2 */
+			   ,PTNR.BIZ_PROFIT_3               /* 영업이익3 */
+			   ,PTNR.PYMT_BNK_ADDR              /* 지급은행주소 */
+			   ,PTNR.CD_TRD_CRNC                /* 거래통화 */
+			   ,PTNR.CD_INCOTERMS               /* INCOTERMS */
+			   ,PTNR.HM_PG                      /* 홈페이지 */
+			   ,PTNR.CD_PYMT_CNDTN              /* 지급조건 */
+			   ,PTNR.CRDT_GRD                   /* 기업신용등급 */
+			   ,PTNR.CACHE_GRADE                /* 현금스름등급 */
+			   ,PTNR.CRDT_EVAL_ORG              /* 신용평가기관 */
+			   ,PTNR.CRDT_EVAL_DAY              /* 신용평가방행일 */
+			   ,PTNR.ATTCH_FILE_CNT				/* 첨부파일 */
+			   ,PTNR.CRTR_ID                    /* 생성사ID */
+			   ,PTNR.LAST_CHGR_ID               /* 최종수정자ID */
+			   ,PORG.BRANCH_CD
+			   ,'' AS LANG_CD
+	    FROM MM_PTNR PTNR
+	         LEFT OUTER JOIN MM_PTNR_PORG PORG     
+	      ON PTNR.PTNR_ID = PORG.PTNR_ID
+	     AND PORG.BRANCH_CD = #{BRANCH_CD}                 
+	   WHERE PTNR.PTNR_ID = #{PTNR_ID}
+	    <if test="BIZ_NO == null and BIZ_NO == '' ">
+	     AND PTNR.BIZ_NO = #{BIZ_NO} 
+	    </if>           
+	</select>                              
+	
+	<select id="readPtnrPlant" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readPtnrPlant][신규협력사 공장 ][2017.11.27][안성민] */
+		SELECT 0 AS CHECKED
+			   , PTNR_PLANT_ID
+			   , PTNR_ID
+			   , CD_NATION
+			   , NATION_RMK
+			   , AREA
+			   , ADDR
+			   , GROSS_AREA
+			   , LAST_CHGR_ID
+			   , CRTR_ID
+	     FROM MM_PTNR_PLANT
+		 WHERE PTNR_ID = #{PTNR_ID}
+	</select>
+	                                       
+	<select id="readPtnrMaker" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readPtnrMaker][신규협력사 Maker ][2017.11.24][안성민] */
+		SELECT 0 AS CHECKED
+			   , PTNR_MAKER_ID
+			   , PTNR_ID
+			   , MAKER
+			   , CASE WHEN ALT_TS='Y' THEN 1
+			          ELSE 0
+			     END AS ALT_TS
+			   , CONVERT(VARCHAR, LIMIT_DAY, 112) AS LIMIT_DAY
+			   , LAST_CHGR_ID
+			   , CRTR_ID
+	     FROM MM_PTNR_MAKER
+		 WHERE PTNR_ID = #{PTNR_ID}
+	</select>
+	
+	<select id="searchSrcGrp" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.searchSrcGrp][협력사 소싱그룹][2017.11.14][안성민] */
+		 SELECT POOL.BRANCH_CD
+		 	   , POOL.PTNR_ID
+		       , POOL.SRC_GRP_ID
+		       , GRP.SRC_GRP_NM
+		       , GRP.SRC_GRP_NM2
+		       , GRP.ALT_USE
+		       , POOL.CRTR_ID
+		       , POOL.LAST_CHGR_ID
+		  FROM MM_PTNR_POOL POOL
+		       RIGHT OUTER JOIN MM_MT_SRC_GRP GRP
+		    ON POOL.SRC_GRP_ID = GRP.SRC_GRP_ID
+		 WHERE PTNR_ID = #{PTNR_ID}
+		   AND BRANCH_CD = #{BRANCH_CD}
+		 ORDER BY GRP.ARY_ORDR
+	</select>
+	
+	<select id="searchSrcLvl1" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.searchSrcLvl1][협력사 소싱그룹][2017.11.14][안성민] */
+		SELECT SRC_GRP_ID
+		       , LVL
+		       , SRC_GRP_NM
+		       , SRC_GRP_NM2
+		  FROM MM_MT_SRC_GRP
+		 WHERE ALT_USE = 'Y'
+		   AND LVL=1
+	</select>
+	
+	<select id="searchSrcLvl2" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.searchSrcLvl2][협력사 소싱그룹][2017.11.14][안성민] */
+		SELECT SRC_GRP_ID
+		       , LVL
+		       , SRC_GRP_NM
+		       , SRC_GRP_NM2
+		       , UP_SRC_GRP_ID
+		  FROM MM_MT_SRC_GRP
+		 WHERE ALT_USE = 'Y'
+		   AND LVL=2
+	</select>
+	
+		
+	<insert id="insertPtnrPlant" parameterType="hashmap">
+	/* [SPtnrService.insertPtnrPlant][협력사 공장 저장][2017.11.24][안성민] */
+		INSERT INTO MM_PTNR_PLANT (
+					PTNR_PLANT_ID
+					, PTNR_ID
+					, CD_NATION
+					, NATION_RMK
+					, AREA
+					, ADDR
+					, GROSS_AREA
+					, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+				) VALUES ( 
+					#{PTNR_PLANT_ID}
+					, #{PTNR_ID}
+					, #{CD_NATION}
+					, #{NATION_RMK}
+					, #{AREA}
+					, #{ADDR}
+					, #{GROSS_AREA}
+					, #{CRTR_ID}
+					, GETDATE()
+					, #{LAST_CHGR_ID}
+					, GETDATE()
+				)
+	</insert>
+	
+	<update id="updatePtnrPlant" parameterType="hashmap">
+	/* [SPtnrService.updatePtnrPlant][협력사 공장 수정][2017.11.24][안성민] */
+		UPDATE MM_PTNR_PLANT
+		   SET CD_NATION = #{CD_NATION}
+				, NATION_RMK = #{NATION_RMK}
+				, AREA = #{AREA}
+				, ADDR = #{ADDR}
+				, GROSS_AREA = #{GROSS_AREA}
+				, LAST_CHGR_ID = #{LAST_CHGR_ID}
+				, LAST_CHG_DT = GETDATE()
+		 WHERE PTNR_PLANT_ID = #{PTNR_PLANT_ID}
+	</update>
+	
+	<delete id="deletePtnrPlant" parameterType="hashmap">
+	/* [SPtnrService.deletePtnrPlant][협력사 공장 삭제][2017.11.24][안성민] */
+		DELETE FROM MM_PTNR_PLANT
+		 WHERE PTNR_PLANT_ID = #{PTNR_PLANT_ID} 
+	
+	</delete>
+	<insert id="insertPtnrMaker" parameterType="hashmap">
+	/* [SPtnrService.insertPtnrMaker][협력사 Maker 저장][2017.11.24][안성민] */
+		INSERT INTO MM_PTNR_MAKER (
+					PTNR_MAKER_ID
+					, PTNR_ID
+					, MAKER
+					, ALT_TS
+					, LIMIT_DAY
+					, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+				) VALUES ( 
+					#{PTNR_MAKER_ID}
+					, #{PTNR_ID}
+					, #{MAKER}
+					, CASE WHEN #{ALT_TS}=1 THEN 'Y'
+					       ELSE 'N'
+					  END
+					, CONVERT(VARCHAR, #{LIMIT_DAY}, 112)
+					, 'SYSTEM'
+					, GETDATE()
+					, #{LAST_CHGR_ID}
+					, GETDATE()
+				)
+	</insert>
+	
+	<update id="updatePtnrMaker" parameterType="hashmap">
+	/* [SPtnrService.updatePtnrMaker][협력사 Maker 수정][2017.11.24][안성민] */
+		UPDATE MM_PTNR_MAKER
+		   SET MAKER = #{MAKER}
+			   , ALT_TS = CASE WHEN #{ALT_TS}=1 THEN 'Y'
+				               ELSE 'N'
+				          END
+			   , LIMIT_DAY = CONVERT(VARCHAR, #{LIMIT_DAY}, 112)
+			   , LAST_CHGR_ID = #{LAST_CHGR_ID}
+			   , LAST_CHG_DT = GETDATE()
+		 WHERE PTNR_MAKER_ID = #{PTNR_MAKER_ID}
+	</update>
+	
+	<delete id="deletePtnrMaker" parameterType="hashmap">
+	/* [SPtnrService.updatePtnrMaker][협력사 Maker 수정][2017.11.24][안성민] */
+		DELETE FROM MM_PTNR_MAKER
+		 WHERE PTNR_MAKER_ID = #{PTNR_MAKER_ID} 
+	</delete>
+	
+	
+	<insert id="insertPtnrPool" parameterType="hashmap">
+	/* [SPtnrService.insertPtnrPool][협력사 Pool저장][2017.11.24][안성민] */
+		INSERT INTO MM_PTNR_POOL (
+					BRANCH_CD
+					, SRC_GRP_ID
+					, PTNR_ID
+					, CD_TRD_TYPE
+					, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+				) VALUES ( 
+					#{BRANCH_CD}
+					, #{SRC_GRP_ID}
+					, #{PTNR_ID}
+					, #{CD_TRD_TYPE}
+					, 'SYSTEM'
+					, GETDATE()
+					, 'SYSTEM'
+					, GETDATE()
+				)
+	</insert>
+	
+	<delete id="deletePtnrPool" parameterType="hashmap">
+	/* [SPtnrService.deletePtnrPool][협력사 소싱그룹 삭제][2017.11.24][안성민] */
+		DELETE FROM MM_PTNR_POOL
+		 WHERE PTNR_ID = #{PTNR_ID}
+		   AND BRANCH_CD = #{BRANCH_CD}
+	</delete>
+	
+	<insert id="insertPtnrUser" parameterType="hashmap">
+	/* [SPtnrService.insertPtnrUser][협력사 사용자 저장][2017.11.24][안성민] */
+		INSERT INTO MM_MT_USER (
+					BRANCH_CD
+					, USER_ID
+					, ALT_USE
+					, INT_USER_TYPE
+					, PTNR_ID
+					, USER_NM
+					, DEPT_NM
+					, PWD
+					, FAX
+					, TEL
+					, HP
+					, EMAIL
+					, CRTR_ID
+					, CRT_DT
+					, LAST_CHGR_ID
+					, LAST_CHG_DT
+					, PSTN
+					, ALT_SMS_RCV
+					, ALT_MAIL_RCV
+				) VALUES ( 
+					'SUP'
+					, 'S_' + #{USER_ID}
+					, #{ALT_USE}
+					, 'S'
+					, #{PTNR_ID}
+					, #{USER_NM}
+					, #{DEPT_NM}
+					, HASHBYTES('SHA1',CAST(#{PWD} AS VARCHAR))
+					, #{FAX}
+					, #{TEL}
+					, #{HP}
+					, #{EMAIL}
+					, #{CRTR_ID}
+					, GETDATE()
+					, #{LAST_CHGR_ID}
+					, GETDATE()
+					, #{PSTN}
+					, 'Y'
+					, 'Y'
+				)
+	</insert>
+	
+	<update id="updtaePtnrUser" parameterType="hashmap">
+	/* [SPtnrService.updtaePtnrUser][협력사 사용자 저장][2017.11.27][안성민] */
+		UPDATE MM_MT_USER 
+		   SET USER_NM = #{USER_NM}
+				, DEPT_NM = #{DEPT_NM}
+				, PWD = HASHBYTES('SHA1',CAST(#{PWD} AS VARCHAR))
+				, FAX = #{FAX}
+				, TEL = #{TEL}
+				, HP = #{HP}
+				, EMAIL = #{EMAIL}
+				, LAST_CHGR_ID = #{LAST_CHGR_ID}	
+				, LAST_CHG_DT = GETDATE() 
+				, PSTN = PSTN
+	    WHERE USER_ID = 'S_' + #{USER_ID}
+	</update>
+	
+	<delete id="deletePtnrUser" parameterType="hashmap">
+	/* [SPtnrService.deletePtnrUser][협력사 사용자 삭제][2017.11.24][안성민] */
+		DELETE FROM MM_MT_USER
+		 WHERE PTNR_ID = #{PTNR_ID}
+	
+	</delete>
+	
+	<select id="searchPtnrUser" parameterType="hashmap" resultType="hashmap" >
+  		/* [SPtnrService.searchPtnrUser][기준정보 유저리스트][2017.11.15][김동호] */
+  	 	<include refid="commonService.list-before" >
+  	 		<property name="ORDERS" value="USER_ID ASC"/>
+  	 	</include>
+			SELECT	MMU.BRANCH_CD                                                     
+					,SUBSTRING(MMU.USER_ID,3,LEN(MMU.USER_ID)) AS USER_ID --사용자 ID                  
+					,MMU.INT_USER_TYPE                                                
+					,MMU.USER_NM                                                      
+					,MMU.USER_NM_GB                                                   
+					,MMU.PTNR_ID                                                      
+					,MMU.DEPT_CD                                                      
+					,MMU.DEPT_NM                                                      
+				--	,MMU.PWD                                           
+					,MMU.FAX                                                          
+					,MMU.MJR_JOB                                                      
+					,MMU.TEL                                                          
+					,MMU.HP                                                           
+					,MMU.ALT_SMS_RCV                                                  
+					,MMU.ALT_MAIL_RCV                                                 
+					,MMU.PWD_EXPR_DAY                                                 
+					,MMU.PWD_CHG_DAY                                                  
+					,MMU.LAST_LOGIN_DT                                                
+					--,MMU.COST_CNTR_CD                                                 
+					--,MMU.CC_NM                                                        
+					,MMU.ALT_USE                                                      
+					,MMU.EMP_NO                                                       
+					,MMU.EMAIL                                                        
+					,MMU.CRTR_ID                                                      
+					,MMU.CRT_DT                                                       
+					,MMU.LAST_CHGR_ID                                                 
+					,MMU.LAST_CHG_DT 
+					,CASE WHEN (
+						SELECT COUNT(*)
+						FROM MM_SYS_USER_ROLE 
+						WHERE USER_ID = MMU.USER_ID    
+						AND ROLE_ID = 'S_RPTST') = 1
+					THEN 1
+        			ELSE 0
+        			END ALT_TEAM_LDR        --대표사용자여부          
+					,MMU.ABS_USER_ID
+					,MMU.ABS_ST_DAY
+					,MMU.ABS_ED_DAY
+			FROM	MM_MT_USER MMU 
+					,MM_PTNR MP
+			WHERE	MMU.PTNR_ID = MP.PTNR_ID
+			AND		MP.PTNR_ID = #{PTNR_ID}
+			<if test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+			AND		USER_ID = 'S_' + #{USER_ID}
+			</if>
+			<if test="USER_NM != null and USER_NM != 'undefined' and USER_NM != ''">
+			AND		USER_NM LIKE '%' + #{USER_NM} + '%'
+			</if>
+			
+	   <include refid="commonService.list-after" />
+  	</select>
+    	
+	<select id="readUserDetail" parameterType="hashmap" resultType="hashmap" >
+  		/* [SPtnrService.readUserDetail][기준정보 품목관리 품목처리현황][2017.11.15][김동호] */
+  			SELECT	SUBSTRING(MMU.USER_ID,3,LEN(MMU.USER_ID)) AS USER_ID --사용자 ID         
+  					,MMU.USER_NM			--사용자 NM
+					,'' AS PWD				--비밀번호
+					,MMU.PSTN				--직급
+					,MMU.HP					--HP
+					,MMU.FAX  				--FAX
+					,MMU.ALT_MAIL_RCV		--메일수신여부
+					,CASE WHEN (
+						SELECT COUNT(*)
+						FROM MM_SYS_USER_ROLE 
+						WHERE USER_ID = MMU.USER_ID    
+						AND ROLE_ID = 'S_RPTST'
+								) = 1
+					THEN 'Y'
+        			ELSE 'N'
+        			END ALT_RPTST        --대표사용자여부                                  
+					,MMU.DEPT_NM            --부서명                               
+					,MMU.EMAIL   			--EMAIL
+					,MMU.ALT_USE    		--사용여부
+					,MMU.USER_NM_GB         --사용자명GB                                 
+					,MMU.PTNR_ID           	--협력사 ID                                           
+					,MMU.DEPT_CD            --부서CD         	                                 
+					,MMU.TEL                --TEL          
+					,MMU.ALT_SMS_RCV        --SMS 수신여부
+					,MMU.MJR_JOB            --주요업무                                          
+					,MMU.PWD_EXPR_DAY                                                 
+					,MMU.PWD_CHG_DAY                                                  
+					,MMU.LAST_LOGIN_DT                                                                                                     
+			        ,MMU.EMP_NO                                                       
+					,MMU.CRTR_ID                                                      
+					,MMU.CRT_DT                                                       
+					,MMU.LAST_CHGR_ID                                                 
+					,MMU.LAST_CHG_DT 
+					,MMU.ABS_USER_ID
+					,MMU.ABS_ST_DAY
+					,MMU.ABS_ED_DAY
+					,MMU.INT_USER_TYPE
+					,MMU.BRANCH_CD
+					,MP.CD_PTNR_CTGR
+					,'' AS CHECK_PW
+					,'' AS PTNR_ID
+					,'' AS P_USER_ID
+					,'' AS ROLE_ID
+				--	,MMU.ALT_TEAM_LDR AS LDRCHECK
+			FROM 	MM_MT_USER MMU
+					,MM_PTNR MP
+			WHERE 	MMU.PTNR_ID = MP.PTNR_ID
+			AND 	MMU.USER_ID  = 'S_'+#{USER_ID}
+  	</select>
+  	
+  	<select id="readPtnrCtgrChk" parameterType="hashmap"  resultType="hashmap">
+  	/* [SPtnrService.readPtnrCtgrChk][협력사 유형체크][2017.12.12][안성민] */
+  		SELECT CD_PTNR_CTGR 
+  		  FROM MM_PTNR
+  		 WHERE PTNR_ID = #{PTNR_ID} 
+  	</select>
+  	
+  	<select id="readCheckUser" parameterType="hashmap"  resultType="hashmap">
+  	/* [SPtnrService.readCheckUser][사용자 중복 여부][2017.11.08][김동호] */
+	  	SELECT  CASE WHEN COUNT(USER_ID) = 0
+		        THEN 'Y'
+		        ELSE 'N'
+		        END CHECK_USER
+		FROM    MM_MT_USER
+		WHERE   USER_ID =	'S_'+#{USER_ID}
+  	</select>
+
+  	<update id="updatePtnrUser" parameterType="hashmap">
+	/* [SPtnrService.updatePtnrUser][사용자 수정][2017.11.01][김동호] */
+		UPDATE MM_MT_USER
+			SET	ALT_USE			= #{ALT_USE}
+				,USER_NM		= #{USER_NM}	
+				,DEPT_NM    	= #{DEPT_NM}       
+				,PSTN			= #{PSTN}	
+				,FAX  			= #{FAX}	
+				,MJR_JOB       	= #{MJR_JOB} 
+				,TEL           	= #{TEL}
+				,HP				= #{HP}
+				,ALT_SMS_RCV   	= #{ALT_SMS_RCV} 
+				,ALT_MAIL_RCV	= #{ALT_MAIL_RCV}	
+				,EMAIL   		= #{EMAIL}	                                  
+				,LAST_CHGR_ID   = #{P_USER_ID}                                  
+				,LAST_CHG_DT	= GETDATE()	
+		WHERE	USER_ID =  'S_'+#{USER_ID}
+	</update>
+	<insert id="megerUserRole" parameterType="hashmap">
+	/*[SPtnrService.megerUserRole][사용자 권한 수정][2017.11.17][김동호] */
+	   MERGE MM_SYS_USER_ROLE AS MSUR
+       USING (SELECT	USER_ID
+               FROM		MM_MT_USER
+               WHERE	USER_ID = 'S_' + #{USER_ID}) AS MMU
+	   ON (MSUR.USER_ID = MMU.USER_ID)
+	   WHEN  MATCHED THEN
+	     UPDATE
+	       SET ROLE_ID  		= #{ROLE_ID}
+	           ,LAST_CHGR_ID	= #{P_USER_ID}
+	           ,LAST_CHG_DT  	= GETDATE()
+	   WHEN NOT MATCHED THEN
+	     INSERT
+	     (	USER_ID
+	       	,ROLE_ID
+	       	,BRANCH_CD
+	       	,CRTR_ID
+		   	,CRT_DT
+			,LAST_CHGR_ID
+			,LAST_CHG_DT)
+	     VALUES(
+	       'S_'+#{USER_ID}
+	       ,#{ROLE_ID}
+	       ,'SUP'
+	       ,#{P_USER_ID}
+	       ,GETDATE()
+	       ,#{P_USER_ID}
+	       ,GETDATE()
+	   );
+	</insert>
+	<update id="updateUserRole" parameterType="hashmap">
+	/* [SPtnrService.updateUserRole][사용자 권한 변경][2017.11.17][김동호] */
+		UPDATE	MM_SYS_USER_ROLE
+		SET		ROLE_ID = 'S_GENERAL'
+		WHERE	USER_ID IN (SELECT USER_ID
+							FROM MM_MT_USER
+							WHERE	PTNR_ID = #{PTNR_ID}
+							AND		USER_ID	!= 'S_'+#{USER_ID}
+							)
+	</update>
+
+	<select id="searchLrgGrp" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.searchLrgGrp][소싱그룹 lvl1조회][2017.11.14][안성민] */
+		SELECT SRC_GRP_ID
+		       , LVL
+		       , SRC_GRP_NM
+		       , SRC_GRP_NM2
+		       , ARY_ORDR
+		       , ALT_USE
+		  FROM MM_MT_SRC_GRP
+		 WHERE LVL=1 
+		   AND ALT_USE = 'Y'
+		 ORDER BY  ARY_ORDR
+	</select>
+	<select id="searchMdlGrp" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.searchMdlGrp][소싱그룹 lvl2조회][2017.11.14][안성민] */
+		SELECT GRP.SRC_GRP_ID
+			   , GRP.UP_SRC_GRP_ID
+		       , GRP.LVL
+		       , GRP.SRC_GRP_NM
+		       , GRP.SRC_GRP_NM2
+		       , CASE WHEN ISNULL(POOL.SRC_GRP_ID,'')='' THEN 'ADD'
+           			  ELSE 'DEL'
+       			  END AS BTN 
+		FROM	MM_MT_SRC_GRP GRP
+		LEFT OUTER JOIN MM_PTNR_POOL POOL
+    			ON GRP.SRC_GRP_ID = POOL.SRC_GRP_ID
+		AND		POOL.PTNR_ID = #{PTNR_ID}
+		AND		POOL.BRANCH_CD = ISNULL(#{BRANCH_CD},'HMAX')
+		 WHERE	GRP.LVL=2 
+		   AND	GRP.ALT_USE = 'Y'
+		 ORDER BY  GRP.ARY_ORDR
+	</select>
+	<select id="readSPtnr" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readPtnr][외부 신규협력사 상세][2017.11.27][김동호] */
+		SELECT PTNR.PTNR_ID						/* 협력사ID */
+			   ,PTNR.CD_PTNR_STTS				/* 협력사상태 */
+			   ,PTNR.BIZ_NO						/* 사업자번호 */
+			   ,PTNR.PTNR_NM                    /* 협력사명 */
+			   ,PTNR.HEAD_OFFCBIZ_NO            /* 본사사업자번호 */
+			   ,PTNR.CORP_REG_NO                /* 법인등록번호 */
+			   ,PTNR.BIZ_CNDTN                  /* 업태 */
+			   ,PTNR.BIZ_TYPE                   /* 업종*/
+			   ,PTNR.BIZ_BGN_DAY                /* 영업개시일자 */
+			   ,PTNR.RPRSTV_NM                  /* 대표자명 */
+			   ,PTNR.RPRSTV_HP                  /* 대표자핸드폰 */
+			   ,PTNR.RPRSTV_EMAIL               /* 대표자EMAIL */
+			   ,PTNR.ZIP_NO                     /* 우편번호 */
+			   ,PTNR.ADDR                       /* 주소 */
+			   ,PTNR.DTL_ADDR                   /* 상세주소 */
+			   ,PTNR.RPTST_TEL                  /* 대표전화 */
+			   ,PTNR.TEL                        /* 연락처 */
+			   ,PTNR.FAX                        /* 팩스 */
+			   ,PTNR.TKEY                       /* TKEY */
+			   ,PTNR.TRD_REQ_BRANCH_CD          /* 거래요청_구매조직ID */
+			   ,ISNULL(PTNR.RPTST_SRC_GRP_ID,'') AS RPTST_SRC_GRP_ID    /* 대표소싱그룹ID */
+			   ,ISNULL((SELECT UP_SRC_GRP_ID 
+              		    FROM MM_MT_SRC_GRP
+              	       WHERE SRC_GRP_ID = PTNR.RPTST_SRC_GRP_ID),'') AS LRG_GRP_ID 	/* 소싱그룹중분류ID */	
+			   ,PTNR.RPTST_USER_ID              /* 대표사용자ID */
+			   ,PTNR.AST                        /* 자산 */
+			   ,PTNR.DEBT                       /* 부채 */
+			   ,PTNR.CAPL                       /* 자본 */
+			   ,PTNR.BIZ_PROFIT                 /* 영업이익 */
+			   ,PTNR.EMP_CNT                    /* 종업원수 */
+			   ,PTNR.PYMT_BNK                   /* 지급은행 */
+			   ,PTNR.BNK_OWNR                   /* 예금주 */
+			   ,PTNR.BNK_ACNT_NO                /* 계좌정보 */
+			   ,PTNR.MJR_CSTMR                  /* 주요거래처 */
+			   ,PTNR.YR_1                       /* 연도1 */
+			   ,PTNR.YR_2                       /* 연도2 */
+			   ,PTNR.YR_3                       /* 연도3 */
+			   ,PTNR.SALES_AMT_1                /* 매출액1 */
+			   ,PTNR.SALES_AMT_2                /* 매출액2 */
+			   ,PTNR.SALES_AMT_3                /* 매출액3 */
+			   ,PTNR.PTNR_RMK                   /* 협력사비고 */
+			   ,PTNR.EMP_CNT_KI                 /* 종업원수 기능 */
+			   ,PTNR.EMP_CNT_SA                 /* 종업원수 사무 */
+			   ,PTNR.EMP_CNT_ETC                /* 종업원수 기타 */
+			   ,PTNR.CD_PTNR_CTGR               /* 협력사유형 */
+			   ,PTNR.CD_NATION                  /* 국가 */
+			   ,PTNR.NATION_RMK                 /* 국가비고 */
+			   ,PTNR.AREA                       /* 지역 */
+			   ,PTNR.BIZ_PROFIT_1               /* 영업이익1 */
+			   ,PTNR.BIZ_PROFIT_2               /* 영업이익2 */
+			   ,PTNR.BIZ_PROFIT_3               /* 영업이익3 */
+			   ,PTNR.PYMT_BNK_ADDR              /* 지급은행주소 */
+			   ,PTNR.CD_TRD_CRNC                /* 거래통화 */
+			   ,PTNR.CD_INCOTERMS               /* INCOTERMS */
+			   ,PTNR.HM_PG                      /* 홈페이지 */
+			   ,PTNR.CD_PYMT_CNDTN              /* 지급조건 */
+			   ,PTNR.CRDT_GRD                   /* 기업신용등급 */
+			   ,PTNR.CACHE_GRADE                /* 현금스름등급 */
+			   ,PTNR.CRDT_EVAL_ORG              /* 신용평가기관 */
+			   ,PTNR.CRDT_EVAL_DAY              /* 신용평가방행일 */
+			   ,PTNR.CRTR_ID                    /* 생성사ID */
+			   ,PTNR.ATTCH_FILE_CNT				/* 첨부파일수 */
+			   ,PTNR.LAST_CHGR_ID               /* 최종수정자ID */
+			   ,PORG.BRANCH_CD
+			   ,'' AS LANG_CD
+	    FROM MM_PTNR PTNR
+	         LEFT OUTER JOIN MM_PTNR_PORG PORG     
+	      ON PTNR.PTNR_ID = PORG.PTNR_ID
+	     AND PORG.BRANCH_CD = #{BRANCH_CD}                 
+	   WHERE PTNR.PTNR_ID = #{PTNR_ID}           
+	</select>
+	<select id="readSPtnrMailCheck" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readSPtnrMailCheck][협력사 기본정보 변경시 확인할 오리지날 값][2018.01.04][김동호] */
+		SELECT 	PTNR_NM						/* 협력사명 */
+				, CORP_REG_NO				/* 법인등록번호 */
+				, BIZ_NO					/* 사업자번호 */
+				, BIZ_BGN_DAY				/* 영업개시일자 */
+				, BIZ_CNDTN					/* 업태 */
+				, BIZ_TYPE					/* 업종*/
+				, TEL						/* 연락처 */
+				, FAX						/* 팩스 */
+			  	, CD_NATION                	/* 국가 */
+			  	, NATION_RMK				/* 국가비고 */
+				, AREA						/* 지역 */
+				, HM_PG						/* 홈페이지 */
+				, PTNR_RMK					/* 협력사비고 */
+				, RPRSTV_NM                 /* 대표자명 */
+				, RPTST_TEL                 /* 대표전화 */
+				, RPRSTV_EMAIL              /* 대표자EMAIL */
+				, RPRSTV_HP                 /* 대표자핸드폰 */
+				, ZIP_NO                    /* 우편번호 */
+				, ADDR                      /* 주소 */
+			   	, DTL_ADDR                  /* 상세주소 */
+				, 0 AS MAILCHECK
+	    FROM 	MM_PTNR 
+	    WHERE	PTNR_ID = #{PTNR_ID}      
+	</select>
+	
+	<update id="updateSPtnr" parameterType="hashmap">
+	/* [SPtnrService.updateSPtnr][협력사 수정][2017.11.27][김동호] */
+		UPDATE MM_PTNR
+		   SET  CORP_REG_NO			= #{CORP_REG_NO}
+				, BIZ_BGN_DAY		= #{BIZ_BGN_DAY}
+				, BIZ_CNDTN			= #{BIZ_CNDTN}
+				, BIZ_TYPE			= #{BIZ_TYPE}
+				, TEL				= #{TEL}
+				, FAX				= #{FAX}
+				, CD_NATION			= #{CD_NATION}
+				, AREA				= #{AREA}
+				, HM_PG				= #{HM_PG}
+				, PTNR_RMK			= #{PTNR_RMK}
+				, RPRSTV_NM			= #{RPRSTV_NM}
+				, RPRSTV_HP			= #{RPRSTV_HP}
+				, RPRSTV_EMAIL		= #{RPRSTV_EMAIL}
+				, RPTST_TEL			= #{RPTST_TEL}
+				, ZIP_NO			= #{ZIP_NO}
+				, ADDR				= #{ADDR}
+				, DTL_ADDR 			= #{DTL_ADDR}
+				, AST = CONVERT(DECIMAL,ISNULL(#{AST},0))
+				, DEBT = CONVERT(DECIMAL,ISNULL(#{DEBT},0))
+				, CAPL = CONVERT(DECIMAL,ISNULL(#{CAPL},0))
+				, EMP_CNT_KI = CONVERT(DECIMAL,ISNULL(#{EMP_CNT_KI},0))
+				, EMP_CNT_SA = CONVERT(DECIMAL,ISNULL(#{EMP_CNT_SA},0))
+				, EMP_CNT_ETC = CONVERT(DECIMAL,ISNULL(#{EMP_CNT_ETC},0))
+				, MJR_CSTMR 		= #{MJR_CSTMR}
+				, SALES_AMT_1 = CONVERT(DECIMAL,ISNULL(#{SALES_AMT_1},0))
+				, SALES_AMT_2 = CONVERT(DECIMAL,ISNULL(#{SALES_AMT_2},0))
+				, SALES_AMT_3 = CONVERT(DECIMAL,ISNULL(#{SALES_AMT_3},0))
+				, BIZ_PROFIT_1 = CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_1},0))
+				, BIZ_PROFIT_2 = CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_2},0))
+				, BIZ_PROFIT_3 = CONVERT(DECIMAL,ISNULL(#{BIZ_PROFIT_3},0))
+				, PYMT_BNK 			= #{PYMT_BNK}
+				, BNK_OWNR 			= #{BNK_OWNR}
+				, PYMT_BNK_ADDR 	= #{PYMT_BNK_ADDR}
+				, BNK_ACNT_NO 		= #{BNK_ACNT_NO}
+				, CRDT_EVAL_ORG 	= #{CRDT_EVAL_ORG}
+				, CRDT_EVAL_DAY 	= CONVERT(VARCHAR, #{CRDT_EVAL_DAY}, 112)
+				, TKEY 				= CONVERT(VARCHAR(17),GETDATE(),112)+REPLACE(CONVERT(CHAR(12), CURRENT_TIMESTAMP, 114),':','')
+				, TRD_REQ_BRANCH_CD = #{TRD_REQ_BRANCH_CD}
+				, RPTST_SRC_GRP_ID 	= #{RPTST_SRC_GRP_ID}
+				, RPTST_USER_ID 	= #{RPTST_USER_ID}
+				, EMP_CNT 			= CONVERT(INT,ISNULL(#{EMP_CNT},0))
+				, BIZ_PROFIT 		= CONVERT(INT,ISNULL(#{BIZ_PROFIT},0))
+				, CD_PTNR_CTGR 		= #{CD_PTNR_CTGR}
+				, NATION_RMK 		= #{NATION_RMK}
+				, CRDT_GRD 			= #{CRDT_GRD}
+				, CACHE_GRADE 		= #{CACHE_GRADE}
+				, LAST_CHGR_ID 		= #{LAST_CHGR_ID}
+				, LAST_CHG_DT 		= GETDATE()
+		WHERE PTNR_ID = #{PTNR_ID}
+	</update>
+	<select id="readSMaker" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readSMaker][협력사 MAKER read][2017.11.27][김동호] */
+		SELECT 0 AS CHECKED
+			   , PTNR_MAKER_ID
+			   , PTNR_ID
+			   , MAKER
+			   , CASE WHEN ALT_TS='Y' THEN 1
+			          ELSE 0
+			     END AS ALT_TS
+			   , CONVERT(VARCHAR, LIMIT_DAY, 112) AS LIMIT_DAY
+			   , LAST_CHGR_ID
+			   , CRTR_ID
+	     FROM MM_PTNR_MAKER
+		 WHERE PTNR_ID = #{PTNR_ID}
+	</select>
+	<select id="readSPlant" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.readSPlant][협력사 plant read][2017.11.27][김동호] */
+		SELECT 0 AS CHECKED
+			   , PTNR_PLANT_ID
+			   , PTNR_ID
+			   , CD_NATION
+			   , NATION_RMK
+			   , AREA
+			   , ADDR
+			   , GROSS_AREA
+			   , LAST_CHGR_ID
+			   , CRTR_ID
+	     FROM MM_PTNR_PLANT
+		 WHERE PTNR_ID = #{PTNR_ID}
+	</select>
+	<delete id="deleteSelectGrp" parameterType="hashmap">
+	/* [SPtnrService.deleteSelectGrp][협력사 소싱그룹 삭제][2017.11.27][안성민] */
+		DELETE 
+		  FROM 	MM_PTNR_POOL
+		 WHERE	BRANCH_CD	= #{BRANCH_CD}
+		   AND  SRC_GRP_ID	= #{SRC_GRP_ID}
+		   AND  PTNR_ID		= #{PTNR_ID}
+	</delete>
+	
+	<select id="checkPtnrUser" parameterType="hashmap" resultType="hashmap">
+	/* [SPtnrService.checkPtnrUser][Charge Request User check][2018.01.04][안성민] */
+		SELECT 
+			MU.USER_ID
+			, '' AS USER_PW_ORG
+			, MU.PTNR_ID 
+			, MP.CD_PTNR_STTS
+			, MP.CD_PTNR_CTGR
+			, MP.LAST_CHG_DT
+			, CASE WHEN DATEDIFF(YY,CONVERT(datetime,MP.LAST_CHG_DT),GETDATE())>0 THEN 'Y'
+					ELSE 'N'
+				END AS ALT_REJ_DAY
+		FROM MM_MT_USER MU
+			 INNER JOIN MM_PTNR MP
+				ON MU.PTNR_ID = MP.PTNR_ID
+		WHERE MU.USER_ID = 'S_' + #{USER_ID}
+	 	AND MU.PWD = HASHBYTES('SHA1',CAST(#{USER_PW_ORG} AS VARCHAR))
+	</select>
+	
+	<update id="updateRptstUser" parameterType="hashmap">
+	/* [SPtnrService.updateRptstUser][협력사 대표사용자 변경][2018.01.05][안성민] */
+		UPDATE MM_PTNR
+		   SET RPTST_USER_ID = 'S_' + #{USER_ID}
+		 WHERE PTNR_ID = #{PTNR_ID}
+	
+	
+	</update>
+</mapper>

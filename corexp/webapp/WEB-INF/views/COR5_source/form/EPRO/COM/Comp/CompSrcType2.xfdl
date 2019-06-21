@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="CompCalFromTo" enable="true" height="23" id="CompSrcType" left="0" onactivate="CompSrcType_onactivate" onload="fnOnload" titletext="소싱그룹분류" top="0" width="185">
+    <Layouts>
+      <Layout>
+        <Static bottom="40" id="Static00" left="0%" right="0%" taborder="0" top="0"/>
+        <Combo codecolumn="SRC_GRP_ID" datacolumn="SRC_GRP_NM" height="23" id="cboLvl1" index="-1" innerdataset="@dsLvl1" left="0" objNm="대분류" onitemchanged="fnCboLvl1OnitemChanged" right="57%" taborder="1" top="0"/>
+        <Combo codecolumn="SRC_GRP_ID" datacolumn="SRC_GRP_NM" height="23" id="cboLvl2" innerdataset="@dsLvl2" left="45%" objNm="중분류" right="1.62%" taborder="2" top="0"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset id="dsCond">
+        <ColumnInfo>
+          <Column id="SRC_GRP_ID" size="40" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+      <Dataset id="dsLvl1"/>
+      <Dataset id="dsLvl2">
+        <ColumnInfo>
+          <Column id="SRC_GRP_ID" size="256" type="STRING"/>
+          <Column id="SRC_GRP_NM" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row>
+            <Col id="SRC_GRP_NM"/>
+          </Row>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompSrcType.xfdl
+   @desc       소싱그룹 컴포넌트
+   @author     안성민
+   @makedate   2017.11.30
+   @desc       상세에서 소싱그룹 2레벨까지 보여줄때 사용
+   @ FormOnload시 fnSetBind를 해주고 
+*/
+
+/**
+	@function	fnOnLoad()
+	@desc   	폼 로드 이벤트
+*/
+this.fnOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	this.fnSearchSrc();
+}
+
+
+/**
+	@function	fnSetBind()
+	@param		objDs {Dataset}
+				sFromDtCol {String}
+				sToDtCol {String}
+	@desc   	데이터셋 입력된 LVL1 LVL2 바인딩
+*/
+this.fnSetBind = function(objDs:Dataset, lvl1, lvl2)
+{
+	this.removeChild("Bind01");
+	this.removeChild("Bind02");
+	
+	var objBindItem = new BindItem("Bind01", "cboLvl1", "value", objDs.name, lvl1);
+	this.addChild("Bind01", objBindItem);
+	objBindItem.bind();
+	
+	objBindItem = new BindItem("Bind02", "cboLvl2", "value", objDs.name, lvl2);
+	this.addChild("Bind02", objBindItem);
+	objBindItem.bind();
+}
+
+/**
+  * @함수명	: fnPreSrcLvl1
+  * @desc   : 소싱그룹조회
+  */
+this.fnPreSearchSrc = function(){
+	return true;
+}
+
+/**
+  * @함수명	: fnSrcLvl1
+  * @desc   : 조회
+  */
+this.fnSearchSrc = function(){
+	
+	if(!this.fnPreSearchSrc()) return false;
+	var sSvcID = "searchSrcGrp";
+	var sController = "epro.com.service.BComService.searchSrcGrp";
+	var sInDatasets = "dsCond=dsCond";
+	var sOutDatasets = "dsLvl1=dsLvl1 dsLvl2=dsLvl2";
+	var sCallbackFunc = "fnTrCallBack";	
+					
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, null);
+}
+
+/**
+	@function	fnTrCallBack()
+	@desc   	트랜잭션 콜백 함수
+*/
+this.fnTrCallBack = function (strSvcID, strErrCd, strErrMsg)
+{
+	switch(strSvcID){
+		case "searchSrcGrp" :
+			this.dsLvl1.insertRow(0);
+			this.dsLvl1.setColumn(0,"SRC_GRP_ID","");
+			this.dsLvl1.setColumn(0,"SRC_GRP_NM",gfnMultiLabel("EPRO_LABEL_00786"));
+			this.dsLvl2.insertRow(0);
+			this.dsLvl2.setColumn(0,"SRC_GRP_ID","");
+			this.dsLvl2.setColumn(0,"SRC_GRP_NM",gfnMultiLabel("EPRO_LABEL_00786"));
+			this.dsLvl2.setColumn(0,"UP_SRC_GRP_ID","");			
+
+			
+			//this.cboLvl1.set_index(0);
+			//this.cboLvl2.set_index(0);
+			break;
+			
+		default:
+			break;	
+	}
+}
+
+/**
+	@function	dsFilter()
+	@desc   	lvl2 필터
+*/
+this.dsFilter = function(val)
+{
+	this.dsLvl2.set_enableevent(false);
+	this.dsLvl2.filter("UP_SRC_GRP_ID=='" + val + "' || SRC_GRP_ID==''");
+	this.dsLvl2.set_enableevent(true);
+}
+
+/**
+	@function	fnCboLvl1OnitemChanged()
+	@desc   	cbolvl1 item변경이벤트
+*/
+this.fnCboLvl1OnitemChanged = function(obj:Combo, e:nexacro.ItemChangeEventInfo)
+{
+	this.dsFilter(obj.value);
+	this.cboLvl2.set_value("")
+	if(gfnIsNull(obj.value)) {
+		this.cboLvl2.set_enable(false);
+	} else {
+		this.cboLvl2.set_enable(true);
+	}
+	
+}
+
+/**
+	@function	fnGetSrcNm()
+	@input      lvl1 : cbolvl1의 Nm를가져온다
+				lvl2 : cbolvl2의 Nm를가져온다.
+	@return     String
+	@desc   	cbolvl1 item변경이벤트
+*/
+this.fnGetSrcNm = function(lvl) 
+{
+	if(lvl == "lvl1") {
+		return this.dsLvl1.lookup("SRC_GRP_ID", this.cboLvl1.value, "SRC_GRP_NM");
+	} else if(lvl == "lvl2") {
+		return this.dsLvl2.lookup("SRC_GRP_ID", this.cboLvl2.value, "SRC_GRP_NM");
+	}
+}
+
+/**
+	@function	fnGetSrcNm2()
+	@input      lvl1 : cbolvl1의 Nm2를가져온다
+				lvl2 : cbolvl2의 Nm2를가져온다.
+	@return     String
+	@desc   	cbolvl1 item변경이벤트
+*/
+this.fnGetSrcNm2 = function(lvl) 
+{
+	if(lvl == "lvl1") {
+		return this.dsLvl1.lookup("SRC_GRP_ID", this.cboLvl1.value, "SRC_GRP_NM2");
+	} else if(lvl == "lvl2") {
+		return this.dsLvl2.lookup("SRC_GRP_ID", this.cboLvl2.value, "SRC_GRP_NM2");
+	}
+}
+
+this.fnSetView = function()
+{
+	if(gfnIsNull(this.cboLvl1.value)) {
+		this.cboLvl2.set_enable(false)
+	} else {
+		this.dsFilter(this.cboLvl1.value);
+		this.cboLvl2.set_enable(true);
+	}
+}]]></Script>
+  </Form>
+</FDL>

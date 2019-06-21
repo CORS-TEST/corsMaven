@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="TabPage_Multiline_0" height="320" id="compMultiInputPop" inheritanceid="" left="0" onload="compMultiInputPopOnload" position="absolute" titletext="멀티입력팝업" top="0" width="500">
+    <Layouts>
+      <Layout>
+        <Static height="29" id="staWFDALabel01" left="16" right="16" taborder="7" top="310"/>
+        <Tab height="266" id="tabMain" left="16" objNm="TAB" onchanged="tabMainOnchanged" right="16" scrollbars="autoboth" tabindex="0" taborder="0" top="10">
+          <Tabpages>
+            <Tabpage height="230" id="tabp01" left="0" objNm="기본정보" scrollbars="none" text="Input Mode" top="31" width="468">
+              <Layouts>
+                <Layout>
+                  <Grid autoenter="select" autofittype="col" binddataset="dsMulti" cellclickbound="cell" cellmovingtype="col" cellsizingtype="col" id="grList" onheadclick="tabMainTabp01GrListOnheadclick" right="0" taborder="0" top="37" useinputpanel="false" left="0" bottom="8">
+                    <Formats>
+                      <Format id="default">
+                        <Columns>
+                          <Column size="40"/>
+                          <Column size="425"/>
+                        </Columns>
+                        <Rows>
+                          <Row band="head" size="24"/>
+                          <Row size="24"/>
+                        </Rows>
+                        <Band id="head">
+                          <Cell displaytype="checkbox" edittype="checkbox"/>
+                          <Cell col="1" expr="" text="입력값"/>
+                        </Band>
+                        <Band id="body">
+                          <Cell displaytype="checkbox" edittype="checkbox" expandshow="hide" style="background: ;" text="bind:CHECKED"/>
+                          <Cell col="1" displaytype="text" editdisplay="display" edittype="text" style="align: ;" text="bind:KEY"/>
+                        </Band>
+                      </Format>
+                    </Formats>
+                  </Grid>
+                  <Button height="24" id="btnDel" lbcd="" objNm="삭제버튼" onclick="tabMainTabp01BtnDelOnclick" right="0" taborder="2" text=" 삭제" top="8" width="55"/>
+                  <Button height="24" id="btnAdd" lbcd="" objNm="추가버튼" onclick="tabMainTabp01BtnAddOnclick" right="57" taborder="1" text=" 추가" top="8" width="55"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+            <Tabpage id="tabp02" objNm="텍스트" scrollbars="none" text="Text Mode">
+              <Layouts>
+                <Layout>
+                  <Button height="24" id="btnRtn" onclick="btnRtnOnclick" right="16" taborder="2" text="적용" top="41" width="45"/>
+                  <Static height="218" id="staWFDALabel05" left="0%" right="0%" taborder="3" top="10"/>
+                  <Static height="218" id="staRfqRemark" left="0" objNm="헤더텍스트" taborder="4" text="텍스트" top="10" width="59"/>
+                  <TextArea height="210" id="txaInput" left="62" ontextchanged="tabMainTabp02TxaInputOntextchanged" taborder="0" top="14" width="402"/>
+                </Layout>
+              </Layouts>
+            </Tabpage>
+          </Tabpages>
+        </Tab>
+        <Edit height="21" id="edtResult" left="78" readonly="true" taborder="3" top="284" width="403"/>
+        <Static height="29" id="staQtyUnit" left="16" right="425" taborder="5" text="결과" top="280"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsMulti" loadfiltermode="keep" loadkeymode="keep" oncolumnchanged="dsMultiOncolumnchanged" reversesubsum="false" updatecontrol="true" useclientlayout="false">
+        <ColumnInfo>
+          <Column id="CHECKED" size="256" type="STRING"/>
+          <Column id="KEY" size="256" type="STRING"/>
+        </ColumnInfo>
+        <Rows>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+        </Rows>
+      </Dataset>
+    </Objects>
+    <Bind>
+      <BindItem columnid="EPRO_LABEL_00180" compid="tabMain.tabp01.btnDel" datasetid="gdsLabel" id="btnDelLangBind2017110317184218727" propid="text"/>
+    </Bind>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompMultiInputPop.xfdl
+   @desc       멀티검색조건검색팝업
+   @author     정현근
+   @makedate   2019.05.07
+   @history    
+*/
+
+this.popTitle = "검색조건 멀티입력"
+
+this.fv_objComp = null; //입력 컴포넌트
+
+/**
+ 	@function	compMultiInputPopOnload()
+ 	@desc		폼 onload 이벤트
+ */  
+this.compMultiInputPopOnload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var ownFrame = this.getOwnerFrame();
+	this.fv_objComp = ownFrame.agv_comp;
+		
+	//form에서 넘어온 값을 컴포넌트에 세팅함.
+	this.edtResult.set_value(gfnTrim(this.fv_objComp.value));
+	
+	//현재 보고있는 Mode의 컴포넌트에 세팅함.
+	this.tabMainOnchanged();
+	
+	this.tabMain.tabp01.grList.setFocus();
+	this.tabMain.tabp01.grList.setCellPos(1);
+	this.tabMain.tabp01.grList.showEditor();
+}
+
+/**
+ 	@function	fnSetDsMulti()
+ 	@desc		데이터셋 세팅
+ */ 
+this.fnSetDsMulti = function()
+{
+	if(gfnIsNull(this.edtResult.value))
+	{
+		this.dsMulti.set_enableevent(false);
+		for(var i=0;i<this.dsMulti.rowcount;i++)
+		{
+			this.dsMulti.setColumn(i, "KEY", null);
+		}
+		this.dsMulti.set_enableevent(true);
+		return;
+	}
+	
+	var arrValue = this.edtResult.value.split(",");
+	
+	for(var i=0;i<this.dsMulti.rowcount;i++)
+	{
+		if(gfnIsNull(arrValue[i])) arrValue[i] = "";
+		this.dsMulti.setColumn(i, "KEY", arrValue[i]);
+	}
+}
+
+/**
+ 	@function	fnSetTxaMulti()
+ 	@desc		TextArea 세팅
+ */  
+this.fnSetTxaMulti = function()
+{
+	if(gfnIsNull(this.edtResult.value)) return;
+	
+	this.tabMain.tabp02.txaInput.set_value(gfnTrim(this.edtResult.value).replace(/,/g, "\n"));
+}
+
+/**
+ 	@function	btnRtnOnclick()
+ 	@desc		적용
+ */  
+this.btnRtnOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.fv_objComp.set_value(this.edtResult.value);
+	this.close();
+}
+
+/**
+ 	@function	tabMainTabp01BtnAddOnclick()
+ 	@desc		행추가
+ */  
+this.tabMainTabp01BtnAddOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.dsMulti.addRow();
+}
+
+/**
+ 	@function	tabMainTabp01BtnDelOnclick()
+ 	@desc		행삭제
+ */  
+this.tabMainTabp01BtnDelOnclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	gfnDsChkDel(this.dsMulti);
+	this.dsMultiOncolumnchanged();
+}
+
+/**
+ 	@function	tabMainOnchanged()
+ 	@desc		탭변경 이벤트
+ */  
+this.tabMainOnchanged = function(obj:Tab, e:nexacro.TabIndexChangeEventInfo)
+{
+	if(this.tabMain.tabindex == 1) //Text 모드
+	{
+		this.fnSetTxaMulti();
+	}
+	else //Input 모드 (그리드)
+	{
+		this.fnSetDsMulti();
+	}
+}
+
+/**
+ 	@function	dsMultiOncolumnchanged()
+ 	@desc		데이터셋 oncolumnchanged
+ */  
+this.dsMultiOncolumnchanged = function(obj:Dataset, e:nexacro.DSColChangeEventInfo)
+{
+	var str = "";
+	for(var i=0;i<this.dsMulti.rowcount;i++)
+	{
+		if(gfnIsNull(this.dsMulti.getColumn(i, "KEY"))) continue;
+		str += this.dsMulti.getColumn(i, "KEY") + ",";
+	}
+	
+	if(!gfnIsNull(str)) str = str.substr(0, str.length-1);
+	
+	this.edtResult.set_value(str);
+}
+
+/**
+ 	@function	tabMainTabp02TxaInputOntextchanged()
+ 	@desc		TextArea ontextchanged
+ */  
+this.tabMainTabp02TxaInputOntextchanged = function(obj:TextArea,  e:nexacro.TextChangedEventInfo)
+{
+	var txtValue = gfnTrim(obj.value);
+	this.edtResult.set_value(txtValue.replace(/\n/g,","));
+}
+
+/**
+ 	@function	tabMainTabp01GrListOnheadclick()
+ 	@desc		그리드 onheadclick
+ */  
+this.tabMainTabp01GrListOnheadclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	gfnSetGrdHeadCheckbox(obj, e);
+}
+]]></Script>
+  </Form>
+</FDL>

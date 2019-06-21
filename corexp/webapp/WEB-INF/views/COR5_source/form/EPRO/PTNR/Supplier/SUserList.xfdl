@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="frmSearchCond" height="711" id="SUserList" left="0" oninit="fnFormOninit" onload="fnFormOnload" titletext="사용자관리" top="0" width="1220">
+    <Layouts>
+      <Layout>
+        <Div bottom="0" id="divViewCompBody00" left="0" right="15" taborder="3" text="Div00" top="40">
+          <Layouts>
+            <Layout>
+              <Grid autofittype="col" binddataset="dsList" bottom="37" cellmovingtype="col" cellsizingtype="col" f_colSize="N" f_excel="Y" f_filter="N" f_find="N" f_fix="Y" f_height="N" f_hide="N" f_init="Y" f_mode="Y" f_save="N" f_sort="Y" id="grdList" left="0" objNm="검색결과 그리드" oncelldblclick="fnListOncelldblclick" right="0" taborder="6" top="10" useinputpanel="false">
+                <Formats>
+                  <Format id="default">
+                    <Columns>
+                      <Column size="136"/>
+                      <Column size="159"/>
+                      <Column size="119"/>
+                      <Column size="95"/>
+                      <Column size="208"/>
+                      <Column size="238"/>
+                      <Column size="99"/>
+                      <Column size="134"/>
+                    </Columns>
+                    <Rows>
+                      <Row band="head" size="32"/>
+                      <Row size="27"/>
+                    </Rows>
+                    <Band id="head">
+                      <Cell expr="" text="사용자ID" tooltiptext=""/>
+                      <Cell col="1" expr="" text="사용자명" tooltiptext=""/>
+                      <Cell col="2" expr="" text="부서" tooltiptext=""/>
+                      <Cell col="3" expr="" text="직급" tooltiptext=""/>
+                      <Cell col="4" expr="" text="전화번호" tooltiptext=""/>
+                      <Cell col="5" expr="" text="휴대폰" tooltiptext=""/>
+                      <Cell col="6" expr="" text="사용여부" tooltiptext=""/>
+                      <Cell col="7" expr="" text="대표사용자" tooltiptext=""/>
+                    </Band>
+                    <Band id="body">
+                      <Cell cssclass="cell_link" text="bind:USER_ID" tooltiptext="bind:USER_ID"/>
+                      <Cell col="1" text="bind:USER_NM" tooltiptext="bind:USER_NM"/>
+                      <Cell col="2" text="bind:DEPT_NM" tooltiptext="bind:DEPT_NM"/>
+                      <Cell col="3" text="bind:MJR_JOB" tooltiptext="bind:MJR_JOB"/>
+                      <Cell col="4" text="bind:TEL" tooltiptext="bind:TEL"/>
+                      <Cell col="5" text="bind:HP" tooltiptext="bind:HP"/>
+                      <Cell col="6" text="bind:ALT_USE" tooltiptext="bind:ALT_USE"/>
+                      <Cell col="7" displaytype="checkbox" text="bind:ALT_TEAM_LDR"/>
+                    </Band>
+                  </Format>
+                </Formats>
+              </Grid>
+              <Div bottom="10" height="28" id="divPaging" left="0" right="0" scrollbars="none" taborder="11" url="CCOMP::CompPaging.xfdl"/>
+            </Layout>
+          </Layouts>
+        </Div>
+        <Div cssclass="div_WF_SearchBg" height="36" id="divViewCompCond00" left="0" right="15" taborder="4" top="3">
+          <Layouts>
+            <Layout>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staUserNm" left="389" objNm="사용자명" style="padding:0 10 0 6;align:right middle;" taborder="2" text="사용자명" top="5" width="170"/>
+              <Edit height="24" id="edtUserId" left="170" objNm="사용자Id" onkeyup="fnEnterOnkeyup" taborder="1" top="5" width="219"/>
+              <Static cssclass="sta_WF_SearchLabel" height="24" id="staUserId" left="0" objNm="사용자ID" onclick="divViewCompCond00_staUserId_onclick" style="padding:0 10 0 6;align:right middle;" taborder="0" text="사용자ID" top="5" width="170"/>
+              <Edit height="24" id="edtUserNm" left="559" objNm="사용자명" onkeyup="fnEnterOnkeyup" taborder="3" top="5" width="219"/>
+            </Layout>
+          </Layouts>
+        </Div>
+      </Layout>
+    </Layouts>
+    <Bind>
+      
+      
+      <BindItem columnid="USER_ID" compid="divViewCompCond00.edtUserId" datasetid="dsCondition" id="item2" propid="value"/>
+      <BindItem columnid="USER_NM" compid="divViewCompCond00.edtUserNm" datasetid="dsCondition" id="item3" propid="value"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindVi" id="divPagingVi" propid="visible"/>
+      <BindItem columnid="divPaging" compid="divViewCompBody00.divPaging" datasetid="dsObjBindEn" id="divPagingEn" propid="enable"/>
+      <BindItem columnid="staUserNm" compid="divViewCompCond00.staUserNm" datasetid="dsObjBindVi" id="staUserNmVi" propid="visible"/>
+      <BindItem columnid="staUserNm" compid="divViewCompCond00.staUserNm" datasetid="dsObjBindEn" id="staUserNmEn" propid="enable"/>
+      <BindItem columnid="edtUserId" compid="divViewCompCond00.edtUserId" datasetid="dsObjBindVi" id="edtUserIdVi" propid="visible"/>
+      <BindItem columnid="edtUserId" compid="divViewCompCond00.edtUserId" datasetid="dsObjBindEn" id="edtUserIdEn" propid="readonly"/>
+      <BindItem columnid="staUserId" compid="divViewCompCond00.staUserId" datasetid="dsObjBindVi" id="staUserIdVi" propid="visible"/>
+      <BindItem columnid="staUserId" compid="divViewCompCond00.staUserId" datasetid="dsObjBindEn" id="staUserIdEn" propid="enable"/>
+      <BindItem columnid="edtUserNm" compid="divViewCompCond00.edtUserNm" datasetid="dsObjBindVi" id="edtUserNmVi" propid="visible"/>
+      <BindItem columnid="edtUserNm" compid="divViewCompCond00.edtUserNm" datasetid="dsObjBindEn" id="edtUserNmEn" propid="readonly"/>
+      <BindItem columnid="grdList" compid="divViewCompBody00.grdList" datasetid="dsObjBindGrid" id="grdListFormatId" propid="formatid"/>
+    </Bind>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="dsList" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+      <Dataset id="dsCondition">
+        <ColumnInfo>
+          <Column id="USER_ID" size="256" type="STRING"/>
+          <Column id="USER_NM" size="256" type="STRING"/>
+          <Column id="PTNR_ID" size="256" type="STRING"/>
+        </ColumnInfo>
+      </Dataset>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+ * @파일명       	: SUserList.xfdl
+ * @생성자       	: 한의봉
+ * @생성일자     	: 2017. 9. 07.
+ * @설명			: 협력사 현황
+ * @최종수정자		: 김동호
+ * @최종수정일자	: 2017. 11. 08.
+*/  
+
+
+
+/**
+  * @함수명	: fnFormOninit
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.InitEventInfo(이벤트변수)
+  * @desc     	: 폼 oninit이벤트
+  */
+this.fnFormOninit = function(obj:Form, e:nexacro.InitEventInfo)
+{
+
+}
+
+
+/**
+  * @함수명	: fnFormOnload
+  * @input    	: obj:Form(폼 오브젝트), e:nexacro.LoadEventInfo(이벤트변수)
+  * @desc     	: 폼 onload이벤트
+  */
+this.fnFormOnload = function(obj:Form, e:LoadEventInfo)
+{
+	//그리드 기능 추가 : 마우스우클릭, 체크박스, 복사 붙여넣기(그리드 컴포넌트, 페이징div 컴포넌트, 폼오브젝트(this))
+ 	
+	var sArgEx = {
+					isTran:"Y", tranNm:"SPtnrService.searchPtnrUser", dsParam:this.dsCondition
+				}
+ 	gfnSetGrdFunc(this.divViewCompBody00.grdList, this.divViewCompBody00.divPaging, this, sArgEx);
+	
+	this.dsCondition.setColumn(0, "PTNR_ID", application.gdsUserInfo.getColumn(0, "PTNR_ID"));
+	
+	this.dsCondition.addRow();
+	gfnSetObj("A");
+ 	this.fnSearch();
+}
+
+/**
+  * @함수명	: fnClose
+  * @desc     	: (공통버튼)닫기
+  */
+this.fnClose = function()
+{	
+	return true;
+}
+
+/**
+  * @함수명	: fnPreSearch
+  * @desc     	: 조회 전 처리
+  */
+this.fnPreSearch = function()
+{
+	return true;
+}
+
+/**
+  * @함수명	: fnSearch
+  * @desc     	: 조회 프로세스
+  */
+this.fnSearch = function()
+{
+	if(!this.fnPreSearch()) return false;
+
+	var sSvcID = "searchPtnrUser";
+	var sController = "epro.ptnr.service.SPtnrService.searchPtnrUser";
+	var sInDatasets = "dsCondition=dsCondition";
+	var sOutDatasets = "dsList=dsList";
+	var sCallbackFunc = "fnTrCallBack";
+	
+	/*
+		페이징일 때 oPaging 선언후 사용
+		inDs:검색조건 데이터셋, outDs:리스트 데이터셋, divPaging:페이징 div
+	*/
+	var	oPaging = [
+					{inDs:this.dsCondition, grid:this.divViewCompBody00.grdList, divPaging:this.divViewCompBody00.divPaging}
+				];
+				
+    gfnTran(this, sSvcID, sController, sInDatasets, sOutDatasets, sCallbackFunc, oPaging);
+}
+
+/**
+  * @함수명	: fnTrCallBack
+  * @input    	: strSvcID(트랜잭션 ID), strErrCd(트랜잭션 결과 코드), strErrMsg(트랜잭션 결과 메시지)
+  * @desc     	: Transaction Callback함수
+  */
+this.fnTrCallBack = function(strSvcID, strErrCd, strErrMsg)
+{
+	if(strErrCd < 0) return;
+	
+	switch(strSvcID){
+		case "searchPtnrUser" :
+			
+		break;
+		
+		default:
+		break;	
+	}
+}
+
+/**
+  * @함수명	: fnListOncelldblclick
+  * @input    	: obj:Grid(그리드 오브젝트), e:nexacro.GridClickEventInfo(이벤트변수)
+  * @desc     	: 리스트 그리드 oncelldblclick 이벤트
+  */
+this.fnListOncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	if(gfnIsNull(this.dsList.getColumn(e.row, gfnGrdBindColId(obj, e.cell)))) return false;
+	
+	if("USER_ID" == gfnGrdBindColId(obj, obj.getCellPos())){ 
+		gfnSetTmprData("USER_ID"		,this.dsList.getColumn(e.row, "USER_ID"));
+		gfnOpenMenuUrl("SPTNR::SUserDetail");
+	}
+}
+/**
+  * @함수명	: fnAdd
+  * @desc     	: (공통버튼)신규
+  */
+this.fnAdd = function(){
+	gfnOpenMenuUrl("SPTNR::SUserDetail");
+}
+/**
+  * @함수명	: fnPopCallBack
+  * @input    	: sPopupId(팝업ID), rtn(팝업에서 리턴하는 문자열)
+  * @desc     	: 팝업 CallBack 함수
+  */
+this.fnPopCallBack = function(sPopupId, rtn)
+{
+	if(gfnIsNull(rtn)) return;
+	
+}
+
+/**
+  * @함수명	: fnEnterOnkeyup
+  * @input    	: obj:Edit(에디트 오브젝트), e:nexacro.KeyEventInfo(이벤트변수)
+  * @desc     	: 검색조건에서 ENTER(keycode::13) 입력시 이벤트를 발생시킨다. 
+  */
+this.fnEnterOnkeyup = function(obj:Edit, e:nexacro.KeyEventInfo)
+{
+	if(e.keycode == "13"){
+		switch(obj.name){
+			case "edtUserId": //구매담당자
+				this.fnSearch();
+			break;
+			
+			case "edtUserNm" : //업체명
+				this.fnSearch();
+			break;
+			
+			default:
+			
+			break;	
+		}
+	}
+}
+]]></Script>
+  </Form>
+</FDL>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UbiServer version="4.0.0000.0000">
+	<Environment licensePath=""
+		admin="YWRtcEBzc3dkIQ=="
+		adminImgUri="./ubi4/js/images"
+		xslPath=""
+		osCharset="KSC5601" />
+	<LogInfo logPath=""
+		timeZone="GMT+9"
+		rowSize="5"
+		backupStyle="date"
+		backupSize="30"
+		backupPattern="yyyy-MM-dd"
+		useLog="true"
+		info="false" />
+	<Resources>
+		<DataSource id="DEV"
+			type="direct" 
+			vendor="Oracle"
+			driverClassName="oracle.jdbc.driver.OracleDriver"
+			url="jdbc:oracle:thin:@192.1.1.201:1521:ora11utf8"
+			charset="KSC5601"
+			username="COR8"
+			password="COR8_PW"/>
+		<DataSource id="CORS"
+			type="direct" 
+			vendor="Oracle"
+			driverClassName="oracle.jdbc.driver.OracleDriver"
+			url="jdbc:oracle:thin:@192.1.1.201:1521:ora11utf8"
+			charset="KSC5601"
+			username="CORS4_USER"
+			password="CORS4_USERPW"/>
+	</Resources>
+	<UbiServiceInfo urftype="normal" connectionTime="1800000">
+		<UbiService ip="localhost" port="16996" />
+	</UbiServiceInfo>
+</UbiServer>

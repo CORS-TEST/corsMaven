@@ -1,0 +1,5038 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CROSSCERT WEB HTML5 :: 한국전자인증 웹 표준 모듈</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" type="text/css" href="../unisignweb/rsrc/css/certcommon.css?v=1" />
+
+<link rel="stylesheet" type="text/css" href="assets/css/fonts/fonts.css">
+<link rel="stylesheet" type="text/css" href="assets/css/footable.core.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/github.css">
+<link rel="stylesheet" type="text/css" href="assets/css/theme.min.css">
+<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
+<script type="text/javascript" src="../unisignweb/js/cloudsign/functions.js?v=1"></script>
+<script type="text/javascript" src="../unisignweb/js/unisignwebclient.js?v=2"></script>
+<script type="text/javascript" src="UniSignWeb_Multi_Init_PluginFree.js?v=2"></script>
+
+<script type="text/javascript">
+	<!-- test용 데이터 -->
+	var data = 'abcdefghijklmnopqrstuvwxyz1234567890~!@#$%^&amp;*()한글';
+
+	var jsonData = 
+	{
+		"1":'abcdefghijklmnopqrstuvwxyz1234567890~!@#$%^&amp;*()한글',
+		"2":'~!@#$%^&amp;*()한글abcdefghijklmnopqrstuvwxyz1234567890'
+	};
+	
+	var hashAlgo = 'SHA256';
+	var jsonb64HashData = 
+	{
+		"1":'6akqLtDVNzKsE7AxonsHGBQjHIYzyfQYRMy6iE1IKxY=',
+		"2":'4S4RWs9FUrJWi1XpPL05OUxO+ByCRH+vyZeIKgLSNnc='
+	};	
+			
+	var cert = "MIIF4jCCBMqgAwIBAgICWUcwDQYJKoZIhvcNAQELBQAwUzELMAkGA1UEBhMCS1IxEjAQBgNVBAoMCUNyb3NzQ2VydDEVMBMGA1UECwwMQWNjcmVkaXRlZENBMRkwFwYDVQQDDBBDcm9zc0NlcnRUZXN0Q0EyMB4XDTEyMTAyNjA5MTEwMFoXDTE2MDYwODE0NTk1OVowgYIxCzAJBgNVBAYTAktSMRIwEAYDVQQKDAlDcm9zc0NlcnQxFTATBgNVBAsMDEFjY3JlZGl0ZWRDQTEVMBMGA1UECwwM65Ox66Gd6riw6rSAMRIwEAYDVQQLDAnthYzsiqTtirgxHTAbBgNVBAMMFFJTQTIwNDhTSEEyNTZUZXN0MDAyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx0eoFjgNvwq2xA8spWe9ej1xdQqZAnn0d2scPrhovHMS6T5AByoPGBBWVueg/feIcSnRRqFMPjKTjX/Xq0H/ILy6wXnDQzlunWFSG8Cww8MabnD0c03C89XzuVBMbbLX1R1jWberRMOBz/3XOMNxmWY/TL8trAxxj3OQwu8xKsFVv4P+C05eMeb3gKD6i919MTt4PoBRij8Tkbc6SLDTVXPiXcID097jm8tO1tpZWWY7IH01tvINOIjwDHuDBMbnNX96tYZYfcwMJhnihGYAeSzxd7a9V2OkNmjI92nKAalClBd/71O3WSeVKb1HWgdFxljevJXI2QsKHY+TRMIckQIDAQABo4ICjjCCAoowgZMGA1UdIwSBizCBiIAUEtPeYbn5MoGDVjV37Lia1V/h2i6hbaRrMGkxCzAJBgNVBAYTAktSMQ0wCwYDVQQKDARLSVNBMS4wLAYDVQQLDCVLb3JlYSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eSBDZW50cmFsMRswGQYDVQQDDBJLaXNhIFRlc3QgUm9vdENBIDWCAQQwHQYDVR0OBBYEFLisljzCAEKeO0ZPSYbUp0YmDuR4MA4GA1UdDwEB/wQEAwIFIDB/BgNVHSABAf8EdTBzMHEGCiqDGoyaRAUEAQEwYzAtBggrBgEFBQcCARYhaHR0cDovL2djYS5jcm9zc2NlcnQuY29tL2Nwcy5odG1sMDIGCCsGAQUFBwICMCYeJMd0ACDHeMmdwRyylAAg0UzCpNK4ACDHeMmdwRzHhbLIsuQALjBzBgNVHREEbDBqoGgGCSqDGoyaRAoBAaBbMFkMFFJTQTIwNDhTSEEyNTZUZXN0MDAyMEEwPwYKKoMajJpECgEBATAxMAsGCWCGSAFlAwQCAaAiBCBwaW/59EvEUwF11jE7j7JQHnRc9z2NEpOLRMTsUomW9TCBgAYDVR0fBHkwdzB1oHOgcYZvbGRhcDovL3Rlc3RkaXIuY3Jvc3NjZXJ0LmNvbTozODkvY249czFkcDZwNixvdT1jcmxkcCxvdT1BY2NyZWRpdGVkQ0Esbz1Dcm9zc0NlcnQsYz1LUj9jZXJ0aWZpY2F0ZVJldm9jYXRpb25MaXN0MEoGCCsGAQUFBwEBBD4wPDA6BggrBgEFBQcwAYYuaHR0cDovL3Rlc3RvY3NwLmNyb3NzY2VydC5jb206MTQyMDMvT0NTUFNlcnZlcjANBgkqhkiG9w0BAQsFAAOCAQEAp3CFPVAt3J41UfAIklXLOuruYXxBpA0joV+SS240Bq5G4471djdU1MkDVmj4+N4Foz0wzvLl+oolgRcLetPA+/HgaVYkDNUoJsUt5KrFSGc6ppxNPgFg+sUQPyovS3H/rD53wPpm7HdYaFAWX5iYQNs0muoDiRnQchjVPdAVddBPHMhPTM/Dv2Gmgu5mOk9wte2VTMQvp4UWiFMizvEwK9fkiTrP1KWySj4c9zIxdAwpCZ7quPA3uiep9u/8Emqkfb2g6JeWlYZXNoHuOBbtTss2o7bvGdRPwIeFWmmD4PrtVBpdzdLQQIIbWWdHIePa3YES3t3QeDGfetJaaz69XA==";
+	var kmCert = 'MIIFtDCCBJygAwIBAgICWwUwDQYJKoZIhvcNAQELBQAwUzELMAkGA1UEBhMCS1IxEjAQBgNVBAoMCUNyb3NzQ2VydDEVMBMGA1UECwwMQWNjcmVkaXRlZENBMRkwFwYDVQQDDBBDcm9zc0NlcnRUZXN0Q0EyMB4XDTEzMDEwNzA2MjgwMFoXDTE0MDEwNzE0NTk1OVowVjELMAkGA1UEBhMCS1IxEjAQBgNVBAoMCUNyb3NzQ2VydDEVMBMGA1UECwwMQWNjcmVkaXRlZENBMRwwGgYDVQQDDBPrs7jsnbjtmZXsnbjshJzrsoQ3MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApjRoxDrmSytW7eTQQ1ZwZho3vwH/nJZXY6aU7Ven7SXP2eh5vZ3N7FDFw6MZpf/a4CTvwWXBruBFOfuI+Ka1k7BLLS34ykXAIJS1NhNZXof0zDSSy8itDk1aEezs0HEQGmx4XjjKXa7c6v2sDJHPClcCPUjAvSzks37nlolT5V/vltvJijoD9jI5n5wkU2JcJ4zODhc28NUNA6k2WzLWc2hJM3E3Tl1CzQ/gzIv9HKugWVnjU4qlYrO1cWxdwFPLB7h+IlQL1Flktkf+87KK4GL0s5lkrAWsn5LRJUy833QQxj+Uxi3W6836uivkNTLJYwBl/6SRaA6NhXKjTLU2nQIDAQABo4ICjTCCAokwgZMGA1UdIwSBizCBiIAUEtPeYbn5MoGDVjV37Lia1V/h2i6hbaRrMGkxCzAJBgNVBAYTAktSMQ0wCwYDVQQKDARLSVNBMS4wLAYDVQQLDCVLb3JlYSBDZXJ0aWZpY2F0aW9uIEF1dGhvcml0eSBDZW50cmFsMRswGQYDVQQDDBJLaXNhIFRlc3QgUm9vdENBIDWCAQQwHQYDVR0OBBYEFPUkmYXIdm0qUkfxn4S8HRuigT3jMA4GA1UdDwEB/wQEAwIFIDB/BgNVHSABAf8EdTBzMHEGCiqDGoyaRAUEAQMwYzAtBggrBgEFBQcCARYhaHR0cDovL2djYS5jcm9zc2NlcnQuY29tL2Nwcy5odG1sMDIGCCsGAQUFBwICMCYeJMd0ACDHeMmdwRyylAAg0UzCpNK4ACDHeMmdwRzHhbLIsuQALjByBgNVHREEazBpoGcGCSqDGoyaRAoBAaBaMFgME+uzuOyduO2ZleyduOyEnOuyhDcwQTA/BgoqgxqMmkQKAQEBMDEwCwYJYIZIAWUDBAIBoCIEICBKjATfs8y7dyS3zT2KUtl9ar/O82Adlzf5QMxSHYFYMIGABgNVHR8EeTB3MHWgc6Bxhm9sZGFwOi8vdGVzdGRpci5jcm9zc2NlcnQuY29tOjM4OS9jbj1zMWRwNnA2LG91PWNybGRwLG91PUFjY3JlZGl0ZWRDQSxvPUNyb3NzQ2VydCxjPUtSP2NlcnRpZmljYXRlUmV2b2NhdGlvbkxpc3QwSgYIKwYBBQUHAQEEPjA8MDoGCCsGAQUFBzABhi5odHRwOi8vdGVzdG9jc3AuY3Jvc3NjZXJ0LmNvbToxNDIwMy9PQ1NQU2VydmVyMA0GCSqGSIb3DQEBCwUAA4IBAQAmw2Niw85WoyL7+v+Orbj0cZBlOGbY2t2fCfd0lNMnnSJjSWf2f5bmaosRAkHviqEfGgO2CDro/0vb3HJaGUU56NyPhpTtSUaqhR8uY9KAu5dPFldHVGDoLTpiLPwddkOWXWzYFZ40rlrtDerv0QAWdzBZBnl5LbRO1SBM0xVHr3ZfbO8nGsW7Sj8uGMKbD+o5nUnpqNttJnVSS9gx7K1ACUWArlAo/RGXCUF4qsu8Y+rxIKkFUI4s2rDBmrN5ipMAzw6lJsYWjnP6AfCayyVfHQjG83bpLl1pVIjDRxgoWgylnqc4m6z9NZQPSn0APNSchtk0ZaKhXE9tHiEYp6to';
+	
+	var inputfilepath = "c:\\test.txt";
+	var verifyfilepath = "c:\\test.txt.verify";
+	var signfilepath = "c:\\test.txt.sign";
+	
+	var jsonfilePath = 
+	{
+		"1":"c:\\test.txt",
+		"2":"c:\\test2.txt"
+	};
+	
+	var ssn = '1234567890123';
+
+	
+	// return object
+	var g_retObject = null;
+	
+	////
+	function fnTestRun( id ){
+		var js = ( $('#js_' + id).html() || $('#js_' + id).val() );
+		eval(js);
+	}
+	
+	function toJsonprint( id, obj ){
+		g_retObject = obj;
+		var t = new Object();
+		for ( var akey in obj ) {
+			if( !(obj[akey] == '' || obj[akey].length < 1) ){
+				t[akey] = obj[akey];
+			}
+		}
+		document.getElementById( 'rst_' + id ).innerHTML = '\n'+JSON.stringify(t,null,2);
+	}
+</script>
+
+</head>
+<body style="min-height: 1500px;" data-spy="scroll" data-target="#nav-spy" data-offset="300">
+	<nav class="navbar bg-light docs-navbar">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+					<span class="sr-only"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html"><b>CROSSCERTWEB</b> 웹 표준모듈</a>
+			</div>
+			<div class="collapse navbar-collapse" id="navbar-collapse">
+				<div class="navbar-right">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="index.html">API 문서</a></li>
+						<li><a href="#"> 릴리즈 노트 </a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="container">
+		<div class="docs-container mt40" id="docs">
+			<div class="row table-layout">
+				<div class="col-xs-3 left-col">
+					<span id="left-col-toggle" class="fa fa-navicon"></span>
+					<div id="nav-spy" class="posr">
+						<ul class="list-group">
+							<li class="list-group-item list-group-header br-n">릴리즈 버전</li>
+							<li class="list-group-item"><span class="badge badge-primary">1.0.0.37</span> UI</li>
+						</ul>
+						<ul class="list-group list-group-accordion">
+							<li class="list-group-item list-group-header br-n">API</li>
+							<li class="list-group-item active"><a class="" href="#introduction" data-toggle="tab"> 공통항목 </a></li>
+							<li class="list-group-item active"><a class="" href="#ReturnValue" data-toggle="tab"> Value </a></li>
+							
+							<li class="list-group-item"><a class="sign-toggle" href="#cert_issue" data-toggle="tab"> 인증서 관리 </a>
+								<ul class="collapse">
+									<li><a href="#cert_issue" data-toggle="tab">인증서 발급</a></li>
+									<li><a href="#cert_renew" data-toggle="tab">인증서 갱신</a></li>
+									<li><a href="#cert_renew_getdn" data-toggle="tab">인증서 갱신 & getSubjectDn </a></li>
+									<li><a href="#cert_reboke" data-toggle="tab">인증서 폐지</a></li>
+									<li><a href="#cert_manage" data-toggle="tab">인증서 관리</a></li>									
+								</ul>
+							</li>
+							<li class="list-group-item"><a class="sign-toggle" href="#sign_p1"> 전자서명 </a>
+								<ul class="collapse">
+									<li><a href="#sign_p1" data-toggle="tab">P#1</a></li>
+									<li><a href="#sign_p7" data-toggle="tab">P#7</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="col-xs-9 center-col va-t">
+					<div id="docs-content" class="tab-content pn">
+						
+						<div class="tab-pane fade active in" id="introduction" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서</h1>
+								<div class="alert alert-danger alert-border-left alert-dismissable mv30">
+									<b>중요 : </b>IE(8, 10, 11, Edge), Google Chrome, FireFox, Safari, Opera 등의 브라우져에서 동작합니다.
+								</div>
+								<h2 id="text-contextuals">기본 HTML 설정</h2>
+								<p>
+									html 헤더 부분에 css파일과 js파일을 링크 합니다.<br>X-UA-Compatible 메타태그를
+									입력 해야 IE의 하위 버전(8,9,10) 에서 정상 동작하게 됩니다.<br> IE사용중 브라우져 모드가
+									쿼크 모드 일때 비정상적으로 표시 됩니다.
+								</p>
+								
+								<div class="zero-clipboard">
+									<span class="btn-clipboard">Copy</span>
+								</div>
+								<div class="highlight">
+									<pre><code class="language-html" data-lang="html">
+&lt;head>
+	&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	&lt;meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	&lt;link rel="stylesheet" type="text/css" href="../unisignweb/rsrc/css/certcommon.css?v=1" />
+	&lt;script type="text/javascript" src="../unisignweb/js/unisignwebclient.js?v=1">&lt;/script>
+	&lt;script type="text/javascript" src="UniSignWeb_Multi_Init_Nim.js?v=1">&lt;/script>
+&lt;/head>
+</code></pre>
+								</div>
+								
+								<!-- <h2 id="text-contextuals">초기화 설정 파일
+									(UniSignWeb_Multi_Init_Nim.js)</h2>
+
+								<div class="bs-example">
+									<code></code>
+								</div>
+								<div class="table-responsive mb40">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2">
+											<col class="col-xs-10">
+										</colgroup>
+										<thead class="">
+											<tr>
+												<th>Directory Folder</th>
+												<th>File Overview</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><code>assets/</code></td>
+												<td>The Assets directory folder contains <b>Core</b>
+													resources specifically created for the AdminDesigns theme.
+													This includes the themes primary stylesheet/less, fonts,
+													images, and custom plugins.
+												</td>
+											</tr>
+											<tr>
+												<td><code>email-templates/</code></td>
+												<td>The email templates directory folder contains a
+													series of premade email templates which do not require
+													theme resources outside of its own folder. It also contains
+													a series of PSDS to help customize the email templates to
+													your needs. A demonstration can be seen <a
+													href="http://admindesigns.com/framework/email_templates.html"
+													target="_blank">here</a>
+												</td>
+											</tr>
+											<tr>
+												<td><code>landing-page/</code></td>
+												<td>The Landing page directory folder contains all of
+													the resources required to generate the home-page seen <a
+													href="http://admindesigns.com/framework/landing-page/landing1/index.html"
+													target="_blank">here</a>. We plan to implement more landing
+													pages in the future.
+												</td>
+											</tr>
+											<tr>
+												<td><code>vendor/</code></td>
+												<td>The Vendor directory folder contains all of the
+													third party resources which the AdminDesigns theme uses.
+													This includes the jQuery/jQuery UI libraries and all
+													plugins except those which are considered <b>"Core"</b>.
+													You can read more about what files are not included and
+													reside in the utility.js(Core) in the javascript section of
+													the documentation.
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div> -->
+							</section>
+						</div>
+						
+						<!--  ReturnValue -->
+						<div class="tab-pane fade" id="ReturnValue" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 -  Value </h1>
+								<h2 id="text-contextuals"> Value </h2>
+								<p>  Value  <br></p>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th> 해쉬 알고리즘 </th><th> Value </th></tr></thead>
+										<tbody>
+											<tr>
+												<td> sha2 </td>
+												<td> 'SHA256' </td>
+											</tr>
+											<tr>
+												<td> sha1 </td>
+												<td> 'SHA1' </td>
+											</tr>
+											<tr>
+												<td> md5 </td>
+												<td> 'MD5' </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+								<br>			
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th> 암호화 알고리즘 </th><th> Value </th></tr></thead>
+										<tbody>
+											<tr>
+												<td> seed </td>
+												<td> 'SEED' </td>
+											</tr>
+											<tr>
+												<td> 3des </td>
+												<td> '3DES' </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+								<br>	
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th> charset </th><th> Value </th></tr></thead>
+										<tbody>
+											<tr>
+												<td> utf8 </td>
+												<td> 'UTF-8' </td>
+											</tr>
+											<tr>
+												<td> euckr </td>
+												<td> 'EUC-KR' </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+								<br>										
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th> 인증서 정보 </th><th> Value </th></tr></thead>
+										<tbody>
+											<tr>
+												<td> version </td>
+												<td> 버전  </td>
+											</tr>
+											<tr>
+												<td> serialNumer </td>
+												<td> 일련번호   </td>
+											</tr>											
+											<tr>
+												<td> signAlgo </td>
+												<td> 서명알고리즘   </td>
+											</tr>											
+											<tr>
+												<td> issuerName </td>
+												<td> 발급자   </td>
+											</tr>											
+											<tr>
+												<td> validateFrom </td>
+												<td> 유효기간(시작)   </td>
+											</tr>											
+											<tr>
+												<td> validateTo </td>
+												<td> 유효기간(끝)  </td>
+											</tr>											
+											<tr>
+												<td> subjectName </td>
+												<td> 주체   </td>
+											</tr>											
+											<tr>
+												<td> publicKey </td>
+												<td> 공개키   </td>
+											</tr>											
+											<tr>
+												<td> authorityKeyIndentifier </td>
+												<td> 기관 키 식별자   </td>
+											</tr>											
+											<tr>
+												<td> subjectKeyIndentifier </td>
+												<td> 주체 키 식별자   </td>
+											</tr>											
+											<tr>
+												<td> keyUsage </td>
+												<td> 키 사용   </td>
+											</tr>											
+											<tr>
+												<td> policiesOid </td>
+												<td> 인증서 정책 OID  </td>
+											</tr>											
+											<tr>
+												<td> subjectAltName </td>
+												<td> 주체 대체 이름  </td>
+											</tr>											
+											<tr>
+												<td> authorityInfoAccess </td>
+												<td> 기관 정보 액세스   </td>
+											</tr>											
+											<tr>
+												<td> crlDistributionPoints </td>
+												<td> CRL 배포 지점   </td>
+											</tr>											
+											<tr>
+												<td> policiesCps </td>
+												<td> 인증서 정책 cps  </td>
+											</tr>											
+											<tr>
+												<td> policiesUserNotice </td>
+												<td> 사용자 알림   </td>
+											</tr>												
+											<tr>
+												<td> signature </td>
+												<td> 인증서 전자서명값   </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+							</section>
+						</div>
+						
+						
+						<!-- 인증서 발급 -->
+						<div class="tab-pane fade" id="cert_issue" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 인증서 관리 API</h1>
+								<h2 id="text-contextuals">인증서 발급</h2>
+								<p> 인증서 발급 요청 API <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									IssueCert( refNum, AuthCode, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>refNum</td>
+												<td>참조번호. 만약 입력하지 않으면 내부에서 입력창 출력 </td>
+											</tr>
+											<tr>
+												<td>authCode</td>
+												<td>인가코드. 만약 입력하지 않으면 내부에서 입력창 출력 </td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_issue">unisign.IssueCert( null, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_issue')"> 실행하기 </button>
+								</div>
+							</section>
+						</div>
+						
+						
+						<!-- 인증서 갱신 -->
+						<div class="tab-pane fade" id="cert_renew" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 인증서 관리 API</h1>
+								<h2 id="text-contextuals">인증서 갱신</h2>
+								<p> 인증서 갱신 요청 API </p>
+								
+								<div class="bs-example" data-example-id="simple-list-group">
+									RenewCert( fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_renew">unisign.RenewCert( function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_renew')"> 실행하기 </button>
+								</div>
+							</section>
+						</div>
+						
+						
+						<!-- 인증서 갱신 & get subjectdn -->
+						<div class="tab-pane fade" id="cert_renew_getdn" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 인증서 관리 API</h1>
+								<h2 id="text-contextuals">인증서 갱신</h2>
+								<p> 인증서 갱신 요청하고 오류 발생시 subjectdn 반환을 요청하는  API </p>
+								
+								<div class="bs-example" data-example-id="simple-list-group">
+									RenewCertNSignedSubjectDn( fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>인증서 갱신에 실패했을때, 갱신 요청했던 사용자의 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a>  </td>
+											</tr>
+											<tr>
+												<td>signedData</td>
+												<td>인증서 갱신에 실패했을때, 갱신 요청했던 사용자의 subjectDn 반환 </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_renew_getdn">unisign.RenewCertNSignedSubjectDn( function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode + '\n사용자 dn:' + resultObject.certAttrs.subjectName );
+			return;
+		}
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_renew_getdn')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_cert_renew_getdn">&nbsp;</code></pre>
+								</div>								
+							</section>
+						</div>						
+						
+						
+						<!-- 인증서 폐지 -->
+						<div class="tab-pane fade" id="cert_reboke" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 인증서 관리 API</h1>
+								<h2 id="text-contextuals">인증서 폐지</h2>
+								<p> 인증서 폐지 요청 API </p>
+								
+								<div class="bs-example" data-example-id="simple-list-group">
+									RevocateCert( fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<br>									
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_reboke">unisign.RevocateCert( function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_reboke')"> 실행하기 </button>
+								</div>
+							</section>
+						</div>
+						
+						<!-- 키쌍체크 -->						
+						<div class="tab-pane fade" id="cert_keypair" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 인증서 관리 API</h1>
+								<h2 id="text-contextuals">인증서 키쌍 체크</h2>
+								<p> 서명용, 암호화용 인증서와 개인키 쌍이 올바른지 확인하는 API. 인증서 유효성도 같이 체크 </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyKeyPair( fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_keypair">unisign.VerifyKeyPair( function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage.errmsg + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert(resultObject.resultMessage.signcert + '\n' + resultObject.resultMessage.kmcert);
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_keypair')"> 실행하기 </button>
+								</div>
+								<!-- <div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_cert_keypair">&nbsp;</code></pre>
+								</div> -->
+							</section>
+						</div>
+						
+						
+						<!-- 인증서 관리  -->						
+						<div class="tab-pane fade" id="cert_manage" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 인증서 관리 API</h1>
+								<h2 id="text-contextuals">인증서 관리</h2>
+								<p> 인증서 비밀번호 변경, 삭제, 가져오기, 내보내기, 복사 기능을 가능하게 하는 관리창 출력하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									ManageCert( );
+								</div>
+								<br>							
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_manage">unisign.ManageCert();</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_manage')"> 실행하기 </button>
+								</div>
+							</section>
+						</div>
+						
+						
+						<!-- 서명 -->
+						<!-- p#1-->
+						<div class="tab-pane fade" id="sign_p1" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #1</h2>
+								<p> p1 전자서명 생성 요청 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									DigitalSignature( data, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>theCert</td>
+												<td>전자서명에 사용된 base64 인코딩된 인증서 </td>
+											</tr>
+											<tr>
+												<td>theDN</td>
+												<td>전자서명에 사용된 인증서의 dn</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p1">unisign.DigitalSignature( data, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p1', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p1')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p1">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifyDigitalSignature -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p1 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyDigitalSignature( data, signeddata, cert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#1으로 서명한 서명데이터 [필수] </td>
+											</tr>
+											<tr>
+												<td>cert</td>
+												<td>서명에 사용된 사용자의 base64 인코딩된 인증서 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p1_verify">unisign.VerifyDigitalSignature( data, g_retObject.signedData, g_retObject.theCert, function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p1_verify')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p1_verify">&nbsp;</code></pre>
+								</div>								
+							</section>
+						</div>
+						
+						
+						<!-- p#7-->
+						<div class="tab-pane fade" id="sign_p7" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7</h2>
+								<p> p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignDataEx( data, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열)이며 [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7">unisign.SignDataEx( data, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7">&nbsp;</code></pre>
+								</div>
+								
+								
+								<!-- VerifySignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData( signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_verify">unisign.VerifySignData( g_retObject.signedData, function( plainText ) {
+		if( plainText ){
+			alert( '전자서명문 검증에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_verify')"> 실행하기 </button>
+								</div>															
+							</section>
+						</div>						
+						
+						
+						<!-- p#7(NoContent)-->
+						<div class="tab-pane fade" id="sign_p7_nocontent" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7(No Content) </h2>
+								<p> 원문이 포함되지 않은 p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignDataExcludeContentEx( data, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열)이며 [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_nocontent">unisign.SignDataExcludeContentEx( data, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7_nocontent', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_nocontent')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_nocontent">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifyExcludedContentSignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> 원문 없는 p#7 데이터 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyExcludedContentSignData( data, signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수]</td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_nocontent_verify">unisign.VerifyExcludedContentSignData( data, g_retObject.signedData, function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_nocontent_verify')"> 실행하기 </button>
+								</div>							
+							</section>
+						</div>											
+						
+						<!-- p#7 & get ID -->
+						<div class="tab-pane fade" id="sign_p7_r_attr" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7(No Content) </h2>
+								<p> 원문이 포함되지 않은 p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignDataNGetIdentifierByEnvlp( data, dn, kmCert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>kmCert</td>
+												<td>전자서명에 사용된 인증서의 R 값을 암호할때 사용되며, 복호화 하고자 하는 측의 암호화 인증서. [필수]</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>b64RValue</td>
+												<td>전자서명에 사용된 인증서의 암호화된 R 값을 base64 인코딩 한 값 </td>
+											</tr>											
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_r_attr">unisign.SignDataNGetIdentifierByEnvlp( data, null, kmCert, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7_r_attr', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_r_attr')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_r_attr">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifySignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData( signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_r_attr_verify">unisign.VerifySignData( g_retObject.signedData, function( plainText ) {
+		if( plainText ){
+			alert( '전자서명문 검증에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_r_attr_verify')"> 실행하기 </button>
+								</div>									
+							</section>
+						</div>							
+						
+
+						<!-- p#7 withHash -->
+						<div class="tab-pane fade" id="sign_p7_withhash" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7(with Hashdata) </h2>
+								<p> 원문을 HashData로 전달하고, 원문 포함이 되지 않는 p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignData_noConWithHash( jsondata, dn, hashAlgo, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>원문을 hash 한 값을 포함한 json 타입의 data. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>hashAlgo</td>
+												<td>원문을 hash할때 사용한  <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a> . [필수]	</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash">unisign.SignData_noConWithHash( jsonb64HashData, null, hashAlgo, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7_withhash', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_withhash">&nbsp;</code></pre>
+								</div>
+								
+								
+								<!-- VerifySignData_noConWithHash -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> Hashdata와 원문 없는 p#7 데이터 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData_noConWithHash( hashdata, signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>hashdata</td>
+												<td>서명에 사용된 base64 인코딩 된 hash 데이터 . [필수]</td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>hash 데이터를 p#7으로 서명한 원문이 포함되지 않은 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_verify">unisign.VerifySignData_noConWithHash( jsonb64HashData["1"], g_retObject.jsonSignedData["1"], function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_verify')"> 실행하기 </button>
+								</div>															
+							</section>
+						</div>							
+						
+
+						
+						<!-- p#7 withHash -->
+						<div class="tab-pane fade" id="sign_p7_withhash_getid" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7 & R 값 획득 (with Hashdata) </h2>
+								<p> 원문을 HashData로 전달하고, 원문 포함이 되지 않는 p7 전자서명 데이터 생성 및 R 값 요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignDataNGetIdentifierByEnvlp_noConWithHash( jsondata, dn, hashAlgo, kmCert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>원문을 hash 한 값을 포함한 json 타입의 data. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>hashAlgo</td>
+												<td>원문을 hash할때 사용한  <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a> . [필수]	</td>
+											</tr>	
+											<tr>
+												<td>kmCert</td>
+												<td>전자서명에 사용된 인증서의 R 값을 암호할때 사용되며, 복호화 하고자 하는 측의 암호화 인증서. [필수]</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>	
+											<tr>
+												<td>b64RValue</td>
+												<td>전자서명에 사용된 인증서의 암호화된 R 값을 base64 인코딩 한 값 </td>
+											</tr>											
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_getid">unisign.SignDataNGetIdentifierByEnvlp_noConWithHash( jsonb64HashData, null, hashAlgo, kmCert, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7_withhash_getid', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_getid')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_withhash_getid">&nbsp;</code></pre>
+								</div>
+								
+								
+								<!-- VerifySignData_noConWithHash -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> Hashdata와 원문 없는 p#7 데이터 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData_noConWithHash( hashdata, signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>hashdata</td>
+												<td>서명에 사용된 base64 인코딩 된 hash 데이터 . [필수]</td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>hash 데이터를 p#7으로 서명한 원문이 포함되지 않은 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_getid_verify">unisign.VerifySignData_noConWithHash( jsonb64HashData["1"], g_retObject.jsonSignedData["1"], function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_getid_verify')"> 실행하기 </button>
+								</div>								
+							</section>
+						</div>							
+						
+						
+						<!-- multi p#1-->
+						<div class="tab-pane fade" id="sign_multi_p1" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - Multi PKCS #1</h2>
+								<p> 여러개의 데이터에 대한 p1 전자서명 생성 요청 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									MultiDigitalSignature( jsondata, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>서명할 원문 데이터 (문자열)을 json type으로 생성해서 전달. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>theCert</td>
+												<td>전자서명에 사용된 base64 인코딩된 인증서 </td>
+											</tr>
+											<tr>
+												<td>theDN</td>
+												<td>전자서명에 사용된 인증서의 dn</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p1">unisign.MultiDigitalSignature( jsonData, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_multi_p1', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p1')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_multi_p1">&nbsp;</code></pre>
+								</div>
+
+								<!-- VerifyDigitalSignature -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p1 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyDigitalSignature( data, signeddata, cert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#1으로 서명한 서명데이터 [필수] </td>
+											</tr>
+											<tr>
+												<td>cert</td>
+												<td>서명에 사용된 사용자의 base64 인코딩된 인증서 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p1_verify">unisign.VerifyDigitalSignature( jsonData["1"], g_retObject.jsonSignedData["1"], g_retObject.theCert, function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p1_verify')"> 실행하기 </button>
+								</div>								
+							</section>
+						</div>						
+						
+						
+						<!-- multi p#7-->
+						<div class="tab-pane fade" id="sign_multi_p7" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - Multi PKCS #7</h2>
+								<p> 여러개의 데이터에 대한 p7 전자서명 생성 요청 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignMultiDataEx( jsondata, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>서명할 원문 데이터 (문자열)을 json type으로 생성해서 전달. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>												
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7">unisign.SignMultiDataEx( jsonData, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_multi_p7', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_multi_p7">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifySignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData( signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_verify">unisign.VerifySignData( g_retObject.jsonSignedData["1"], function( plainText ) {
+		if( plainText ){
+			alert( '전자서명문 검증에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_verify')"> 실행하기 </button>
+								</div>																			
+							</section>
+						</div>										
+						
+						
+						<!-- multi p#7 & R 값 획득 -->
+						<div class="tab-pane fade" id="sign_multi_p7_id" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - Multi PKCS #7 & R 값 획득</h2>
+								<p> 여러개의 데이터에 대한 p7 전자서명 생성 요청과 R 값 반환 요청 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignMultiDataNGetIdentifierByEnvlp( jsondata, dn, kmCert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>서명할 원문 데이터 (문자열)을 json type으로 생성해서 전달. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>
+											<tr>
+												<td>kmCert</td>
+												<td>전자서명에 사용된 인증서의 R 값을 암호할때 사용되며, 복호화 하고자 하는 측의 암호화 인증서. [필수]</td>
+											</tr>												
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>		
+											<tr>
+												<td>b64RValue</td>
+												<td>전자서명에 사용된 인증서의 암호화된 R 값을 base64 인코딩 한 값 </td>
+											</tr>											
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_id">unisign.SignMultiDataNGetIdentifierByEnvlp( jsonData, null, kmCert, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_multi_p7_id', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_id')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_multi_p7_id">&nbsp;</code></pre>
+								</div>
+								
+								
+								<!-- VerifySignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData( signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_id_verify">unisign.VerifySignData( g_retObject.jsonSignedData["1"], function( plainText ) {
+		if( plainText ){
+			alert( '전자서명문 검증에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_id_verify')"> 실행하기 </button>
+								</div>								
+							</section>
+						</div>										
+						
+						
+						<!-- multi p#7 with NoContent -->
+						<div class="tab-pane fade" id="sign_multi_p7_nocontent" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - Multi PKCS #7 with noCotent </h2>
+								<p> 여러개의 데이터에 대한 p7 전자서명(원문 포함하지 않는) 생성 요청API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignMultiDataExcludeContentEx( jsondata, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>서명할 원문 데이터 (문자열)을 json type으로 생성해서 전달. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>	
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>											
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_nocontent">unisign.SignMultiDataExcludeContentEx( jsonData, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_multi_p7_nocontent', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_nocontent')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_multi_p7_nocontent">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifyExcludedContentSignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> 원문 없는 p#7 데이터 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyExcludedContentSignData( data, signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수]</td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_nocontent_verify">unisign.VerifyExcludedContentSignData( jsonData["1"], g_retObject.jsonSignedData["1"], function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_nocontent_verify')"> 실행하기 </button>
+								</div>										
+							</section>
+						</div>	
+						
+
+						<!-- 1. p#7 & VerifyVID  2. p#7(withHash) -->
+						<div class="tab-pane fade" id="sign_p7_vid_sign_p7_withhash" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - 1. p#7 & VerifyVID  2. p#7(withHash) </h2>
+								<p> 1.  p#7 전자서명 생성과 vid 검증을 요청하는 API<br> 2. 인증서 선택창 출력 없이 원문을 HashData로 전달하고, 원문 포함이 되지 않는 p7 전자서명 데이터 생성요청 API. </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									1. <a href="#sign_p7_vid"  data-toggle="tab"> SignDataNVerifyVID </a> API를 호출한 후 callback 함수에서 <br> 
+									2. <a href="#sign_p7_withhash_ex"  data-toggle="tab"> SignData_noConWithHashEx </a>	를 호출
+								</div>
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_vid_sign_p7_withhash">unisign.SignDataNVerifyVID( data, null, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		
+		alert("SignDataNVerifyVID 전자서명에 성공하였습니다.");
+		toJsonprint( 'sign_p7_vid_sign_p7_withhash', resultObject ); //결과출력
+		
+			unisign.SignData_noConWithHashEx( true, jsonb64HashData, null, hashAlgo, function( resultObject ) {
+				if( !resultObject || resultObject.resultCode != 0 ){
+					alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+					return;
+				}
+		alert("SignData_noConWithHashEx 전자서명에 성공하였습니다.");				
+				toJsonprint( 'sign_p7_vid_sign_p7_withhash', resultObject ); //결과출력
+			});		
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_vid_sign_p7_withhash')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_vid_sign_p7_withhash">&nbsp;</code></pre>
+								</div>								
+							</section>
+						</div>
+
+
+						<!-- 1. p#7   2. p#7(withHash) -->
+						<div class="tab-pane fade" id="sign_p7_sign_p7_withhash" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - 1. p#7   2. p#7(withHash) </h2>
+								<p> 1.  p#7 전자서명 생성을 요청하는 API <br> 2. 인증서 선택창 출력 없이 원문을 HashData로 전달하고, 원문 포함이 되지 않는 p7 전자서명 데이터 생성요청 API. </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									1. <a href="#sign_p7"  data-toggle="tab"> SignDataEx </a> API를 호출한 후 callback 함수에서 <br>
+									2. <a href="#sign_p7_withhash_ex"  data-toggle="tab"> SignData_noConWithHashEx </a>	 를 호출
+								</div>
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_sign_p7_withhash">unisign.SignDataEx( data, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		
+		alert("SignDataEx 전자서명에 성공하였습니다.");
+		toJsonprint( 'sign_p7_sign_p7_withhash', resultObject ); //결과출력
+		
+			unisign.SignData_noConWithHashEx( true, jsonb64HashData, null, hashAlgo, function( resultObject ) {
+				if( !resultObject || resultObject.resultCode != 0 ){
+					alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+					return;
+				}
+		alert("SignData_noConWithHashEx 전자서명에 성공하였습니다.");				
+				toJsonprint( 'sign_p7_sign_p7_withhash', resultObject ); //결과출력
+			});		
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_sign_p7_withhash')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_sign_p7_withhash">&nbsp;</code></pre>
+								</div>									
+							</section>
+						</div>						
+
+						
+									 		
+						
+						<!-- p#7 withHash -->
+						<div class="tab-pane fade" id="sign_p7_withhash_ex" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7(with Hashdata) </h2>
+								<p> 원문을 HashData로 전달하고, 원문 포함이 되지 않는 p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignData_noConWithHashEx( useSavedcertInfo, jsondata, dn, hashAlgo, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>useSavedcertInfo</td>
+												<td>true이면 내부적으로 저장되어 있는 인증서의 정보를 사용하고 인증서 선택창을 출력하지 않음. (default: false) </td>
+											</tr>										
+											<tr>
+												<td>jsondata</td>
+												<td>원문을 hash 한 값을 포함한 json 타입의 data. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>hashAlgo</td>
+												<td>원문을 hash할때 사용한  <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a> . [필수]	</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_ex">unisign.SignData_noConWithHashEx( true, jsonb64HashData, null, hashAlgo, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		toJsonprint( 'sign_p7_withhash_ex', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_ex')"> 실행하기 </button>
+								</div>					
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_withhash_ex">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifySignData_noConWithHash -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> Hashdata와 원문 없는 p#7 데이터 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData_noConWithHash( hashdata, signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>hashdata</td>
+												<td>서명에 사용된 base64 인코딩 된 hash 데이터 . [필수]</td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>hash 데이터를 p#7으로 서명한 원문이 포함되지 않은 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_ex_verify">unisign.VerifySignData_noConWithHash( jsonb64HashData["1"], g_retObject.jsonSignedData["1"], function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_ex_verify')"> 실행하기 </button>
+								</div>											
+							</section>
+						</div>													
+						
+						
+						<!-- File_sign -->
+						<div class="tab-pane fade" id="file_sign" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7(파일) </h2>
+								<p> 전달된 file을 읽어서 해당 내용에 대한  p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignFile( filePath, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>							
+											<tr>
+												<td>filePath</td>
+												<td>전자서명 원문이 포함된 파일명. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_sign">unisign.SignFile( inputfilepath, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'file_sign', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_sign')"> 실행하기 </button>
+								</div>					
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_file_sign">&nbsp;</code></pre>
+								</div>
+								
+								
+								<!-- VerifyP7SignedDataWithFile -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyP7SignedDataWithFile( signeddata, retType, outputfilepath, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>
+											<tr>
+												<td>retType</td>
+												<td>생성된 전자서명 데이터의 return type. <br> 0: 결과값 string 반환 <br> 1 : 결과값을 outputfilepath에  저장 </td>
+											</tr>
+											<tr>
+												<td>outputfilepath</td>
+												<td>생성된 전자서명 데이터를 저장할 파일 위치와 이름. retType이 1일 경우 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr> 
+											<tr>
+												<td> data </td>
+												<td>retType : 0 - 검증 후 획득된 원문데이터 <br> retType : 1 - 검증 후 획득된 원문데이터를 저장한 파일 Name </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_sign_verify">unisign.VerifyP7SignedDataWithFile( g_retObject.signedData, 1, verifyfilepath, function( rv, data ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다. 원문을' + data + '에 저장했습니다.' );
+		
+		unisign.VerifyP7SignedDataWithFile( g_retObject.signedData, 0, null, function( rv, data ) {
+			if( rv != 0 ){
+				alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+				
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+				return;
+			}
+			alert('전자서명값 검증에 성공하였습니다. 원문 :' + data );		
+		});
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_sign_verify')"> 실행하기 </button>
+								</div>								
+							</section>
+						</div>							
+	
+
+						<!-- File_sign with noContent -->
+						<div class="tab-pane fade" id="file_sign_nocontent" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7 with noContent(파일) </h2>
+								<p> 전달된 file을 읽어서 해당 내용에 대한  p7 전자서명(원문포함하지 않은) 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignFileExcludeContent( filePath, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>							
+											<tr>
+												<td>filePath</td>
+												<td>전자서명 원문이 포함된 파일명. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_sign_nocontent">unisign.SignFileExcludeContent( inputfilepath, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'file_sign_nocontent', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_sign_nocontent')"> 실행하기 </button>
+								</div>					
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_file_sign_nocontent">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifyExcludeContentP7SignedDataWithFile -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyExcludeContentP7SignedDataWithFile( filepath, signeddata, retType, outputfilepath, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>filepath</td>
+												<td>원문이 포함된 file 경로 [필수] </td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7(원문 포함하지 않은)으로 서명한 서명데이터 [필수] </td>
+											</tr>
+											<tr>
+												<td>retType</td>
+												<td>생성된 전자서명 데이터의 return type. <br> 0: 결과값 string 반환 <br> 1 : 결과값을 outputfilepath에  저장 </td>
+											</tr>
+											<tr>
+												<td>outputfilepath</td>
+												<td>생성된 전자서명 데이터를 저장할 파일 위치와 이름. retType이 1일 경우 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr> 
+											<tr>
+												<td> data </td>
+												<td>retType : 0 - 검증 후 획득된 원문데이터 <br> retType : 1 - 검증 후 획득된 원문데이터를 저장한 파일 Name </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_sign_nocontent_verify">unisign.VerifyExcludeContentP7SignedDataWithFile( inputfilepath, g_retObject.signedData, 1, verifyfilepath, function( rv, data ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다. 원문을' + data + '에 저장했습니다.' );
+		
+		unisign.VerifyExcludeContentP7SignedDataWithFile( inputfilepath, g_retObject.signedData, 0, null, function( rv, data ) {
+			if( rv != 0 ){
+				alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+				
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+				return;
+			}
+			alert('전자서명값 검증에 성공하였습니다. 원문 :' + data );		
+		});		
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_sign_nocontent_verify')"> 실행하기 </button>
+								</div>											
+							</section>
+						</div>
+
+
+						<!-- MultiFile_sign with noContent -->
+						<div class="tab-pane fade" id="file_multi_sign" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - Multi PKCS #7(파일) </h2>
+								<p> 전달된 file(여러개의 파일)을 읽어서 해당 내용에 대한  p7 전자서명 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignMultiFile( jsonfilePath, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>							
+											<tr>
+												<td>jsonfilePath</td>
+												<td>전자서명 원문이 포함된 파일명의 json타입의 데이터. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_multi_sign">unisign.SignMultiFile( jsonfilePath, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'file_multi_sign', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_multi_sign')"> 실행하기 </button>
+								</div>					
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_file_multi_sign">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifyP7SignedDataWithFile -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyP7SignedDataWithFile( signeddata, retType, outputfilepath, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>
+											<tr>
+												<td>retType</td>
+												<td>생성된 전자서명 데이터의 return type. <br> 0: 결과값 string 반환 <br> 1 : 결과값을 outputfilepath에  저장 </td>
+											</tr>
+											<tr>
+												<td>outputfilepath</td>
+												<td>생성된 전자서명 데이터를 저장할 파일 위치와 이름. retType이 1일 경우 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr> 
+											<tr>
+												<td> data </td>
+												<td>retType : 0 - 검증 후 획득된 원문데이터 <br> retType : 1 - 검증 후 획득된 원문데이터를 저장한 파일 Name </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_multi_sign_verify">unisign.VerifyP7SignedDataWithFile( g_retObject.jsonSignedData["1"], 1, verifyfilepath, function( rv, data ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다. 원문을' + data + '에 저장했습니다.' );
+		
+		unisign.VerifyP7SignedDataWithFile( g_retObject.jsonSignedData["1"], 0, null, function( rv, data ) {
+			if( rv != 0 ){
+				alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+				
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+				return;
+			}
+			alert('전자서명값 검증에 성공하였습니다. 원문 :' + data );		
+		});		
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_multi_sign_verify')"> 실행하기 </button>
+								</div>										
+							</section>
+						</div>							
+	
+
+						<!-- File_sign with noContent -->
+						<div class="tab-pane fade" id="file_multi_sign_nocontent" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - Multi PKCS #7 with noContent(파일) </h2>
+								<p> 전달된 file(여러개의 파일)을 읽어서 해당 내용에 대한  p7 전자서명(원문포함하지 않은) 데이터 생성요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignMultiFileExcludeContent( jsonfilePath, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>							
+											<tr>
+												<td>jsonfilePath</td>
+												<td>전자서명 원문이 포함된 파일명의 json타입의 데이터. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>jsonSignedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_multi_sign_nocontent">unisign.SignMultiFileExcludeContent( jsonfilePath, null, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'file_multi_sign_nocontent', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_multi_sign_nocontent')"> 실행하기 </button>
+								</div>					
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_file_multi_sign_nocontent">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifyExcludeContentP7SignedDataWithFile -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyExcludeContentP7SignedDataWithFile( filepath, signeddata, retType, outputfilepath, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>filepath</td>
+												<td>원문이 포함된 file 경로 [필수] </td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7(원문 포함하지 않은)으로 서명한 서명데이터 [필수] </td>
+											</tr>
+											<tr>
+												<td>retType</td>
+												<td>생성된 전자서명 데이터의 return type. <br> 0: 결과값 string 반환 <br> 1 : 결과값을 outputfilepath에  저장 </td>
+											</tr>
+											<tr>
+												<td>outputfilepath</td>
+												<td>생성된 전자서명 데이터를 저장할 파일 위치와 이름. retType이 1일 경우 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr> 
+											<tr>
+												<td> data </td>
+												<td>retType : 0 - 검증 후 획득된 원문데이터 <br> retType : 1 - 검증 후 획득된 원문데이터를 저장한 파일 Name </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_multi_sign_nocontent_verify">unisign.VerifyExcludeContentP7SignedDataWithFile( inputfilepath, g_retObject.jsonSignedData["1"], 1, verifyfilepath, function( rv, data ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다. 원문을' + data + '에 저장했습니다.' );
+		
+		unisign.VerifyExcludeContentP7SignedDataWithFile( inputfilepath, g_retObject.jsonSignedData["1"], 0, null, function( rv, data ) {
+			if( rv != 0 ){
+				alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+				
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+				return;
+			}
+			alert('전자서명값 검증에 성공하였습니다. 원문 :' + data );		
+		});	
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_multi_sign_nocontent_verify')"> 실행하기 </button>
+								</div>										
+							</section>
+						</div>
+						
+
+						<!-- File_sign & save  -->
+						<div class="tab-pane fade" id="file_sign_save" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">인증서 서명 - PKCS #7 & save file(파일) </h2>
+								<p> 전달된 file을 읽어서 해당 내용에 대한  p7 전자서명 데이터 생성 하고 결과 값을 파일로 저장하도록 요청하는 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignFileEx( filePath, dn, retType, outputfilepath, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>							
+											<tr>
+												<td>filePath</td>
+												<td>전자서명 원문이 포함된 파일명. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>		
+											<tr>
+												<td>retType</td>
+												<td>생성된 전자서명 데이터의 return type. <br> 0: 결과값 string 반환 <br> 1 : 결과값을 outputfilepath에  저장 </td>
+											</tr>
+											<tr>
+												<td>outputfilepath</td>
+												<td>생성된 전자서명 데이터를 저장할 파일 위치와 이름. retType이 1일 경우 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>retType이 0 이면, 전자서명한 데이터로 base64인코딩된 데이터<br> retType이 1 이면, 전자서명 데이터를 저장한 파일 위치와 이름</td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </td>
+											</tr>								
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>										
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_sign_save">unisign.SignFileEx( inputfilepath, null, 1, signfilepath, function( resultObject ) {
+			if( !resultObject || resultObject.resultCode != 0 ){
+				alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+				return;
+			}
+		
+			alert('전자서명에 성공했습니다. 데이터 저장 파일 : ' + resultObject.signedData);
+			
+			unisign.SignFileEx( inputfilepath, null, 0, null, function( resultObject ) {
+					if( !resultObject || resultObject.resultCode != 0 ){
+						alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+						return;
+					}
+					alert('전자서명에 성공했습니다.');
+					toJsonprint( 'file_sign_save', resultObject ); //결과출력
+				});	
+	});
+			
+			</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_sign_save')"> 실행하기 </button>
+								</div>					
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_file_sign_save">&nbsp;</code></pre>
+								</div>
+								
+								
+								<!-- VerifyP7SignedFileWithFile -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyP7SignedFileWithFile( signedfilepath, retType, outputfilepath, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signedfilepath</td>
+												<td>원문을 p#7으로 서명한 서명데이터가 포함된 파일명 [필수] </td>
+											</tr>
+											<tr>
+												<td>retType</td>
+												<td>생성된 전자서명 데이터의 return type. <br> 0: 결과값 string 반환 <br> 1 : 결과값을 outputfilepath에  저장 </td>
+											</tr>
+											<tr>
+												<td>outputfilepath</td>
+												<td>생성된 전자서명 데이터를 저장할 파일 위치와 이름. retType이 1일 경우 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr> 
+											<tr>
+												<td> data </td>
+												<td>retType : 0 - 검증 후 획득된 원문데이터 <br> retType : 1 - 검증 후 획득된 원문데이터를 저장한 파일 Name </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_file_sign_save_verify">unisign.VerifyP7SignedFileWithFile( signfilepath, 1, verifyfilepath, function( rv, data ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다. 원문을' + data + '에 저장했습니다.' );
+		
+		unisign.VerifyP7SignedFileWithFile( signedfile, 0, null, function( rv, data ) {
+			if( rv != 0 ){
+				alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+				
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+				return;
+			}
+			alert('전자서명값 검증에 성공하였습니다. 원문 :' + data );		
+		});	
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('file_sign_save_verify')"> 실행하기 </button>
+								</div>															
+							</section>
+						</div>	
+
+
+						<!-- VerifyVID -->
+						<div class="tab-pane fade" id="verify_vid" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 신원확인 API</h1>
+								<h2 id="text-contextuals">신원확인 -  VerifyVID </h2>
+								<p> vid 검증을 요청하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifyVIDEx( ssn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>ssn</td>
+												<td>vid 검증에 사용할 주민등록번호. 입력되지 않으면 내부에서 입력창 출력 </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>		
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_verify_vid">unisign.VerifyVIDEx( ssn, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		
+		alert("신원확인 성공");
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('verify_vid')"> 실행하기 </button>
+								</div>
+							</section>
+						</div>							
+						
+
+						<!-- Sign & VerifyVID -->
+						<div class="tab-pane fade" id="sign_p7_vid" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 신원확인 API</h1>
+								<h2 id="text-contextuals">신원확인 -  p#7 & VerifyVID </h2>
+								<p> p#7 전자서명 생성과 vid 검증을 요청하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignDataNVerifyVID( data, dn, ssn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열)을 json type으로 생성해서 전달. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>	
+											<tr>
+												<td>ssn</td>
+												<td>vid 검증에 사용할 주민등록번호. 입력되지 않으면 내부에서 입력창 출력 </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>	
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>											
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>		
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_vid">unisign.SignDataNVerifyVID( data, null, ssn, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7_vid', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_vid')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_vid">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifySignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData( signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_vid_verify">unisign.VerifySignData( g_retObject.signedData, function( plainText ) {
+		if( plainText ){
+			alert( '전자서명문 검증에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_vid_verify')"> 실행하기 </button>
+								</div>										
+							</section>
+						</div>							
+
+
+
+						<!-- Sign with NoConWithHash & VerifyVID -->
+						<div class="tab-pane fade" id="sign_p7_withhash_verifyvid" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 신원확인 API</h1>
+								<h2 id="text-contextuals">신원확인 -  p#7 with noConwithHash & VerifyVID </h2>
+								<p> 원문을 HashData로 전달하고, 원문 포함이 되지 않는 p7 전자서명 데이터 생성요청 과 vid 검증 요청하는  API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignDataP7NVID_noConWithHash( jsondata, dn, hashAlgo, ssn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>원문을 hash 한 값을 포함한 json 타입의 data. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>hashAlgo</td>
+												<td>원문을 hash할때 사용한  <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a> . [필수]	</td>
+											</tr>		
+											<tr>
+												<td>ssn</td>
+												<td>vid 검증에 사용할 주민등록번호. 입력되지 않으면 내부에서 입력창 출력 </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>	
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>											
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>		
+								<br>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_verifyvid">unisign.SignDataP7NVID_noConWithHash( jsonb64HashData, null, hashAlgo, ssn, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_p7_withhash_verifyvid', resultObject ); //결과출력
+	});
+	</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_verifyvid')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_p7_withhash_verifyvid">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifySignData_noConWithHash -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> Hashdata와 원문 없는 p#7 데이터 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData_noConWithHash( hashdata, signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>hashdata</td>
+												<td>서명에 사용된 base64 인코딩 된 hash 데이터 . [필수]</td>
+											</tr>										
+											<tr>
+												<td>signeddata</td>
+												<td>hash 데이터를 p#7으로 서명한 원문이 포함되지 않은 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과 코드</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_p7_withhash_verifyvid_verify">unisign.VerifySignData_noConWithHash( jsonb64HashData["1"], g_retObject.signedData["1"], function( rv ) {
+		if( rv != 0 ){
+			alert( '전자서명값 검증에 실패하였습니다. \n\nrv : ' + rv );
+			
+			unisign.GetLastError(
+				function(errCode, errMsg) 
+				{ 
+					alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+				}
+			);			
+			return;
+		}
+		alert('전자서명값 검증에 성공하였습니다.');
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_p7_withhash_verifyvid_verify')"> 실행하기 </button>
+								</div>											
+							</section>
+						</div>		
+
+
+						<!-- multi p#7 & verifyvid -->
+						<div class="tab-pane fade" id="sign_multi_p7_vid" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 신원확인 API</h1>
+								<h2 id="text-contextuals">신원확인 - Multi PKCS #7 & verifyvid </h2>
+								<p> 여러개의 데이터에 대한 p7 전자서명 생성관 vid 검증 요청 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignMultiDataNVerifyVID( jsondata, dn, ssn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>jsondata</td>
+												<td>서명할 원문 데이터 (문자열)을 json type으로 생성해서 전달. [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>
+											<tr>
+												<td>ssn</td>
+												<td>vid 검증에 사용할 주민등록번호. 입력되지 않으면 내부에서 입력창 출력 </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 json type 의 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>curDevice</td>
+												<td>전자서명에 사용된 인증서가 위치한  <a href="#ReturnValue"  data-toggle="tab"> device index </a> </td>
+											</tr>												
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_vid">unisign.SignMultiDataNVerifyVID( jsonData, null, ssn, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('전자서명에 성공했습니다.');
+		toJsonprint( 'sign_multi_p7_vid', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_vid')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_sign_multi_p7_vid">&nbsp;</code></pre>
+								</div>
+								
+								<!-- VerifySignData -->
+								<h2 id="text-contextuals">서명 검증 </h2>
+								<p> p7 서명 검증 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									VerifySignData( signeddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>signeddata</td>
+												<td>원문을 p#7으로 서명한 서명데이터 [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_sign_multi_p7_vid_verify">unisign.VerifySignData( g_retObject.signedData["1"], function( plainText ) {
+		if( plainText ){
+			alert( '전자서명문 검증에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('sign_multi_p7_vid_verify')"> 실행하기 </button>
+								</div>									
+							</section>
+						</div>			
+
+
+						<!-- encrypt with symmkey(like ActiveX) -->
+						<div class="tab-pane fade" id="enc_dec_symmkey" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 암복호화 API</h1>
+								<h2 id="text-contextuals">암복호화 - encrypt with symmkey(like ActiveX) </h2>
+								<p> symmkey를 가지고 암호화를 요청하는 API <br> 내부적으로 입력된 key에 다른 값을 add해서 key로 사용(AxCrossCert에서 지원하던 기능처럼 지원되는 API) </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									EncryptDataWithSymmKey( encAlgo, symmkey, data, charset, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>encAlgo</td>
+												<td>암호화 <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a>. [필수]  <br> </td>
+											</tr>
+											<tr>
+												<td>symmkey</td>
+												<td>암호화에 입력될 대칭키 Value [필수]</td>
+											</tr>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수] </td>
+											</tr>
+											<tr>
+												<td>charset</td>
+												<td>원문데이터에 대한 한글 인코딩을 위한 <a href="#ReturnValue"  data-toggle="tab"> charset </a> <br> default : UTF-8 </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>encryptedData</td>
+												<td>생성된 암호화 데이터</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_enc_dec_symmkey">unisign.EncryptDataWithSymmKey( "SEED", "0123456789123456", data, 'euc-kr', function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert('암호화에 성공했습니다.');
+		toJsonprint( 'enc_dec_symmkey', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('enc_dec_symmkey')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_enc_dec_symmkey">&nbsp;</code></pre>
+								</div>
+								
+								<!-- DecryptDataWithSymmKey -->
+								<h2 id="text-contextuals"> 복호화 </h2>
+								<p> 복호화 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									DecryptDataWithSymmKey( encAlgo, symmkey, encrypteddata, fromcharset, tocharset, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>encAlgo</td>
+												<td>암호화 <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a>. [필수]  <br> </td>
+											</tr>
+											<tr>
+												<td>symmkey</td>
+												<td>암호화에 입력될 대칭키 Value [필수] </td>
+											</tr>										
+											<tr>
+												<td>encrypteddata</td>
+												<td>암호화된 데이터 데이터 [필수] </td>
+											</tr>	
+											<tr>
+												<td>fromcharset</td>
+												<td>암호화할때 사용한 인코딩 charset [필수] </td>
+											</tr>	
+											<tr>
+												<td>tocharset</td>
+												<td>복호화 후에 사용할 인코딩 charset : 'utf-8'만 지원  [필수] </td>
+											</tr>												
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과코드 </td>
+											</tr>										
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_enc_dec_symmkey_dec">unisign.DecryptDataWithSymmKey( 'SEED', "0123456789123456", g_retObject.encryptedData, 'euc-kr', 'utf-8', function( rv, plainText ) {
+		if( rv == 0 ){
+			alert( '복호화에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('enc_dec_symmkey_dec')"> 실행하기 </button>
+								</div>											
+							</section>
+						</div>							
+						
+	
+						<!-- encryptdata -->
+						<div class="tab-pane fade" id="enc_dec" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 암복호화 API</h1>
+								<h2 id="text-contextuals">암복호화 - encryptdata </h2>
+								<p> 비대칭키 암호화를 요청하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									EncryptData( data, dn, kmcert, clrUCList, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수] </td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음. <br> default:null</td>
+											</tr>
+											<tr>
+												<td>kmcert</td>
+												<td>사용하지 않음  </td>
+											</tr>
+											<tr>
+												<td>clrUCList</td>
+												<td>사용하지 않음  </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>encryptedData</td>
+												<td>생성된 암호화 데이터</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_enc_dec">unisign.EncryptData( data, null, null, 0, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert("암호화에 성공했습니다.");
+		toJsonprint( 'enc_dec', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('enc_dec')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_enc_dec">&nbsp;</code></pre>
+								</div>
+								
+								<!-- DecryptData -->
+								<h2 id="text-contextuals"> 복호화 </h2>
+								<p> 비 대칭키 복호화 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									DecryptData( encrypteddata, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>										
+											<tr>
+												<td>encrypteddata</td>
+												<td>암호화된 데이터 데이터 [필수] </td>
+											</tr>												
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>rv</td>
+												<td>결과코드 </td>
+											</tr>										
+											<tr>
+												<td>plaintext</td>
+												<td>검증 성공 : 원문데이터 반환. <br> 검증 실패 : 원문데이터 미반환 </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_enc_dec_dec">unisign.DecryptData( g_retObject.encryptedData, function( rv, plainText ) {
+		if( rv == 0 ){
+			alert( '복호화에 성공하였습니다.\n\n원문 [ ' + plainText + ' ]' ); 
+			}
+			else	{
+				unisign.GetLastError(
+					function(errCode, errMsg) 
+					{ 
+						alert('Error code : ' + errCode + '\n\nError Msg : ' + errMsg); 
+					}
+				);			
+			}
+	});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('enc_dec_dec')"> 실행하기 </button>
+								</div>											
+							</section>
+						</div>	
+	
+	
+						<!-- encryptdata with cert -->
+						<div class="tab-pane fade" id="enc_dec_withcert" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 암복호화 API</h1>
+								<h2 id="text-contextuals">암복호화 - encryptdata </h2>
+								<p> 비대칭키 암호화를 요청하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									EncryptDataWithCert( data, cert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 원문 데이터 (문자열). [필수] </td>
+											</tr>
+											<tr>
+												<td>cert</td>
+												<td>비대칭키 암호화에 사용할 인증서. 인증서 선택창은 출력되지 않음. [필수] </td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>											
+											<tr>
+												<td>encryptedData</td>
+												<td>생성된 암호화 데이터</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>								
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_enc_dec_withcert">unisign.EncryptDataWithCert( data, cert, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert("암호화에 성공했습니다.");
+		toJsonprint( 'enc_dec_withcert', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('enc_dec_withcert')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_enc_dec_withcert">&nbsp;</code></pre>
+								</div>
+							</section>
+						</div>		
+	
+	
+						<!-- 세금계산서 전자서명  -->
+						<div class="tab-pane fade" id="xml" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - XML 전자 세금 계산서 API</h1>
+								<h2 id="text-contextuals">XML 전자 세금 계산서 - 세금계산서 전자서명 </h2>
+								<p> 세금계산서 xml데이터에 대한 전자서명을 요청하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									MakeTaxXMLDSIG( data, dn, kmcert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>data</td>
+												<td>서명할 xml 데이터 (문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>kmCert</td>
+												<td>전자서명에 사용된 인증서의 R 값을 암호할때 사용되며, 복호화 하고자 하는 측의 암호화 인증서.</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>b64RValue</td>
+												<td>전자서명에 사용된 인증서의 암호화된 R 값을 base64 인코딩 한 값 <br> kmcert가 입력되지 않으면 생성되지 않음 </td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="highlight text" data-lang="text">
+									<pre><textarea class="form-control" rows="8" id="txt_xmldata"><TaxInvoice xmlns="urn:kr:or:kec:standard:Tax:ReusableAggregateBusinessInformationEntitySchemaModule:1:0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:kr:or:kec:standard:Tax:ReusableAggregateBusinessInformationEntitySchemaModule:1:0 http://www.kec.or.kr/standard/Tax/TaxInvoiceSchemaModule_1.0.xsd">
+	<ExchangedDocument>
+		<ID>123456789012345678901234</ID>
+		<IssueDateTime>20090402104522</IssueDateTime>
+		<ReferencedDocument>
+			<ID>123456789012345678901234</ID>
+		</ReferencedDocument>
+	</ExchangedDocument>
+	<TaxInvoiceDocument>
+		<IssueID>200904020000000011111111</IssueID>
+		<TypeCode>0101</TypeCode>
+		<DescriptionText>abcde</DescriptionText>
+		<IssueDateTime>20090402</IssueDateTime>
+		<AmendmentStatusCode>01</AmendmentStatusCode>
+		<PurposeCode>01</PurposeCode>
+		<ReferencedImportDocument>
+			<ID>123456789012345</ID>
+			<ItemQuantity>123456</ItemQuantity>
+			<AcceptablePeriod>
+				<StartDateTime>20090402</StartDateTime>
+				<EndDateTime>20090402</EndDateTime>
+			</AcceptablePeriod>
+		</ReferencedImportDocument>
+	</TaxInvoiceDocument>
+	<TaxInvoiceTradeSettlement>
+		<InvoicerParty>
+			<ID>1234567890123</ID>
+			<TypeCode>1234567890123456789012345678901234567890</TypeCode>
+			<NameText>1234567890123456789012345678901234567890123456789012345678901234567890</NameText>
+			<ClassificationCode>1234567890123456789012345678901234567890</ClassificationCode>
+			<SpecifiedOrganization>
+				<TaxRegistrationID>1234</TaxRegistrationID>
+			</SpecifiedOrganization>
+			<SpecifiedPerson>
+				<NameText>123456789012345678901234567890</NameText>
+			</SpecifiedPerson>
+			<DefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</DefinedContact>
+			<SpecifiedAddress>
+				<LineOneText>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</LineOneText>
+			</SpecifiedAddress>
+		</InvoicerParty>
+		<InvoiceeParty>
+			<ID>1234567890123</ID>
+			<TypeCode>1234567890123456789012345678901234567890</TypeCode>
+			<NameText>123456789012345678901234567890</NameText>
+			<ClassificationCode>1234567890123456789012345678901234567890</ClassificationCode>
+			<SpecifiedOrganization>
+				<TaxRegistrationID>1234</TaxRegistrationID>
+				<BusinessTypeCode>01</BusinessTypeCode>
+			</SpecifiedOrganization>
+			<SpecifiedPerson>
+				<NameText>123456789012345678901234567890</NameText>
+			</SpecifiedPerson>
+			<PrimaryDefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</PrimaryDefinedContact>
+			<SecondaryDefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</SecondaryDefinedContact>
+			<SpecifiedAddress>
+				<LineOneText>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</LineOneText>
+			</SpecifiedAddress>
+		</InvoiceeParty>
+		<BrokerParty>
+			<ID>1234567890123</ID>
+			<TypeCode>1234567890123456789012345678901234567890</TypeCode>
+			<NameText>1234567890123456789012345678901234567890123456789012345678901234567890</NameText>
+			<ClassificationCode>1234567890123456789012345678901234567890</ClassificationCode>
+			<SpecifiedOrganization>
+				<TaxRegistrationID>1234</TaxRegistrationID>
+			</SpecifiedOrganization>
+			<SpecifiedPerson>
+				<NameText>123456789012345678901234567890</NameText>
+			</SpecifiedPerson>
+			<DefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</DefinedContact>
+			<SpecifiedAddress>
+				<LineOneText>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</LineOneText>
+			</SpecifiedAddress>
+		</BrokerParty>
+		<SpecifiedPaymentMeans>
+			<TypeCode>10</TypeCode>
+			<PaidAmount>123456789012345</PaidAmount>
+		</SpecifiedPaymentMeans>
+		<SpecifiedMonetarySummation>
+			<ChargeTotalAmount>-12345678901235678</ChargeTotalAmount>
+			<TaxTotalAmount>-12345678912345678</TaxTotalAmount>
+			<GrandTotalAmount>-12345678901245678</GrandTotalAmount>
+		</SpecifiedMonetarySummation>
+	</TaxInvoiceTradeSettlement>
+	<TaxInvoiceTradeLineItem>
+		<SequenceNumeric>01</SequenceNumeric>
+		<DescriptionText>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</DescriptionText>
+		<InvoiceAmount>1234567890123456</InvoiceAmount>
+		<ChargeableUnitQuantity>999999999.99</ChargeableUnitQuantity>
+		<InformationText>123456789012345678901234567890123456789012345678901234567890</InformationText>
+		<NameText>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</NameText>
+		<PurchaseExpiryDateTime>20090402</PurchaseExpiryDateTime>
+		<TotalTax>
+			<CalculatedAmount>1234567890123456</CalculatedAmount>
+		</TotalTax>
+		<UnitPrice>
+			<UnitAmount>12345678901235.99</UnitAmount>
+		</UnitPrice>
+	</TaxInvoiceTradeLineItem>
+</TaxInvoice></textarea></pre>
+								</div>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_xml">var xmldata=document.getElementById('txt_xmldata').value;
+unisign.MakeTaxXMLDSIG( xmldata, null, kmCert, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert("XML 전자서명에 성공했습니다.");	
+		
+		document.getElementById('txt_xmldata_sign').value = resultObject.signedData;
+		toJsonprint( 'xml', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('xml')"> 실행하기 </button>
+								</div>
+								<div class="highlight retxml" data-lang="text">
+<pre><textarea class="form-control" rows="8" id="txt_xmldata_sign">""</textarea></pre>	
+								</div>							
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_xml">&nbsp;</code></pre>
+								</div>							
+							</section>
+						</div>	
+	
+
+
+						<!-- 멀티 세금계산서 전자서명  -->
+						<div class="tab-pane fade" id="xml_multi" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - XML 전자 세금 계산서 API</h1>
+								<h2 id="text-contextuals">XML 전자 세금 계산서 - 멀티 세금계산서 전자서명 </h2>
+								<p> 세금계산서 xml데이터(여러개)에 대한 전자서명을 요청하는 API </p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									MakeTaxXMLDSIG( arrdata, dn, kmcert, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>arrdata</td>
+												<td>서명할 xml 데이터의 배열(문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>kmCert</td>
+												<td>전자서명에 사용된 인증서의 R 값을 암호할때 사용되며, 복호화 하고자 하는 측의 암호화 인증서.</td>
+											</tr>											
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>b64RValue</td>
+												<td>전자서명에 사용된 인증서의 암호화된 R 값을 base64 인코딩 한 값 <br> kmcert가 입력되지 않으면 생성되지 않음 </td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>
+											<tr>
+												<td>tokenLabel</td>
+												<td>보안토큰에 있는 인증서로 전자서명 했을 경우 보안토큰 label </td>
+											</tr>	
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="highlight text" data-lang="text">
+									<pre><textarea class="form-control" rows="8" id="txt_xmldata2"><TaxInvoice xmlns="urn:kr:or:kec:standard:Tax:ReusableAggregateBusinessInformationEntitySchemaModule:1:0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:kr:or:kec:standard:Tax:ReusableAggregateBusinessInformationEntitySchemaModule:1:0 http://www.kec.or.kr/standard/Tax/TaxInvoiceSchemaModule_1.0.xsd">
+	<ExchangedDocument>
+		<ID>123456789012345678901234</ID>
+		<IssueDateTime>20090402104522</IssueDateTime>
+		<ReferencedDocument>
+			<ID>123456789012345678901234</ID>
+		</ReferencedDocument>
+	</ExchangedDocument>
+	<TaxInvoiceDocument>
+		<IssueID>200904020000000011111111</IssueID>
+		<TypeCode>0101</TypeCode>
+		<DescriptionText>abcde</DescriptionText>
+		<IssueDateTime>20090402</IssueDateTime>
+		<AmendmentStatusCode>01</AmendmentStatusCode>
+		<PurposeCode>01</PurposeCode>
+		<ReferencedImportDocument>
+			<ID>123456789012345</ID>
+			<ItemQuantity>123456</ItemQuantity>
+			<AcceptablePeriod>
+				<StartDateTime>20090402</StartDateTime>
+				<EndDateTime>20090402</EndDateTime>
+			</AcceptablePeriod>
+		</ReferencedImportDocument>
+	</TaxInvoiceDocument>
+	<TaxInvoiceTradeSettlement>
+		<InvoicerParty>
+			<ID>1234567890123</ID>
+			<TypeCode>1234567890123456789012345678901234567890</TypeCode>
+			<NameText>1234567890123456789012345678901234567890123456789012345678901234567890</NameText>
+			<ClassificationCode>1234567890123456789012345678901234567890</ClassificationCode>
+			<SpecifiedOrganization>
+				<TaxRegistrationID>1234</TaxRegistrationID>
+			</SpecifiedOrganization>
+			<SpecifiedPerson>
+				<NameText>123456789012345678901234567890</NameText>
+			</SpecifiedPerson>
+			<DefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</DefinedContact>
+			<SpecifiedAddress>
+				<LineOneText>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</LineOneText>
+			</SpecifiedAddress>
+		</InvoicerParty>
+		<InvoiceeParty>
+			<ID>1234567890123</ID>
+			<TypeCode>1234567890123456789012345678901234567890</TypeCode>
+			<NameText>123456789012345678901234567890</NameText>
+			<ClassificationCode>1234567890123456789012345678901234567890</ClassificationCode>
+			<SpecifiedOrganization>
+				<TaxRegistrationID>1234</TaxRegistrationID>
+				<BusinessTypeCode>01</BusinessTypeCode>
+			</SpecifiedOrganization>
+			<SpecifiedPerson>
+				<NameText>123456789012345678901234567890</NameText>
+			</SpecifiedPerson>
+			<PrimaryDefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</PrimaryDefinedContact>
+			<SecondaryDefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</SecondaryDefinedContact>
+			<SpecifiedAddress>
+				<LineOneText>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</LineOneText>
+			</SpecifiedAddress>
+		</InvoiceeParty>
+		<BrokerParty>
+			<ID>1234567890123</ID>
+			<TypeCode>1234567890123456789012345678901234567890</TypeCode>
+			<NameText>1234567890123456789012345678901234567890123456789012345678901234567890</NameText>
+			<ClassificationCode>1234567890123456789012345678901234567890</ClassificationCode>
+			<SpecifiedOrganization>
+				<TaxRegistrationID>1234</TaxRegistrationID>
+			</SpecifiedOrganization>
+			<SpecifiedPerson>
+				<NameText>123456789012345678901234567890</NameText>
+			</SpecifiedPerson>
+			<DefinedContact>
+				<DepartmentNameText>1234567890123456789012345678901234567890</DepartmentNameText>
+				<PersonNameText>123456789012345678901234567890</PersonNameText>
+				<TelephoneCommunication>12345678901234567890</TelephoneCommunication>
+				<URICommunication>1234567890123456789012345678901234567890</URICommunication>
+			</DefinedContact>
+			<SpecifiedAddress>
+				<LineOneText>123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</LineOneText>
+			</SpecifiedAddress>
+		</BrokerParty>
+		<SpecifiedPaymentMeans>
+			<TypeCode>10</TypeCode>
+			<PaidAmount>123456789012345</PaidAmount>
+		</SpecifiedPaymentMeans>
+		<SpecifiedMonetarySummation>
+			<ChargeTotalAmount>-12345678901235678</ChargeTotalAmount>
+			<TaxTotalAmount>-12345678912345678</TaxTotalAmount>
+			<GrandTotalAmount>-12345678901245678</GrandTotalAmount>
+		</SpecifiedMonetarySummation>
+	</TaxInvoiceTradeSettlement>
+	<TaxInvoiceTradeLineItem>
+		<SequenceNumeric>01</SequenceNumeric>
+		<DescriptionText>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</DescriptionText>
+		<InvoiceAmount>1234567890123456</InvoiceAmount>
+		<ChargeableUnitQuantity>999999999.99</ChargeableUnitQuantity>
+		<InformationText>123456789012345678901234567890123456789012345678901234567890</InformationText>
+		<NameText>1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890</NameText>
+		<PurchaseExpiryDateTime>20090402</PurchaseExpiryDateTime>
+		<TotalTax>
+			<CalculatedAmount>1234567890123456</CalculatedAmount>
+		</TotalTax>
+		<UnitPrice>
+			<UnitAmount>12345678901235.99</UnitAmount>
+		</UnitPrice>
+	</TaxInvoiceTradeLineItem>
+</TaxInvoice></textarea></pre>
+								</div>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_xml_multi">var xmldata=document.getElementById('txt_xmldata2').value;
+
+var arXmldata = new Array();
+arXmldata.push(xmldata);
+arXmldata.push(xmldata);
+unisign.MakeTaxXMLDSIG( arXmldata, null, kmCert, function( resultObject ) {
+	if( !resultObject || resultObject.resultCode != 0 ){
+		alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+		return;
+	}
+	alert("XML 전자서명에 성공했습니다.");
+	
+		document.getElementById('txt_xmldata2_sign').value = resultObject.signedData[0];
+	
+	toJsonprint( 'xml_multi', resultObject ); //결과출력
+});
+</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('xml_multi')"> 실행하기 </button>
+								</div>
+								<div class="highlight retxml" data-lang="text">
+<pre><textarea class="form-control" rows="8" id="txt_xmldata2_sign">""</textarea></pre>	
+								</div>									
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_xml_multi">&nbsp;</code></pre>
+								</div>
+							</section>
+						</div>		
+
+
+						<!-- 본인확인용 데이터 -->
+						<div class="tab-pane fade" id="cert_pin" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 전자서명 API</h1>
+								<h2 id="text-contextuals">본인확인 - 본인확인용 PKCS #7</h2>
+								<p> 본인확인용 ASN 데이터 생성 후 p7 전자서명 데이터 생성 요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									SignPersonInfoReq( userAgreement, userAgreeInfo, dn, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>userAgreement</td>
+												<td>원문에 포함될 동의문구. [필수]</td>
+											</tr>
+											<tr>
+												<td>userAgreeInfo</td>
+												<td>사용자의 정보중 어떤 정보를 요청할지에 대한 옵션 [필수] <br> '1000' : realName <br> '0100' : gender <br> '0010' : nationalInfo <br>'0001' : birthDate<br> '1100' : realName, gender  </td>
+											</tr>											
+											<tr>
+												<td>dn</td>
+												<td>서명에 사용될 인증서의 dn필터로, null이면 필터링 하지 않음 <br> default:null</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>signedData</td>
+												<td>전자서명한 데이터로 base64인코딩된 데이터</td>
+											</tr>
+											<tr>
+												<td>certAttrs</td>
+												<td>전자서명에 사용된 <a href="#ReturnValue"  data-toggle="tab"> 인증서 정보 </a> </td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="highlight text" data-lang="text">
+									<pre><textarea class="form-control" rows="8" id="txt_agreement">공인인증서 기반 본인확인서비스는 공인인증기관(한국전자인증, 금융결제원, 한국무역정보통신, 한국증권전산, 한국정보인증)에 저장된 가입자 정보를 본인확인을 목적으로 가입자가 제공을 요청한 '이용기관'에 게 제공하는 서비스로 '정보통신망이용촉진 등에 관한 법률' 및 '개인정보 보호법' 등에 따라 타인에게 제공 시 본인의 동의를 얻어야 하는 정보입니다.
+
+이에 본인은 아래 내용과 같이 가입자 정보의 제공에 동의하며 주민등록번호 보호 수단인 본인의 공인인증서 활용을 신청합니다.
+
+제 1 조 (제공할 가입자 정보 및 제공 대상)
+① 본인의 성명, i-PIN 정보, 성별, 생년월일, 내/외국인정보
+② 상기 제1조 1항의 가입자 정보는 본인이 전송을 요청한 '이용자'에게만 제공됩니다.
+
+제 2 조 (제공의 목적)
+이용기관에게 제공되는 가입자 정보는 인터넷상에서 주민등록번호 보호를 위한 본인확인 목적으로 제공됩니다.
+
+제 3 조 (이용자의 가입자 정보 보유 및 이용기간)
+본인의 가입자 정보는 제공받은 목적이 소멸되면 지체 없이 파기됩니다. 단, 이용자의 정책에 따라 일정기간 보관 후 파기될 수 있습니다. 공인인증서의 유효기간이 만료되거나 효력정지, 폐지 및 고객의 동의 없이는 이용자에게 정보를 제공하지 않으며, 이 경우 공인인증서 기반 본인확인서비스를 활용할 수 없습니다.</textarea></pre>
+								</div>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_cert_pin">var agreement = document.getElementById('txt_agreement').value; //동의 약관 원문
+alert(agreement);
+unisign.SignPersonInfoReq( agreement, "1111", null, function( resultObject ) {
+	if( !resultObject || resultObject.resultCode != 0 ){
+		alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+		return;
+	}
+	alert("본인확인용 data 전자서명에 성공했습니다.");
+	toJsonprint( 'cert_pin', resultObject ); //결과출력
+});</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('cert_pin')"> 실행하기 </button>
+								</div>
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_cert_pin">&nbsp;</code></pre>
+								</div>
+							</section>
+						</div>									
+						
+	
+						<!-- Hash -->
+						<div class="tab-pane fade" id="util_hash" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 기타 API</h1>
+								<h2 id="text-contextuals">hash - Hash 데이터 </h2>
+								<p> 입력된 데이터에 대한 Hash 요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									MakeHash( arrData, hashAlgo, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>arrData</td>
+												<td>서명할 데이터의 배열(문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>hashAlgo</td>
+												<td>해쉬할때 사용할  <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a> . [필수]	</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>hashValue</td>
+												<td>Hash된 데이터를 base64인코딩한 데이터의 배열</td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_util_hash">var ardata = new Array();
+		ardata.push(data);
+		ardata.push('~!@#$%^&amp;*()한글abcdefghijklmnopqrstuvwxyz1234567890');
+		
+		unisign.MakeHash( ardata, hashAlgo, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert("Hash 데이터 생성에 성공했습니다.");
+		toJsonprint( 'util_hash', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('util_hash')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_util_hash">&nbsp;</code></pre>
+								</div>
+							</section>
+						</div>	
+
+	
+						<!-- File Hash -->
+						<div class="tab-pane fade" id="util_file_hash" role="tabpanel">
+							<section class="bs-docs-section">
+								<h1 class="page-header">CROSSCERT 웹 표준 모듈 기술 문서 - 기타 API</h1>
+								<h2 id="text-contextuals">hash - File Hash 데이터 </h2>
+								<p> 입력된 File경로에서 파일 데이터를 획득 한 후 Hash 요청 API. <br></p>
+									
+								<div class="bs-example" data-example-id="simple-list-group">
+									MakeFileHash( arrData, hashAlgo, fnCallBack );
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Parameter</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>arrData</td>
+												<td>서명할 데이터가 포함된 파일의 경로에 대한 배열(문자열). [필수]</td>
+											</tr>
+											<tr>
+												<td>hashAlgo</td>
+												<td>hash에 사용할  <a href="#ReturnValue"  data-toggle="tab"> 알고리즘 </a> . [필수]	</td>
+											</tr>
+											<tr>
+												<td>fnCallBack</td>
+												<td>기능 완료시 호출되는 callback 함수. [필수]</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<br>
+								<div class="table-responsive">
+									<table class="table table-bordered table-striped">
+										<colgroup>
+											<col class="col-xs-2"><col class="col-xs-10">
+										</colgroup>
+										<thead class=""><tr><th>Return</th><th>설명</th></tr></thead>
+										<tbody>
+											<tr>
+												<td>resultCode</td>
+												<td>결과 코드</td>
+											</tr>
+											<tr>
+												<td>resultMessage</td>
+												<td>결과 코드와 관련된 오류 메세지</td>
+											</tr>										
+											<tr>
+												<td>hashValue</td>
+												<td>Hash된 데이터를 base64인코딩한  데이터의 배열</td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>								
+								<br>
+								<div class="bs-example javascript">
+									<textarea class="form-control" rows="10" id="js_util_file_hash">var ardata = new Array();
+		ardata.push(jsonfilePath["1"]);
+		ardata.push(jsonfilePath["2"]);
+		
+		unisign.MakeFileHash( ardata, hashAlgo, function( resultObject ) {
+		if( !resultObject || resultObject.resultCode != 0 ){
+			alert( resultObject.resultMessage + "\n오류코드 : " + resultObject.resultCode );
+			return;
+		}
+		alert("Hash 데이터 생성에 성공했습니다.");		
+		toJsonprint( 'util_file_hash', resultObject ); //결과출력
+	}
+);</textarea>
+									<button class="btn btn-primary mt10" onclick="fnTestRun('util_file_hash')"> 실행하기 </button>
+								</div>
+								
+								
+								<div class="zero-clipboard"><span class="btn-clipboard">Copy</span></div>
+								<div class="highlight json" data-lang="json">
+									<pre><code class="language-json" data-lang="json" id="rst_util_file_hash">&nbsp;</code></pre>
+								</div>
+							</section>
+						</div>	
+
+	
+	
+						
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- jQuery JS -->
+	<script src="assets/js/jquery-1.11.1.min.js"></script>
+	<script src="assets/js/jquery-ui.min.js"></script>
+
+	<!-- Doc Plugins -->
+	<script src="assets/js/footable.all.min.js"></script>
+	<script src="assets/js/highlight.pack.js"></script>
+	<script src="assets/js/holder.min.js"></script>
+
+	<!-- Page JS -->
+	<script src="assets/js/utility.js"></script>
+	<script src="assets/js/docs.js"></script>
+	<script type="text/javascript">
+    jQuery(document).ready(function() {
+        Docs.init();
+    });
+    </script>
+</body>
+
+</html>

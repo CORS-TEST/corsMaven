@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<FDL version="1.5">
+  <TypeDefinition url="..\..\..\..\default_typedef.xml"/>
+  <Form classname="FrmPopCheckScreen" height="358" id="CompMultiMsgPop" left="0" onload="CompMultiMsgPop_onload" titletext="다중 메시지 팝업" top="0" width="704">
+    <Layouts>
+      <Layout>
+        <Grid binddataset="ds_msg" height="236" id="grd_page" left="15" oncelldblclick="grd_page_oncelldblclick" onexpandup="grd_page_onexpandup" right="15" taborder="0" top="75" useinputpanel="false">
+          <Formats>
+            <Format id="default">
+              <Columns>
+                <Column size="40"/>
+                <Column size="140"/>
+                <Column size="483"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="31"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="상태"/>
+                <Cell col="1" expr="" text="분류"/>
+                <Cell col="2" expr="" text="메세지"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="image" text="expr:&quot;img::img_WF_&quot;+ERR_LVL+&quot;.png&quot;"/>
+                <Cell col="1" text="bind:VALID_TYPE"/>
+                <Cell col="2" displaytype="decoratetext" edittype="none" expandimage="URL('img::grd_WF_Expand.png')" expandshow="show" expandsize="21" style="align:left;" text="bind:MSG" tooltiptext="bind:MSG"/>
+              </Band>
+            </Format>
+            <Format id="debug">
+              <Columns>
+                <Column size="40"/>
+                <Column size="140"/>
+                <Column size="483"/>
+                <Column size="300"/>
+                <Column size="100"/>
+              </Columns>
+              <Rows>
+                <Row band="head" size="31"/>
+                <Row size="27"/>
+              </Rows>
+              <Band id="head">
+                <Cell expr="" text="상태"/>
+                <Cell col="1" expr="" text="분류"/>
+                <Cell col="2" expr="" text="메세지"/>
+                <Cell col="3" expr="" text="path"/>
+                <Cell col="4" expr="" text="Column"/>
+              </Band>
+              <Band id="body">
+                <Cell displaytype="image" text="expr:&quot;img::img_WF_&quot;+ERR_LVL+&quot;.png&quot;"/>
+                <Cell col="1" text="bind:VALID_TYPE"/>
+                <Cell col="2" edittype="none" expandimage="URL('img::grd_WF_Expand.png')" expandshow="show" expandsize="21" style="align:left;" text="bind:MSG"/>
+                <Cell col="3" edittype="readonly" style="align:left;" text="bind:PATH"/>
+                <Cell col="4" edittype="readonly" text="bind:DS_COLUMN"/>
+              </Band>
+            </Format>
+          </Formats>
+        </Grid>
+        <Button height="25" id="btn_popClose" left="88.49%" onclick="btn_popClose_onclick" taborder="2" text="닫기" top="45" width="65"/>
+        <Static height="21" id="Static01" left="43" taborder="5" text="심각한 오류 :" top="324" width="72"/>
+        <Static height="21" id="sta_stopCnt" left="17.19%" right="78.13%" style="color:red;align:right middle;" taborder="6" text="건수" top="324"/>
+        <Static height="21" id="Static03" left="165" taborder="7" text="건" top="324" width="32"/>
+        <Static height="21" id="Static04" left="243" style="background:transparent URL('img::img_WF_W.png');align:center middle;" taborder="8" top="326" width="20"/>
+        <Static height="21" id="sta_warningCnt" left="44.03%" right="51.14%" style="color:blue;align:right middle;" taborder="9" text="건수" top="324"/>
+        <Static height="21" id="Static05" left="353" taborder="10" text="건" top="324" width="33"/>
+        <Static height="21" id="Static06" left="268" taborder="11" text="경고 :" top="324" width="36"/>
+        <Button enable="true" height="25" id="btn_popSave" left="78.84%" onclick="btn_popSave_onclick" taborder="12" text="확인" top="45" visible="false" width="65"/>
+        <Button height="30" id="btn_close" onclick="btn_popClose_onclick" right="8" taborder="13" top="0" width="30"/>
+        <Static height="30" id="sta_title" left="0" right="640" taborder="14" text="확인" top="0"/>
+        <Static height="21" id="Static00" left="17" style="background:transparent URL('img::img_WF_E.png');align:center middle;" taborder="15" top="326" width="20"/>
+        <CheckBox height="20" id="chk_debug" left="634" onchanged="chk_debug_onchanged" taborder="16" text="Debug" top="325" width="62"/>
+      </Layout>
+    </Layouts>
+    <Objects>
+      <Dataset enableevent="true" firefirstcount="0" firenextcount="0" id="ds_msg" loadfiltermode="keep" loadkeymode="keep" reversesubsum="false" updatecontrol="true" useclientlayout="false"/>
+    </Objects>
+    <Script type="xscript5.0"><![CDATA[/**
+   @file       CompMultiMsgPop.xfdl
+   @desc       다중 메시지 팝업
+   @author     
+   @makedate   2016.03.23.
+   @history    
+*/
+
+
+
+/**
+	@function	CompMultiMsgPop_onload
+	@desc   	
+*/  
+this.CompMultiMsgPop_onload = function(obj:Form, e:nexacro.LoadEventInfo)
+{
+	var frame = this.getOwnerFrame();
+	
+	if(this.gfn_isNull(frame.agv_objDs)) return;
+	
+	this.ds_msg.copyData(frame.agv_objDs);
+	
+	this.ds_msg.set_enableevent(false);
+		
+	var nAllCnt = this.ds_msg.rowcount;
+	this.ds_msg.filter("ERR_LVL=='W'");
+	var nWarningCnt = this.ds_msg.rowcount;
+	this.ds_msg.filter("");
+	this.sta_warningCnt.set_text(nWarningCnt);
+	this.sta_stopCnt.set_text(nAllCnt - nWarningCnt);
+	
+	this.ds_msg.set_enableevent(true);
+	
+	//경고만 있을때는 저장하게 해준다.
+	this.btn_popSave.set_visible(this.sta_stopCnt.text=="0"?true:false);
+	
+	//Status 처리
+	this.fn_setStatus();
+}
+
+/**
+	@function	btn_popSave_onclick	
+	@desc   	확인	
+*/  
+this.btn_popSave_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	var rtnStr = "save";
+	
+	var sFnNm = this.getOwnerFrame().agv_fnNm;
+	if(!this.gfn_isNull(sFnNm))
+	{
+		rtnStr += "|" + sFnNm;
+	}
+	
+	this.close(rtnStr);
+}
+
+
+/**
+	@function	btn_popClose_onclick
+	@desc   	닫기	
+*/  
+this.btn_popClose_onclick = function(obj:Button,  e:nexacro.ClickEventInfo)
+{
+	this.close();
+}
+
+
+/**
+	@function	grd_page_onexpandup
+	@desc   	그리드 expand 버튼 클릭	
+*/  
+this.grd_page_onexpandup = function(obj:Grid, e:nexacro.GridMouseEventInfo)
+{
+	var rtn = gfnGetSelRowString(this.ds_msg);
+	
+	if(rtn)
+	{
+		this.close(rtn);
+	}	
+}
+
+
+/**
+	@function	grd_page_oncelldblclick
+	@desc   	그리드 셀 더블클릭	
+*/  
+this.grd_page_oncelldblclick = function(obj:Grid, e:nexacro.GridClickEventInfo)
+{
+	this.grd_page_onexpandup();
+}
+
+/**
+	@function	fn_setStatus
+	@desc   	bottom 프레임 메시지 처리	
+*/  
+this.fn_setStatus = function()
+{
+	//메시지 히스토리 기록
+	for(var i=0;i<this.ds_msg.rowcount;i++)
+	{
+		this.gfn_status(this.ds_msg.getColumn(i, "MSG"), null, null, this.ds_msg.getColumn(i, "ERR_LVL"));
+	}
+	
+	//전체 결과는 메시지 히스토리 기록 안함.
+	var sMsg = "오류 "+this.sta_stopCnt.text+ "건 경고 "+this.sta_warningCnt.text+"건 존재합니다.";
+	this.gfn_status(sMsg, null, false, this.gfn_constError());	
+}
+
+/**
+	@function	chk_debug_onchanged
+	@desc   	
+*/  
+this.chk_debug_onchanged = function(obj:CheckBox, e:nexacro.CheckBoxChangeEventInfo)
+{
+	if(e.postvalue == 1)
+	{
+		this.grd_page.set_formatid("debug");
+	}
+	else
+	{
+		this.grd_page.set_formatid("default");
+	}
+	
+}
+]]></Script>
+  <Bind>
+
+
+
+<BindItem columnid="EPRO_LABEL_00070" compid="Static05" datasetid="gdsLabel" id="Static05LangBind2017110317184268146" propid="text"/>
+
+
+
+<BindItem columnid="EPRO_LABEL_00544" compid="btn_popSave" datasetid="gdsLabel" id="btn_popSaveLangBind2017110317184265170" propid="text"/>
+</Bind>
+</Form>
+</FDL>

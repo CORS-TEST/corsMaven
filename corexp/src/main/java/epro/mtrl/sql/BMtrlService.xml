@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BMtrlService">
+	<select id="searchMtrl" parameterType="hashmap" resultType="hashmap" >
+  		/* [BMtrlService.searchMtrl][기준정보 품목관리 품목처리현황][2017.09.11][정준화] */
+  	 	<include refid="commonService.list-before" >
+  	 		<property name="ORDERS" value="MTRL_CD ASC"/>
+  	 	</include>
+			SELECT	
+				'0' AS CHECKED
+				,MM.MTRL_CD
+				,MM.MTRL_NM
+				,MM.SPEC
+				,MM.MTRL_NM2
+				,MM.LRG_CLS_ID
+				,MM.MDL_CLS_ID
+				,MM.SML_CLS_ID
+				,MM.ATTCH_FILE_CNT
+				,MM.IMG_FILE_PATH_ID
+				,MM.CRTR_ID
+				,MM.CRT_DT
+				,MM.LAST_CHGR_ID
+				,MM.LAST_CHG_DT
+			FROM 	MM_MTRL MM
+			WHERE 1=1
+		<!-- 품목코드/품목명 -->
+		<if test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+			AND   MM.MTRL_CD = #{MTRL_CD}
+		</if>
+		<if test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+			AND MM.MTRL_NM LIKE  '%' || #{MTRL_NM} || '%'
+		</if>
+		<include refid="commonService.list-after" />
+  	</select>  
+  	    
+	<select id="searchCntrMtrl" parameterType="hashmap" resultType="hashmap" >
+  		/* [BMtrlService.searchCntrMtrl][입찰정보 단가계약현황][2017.12.04][한의봉] */
+  	 	<include refid="commonService.list-before" >
+  	 		<property name="ORDERS" value="MTRL_CD ASC"/>
+  	 	</include>
+			SELECT	
+					MMI.MTRL_CD
+					,MM.MTRL_NM
+					,MMI.NET_PRICE AS UNT_PRICE
+					,MMI.CRNC AS CD_CRNC
+					,MMI.SAP_VENDOR
+					,MMI.EFF_BGN_DAY
+					,MMI.EFF_END_DAY
+					,MP.PTNR_NM
+			FROM 	MM_MTRL_IR MMI 
+					, MM_MTRL MM 
+					, MM_PTNR_PORG  MPP
+					, MM_PTNR MP
+			WHERE	MMI.MTRL_CD = MM.MTRL_CD(+)
+			AND		MMI.SAP_VENDOR = MPP.SAP_VENDOR(+)
+			AND		MPP.PTNR_ID = MP.PTNR_ID(+)
+			AND 	( MMI.DelFlg <![CDATA[<>]]> 'X' OR MMI.DelFlg IS NULL ) 
+		<if test="CNTR_DAY_STR != null and CNTR_DAY_STR != 'undefined' and CNTR_DAY_STR != ''">
+			AND		(MMI.EFF_BGN_DAY	<![CDATA[>=]]> TO_CHAR(#{CNTR_DAY_STR}, 'yyyymmdd') 
+					OR MMI.EFF_END_DAY	<![CDATA[>=]]> TO_CHAR( #{CNTR_DAY_STR}, 'yyyymmdd'))
+		</if>
+		<if test="CNTR_DAY_END != null and CNTR_DAY_END != 'undefined' and CNTR_DAY_END != ''">
+			AND		(MMI.EFF_BGN_DAY	<![CDATA[<=]]> TO_CHAR( #{CNTR_DAY_END}, 'yyyymmdd')
+					OR MMI.EFF_END_DAY	<![CDATA[<=]]> TO_CHAR( #{CNTR_DAY_END}, 'yyyymmdd'))
+		</if>
+		<choose>
+			<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+				AND		MP.PTNR_ID  =	#{PTNR_ID}
+			</when>
+			<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+				AND		MP.PTNR_NM   LIKE '%' || #{PTNR_NM} || '%'
+			</when>
+		</choose>
+		<choose>
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+				AND		MM.MTRL_CD  =	#{MTRL_CD}
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND		MM.MTRL_NM  LIKE '%' || #{MTRL_NM} || '%'
+			</when>
+		</choose>
+		<include refid="commonService.list-after" />
+  	</select>   
+  	
+	<select id="searchNoneCodeMtrl" parameterType="hashmap" resultType="hashmap" >
+  		/* [BMtrlService.searchNoneCodeMtrl][입찰정보 품목코드지정][2017.11.20][한의봉] */
+  	 	<include refid="commonService.list-before" >
+  	 		<property name="ORDERS" value="RFQ_REQ_NO ASC"/>
+  	 	</include>
+			SELECT
+					MR.BRANCH_CD
+					, MR.RFQ_REQ_NO
+					, MR.RFQ_ODR
+					, MRI.RFQ_REQ_ITEM_ID
+					, MR.CD_RFQ_STTS
+					, MR.TTL
+					, TO_CHAR( MR.RFQ_END_DT,'yyyy-mm-dd') AS RFQ_END_DT
+					, MR.CHRGR_ID
+					, MR.CHRGR_NM
+					, MRI.MTRL_NM
+					, '' AS MTRL_CD
+					, '' AS USER_ID
+					, GET_USERNM(MR.CRTR_ID,MR.BRANCH_CD,#{LANG_CD}) AS USER_NM
+			FROM 	MM_RFQ MR
+					, MM_RFQ_ITEM MRI
+			WHERE	NVL(MRI.MTRL_CD,'') = ''
+			AND		MR.BRANCH_CD = MRI.BRANCH_CD
+			AND 	MR.RFQ_REQ_NO = MRI.RFQ_REQ_NO
+			AND 	MR.RFQ_ODR = MRI.RFQ_ODR
+		<if test="RFQ_CLOSE_DAY_FROM != null and RFQ_CLOSE_DAY_FROM != 'undefined' and RFQ_CLOSE_DAY_FROM != ''">
+			AND		MR.RFQ_END_DT	<![CDATA[>=]]> TO_DATE(#{RFQ_CLOSE_DAY_FROM})
+		</if>
+		<if test="RFQ_CLOSE_DAY_TO != null and RFQ_CLOSE_DAY_TO != 'undefined' and RFQ_CLOSE_DAY_TO != ''">
+			AND		MR.RFQ_END_DT	<![CDATA[<=]]> TO_DATE(#{RFQ_CLOSE_DAY_TO})-1
+		</if>
+		<if test="TTL != null and TTL != 'undefined' and TTL != ''">
+			AND		MR.TTL	LIKE '%' || #{TTL} || '%'
+		</if>
+		<choose>
+			<when test="USER_ID != null and USER_ID != 'undefined' and USER_ID != ''">
+				AND	MR.CRTR_ID = #{USER_ID}
+			</when>
+			<when test="USER_NM != null and USER_NM != 'undefined' and USER_NM != ''">
+				AND	MR.CRTR_ID IN ( SELECT 
+											USER_ID 
+									FROM MM_MT_USER 
+									WHERE BRANCH_CD = MR.BRANCH_CD 
+									AND (USER_NM LIKE '%' || #{CHRGR_NM} || '%' OR USER_NM_GB LIKE '%' || #{CHRGR_NM} || '%')) 
+			</when>
+		</choose>
+		<include refid="commonService.list-after" />
+  	</select>
+  	
+	<select id="searchPoGr" parameterType="hashmap" resultType="hashmap" >
+	/* [BMtrlService.searchPoGr][입찰정보 발주입고정보조회][2017.09.11][한의봉] */
+		<include refid="commonService.list-before" >
+			<property name="ORDERS" value="GR_DAY DESC"/>
+		</include>
+		SELECT
+				MSP.GR_NO
+				, MSP.GR_ITEM_NO
+				, MSP.MV_TYPE
+				, MSP.MTRL_CD
+				, MM.MTRL_NM
+				, MSP.ODR_CRNC AS CD_CRNC
+				, MSP.LO_CRNC
+				, MSP.PO_QTY
+				, TO_CHAR( MSP.PO_DAY, 'yyyy-mm-dd') AS PO_DAY
+				, MSP.PO_ODR_PRICE
+				, ROUND((MSP.PO_QTY* MSP.PO_ODR_PRICE),0) AS PO_ODR_AMT
+				, MSP.PO_LO_PRICE
+				, MSP.SAP_VENDOR
+				, MSP.PO_NO
+				, MSP.PO_ITEM_NO
+				, MSP.PGRP_ID
+				, MSP.PGRP_EMAIL
+				, TO_CHAR( MSP.GR_DAY, 'yyyy-mm-dd') AS GR_DAY
+				, MSP.GR_QTY
+				, MSP.GR_ODR_PRICE
+				, MSP.GR_LO_PRICE
+		        , CASE WHEN MV_TYPE ='102' THEN ROUND((MSP.GR_QTY* MSP.GR_ODR_PRICE)*-1,0)
+		            ELSE ROUND((MSP.GR_QTY* MSP.GR_ODR_PRICE),0)
+				  END AS GR_ODR_AMT
+				, MSP.CRTR_ID
+				, MSP.CRT_DT
+				, MSP.LAST_CHGR_ID
+				, MSP.LAST_CHG_DT
+				, MSP.InterfaceFlag
+				, MSP.InterfaceDate
+				, MSP.InterfaceTime
+				, NVL(MP.PTNR_NM,MSP.SAP_VENDOR ) AS PTNR_NM
+				, MM.BASIC_UNIT
+		FROM 	MM_SAP_POGR MSP
+				, MM_MTRL MM
+		    	, MM_PTNR_PORG MPP
+				, MM_PTNR MP
+		WHERE	MSP.MTRL_CD = MM.MTRL_CD(+)
+		AND		MSP.SAP_VENDOR = MPP.SAP_VENDOR(+)
+		AND		MPP.PTNR_ID = MP.PTNR_ID(+)
+		<!--발주번호 -->
+		<if test="PO_NO != null and PO_NO != 'undefined' and PO_NO != ''">
+		AND		MSP.PO_NO = #{PO_NO}
+		</if>
+		<!--품목-->
+		<choose>
+			<!--품목코드-->
+			<when test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+				AND		MSP.MTRL_CD	=	#{MTRL_CD}
+			</when>
+			<when test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND		MM.MTRL_NM	LIKE '%' || #{MTRL_NM} || '%'
+			</when>
+		</choose>
+		<!-- 발주일자 시작-->
+		<if test="PO_DAY_STR != null and PO_DAY_STR != 'undefined' and PO_DAY_STR != ''">
+			AND	TO_CHAR( MSP.PO_DAY, 'yyyymmdd')	<![CDATA[>=]]> TO_NUMBER( #{PO_DAY_STR}, 'yyyymmdd') 
+		</if>
+		<!-- 발주일자 끝-->
+		<if test="PO_DAY_END != null and PO_DAY_END != 'undefined' and PO_DAY_END != ''">
+			AND	TO_CHAR( MSP.PO_DAY, 'yyyymmdd')	<![CDATA[<=]]> TO_CHAR( #{PO_DAY_END}, 'yyyymmdd')
+		</if>
+		<!-- 입고일자 시작-->
+		<if test="GR_DAY_STR != null and GR_DAY_STR != 'undefined' and GR_DAY_STR != ''">
+			AND	TO_CHAR( MSP.GR_DAY, 'yyyymmdd')	<![CDATA[>=]]> TO_NUMBER( #{GR_DAY_STR}, 'yyyymmdd') 
+		</if>
+		<!-- 입고일자 끝-->
+		<if test="GR_DAY_END != null and GR_DAY_END != 'undefined' and GR_DAY_END != ''">
+			AND	TO_CHAR( MSP.GR_DAY, 'yyyymmdd')	<![CDATA[<=]]> TO_CHAR( #{GR_DAY_END}, 'yyyymmdd')
+		</if>
+		<choose>
+			<when test="PTNR_ID != null and PTNR_ID != 'undefined' and PTNR_ID != ''">
+				AND		MP.PTNR_ID  =	#{PTNR_ID}
+			</when>
+			<when test="PTNR_NM != null and PTNR_NM != 'undefined' and PTNR_NM != ''">
+				AND		MP.PTNR_NM   LIKE '%' || #{PTNR_NM} || '%'
+			</when>
+		</choose>
+			
+		<include refid="commonService.list-after" />
+  	</select>  	  
+  	
+  	 <insert id="insertExcelCntrForEach" parameterType="hashmap">
+	/* [BMtrlService.insertExcelCntr][견적 품목 저장][2017.09.04][김동호] */
+		<foreach collection="ds_output" item="ds_output">	
+			INSERT INTO MM_MTRL_CNTR(
+				SN
+				, PTNR_ID
+				, MTRL_CD
+				, CD_UNIT
+				, UNT_PRICE
+				, EFF_BGN_DAY
+				, EFF_END_DAY
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+			)VALUES(
+				#{ds_output.SN}
+				, #{ds_output.PTNR_ID}
+				, #{ds_output.MTRL_CD}
+				, #{ds_output.CD_UNIT}
+				, #{ds_output.UNT_PRICE}
+				, #{ds_output.EFF_BGN_DAY}
+				, #{ds_output.EFF_END_DAY}
+				, 'SYSTEM'
+				, SYSDATE
+				, 'SYSTEM'
+				, SYSDATE
+			)
+		</foreach>
+	</insert>
+  	<insert id="insertExcelCntr" parameterType="hashmap">
+	/* [BMtrlService.insertExcelCntr][견적 품목 저장][2017.09.04][김동호] */	
+			INSERT INTO MM_MTRL_CNTR(
+				SN
+				, PTNR_ID
+				, MTRL_CD
+				, CD_UNIT
+				, UNT_PRICE
+				, EFF_BGN_DAY
+				, EFF_END_DAY
+				, CRTR_ID
+				, CRT_DT
+				, LAST_CHGR_ID
+				, LAST_CHG_DT
+			)VALUES(
+				#{SN}
+				, #{PTNR_ID}
+				, #{MTRL_CD}
+				, #{CD_UNIT}
+				, #{UNT_PRICE}
+				, #{EFF_BGN_DAY}
+				, #{EFF_END_DAY}
+				, 'SYSTEM'
+				, SYSDATE
+				, 'SYSTEM'
+				, SYSDATE
+			)
+	</insert>
+	
+  	<update id="insertExcelMmMtrlCntr" statementType="CALLABLE">
+	{ call 
+		dbo.PRCD_INSERT_TO_EXCEL_MM_SAP_IR (
+		#{XML_STRING}
+		,#{OUT_STR,jdbcType=VARCHAR,mode=OUT}
+	)}
+	</update>
+
+  	<update id="insertExcelMmMtrlPogr" statementType="CALLABLE">
+	{ call 
+		dbo.PRCD_INSERT_TO_EXCEL_MM_SAP_POGR(
+		#{XML_STRING}
+		,#{OUT_STR,jdbcType=VARCHAR,mode=OUT}
+	)}
+	</update>
+
+  	<update id="insertExcelMmMtrl" statementType="CALLABLE">
+	{ call 
+		dbo.PRCD_INSERT_TO_EXCEL_MM_MTRL(
+		#{XML_STRING}
+		,#{OUT_STR,jdbcType=VARCHAR,mode=OUT}
+	)}
+	</update>
+
+	<update id="saveNoneCodeMtrl" parameterType="hashmap">
+	/* [BRfqService.saveNoneCodeMtrl][품목코드없는 품목 지정][2017.11.07][한의봉] */
+		UPDATE	MM_RFQ_ITEM
+		SET	  	MTRL_CD					=	#{MTRL_CD}
+			<if test="MTRL_CD != '999999'">
+				, MTRL_NM				=	#{MTRL_NM}
+			</if>
+				, LAST_CHGR_ID			=	#{USER_ID}
+				, LAST_CHG_DT			=	SYSDATE
+		WHERE	RFQ_REQ_ITEM_ID			=	#{RFQ_REQ_ITEM_ID}
+	</update>
+
+	<select id="searchMtrlRequestList" parameterType="hashmap" resultType="hashmap">
+		<include refid="commonService.list-before">
+			<property name="ORDERS" value=""/>
+		</include>        
+  			SELECT
+			    MMR.BRANCH_CD
+			    ,MMR.MTRL_REQ_NO            --요청번호
+			    ,MMR.CD_MTRL_REQ_STTS       --상태
+			    ,MMR.MTRL_NM                --품목명
+			    ,MMR.MTRL_NM || '  ' || MMR.SPEC AS MTRL_NM_SPEC
+			    ,MMR.REQR_ID                --요청자
+			    ,GET_USERNM(MMR.REQR_ID,MMR.BRANCH_CD,'') REQR_NM  --요청자명
+			    ,TO_CHAR(MMR.REQ_DT,'YYYYMMDD') AS REQ_DT --요청일자
+			    ,MMR.APRVR_ID               --승인자
+			    ,GET_USERNM(MMR.APRVR_ID,MMR.BRANCH_CD,'') APRVR_NM --승인자명
+			    ,TO_CHAR(MMR.APRV_DT,'YYYYMMDD') AS APRV_DT                --승인일자
+			    ,MMR.MTRL_CD                --품목코드
+			    ,MMR.SML_CLS_ID             --품목그룹
+			    ,MMG.MTRL_GRP_NM2           --품목그룹명        
+			FROM MM_MTRL_REQ MMR , MM_MTRL_GRP MMG , MM_MT_USER MMU 
+			WHERE MMR.SML_CLS_ID = MMG.MTRL_GRP_ID
+			AND MMR.BRANCH_CD = MMU.BRANCH_CD
+			AND MMR.REQR_ID = MMU.USER_ID
+			AND MMR.BRANCH_CD =  #{BRANCH_CD}
+
+            
+			<!-- 품목코드 -->
+		    <if test="MTRL_CD != null and MTRL_CD != 'undefined' and MTRL_CD != ''">
+				AND MMR.MTRL_CD = #{MTRL_CD}
+		    </if>
+			
+			 <!-- 품목명 -->
+		    <if test="MTRL_NM != null and MTRL_NM != 'undefined' and MTRL_NM != ''">
+				AND  REGEXP_LIKE (MMR.MTRL_NM||MMR.SPEC, replace(#{MTRL_NM},' ','|'),'i')
+		    </if>
+		    
+		    <!-- 상태 -->
+		    <if test="CD_MTRL_REQ_STTS != null and CD_MTRL_REQ_STTS != 'undefined' and CD_MTRL_REQ_STTS != ''">
+				AND MMR.CD_MTRL_REQ_STTS = #{CD_MTRL_REQ_STTS}
+		    </if>
+		    
+		    <!-- 요청자 아이디 -->
+		    <if test="REQR_ID != null and REQR_ID != 'undefined' and REQR_ID != ''">
+				AND MMR.REQR_ID = #{REQR_ID}
+		    </if>
+		    
+		    <!-- 요청자명 -->
+		    <if test="REQR_NM != null and REQR_NM != 'undefined' and REQR_NM != ''">
+				AND EXISTS (
+							SELECT '1'
+							FROM MM_MT_USER
+							WHERE USER_ID = MMR.REQR_ID
+							      AND USER_NM LIKE '%' || #{REQR_NM} || '%'
+								) 
+		    </if>
+			
+			<if test="LRG_CLS_ID != null and LRG_CLS_ID != 'undefined' and LRG_CLS_ID != ''">
+				AND   MMG.MTRL_GRP_ID LIKE  #{LRG_CLS_ID}||'%'
+			</if>
+			<if test="MDL_CLS_ID != null and MDL_CLS_ID != 'undefined' and MDL_CLS_ID != ''">
+				AND   MMG.MTRL_GRP_ID LIKE #{MDL_CLS_ID}||'%'
+			</if>
+			<if test="SML_CLS_ID != null and SML_CLS_ID != 'undefined' and SML_CLS_ID != ''">
+				AND   MMG.MTRL_GRP_ID = #{SML_CLS_ID}
+			</if>
+			
+			ORDER BY ''
+			<!-- 정렬조건 -->
+			<if test="SORT_ITEM1 != null and SORT_ITEM1 != 'undefined' and SORT_ITEM1 != ''">
+				,${SORT_ITEM1} ${SORT_TYPE1}
+			</if>
+			<if test="SORT_ITEM2 != null and SORT_ITEM2 != 'undefined' and SORT_ITEM2 != ''">
+				,${SORT_ITEM2} ${SORT_TYPE2}
+			</if>
+			<if test="SORT_ITEM3 != null and SORT_ITEM3 != 'undefined' and SORT_ITEM3 != ''">
+				,${SORT_ITEM3} ${SORT_TYPE3}
+			</if>
+			<if test="SORT_ITEM4 != null and SORT_ITEM4 != 'undefined' and SORT_ITEM4 != ''">
+				,${SORT_ITEM4} ${SORT_TYPE4}
+			</if>
+  		<include refid="commonService.list-after" />
+  	</select>
+	
+	<!-- 자재그룹별 세부속성 조회 -->
+  	<select id="searchMtrlAttr" parameterType="hashmap" resultType="hashmap">
+  		SELECT
+				MMGA.MTRL_GRP_ID
+				,MMGA.ATTR_ID
+				,MMGA.SEQ
+				,MMGA.CRTR_ID
+				,MMGA.CRT_DT
+				,MMGA.LAST_CHGR_ID
+				,MMGA.LAST_CHG_DT
+				,MMA.ATTR_NM
+				,MMA.ALT_USE
+                ,MMA.RMARK AS ATTR
+		FROM MM_MTRL_GRP_ATTR MMGA 
+             ,MM_MT_ATTR MMA
+		WHERE MMGA.ATTR_ID = MMA.ATTR_ID
+		  	  AND MMA.ALT_USE = 'Y' 
+		 	  AND MMGA.MTRL_GRP_ID = #{MTRL_GRP_ID}
+	    ORDER BY SEQ
+  	</select>
+
+  	<insert id="saveMtrlReq" parameterType="hashmap">
+  		INSERT INTO MM_MTRL_REQ (
+			BRANCH_CD        
+			,MTRL_REQ_NO      
+			,CD_MTRL_REQ_STTS 
+			,MTRL_NM          
+			,SPEC             
+			,ATTCH_FILE_CNT   
+			,REQR_ID          
+			,REQ_DT           
+			,RMARK            
+			,MTRL_CD          
+			,LRG_CLS_ID       
+			,SML_CLS_ID       
+			,MDL_CLS_ID       
+			,CRTR_ID          
+			,CRT_DT           
+			,LAST_CHGR_ID     
+			,LAST_CHG_DT    
+		) VALUES (
+			 #{BRANCH_CD}        
+			,#{MTRL_REQ_NO}      
+			,#{CD_MTRL_REQ_STTS} 
+			,#{MTRL_NM}          
+			,#{SPEC}             
+			,#{ATTCH_FILE_CNT}   
+			,#{REQR_ID}  
+			,#{REQ_DT}           
+			,#{RMARK}            
+			,#{MTRL_CD}          
+			,#{LRG_CLS_ID}       
+			,#{SML_CLS_ID}       
+			,#{MDL_CLS_ID}       
+			,#{CRTR_ID}          
+			,SYSDATE           
+			,#{LAST_CHGR_ID}     
+			,SYSDATE 
+			)
+  	</insert>
+    
+    <update id="updateMtrlReq" parameterType="hashmap">
+  		MERGE INTO MM_MTRL_REQ
+  		USING DUAL
+  		ON (
+  				    MTRL_REQ_NO = #{MTRL_REQ_NO}
+  				AND BRANCH_CD = #{BRANCH_CD}
+  			)
+  	
+  		WHEN MATCHED THEN
+  		UPDATE 
+  		SET    CD_MTRL_REQ_STTS   = #{CD_MTRL_REQ_STTS}
+  		       ,MTRL_NM           = #{MTRL_NM}
+  		       ,SPEC              = #{SPEC}
+  		       <if test="CD_MTRL_REQ_STTS == 'SM10END'">
+  		       ,APRVR_ID          = #{CRTR_ID}
+  		       ,APRV_DT           = SYSDATE
+  		       </if>
+  		       ,MTRL_CD           = #{MTRL_CD}
+  		       ,LRG_CLS_ID        = #{LRG_CLS_ID}
+  		       ,MDL_CLS_ID        = #{MDL_CLS_ID}
+  		       ,SML_CLS_ID        = #{SML_CLS_ID}
+  		       ,GR_ACNT_CD_BIZ    = #{GR_ACNT_CD_BIZ}
+  		       ,GR_ACNT_CD_MGMT   = #{GR_ACNT_CD_MGMT}
+  		       ,OUT_ITEM_ACC_BIZ  = #{OUT_ITEM_ACC_BIZ}
+  		       ,OUT_ITEM_ACC_MGMT = #{OUT_ITEM_ACC_MGMT}
+  		       ,ALT_TOT_PUR       = #{ALT_TOT_PUR}
+  		       ,ALT_DDATE_MGT     = #{ALT_DDATE_MGT}
+  		       ,ALT_SC            = #{ALT_SC}
+  		       ,ALT_CATALOG       = #{ALT_CATALOG}
+  		       ,ALT_MEAL          = #{ALT_MEL}
+  		       ,ALT_INVNTRY_MGMT  = #{ALT_INVNTRY_MGMT}
+  		       ,ALT_BARCD         = #{ALT_BARCD}
+  		       ,ALT_RENT          = #{ALT_RENT}
+  		       ,ALT_FASSET        = #{ALT_FASSET}
+  		       ,ALT_FASSET_MGT    = #{ALT_FASSET_MGT}
+  		       ,ALT_WASSET        = #{ALT_WASSET}
+  		       ,ALT_FIXED_CONT    = #{ALT_FIXED_CONT}
+  		       ,DLV_DAY           = #{DLV_DAY}
+  		       ,OVER_GR_RATE      = #{OVER_GR_RATE}
+  		       ,CD_PUR_UNIT       = #{CD_PUR_UNIT}
+  		       ,CD_PACK_UNIT      = #{CD_PACK_UNIT}
+  		       ,PACK_QTY          = #{PACK_QTY}
+  		       ,INT_NTAX          = #{INT_NTAX}
+  		       ,LAST_CHGR_ID      = #{LAST_CHGR_ID}
+  		       ,LAST_CHG_DT       = SYSDATE
+  		       ,IMG_FILE_PATH_ID  = #{IMG_FILE_PATH_ID}
+  		       ,SVO_MTRL_ID		  = #{SVO_MTRL_ID}
+  		       ,STD_SUGAR         = #{STD_SUGAR}
+  	</update>
+
+  	<!-- 품목속성 저장 - MM_MTRL_ATTR -->
+  	<insert id="saveMtrlAttr" parameterType="hashmap">
+  		INSERT INTO MM_MTRL_ATTR(
+  			MTRL_CD
+  			,ATTR_ID
+  			,SEQ
+  			,ATTR
+  			,CRTR_ID
+  			,CRT_DT
+  			,LAST_CHGR_ID
+  			,LAST_CHG_DT
+  		)VALUES(
+  			#{MTRL_CD}
+  			,#{ATTR_ID}
+  			,(
+  			   SELECT NVL(MAX(SEQ),0)
+  			   FROM MM_MTRL_ATTR
+  			   WHERE MTRL_CD = #{MTRL_CD}
+  			) + 1
+  			,#{ATTR}
+  			,#{LAST_CHGR_ID}
+  			,SYSDATE
+  			,#{LAST_CHGR_ID}
+  			,SYSDATE
+  		)
+  		
+  	</insert>
+  	
+  	<!-- 품목속성 전체 삭제 - MM_MTRL_ATTR -->
+  	<delete id="deleteMtrlAttr">
+  		DELETE
+  		FROM MM_MTRL_ATTR
+  		WHERE MTRL_CD = #{MTRL_CD}
+  	</delete>
+
+  	<select id="readMtrlReqRead" parameterType="hashmap" resultType="hashmap">
+  		SELECT 
+				MMR.MTRL_CD              --품목코드
+                ,MMR.MTRL_REQ_NO
+				,MMR.MTRL_NM             --품목명
+                ,MMR.CD_MTRL_REQ_STTS
+				,MMR.SPEC                --규격
+				,MMR.LRG_CLS_ID          --대분류
+				,MMR.MDL_CLS_ID          --중분류
+				,MMR.SML_CLS_ID          --소분류
+				,MMR.ATTCH_FILE_CNT
+				,MMR.SVO_MTRL_ID         --서브원품목 ID
+				,'' AS SVO_MTRL_NM --서브원품목 NM
+				,MMR.CRTR_ID             
+				,MMR.CRT_DT              
+				,MMR.LAST_CHGR_ID            
+				,MMR.LAST_CHG_DT
+				,MMR.REQR_ID
+				,GET_USERNM(MMR.REQR_ID, #{BRANCH_CD},'') AS REQR_NM
+				,NVL(MMR.CD_PUR_UNIT,MMR.CD_BASIC_UNIT) AS CD_PUR_UNIT    --구매단위
+				,MMR.PACK_QTY            --포장수량
+				,MMR.CD_PACK_UNIT        --포장단위
+				,NVL(MMR.INT_NTAX,'T') AS INT_NTAX            --비과세여부
+                ,MMR.ALT_TOT_PUR
+                ,MMR.BRANCH_CD
+                ,MMR.GR_ACNT_CD_BIZ     --입고계정영업
+                ,(SELECT ACNT_NM
+                  FROM MM_MT_ACCOUNT
+                  WHERE ACNT_CD = MMR.GR_ACNT_CD_BIZ
+                   AND BRANCH_CD = #{BRANCH_CD}
+                ) AS GR_ACNT_CD_BIZ_NM
+                ,MMR.GR_ACNT_CD_MGMT    --입고계정관리
+                ,(SELECT ACNT_NM
+                  FROM MM_MT_ACCOUNT
+                  WHERE ACNT_CD = MMR.GR_ACNT_CD_MGMT
+                  AND BRANCH_CD = #{BRANCH_CD}
+                ) AS GR_ACNT_CD_MGMT_NM
+                ,MMR.OUT_ITEM_ACC_BIZ   --출고계정영업
+                ,(SELECT ACNT_NM
+                  FROM MM_MT_ACCOUNT
+                  WHERE ACNT_CD = MMR.OUT_ITEM_ACC_BIZ
+                  AND BRANCH_CD = #{BRANCH_CD}
+                ) AS OUT_ITEM_ACC_BIZ_NM
+                ,MMR.OUT_ITEM_ACC_MGMT  --출고계정관리
+                ,(SELECT ACNT_NM
+                  FROM MM_MT_ACCOUNT
+                  WHERE ACNT_CD = MMR.OUT_ITEM_ACC_MGMT
+                  AND BRANCH_CD = #{BRANCH_CD}
+                ) AS OUT_ITEM_ACC_MGMT_NM
+                ,MMR.MIN_ORD_QTY
+                ,MMR.LAST_PO_PRICE
+                ,MMR.LAST_PO_QTY
+                ,MMR.LAST_PO_DAY
+                ,MMR.LASTPO_NO
+                ,MMR.RPC_MTRL_CD
+                ,MMR.RPC_ABLE_MTRL_CD
+                ,MMR.ALT_DDATE_MGT          --유효기간관리
+                ,MMR.ALT_SC                 --당도관리
+                ,MMR.ALT_CATALOG            --카타로그대상    
+                ,MMR.ALT_MEAL               --식재료여부(직사입)
+                ,MMR.ALT_INVNTRY_MGMT       --저장품여부    
+                ,NVL(MMR.DLV_DAY,1) AS DLV_DAY                --납품소요일
+                ,NVL(MMR.OVER_GR_RATE,100) AS OVER_GR_RATE           --과입고허용율
+                ,MMR.RMARK      
+                ,MMR.ALT_BARCD              --바코드발행대상
+                ,MMR.ALT_RENT               --영업대여자산
+                ,MMR.ALT_FASSET             --고정자산
+                ,MMR.ALT_FASSET_MGT         --고정자산 재고관리 대상
+                ,MMR.ALT_WASSET             --소모성자산여부    
+                ,MMR.ALT_FIXED_CONT         --계약단가고정여부
+                ,MMR.IMG_FILE_PATH_ID
+                ,MMR.STD_SUGAR                
+                ,MMP.CNTR_PTNR_ID
+                ,MMP.CNTR_PRICE
+                ,NVL(MMP.ALT_USE,'Y') AS ALT_USE
+       FROM MM_MTRL_REQ MMR
+             ,MM_MTRL MM
+             ,MM_MTRL_PURC MMP
+             --,MM_MTRL_SVO MMS
+        WHERE MMR.MTRL_CD = MM.MTRL_CD(+)
+          AND MMR.BRANCH_CD = MMP.BRANCH_CD(+)
+          AND MMR.MTRL_CD = MMP.MTRL_CD(+)
+          --AND MM.SVO_MTRL_ID = MMS.SVO_MTRL_ID(+)
+          AND MMR.MTRL_REQ_NO = #{MTRL_REQ_NO}
+          AND MMR.BRANCH_CD = #{BRANCH_CD}
+  	</select>
+  	  	  
+  	<!-- 품목관리상세 속성 -->
+  	<select id="readMtrlAttr" parameterType="hashmap" resultType="hashmap" >
+  		SELECT
+		    '0' CHECKED         
+		    ,MMA.MTRL_CD
+		    ,MMA.ATTR_ID
+		    ,MMA.SEQ
+		    ,MMA1.ATTR_NM
+		    ,MMA.ATTR
+		    ,MMA1.RMARK
+		    ,MMA.LAST_CHGR_ID
+		    ,MMA.CRTR_ID
+		FROM MM_MTRL_ATTR MMA , MM_MT_ATTR MMA1
+		WHERE MMA.ATTR_ID = MMA1.ATTR_ID(+)
+		      AND MMA.MTRL_CD = #{MTRL_REQ_NO}
+		ORDER BY SEQ
+  	</select>
+ 
+</mapper>
