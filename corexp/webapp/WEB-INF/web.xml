@@ -26,7 +26,7 @@
   </context-param>
   <context-param>
     <param-name>systemConfigLocation</param-name>
-    <param-value>config/common/applicationProperties.xml</param-value>
+    <param-value>classpath:config/common/applicationProperties.xml</param-value>
   </context-param>
   <listener>
     <listener-class>core.web.context.ContextLoaderListener</listener-class>
