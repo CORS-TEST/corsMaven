@@ -9,7 +9,7 @@
 	<properties>
     	<org.springframework-version> 4.3.9.RELEASE </org.springframework-version>
         <jdk.version>1.8</jdk.version>
-        <encoding>UTF-8</encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	
 	<!-- 라이브러리를 추가 -->
