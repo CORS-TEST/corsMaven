@@ -8,7 +8,7 @@
         <ALTDRM>N</ALTDRM>
 	</BASIC>
 	<ATTACHFILE>
-        <DIR     desc="임시 첨부파일 디렉토리">D:\00.Project\Cors19\upload
+        <DIR     desc="임시 첨부파일 디렉토리">C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps\COREXP\upload
         	<TEMP>temp
         		<WHITELIST>jpg|jpeg|gif|png|bmp|txt|zip|7z|gzip|doc|docx|ppt|pptx|xls|xlsx|pdf|gul|dot|gif|hwp|tif|eml|xml</WHITELIST>
         	</TEMP>
@@ -44,12 +44,12 @@
     </ERRORLOGINFO>
     <CONT>
 		<KMCERT desc="암호화용 인증서 및 개인키">
-			<DER_PATH desc="kmCert.der 위치">D:\00.Project\Cors19\workspace\CoreXp\WebContent\cert\kmCert.der</DER_PATH>
-			<KEY_PATH desc="kmPri.key 위치">D:\00.Project\Cors19\workspace\CoreXp\WebContent\cert\kmPri.key</KEY_PATH>
+			<DER_PATH desc="kmCert.der 위치">C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps\COREXP\ROOT\WEB-INF\cert\kmCert.der</DER_PATH>
+			<KEY_PATH desc="kmPri.key 위치">C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps\COREXP\ROOT\WEB-INF\cert\kmPri.key</KEY_PATH>
 		</KMCERT>
 		<SIGNCERT desc="서명용 인증서 및 개인키">
-			<DER_PATH desc="signCert.der 위치">D:\00.Project\Cors19\workspace\CoreXp\WebContent\cert\signCert.der</DER_PATH> 
-			<KEY_PATH desc="signPri.key 위치">D:\00.Project\Cors19\workspace\CoreXp\WebContent\cert\signPri.key</KEY_PATH> 
+			<DER_PATH desc="signCert.der 위치">C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps\COREXP\ROOT\WEB-INF\cert\signCert.der</DER_PATH> 
+			<KEY_PATH desc="signPri.key 위치">C:\Program Files\Apache Software Foundation\Tomcat 8.5\webapps\COREXP\ROOT\WEB-INF\cert\signPri.key</KEY_PATH> 
 		</SIGNCERT> 
 		<CERT>
 			<PASSWORD desc="인증서 암호">crosscert!@34</PASSWORD>
