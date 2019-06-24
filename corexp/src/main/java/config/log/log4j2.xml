@@ -24,8 +24,8 @@
                 <Console name="console" target="SYSTEM_OUT">
                         <PatternLayout pattern="${pattern}"/>
                 </Console>
-                <RollingFile name="file" fileName="D:/00.Project/Cors19/logs/cors.log"
-                                 filePattern="D:/00.Project/Cors19/logs/$${date:yyyy}/$${date:MM}/cors.log.%d{yyyy-MM-dd}.log">
+                <RollingFile name="file" fileName="C:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/COREXP/logs/cors.log"
+                                 filePattern="C:/Program Files/Apache Software Foundation/Tomcat 8.5/webapps/COREXP/logs/$${date:yyyy}/$${date:MM}/cors.log.%d{yyyy-MM-dd}.log">
                         <PatternLayout>
                                 <pattern>${pattern}</pattern>
                         </PatternLayout>
