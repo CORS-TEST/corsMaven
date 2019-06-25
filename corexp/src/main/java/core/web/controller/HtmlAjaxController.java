@@ -58,7 +58,7 @@ public class HtmlAjaxController extends CoreController {
 				params.setErrorMessage(e.getMessage());
 			} else {
 				params.setErrorCode(-1);
-				params.setErrorMessage("½Ã½ºÅÛ¿¡ ¹®Á¦°¡ ¹ß»ıÇß½À´Ï´Ù.");
+				params.setErrorMessage("ì‹œìŠ¤í…œì— ë¬¸ì œê°€ ë°œìƒí–ˆìŠµë‹ˆë‹¤.");
 			}
 			writeResponseToJson(request, response, (HtmlParamSet) HtmlParamSet.class.cast(params));
 		} finally {

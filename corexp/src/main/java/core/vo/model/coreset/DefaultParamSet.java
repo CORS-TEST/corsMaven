@@ -16,7 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * ±âÃÊ°¡µÇ´Â paramset. ¼öÁ¤ÀÌ ÇÊ¿äÇÑ»çÇ× toString : »õ·Î¿î datasetÀÌ Ãß°¡µÉ°æ¿ì. ¸Ş½ÃÁö À¯Æ¿ÀÌ ¿Ï¼ºµÇ¾úÀ»°æ¿ì.
+ * ê¸°ì´ˆê°€ë˜ëŠ” paramset. ìˆ˜ì •ì´ í•„ìš”í•œì‚¬í•­ toString : ìƒˆë¡œìš´ datasetì´ ì¶”ê°€ë ê²½ìš°. ë©”ì‹œì§€ ìœ í‹¸ì´ ì™„ì„±ë˜ì—ˆì„ê²½ìš°.
  * 
  */
 public abstract class DefaultParamSet extends HashMap implements CoreParamSet {
@@ -78,8 +78,8 @@ public abstract class DefaultParamSet extends HashMap implements CoreParamSet {
 	public void setErrorMessage(String code, Object[] bindArgs) {
 		setVariable("ErrorCode", Integer.valueOf(-1));
 		setVariable("SVC_ERR_MSG_CD", code);
-		setVariable("SVC_BIND_MSG", "¿¡·¯¸Ş½ÃÁöargs");
-		setVariable("SVC_ERR_MSG_TEXT", "¿¡·¯¸Ş½ÃÁö");
+		setVariable("SVC_BIND_MSG", "ì—ëŸ¬ë©”ì‹œì§€args");
+		setVariable("SVC_ERR_MSG_TEXT", "ì—ëŸ¬ë©”ì‹œì§€");
 
 		remove("SVC_MSG_CD");
 		remove("SVC_MSG_TEXT");
@@ -91,7 +91,7 @@ public abstract class DefaultParamSet extends HashMap implements CoreParamSet {
 	public void setMessage(String code) {
 		setVariable("ErrorCode", Integer.valueOf(0));
 		setVariable("SVC_MSG_CD", code);
-		setVariable("SVC_MSG_TEXT", "¸Ş½ÃÁö");
+		setVariable("SVC_MSG_TEXT", "ë©”ì‹œì§€");
 
 		remove("SVC_STS_MSG_CD");
 		remove("SVC_STS_MSG_TEXT");
@@ -100,8 +100,8 @@ public abstract class DefaultParamSet extends HashMap implements CoreParamSet {
 	public void setMessage(String code, Object[] bindArgs) {
 		setVariable("ErrorCode", Integer.valueOf(0));
 		setVariable("SVC_MSG_CD", code);
-		setVariable("SVC_BIND_MSG", "¸Ş½ÃÁöargs");
-		setVariable("SVC_MSG_TEXT", "¸Ş½ÃÁö");
+		setVariable("SVC_BIND_MSG", "ë©”ì‹œì§€args");
+		setVariable("SVC_MSG_TEXT", "ë©”ì‹œì§€");
 
 		remove("SVC_STS_MSG_CD");
 		remove("SVC_STS_MSG_TEXT");
@@ -110,7 +110,7 @@ public abstract class DefaultParamSet extends HashMap implements CoreParamSet {
 	public void setStatusMessage(String code) {
 		setVariable("ErrorCode", Integer.valueOf(0));
 		setVariable("SVC_STS_MSG_CD", code);
-		setVariable("SVC_STS_MSG_TEXT", "¸Ş½ÃÁö");
+		setVariable("SVC_STS_MSG_TEXT", "ë©”ì‹œì§€");
 
 		remove("SVC_MSG_CD");
 		remove("SVC_MSG_TEXT");
@@ -119,8 +119,8 @@ public abstract class DefaultParamSet extends HashMap implements CoreParamSet {
 	public void setStatusMessage(String code, Object[] bindArgs) {
 		setVariable("ErrorCode", Integer.valueOf(0));
 		setVariable("SVC_STS_MSG_CD", code);
-		setVariable("SVC_BIND_MSG", "¸Ş½ÃÁöargs");
-		setVariable("SVC_STS_MSG_TEXT", "¸Ş½ÃÁö");
+		setVariable("SVC_BIND_MSG", "ë©”ì‹œì§€args");
+		setVariable("SVC_STS_MSG_TEXT", "ë©”ì‹œì§€");
 
 		remove("SVC_MSG_CD");
 		remove("SVC_MSG_TEXT");
