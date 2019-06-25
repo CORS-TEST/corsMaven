@@ -17,11 +17,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nexacro.xapi.data.ColumnHeader;
-import com.nexacro.xapi.data.DataSet;
-import com.nexacro.xapi.data.DataTypes;
-import com.sun.corba.se.impl.util.Utility;
-
 import core.common.constain.CoerConstain;
 import core.vo.model.coreset.CoreDataSet;
 import core.vo.model.coreset.CoreParamSet;
@@ -29,7 +24,6 @@ import core.vo.model.coreset.CoreParamSetFactory;
 import core.web.service.CoreService;
 import epro.com.module.CommandModule;
 import epro.com.module.FileModule;
-import epro.core.module.AESManager;
 
 @Service
 public class SDlvService extends CoreService {
