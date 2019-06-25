@@ -13,7 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * ÀÌ°÷¿¡¼­ ÆÄ¶ó¹ÌÅÍ ºĞ±âÃ³¸®ÇÑ´Ù.
+ * ì´ê³³ì—ì„œ íŒŒë¼ë¯¸í„° ë¶„ê¸°ì²˜ë¦¬í•œë‹¤.
  * 
  */
 public abstract class CoreParamSetFactory {

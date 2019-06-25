@@ -34,8 +34,8 @@ import core.exception.system.SystemException;
 import core.vo.model.coreset.CoreDataSet;
 
 /**
- * CoreDataSet�� implements�Ͽ� ���θ� �����Ѵ�. DataSet�� �Ѱ��� �߰��ɶ����� �����Ͽ�
- * casting�Ͽ� ����Ѵ�.
+ * CoreDataSet占쏙옙 implements占싹울옙 占쏙옙占싸몌옙 占쏙옙占쏙옙占싼댐옙. DataSet占쏙옙 占싼곤옙占쏙옙 占쌩곤옙占심띰옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹울옙
+ * casting占싹울옙 占쏙옙占쏙옙磯占�.
  * 
  */
 public class HtmlDataSet implements CoreDataSet {
